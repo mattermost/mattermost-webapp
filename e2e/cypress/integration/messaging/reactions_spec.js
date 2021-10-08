@@ -29,7 +29,7 @@ describe('Messaging', () => {
             cy.clickPostCommentIcon(postId);
 
             // # Type "+:+1:" in comment box to react to the post with a thumbs-up and post
-            cy.postMessageReplyInRHS('+:+1:{enter}');
+            cy.postMessageReplyInRHS('+:+1:');
 
             // * Thumbs-up reaction displays as reaction on post
             cy.get(`#${postId}_message`).within(() => {
@@ -38,7 +38,7 @@ describe('Messaging', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -51,13 +51,19 @@ describe('Messaging', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Add a reaction to the post
-            cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+            // cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+            cy.findByTestId('smiley').
+                should('exist').
+                click({force: true});
 
             // # Click the `+` button next to the existing reactions (visible on hover)
             cy.get(`#addReaction-${postId}`).should('exist').click({force: true});
 
             // # Click to select an emoji from the picker
-            cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+            // cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+            cy.findByTestId('upside_down_face').
+                should('exist').
+                click({force: true});
 
             // * Emoji reaction is added to the post
             cy.get(`#${postId}_message`).within(() => {
@@ -66,9 +72,9 @@ describe('Messaging', () => {
             });
 
             // * Reaction appears in recently used section of emoji picker
-            cy.get('#emojiPickerButton').click().then(() => {
+            cy.uiOpenEmojiPicker().then(() => {
                 cy.findAllByTestId('emojiItem').first().within(($el) => {
-                    cy.wrap($el).findByTestId('upside_down_face').should('be.visible');
+                    cy.wrap($el).findByTestId('upside_down_face').should('exist');
                 });
             });
         });
@@ -82,36 +88,42 @@ describe('Messaging', () => {
             // # Click a reply arrow to open reply RHS
             cy.clickPostCommentIcon(postId).then(() => {
                 // # Click the expand arrows in top right to expand RHS
-                cy.findByLabelText('Expand').click();
+                cy.uiExpandRHS();
 
                 // # Hover over the message, observe emoji picker icon
                 cy.get(`#RHS_ROOT_reaction_${postId}`).should('exist').click({force: true});
 
                 // # Click the emoji picker icon to react to the message, select a reaction
-                cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+                // cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+                cy.findByTestId('smiley').
+                    should('exist').
+                    click({force: true});
 
                 // # Hover over the post again and observe the `+` icon next to your reaction
                 cy.get(`#addReaction-${postId}`).should('exist').click({force: true});
 
                 // # Click the `+` icon and select a different reaction
-                cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+                // cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+                cy.findByTestId('upside_down_face').
+                    should('exist').
+                    click({force: true});
 
                 // * Two reactions are added to the message in the expanded RHS
                 cy.get(`#rhsPost_${postId}`).within(() => {
                     cy.findByLabelText('reactions').should('be.visible');
-                    cy.findByLabelText('remove reaction scream').should('be.visible');
+                    cy.findByLabelText('remove reaction smiley').should('be.visible');
                     cy.findByLabelText('remove reaction upside down face').should('be.visible');
                 });
 
                 // # Close RHS
-                cy.closeRHS();
+                cy.uiCloseRHS();
             });
         });
     });
 
     it('MM-T2195 Emoji reaction - not available on system message Save - not available on system message Pin - not available on system message Can delete your own system message', () => {
         // # Click add a channel description
-        cy.get('#channelHeaderDescription button').click();
+        cy.findByRoleExtended('button', {name: 'Add a channel description'}).should('be.visible').click();
 
         // # Add or update a channel header
         cy.get('#editChannelHeaderModalLabel').should('be.visible');
@@ -149,7 +161,7 @@ describe('Messaging', () => {
 
     it('MM-T2196 Emoji reaction - not available on ephemeral message Save - not available on ephemeral message Pin - not available on ephemeral message Timestamp - not a link on ephemeral message Can close ephemeral message', () => {
         // # Post `/away` to create an ephemeral message
-        cy.postMessage('/away');
+        cy.postMessage('/away ');
 
         cy.getLastPostId().then((postId) => {
             // * (Only visible to you) displays next to timestamp (standard view) or after message text (compact view)

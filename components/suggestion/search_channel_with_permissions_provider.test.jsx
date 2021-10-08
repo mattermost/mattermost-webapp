@@ -37,6 +37,12 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
                     someGroupConversation: {
                     },
                 },
+                roles: {
+                    somePublicMemberChannelId: [],
+                    somePrivateMemberChannelId: [],
+                    someDirectConversation: [],
+                    someGroupConversation: [],
+                },
                 channels: {
                     somePublicMemberChannelId: {
                         id: 'somePublicMemberChannelId',

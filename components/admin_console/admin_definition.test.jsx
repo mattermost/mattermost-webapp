@@ -18,7 +18,9 @@ const baseShape = {
 const fieldShape = {
     ...baseShape,
     key: yup.string().required(),
-    help_text: yup.string(),
+
+    // help_text: yup.string(), // Commented out since this doesn't work when help_text is a ReactNode
+
     help_text_default: yup.string(),
     help_text_html: yup.boolean(),
     help_text_values: yup.object(),
@@ -142,11 +144,18 @@ const setting = yup.mixed().test('is-setting', 'not a valid setting: ${path}', (
     return valid;
 });
 
-var schema = yup.object().shape({
+var baseSchema = {
     id: yup.string().required(),
     name: yup.string().required(),
     name_default: yup.string().required(),
+};
+
+var schema = yup.object(baseSchema).shape({
     settings: yup.array().of(setting).required(),
+});
+
+var sectionSchema = yup.object(baseSchema).shape({
+    sections: yup.array().of(schema).required(),
 });
 
 var customComponentSchema = yup.object().shape({
@@ -163,7 +172,7 @@ var definition = yup.object().shape({
     }),
     authentication: yup.object().shape({
         email: yup.object().shape({schema}),
-        ldap: yup.object().shape({schema}),
+        ldap: yup.object().shape({sectionSchema}),
         mfa: yup.object().shape({schema}),
         saml: yup.object().shape({schema}),
     }),

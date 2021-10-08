@@ -2,6 +2,7 @@
 
 @mixin file-icon($path) {
     @include background-size(32px 40px);
+
     background-image: url($path);
     background-position: center;
     background-repeat: no-repeat;
@@ -16,6 +17,7 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
     @else {
         -webkit-font-smoothing: subpixel-antialiased;
         -moz-osx-font-smoothing: auto;
@@ -29,8 +31,8 @@
 
 // From https://gist.github.com/kaelig/7528069
 @mixin text-clamp($lines: 2, $line-height: false) {
-    overflow: hidden;
     display: -webkit-box;
+    overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: $lines;
 
@@ -42,9 +44,9 @@
 }
 
 @mixin button-style--none {
-    background: transparent;
-    border: none;
     padding: 0;
+    border: none;
+    background: transparent;
 
     &:focus {
         outline: 0;
@@ -56,12 +58,17 @@
     }
 
     &.btn--block {
-        text-align: left;
         width: 100%;
+        text-align: left;
     }
 
     &:hover,
     &:active {
         text-decoration: none;
     }
+}
+
+@mixin fit-content {
+    width: fit-content;
+    width: -moz-fit-content;
 }

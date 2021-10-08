@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {createSelector} from 'reselect';
 
 import {getTeams as fetchTeams, searchTeams} from 'mattermost-redux/actions/teams';
@@ -21,6 +22,7 @@ type Actions = {
     getData(page: number, size: number): void;
 }
 const getSortedListOfTeams = createSelector(
+    'getSortedListOfTeams',
     getTeams,
     (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name)),
 );
@@ -29,6 +31,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         data: getSortedListOfTeams(state),
         total: state.entities.teams.totalCount || 0,
+        isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
     };
 }
 

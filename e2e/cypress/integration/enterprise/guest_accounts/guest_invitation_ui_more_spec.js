@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @guest_account
 
 /**
@@ -24,8 +25,6 @@ import {
 
 describe('Guest Account - Guest User Invitation Flow', () => {
     let testTeam;
-    let newUser;
-    let regularUser;
 
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -39,55 +38,67 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Reset Guest Feature settings
         changeGuestFeatureSettings();
 
-        cy.apiInitSetup().then(({team, user}) => {
-            regularUser = user;
+        cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-
-            cy.apiCreateUser().then(({user: user1}) => {
-                newUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, newUser.id);
-            });
 
             // # Go to town square
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
-    it('MM-18042 Verify Add New/Existing Guest Users', () => {
-        // # Search and add an existing member by username who is part of the team
-        invitePeople(newUser.username, 1, newUser.username);
+    it('MM-T1336 Invite Guests - Existing Team Member', () => {
+        cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
+                // # Search and add an existing member by username who is part of the team
+                invitePeople(newUser.username, 1, newUser.username);
 
-        // * Verify the content and message in next screen
-        verifyInvitationError(newUser.username, testTeam, 'This person is already a member.');
+                // * Verify the content and message in next screen
+                verifyInvitationError(newUser.username, testTeam, 'This person is already a member.');
+            });
+        });
+    });
 
-        // # Search and add an existing member by email who is not part of the team
-        invitePeople(regularUser.email, 1, regularUser.username);
+    it('MM-T1337 Invite Guests - Existing Team Guest', () => {
+        cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
+                // # Demote the user from member to guest
+                cy.apiDemoteUserToGuest(newUser.id).then(() => {
+                    // # Search and add an existing guest by first name, who is part of the team but not channel
+                    invitePeople(newUser.first_name, 1, newUser.username, 'Off-Topic');
 
-        // * Verify the content and message in next screen
-        verifyInvitationError(regularUser.username, testTeam, 'This person is already a member.');
+                    // * Verify the content and message in next screen
+                    verifyInvitationSuccess(newUser.username, testTeam, 'This guest has been added to the team and channel.');
 
-        // # Demote the user from member to guest
-        cy.apiDemoteUserToGuest(newUser.id);
+                    // # Search and add an existing guest by last name, who is part of the team and channel
+                    invitePeople(newUser.last_name, 1, newUser.username);
 
-        // # Search and add an existing guest by first name, who is part of the team but not channel
-        invitePeople(newUser.first_name, 1, newUser.username, 'Off-Topic');
+                    // * Verify the content and message in next screen
+                    verifyInvitationError(newUser.username, testTeam, 'This person is already a member of all the channels.', true);
+                });
+            });
+        });
+    });
 
-        // * Verify the content and message in next screen
-        verifyInvitationSuccess(newUser.username, testTeam, 'This guest has been added to the team and channel.');
+    it('MM-T1338 Invite Guests - Existing Member not on the team', () => {
+        cy.apiCreateUser().then(({user: regularUser}) => {
+            // # Search and add an existing member by email who is not part of the team
+            invitePeople(regularUser.email, 1, regularUser.username);
 
-        // # Search and add an existing guest by last name, who is part of the team and channel
-        invitePeople(newUser.last_name, 1, newUser.username);
+            // * Verify the content and message in next screen
+            verifyInvitationError(regularUser.username, testTeam, 'This person is already a member.');
+        });
+    });
 
-        // * Verify the content and message in next screen
-        verifyInvitationError(newUser.username, testTeam, 'This person is already a member of all the channels.', true);
-
+    it('MM-T1339 Invite Guests - Existing Guest not on the team', () => {
         // # Search and add an existing guest by email, who is not part of the team
         cy.apiCreateGuestUser().then(({guest}) => {
             invitePeople(guest.email, 1, guest.username);
 
             verifyInvitationSuccess(guest.username, testTeam, 'This guest has been added to the team and channel.', true);
         });
+    });
 
+    it('MM-T1340 Invite Guests - New User not in the system', () => {
         // # Search and add a new guest by email, who is not part of the team
         const email = `temp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
@@ -96,7 +107,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationSuccess(email, testTeam, 'An invitation email has been sent.');
     });
 
-    it('MM-18047 Verify Guest User whitelisted domains', () => {
+    it('MM-T1394 Change Email not whitelisted for Guest user', () => {
         // # Configure a whitelisted domain
         changeGuestFeatureSettings(true, true, 'example.com');
 

@@ -22,18 +22,15 @@ import {getRandomId, stubClipboard} from '../../utils';
 
 describe('Sidebar channel menu', () => {
     const sysadmin = getAdminAccount();
+    const townSquare = 'Town Square';
 
     let teamName;
+    let userName;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             teamName = team.name;
+            userName = user.username;
 
             cy.visit(`/${team.name}/channels/town-square`);
         });
@@ -42,7 +39,7 @@ describe('Sidebar channel menu', () => {
     it('MM-T3349_1 should be able to mark a channel as read', () => {
         // # Start in Town Square
         cy.get('#sidebarItem_town-square').click();
-        cy.get('#channelHeaderTitle').should('contain', 'Town Square');
+        cy.get('#channelHeaderTitle').should('contain', townSquare);
 
         // # Save the ID of the Town Square channel for later
         cy.getCurrentChannelId().as('townSquareId');
@@ -73,22 +70,21 @@ describe('Sidebar channel menu', () => {
 
     it('MM-T3349_2 should be able to favorite/unfavorite a channel', () => {
         // * Verify that the channel starts in the CHANNELS category
-        cy.contains('.SidebarChannelGroup', 'CHANNELS').as('channelsCategory');
-        cy.get('@channelsCategory').find('#sidebarItem_town-square');
+        cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('be.visible');
 
         // # Open the channel menu and select the Favorite option
         cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
         cy.get('.SidebarMenu').contains('.MenuItem', 'Favorite').click();
 
         // * Verify that the channel has moved to the FAVORITES category
-        cy.contains('.SidebarChannelGroup', 'FAVORITES').find('#sidebarItem_town-square');
+        cy.uiGetLhsSection('FAVORITES').findByText(townSquare).should('be.visible');
 
         // # Open the channel menu and select the Unfavorite option
         cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
         cy.get('.SidebarMenu').contains('.MenuItem', 'Unfavorite').click();
 
         // * Verify that the channel has moved back to the CHANNELS category
-        cy.get('@channelsCategory').find('#sidebarItem_town-square');
+        cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('be.visible');
     });
 
     it('MM-T3349_3 should be able to mute/unmute a channel', () => {
@@ -96,15 +92,15 @@ describe('Sidebar channel menu', () => {
         cy.get('#sidebarItem_town-square').should(beUnmuted);
 
         // # Open the channel menu and select the Mute Channel option
-        cy.get('#sidebarItem_town-square .SidebarMenu_menuButton').click({force: true});
+        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
         cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
 
         // * Verify that the channel is now muted
         cy.get('#sidebarItem_town-square').should(beMuted);
 
         // # Open the channel menu and select the Unmute Channel option
-        cy.get('#sidebarItem_town-square .SidebarMenu').click({force: true});
-        cy.get('#sidebarItem_town-square .SidebarMenu').should('be.visible').contains('.MenuItem', 'Unmute Channel').click();
+        cy.get('#sidebarItem_town-square').should('be.visible').find('.SidebarMenu').click({force: true});
+        cy.get('#sidebarItem_town-square').should('be.visible').find('.SidebarMenu').should('be.visible').contains('.MenuItem', 'Unmute Channel').click();
 
         // // * Verify that the channel is no longer muted
         cy.get('#sidebarItem_town-square').should(beUnmuted);
@@ -114,22 +110,21 @@ describe('Sidebar channel menu', () => {
         const categoryName = `new-${getRandomId()}`;
 
         // * Verify that the channel starts in the CHANNELS category
-        cy.contains('.SidebarChannelGroup', 'CHANNELS').as('channelsCategory');
-        cy.get('@channelsCategory').find('#sidebarItem_town-square');
+        cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('be.visible');
 
         // # Move the channel into a new category
-        cy.uiMoveChannelToCategory('town-square', categoryName, true).as('newCategory');
+        cy.uiMoveChannelToCategory('town-square', categoryName, true);
 
         // * Verify that Town Square has moved into the new category
-        cy.get('@newCategory').find('#sidebarItem_town-square').should('exist');
-        cy.get('@channelsCategory').find('#sidebarItem_town-square').should('not.exist');
+        cy.uiGetLhsSection(categoryName).findByText(townSquare).should('be.visible');
+        cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('not.exist');
 
         // # Move the channel back to Channels
         cy.uiMoveChannelToCategory('town-square', 'Channels');
 
         // * Verify that Town Square has moved back to Channels
-        cy.get('@newCategory').find('#sidebarItem_town-square').should('not.exist');
-        cy.get('@channelsCategory').find('#sidebarItem_town-square').should('exist');
+        cy.uiGetLhsSection(categoryName).findByText(townSquare).should('not.exist');
+        cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('be.visible');
     });
 
     it('MM-T3349_5 should be able to copy the channel link', () => {
@@ -152,10 +147,38 @@ describe('Sidebar channel menu', () => {
         cy.get('.SidebarMenu').contains('.MenuItem', 'Add Members').click();
 
         // * Verify that the modal appears and then close it
-        cy.contains('.modal-dialog .modal-header', 'Add New Members to').
-            parents().
-            find('.modal-dialog').
-            findByLabelText('Close').
-            click();
+        cy.get('#addUsersToChannelModal').should('be.visible').findByText('Add people to Town Square');
+        cy.uiClose();
+    });
+
+    it('MM-T3350 Mention badge should remain hidden as long as the channel/dm/gm menu is open', () => {
+        // # Start in Town Square
+        cy.get('#sidebarItem_town-square').click();
+        cy.get('#channelHeaderTitle').should('contain', townSquare);
+
+        // # Save the ID of the Town Square channel for later
+        cy.getCurrentChannelId().as('townSquareId');
+
+        // # Switch to the Off Topic channel
+        cy.get('#sidebarItem_off-topic').click();
+        cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
+
+        // # Have another user send a message in the Town Square
+        cy.get('@townSquareId').then((channelId) => {
+            cy.postMessageAs({
+                sender: sysadmin,
+                message: `@${userName} post1`,
+                channelId,
+            });
+        });
+
+        // * Verify that a mention badge appears
+        cy.get('#sidebarItem_town-square .badge').should('be.visible');
+
+        // # Open the channel menu
+        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
+
+        // * Verify that the mention badge disappears
+        cy.get('#sidebarItem_town-square .badge').should('not.be.visible');
     });
 });

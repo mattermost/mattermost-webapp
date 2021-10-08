@@ -11,7 +11,7 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
     <div
       className="groups-list-empty"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="test"
         id="test"
       />
@@ -30,7 +30,7 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
     <div
       className="group-name adjusted"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.channel_settings.channel_list.nameHeader"
       />
@@ -41,7 +41,7 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Team"
           id="admin.channel_settings.channel_list.teamHeader"
         />
@@ -49,7 +49,7 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
       <div
         className="group-description adjusted"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Management"
           id="admin.channel_settings.channel_list.managementHeader"
         />
@@ -75,7 +75,7 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.team_channel_settings.list.paginatorCount"
         values={

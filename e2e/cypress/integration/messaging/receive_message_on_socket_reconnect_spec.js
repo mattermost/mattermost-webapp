@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -21,6 +20,9 @@ describe('Messaging', () => {
     before(() => {
         // # Wrap websocket to be able to connect and close connections on demand
         cy.mockWebsockets();
+
+        // # Update config to enable "EnableReliableWebSockets"
+        cy.apiUpdateConfig({ServiceSettings: {EnableReliableWebSockets: true}});
 
         // # Login as test user and go to town-square
         cy.apiInitSetup().then(({team, channel, user}) => {
@@ -37,6 +39,11 @@ describe('Messaging', () => {
 
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Post several messages to establish websocket connection
+            Cypress._.times(5, (i) => {
+                cy.postMessage(i);
+            });
         });
     });
 
@@ -57,7 +64,7 @@ describe('Messaging', () => {
             cy.postMessageReplyInRHS('def');
 
             // # Change channel
-            cy.get('#sidebarItem_town-square').click({force: true}).then(() => {
+            cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click().then(() => {
                 // # Close all sockets
                 window.mockWebsockets.forEach((value) => {
                     if (value.close) {
@@ -72,8 +79,8 @@ describe('Messaging', () => {
                 cy.wait(TIMEOUTS.FIVE_SEC);
 
                 // * Verify that only "def" is posted and not "ghi"
-                cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
-                cy.get('#rhsPostList').within(() => {
+                cy.get('#rhsContainer .post-right-comments-container').should('be.visible').children().should('have.length', 1);
+                cy.get('#rhsContainer .post-right-comments-container').within(() => {
                     cy.findByText('def').should('be.visible');
                     cy.findByText('ghi').should('not.exist');
                 }).then(() => {
@@ -83,11 +90,16 @@ describe('Messaging', () => {
                     });
 
                     // # Wait for sockets to be connected
-                    cy.wait(TIMEOUTS.TEN_SEC);
+                    cy.wait(TIMEOUTS.THREE_SEC);
+                    cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
+                    cy.postMessage('any');
+                    cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+                    cy.postMessage('any');
+                    cy.wait(TIMEOUTS.THREE_SEC);
 
                     // * Verify that both "def" and "ghi" are posted on websocket reconnect
-                    cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);
-                    cy.get('#rhsPostList').within(() => {
+                    cy.get('#rhsContainer .post-right-comments-container').should('be.visible').children().should('have.length', 2);
+                    cy.get('#rhsContainer .post-right-comments-container').within(() => {
                         cy.findByText('def').should('be.visible');
                         cy.findByText('ghi').should('be.visible');
                     });

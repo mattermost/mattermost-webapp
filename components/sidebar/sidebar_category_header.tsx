@@ -6,7 +6,6 @@ import React from 'react';
 import {DraggableProvidedDragHandleProps} from 'react-beautiful-dnd';
 
 import {wrapEmojis} from 'utils/emoji_utils';
-import * as UserAgent from 'utils/user_agent';
 
 type StaticProps = {
     children?: React.ReactNode;
@@ -15,11 +14,7 @@ type StaticProps = {
 
 export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps, ref?: React.Ref<HTMLDivElement>) => {
     return (
-        <div
-            className={classNames('SidebarChannelGroupHeader SidebarChannelGroupHeader--static', {
-                'SidebarChannelGroupHeader--sticky': supportsStickyHeaders(),
-            })}
-        >
+        <div className='SidebarChannelGroupHeader SidebarChannelGroupHeader--static'>
             <div
                 ref={ref}
                 className='SidebarChannelGroupHeader_groupButton'
@@ -48,15 +43,13 @@ export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React
     return (
         <div
             className={classNames('SidebarChannelGroupHeader', {
-                'SidebarChannelGroupHeader--sticky': supportsStickyHeaders(),
                 muted: props.muted,
+                dragging: props.isDragging,
             })}
         >
             <button
                 ref={ref}
-                className={classNames('SidebarChannelGroupHeader_groupButton', {
-                    dragging: props.isDragging,
-                })}
+                className={classNames('SidebarChannelGroupHeader_groupButton')}
                 aria-label={props.displayName}
                 onClick={props.onClick}
             >
@@ -72,8 +65,8 @@ export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React
                 >
                     {wrapEmojis(props.displayName)}
                 </div>
-                {props.children}
             </button>
+            {props.children}
         </div>
     );
 });
@@ -83,7 +76,3 @@ SidebarCategoryHeader.defaultProps = {
     isDraggingOver: false,
 };
 SidebarCategoryHeader.displayName = 'SidebarCategoryHeader';
-
-function supportsStickyHeaders() {
-    return !UserAgent.isFirefox() && !UserAgent.isSafari();
-}

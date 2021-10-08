@@ -3,6 +3,7 @@
 
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
+
 import {updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
 
 import {GenericAction} from 'mattermost-redux/types/actions';

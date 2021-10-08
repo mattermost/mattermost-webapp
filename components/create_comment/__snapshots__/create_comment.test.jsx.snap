@@ -1,118 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/CreateComment should match snapshot read only channel 1`] = `
-<form
-  onSubmit={[Function]}
->
-  <div
-    aria-label="reply input region"
-    className="post-create a11y__region"
-    data-a11y-sort-order="4"
-    id="rhsFooter"
-    role="form"
-    tabIndex="-1"
-  >
-    <div
-      className="post-create-body comment-create-body"
-      id=""
-    >
-      <div
-        className="post-body__cell"
-      >
-        <Connect(Textbox)
-          badConnection={false}
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          characterLimit={4000}
-          createMessage="This channel is read-only. Only members with permission can post here."
-          disabled={true}
-          emojiEnabled={true}
-          handlePostError={[Function]}
-          id="reply_textbox"
-          initialText=""
-          isRHS={true}
-          listenForMentionKeyClick={true}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onComposition={[Function]}
-          onHeightChange={[Function]}
-          onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onKeyUp={[Function]}
-          onMouseUp={[Function]}
-          onSelect={[Function]}
-          popoverMentionKeyClick={true}
-          preview={false}
-          rootId=""
-          suggestionListStyle="top"
-          useChannelMentions={true}
-          value=""
-        />
-        <span
-          className="post-body__actions"
-        />
-      </div>
-    </div>
-    <div
-      className="post-create-footer"
-    >
-      <div
-        className="d-flex justify-content-between"
-      >
-        <div
-          className="col"
-        >
-          <Connect(MsgTyping)
-            channelId="g6139tbospd18cmxroesdk3kkc"
-            postId=""
-          />
-        </div>
-        <div
-          className="col col-auto"
-        >
-          <Connect(TextboxLinks)
-            characterLimit={4000}
-            message=""
-            showPreview={false}
-            updatePreview={[Function]}
-          />
-        </div>
-      </div>
-      <div
-        className="text-right mt-2"
-      >
-        <input
-          className="btn btn-primary comment-btn"
-          disabled={false}
-          id="addCommentButton"
-          onClick={[Function]}
-          type="button"
-          value="Add Comment"
-        />
-      </div>
-    </div>
-  </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
-</form>
-`;
-
 exports[`components/CreateComment should match snapshot when cannot post 1`] = `
 <form
   onSubmit={[Function]}
@@ -121,9 +8,8 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
     aria-label="reply input region"
     className="post-create a11y__region"
     data-a11y-sort-order="4"
-    id="rhsFooter"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -141,7 +27,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -153,10 +38,9 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -184,7 +68,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -207,21 +90,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -234,9 +102,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     aria-label="reply input region"
     className="post-create a11y__region"
     data-a11y-sort-order="4"
-    id="rhsFooter"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -254,7 +121,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -266,10 +132,9 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -277,6 +142,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -356,21 +222,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -382,9 +233,8 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
     aria-label="reply input region"
     className="post-create a11y__region"
     data-a11y-sort-order="4"
-    id="rhsFooter"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -402,7 +252,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           emojiEnabled={false}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -414,10 +263,9 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -425,6 +273,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={3}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -492,21 +341,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -518,9 +352,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
     aria-label="reply input region"
     className="post-create a11y__region"
     data-a11y-sort-order="4"
-    id="rhsFooter"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -538,7 +371,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -550,10 +382,9 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -561,6 +392,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -640,21 +472,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -666,9 +483,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
     aria-label="reply input region"
     className="post-create a11y__region"
     data-a11y-sort-order="4"
-    id="rhsFooter"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -686,7 +502,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -698,10 +513,9 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -709,6 +523,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={4}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -776,7 +591,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <span
           className="post-right-comments-upload-in-progress"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="File uploading"
             id="create_comment.file"
           />
@@ -811,21 +626,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <FormattedMessage
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;

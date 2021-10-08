@@ -14,9 +14,9 @@ const normalSize = '21px';
 const jumboSize = '32px';
 
 const testCases = [
-    {message: 'This is a normal reply with emoji :smile: {enter}', emojiSize: normalSize},
-    {message: ':smile: {enter}', emojiSize: jumboSize},
-    {message: ':smile: :yum: {enter}', emojiSize: jumboSize},
+    {message: 'This is a normal reply with emoji :smile:', emojiSize: normalSize},
+    {message: ':smile:', emojiSize: jumboSize},
+    {message: ':smile: :yum:', emojiSize: jumboSize},
 ];
 
 function verifyLastPostStyle(expectedSize) {
@@ -25,7 +25,7 @@ function verifyLastPostStyle(expectedSize) {
         const postMessageTextId = `#rhsPostMessageText_${postId}`;
 
         // # Get Each Emoji from Reply Window RHS for the postId
-        cy.get(`#rhsContent ${postMessageTextId} span.emoticon`).each(($el) => {
+        cy.get(`#rhsContainer .post-right__content ${postMessageTextId} span.emoticon`).each(($el) => {
             cy.wrap($el).as('message');
 
             // * Verify the size of the emoji
@@ -36,9 +36,9 @@ function verifyLastPostStyle(expectedSize) {
 
 describe('Message', () => {
     before(() => {
-        // # Login as test user and visit town-square
+        // # Login as test user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
         });
     });
 

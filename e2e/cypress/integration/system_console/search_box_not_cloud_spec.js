@@ -42,7 +42,7 @@ describe('System console', () => {
                 Enable: true,
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
             },
         });
 
@@ -53,7 +53,6 @@ describe('System console', () => {
         // # A bug with the endpoint used for downloading plugins which doesn't send websocket events out so state is not updated
         // # Therefore, we visit town-square to update the state of our app then re-visit admin console
         cy.visit('ad-1/channels/town-square');
-        cy.wait(TIMEOUTS.FIVE_SEC);
         goToAdminConsole();
 
         // # Type first plugin name

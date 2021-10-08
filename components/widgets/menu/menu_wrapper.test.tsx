@@ -44,7 +44,7 @@ describe('components/MenuWrapper', () => {
         wrapper.setState({open: true});
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="MenuWrapper "
+  className="MenuWrapper  MenuWrapper--open"
   onClick={[Function]}
 >
   <p>
@@ -123,5 +123,15 @@ describe('components/MenuWrapper', () => {
         expect(event.preventDefault).not.toHaveBeenCalled();
         expect(event.stopPropagation).not.toHaveBeenCalled();
         expect(onToggle).toHaveBeenCalledWith(wrapper.instance().state.open);
+    });
+    test('should initialize state from props if prop is given', () => {
+        const wrapper = shallow<MenuWrapper>(
+            <MenuWrapper open={true}>
+                <p>{'title'}</p>
+                <p>{'menu'}</p>
+            </MenuWrapper>,
+        );
+
+        expect(wrapper.state('open')).toBe(true);
     });
 });

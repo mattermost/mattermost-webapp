@@ -5,94 +5,91 @@
 @import 'utils/module';
 
 .Separator {
-    height: 2em;
-    margin: 0;
     position: relative;
-    text-align: center;
-    z-index: 0;
-    pointer-events: none;
-
     z-index: 1;
     height: 1px;
-    margin-bottom: 1em;
+    margin: 0;
     margin-top: -1em;
+    margin-bottom: 1em;
+    pointer-events: none;
+    text-align: center;
 
-    &:before,
-    &:after {
-        content: '';
-        display: none;
-        height: 1em;
-        left: 0;
+    &::before,
+    &::after {
         position: absolute;
+        left: 0;
+        display: none;
         width: 100%;
+        height: 1em;
+        content: '';
     }
 
-    &:before {
+    &::before {
         bottom: 0;
     }
 
-    &:after {
+    &::after {
         top: 0;
     }
 
     &.hovered--after {
-        &:before {
-            background: #f5f5f5;
+        &::before {
             display: block;
+            background: #f5f5f5;
         }
     }
 
     &.hovered--before {
-        &:after {
-            background: #f5f5f5;
+        &::after {
             display: block;
+            background: #f5f5f5;
         }
     }
 
     .separator__hr {
-        border-top: 1px solid v(center-channel-color-20);
-        margin: 0;
         position: relative;
-        top: 1em;
         z-index: 5;
+        top: 1em;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+        margin: 0;
     }
 
     .separator__text {
         @include border-radius(50px);
+
+        position: relative;
+        z-index: 5;
+        display: inline-block;
+        padding: 0 1em;
         background: v(center-channel-bg);
         color: v(center-channel-color);
-        display: inline-block;
         font-size: 13px;
         font-weight: 700;
         line-height: 2em;
-        padding: 0 1em;
-        position: relative;
-        z-index: 5;
     }
 }
 
 @media screen and (max-width: 1440px) {
     .Separator {
         &.hovered--comment {
-            &:before,
-            &:after {
+            &::before,
+            &::after {
                 background: none !important;
             }
         }
     }
 }
 
-
 @media screen and (max-width: 768px) {
     .Separator {
         &.hovered--after {
-            &:before {
+            &::before {
                 background: none;
             }
         }
 
         &.hovered--before {
-            &:after {
+            &::after {
                 background: none;
             }
         }

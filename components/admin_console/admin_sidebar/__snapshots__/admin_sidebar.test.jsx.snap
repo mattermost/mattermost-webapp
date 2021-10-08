@@ -20,6 +20,7 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value="autolink"
     />
@@ -57,8 +58,8 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -98,6 +99,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -129,14 +131,154 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="user_management"
+            icon="fa-users"
+            key="user_management"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="User Management"
+                id="admin.sidebar.userManagement"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="user_management.groups_feature_discovery"
+              key="user_management.groups_feature_discovery"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.system_roles_feature_discovery"
+              key="user_management.system_roles_feature_discovery"
+              name="user_management/system_roles"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="System Roles"
+                  id="admin.sidebar.systemRoles"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="site"
+            icon="fa-cogs"
+            key="site"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Site Configuration"
+                id="admin.sidebar.site"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="site.announcement_banner_feature_discovery"
+              key="site.announcement_banner_feature_discovery"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="authentication"
+            icon="fa-shield"
+            key="authentication"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Authentication"
+                id="admin.sidebar.authentication"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="authentication.ldap_feature_discovery"
+              key="authentication.ldap_feature_discovery"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.saml_feature_discovery"
+              key="authentication.saml_feature_discovery"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.openid_feature_discovery"
+              key="authentication.openid_feature_discovery"
+              name="authentication/openid"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access_feature_discovery"
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Guest Access"
+                  id="admin.sidebar.guest_access"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             definitionKey="plugins"
             icon="fa-plug"
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -149,7 +291,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Plugin Management"
                   id="admin.plugins.pluginManagement"
                 />
@@ -161,6 +303,62 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               parentLink=""
               subsection={false}
               title="Autolink"
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="compliance"
+            icon="fa-list"
+            key="compliance"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="compliance.data_retention_feature_discovery"
+              key="compliance.data_retention_feature_discovery"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.compliance_export_feature_discovery"
+              key="compliance.compliance_export_feature_discovery"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Compliance Export"
+                  id="admin.sidebar.complianceExport"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.custom_terms_of_service_feature_discovery"
+              key="compliance.custom_terms_of_service_feature_discovery"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Custom Terms of Service"
+                  id="admin.sidebar.customTermsOfService"
+                />
+              }
             />
           </AdminSidebarCategory>
         </ul>
@@ -190,6 +388,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -227,7 +426,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="About"
                 id="admin.sidebar.about"
               />
@@ -241,7 +440,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edition and License"
                   id="admin.sidebar.license"
                 />
@@ -255,7 +454,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Reporting"
                 id="admin.sidebar.reporting"
               />
@@ -269,7 +468,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Site Statistics"
                   id="admin.sidebar.siteStatistics"
                 />
@@ -283,7 +482,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Statistics"
                   id="admin.sidebar.teamStatistics"
                 />
@@ -297,9 +496,79 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Server Logs"
                   id="admin.sidebar.logs"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="user_management"
+            icon="fa-users"
+            key="user_management"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="User Management"
+                id="admin.sidebar.userManagement"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="user_management.system_users"
+              key="user_management.system_users"
+              name="user_management/users"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Users"
+                  id="admin.sidebar.users"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.teams"
+              key="user_management.teams"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.channel"
+              key="user_management.channel"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.permissions"
+              key="user_management.permissions"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
                 />
               }
             />
@@ -311,7 +580,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Environment"
                 id="admin.sidebar.environment"
               />
@@ -325,7 +594,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Web Server"
                   id="admin.sidebar.webServer"
                 />
@@ -339,7 +608,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Database"
                   id="admin.sidebar.database"
                 />
@@ -353,7 +622,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="File Storage"
                   id="admin.sidebar.fileStorage"
                 />
@@ -367,7 +636,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Image Proxy"
                   id="admin.sidebar.imageProxy"
                 />
@@ -381,7 +650,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="SMTP"
                   id="admin.sidebar.smtp"
                 />
@@ -395,7 +664,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Push Notification Server"
                   id="admin.sidebar.pushNotificationServer"
                 />
@@ -409,7 +678,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Rate Limiting"
                   id="admin.sidebar.rateLimiting"
                 />
@@ -423,7 +692,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Logging"
                   id="admin.sidebar.logging"
                 />
@@ -437,9 +706,23 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Session Lengths"
                   id="admin.sidebar.sessionLengths"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.metrics"
+              key="environment.metrics"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
                 />
               }
             />
@@ -451,9 +734,149 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Developer"
                   id="admin.sidebar.developer"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="site"
+            icon="fa-cogs"
+            key="site"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Site Configuration"
+                id="admin.sidebar.site"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="site.customization"
+              key="site.customization"
+              name="site_config/customization"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Customization"
+                  id="admin.sidebar.customization"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.localization"
+              key="site.localization"
+              name="site_config/localization"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Localization"
+                  id="admin.sidebar.localization"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.users_and_teams"
+              key="site.users_and_teams"
+              name="site_config/users_and_teams"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Users and Teams"
+                  id="admin.sidebar.usersAndTeams"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.notifications"
+              key="site.notifications"
+              name="environment/notifications"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Notifications"
+                  id="admin.sidebar.notifications"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.emoji"
+              key="site.emoji"
+              name="site_config/emoji"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Emoji"
+                  id="admin.sidebar.emoji"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.posts"
+              key="site.posts"
+              name="site_config/posts"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Posts"
+                  id="admin.sidebar.posts"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.file_sharing_downloads"
+              key="site.file_sharing_downloads"
+              name="site_config/file_sharing_downloads"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="File Sharing and Downloads"
+                  id="admin.sidebar.fileSharingDownloads"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.public_links"
+              key="site.public_links"
+              name="site_config/public_links"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Public Links"
+                  id="admin.sidebar.publicLinks"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.notices"
+              key="site.notices"
+              name="site_config/notices"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Notices"
+                  id="admin.sidebar.notices"
                 />
               }
             />
@@ -465,7 +888,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Authentication"
                 id="admin.sidebar.authentication"
               />
@@ -479,7 +902,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Signup"
                   id="admin.sidebar.signup"
                 />
@@ -493,7 +916,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Email"
                   id="admin.sidebar.email"
                 />
@@ -507,7 +930,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Password"
                   id="admin.sidebar.password"
                 />
@@ -521,7 +944,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="MFA"
                   id="admin.sidebar.mfa"
                 />
@@ -535,7 +958,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
                 />
@@ -549,8 +972,8 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -563,7 +986,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Plugin Management"
                   id="admin.plugins.pluginManagement"
                 />
@@ -584,7 +1007,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Integrations"
                 id="admin.sidebar.integrations"
               />
@@ -598,7 +1021,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Integration Management"
                   id="admin.integrations.integrationManagement"
                 />
@@ -612,7 +1035,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Bot Accounts"
                   id="admin.integrations.botAccounts"
                 />
@@ -626,7 +1049,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="GIF (Beta)"
                   id="admin.sidebar.gif"
                 />
@@ -640,7 +1063,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="CORS"
                   id="admin.sidebar.cors"
                 />
@@ -654,7 +1077,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Experimental"
                 id="admin.sidebar.experimental"
               />
@@ -668,7 +1091,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
                 />
@@ -682,7 +1105,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Feature Flags"
                   id="admin.feature_flags.title"
                 />
@@ -696,7 +1119,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Bleve"
                   id="admin.sidebar.blevesearch"
                 />
@@ -730,6 +1153,7 @@ exports[`components/AdminSidebar should match snapshot, no access 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -786,6 +1210,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -842,6 +1267,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -898,6 +1324,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -935,7 +1362,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="About"
                 id="admin.sidebar.about"
               />
@@ -949,7 +1376,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edition and License"
                   id="admin.sidebar.license"
                 />
@@ -963,7 +1390,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Reporting"
                 id="admin.sidebar.reporting"
               />
@@ -977,7 +1404,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Site Statistics"
                   id="admin.sidebar.siteStatistics"
                 />
@@ -991,7 +1418,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Statistics"
                   id="admin.sidebar.teamStatistics"
                 />
@@ -1005,9 +1432,107 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Server Logs"
                   id="admin.sidebar.logs"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="user_management"
+            icon="fa-users"
+            key="user_management"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="User Management"
+                id="admin.sidebar.userManagement"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="user_management.system_users"
+              key="user_management.system_users"
+              name="user_management/users"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Users"
+                  id="admin.sidebar.users"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.groups"
+              key="user_management.groups"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.teams"
+              key="user_management.teams"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.channel"
+              key="user_management.channel"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.permissions"
+              key="user_management.permissions"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.system_roles"
+              key="user_management.system_roles"
+              name="user_management/system_roles"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="System Roles"
+                  id="admin.sidebar.systemRoles"
                 />
               }
             />
@@ -1019,7 +1544,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Environment"
                 id="admin.sidebar.environment"
               />
@@ -1033,7 +1558,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Web Server"
                   id="admin.sidebar.webServer"
                 />
@@ -1047,7 +1572,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Database"
                   id="admin.sidebar.database"
                 />
@@ -1061,7 +1586,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Elasticsearch"
                   id="admin.sidebar.elasticsearch"
                 />
@@ -1075,7 +1600,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="File Storage"
                   id="admin.sidebar.fileStorage"
                 />
@@ -1089,7 +1614,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Image Proxy"
                   id="admin.sidebar.imageProxy"
                 />
@@ -1103,7 +1628,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="SMTP"
                   id="admin.sidebar.smtp"
                 />
@@ -1117,7 +1642,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Push Notification Server"
                   id="admin.sidebar.pushNotificationServer"
                 />
@@ -1131,7 +1656,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="High Availability"
                   id="admin.sidebar.highAvailability"
                 />
@@ -1145,7 +1670,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Rate Limiting"
                   id="admin.sidebar.rateLimiting"
                 />
@@ -1159,7 +1684,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Logging"
                   id="admin.sidebar.logging"
                 />
@@ -1173,7 +1698,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Session Lengths"
                   id="admin.sidebar.sessionLengths"
                 />
@@ -1187,7 +1712,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Performance Monitoring"
                   id="admin.sidebar.metrics"
                 />
@@ -1201,9 +1726,163 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Developer"
                   id="admin.sidebar.developer"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="site"
+            icon="fa-cogs"
+            key="site"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Site Configuration"
+                id="admin.sidebar.site"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="site.customization"
+              key="site.customization"
+              name="site_config/customization"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Customization"
+                  id="admin.sidebar.customization"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.localization"
+              key="site.localization"
+              name="site_config/localization"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Localization"
+                  id="admin.sidebar.localization"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.users_and_teams"
+              key="site.users_and_teams"
+              name="site_config/users_and_teams"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Users and Teams"
+                  id="admin.sidebar.usersAndTeams"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.notifications"
+              key="site.notifications"
+              name="environment/notifications"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Notifications"
+                  id="admin.sidebar.notifications"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.announcement_banner"
+              key="site.announcement_banner"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.emoji"
+              key="site.emoji"
+              name="site_config/emoji"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Emoji"
+                  id="admin.sidebar.emoji"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.posts"
+              key="site.posts"
+              name="site_config/posts"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Posts"
+                  id="admin.sidebar.posts"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.file_sharing_downloads"
+              key="site.file_sharing_downloads"
+              name="site_config/file_sharing_downloads"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="File Sharing and Downloads"
+                  id="admin.sidebar.fileSharingDownloads"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.public_links"
+              key="site.public_links"
+              name="site_config/public_links"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Public Links"
+                  id="admin.sidebar.publicLinks"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="site.notices"
+              key="site.notices"
+              name="site_config/notices"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Notices"
+                  id="admin.sidebar.notices"
                 />
               }
             />
@@ -1215,7 +1894,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Authentication"
                 id="admin.sidebar.authentication"
               />
@@ -1229,7 +1908,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Signup"
                   id="admin.sidebar.signup"
                 />
@@ -1243,7 +1922,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Email"
                   id="admin.sidebar.email"
                 />
@@ -1257,7 +1936,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Password"
                   id="admin.sidebar.password"
                 />
@@ -1271,7 +1950,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="MFA"
                   id="admin.sidebar.mfa"
                 />
@@ -1285,7 +1964,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="AD/LDAP"
                   id="admin.sidebar.ldap"
                 />
@@ -1299,7 +1978,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="SAML 2.0"
                   id="admin.sidebar.saml"
                 />
@@ -1312,13 +1991,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               parentLink=""
               subsection={false}
               tag={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="deprecated"
                   id="admin.sidebar.oauth.tag"
                 />
               }
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="OAuth 2.0"
                   id="admin.sidebar.oauth"
                 />
@@ -1332,7 +2011,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
                   id="admin.sidebar.openid"
                 />
@@ -1346,8 +2025,8 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
-                  defaultMessage="Guest Access (Beta)"
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Guest Access"
                   id="admin.sidebar.guest_access"
                 />
               }
@@ -1360,8 +2039,8 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
-                defaultMessage="Plugins (Beta)"
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -1374,7 +2053,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Plugin Management"
                   id="admin.plugins.pluginManagement"
                 />
@@ -1395,7 +2074,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Integrations"
                 id="admin.sidebar.integrations"
               />
@@ -1409,7 +2088,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Integration Management"
                   id="admin.integrations.integrationManagement"
                 />
@@ -1423,7 +2102,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Bot Accounts"
                   id="admin.integrations.botAccounts"
                 />
@@ -1437,7 +2116,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="GIF (Beta)"
                   id="admin.sidebar.gif"
                 />
@@ -1451,7 +2130,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="CORS"
                   id="admin.sidebar.cors"
                 />
@@ -1465,7 +2144,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Compliance"
                 id="admin.sidebar.compliance"
               />
@@ -1474,14 +2153,14 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             <AdminSidebarSection
               definitionKey="compliance.data_retention"
               key="compliance.data_retention"
-              name="compliance/data_retention"
+              name="compliance/data_retention_settings"
               parentLink=""
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
-                  defaultMessage="Data Retention Policy"
-                  id="admin.sidebar.dataRetentionPolicy"
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Data Retention Policies"
+                  id="admin.sidebar.dataRetentionSettingsPolicies"
                 />
               }
             />
@@ -1493,8 +2172,8 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
-                  defaultMessage="Compliance Export (Beta)"
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Compliance Export"
                   id="admin.sidebar.complianceExport"
                 />
               }
@@ -1507,7 +2186,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Compliance Monitoring"
                   id="admin.sidebar.complianceMonitoring"
                 />
@@ -1521,8 +2200,8 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
-                  defaultMessage="Custom Terms of Service (Beta)"
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Custom Terms of Service"
                   id="admin.sidebar.customTermsOfService"
                 />
               }
@@ -1535,7 +2214,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             parentLink="/admin_console"
             sectionClass=""
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Experimental"
                 id="admin.sidebar.experimental"
               />
@@ -1549,7 +2228,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
                 />
@@ -1563,7 +2242,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Feature Flags"
                   id="admin.feature_flags.title"
                 />
@@ -1577,7 +2256,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               tag=""
               title={
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Bleve"
                   id="admin.sidebar.blevesearch"
                 />
@@ -1611,6 +2290,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -1640,7 +2320,204 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            definitionKey="user_management"
+            icon="fa-users"
+            key="user_management"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="User Management"
+                id="admin.sidebar.userManagement"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="user_management.groups_feature_discovery"
+              key="user_management.groups_feature_discovery"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.system_roles_feature_discovery"
+              key="user_management.system_roles_feature_discovery"
+              name="user_management/system_roles"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="System Roles"
+                  id="admin.sidebar.systemRoles"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="site"
+            icon="fa-cogs"
+            key="site"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Site Configuration"
+                id="admin.sidebar.site"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="site.announcement_banner_feature_discovery"
+              key="site.announcement_banner_feature_discovery"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="authentication"
+            icon="fa-shield"
+            key="authentication"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Authentication"
+                id="admin.sidebar.authentication"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="authentication.ldap_feature_discovery"
+              key="authentication.ldap_feature_discovery"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.saml_feature_discovery"
+              key="authentication.saml_feature_discovery"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.openid_feature_discovery"
+              key="authentication.openid_feature_discovery"
+              name="authentication/openid"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access_feature_discovery"
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Guest Access"
+                  id="admin.sidebar.guest_access"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="compliance"
+            icon="fa-list"
+            key="compliance"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="compliance.data_retention_feature_discovery"
+              key="compliance.data_retention_feature_discovery"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.compliance_export_feature_discovery"
+              key="compliance.compliance_export_feature_discovery"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Compliance Export"
+                  id="admin.sidebar.complianceExport"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.custom_terms_of_service_feature_discovery"
+              key="compliance.custom_terms_of_service_feature_discovery"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Custom Terms of Service"
+                  id="admin.sidebar.customTermsOfService"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>

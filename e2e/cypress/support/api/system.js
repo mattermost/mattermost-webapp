@@ -42,17 +42,19 @@ Cypress.Commands.add('apiGetClientLicense', () => {
     });
 });
 
-Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
-    Cypress.log({name: 'EE License', message: `Checking if server has license for feature: __${key}__.`});
+Cypress.Commands.add('apiRequireLicenseForFeature', (...keys) => {
+    Cypress.log({name: 'EE License', message: `Checking if server has license for feature: __${Object.values(keys).join(', ')}__.`});
 
     return uploadLicenseIfNotExist().then((data) => {
         const {license, isLicensed} = data;
         const hasLicenseMessage = `Server ${isLicensed ? 'has' : 'has no'} EE license.`;
         expect(isLicensed, hasLicenseMessage).to.equal(true);
 
-        const hasLicenseKey = hasLicenseForFeature(license, key);
-        const hasLicenseKeyMessage = `Server ${hasLicenseKey ? 'has' : 'has no'} EE license for feature: __${key}__`;
-        expect(hasLicenseKey, hasLicenseKeyMessage).to.equal(true);
+        Object.values(keys).forEach((key) => {
+            const hasLicenseKey = hasLicenseForFeature(license, key);
+            const hasLicenseKeyMessage = `Server ${hasLicenseKey ? 'has' : 'has no'} EE license for feature: __${key}__`;
+            expect(hasLicenseKey, hasLicenseKeyMessage).to.equal(true);
+        });
 
         return cy.wrap(data);
     });
@@ -100,21 +102,32 @@ Cypress.Commands.add('apiDeleteLicense', () => {
     });
 });
 
-const getDefaultConfig = () => {
+export const getDefaultConfig = () => {
     const cypressEnv = Cypress.env();
 
     const fromCypressEnv = {
+        ElasticsearchSettings: {
+            ConnectionURL: cypressEnv.elasticsearchConnectionURL,
+        },
         LdapSettings: {
             LdapServer: cypressEnv.ldapServer,
             LdapPort: cypressEnv.ldapPort,
         },
         ServiceSettings: {
-            AllowedUntrustedInternalConnections: `localhost,${cypressEnv.ciBaseUrl}`,
+            AllowedUntrustedInternalConnections: cypressEnv.allowedUntrustedInternalConnections,
             SiteURL: Cypress.config('baseUrl'),
         },
     };
 
     const isCloud = cypressEnv.serverEdition === Constants.ServerEdition.CLOUD;
+
+    if (isCloud) {
+        fromCypressEnv.CloudSettings = {
+            CWSURL: cypressEnv.cwsURL,
+            CWSAPIURL: cypressEnv.cwsAPIURL,
+        };
+    }
+
     const defaultConfig = isCloud ? cloudDefaultConfig : onPremDefaultConfig;
 
     return merge(defaultConfig, fromCypressEnv);
@@ -142,10 +155,8 @@ const expectConfigToBeUpdatable = (currentConfig, newConfig) => {
 };
 
 Cypress.Commands.add('apiUpdateConfig', (newConfig = {}) => {
-    // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
-        const currentConfig = response.body;
-
+    // # Get current config
+    return cy.apiGetConfig().then(({config: currentConfig}) => {
         // * Check if config can be updated
         expectConfigToBeUpdatable(currentConfig, newConfig);
 
@@ -205,11 +216,6 @@ Cypress.Commands.add('apiInvalidateCache', () => {
 });
 
 function isCloudEdition() {
-    const isCloudServer = Cypress.env('serverEdition') === Constants.ServerEdition.CLOUD;
-    if (isCloudServer) {
-        return cy.wrap(true);
-    }
-
     return cy.apiGetClientLicense().then(({isCloudLicensed}) => {
         return cy.wrap(isCloudLicensed);
     });
@@ -222,12 +228,6 @@ Cypress.Commands.add('shouldNotRunOnCloudEdition', () => {
 });
 
 function isTeamEdition() {
-    const isTeamServer = Cypress.env('serverEdition') === Constants.ServerEdition.TEAM;
-
-    if (isTeamServer) {
-        return cy.wrap(true);
-    }
-
     return cy.apiGetClientLicense().then(({isLicensed}) => {
         return cy.wrap(!isLicensed);
     });
@@ -263,6 +263,31 @@ Cypress.Commands.add('shouldHavePluginUploadEnabled', () => {
     return cy.apiGetConfig().then(({config}) => {
         const isUploadEnabled = config.PluginSettings.EnableUploads;
         expect(isUploadEnabled, isUploadEnabled ? '' : 'Should have Plugin upload enabled').to.equal(true);
+    });
+});
+
+Cypress.Commands.add('shouldRunWithSubpath', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        const isSubpath = Boolean(config.ServiceSettings.SiteURL.replace(/^https?:\/\//, '').split('/')[1]);
+        expect(isSubpath, isSubpath ? '' : 'Should run on server running with subpath only').to.equal(true);
+    });
+});
+
+Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
+    return cy.apiGetConfig().then(({config}) => {
+        const actualValue = config.FeatureFlags[key];
+        const message = actualValue === expectedValue ?
+            `Matches feature flag - "${key}: ${expectedValue}"` :
+            `Expected feature flag "${key}" to be "${expectedValue}", but was "${actualValue}"`;
+        expect(actualValue, message).to.equal(expectedValue);
+    });
+});
+
+Cypress.Commands.add('shouldHaveEmailEnabled', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        if (!config.ExperimentalSettings.RestrictSystemAdmin) {
+            cy.apiEmailTest();
+        }
     });
 });
 

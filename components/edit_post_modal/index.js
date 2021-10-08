@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences, Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -18,31 +19,29 @@ import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {hideEditPostModal} from 'actions/post_actions';
 import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
+import {runMessageWillBeUpdatedHooks} from 'actions/hooks';
 import Constants from 'utils/constants';
 
-import EditPostModal from './edit_post_modal.jsx';
+import EditPostModal from './edit_post_modal';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
     const editingPost = getEditingPost(state);
     const currentUserId = getCurrentUserId(state);
-    const channelId = getCurrentChannelId(state);
+    const channelId = editingPost?.post?.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
     let canDeletePost = false;
     let canEditPost = false;
+
     if (editingPost && editingPost.post && editingPost.post.user_id === currentUserId) {
-        canDeletePost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.DELETE_POST});
-        canEditPost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.EDIT_POST});
+        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
+        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_POST);
     } else {
-        canDeletePost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.DELETE_OTHERS_POSTS});
-        canEditPost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.EDIT_OTHERS_POSTS});
+        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
+        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_OTHERS_POSTS);
     }
 
-    const useChannelMentions = haveIChannelPermission(state, {
-        channel: channelId,
-        team: teamId,
-        permission: Permissions.USE_CHANNEL_MENTIONS,
-    });
+    const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
 
     return {
         canEditPost,
@@ -66,6 +65,7 @@ function mapDispatchToProps(dispatch) {
             hideEditPostModal,
             openModal,
             setShowPreview: setShowPreviewOnEditPostModal,
+            runMessageWillBeUpdatedHooks,
         }, dispatch),
     };
 }

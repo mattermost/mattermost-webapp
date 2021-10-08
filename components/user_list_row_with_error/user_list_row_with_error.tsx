@@ -3,11 +3,13 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
+
+import {ConnectedComponent} from 'react-redux';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {ConnectedComponent} from 'react-redux';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import * as Utils from 'utils/utils.jsx';
@@ -19,8 +21,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 type Props = {
     user: UserProfile;
     status?: string;
-    extraInfo?: (string | JSX.Element)[];
-    actions?: ConnectedComponent<any, any>[];
+    extraInfo?: Array<string | JSX.Element>;
+    actions?: Array<ConnectedComponent<any, any>>;
     actionProps?: {
         mfaEnabled: boolean;
         enableUserAccessTokens: boolean;

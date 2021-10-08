@@ -12,7 +12,6 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ChannelMembersModal from 'components/channel_members_modal';
 import OverlayTrigger from 'components/overlay_trigger';
-import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
@@ -87,14 +86,14 @@ export default class PopoverListMembers extends React.PureComponent {
         this.props.actions.openModal(modalData);
     };
 
-    handleGetProfilesInChannel = (e) => {
-        this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
+    handleGetProfilesInChannel = () => {
+        this.setState({showPopover: !this.state.showPopover});
         this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status', {active: true});
     };
 
     getTargetPopover = () => {
         this.membersList.current.focus();
-        return this.state.popoverTarget;
+        return this.refs.member_popover_target;
     };
 
     render() {
@@ -182,15 +181,14 @@ export default class PopoverListMembers extends React.PureComponent {
                     <button
                         id='member_popover'
                         aria-label={ariaLabel}
-                        className={'member-popover__trigger channel-header__icon channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
+                        className={'member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
                         ref='member_popover_target'
                         onClick={this.handleGetProfilesInChannel}
                     >
                         <div className='d-flex align-items-center'>
-                            <MemberIcon
-                                id='channelMemberIcon'
-                                className='icon icon--standard'
+                            <i
                                 aria-hidden='true'
+                                className='icon icon-account-outline channel-header__members'
                             />
                             <span
                                 id='channelMemberCountText'
@@ -209,8 +207,8 @@ export default class PopoverListMembers extends React.PureComponent {
                     placement='bottom'
                 >
                     <Popover
-                        className='member-list__popover'
                         id='member-list-popover'
+                        className='a11y__popup member-list__popover'
                     >
                         <div
                             className='more-modal__header'

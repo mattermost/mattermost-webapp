@@ -26,10 +26,12 @@ import Textbox from './textbox';
 
 type Props = {
     channelId: string;
-    rootId: string;
+    rootId?: string;
 };
 
 /* eslint-disable camelcase */
+
+const getProfilesInChannelOptions = {active: true};
 
 const makeMapStateToProps = () => {
     const getProfilesInChannel = makeGetProfilesInChannel();
@@ -38,13 +40,13 @@ const makeMapStateToProps = () => {
     return (state: GlobalState, ownProps: Props) => {
         const teamId = getCurrentTeamId(state);
         const license = getLicense(state);
-        const useGroupMentions = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && haveIChannelPermission(state, {
-            channel: ownProps.channelId,
-            team: teamId,
-            permission: Permissions.USE_GROUP_MENTIONS,
-        });
+        const useGroupMentions = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && haveIChannelPermission(state,
+            teamId,
+            ownProps.channelId,
+            Permissions.USE_GROUP_MENTIONS,
+        );
         const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : null;
-        const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, {active: true});
+        const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, getProfilesInChannelOptions);
         const profilesWithLastViewAtInChannel = addLastViewAtToProfiles(state, profilesInChannel);
 
         return {
@@ -52,7 +54,7 @@ const makeMapStateToProps = () => {
             currentTeamId: teamId,
             profilesInChannel: profilesWithLastViewAtInChannel,
             autocompleteGroups,
-            priorityProfiles: getProfilesForThread(state, ownProps),
+            priorityProfiles: getProfilesForThread(state, ownProps.rootId ?? ''),
         };
     };
 };

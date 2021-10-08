@@ -10,57 +10,64 @@
 // Stage: @prod
 // Group: @account_setting
 
-import {getRandomId} from '../../../utils';
-
-describe('Account Settings > Display > Message Display', () => {
+describe('Account Settings', () => {
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
-    ['COMPACT', 'STANDARD'].forEach((display) => {
-        it(`M14283 ${display} view: Line breaks remain intact after editing`, () => {
-            cy.uiChangeMessageDisplaySetting(display);
+    it('MM-T103_1 Compact view: Line breaks remain intact after editing', () => {
+        // * Verify line breaks do not change and blank line is still there in compact view.
+        verifyLineBreaksRemainIntact('COMPACT');
+    });
 
-            const firstLine = `First line ${getRandomId()}`;
-            const secondLine = `Text after ${getRandomId()}`;
-
-            // # Enter in text
-            cy.get('#post_textbox').
-                clear().
-                type(firstLine).
-                type('{shift}{enter}{enter}').
-                type(`${secondLine}{enter}`);
-
-            // # Get last postId
-            cy.getLastPostId().then((postId) => {
-                const postMessageTextId = `#postMessageText_${postId}`;
-
-                // * Verify HTML still includes new line
-                cy.get(postMessageTextId).should('have.html', `<p>${firstLine}</p>\n<p>${secondLine}</p>`);
-
-                // # click dot menu button
-                cy.clickPostDotMenu(postId);
-
-                // # click edit post
-                cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
-
-                // # Add ",edited" to the text
-                cy.get('#edit_textbox').type(',edited');
-
-                // # Save
-                cy.get('#editButton').click();
-
-                // * Verify HTML includes newline and the edit
-                cy.get(postMessageTextId).should('have.html', `<p>${firstLine}</p>\n<p>${secondLine},edited</p>`);
-
-                // * Post should have (edited)
-                cy.get(`#postEdited_${postId}`).
-                    should('be.visible').
-                    should('contain', '(edited)');
-            });
-        });
+    it('MM-T103_2 Standard view: Line breaks remain intact after editing', () => {
+        // * Verify line breaks do not change and blank line is still there in standard view.
+        verifyLineBreaksRemainIntact('STANDARD');
     });
 });
+
+function verifyLineBreaksRemainIntact(display) {
+    cy.uiChangeMessageDisplaySetting(display);
+
+    const firstLine = 'First line';
+    const secondLine = 'Second line';
+
+    // # Enter in text
+    cy.get('#post_textbox').
+        clear().
+        type(firstLine).
+        type('{shift}{enter}{enter}').
+        type(`${secondLine}{enter}`);
+
+    // # Get last postId
+    cy.getLastPostId().then((postId) => {
+        const postMessageTextId = `#postMessageText_${postId}`;
+
+        // * Verify text still includes new line
+        cy.get(postMessageTextId).should('have.text', `${firstLine}\n${secondLine}`);
+
+        // # click dot menu button
+        cy.clickPostDotMenu(postId);
+
+        // # click edit post
+        cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
+
+        // # Add ",edited" to the text
+        const editMessage = ',edited';
+        cy.get('#edit_textbox').type(editMessage);
+
+        // # Save
+        cy.uiSave();
+
+        // * Verify posted message includes newline, edit message and "Edited" indicator
+        cy.get(postMessageTextId).should('have.text', `${firstLine}\n${secondLine}${editMessage} Edited`);
+
+        // * Post should have "Edited"
+        cy.get(`#postEdited_${postId}`).
+            should('be.visible').
+            should('contain', 'Edited');
+    });
+}

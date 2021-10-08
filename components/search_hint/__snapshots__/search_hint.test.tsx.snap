@@ -1,15 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/SearchHint should match snapshot, with title 1`] = `
+exports[`components/SearchHint should match snapshot, with searchType 1`] = `
 <Fragment>
-  <h4
-    className="search-hint__title"
-  >
-    <FormattedMessage
-      defaultMessage="Search Options"
-      id="search_bar.usage.title"
-    />
-  </h4>
   <ul
     className="search-hint__suggestions-list"
     role="list"
@@ -19,6 +11,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="From:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -32,7 +25,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages from a user"
           id="search_list_option.from"
         />
@@ -43,6 +36,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="In:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -56,7 +50,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages in a channel"
           id="search_list_option.in"
         />
@@ -67,6 +61,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="On:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -80,7 +75,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages on a date"
           id="search_list_option.on"
         />
@@ -91,6 +86,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="Before:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -104,7 +100,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages before a date"
           id="search_list_option.before"
         />
@@ -115,6 +111,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="After:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -128,7 +125,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages after a date"
           id="search_list_option.after"
         />
@@ -139,6 +136,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="-"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -152,7 +150,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Exclude search terms"
           id="search_list_option.exclude"
         />
@@ -163,6 +161,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="\\"\\""
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -176,7 +175,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages with phrases"
           id="search_list_option.phrases"
         />
@@ -184,6 +183,240 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     </li>
   </ul>
 </Fragment>
+`;
+
+exports[`components/SearchHint should match snapshot, with title 1`] = `
+<Fragment>
+  <h4
+    className="search-hint__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Search options"
+      id="search_bar.usage.title"
+    />
+  </h4>
+  <ul
+    className="search-hint__suggestions-list"
+    role="list"
+  >
+    <li
+      className="search-hint__suggestions-list__option"
+      key="From:"
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          From:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Messages from a user"
+          id="search_list_option.from"
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="In:"
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          In:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Messages in a channel"
+          id="search_list_option.in"
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="On:"
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          On:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Messages on a date"
+          id="search_list_option.on"
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="Before:"
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          Before:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Messages before a date"
+          id="search_list_option.before"
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="After:"
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          After:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Messages after a date"
+          id="search_list_option.after"
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="-"
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          —
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Exclude search terms"
+          id="search_list_option.exclude"
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="\\"\\""
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          ""
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Messages with phrases"
+          id="search_list_option.phrases"
+        />
+      </div>
+    </li>
+  </ul>
+</Fragment>
+`;
+
+exports[`components/SearchHint should match snapshot, without searchType 1`] = `
+<div
+  className="search-hint__search-type-selector"
+>
+  <div>
+    <MemoizedFormattedMessage
+      defaultMessage="What are you searching for?"
+      id="search_bar.usage.search_type_question"
+    />
+  </div>
+  <div
+    className="button-container"
+  >
+    <button
+      className=""
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-message-text-outline"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Messages"
+        id="search_bar.usage.search_type_messages"
+      />
+    </button>
+    <button
+      className=""
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-file-text-outline"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Files"
+        id="search_bar.usage.search_type_files"
+      />
+    </button>
+  </div>
+</div>
 `;
 
 exports[`components/SearchHint should match snapshot, without title 1`] = `
@@ -197,6 +430,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="From:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -210,7 +444,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages from a user"
           id="search_list_option.from"
         />
@@ -221,6 +455,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="In:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -234,7 +469,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages in a channel"
           id="search_list_option.in"
         />
@@ -245,6 +480,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="On:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -258,7 +494,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages on a date"
           id="search_list_option.on"
         />
@@ -269,6 +505,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="Before:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -282,7 +519,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages before a date"
           id="search_list_option.before"
         />
@@ -293,6 +530,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="After:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -306,7 +544,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages after a date"
           id="search_list_option.after"
         />
@@ -317,6 +555,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="-"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -330,7 +569,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Exclude search terms"
           id="search_list_option.exclude"
         />
@@ -341,6 +580,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="\\"\\""
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -354,7 +594,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages with phrases"
           id="search_list_option.phrases"
         />

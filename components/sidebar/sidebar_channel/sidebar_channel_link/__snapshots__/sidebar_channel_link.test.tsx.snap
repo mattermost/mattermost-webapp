@@ -16,7 +16,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -25,7 +24,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -43,7 +41,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </span>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={0}
   />
   <Connect(injectIntl(SidebarChannelMenu))
@@ -53,7 +50,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -62,7 +58,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -92,7 +87,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -101,7 +95,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -119,7 +112,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </span>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={0}
   />
   <Connect(injectIntl(SidebarChannelMenu))
@@ -129,7 +121,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -138,7 +129,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -168,7 +158,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -177,7 +166,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -211,7 +199,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     >
       <div>
         <span
-          className="SidebarChannelLinkLabel"
+          className="SidebarChannelLinkLabel truncated"
         >
           channel_label
         </span>
@@ -219,7 +207,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </OverlayTrigger>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={0}
   />
   <Connect(injectIntl(SidebarChannelMenu))
@@ -229,7 +216,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -238,7 +224,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -268,7 +253,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -277,7 +261,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -295,7 +278,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </span>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={2}
   />
   <Connect(injectIntl(SidebarChannelMenu))
@@ -305,7 +287,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
@@ -314,7 +295,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
         "type": "O",
         "update_at": 0,
       }

@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {createSelector} from 'reselect';
+
 import {
     getUser,
     getCurrentUser,
@@ -16,7 +18,6 @@ import {
     isCurrentChannelFavorite,
     isCurrentChannelMuted,
     isCurrentChannelArchived,
-    isCurrentChannelReadOnly,
     getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 
@@ -30,6 +31,7 @@ import Items from './channel_header_dropdown_items';
 import Mobile from './mobile_channel_header_dropdown';
 
 const getTeammateId = createSelector(
+    'getTeammateId',
     getCurrentChannel,
     getCurrentUserId,
     (channel, currentUserId) => {
@@ -42,6 +44,7 @@ const getTeammateId = createSelector(
 );
 
 const getTeammateStatus = createSelector(
+    'getTeammateStatus',
     getUserStatuses,
     getTeammateId,
     (userStatuses, teammateId) => {
@@ -59,7 +62,7 @@ const mapStateToProps = (state) => ({
     isDefault: isCurrentChannelDefault(state),
     isFavorite: isCurrentChannelFavorite(state),
     isMuted: isCurrentChannelMuted(state),
-    isReadonly: isCurrentChannelReadOnly(state),
+    isReadonly: false,
     isArchived: isCurrentChannelArchived(state),
     penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
     pluginMenuItems: state.plugins.components.ChannelHeader || [],

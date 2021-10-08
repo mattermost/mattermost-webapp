@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
-
 import {bindActionCreators, Dispatch} from 'redux';
+
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -19,18 +19,12 @@ import {closeModal, openModal} from 'actions/views/modals';
 
 import UserLimitModal from './user_limit_modal';
 
-type OwnProps = {
-    currentTeamId: string;
-};
-
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState) {
+    const config = getConfig(state);
     return {
-        userLimit: getConfig(state).ExperimentalCloudUserLimit,
-        currentUsers: state.entities.admin.analytics!.TOTAL_USERS,
-        userIsAdmin: isAdmin(
-            getMyTeamMember(state, ownProps.currentTeamId).roles,
-        ),
+        userIsAdmin: isAdmin(getCurrentUser(state).roles),
         show: isModalOpen(state, ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT),
+        cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
     };
 }
 
@@ -38,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators(
             {
-                closeModal: () => closeModal(ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT),
+                closeModal: (identifier) => closeModal(identifier),
                 openModal: (modalData) => openModal(modalData),
             },
             dispatch,

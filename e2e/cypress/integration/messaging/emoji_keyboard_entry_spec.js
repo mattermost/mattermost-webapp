@@ -12,15 +12,15 @@
 
 describe('MM-T154 Use keyboard navigation in emoji picker', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
     beforeEach(() => {
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Wait for emoji picker to load
         cy.get('#emojiPicker').should('be.visible');
@@ -91,7 +91,7 @@ describe('MM-T154 Use keyboard navigation in emoji picker', () => {
         // # Press arrow keys
         cy.get('#emojiPickerSearch').type('{rightarrow}{downarrow}');
 
-        cy.get('#emojiPickerAliasesPreview').invoke('text').then((selectedEmoji) => {
+        cy.get('.emoji-picker__preview').invoke('text').then((selectedEmoji) => {
             // # Select chosen emoji
             cy.get('#emojiPickerSearch').type('{enter}');
 

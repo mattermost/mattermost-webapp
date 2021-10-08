@@ -15,6 +15,7 @@ import {
 import {getUser, updateUserActive} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
@@ -29,6 +30,7 @@ function mapStateToProps(state: GlobalState) {
         currentUser: getCurrentUser(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
         currentTeam: getCurrentTeam(state),
+        collapsedThreads: isCollapsedThreadsEnabled(state),
     };
 }
 

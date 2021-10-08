@@ -4,7 +4,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import LocalizedIcon from 'components/localized_icon';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
+
+import {t} from 'utils/i18n';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
@@ -38,7 +41,6 @@ export default class Logs extends React.PureComponent<Props, State> {
         const node = this.logPanel.current;
         if (node) {
             node.scrollTop = node.scrollHeight;
-            node.focus();
         }
     }
 
@@ -94,17 +96,10 @@ export default class Logs extends React.PureComponent<Props, State> {
                     className='btn btn-default filter-control filter-control__prev'
                     onClick={this.previousPage}
                 >
-                    <FormattedMessage
-                        id='generic_icons.previous'
-                        defaultMessage='Previous Icon'
-                    >
-                        {(title: string) => (
-                            <i
-                                className='fa fa-angle-left'
-                                title={title}
-                            />
-                        )}
-                    </FormattedMessage>
+                    <LocalizedIcon
+                        className='fa fa-angle-left'
+                        title={{id: t('generic_icons.previous'), defaultMessage: 'Previous Icon'}}
+                    />
                     <FormattedMessage
                         id='admin.logs.prev'
                         defaultMessage='Previous'

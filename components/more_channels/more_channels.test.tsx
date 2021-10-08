@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
@@ -20,7 +20,7 @@ jest.mock('utils/browser_history', () => {
     };
 });
 
-jest.useFakeTimers();
+jest.useFakeTimers('legacy');
 
 describe('components/MoreChannels', () => {
     const searchResults = {
@@ -92,7 +92,7 @@ describe('components/MoreChannels', () => {
     };
 
     test('should match snapshot and state', () => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
 
@@ -110,7 +110,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should match state on handleHide', () => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
         wrapper.setState({show: true});
@@ -120,7 +120,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should call closeModal on handleExit', () => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
 
@@ -129,10 +129,10 @@ describe('components/MoreChannels', () => {
     });
 
     test('should match state on onChange', () => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
-        wrapper.setState({searchedChannels: [{id: 'other_channel_id'}]});
+        wrapper.setState({searchedChannels: [TestHelper.getChannelMock({id: 'other_channel_id'})]});
 
         wrapper.instance().onChange(true);
         expect(wrapper.state('searchedChannels')).toEqual([]);
@@ -144,7 +144,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should call props.getChannels on nextPage', () => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
 
@@ -179,7 +179,7 @@ describe('components/MoreChannels', () => {
             },
         };
 
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...props}/>,
         );
 
@@ -209,7 +209,7 @@ describe('components/MoreChannels', () => {
             },
         };
 
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...props}/>,
         );
 
@@ -226,7 +226,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should not perform a search if term is empty', () => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
 
@@ -241,7 +241,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should handle a failed search', (done) => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
 
@@ -269,7 +269,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should perform search and set the correct state', (done) => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
 
@@ -295,7 +295,7 @@ describe('components/MoreChannels', () => {
     });
 
     test('should perform search on archived channels and set the correct state', (done) => {
-        const wrapper: ShallowWrapper<any, any, MoreChannels> = shallow(
+        const wrapper = shallow<MoreChannels>(
             <MoreChannels {...baseProps}/>,
         );
 

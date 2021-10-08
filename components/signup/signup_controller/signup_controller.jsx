@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
+import {isEmpty} from 'lodash';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
@@ -39,6 +42,8 @@ export default class SignupController extends React.PureComponent {
         ldapLoginFieldName: PropTypes.string.isRequired,
         openidButtonText: PropTypes.string,
         openidButtonColor: PropTypes.string,
+        subscriptionStats: PropTypes.object,
+        isCloud: PropTypes.bool,
         actions: PropTypes.shape({
             removeGlobalItem: PropTypes.func.isRequired,
             getTeamInviteInfo: PropTypes.func.isRequired,
@@ -90,7 +95,15 @@ export default class SignupController extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.removeGlobalItem('team');
-        if (this.props.location.search) {
+        let isFreeTierWithNoFreeSeats = false;
+        if (!isEmpty(this.props.subscriptionStats)) {
+            const {is_paid_tier: isPaidTier, remaining_seats: remainingSeats} = this.props.subscriptionStats;
+            isFreeTierWithNoFreeSeats = isPaidTier === 'false' && remainingSeats <= 0;
+        }
+
+        if (this.props.isCloud && isFreeTierWithNoFreeSeats) {
+            browserHistory.push('/error?type=max_free_users_reached');
+        } else if (this.props.location.search) {
             const params = new URLSearchParams(this.props.location.search);
             const token = params.get('t') || '';
             const inviteId = params.get('id') || '';

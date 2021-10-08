@@ -17,6 +17,7 @@ describe('components/ChannelHeader', () => {
             unfavoriteChannel: jest.fn(),
             showFlaggedPosts: jest.fn(),
             showPinnedPosts: jest.fn(),
+            showChannelFiles: jest.fn(),
             showMentions: jest.fn(),
             openRHSSearch: jest.fn(),
             closeRightHandSide: jest.fn(),
@@ -26,6 +27,7 @@ describe('components/ChannelHeader', () => {
             updateChannelNotifyProps: jest.fn(),
             goToLastViewedChannel: jest.fn(),
         },
+        showChannelFilesButton: false,
         teamUrl: 'team_url',
         teamId: 'team_id',
         channel: {},
@@ -35,6 +37,8 @@ describe('components/ChannelHeader', () => {
         penultimateViewedChannelName: '',
         teammateNameDisplaySetting: '',
         currentRelativeTeamUrl: '',
+        isCustomStatusEnabled: false,
+        isCustomStatusExpired: false,
     };
 
     const populatedProps = {
@@ -111,6 +115,22 @@ describe('components/ChannelHeader', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should render shared view', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                ...populatedProps.channel,
+                shared: true,
+                type: Constants.OPEN_CHANNEL,
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should render correct menu when muted', () => {
         const props = {
             ...populatedProps,
@@ -143,6 +163,32 @@ describe('components/ChannelHeader', () => {
         const props = {
             ...populatedProps,
             rhsState: RHSStates.PIN,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render active channel files', () => {
+        const props = {
+            ...populatedProps,
+            rhsState: RHSStates.CHANNEL_FILES,
+            showChannelFilesButton: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render not active channel files', () => {
+        const props = {
+            ...populatedProps,
+            rhsState: RHSStates.CHANNEL_PIN,
+            showChannelFilesButton: true,
         };
 
         const wrapper = shallowWithIntl(
@@ -238,5 +284,56 @@ describe('components/ChannelHeader', () => {
         expect(wrapper.containsMatchingElement(
             <GuestBadge show={true}/>,
         )).toEqual(true);
+    });
+
+    test('should render properly when custom status is set', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'offline',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
+            },
+            isCustomStatusEnabled: true,
+            customStatus: {
+                emoji: 'calender',
+                text: 'In a meeting',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render properly when custom status is expired', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'offline',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
+            },
+            isCustomStatusEnabled: true,
+            isCustomStatusExpired: true,
+            customStatus: {
+                emoji: 'calender',
+                text: 'In a meeting',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

@@ -14,9 +14,9 @@ import {getRandomId} from '../../utils';
 
 describe('Search', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
 
             // # Post several messages of similar format to add complexity in searching
             Cypress._.times(5, () => {
@@ -25,7 +25,7 @@ describe('Search', () => {
         });
     });
 
-    it('S14548 Search results Right-Hand-Side: Post a comment', () => {
+    it('MM-T373 Search results Right-Hand-Side: Post a comment', () => {
         const message = `asparagus${getRandomId()}`;
         const comment = 'Replying to asparagus';
 
@@ -46,13 +46,12 @@ describe('Search', () => {
             cy.clickPostCommentIcon(postId, 'SEARCH');
 
             // # Reply with a comment
-            cy.get('#reply_textbox').type(`${comment}{enter}`);
+            cy.postMessageReplyInRHS(comment);
 
-            // * Verify sidebar is still open
-            cy.get('#rhsContainer').should('be.visible');
-
-            // * Verify that the original message is in the RHS
-            cy.get('#rhsContainer').find(postMessageText).should('have.text', `${message}`);
+            // * Verify sidebar is still open and the original message is in the RHS
+            cy.uiGetRHS().
+                find(postMessageText).
+                should('have.text', `${message}`);
         });
 
         // # Get the comment id
@@ -61,7 +60,7 @@ describe('Search', () => {
             const mainCommentText = `#postMessageText_${commentId}`;
 
             // * Verify comment in RHS
-            cy.get('#rhsContainer').find(rhsCommentText).should('have.text', `${comment}`);
+            cy.uiGetRHS().find(rhsCommentText).should('have.text', `${comment}`);
 
             // * Verify comment main thread
             cy.get('#postListContent').find(mainCommentText).should('have.text', `${comment}`);

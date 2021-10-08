@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+
 import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-
-import React from 'react';
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
@@ -13,13 +14,17 @@ import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
 
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
+import EmbeddedBindings from '../embedded_bindings/embedded_bindings';
+import {TextFormattingOptions} from 'utils/text_formatting';
+import PostMessagePreview from 'components/post_view/post_message_preview';
 
 export type Props = {
     post: Post;
     pluginPostWillRenderEmbedComponents?: PostWillRenderEmbedPluginComponent[];
     children?: JSX.Element;
     isEmbedVisible?: boolean;
-    options?: unknown;
+    options?: Partial<TextFormattingOptions>;
+    appsEnabled: boolean;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -54,7 +59,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 return this.props.isEmbedVisible && <Component embed={embed}/>;
             }
         }
-
         switch (embed.type) {
         case 'image':
             if (!this.props.isEmbedVisible) {
@@ -109,7 +113,15 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                     toggleEmbedVisibility={this.toggleEmbedVisibility}
                 />
             );
-
+        case 'permalink':
+            if (embed.data && 'post_id' in embed.data && embed.data.post_id) {
+                return (
+                    <PostMessagePreview
+                        metadata={embed.data}
+                    />
+                );
+            }
+            return null;
         default:
             return null;
         }
@@ -130,6 +142,21 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     render() {
         const embed = this.getEmbed();
 
+        if (this.props.appsEnabled) {
+            if (hasValidEmbeddedBinding(this.props.post.props)) {
+                // TODO Put some log / message if the form is not valid?
+                return (
+                    <React.Fragment>
+                        {this.props.children}
+                        <EmbeddedBindings
+                            embeds={this.props.post.props.app_bindings}
+                            post={this.props.post}
+                        />
+                    </React.Fragment>
+                );
+            }
+        }
+
         if (embed) {
             const toggleable = this.isEmbedToggleable(embed);
             const prependToggle = (/^\s*https?:\/\/.*$/).test(this.props.post.message);
@@ -146,4 +173,22 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
 
         return this.props.children;
     }
+}
+
+function hasValidEmbeddedBinding(props: Record<string, any>) {
+    if (!props) {
+        return false;
+    }
+
+    if (!props.app_bindings) {
+        return false;
+    }
+
+    const embeds = props.app_bindings as AppBinding[];
+
+    if (!embeds.length) {
+        return false;
+    }
+
+    return true;
 }

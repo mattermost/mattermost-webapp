@@ -35,6 +35,7 @@ import {getChannelByName} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {loadCustomStatusEmojisForPostList} from 'actions/emoji_actions';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
@@ -85,7 +86,7 @@ export function switchToChannel(channel) {
         const state = getState();
         const teamUrl = getCurrentRelativeTeamUrl(state);
 
-        if (channel.fake || channel.userId) {
+        if (channel.userId) {
             const username = channel.userId ? channel.name : channel.display_name;
             const user = getUserByUsername(state, username);
             if (!user) {
@@ -230,8 +231,9 @@ export function loadUnreads(channelId, prefetch = false) {
                 atOldestmessage: false,
             };
         }
-        const actions = [];
+        dispatch(loadCustomStatusEmojisForPostList(data.posts));
 
+        const actions = [];
         actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,
@@ -345,6 +347,8 @@ export function loadPosts({channelId, postId, type}) {
                 moreToLoad: true,
             };
         }
+
+        dispatch(loadCustomStatusEmojisForPostList(data.posts));
         actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,

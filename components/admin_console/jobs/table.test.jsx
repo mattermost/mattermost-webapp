@@ -160,4 +160,28 @@ describe('components/admin_console/jobs/table', () => {
         const headers = thead.find('th');
         expect(headers).toHaveLength(cols.length);
     });
+
+    test('hide create job button', () => {
+        const wrapper = shallowWithIntl(
+            <JobTable
+                {...baseProps}
+                hideJobCreateButton={true}
+            />,
+        );
+
+        const button = wrapper.find('button.btn-default');
+        expect(button).toHaveLength(0);
+    });
+
+    test('add custom class', () => {
+        const wrapper = shallowWithIntl(
+            <JobTable
+                {...baseProps}
+                className={'job-table__data-retention'}
+            />,
+        );
+
+        const element = wrapper.find('.job-table__data-retention');
+        expect(element).toHaveLength(1);
+    });
 });

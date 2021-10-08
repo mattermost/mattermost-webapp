@@ -2,12 +2,12 @@
 
 exports[`components/ToggleModalButtonRedux component should match snapshot 1`] = `
 <ModalToggleButtonRedux
-  accessibilityLabel="Delete Channel"
   actions={
     Object {
       "openModal": [Function],
     }
   }
+  ariaLabel="Delete Channel"
   className=""
   dialogProps={Object {}}
   dialogType={[Function]}
@@ -16,10 +16,13 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
     Object {
       "defaultFormats": Object {},
       "defaultLocale": "en",
+      "defaultRichTextElements": undefined,
       "formatDate": [Function],
+      "formatDateTimeRange": [Function],
       "formatDateToParts": [Function],
       "formatDisplayName": [Function],
       "formatList": [Function],
+      "formatListToParts": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
       "formatNumberToParts": [Function],

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import Menu from 'components/widgets/menu/menu';
@@ -23,8 +24,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () =
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,

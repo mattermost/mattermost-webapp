@@ -4,8 +4,9 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -26,9 +27,10 @@ const MAX_SELECTABLE_VALUES = 20;
 
 type UserProfileValue = Value & UserProfile;
 
-type Props = {
+export type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
     profilesNotInCurrentTeam: UserProfileValue[];
+    userStatuses: RelationOneToOne<UserProfile, string>;
     onHide: () => void;
     channel: Channel;
 
@@ -46,6 +48,7 @@ type Props = {
         addUsersToChannel: any;
         getProfilesNotInChannel: any;
         getTeamStats: (teamId: string) => ActionFunc;
+        loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{data: boolean}>;
         searchProfiles: (term: string, options: any) => ActionFunc;
     };
 }
@@ -59,7 +62,7 @@ type State = {
     inviteError?: string;
 }
 
-export default class ChannelInviteModal<T extends Value> extends React.PureComponent<Props, State> {
+export default class ChannelInviteModal extends React.PureComponent<Props, State> {
     private searchTimeoutId = 0;
     private selectedItemRef = React.createRef<HTMLDivElement>();
 
@@ -82,7 +85,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
     }
 
     private addValue = (value: UserProfileValue): void => {
-        const values: Array<UserProfileValue> = Object.assign([], this.state.values);
+        const values: UserProfileValue[] = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
         }
@@ -95,10 +98,12 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
+        this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
     }
 
     public onHide = (): void => {
         this.setState({show: false});
+        this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
     };
 
     public handleInviteError = (err: any): void => {
@@ -127,9 +132,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 this.props.channel.team_id,
                 this.props.channel.id,
                 this.props.channel.group_constrained,
-                page + 1, USERS_PER_PAGE).then(() => {
-                this.setUsersLoadingState(false);
-            });
+                page + 1, USERS_PER_PAGE).then(() => this.setUsersLoadingState(false));
         }
     };
 
@@ -173,13 +176,30 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             term,
         });
 
+        if (term) {
+            this.setUsersLoadingState(true);
+            this.searchTimeoutId = window.setTimeout(
+                async () => {
+                    const options = {
+                        team_id: this.props.channel.team_id,
+                        not_in_channel_id: this.props.channel.id,
+                        group_constrained: this.props.channel.group_constrained,
+                    };
+                    await this.props.actions.searchProfiles(term, options);
+                    this.setUsersLoadingState(false);
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
+            );
+        } else {
+            return;
+        }
+
         this.searchTimeoutId = window.setTimeout(
             async () => {
                 if (!term) {
                     return;
                 }
 
-                this.setUsersLoadingState(true);
                 const options = {
                     team_id: this.props.channel.team_id,
                     not_in_channel_id: this.props.channel.id,
@@ -199,7 +219,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         return option.username;
     }
 
-    private renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
+    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -215,6 +235,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
+                    status={this.props.userStatuses[option.id]}
                     size='md'
                     username={option.username}
                 />
@@ -240,24 +261,22 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         );
     };
 
-    private renderValue = (props: { data: { username: string } }) => {
-        return props.data.username;
-    }
-
     public render = (): JSX.Element => {
         let inviteError = null;
         if (this.state.inviteError) {
             inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
         }
 
-        const numRemainingText = (
-            <FormattedMessage
-                id='multiselect.numPeopleRemaining'
-                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
-                values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
-                }}
-            />
+        const header = (
+            <h1>
+                <FormattedMessage
+                    id='channel_invite.addNewMembers'
+                    defaultMessage='Add people to {channel}'
+                    values={{
+                        channel: this.props.channel.display_name,
+                    }}
+                />
+            </h1>
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
@@ -281,8 +300,8 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 optionRenderer={this.renderOption}
                 selectedItemRef={this.selectedItemRef}
                 values={this.state.values}
-                valueRenderer={this.renderValue}
                 ariaLabelRenderer={this.renderAriaLabel}
+                saveButtonPosition={'bottom'}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -290,42 +309,40 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 handleAdd={this.addValue}
                 handleSubmit={this.handleSubmit}
                 maxValues={MAX_SELECTABLE_VALUES}
-                numRemainingText={numRemainingText}
                 buttonSubmitText={buttonSubmitText}
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
-                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
+                valueWithImage={true}
             />
         );
 
         return (
             <Modal
                 id='addUsersToChannelModal'
-                dialogClassName='a11y__modal more-modal'
+                dialogClassName='a11y__modal channel-invite'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 role='dialog'
                 aria-labelledby='channelInviteModalLabel'
             >
-                <Modal.Header closeButton={true}>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='channelInviteModalLabel'
-                    >
-                        <FormattedMessage
-                            id='channel_invite.addNewMembers'
-                            defaultMessage='Add New Members to '
-                        />
-                        <span className='name'>{this.props.channel.display_name}</span>
-                    </Modal.Title>
-                </Modal.Header>
+                <Modal.Header
+                    id='channelInviteModalLabel'
+                    closeButton={true}
+                />
                 <Modal.Body
                     role='application'
+                    className='overflow--visible'
                 >
+                    <div className='channel-invite__header'>
+                        {header}
+                    </div>
                     {inviteError}
-                    {content}
+                    <div className='channel-invite__content'>
+                        {content}
+                    </div>
                 </Modal.Body>
             </Modal>
         );

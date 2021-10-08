@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/threading/global_threads/thread_list should match snapshot 1`] = `
+<div
+  className="ThreadList"
+>
+  <Header
+    heading={
+      <React.Fragment>
+        <Memo(Button)
+          className="Button___large Margined"
+          isActive={true}
+          onClick={[Function]}
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="All your threads"
+            id="threading.filters.allThreads"
+          />
+        </Memo(Button)>
+        <Memo(Button)
+          className="Button___large Margined"
+          hasDot={true}
+          isActive={false}
+          onClick={[Function]}
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Unreads"
+            id="threading.filters.unreads"
+          />
+        </Memo(Button)>
+      </React.Fragment>
+    }
+    right={
+      <div
+        className="right-anchor"
+      >
+        <SimpleTooltip
+          content="Mark all as read"
+          id="threadListMarkRead"
+        >
+          <Memo(Button)
+            className="Button___large Button___icon"
+            onClick={[Function]}
+          >
+            <span
+              className="Icon"
+            >
+              <i
+                className="icon-playlist-check"
+              />
+            </span>
+          </Memo(Button)>
+        </SimpleTooltip>
+      </div>
+    }
+  />
+  <div
+    className="threads"
+  >
+    <Memo(VirtualizedThreadList)
+      ids={
+        Array [
+          "1",
+          "2",
+          "3",
+        ]
+      }
+      key="threads_list_"
+      loadMoreItems={[Function]}
+      total={0}
+    />
+  </div>
+</div>
+`;

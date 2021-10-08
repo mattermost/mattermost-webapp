@@ -12,25 +12,25 @@
     display: inline-block;
     width: 24px;
     height: 24px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
     border-radius: 2px;
-    border:  1px solid rgba(var(--center-channel-color-rgb), 0.32);
     cursor: pointer;
 }
 
 .color-pad {
-    border-radius: 0 2px 2px 0;
-    background: v(center-channel-bg) !important;
-    border-color: rgba(var(--center-channel-color-rgb), 0.32) !important;
     padding: 5px;
+    border-color: rgba(var(--center-channel-color-rgb), 0.32) !important;
+    background: v(center-channel-bg) !important;
+    border-radius: 0 2px 2px 0;
     line-height: 0;
 }
 
 .color-popover {
     position: absolute;
+    z-index: 12;
     top: 100%;
     right: 0;
     padding-top: 8px;
-    z-index: 12;
 }
 
 /* hiding hex input from color picker */

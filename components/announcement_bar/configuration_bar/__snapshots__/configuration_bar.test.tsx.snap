@@ -3,15 +3,38 @@
 exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
 <Connect(AnnouncementBar)
   message={
-    <injectIntl(FormattedMarkdownMessage)
-      defaultMessage="Enterprise license is expired and some features may be disabled. [Please renew](!{link})."
-      id="announcement_bar.error.license_expired"
-      values={
-        Object {
-          "link": "https://mattermost.com/renew/?id=1234&user_count=100",
+    <React.Fragment>
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Enterprise license is expired and some features may be disabled."
+          id="announcement_bar.error.license_expired"
+        />
+      </React.Fragment>
+      <Memo(Connect(RenewalLink))
+        telemetryInfo={
+          Object {
+            "error": "renew_license_banner_fail",
+            "success": "renew_license_banner_success",
+          }
         }
-      }
-    />
+      />
+    </React.Fragment>
+  }
+  tooltipMsg={
+    <React.Fragment>
+      <img
+        className="advisor-icon"
+        src={null}
+      />
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Enterprise license is expired and some features may be disabled."
+        id="announcement_bar.error.license_expired"
+      />
+    </React.Fragment>
   }
   type="critical"
 />
@@ -20,15 +43,38 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
 exports[`components/ConfigurationBar should match snapshot, expired, in grace period 1`] = `
 <Connect(AnnouncementBar)
   message={
-    <injectIntl(FormattedMarkdownMessage)
-      defaultMessage="Enterprise license is expired and some features may be disabled. [Please renew](!{link})."
-      id="announcement_bar.error.license_expired"
-      values={
-        Object {
-          "link": "https://mattermost.com/renew/?id=1234&user_count=100",
+    <React.Fragment>
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Enterprise license is expired and some features may be disabled."
+          id="announcement_bar.error.license_expired"
+        />
+      </React.Fragment>
+      <Memo(Connect(RenewalLink))
+        telemetryInfo={
+          Object {
+            "error": "renew_license_banner_fail",
+            "success": "renew_license_banner_success",
+          }
         }
-      }
-    />
+      />
+    </React.Fragment>
+  }
+  tooltipMsg={
+    <React.Fragment>
+      <img
+        className="advisor-icon"
+        src={null}
+      />
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Enterprise license is expired and some features may be disabled."
+        id="announcement_bar.error.license_expired"
+      />
+    </React.Fragment>
   }
   type="critical"
 />
@@ -37,10 +83,16 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
 exports[`components/ConfigurationBar should match snapshot, expired, regular user 1`] = `
 <Connect(AnnouncementBar)
   message={
-    <FormattedMessage
-      defaultMessage="Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details."
-      id="announcement_bar.error.past_grace"
-    />
+    <React.Fragment>
+      <img
+        className="advisor-icon"
+        src={null}
+      />
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details."
+        id="announcement_bar.error.past_grace"
+      />
+    </React.Fragment>
   }
   type="critical"
 />

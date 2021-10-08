@@ -24,15 +24,23 @@ describe('Feature discovery', () => {
         });
     };
 
-    it('MM-25000 - LDAP', () => {
-        cy.get('li').contains('AD/LDAP').click();
-        cy.get("div[data-testid='featureDiscovery_title']").should('contain', 'LDAP');
-        testCallsToAction();
-    });
-
-    it('MM-25000 - SAML', () => {
-        cy.get('li').contains('SAML 2.0').click();
-        cy.get("div[data-testid='featureDiscovery_title']").should('contain', 'SAML');
-        testCallsToAction();
+    it('MM-T4035 - Make Sure All Feature Discoveries Exist', () => {
+        [
+            {sidebarName: 'AD/LDAP', featureDiscoveryTitle: 'LDAP'},
+            {sidebarName: 'SAML 2.0', featureDiscoveryTitle: 'SAML'},
+            {sidebarName: 'OpenID Connect', featureDiscoveryTitle: 'OpenID Connect'},
+            {sidebarName: 'Groups', featureDiscoveryTitle: 'Active Directory/LDAP groups'},
+            {sidebarName: 'Compliance Export', featureDiscoveryTitle: 'compliance exports'},
+            {sidebarName: 'System Roles', featureDiscoveryTitle: 'controlled access to the System Console'},
+            {sidebarName: 'Permissions', featureDiscoveryTitle: 'role-based permissions'},
+            {sidebarName: 'Channels', featureDiscoveryTitle: 'read-only channels'},
+            {sidebarName: 'Custom Terms of Service', featureDiscoveryTitle: 'custom terms of service'},
+            {sidebarName: 'Announcement Banner', featureDiscoveryTitle: 'custom announcement banners'},
+            {sidebarName: 'Guest Access', featureDiscoveryTitle: 'guest accounts'},
+        ].forEach(({sidebarName, featureDiscoveryTitle}) => {
+            cy.get('li').contains(sidebarName).click();
+            cy.get("div[data-testid='featureDiscovery_title']").should('contain', featureDiscoveryTitle);
+            testCallsToAction();
+        });
     });
 });

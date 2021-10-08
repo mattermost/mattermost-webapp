@@ -4,21 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {trackEvent} from 'actions/telemetry_actions.jsx';
-
 import GenericModal from 'components/generic_modal';
 import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 
 import ProductNoticesModal from './product_notices_modal';
 
 jest.mock('utils/user_agent');
-jest.mock('actions/telemetry_actions.jsx', () => {
-    const original = jest.requireActual('actions/telemetry_actions.jsx');
-    return {
-        ...original,
-        trackEvent: jest.fn(),
-    };
-});
 
 describe('ProductNoticesModal', () => {
     const noticesData = [{
@@ -108,7 +99,6 @@ describe('ProductNoticesModal', () => {
         await baseProps.actions.getInProductNotices();
         wrapper.setState({noticesData: [noticesData[1]]});
         wrapper.find(GenericModal).prop('handleConfirm')?.();
-        expect(trackEvent).toHaveBeenCalledWith('ui', 'notice_click_123');
         expect(window.open).toHaveBeenCalledWith(noticesData[1].actionParam, '_blank');
     });
 
@@ -182,12 +172,5 @@ describe('ProductNoticesModal', () => {
         });
 
         expect(baseProps.actions.getInProductNotices).toHaveBeenCalledTimes(1);
-    });
-
-    test('Should call for trackEvent on click of action button', async () => {
-        const wrapper = shallow(<ProductNoticesModal {...baseProps}/>);
-        await baseProps.actions.getInProductNotices();
-        wrapper.find('.actionButton').simulate('click');
-        expect(trackEvent).toHaveBeenCalledWith('ui', 'notice_click_124');
     });
 });

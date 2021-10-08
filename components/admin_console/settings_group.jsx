@@ -9,6 +9,8 @@ export default class SettingsGroup extends React.PureComponent {
         return {
             show: PropTypes.bool.isRequired,
             header: PropTypes.node,
+            title: PropTypes.node,
+            subtitle: PropTypes.node,
             children: PropTypes.node,
             container: PropTypes.bool,
         };
@@ -43,10 +45,39 @@ export default class SettingsGroup extends React.PureComponent {
             );
         }
 
+        let title = null;
+        if (!this.props.header && this.props.title) {
+            title = (
+                <div className={'section-title'}>
+                    {this.props.title}
+                </div>
+            );
+        }
+
+        let subtitle = null;
+        if (!this.props.header && this.props.subtitle) {
+            subtitle = (
+                <div className={'section-subtitle'}>
+                    {this.props.subtitle}
+                </div>
+            );
+        }
+
+        let sectionHeader = null;
+        if (title || subtitle) {
+            sectionHeader = (
+                <div className={'section-header'}>
+                    {title}
+                    {subtitle}
+                </div>
+            );
+        }
+
         return (
             <div className={wrapperClass}>
                 <div className={contentClass}>
                     {header}
+                    {sectionHeader}
                     {this.props.children}
                 </div>
             </div>

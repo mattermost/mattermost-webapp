@@ -8,36 +8,28 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @integrations
+// Group: @integrations @plugin @not_cloud
+
+import {agendaPlugin} from '../../utils/plugins';
 
 describe('Integrations', () => {
-    let testTeam;
-    let testChannel;
-
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         // # Login as test user and visit the newly created test channel
         cy.apiInitSetup().then(({team, user, channel}) => {
-            testTeam = team;
-            testChannel = channel;
-
-            // # Set up and enable Agenda plugin required for test
-            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-agenda/releases/download/v0.2.1/com.mattermost.agenda-0.2.1.tar.gz', true);
-            cy.apiEnablePluginById('com.mattermost.agenda');
+            // # Upload and enable Agenda plugin required for test
+            cy.apiUploadAndEnablePlugin(agendaPlugin);
 
             // # Login as regular user and visit test channel
             cy.apiLogin(user);
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
-    after(() => {
-        // # Clean up - remove Agenda plugin
-        cy.apiAdminLogin();
-        cy.apiRemovePluginById('com.mattermost.agenda');
-    });
-
     it('MM-T2835 Slash command help stays visible for plugin', () => {
-        // * Suggestion List is not visible
+        // * Suggestion list is not visible
         cy.get('#suggestionList').should('not.exist').then(() => {
             // * Suggestion list is visible after typing "/agenda " with space character
             cy.findByTestId('post_textbox').type('/agenda ');

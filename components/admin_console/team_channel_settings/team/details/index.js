@@ -3,9 +3,11 @@
 
 import {bindActionCreators} from 'redux';
 
+import {connect} from 'react-redux';
+
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {getTeam as fetchTeam, membersMinusGroupMembers, patchTeam, removeUserFromTeam, updateTeamMemberSchemeRoles, addUserToTeam} from 'mattermost-redux/actions/teams';
+import {getTeam as fetchTeam, membersMinusGroupMembers, patchTeam, removeUserFromTeam, updateTeamMemberSchemeRoles, addUserToTeam, deleteTeam, unarchiveTeam} from 'mattermost-redux/actions/teams';
 import {getAllGroups, getGroupsAssociatedToTeam} from 'mattermost-redux/selectors/entities/groups';
 
 import {
@@ -14,8 +16,6 @@ import {
     unlinkGroupSyncable,
     patchGroupSyncable,
 } from 'mattermost-redux/actions/groups';
-
-import {connect} from 'react-redux';
 
 import {setNavigationBlocked} from 'actions/admin_actions';
 
@@ -27,12 +27,14 @@ function mapStateToProps(state, props) {
     const groups = getGroupsAssociatedToTeam(state, teamID);
     const allGroups = getAllGroups(state, teamID);
     const totalGroups = groups.length;
+    const isLicensedForLDAPGroups = state.entities.general.license.LDAPGroups === 'true';
     return {
         team,
         groups,
         totalGroups,
         allGroups,
         teamID,
+        isLicensedForLDAPGroups,
     };
 }
 
@@ -50,6 +52,8 @@ function mapDispatchToProps(dispatch) {
             removeUserFromTeam,
             addUserToTeam,
             updateTeamMemberSchemeRoles,
+            deleteTeam,
+            unarchiveTeam,
         }, dispatch),
     };
 }

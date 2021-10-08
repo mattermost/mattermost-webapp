@@ -1,35 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
+exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
 <Memo(Avatars)
   size="xl"
-  users={
+  userIds={
     Array [
-      Object {
-        "name": "Jesus Espino",
-        "url": "test-url-1",
-        "username": "jesus.espino",
-      },
-      Object {
-        "name": "Johnny Depp",
-        "url": "test-url-2",
-        "username": "johnny.depp",
-      },
-      Object {
-        "name": "Bilbo Baggins",
-        "url": "test-url-3",
-        "username": "bilbo.baggins",
-      },
-      Object {
-        "name": "Anthony Michael Hall",
-        "url": "test-url-4",
-        "username": "michael.hall",
-      },
-      Object {
-        "name": "Kathy Baker",
-        "url": "test-url-5",
-        "username": "kathy.baker",
-      },
+      "1",
+      "6",
+      "7",
+      "2",
+      "8",
+      "9",
     ]
   }
 >
@@ -37,35 +18,29 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
     className="Avatars Avatars___xl"
     onMouseLeave={[Function]}
   >
-    <Memo(SimpleTooltip)
-      animation={true}
-      content="Jesus Espino"
-      id="name-jesus.espino"
-      key="test-url-1"
-      onEntered={[Function]}
+    <UserAvatar
+      key="1"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="1"
     >
-      <OverlayTrigger
+      <SimpleTooltip
         animation={true}
-        defaultOverlayShown={false}
-        delayShow={500}
+        content="first.last1"
+        id="name-1"
         onEntered={[Function]}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="name-jesus.espino"
-            placement="top"
-          >
-            Jesus Espino
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
       >
         <OverlayTrigger
           animation={true}
@@ -73,47 +48,14 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
           delayShow={500}
           onEntered={[Function]}
           overlay={
-            <OverlayWrapper
+            <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-jesus.espino"
-              intl={
-                Object {
-                  "defaultFormats": Object {},
-                  "defaultLocale": "en",
-                  "formatDate": [Function],
-                  "formatDateToParts": [Function],
-                  "formatDisplayName": [Function],
-                  "formatList": [Function],
-                  "formatMessage": [Function],
-                  "formatNumber": [Function],
-                  "formatNumberToParts": [Function],
-                  "formatPlural": [Function],
-                  "formatRelativeTime": [Function],
-                  "formatTime": [Function],
-                  "formatTimeToParts": [Function],
-                  "formats": Object {},
-                  "formatters": Object {
-                    "getDateTimeFormat": [Function],
-                    "getDisplayNames": [Function],
-                    "getListFormat": [Function],
-                    "getMessageFormat": [Function],
-                    "getNumberFormat": [Function],
-                    "getPluralRules": [Function],
-                    "getRelativeTimeFormat": [Function],
-                  },
-                  "locale": "en",
-                  "messages": Object {},
-                  "onError": [Function],
-                  "textComponent": "span",
-                  "timeZone": "Etc/UTC",
-                  "wrapRichTextChunksInFragment": undefined,
-                }
-              }
+              id="name-1"
               placement="top"
             >
-              Jesus Espino
-            </OverlayWrapper>
+              first.last1
+            </Tooltip>
           }
           placement="top"
           trigger={
@@ -123,61 +65,124 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             ]
           }
         >
-          <Memo(Avatar)
-            onBlur={[Function]}
-            onClick={null}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            size="xl"
-            tabIndex={0}
-            url="test-url-1"
-            username="jesus.espino"
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-1"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last1
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
           >
-            <img
-              alt="jesus.espino profile image"
-              className="Avatar Avatar-xl"
+            <Memo(Avatar)
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
-              src="test-url-1"
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
-            />
-          </Memo(Avatar)>
+              url="/api/v4/users/1/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
         </OverlayTrigger>
-      </OverlayTrigger>
-    </Memo(SimpleTooltip)>
-    <Memo(SimpleTooltip)
-      animation={true}
-      content="Johnny Depp"
-      id="name-johnny.depp"
-      key="test-url-2"
-      onEntered={[Function]}
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="6"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="6"
     >
-      <OverlayTrigger
+      <SimpleTooltip
         animation={true}
-        defaultOverlayShown={false}
-        delayShow={500}
+        content="Someone"
+        id="name-6"
         onEntered={[Function]}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="name-johnny.depp"
-            placement="top"
-          >
-            Johnny Depp
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
       >
         <OverlayTrigger
           animation={true}
@@ -185,47 +190,14 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
           delayShow={500}
           onEntered={[Function]}
           overlay={
-            <OverlayWrapper
+            <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-johnny.depp"
-              intl={
-                Object {
-                  "defaultFormats": Object {},
-                  "defaultLocale": "en",
-                  "formatDate": [Function],
-                  "formatDateToParts": [Function],
-                  "formatDisplayName": [Function],
-                  "formatList": [Function],
-                  "formatMessage": [Function],
-                  "formatNumber": [Function],
-                  "formatNumberToParts": [Function],
-                  "formatPlural": [Function],
-                  "formatRelativeTime": [Function],
-                  "formatTime": [Function],
-                  "formatTimeToParts": [Function],
-                  "formats": Object {},
-                  "formatters": Object {
-                    "getDateTimeFormat": [Function],
-                    "getDisplayNames": [Function],
-                    "getListFormat": [Function],
-                    "getMessageFormat": [Function],
-                    "getNumberFormat": [Function],
-                    "getPluralRules": [Function],
-                    "getRelativeTimeFormat": [Function],
-                  },
-                  "locale": "en",
-                  "messages": Object {},
-                  "onError": [Function],
-                  "textComponent": "span",
-                  "timeZone": "Etc/UTC",
-                  "wrapRichTextChunksInFragment": undefined,
-                }
-              }
+              id="name-6"
               placement="top"
             >
-              Johnny Depp
-            </OverlayWrapper>
+              Someone
+            </Tooltip>
           }
           placement="top"
           trigger={
@@ -235,61 +207,124 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             ]
           }
         >
-          <Memo(Avatar)
-            onBlur={[Function]}
-            onClick={null}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            size="xl"
-            tabIndex={0}
-            url="test-url-2"
-            username="johnny.depp"
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-6"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                Someone
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
           >
-            <img
-              alt="johnny.depp profile image"
-              className="Avatar Avatar-xl"
+            <Memo(Avatar)
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
-              src="test-url-2"
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
-            />
-          </Memo(Avatar)>
+              url="/api/v4/users/6/image?_=0"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/6/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
         </OverlayTrigger>
-      </OverlayTrigger>
-    </Memo(SimpleTooltip)>
-    <Memo(SimpleTooltip)
-      animation={true}
-      content="Bilbo Baggins"
-      id="name-bilbo.baggins"
-      key="test-url-3"
-      onEntered={[Function]}
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="7"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="7"
     >
-      <OverlayTrigger
+      <SimpleTooltip
         animation={true}
-        defaultOverlayShown={false}
-        delayShow={500}
+        content="Someone"
+        id="name-7"
         onEntered={[Function]}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="name-bilbo.baggins"
-            placement="top"
-          >
-            Bilbo Baggins
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
       >
         <OverlayTrigger
           animation={true}
@@ -297,47 +332,14 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
           delayShow={500}
           onEntered={[Function]}
           overlay={
-            <OverlayWrapper
+            <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-bilbo.baggins"
-              intl={
-                Object {
-                  "defaultFormats": Object {},
-                  "defaultLocale": "en",
-                  "formatDate": [Function],
-                  "formatDateToParts": [Function],
-                  "formatDisplayName": [Function],
-                  "formatList": [Function],
-                  "formatMessage": [Function],
-                  "formatNumber": [Function],
-                  "formatNumberToParts": [Function],
-                  "formatPlural": [Function],
-                  "formatRelativeTime": [Function],
-                  "formatTime": [Function],
-                  "formatTimeToParts": [Function],
-                  "formats": Object {},
-                  "formatters": Object {
-                    "getDateTimeFormat": [Function],
-                    "getDisplayNames": [Function],
-                    "getListFormat": [Function],
-                    "getMessageFormat": [Function],
-                    "getNumberFormat": [Function],
-                    "getPluralRules": [Function],
-                    "getRelativeTimeFormat": [Function],
-                  },
-                  "locale": "en",
-                  "messages": Object {},
-                  "onError": [Function],
-                  "textComponent": "span",
-                  "timeZone": "Etc/UTC",
-                  "wrapRichTextChunksInFragment": undefined,
-                }
-              }
+              id="name-7"
               placement="top"
             >
-              Bilbo Baggins
-            </OverlayWrapper>
+              Someone
+            </Tooltip>
           }
           placement="top"
           trigger={
@@ -347,35 +349,104 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             ]
           }
         >
-          <Memo(Avatar)
-            onBlur={[Function]}
-            onClick={null}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            size="xl"
-            tabIndex={0}
-            url="test-url-3"
-            username="bilbo.baggins"
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-7"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                Someone
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
           >
-            <img
-              alt="bilbo.baggins profile image"
-              className="Avatar Avatar-xl"
+            <Memo(Avatar)
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
-              src="test-url-3"
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
-            />
-          </Memo(Avatar)>
+              url="/api/v4/users/7/image?_=0"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/7/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
         </OverlayTrigger>
-      </OverlayTrigger>
-    </Memo(SimpleTooltip)>
-    <Memo(SimpleTooltip)
+      </SimpleTooltip>
+    </UserAvatar>
+    <SimpleTooltip
       animation={true}
-      content="Anthony Michael Hall, Kathy Baker"
+      content="first.last2, Someone, Someone"
       id="names-overflow"
       onEntered={[Function]}
     >
@@ -391,7 +462,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             id="names-overflow"
             placement="top"
           >
-            Anthony Michael Hall, Kathy Baker
+            first.last2, Someone, Someone
           </Tooltip>
         }
         placement="top"
@@ -416,10 +487,13 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
                 Object {
                   "defaultFormats": Object {},
                   "defaultLocale": "en",
+                  "defaultRichTextElements": undefined,
                   "formatDate": [Function],
+                  "formatDateTimeRange": [Function],
                   "formatDateToParts": [Function],
                   "formatDisplayName": [Function],
                   "formatList": [Function],
+                  "formatListToParts": [Function],
                   "formatMessage": [Function],
                   "formatNumber": [Function],
                   "formatNumberToParts": [Function],
@@ -447,7 +521,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
               }
               placement="top"
             >
-              Anthony Michael Hall, Kathy Baker
+              first.last2, Someone, Someone
             </OverlayWrapper>
           }
           placement="top"
@@ -465,23 +539,33 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             size="xl"
+            style={
+              Object {
+                "background": "rgb(240, 240, 241)",
+              }
+            }
             tabIndex={0}
-            text="+2"
+            text="+3"
           >
             <div
               className="Avatar Avatar-xl Avatar-plain"
-              data-content="+2"
+              data-content="+3"
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
             />
           </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
-    </Memo(SimpleTooltip)>
+    </SimpleTooltip>
   </div>
 </Memo(Avatars)>
 `;
@@ -489,33 +573,13 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
 exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
 <Memo(Avatars)
   size="xl"
-  users={
+  userIds={
     Array [
-      Object {
-        "name": "Jesus Espino",
-        "url": "test-url-1",
-        "username": "jesus.espino",
-      },
-      Object {
-        "name": "Johnny Depp",
-        "url": "test-url-2",
-        "username": "johnny.depp",
-      },
-      Object {
-        "name": "Bilbo Baggins",
-        "url": "test-url-3",
-        "username": "bilbo.baggins",
-      },
-      Object {
-        "name": "Anthony Michael Hall",
-        "url": "test-url-4",
-        "username": "michael.hall",
-      },
-      Object {
-        "name": "Kathy Baker",
-        "url": "test-url-5",
-        "username": "kathy.baker",
-      },
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
     ]
   }
 >
@@ -523,35 +587,29 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     className="Avatars Avatars___xl"
     onMouseLeave={[Function]}
   >
-    <Memo(SimpleTooltip)
-      animation={true}
-      content="Jesus Espino"
-      id="name-jesus.espino"
-      key="test-url-1"
-      onEntered={[Function]}
+    <UserAvatar
+      key="1"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="1"
     >
-      <OverlayTrigger
+      <SimpleTooltip
         animation={true}
-        defaultOverlayShown={false}
-        delayShow={500}
+        content="first.last1"
+        id="name-1"
         onEntered={[Function]}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="name-jesus.espino"
-            placement="top"
-          >
-            Jesus Espino
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
       >
         <OverlayTrigger
           animation={true}
@@ -559,47 +617,14 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           delayShow={500}
           onEntered={[Function]}
           overlay={
-            <OverlayWrapper
+            <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-jesus.espino"
-              intl={
-                Object {
-                  "defaultFormats": Object {},
-                  "defaultLocale": "en",
-                  "formatDate": [Function],
-                  "formatDateToParts": [Function],
-                  "formatDisplayName": [Function],
-                  "formatList": [Function],
-                  "formatMessage": [Function],
-                  "formatNumber": [Function],
-                  "formatNumberToParts": [Function],
-                  "formatPlural": [Function],
-                  "formatRelativeTime": [Function],
-                  "formatTime": [Function],
-                  "formatTimeToParts": [Function],
-                  "formats": Object {},
-                  "formatters": Object {
-                    "getDateTimeFormat": [Function],
-                    "getDisplayNames": [Function],
-                    "getListFormat": [Function],
-                    "getMessageFormat": [Function],
-                    "getNumberFormat": [Function],
-                    "getPluralRules": [Function],
-                    "getRelativeTimeFormat": [Function],
-                  },
-                  "locale": "en",
-                  "messages": Object {},
-                  "onError": [Function],
-                  "textComponent": "span",
-                  "timeZone": "Etc/UTC",
-                  "wrapRichTextChunksInFragment": undefined,
-                }
-              }
+              id="name-1"
               placement="top"
             >
-              Jesus Espino
-            </OverlayWrapper>
+              first.last1
+            </Tooltip>
           }
           placement="top"
           trigger={
@@ -609,61 +634,124 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             ]
           }
         >
-          <Memo(Avatar)
-            onBlur={[Function]}
-            onClick={null}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            size="xl"
-            tabIndex={0}
-            url="test-url-1"
-            username="jesus.espino"
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-1"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last1
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
           >
-            <img
-              alt="jesus.espino profile image"
-              className="Avatar Avatar-xl"
+            <Memo(Avatar)
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
-              src="test-url-1"
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
-            />
-          </Memo(Avatar)>
+              url="/api/v4/users/1/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
         </OverlayTrigger>
-      </OverlayTrigger>
-    </Memo(SimpleTooltip)>
-    <Memo(SimpleTooltip)
-      animation={true}
-      content="Johnny Depp"
-      id="name-johnny.depp"
-      key="test-url-2"
-      onEntered={[Function]}
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="2"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="2"
     >
-      <OverlayTrigger
+      <SimpleTooltip
         animation={true}
-        defaultOverlayShown={false}
-        delayShow={500}
+        content="first.last2"
+        id="name-2"
         onEntered={[Function]}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="name-johnny.depp"
-            placement="top"
-          >
-            Johnny Depp
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
       >
         <OverlayTrigger
           animation={true}
@@ -671,47 +759,14 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           delayShow={500}
           onEntered={[Function]}
           overlay={
-            <OverlayWrapper
+            <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-johnny.depp"
-              intl={
-                Object {
-                  "defaultFormats": Object {},
-                  "defaultLocale": "en",
-                  "formatDate": [Function],
-                  "formatDateToParts": [Function],
-                  "formatDisplayName": [Function],
-                  "formatList": [Function],
-                  "formatMessage": [Function],
-                  "formatNumber": [Function],
-                  "formatNumberToParts": [Function],
-                  "formatPlural": [Function],
-                  "formatRelativeTime": [Function],
-                  "formatTime": [Function],
-                  "formatTimeToParts": [Function],
-                  "formats": Object {},
-                  "formatters": Object {
-                    "getDateTimeFormat": [Function],
-                    "getDisplayNames": [Function],
-                    "getListFormat": [Function],
-                    "getMessageFormat": [Function],
-                    "getNumberFormat": [Function],
-                    "getPluralRules": [Function],
-                    "getRelativeTimeFormat": [Function],
-                  },
-                  "locale": "en",
-                  "messages": Object {},
-                  "onError": [Function],
-                  "textComponent": "span",
-                  "timeZone": "Etc/UTC",
-                  "wrapRichTextChunksInFragment": undefined,
-                }
-              }
+              id="name-2"
               placement="top"
             >
-              Johnny Depp
-            </OverlayWrapper>
+              first.last2
+            </Tooltip>
           }
           placement="top"
           trigger={
@@ -721,61 +776,124 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             ]
           }
         >
-          <Memo(Avatar)
-            onBlur={[Function]}
-            onClick={null}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            size="xl"
-            tabIndex={0}
-            url="test-url-2"
-            username="johnny.depp"
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-2"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last2
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
           >
-            <img
-              alt="johnny.depp profile image"
-              className="Avatar Avatar-xl"
+            <Memo(Avatar)
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
-              src="test-url-2"
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
-            />
-          </Memo(Avatar)>
+              url="/api/v4/users/2/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/2/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
         </OverlayTrigger>
-      </OverlayTrigger>
-    </Memo(SimpleTooltip)>
-    <Memo(SimpleTooltip)
-      animation={true}
-      content="Bilbo Baggins"
-      id="name-bilbo.baggins"
-      key="test-url-3"
-      onEntered={[Function]}
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="3"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="3"
     >
-      <OverlayTrigger
+      <SimpleTooltip
         animation={true}
-        defaultOverlayShown={false}
-        delayShow={500}
+        content="first.last3"
+        id="name-3"
         onEntered={[Function]}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="name-bilbo.baggins"
-            placement="top"
-          >
-            Bilbo Baggins
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
       >
         <OverlayTrigger
           animation={true}
@@ -783,47 +901,14 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           delayShow={500}
           onEntered={[Function]}
           overlay={
-            <OverlayWrapper
+            <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-bilbo.baggins"
-              intl={
-                Object {
-                  "defaultFormats": Object {},
-                  "defaultLocale": "en",
-                  "formatDate": [Function],
-                  "formatDateToParts": [Function],
-                  "formatDisplayName": [Function],
-                  "formatList": [Function],
-                  "formatMessage": [Function],
-                  "formatNumber": [Function],
-                  "formatNumberToParts": [Function],
-                  "formatPlural": [Function],
-                  "formatRelativeTime": [Function],
-                  "formatTime": [Function],
-                  "formatTimeToParts": [Function],
-                  "formats": Object {},
-                  "formatters": Object {
-                    "getDateTimeFormat": [Function],
-                    "getDisplayNames": [Function],
-                    "getListFormat": [Function],
-                    "getMessageFormat": [Function],
-                    "getNumberFormat": [Function],
-                    "getPluralRules": [Function],
-                    "getRelativeTimeFormat": [Function],
-                  },
-                  "locale": "en",
-                  "messages": Object {},
-                  "onError": [Function],
-                  "textComponent": "span",
-                  "timeZone": "Etc/UTC",
-                  "wrapRichTextChunksInFragment": undefined,
-                }
-              }
+              id="name-3"
               placement="top"
             >
-              Bilbo Baggins
-            </OverlayWrapper>
+              first.last3
+            </Tooltip>
           }
           placement="top"
           trigger={
@@ -833,35 +918,104 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             ]
           }
         >
-          <Memo(Avatar)
-            onBlur={[Function]}
-            onClick={null}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            size="xl"
-            tabIndex={0}
-            url="test-url-3"
-            username="bilbo.baggins"
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-3"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last3
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
           >
-            <img
-              alt="bilbo.baggins profile image"
-              className="Avatar Avatar-xl"
+            <Memo(Avatar)
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
-              src="test-url-3"
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
-            />
-          </Memo(Avatar)>
+              url="/api/v4/users/3/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/3/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
         </OverlayTrigger>
-      </OverlayTrigger>
-    </Memo(SimpleTooltip)>
-    <Memo(SimpleTooltip)
+      </SimpleTooltip>
+    </UserAvatar>
+    <SimpleTooltip
       animation={true}
-      content="Anthony Michael Hall, Kathy Baker"
+      content="first.last4, first.last5"
       id="names-overflow"
       onEntered={[Function]}
     >
@@ -877,7 +1031,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             id="names-overflow"
             placement="top"
           >
-            Anthony Michael Hall, Kathy Baker
+            first.last4, first.last5
           </Tooltip>
         }
         placement="top"
@@ -902,10 +1056,13 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 Object {
                   "defaultFormats": Object {},
                   "defaultLocale": "en",
+                  "defaultRichTextElements": undefined,
                   "formatDate": [Function],
+                  "formatDateTimeRange": [Function],
                   "formatDateToParts": [Function],
                   "formatDisplayName": [Function],
                   "formatList": [Function],
+                  "formatListToParts": [Function],
                   "formatMessage": [Function],
                   "formatNumber": [Function],
                   "formatNumberToParts": [Function],
@@ -933,7 +1090,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               }
               placement="top"
             >
-              Anthony Michael Hall, Kathy Baker
+              first.last4, first.last5
             </OverlayWrapper>
           }
           placement="top"
@@ -951,6 +1108,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             size="xl"
+            style={
+              Object {
+                "background": "rgb(240, 240, 241)",
+              }
+            }
             tabIndex={0}
             text="+2"
           >
@@ -962,12 +1124,462 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
             />
           </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
-    </Memo(SimpleTooltip)>
+    </SimpleTooltip>
+  </div>
+</Memo(Avatars)>
+`;
+
+exports[`components/widgets/users/Avatars should support userIds 1`] = `
+<Memo(Avatars)
+  size="xl"
+  userIds={
+    Array [
+      "1",
+      "2",
+      "3",
+    ]
+  }
+>
+  <div
+    className="Avatars Avatars___xl"
+    onMouseLeave={[Function]}
+  >
+    <UserAvatar
+      key="1"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="1"
+    >
+      <SimpleTooltip
+        animation={true}
+        content="first.last1"
+        id="name-1"
+        onEntered={[Function]}
+      >
+        <OverlayTrigger
+          animation={true}
+          defaultOverlayShown={false}
+          delayShow={500}
+          onEntered={[Function]}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-1"
+              placement="top"
+            >
+              first.last1
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-1"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last1
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Avatar)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
+              tabIndex={0}
+              url="/api/v4/users/1/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="2"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="2"
+    >
+      <SimpleTooltip
+        animation={true}
+        content="first.last2"
+        id="name-2"
+        onEntered={[Function]}
+      >
+        <OverlayTrigger
+          animation={true}
+          defaultOverlayShown={false}
+          delayShow={500}
+          onEntered={[Function]}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-2"
+              placement="top"
+            >
+              first.last2
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-2"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last2
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Avatar)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
+              tabIndex={0}
+              url="/api/v4/users/2/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/2/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="3"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(240, 240, 241)",
+        }
+      }
+      tabIndex={0}
+      userId="3"
+    >
+      <SimpleTooltip
+        animation={true}
+        content="first.last3"
+        id="name-3"
+        onEntered={[Function]}
+      >
+        <OverlayTrigger
+          animation={true}
+          defaultOverlayShown={false}
+          delayShow={500}
+          onEntered={[Function]}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-3"
+              placement="top"
+            >
+              first.last3
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-3"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "defaultRichTextElements": undefined,
+                    "formatDate": [Function],
+                    "formatDateTimeRange": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatListToParts": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last3
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Avatar)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
+              tabIndex={0}
+              url="/api/v4/users/3/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/3/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </SimpleTooltip>
+    </UserAvatar>
   </div>
 </Memo(Avatars)>
 `;

@@ -7,202 +7,247 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Group: @enterprise @system_console @compliance_export
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import path from 'path';
+
+import {
+    deleteExportFolder,
+    downloadAndUnzipExportFile,
+    editLastPost,
+    getXMLFile,
+    gotoTeamAndPostImage,
+} from './helpers';
 
 describe('Compliance Export', () => {
+    const ExportFormatActiance = 'Actiance XML';
+
+    let targetDownload;
+    let pwd;
+    let newTeam;
+    let newUser;
+    let newChannel;
+    let adminUser;
+
     before(() => {
+        cy.exec('PWD').then((result) => {
+            pwd = result.stdout;
+            targetDownload = path.join(pwd, 'Downloads');
+        });
+
         cy.apiRequireLicenseForFeature('Compliance');
+
         cy.apiUpdateConfig({
             MessageExportSettings: {
+                ExportFormat: 'csv',
                 DownloadExportResults: true,
             },
         });
-    });
 
-    it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
-        // # Go to compliance page and enable export
-        gotoCompliancePage();
-        enableComplianceExport();
-
-        // # Navigate to a team and post an attachment
-        gotoTeamAndPostImage();
-
-        // # Goto compliance page and start export
-        gotoCompliancePage();
-        exportCompliance();
-
-        // # Get the download link
-        cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-            const fileURL = fileAttachment.attr('href');
-
-            // # Download the file
-            downloadAttachmentAndVerifyItsProperties(fileURL);
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            adminUser = sysadmin;
+            cy.apiLogin(adminUser);
+            cy.apiInitSetup().then(({team, user, channel}) => {
+                newTeam = team;
+                newUser = user;
+                newChannel = channel;
+            });
         });
     });
 
-    it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
+    beforeEach(() => {
+        cy.apiLogin(adminUser);
+    });
+
+    afterEach(() => {
+        deleteExportFolder(targetDownload);
+    });
+
+    it('MM-T1172 - Compliance Export - Deleted file is indicated in CSV File Export', () => {
         // # Go to compliance page and enable export
-        gotoCompliancePage();
-        enableComplianceExport();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
 
         // # Navigate to a team and post an attachment
+        cy.visit(`/${newTeam.name}/channels/town-square`);
         gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
-        gotoCompliancePage();
-        exportCompliance();
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
-        // # Get the download link
-        cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-            const fileURL = fileAttachment.attr('href');
+        // # Deleting last post
+        deleteLastPost();
 
-            // # Download the File
-            downloadAttachmentAndVerifyItsProperties(fileURL);
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
-            // # Export compliance again
-            exportCompliance();
+        // # Download and extract export zip file
+        downloadAndUnzipExportFile(targetDownload);
 
-            // # Download link should not exist this time
-            cy.get('.job-table__table').
-                find('tbody > tr:eq(0)').
-                findByText('Download').should('not.exist');
+        // * Verifying if export file contains delete
+        cy.readFile(`${targetDownload}/posts.csv`).should('exist').and('have.string', 'deleted attachment');
+    });
+
+    it('MM-T1173 - Compliance Export - Deleted file is indicated in Actiance XML File Export', () => {
+        // # Go to compliance page and enable export
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport(ExportFormatActiance);
+
+        // # Navigate to a team and post an attachment
+        cy.visit(`/${newTeam.name}/channels/town-square`);
+        gotoTeamAndPostImage();
+
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
+
+        // # Delete last post
+        deleteLastPost();
+
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
+
+        // # Download and extract exported zip file
+        downloadAndUnzipExportFile(targetDownload);
+
+        // * Verifying if export file contains deleted image
+        getXMLFile(targetDownload).then((result) => {
+            cy.readFile(result.stdout).should('exist').and('have.string', 'delete file uploaded-image-400x400.jpg');
+        });
+
+        // * Verifying if image has been downloaded
+        cy.exec(`find ${targetDownload} -name 'image-400x400.jpg'`).then((result) => {
+            expect(result.stdout !== null).to.be.true;
         });
     });
 
-    it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
-        // # Goto file storage settings Page
-        cy.visit('/admin_console/environment/file_storage');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'File Storage');
+    it('MM-T1176 - Compliance export should include updated post after editing', () => {
+        // # Go to compliance page and enable export
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport(ExportFormatActiance);
 
-        // # Get AWS credentials
-        const AWS_S3_BUCKET = Cypress.env('AWS_S3_BUCKET');
-        const AWS_ACCESS_KEY_ID = Cypress.env('AWS_ACCESS_KEY_ID');
-        const AWS_SECRET_ACCESS_KEY = Cypress.env('AWS_SECRET_ACCESS_KEY');
+        // # Navigate to a team and post a message
+        cy.visit(`/${newTeam.name}/channels/town-square`);
+        cy.postMessage('Testing');
 
-        // # Config AWS settings
-        cy.findByTestId('FileSettings.DriverNamedropdown').select('amazons3');
-        cy.findByTestId('FileSettings.AmazonS3Bucketinput').type(AWS_S3_BUCKET);
-        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').type(AWS_ACCESS_KEY_ID);
-        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').type(AWS_SECRET_ACCESS_KEY);
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
-        // # Save file storage settings
-        cy.findByTestId('saveSetting').click();
+        // # Visit town-square channel and edit the last post
+        cy.visit(`/${newTeam.name}/channels/town-square`);
+        editLastPost('Hello');
 
-        waitUntilConfigSave();
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
-        // # Goto compliance page and enable export
-        gotoCompliancePage();
-        enableComplianceExport();
+        // # Download and extract exported zip file
+        downloadAndUnzipExportFile(targetDownload);
 
-        // # Navigate to a team and post an attachment
-        gotoTeamAndPostImage();
+        // * Verifying if export file contains edited text
+        cy.exec(`find ${targetDownload} -name '*.xml'`).then((result) => {
+            cy.readFile(result.stdout).should('exist').and('have.string', '<Content>Hello</Content>');
+        });
+    });
 
-        // # Goto compliance page and start export
-        gotoCompliancePage();
-        exportCompliance();
+    it('MM-T3305 - Verify Deactivated users are displayed properly in Compliance Exports', () => {
+        // # Post a message by Admin
+        cy.postMessageAs({
+            sender: adminUser,
+            message: `@${newUser.username} : Admin 1`,
+            channelId: newChannel.id,
+        });
 
-        // # Get the download link
-        cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-            const fileURL = fileAttachment.attr('href');
+        cy.visit(`/${newTeam.name}/channels/${newChannel.id}`);
 
-            // # Download the file
-            downloadAttachmentAndVerifyItsProperties(fileURL);
+        // # Deactivate the newly created user
+        cy.apiDeactivateUser(newUser.id);
+
+        // # Go to compliance page and enable export
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport(ExportFormatActiance);
+        cy.uiExportCompliance();
+
+        // # Download and extract exported zip file
+        downloadAndUnzipExportFile(targetDownload);
+
+        // * Verifying if export file contains deactivated user info
+        getXMLFile(targetDownload).then((result) => {
+            cy.readFile(result.stdout).should('exist').
+                and('have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
+        });
+
+        deleteExportFolder(targetDownload);
+
+        // # Post a message by Admin
+        cy.postMessageAs({
+            sender: adminUser,
+            message: `@${newUser.username} : Admin2`,
+            channelId: newChannel.id,
+        });
+
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
+
+        // # Download and extract exported zip file
+        downloadAndUnzipExportFile(targetDownload);
+
+        // * Verifying export file should not contain deactivated user name
+        getXMLFile(targetDownload).then((result) => {
+            cy.readFile(result.stdout).should('exist').
+                and('not.have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
+        });
+
+        deleteExportFolder(targetDownload);
+
+        // # Re-activate the user
+        cy.apiActivateUser(newUser.id);
+
+        // # Post a message by Admin
+        cy.postMessageAs({
+            sender: adminUser,
+            message: `@${newUser.username} : Admin3`,
+            channelId: newChannel.id,
+        });
+
+        // # Go to compliance page and start export
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
+
+        // # Download and extract exported zip file
+        downloadAndUnzipExportFile(targetDownload);
+
+        // * Verifying if export file contains deactivated user name
+        getXMLFile(targetDownload).then((result) => {
+            cy.readFile(result.stdout).should('exist').
+                and('have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
         });
     });
 });
 
-function enableComplianceExport() {
-    // # Enable compliance export
-    cy.findByTestId('enableComplianceExporttrue').click();
-
-    // # Change export format to CSV
-    cy.findByTestId('exportFormatdropdown').select('csv');
-
-    // # Save settings
-    cy.findByTestId('saveSetting').click();
-
-    waitUntilConfigSave();
-}
-
-function gotoCompliancePage() {
-    cy.visit('/admin_console/compliance/export');
-    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').invoke('text').should('include', 'Compliance Export');
-}
-
-function gotoTeamAndPostImage() {
-    // # Get user teams
+function deleteLastPost() {
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
         cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    });
+        cy.getLastPostId().then((lastPostId) => {
+            // # Click post dot menu in center.
+            cy.clickPostDotMenu(lastPostId);
 
-    // # Remove images from post message footer if exist
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        if (el.find('.post-image.normal').length > 0) {
-            cy.get('.file-preview__remove > .icon').click();
-        }
-        return el.find('.post-image.normal').length === 0;
-    }));
-    const file = {
-        filename: 'image-400x400.jpg',
-        originalSize: {width: 400, height: 400},
-        thumbnailSize: {width: 400, height: 400},
-    };
-    cy.get('#fileUploadInput').attachFile(file.filename);
-
-    // # Wait until the image is uploaded
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
-    }), {
-        timeout: TIMEOUTS.FIVE_MIN,
-        interval: TIMEOUTS.ONE_SEC,
-        errorMsg: 'Unable to upload attachment in time',
-    });
-
-    cy.postMessage(`file uploaded-${file.filename}`);
-}
-
-function exportCompliance() {
-    // # Click the export job button
-    cy.contains('button', 'Run Compliance Export Job Now').click();
-
-    // # Small wait to ensure new row is added
-    cy.wait(TIMEOUTS.HALF_SEC);
-
-    // # Get the first row
-    cy.get('.job-table__table').
-        find('tbody > tr').
-        eq(0).
-        as('firstRow');
-
-    // # Wait until export is finished
-    cy.waitUntil(() => {
-        return cy.get('@firstRow').find('td:eq(1)').then((el) => {
-            return el[0].innerText.trim() === 'Success';
+            // # Scan inside the post menu dropdown
+            cy.get(`#CENTER_dropdown_${lastPostId}`).should('exist').within(() => {
+                // # Click on the delete post button from the dropdown
+                cy.findByText('Delete').should('exist').click();
+            });
         });
-    }, {
-        timeout: TIMEOUTS.FIVE_MIN,
-        interval: TIMEOUTS.ONE_SEC,
-        errorMsg: 'Compliance export did not finish in time',
+        cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
+            within(() => {
+                // # Confirm click on the delete button for the post
+                cy.findByText('Delete').should('be.visible').click();
+            });
     });
 }
-
-function downloadAttachmentAndVerifyItsProperties(fileURL) {
-    cy.request(fileURL).then((response) => {
-        // * Verify the download
-        expect(response.status).to.equal(200);
-
-        // * Confirm it's a zip file
-        expect(response.headers['content-type']).to.equal('application/zip');
-    });
-}
-
-// # Wait's until the Saving text becomes Save
-const waitUntilConfigSave = () => {
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};

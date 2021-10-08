@@ -57,6 +57,8 @@ class LoginController extends React.PureComponent {
         experimentalPrimaryTeam: PropTypes.string,
         ldapLoginFieldName: PropTypes.string,
         samlLoginButtonText: PropTypes.string,
+        gitlabButtonText: PropTypes.string,
+        gitlabButtonColor: PropTypes.string,
         openidButtonText: PropTypes.string,
         openidButtonColor: PropTypes.string,
         siteName: PropTypes.string,
@@ -105,7 +107,7 @@ class LoginController extends React.PureComponent {
         const email = search.get('email');
 
         if (extra === Constants.SIGNIN_VERIFIED && email) {
-            this.passwordInput.current.focus();
+            this.passwordInput.current?.focus();
         }
 
         // Determine if the user was unexpectedly logged out.
@@ -679,20 +681,31 @@ class LoginController extends React.PureComponent {
         }
 
         if (gitlabSigninEnabled) {
+            const buttonStyle = {};
+            if (this.props.gitlabButtonColor) {
+                buttonStyle.backgroundColor = this.props.gitlabButtonColor;
+            }
+            let buttonText = (
+                <FormattedMessage
+                    id='login.gitlab'
+                    defaultMessage='GitLab'
+                />
+            );
+            if (this.props.gitlabButtonText) {
+                buttonText = this.props.gitlabButtonText;
+            }
             loginControls.push(
                 <a
                     id='GitLabButton'
                     className='btn btn-custom-login gitlab'
+                    style={buttonStyle}
                     key='gitlab'
                     href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
                         <span>
-                            <FormattedMessage
-                                id='login.gitlab'
-                                defaultMessage='GitLab'
-                            />
+                            {buttonText}
                         </span>
                     </span>
                 </a>,

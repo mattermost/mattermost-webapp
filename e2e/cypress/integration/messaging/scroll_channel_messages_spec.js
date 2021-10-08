@@ -31,14 +31,14 @@ describe('Scroll channel`s messages in mobile view', () => {
         let date;
 
         // # Post a year old message
-        const oldDate = Cypress.moment().subtract(1, 'year').valueOf();
+        const oldDate = Cypress.dayjs().subtract(1, 'year').valueOf();
         for (let i = 0; i < 5; i++) {
             cy.postMessageAs({sender: sysadmin, message: 'Hello \n from \n other \n day \n - last year', channelId: newChannel.id, createAt: oldDate});
         }
 
         // # Post a day old message
         for (let j = 2; j >= 0; j--) {
-            date = Cypress.moment().subtract(j, 'days').valueOf();
+            date = Cypress.dayjs().subtract(j, 'days').valueOf();
             for (let i = 0; i < 5; i++) {
                 cy.postMessageAs({sender: sysadmin, message: `Hello \n from \n other \n day \n - ${j}`, channelId: newChannel.id, createAt: date});
             }
@@ -63,11 +63,11 @@ describe('Scroll channel`s messages in mobile view', () => {
         cy.findAllByTestId('postView').eq(9).scrollIntoView();
 
         // * check date on scroll is two days ago as dddd
-        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.moment().subtract(2, 'days').format('dddd'));
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.dayjs().subtract(2, 'days').format('dddd'));
 
         cy.findAllByTestId('postView').eq(0).scrollIntoView();
 
         // * check date on scroll is 1 year ago as MMMM DD, YYYY
-        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.moment().subtract(1, 'year').format('MMMM DD, YYYY'));
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.dayjs().subtract(1, 'year').format('MMMM DD, YYYY'));
     });
 });

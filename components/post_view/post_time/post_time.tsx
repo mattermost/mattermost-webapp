@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {Link} from 'react-router-dom';
 
 import {Tooltip} from 'react-bootstrap';
@@ -38,6 +38,7 @@ type Props = {
      */
     postId: string;
     teamUrl: string;
+    timestampProps?: ComponentProps<typeof Timestamp>;
 }
 
 export default class PostTime extends React.PureComponent<Props> {
@@ -59,6 +60,7 @@ export default class PostTime extends React.PureComponent<Props> {
             location,
             postId,
             teamUrl,
+            timestampProps = {},
         } = this.props;
 
         const postTime = (
@@ -66,13 +68,14 @@ export default class PostTime extends React.PureComponent<Props> {
                 value={eventTime}
                 className='post__time'
                 useDate={false}
+                {...timestampProps}
             />
         );
 
         const content = isMobile() || !isPermalink ? (
             <div
                 role='presentation'
-                className='post_permalink_mobile_view'
+                className='post__permalink post_permalink_mobile_view'
             >
                 {postTime}
             </div>

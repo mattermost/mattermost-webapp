@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import {Dictionary, RelationOneToOne, $ID} from 'mattermost-redux/types/utilities';
+import {Team} from 'mattermost-redux/types/teams';
+import {UserThread} from 'mattermost-redux/types/threads';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
@@ -21,6 +23,7 @@ export type ViewsState = {
 
     browser: {
         focused: boolean;
+        windowSize: string;
     };
 
     channel: {
@@ -45,6 +48,8 @@ export type ViewsState = {
     };
 
     rhs: RhsViewState;
+
+    rhsSuppressed: boolean;
 
     posts: {
         editingPost: {
@@ -98,6 +103,16 @@ export type ViewsState = {
                 team_roles?: string[];
             };
         };
+        teamListSearch: string;
+        channelListSearch: {
+            term: string;
+            filters: {
+                public?: boolean;
+                private?: boolean;
+                deleted?: boolean;
+                team_ids?: string[];
+            };
+        };
     };
 
     notice: {
@@ -121,8 +136,9 @@ export type ViewsState = {
 
     marketplace: {
         plugins: MarketplacePlugin[];
-        installing: {[pluginId: string]: boolean};
-        errors: {[pluginId: string]: string};
+        apps: MarketplaceApp[];
+        installing: {[id: string]: boolean};
+        errors: {[id: string]: string};
         filter: string;
     };
 
@@ -136,5 +152,13 @@ export type ViewsState = {
 
     nextSteps: {
         show: boolean;
+    };
+    statusDropdown: {
+        isOpen: boolean;
+    };
+    threads: {
+        selectedThreadIdInTeam: RelationOneToOne<Team, $ID<UserThread> | null>;
+        lastViewedAt: {[id: string]: number};
+        manuallyUnread: {[id: string]: boolean};
     };
 };

@@ -40,14 +40,9 @@ type Props = {
     unreadMentions: number;
 
     /**
-     * Number of unread messages in this channel
+     * Whether or not the channel is shown as unread
      */
-    unreadMsgs: number;
-
-    /**
-     * User preference of whether the channel can be marked unread
-     */
-    showUnreadForMsgs: boolean;
+    isUnread: boolean;
 
     /**
      * Gets the ref for a given channel id
@@ -69,7 +64,7 @@ type Props = {
      */
     isCurrentChannel: boolean;
 
-    isDMCategory: boolean;
+    isAutoSortedCategory: boolean;
 
     isDraggable: boolean;
 
@@ -84,6 +79,8 @@ type Props = {
     isChannelSelected: boolean;
 
     multiSelectedChannelIds: string[];
+
+    autoSortedCategoryIds: Set<string>;
 };
 
 type State = {
@@ -95,12 +92,8 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         isDraggable: true,
     }
 
-    isUnread = () => {
-        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
-    }
-
     isCollapsed = (props: Props) => {
-        return props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel && !props.hasDraft);
+        return props.isCategoryDragged || (props.isCategoryCollapsed && !this.props.isUnread && !props.isCurrentChannel && !props.hasDraft);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -137,10 +130,12 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             currentTeamName,
             isCurrentChannel,
             isDraggable,
-            isDMCategory,
+            isAutoSortedCategory,
             isChannelSelected,
+            isUnread,
             draggingState,
             multiSelectedChannelIds,
+            autoSortedCategoryIds,
         } = this.props;
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean}> = SidebarBaseChannel;
@@ -186,12 +181,12 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                 ref={this.setRef(provided.innerRef)}
                                 className={classNames('SidebarChannel', {
                                     collapsed: this.isCollapsed(this.props),
-                                    unread: this.isUnread(),
+                                    unread: isUnread,
                                     active: isCurrentChannel,
                                     dragging: snapshot.isDragging,
                                     selectedDragging: isChannelSelected && draggingState.state && draggingState.id !== channel.id,
-                                    fadeDMs: snapshot.isDropAnimating && snapshot.draggingOver?.includes('direct_messages'),
-                                    noFloat: isDMCategory && !snapshot.isDragging,
+                                    fadeOnDrop: snapshot.isDropAnimating && snapshot.draggingOver && autoSortedCategoryIds.has(snapshot.draggingOver),
+                                    noFloat: isAutoSortedCategory && !snapshot.isDragging,
                                 })}
                                 onTransitionEnd={this.removeAnimation}
                                 {...provided.draggableProps}
@@ -212,7 +207,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                     ref={this.setRef()}
                     className={classNames('SidebarChannel', {
                         collapsed: this.isCollapsed(this.props),
-                        unread: this.isUnread(),
+                        unread: isUnread,
                         active: isCurrentChannel,
                     })}
                     role='listitem'

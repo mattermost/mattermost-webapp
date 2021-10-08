@@ -7,6 +7,9 @@
 
 /* eslint-disable no-loop-func */
 
+import dayjs from 'dayjs';
+import localforage from 'localforage';
+
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import 'cypress-wait-until';
@@ -18,16 +21,23 @@ import './api_commands'; // soon to deprecate
 import './client';
 import './common_login_commands';
 import './db_commands';
+import './email';
+import './external_commands';
+import './extended_commands';
 import './fetch_commands';
+import './keycloak_commands';
 import './ldap_commands';
+import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
 import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
-import './visual_commands';
-import './external_commands';
+
+import {getDefaultConfig} from './api/system';
+
+Cypress.dayjs = dayjs;
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -90,7 +100,15 @@ Cypress.on('test:after:run', (test, runnable) => {
     }
 });
 
+// Turn off all uncaught exception handling
+Cypress.on('uncaught:exception', () => {
+    return false;
+});
+
 before(() => {
+    // # Clear localforage state
+    localforage.clear();
+
     // # Try to login using existing sysadmin account
     cy.apiAdminLogin({failOnStatusCode: false}).then((response) => {
         if (response.user) {
@@ -141,13 +159,18 @@ function printServerDetails() {
 }
 
 function sysadminSetup(user) {
+    if (Cypress.env('firstTest')) {
+        // Sends dummy call to update the config to server
+        // Without this, first call to `cy.apiUpdateConfig()` consistently getting time out error in CI against remote server.
+        cy.externalRequest({user, method: 'put', path: 'config', data: getDefaultConfig(), failOnStatusCode: false});
+    }
+
     if (!user.email_verified) {
         cy.apiVerifyUserEmailById(user.id);
     }
 
-    // # Reset config and invalidate cache
+    // # Reset config to default
     cy.apiUpdateConfig();
-    cy.apiInvalidateCache();
 
     // # Reset admin preference, online status and locale
     cy.apiSaveTeammateNameDisplayPreference('username');
@@ -155,8 +178,7 @@ function sysadminSetup(user) {
     cy.apiSaveCollapsePreviewsPreference('false');
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
-    cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
-    cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
+    cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',
@@ -164,16 +186,14 @@ function sysadminSetup(user) {
     });
 
     // # Reset roles
-    cy.apiGetClientLicense().then(({isLicensed, isCloudLicensed}) => {
+    cy.apiGetClientLicense().then(({isLicensed}) => {
         if (isLicensed) {
             cy.apiResetRoles();
         }
-
-        if (isCloudLicensed) {
-            // # Modify sysadmin role for Cloud edition
-            cy.apiPatchUserRoles(user.id, ['system_admin', 'system_manager', 'system_user']);
-        }
     });
+
+    // # Disable plugins not included in prepackaged
+    cy.apiDisableNonPrepackagedPlugins();
 
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {

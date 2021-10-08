@@ -18,15 +18,9 @@ describe('Verify Accessibility Support in Post', () => {
     let otherUser;
     let testTeam;
     let testChannel;
+    let emojiPickerEnabled;
 
     before(() => {
-        // # Update Configs
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelOrganization: false,
-            },
-        });
-
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             testTeam = team;
@@ -39,11 +33,15 @@ describe('Verify Accessibility Support in Post', () => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
                 });
             });
+
+            cy.apiGetConfig().then(({config}) => {
+                emojiPickerEnabled = config.ServiceSettings.EnableEmojiPicker;
+            });
         });
     });
 
     beforeEach(() => {
-        // # Login as test user and visit the Town Square channel
+        // # Login as test user and visit the test channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -178,9 +176,18 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#CENTER_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
                 cy.focused().tab();
 
-                // * Verify focus is on the actions button
-                cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab();
+                // eslint-disable-next-line no-negated-condition
+                if (!emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab();
+                } else {
+                    for (let i = 0; i < 3; i++) {
+                        // * Verify focus is on the reactions button
+                        cy.get(`#recent_reaction_${i}`).should('have.class', 'Reaction__emoji--post-menu emoticon');
+                        cy.focused().tab();
+                    }
+                }
 
                 // * Verify focus is on the reactions button
                 cy.get(`#CENTER_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
@@ -193,6 +200,12 @@ describe('Verify Accessibility Support in Post', () => {
                 // * Verify focus is on the comment button
                 cy.get(`#CENTER_commentIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'reply');
                 cy.focused().tab();
+
+                if (emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab();
+                }
 
                 // * Verify focus is on the post text
                 cy.get(`#postMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
@@ -228,6 +241,12 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
+                if (emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab({shift: true});
+                }
+
                 // * Verify focus is on the save icon
                 cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab({shift: true});
@@ -236,9 +255,15 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#RHS_COMMENT_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
                 cy.focused().tab({shift: true});
 
-                // * Verify focus is on the actions button
-                cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab({shift: true});
+                // eslint-disable-next-line no-negated-condition
+                if (!emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab({shift: true});
+                } else {
+                    cy.get('#recent_reaction_0').should('have.class', 'Reaction__emoji--post-menu emoticon');
+                    cy.focused().tab({shift: true});
+                }
 
                 // * Verify focus is on the time
                 cy.get(`#RHS_COMMENT_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
@@ -253,14 +278,15 @@ describe('Verify Accessibility Support in Post', () => {
 
     it('MM-T1462 Verify incoming messages are read', () => {
         // # Make channel as read by switching back and forth to testChannel
-        cy.get('#sidebarChannelContainer').should('be.visible').findByText('Off-Topic').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-        cy.get('#sidebarChannelContainer').should('be.visible').findByText(testChannel.display_name).click();
+        cy.uiGetLhsSection('CHANNELS').findByText(testChannel.display_name).click();
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Submit a post as another user
         const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
         cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         // # Get the element which stores the incoming messages
         cy.get('#postListContent').within(() => {
@@ -293,18 +319,18 @@ function performActionsToLastPost() {
     cy.getLastPostId().then((postId) => {
         // # Add grinning reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('grinning').trigger('mouseover');
-        cy.get('#emojiPickerSpritePreview').should('be.visible');
-        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':grinning:');
-        cy.findByTestId('grinning').click();
+        cy.findByTestId('grinning').trigger('mouseover', {force: true});
+        cy.get('.sprite-preview').should('be.visible');
+        cy.get('.emoji-picker__preview').should('be.visible').and('have.text', ':grinning:');
+        cy.findByTestId('grinning').click({force: true});
         cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
 
         // # Add smile reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('smile').trigger('mouseover');
-        cy.get('#emojiPickerSpritePreview').should('be.visible');
-        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':smile:');
-        cy.findByTestId('smile').click();
+        cy.findByTestId('smile').trigger('mouseover', {force: true});
+        cy.get('.sprite-preview').should('be.visible');
+        cy.get('.emoji-picker__preview').should('be.visible').and('have.text', ':smile:');
+        cy.findByTestId('smile').click({force: true});
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 
         // # Save the post
@@ -327,7 +353,7 @@ function verifyPostLabel(elementId, username, labelSuffix) {
     cy.get('@lastPost').then((el) => {
         // # Get the post time
         cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
-            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
+            const expectedLabel = `At ${time} ${Cypress.dayjs().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
             cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
         });
     });

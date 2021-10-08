@@ -20,7 +20,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -81,7 +81,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -142,7 +142,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -203,7 +203,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -264,7 +264,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -325,7 +325,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -400,7 +400,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -461,7 +461,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -522,7 +522,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -589,7 +589,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -650,7 +650,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>
@@ -711,7 +711,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <span
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         id="admin.permissions.group.name.name"
       />
     </span>

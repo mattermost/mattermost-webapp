@@ -7,36 +7,42 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @team_settings
 
+import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {
-    getEmailUrl,
+    getJoinEmailTemplate,
     getRandomId,
     reUrl,
-    splitEmailBodyText,
+    verifyEmailBody,
 } from '../../utils';
 
 describe('Team Settings', () => {
-    let testTeam;
+    const sysadmin = getAdminAccount();
     const randomId = getRandomId();
     const username = `user${randomId}`;
     const email = `user${randomId}@sample.mattermost.com`;
     const password = 'passwd';
 
-    const baseUrl = Cypress.config('baseUrl');
-    const mailUrl = getEmailUrl(baseUrl);
+    let testTeam;
+    let siteName;
     let isLicensed;
 
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
         cy.apiGetClientLicense().then((data) => {
             ({isLicensed} = data);
         });
 
         // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
-        cy.apiEmailTest();
+        cy.apiUpdateConfig({
+            LdapSettings: {Enable: false},
+            ServiceSettings: {EnableOnboardingFlow: true},
+        }).then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
@@ -46,8 +52,7 @@ describe('Team Settings', () => {
 
     it('MM-T385 Invite new user to closed team using email invite', () => {
         // # Open 'Team Settings' modal
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -64,8 +69,7 @@ describe('Team Settings', () => {
         });
 
         // # Open the 'Invite People' full screen modal
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#invitePeople').find('button').eq(0).click();
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Wait half a second to ensure that the modal has been fully loaded
         cy.wait(TIMEOUTS.HALF_SEC);
@@ -83,13 +87,18 @@ describe('Team Settings', () => {
         cy.apiLogout();
 
         // # Invite a new user (with the email declared in the parent scope)
-        cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            verifyEmailInvite(response, testTeam.name, testTeam.display_name, email);
+        cy.getRecentEmail({username, email}).then((data) => {
+            const {body: actualEmailBody, subject} = data;
 
-            const bodyText = splitEmailBodyText(response.data.body.text);
-            const permalink = bodyText[6].match(reUrl)[0];
+            // * Verify email subject
+            expect(subject).to.contain(`[${siteName}] ${sysadmin.username} invited you to join ${testTeam.display_name} Team`);
+
+            // * Verify email body
+            const expectedEmailBody = getJoinEmailTemplate(sysadmin.username, email, testTeam);
+            verifyEmailBody(expectedEmailBody, actualEmailBody);
 
             // # Visit permalink (e.g. click on email link)
+            const permalink = actualEmailBody[3].match(reUrl)[0];
             cy.visit(permalink);
         });
 
@@ -103,7 +112,7 @@ describe('Team Settings', () => {
         cy.get('#createAccountButton').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
-        cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {
@@ -111,32 +120,7 @@ describe('Team Settings', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        cy.findByText(`Welcome to ${siteName}`).should('be.visible');
     });
-
-    function verifyEmailInvite(response, teamName, teamDisplayName, invitedUserEmail) {
-        const isoDate = new Date().toISOString().substring(0, 10);
-        const {data, status} = response;
-
-        // * Should return success status
-        expect(status).to.equal(200);
-
-        // * Verify that email is addressed to the correct user
-        expect(data.to.length).to.equal(1);
-        expect(data.to[0]).to.contain(invitedUserEmail);
-
-        // * Verify that date is current
-        expect(data.date).to.contain(isoDate);
-
-        // * Verify that the email subject is correct
-        expect(data.subject).to.contain(`[Mattermost] sysadmin invited you to join ${teamDisplayName} Team`);
-
-        // * Verify that the email body is correct
-        const bodyText = splitEmailBodyText(data.body.text);
-        expect(bodyText.length).to.equal(17);
-        expect(bodyText[1]).to.equal('You\'ve been invited');
-        expect(bodyText[4]).to.equal(`*sysadmin* , has invited you to join *${teamDisplayName}*.`);
-        expect(bodyText[10]).to.contain(`${baseUrl}/${teamName}`);
-    }
 });
 

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -30,6 +31,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import OverlayTrigger from 'components/overlay_trigger';
 
 const holders = defineMessages({
     limited: {
@@ -71,13 +74,9 @@ const customStyles = {
     top: 'auto',
 };
 
-class FileUpload extends PureComponent {
+export class FileUpload extends PureComponent {
     static propTypes = {
-
-        /**
-         * Current channel's ID
-         */
-        currentChannelId: PropTypes.string.isRequired,
+        channelId: PropTypes.string.isRequired,
 
         /**
          * Current root post's ID
@@ -181,6 +180,8 @@ class FileUpload extends PureComponent {
             this.registerDragEvents('.row.main', '.center-file-overlay');
         } else if (this.props.postType === 'comment') {
             this.registerDragEvents('.post-right__container', '.right-file-overlay');
+        } else if (this.props.postType === 'thread') {
+            this.registerDragEvents('.ThreadPane', '.right-file-overlay');
         }
 
         document.addEventListener('paste', this.pasteUpload);
@@ -240,7 +241,7 @@ class FileUpload extends PureComponent {
     }
 
     uploadFiles = (sortedFiles) => {
-        const {currentChannelId, rootId} = this.props;
+        const {channelId, rootId} = this.props;
 
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
@@ -265,7 +266,7 @@ class FileUpload extends PureComponent {
             const request = this.props.actions.uploadFile(
                 sortedFiles[i],
                 sortedFiles[i].name,
-                currentChannelId,
+                channelId,
                 rootId,
                 clientId,
             );
@@ -283,16 +284,16 @@ class FileUpload extends PureComponent {
                 const {error, data} = this.props.actions.handleFileUploadEnd(
                     sortedFiles[i],
                     sortedFiles[i].name,
-                    currentChannelId,
+                    channelId,
                     rootId,
                     clientId,
                     {err, res},
                 );
 
                 if (error) {
-                    this.fileUploadFail(error, clientId, currentChannelId, rootId);
+                    this.fileUploadFail(error, clientId, channelId, rootId);
                 } else if (data) {
-                    this.fileUploadSuccess(data, currentChannelId, rootId);
+                    this.fileUploadSuccess(data, channelId, rootId);
                 }
             });
 
@@ -302,7 +303,7 @@ class FileUpload extends PureComponent {
             numUploads += 1;
         }
 
-        this.props.onUploadStart(clientIds, currentChannelId);
+        this.props.onUploadStart(clientIds, channelId);
 
         const {formatMessage} = this.props.intl;
         const errors = [];
@@ -699,9 +700,24 @@ class FileUpload extends PureComponent {
         }
 
         return (
-            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                {bodyAction}
-            </div>
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                trigger='hover'
+                overlay={
+                    <Tooltip id='upload-tooltip'>
+                        <KeyboardShortcutSequence
+                            shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                            hoistDescription={true}
+                            isInsideTooltip={true}
+                        />
+                    </Tooltip>
+                }
+            >
+                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                    {bodyAction}
+                </div>
+            </OverlayTrigger>
         );
     }
 }

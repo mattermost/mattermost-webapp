@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';

@@ -53,9 +53,14 @@ class EmoticonSuggestion extends Suggestion {
 }
 
 export default class EmoticonProvider extends Provider {
+    constructor() {
+        super();
+
+        this.triggerCharacter = ':';
+    }
     handlePretextChanged(pretext, resultsCallback) {
         // Look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
-        const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext);
+        const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }
@@ -104,9 +109,10 @@ export default class EmoticonProvider extends Provider {
     findAndSuggestEmojis(text, partialName, resultsCallback) {
         const recentMatched = [];
         const matched = [];
-
-        const emojiMap = getEmojiMap(store.getState());
-        const recentEmojis = getRecentEmojis(store.getState());
+        const state = store.getState();
+        const skintone = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
+        const emojiMap = getEmojiMap(state);
+        const recentEmojis = getRecentEmojis(state);
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {
@@ -114,15 +120,18 @@ export default class EmoticonProvider extends Provider {
                 continue;
             }
 
-            if (emoji.aliases) {
+            if (emoji.short_names) {
                 // This is a system emoji so it may have multiple names
-                for (const alias of emoji.aliases) {
+                for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
                         const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ?
                             recentMatched :
                             matched;
 
-                        matchedArray.push({name: alias, emoji});
+                        // if the emoji has skin, only add those that match with the user selected skin.
+                        if (Emoticons.emojiMatchesSkin(emoji, skintone)) {
+                            matchedArray.push({name: alias, emoji});
+                        }
                         break;
                     }
                 }

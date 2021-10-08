@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
+import classNames from 'classnames';
 
 import {Row, Column} from './data_grid';
 
@@ -30,7 +31,7 @@ class DataGridRow extends React.Component<Props> {
         return (
             <div
                 key={column.field}
-                className='DataGrid_cell'
+                className={classNames('DataGrid_cell', column.className)}
                 style={style}
             >
                 {row.cells[column.field]}

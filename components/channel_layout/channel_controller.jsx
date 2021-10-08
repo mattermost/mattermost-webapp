@@ -14,32 +14,22 @@ import EditPostModal from 'components/edit_post_modal';
 import GetPublicLinkModal from 'components/get_public_link_modal';
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
-import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
-import ModalController from 'components/modal_controller';
-import LegacyTeamSidebar from 'components/legacy_team_sidebar';
-import LegacySidebar from 'components/legacy_sidebar';
+import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
-import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal.tsx';
 
-export default class ChannelController extends React.Component {
+export default class ChannelController extends React.PureComponent {
     static propTypes = {
-        pathName: PropTypes.string.isRequired,
-        teamType: PropTypes.string.isRequired,
         fetchingChannels: PropTypes.bool.isRequired,
-        useLegacyLHS: PropTypes.bool.isRequired,
     };
-
-    shouldComponentUpdate(nextProps) {
-        return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName || this.props.fetchingChannels !== nextProps.fetchingChannels || this.props.useLegacyLHS !== nextProps.useLegacyLHS;
-    }
 
     componentDidMount() {
         const platform = window.navigator.platform;
@@ -64,9 +54,6 @@ export default class ChannelController extends React.Component {
     }
 
     render() {
-        const PreferredTeamSidebar = LegacyTeamSidebar; // TODO: Replace with switch when we rewrite team sidebar
-        const PreferredSidebar = this.props.useLegacyLHS ? LegacySidebar : Sidebar;
-
         return (
             <div
                 id='channel_view'
@@ -78,9 +65,9 @@ export default class ChannelController extends React.Component {
                 <ProductNoticesModal/>
                 <div className='container-fluid'>
                     <SidebarRight/>
-                    <SidebarRightMenu teamType={this.props.teamType}/>
-                    <Route component={PreferredTeamSidebar}/>
-                    <Route component={PreferredSidebar}/>
+                    <SidebarRightMenu/>
+                    <TeamSidebar/>
+                    <Sidebar/>
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
@@ -89,8 +76,7 @@ export default class ChannelController extends React.Component {
                     <EditPostModal/>
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
-                    <ShortcutsModal isMac={Utils.isMac()}/>
-                    <ModalController/>
+                    <KeyboardShortcutsModal/>
                 </div>
             </div>
         );

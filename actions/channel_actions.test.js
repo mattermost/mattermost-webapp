@@ -29,7 +29,6 @@ const initialState = {
                     display_name: 'Default',
                     delete_at: 0,
                     type: 'O',
-                    total_msg_count: 10,
                     team_id: 'team_id',
                 },
                 current_user_id__existingId: {
@@ -38,12 +37,15 @@ const initialState = {
                     display_name: 'Default',
                     delete_at: 0,
                     type: '0',
-                    total_msg_count: 0,
                     team_id: 'team_id',
                 },
             },
             channelsInTeam: {
                 'team-id': ['current_channel_id'],
+            },
+            messageCounts: {
+                current_channel_id: {total: 10},
+                current_user_id__existingId: {total: 0},
             },
         },
         teams: {
@@ -235,31 +237,6 @@ describe('Actions.Channel', () => {
                         value: '0',
                     },
                 ],
-                meta: {
-                    offline: {
-                        commit: {
-                            type: 'RECEIVED_PREFERENCES',
-                        },
-                        effect: null,
-                        rollback: {
-                            data: [
-                                {
-                                    category: 'direct_channel_show',
-                                    name: 'existingId',
-                                    user_id: 'current_user_id',
-                                    value: 'true',
-                                },
-                                {
-                                    category: 'channel_open_time',
-                                    name: 'current_user_id__existingId',
-                                    user_id: 'current_user_id',
-                                    value: '0',
-                                },
-                            ],
-                            type: 'DELETED_PREFERENCES',
-                        },
-                    },
-                },
                 type: 'RECEIVED_PREFERENCES',
             },
         ];
@@ -270,7 +247,6 @@ describe('Actions.Channel', () => {
         await testStore.dispatch(Actions.openDirectChannelToUserId(fakeData.userId));
 
         const doneActions = testStore.getActions();
-        doneActions[1].meta.offline.effect = null;
         expect(doneActions).toEqual(expectedActions);
         Date.now = realDateNow;
     });

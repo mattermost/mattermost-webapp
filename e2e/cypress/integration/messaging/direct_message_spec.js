@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -59,7 +60,6 @@ describe('Direct Message', () => {
         cy.apiLogin(testUser).then(() => {
             // # Visit the DM channel
             cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
-            cy.wait(TIMEOUTS.ONE_SEC);
 
             // # Edit the last post
             cy.get('#post_textbox').should('be.visible');
@@ -68,12 +68,12 @@ describe('Direct Message', () => {
             // * Edit post modal should appear, and edit the post
             cy.get('#editPostModal').should('be.visible');
             cy.get('#edit_textbox').should('have.text', originalMessage).type(' World{enter}');
-            cy.get('#editPostModal').should('be.not.visible');
+            cy.get('#editPostModal').should('not.exist');
 
-            // * Verify that last post does contain (edited)
+            // * Verify that last post does contain "Edited"
             cy.getLastPostId().then((postId) => {
                 const postEdited = `#postEdited_${postId}`;
-                cy.get(postEdited).should('be.visible');
+                cy.get(postEdited).should('be.visible').and('have.text', 'Edited');
             });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);
 
@@ -93,7 +93,7 @@ describe('Direct Message', () => {
                 const postEdited = `#postEdited_${postId}`;
 
                 // * Check the post and verify that it contains new edited message.
-                cy.get(postText).should('have.text', editedMessage);
+                cy.get(postText).should('have.text', `${editedMessage} Edited`);
                 cy.get(postEdited).should('be.visible');
             });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);
@@ -103,8 +103,8 @@ describe('Direct Message', () => {
         // # Stub notifications API
         spyNotificationAs('withNotification', 'granted');
 
-        // # Click on More... section
-        cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+        // # Open DM modal
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
         // # Search for your username
         cy.get('#selectItems input').
@@ -170,26 +170,16 @@ describe('Direct Message', () => {
         // # Visit the DM channel
         cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
 
-        // # Clicks on Mute Channel
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelToggleMuteChannel button').click().then(() => {
-                // * Assert that channel is muted
-                cy.get('#toggleMute').should('be.visible');
-            });
-        });
+        // # Open channel menu and click Mute Conversation
+        cy.uiOpenChannelMenu('Mute Conversation');
 
         // * Assert that channel appears as muted on the LHS
-        cy.get('#directChannelList .muted').first().should('contain', otherUser.username);
+        cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').first().should('contain', otherUser.username);
 
-        // # Clicks on UnMute Channel
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelToggleMuteChannel button').click().then(() => {
-                // * Assert that channel is unmuted
-                cy.get('#toggleMute').should('not.be.visible');
-            });
-        });
+        // # Open channel menu and click Unmute Conversation
+        cy.uiOpenChannelMenu('Unmute Conversation');
 
         // * Assert that channel does not appear as muted on the LHS
-        cy.get('#directChannelList .muted').should('not.exist');
+        cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').should('not.exist');
     });
 });

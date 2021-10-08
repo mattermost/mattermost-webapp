@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel
+// Group: @channel @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -40,8 +40,10 @@ describe('channel name tooltips', () => {
     let testTeam;
 
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.shouldNotRunOnCloudEdition();
+
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             testTeam = team;
             loggedUser = user;
 
@@ -51,7 +53,7 @@ describe('channel name tooltips', () => {
             });
 
             cy.apiLogin(loggedUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -103,7 +105,7 @@ describe('channel name tooltips', () => {
 
     it('Should show tooltip on hover - user with a long username', () => {
         // # Open a DM with the user
-        cy.get('#addDirectChannel').should('be.visible').click();
+        cy.findByRole('button', {name: 'Write a direct message'}).click();
         cy.focused().as('searchBox').type(longUser.username, {force: true});
 
         // * Verify that the user is selected in the results list before typing enter

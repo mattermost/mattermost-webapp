@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
 import {FormattedMessage} from 'react-intl';
+
+import {UserProfile} from 'mattermost-redux/types/users';
 
 type Props = {
     user: UserProfile;

@@ -1,82 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SidebarChannelList should match snapshot 1`] = `
-<div
-  className="SidebarNavContainer a11y__region"
-  data-a11y-disable-nav={false}
-  data-a11y-sort-order="7"
-  id="sidebar-left"
-  onTransitionEnd={[Function]}
->
-  <UnreadChannelIndicator
-    content={
-      <FormattedMessage
-        defaultMessage="More unreads"
-        id="sidebar.unreads"
-      />
-    }
-    extraClass="nav-pills__unread-indicator-top"
-    name="Top"
-    onClick={[Function]}
-    show={false}
-  />
-  <UnreadChannelIndicator
-    content={
-      <FormattedMessage
-        defaultMessage="More unreads"
-        id="sidebar.unreads"
-      />
-    }
-    extraClass="nav-pills__unread-indicator-bottom"
-    name="Bottom"
-    onClick={[Function]}
-    show={false}
-  />
-  <Scrollbars
-    autoHeight={false}
-    autoHeightMax={200}
-    autoHeightMin={0}
-    autoHide={true}
-    autoHideDuration={500}
-    autoHideTimeout={500}
-    hideTracksWhenNotNeeded={false}
-    onScroll={[Function]}
-    renderThumbHorizontal={[Function]}
-    renderThumbVertical={[Function]}
-    renderTrackHorizontal={[Function]}
-    renderTrackVertical={[Function]}
-    renderView={[Function]}
-    style={
-      Object {
-        "position": "absolute",
-      }
-    }
-    tagName="div"
-    thumbMinSize={30}
-    universal={false}
+<Fragment>
+  <GlobalThreadsLink />
+  <div
+    aria-label="channel sidebar region"
+    className="SidebarNavContainer a11y__region"
+    data-a11y-disable-nav={false}
+    data-a11y-sort-order="7"
+    id="sidebar-left"
+    onTransitionEnd={[Function]}
+    role="application"
   >
-    <DragDropContext
-      onBeforeCapture={[Function]}
-      onBeforeDragStart={[Function]}
-      onDragEnd={[Function]}
-      onDragStart={[Function]}
+    <UnreadChannelIndicator
+      content={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+        />
+      }
+      extraClass="nav-pills__unread-indicator-top"
+      name="Top"
+      onClick={[Function]}
+      show={false}
+    />
+    <UnreadChannelIndicator
+      content={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="More unreads"
+          id="sidebar.unreads"
+        />
+      }
+      extraClass="nav-pills__unread-indicator-bottom"
+      name="Bottom"
+      onClick={[Function]}
+      show={false}
+    />
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={true}
+      autoHideDuration={500}
+      autoHideTimeout={500}
+      hideTracksWhenNotNeeded={false}
+      onScroll={[Function]}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "position": "absolute",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
     >
-      <Connect(Droppable)
-        direction="vertical"
-        droppableId="droppable-categories"
-        getContainerForClone={[Function]}
-        ignoreContainerClipping={false}
-        isCombineEnabled={false}
-        isDropDisabled={false}
-        mode="standard"
-        renderClone={null}
-        type="SIDEBAR_CATEGORY"
+      <DragDropContext
+        onBeforeCapture={[Function]}
+        onBeforeDragStart={[Function]}
+        onDragEnd={[Function]}
+        onDragStart={[Function]}
       >
-        <Component />
-      </Connect(Droppable)>
-    </DragDropContext>
-  </Scrollbars>
-</div>
+        <Connect(Droppable)
+          direction="vertical"
+          droppableId="droppable-categories"
+          getContainerForClone={[Function]}
+          ignoreContainerClipping={false}
+          isCombineEnabled={false}
+          isDropDisabled={false}
+          mode="standard"
+          renderClone={null}
+          type="SIDEBAR_CATEGORY"
+        >
+          <Component />
+        </Connect(Droppable)>
+      </DragDropContext>
+    </Scrollbars>
+  </div>
+</Fragment>
 `;
 
 exports[`SidebarChannelList should match snapshot 2`] = `
@@ -88,6 +93,7 @@ exports[`SidebarChannelList should match snapshot 2`] = `
           "channel_id",
           "channel_id_2",
         ],
+        "collapsed": false,
         "display_name": "custom_category_1",
         "id": "category1",
         "muted": false,

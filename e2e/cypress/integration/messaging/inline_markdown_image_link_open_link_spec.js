@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -19,24 +20,12 @@ describe('Messaging', () => {
     });
 
     it('MM-T188 - Inline markdown image that is a link, opens the link', () => {
-        // # Enable 'Show markdown preview option in message input box' setting in Account Settings > Advanced
-        cy.get('.sidebar-header-dropdown__icon').click();
-
-        // # Click on 'Account Settings'
-        cy.findByText('Account Settings').should('be.visible').click();
-
-        // * Check that the 'Account Settings' modal was opened
-        cy.get('#accountSettingsModal').should('exist').within(() => {
-            // # Click on the 'Advanced' tab
-            cy.findByText('Advanced').should('be.visible').click();
-
+        // * Open settings modal - Advanced section
+        cy.uiOpenSettingsModal('Advanced').within(() => {
             // # Click on the 'Advanced Preview Features Edit' button and check the 'Show markdown preview option in message input box' and save
             cy.get('#advancedPreviewFeaturesEdit').should('be.visible').click();
             cy.get('#advancedPreviewFeaturesmarkdown_preview').check();
-            cy.findByText('Save').should('be.visible').click();
-
-            // # Close the modal
-            cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
+            cy.uiSaveAndClose();
         });
 
         const linkUrl = 'https://travis-ci.org/mattermost/platform';

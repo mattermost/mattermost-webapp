@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
@@ -53,7 +54,9 @@ describe('Integrations', () => {
             cy.findByLabelText('off-topic public channel').should('exist');
 
             // # Post a slash command that sends message to off-topic channel
-            cy.postMessage(`/${slashCommand.trigger}`);
+            cy.get('#post_textbox').should('be.visible').
+                clear().
+                type(`/${slashCommand.trigger} {enter}`);
 
             // * Verify slash command error
             cy.findByText(`Command '${slashCommand.trigger}' failed to post response. Please contact your System Administrator.`).should('be.visible');
@@ -92,7 +95,7 @@ describe('Integrations', () => {
             cy.findByLabelText('off-topic public channel').should('exist');
 
             // # Post a slash command that sends message to off-topic channel
-            cy.postMessage(`/${slashCommand.trigger}`);
+            cy.postMessage(`/${slashCommand.trigger} `);
 
             // * Verify that off-topic channel is unread and then click
             cy.findByLabelText('off-topic public channel unread').

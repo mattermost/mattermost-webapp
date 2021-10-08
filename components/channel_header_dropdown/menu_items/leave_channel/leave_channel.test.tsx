@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import Menu from 'components/widgets/menu/menu';
 
@@ -27,7 +27,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper: ShallowWrapper<any, any, LeaveChannel> = shallow(<LeaveChannel {...baseProps}/>);
+        const wrapper = shallow<LeaveChannel>(<LeaveChannel {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -36,7 +36,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             ...baseProps,
             isDefault: true,
         };
-        const wrapper: ShallowWrapper<any, any, LeaveChannel> = shallow(<LeaveChannel {...props}/>);
+        const wrapper = shallow<LeaveChannel>(<LeaveChannel {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -61,7 +61,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             actions: {...baseProps.actions},
         };
         const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
-        const wrapper: ShallowWrapper<any, any, LeaveChannel> = shallow(<LeaveChannel {...props}/>);
+        const wrapper = shallow<LeaveChannel>(<LeaveChannel {...props}/>);
 
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),

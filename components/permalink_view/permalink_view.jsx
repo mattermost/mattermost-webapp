@@ -27,15 +27,6 @@ export default class PermalinkView extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
     };
 
-    static getDerivedStateFromProps(props, state) {
-        let updatedState = {postid: props.match.params.postid};
-        if (state.postid !== props.match.params.postid) {
-            updatedState = {...updatedState, valid: false};
-        }
-
-        return updatedState;
-    }
-
     constructor(props) {
         super(props);
         this.state = {valid: false};
@@ -47,8 +38,10 @@ export default class PermalinkView extends React.PureComponent {
         document.body.classList.add('app__body');
     }
 
-    componentDidUpdate() {
-        if (!this.state.valid) {
+    componentDidUpdate(prevProps) {
+        const prevPostid = prevProps.match.params.postid;
+        const currPostid = this.props.match.params.postid;
+        if (prevPostid !== currPostid) {
             this.doPermalinkEvent(this.props);
         }
     }

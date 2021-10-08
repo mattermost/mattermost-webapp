@@ -20,7 +20,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     }
 
     for (const permission of ownProps.permissions) {
-        if (haveIChannelPermission(state, {channel: ownProps.channelId, team: ownProps.teamId, permission})) {
+        if (haveIChannelPermission(state, ownProps.teamId, ownProps.channelId, permission)) {
             return {hasPermission: true};
         }
     }

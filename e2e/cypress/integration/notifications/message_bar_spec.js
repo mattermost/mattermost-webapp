@@ -52,6 +52,6 @@ describe('Notifications', () => {
 
         // * Verify that new message bar is not visible even after a new reaction
         // was added to the message in the bottom
-        cy.get('.toast.toast__visible').should('not.be.visible');
+        cy.get('.toast.toast__visible').should('not.exist');
     });
 });

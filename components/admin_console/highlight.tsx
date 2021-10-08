@@ -11,7 +11,7 @@ type Props = {
 }
 
 export default class Highlight extends React.PureComponent<Props> {
-    private markInstance? : Mark;
+    private markInstance?: Mark;
     private ref: React.RefObject<HTMLDivElement>;
 
     public constructor(props: Props) {

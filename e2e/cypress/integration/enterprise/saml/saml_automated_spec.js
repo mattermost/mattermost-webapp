@@ -35,9 +35,9 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
             Verify: true,
             Encrypt: true,
             SignRequest: true,
-            IdpUrl: idpUrl,
-            IdpDescriptorUrl: `http://www.okta.com/${oktaMMEntityId}`,
-            IdpMetadataUrl: idpMetadataUrl,
+            IdpURL: idpUrl,
+            IdpDescriptorURL: `http://www.okta.com/${oktaMMEntityId}`,
+            IdpMetadataURL: idpMetadataUrl,
             ServiceProviderIdentifier: `${Cypress.config('baseUrl')}/login/sso/saml`,
             AssertionConsumerServiceURL: `${Cypress.config('baseUrl')}/login/sso/saml`,
             SignatureAlgorithm: 'RSAwithSHA1',
@@ -130,8 +130,7 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
                             cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                                cy.toAccountSettingsModal();
-                                cy.get('#securityButton').click();
+                                cy.uiOpenAccountSettingsModal('Security');
                                 cy.findByTestId('viewAccessHistory').click();
                                 cy.findByTestId('auditTableBody').find('td').
                                     each(($el) => {

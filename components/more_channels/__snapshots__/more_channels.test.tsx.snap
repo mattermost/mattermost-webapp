@@ -42,7 +42,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       componentClass="h1"
       id="moreChannelsModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="More Channels"
         id="more_channels.title"
       />
@@ -61,7 +61,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Create Channel"
           id="more_channels.create"
         />
@@ -81,7 +81,6 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel_id",
@@ -90,7 +89,6 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "team_id",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           },
@@ -114,7 +112,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
           <p
             className="secondary-message"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Click 'Create New Channel' to make a new one"
               id="more_channels.createClick"
             />

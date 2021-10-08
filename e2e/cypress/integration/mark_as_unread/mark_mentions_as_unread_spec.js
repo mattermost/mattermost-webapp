@@ -21,10 +21,13 @@ describe('Mark post with mentions as unread', () => {
     let channelA;
     let channelB;
 
+    let testTeam;
+
     before(() => {
         cy.apiInitSetup().then(({team, user, channel}) => {
             userA = user;
             channelA = channel;
+            testTeam = team;
 
             // # Create second channel and add userA
             cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((out) => {
@@ -37,12 +40,12 @@ describe('Mark post with mentions as unread', () => {
                 userB = user2;
 
                 // # Add userB to channel team and channels
-                cy.apiAddUserToTeam(team.id, userB.id).then(() => {
+                cy.apiAddUserToTeam(testTeam.id, userB.id).then(() => {
                     cy.apiAddUserToChannel(channelA.id, userB.id);
                     cy.apiAddUserToChannel(channelB.id, userB.id);
                 });
 
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
             });
         });
     });
@@ -50,6 +53,7 @@ describe('Mark post with mentions as unread', () => {
     it('MM-T247 Marks posts with mentions as unread', () => {
         // # Login as userB
         cy.apiLogin(userB);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Navigate to both channels, so the new messages line appears above posts
         switchToChannel(channelA);

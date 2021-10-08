@@ -1,69 +1,143 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps, useCallback, MouseEvent} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {memo, useCallback, useEffect, MouseEvent, useMemo} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
+import {useDispatch} from 'react-redux';
+
+import {Channel} from 'mattermost-redux/types/channels';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserThread} from 'mattermost-redux/types/threads';
+import {$ID} from 'mattermost-redux/types/utilities';
+
+import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+
+import * as Utils from 'utils/utils';
 
 import './thread_item.scss';
 
 import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
+import Button from 'components/threading/common/button';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
+
+import Markdown from 'components/markdown';
 
 import ThreadMenu from '../thread_menu';
 
 import {THREADING_TIME} from '../../common/options';
+import {useThreadRouting} from '../../hooks';
+import {Posts} from 'mattermost-redux/constants';
+
+export type OwnProps = {
+    isSelected: boolean;
+    threadId: $ID<UserThread>;
+    style?: any;
+};
 
 type Props = {
-    participants: ComponentProps<typeof Avatars>['users'];
-    totalParticipants?: number;
-    name: string;
-    channelName: string;
-    previewText: string;
+    channel: Channel;
+    currentRelativeTeamUrl: string;
+    displayName: string;
+    post: Post;
+    postsInThread: Post[];
+    thread: UserThread;
+};
 
-    lastReplyAt: ComponentProps<typeof Timestamp>['value'];
-    newReplies: number;
-    newMentions: number;
-    totalReplies: number;
+const markdownPreviewOptions = {
+    singleline: true,
+    mentionHighlight: false,
+    atMentions: false,
+};
 
-    isFollowing: boolean;
-    isSaved: boolean;
-    isSelected: boolean;
-
-    actions: {
-        select: () => void;
-        openInChannel: () => void;
-    };
-} & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
-
-const ThreadItem = ({
-    participants,
-    totalParticipants,
-    name,
-    channelName,
-    previewText,
-
-    lastReplyAt,
-    newReplies,
-    newMentions,
-    totalReplies,
-
+function ThreadItem({
+    channel,
+    currentRelativeTeamUrl,
+    displayName,
     isSelected,
-    isSaved,
-    isFollowing,
+    post,
+    postsInThread,
+    style,
+    thread,
+    threadId,
+}: Props & OwnProps): React.ReactElement|null {
+    const dispatch = useDispatch();
+    const {select, goToInChannel} = useThreadRouting();
+    const {formatMessage} = useIntl();
 
-    actions,
+    const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
 
-}: Props) => {
+    useEffect(() => {
+        if (channel?.teammate_id) {
+            dispatch(getMissingProfilesByIds([channel.teammate_id]));
+        }
+    }, [channel?.teammate_id]);
+
+    useEffect(() => {
+        if (!channel && thread?.post.channel_id) {
+            dispatch(fetchChannel(thread.post.channel_id));
+        }
+    }, [channel, thread?.post.channel_id]);
+
+    const participantIds = useMemo(() => {
+        const ids = thread?.participants?.flatMap(({id}) => {
+            if (id === post.user_id) {
+                return [];
+            }
+            return id;
+        }).reverse();
+        return [post.user_id, ...ids];
+    }, [thread?.participants]);
+
+    const selectHandler = useCallback(() => select(threadId), []);
+
+    const imageProps = useMemo(() => ({
+        onImageHeightChanged: () => {},
+        onImageLoaded: () => {},
+    }), []);
+
+    const goToInChannelHandler = useCallback((e: MouseEvent) => {
+        e.stopPropagation();
+        goToInChannel(threadId);
+    }, [threadId]);
+
+    const handleFormattedTextClick = useCallback((e) => {
+        Utils.handleFormattedTextClick(e, currentRelativeTeamUrl);
+    }, [currentRelativeTeamUrl]);
+
+    if (!thread || !post) {
+        return null;
+    }
+
+    const {
+        unread_replies: newReplies,
+        unread_mentions: newMentions,
+        last_reply_at: lastReplyAt,
+        reply_count: totalReplies,
+        is_following: isFollowing,
+    } = thread;
+
+    let unreadTimestamp = post.edit_at || post.create_at;
+
+    // if we have the whole thread, get the posts in it, sorted from newest to oldest.
+    // Last post - root post, second to last post - oldest reply. Use that timestamp
+    if (postsInThread.length > 1) {
+        const p = postsInThread[postsInThread.length - 2];
+        unreadTimestamp = p.edit_at || p.create_at;
+    }
+
     return (
         <article
+            style={style}
             className={classNames('ThreadItem', {
                 'has-unreads': newReplies,
                 'is-selected': isSelected,
             })}
             tabIndex={0}
-            onClick={actions.select}
+            onClick={selectHandler}
         >
             <h1>
                 {Boolean(newMentions || newReplies) && (
@@ -78,59 +152,83 @@ const ThreadItem = ({
                         )}
                     </div>
                 )}
-                {name || participants[0].name}
-                {Boolean(channelName) && (
+                <span>{post.props?.override_username || displayName}</span>
+                {Boolean(channel) && (
                     <Badge
-                        onClick={useCallback((e: MouseEvent) => {
-                            e.stopPropagation();
-                            actions.openInChannel();
-                        }, [])}
+                        onClick={goToInChannelHandler}
                     >
-                        {channelName}
+                        {channel?.display_name}
                     </Badge>
                 )}
                 <Timestamp
+                    {...THREADING_TIME}
                     className='alt-hidden'
                     value={lastReplyAt}
-                    useTime={false}
-                    units={THREADING_TIME}
                 />
             </h1>
-            <span className='menu-anchor alt-visible'>
+            <div className='menu-anchor alt-visible'>
                 <ThreadMenu
-                    isSaved={isSaved}
-                    isFollowing={isFollowing}
+                    threadId={threadId}
+                    isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
-                    actions={actions}
+                    unreadTimestamp={unreadTimestamp}
+                >
+                    <SimpleTooltip
+                        id='threadActionMenu'
+                        content={(
+                            <FormattedMessage
+                                id='threading.threadItem.menu'
+                                defaultMessage='Actions'
+                            />
+                        )}
+                    >
+                        <Button className='Button___icon'>
+                            <i className='Icon icon-dots-vertical'/>
+                        </Button>
+                    </SimpleTooltip>
+                </ThreadMenu>
+            </div>
+            <div
+                aria-readonly='true'
+                className='preview'
+                dir='auto'
+                tabIndex={0}
+                onClick={handleFormattedTextClick}
+            >
+                <Markdown
+                    message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
+                    options={markdownPreviewOptions}
+                    imagesMetadata={post?.metadata && post?.metadata?.images}
+                    imageProps={imageProps}
                 />
-            </span>
-            <p>
-                {previewText}
-            </p>
-            {Boolean(totalReplies) && (
-                <div className='activity'>
+            </div>
+            <div className='activity'>
+                {participantIds?.length ? (
                     <Avatars
-                        users={participants}
-                        totalUsers={totalParticipants}
+                        userIds={participantIds}
                         size='xs'
                     />
-                    {newReplies ? (
-                        <FormattedMessage
-                            id='threading.numNewReplies'
-                            defaultMessage='{newReplies, plural, =1 {# new reply} other {# new replies}}'
-                            values={{newReplies}}
-                        />
-                    ) : (
-                        <FormattedMessage
-                            id='threading.numReplies'
-                            defaultMessage='{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}'
-                            values={{totalReplies}}
-                        />
-                    )}
-                </div>
-            )}
+                ) : null}
+                {Boolean(totalReplies) && (
+                    <>
+                        {newReplies ? (
+                            <FormattedMessage
+                                id='threading.numNewReplies'
+                                defaultMessage='{newReplies, plural, =1 {# new reply} other {# new replies}}'
+                                values={{newReplies}}
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='threading.numReplies'
+                                defaultMessage='{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}'
+                                values={{totalReplies}}
+                            />
+                        )}
+                    </>
+                )}
+            </div>
         </article>
     );
-};
+}
 
 export default memo(ThreadItem);

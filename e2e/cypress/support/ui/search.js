@@ -7,7 +7,7 @@ Cypress.Commands.add('uiSearchPosts', (searchTerm) => {
 
     // * Wait for the RHS to open and the search results to appear
     cy.contains('.sidebar--right__header', 'Search Results').should('be.visible');
-    cy.get('#searchContainer .LoadingSpinner').should('not.be.visible');
+    cy.get('#searchContainer .LoadingSpinner').should('not.exist');
 });
 
 Cypress.Commands.add('uiJumpToSearchResult', (postId) => {

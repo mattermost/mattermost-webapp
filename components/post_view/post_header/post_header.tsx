@@ -7,43 +7,42 @@ import {FormattedMessage} from 'react-intl';
 import {Post} from 'mattermost-redux/types/posts';
 
 import Constants from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 
+import PostHeaderCustomStatus from './post_header_custom_status';
+
+import './post_header.scss';
+
 export type Props = {
 
     /*
-    * The post to render the header for
-    */
+     * The post to render the header for
+     */
     post: Post;
 
     /*
-    * Function called when the comment icon is clicked
-    */
+     * Function called when the comment icon is clicked
+     */
     handleCommentClick: EventHandler<MouseEvent>;
 
     /*
-    * Function called when the card icon is clicked
-    */
+     * Function called when the card icon is clicked
+     */
     handleCardClick: (post: Post) => void;
 
     /*
-    * Function called when the post options dropdown is opened
-    */
+     * Function called when the post options dropdown is opened
+     */
     handleDropdownOpened: (opened: boolean) => void;
 
     /*
-    * Set to render compactly
-    */
+     * Set to render compactly
+     */
     compactDisplay?: boolean;
-
-    /*
-    * The number of replies in the same thread as this post
-    */
-    replyCount?: number;
 
     /**
      * Set to indicate that this is previous post was not a reply to the same thread
@@ -56,8 +55,8 @@ export type Props = {
     hover: boolean;
 
     /*
-    * Set to render the post time when not hovering
-    */
+     * Set to render the post time when not hovering
+     */
     showTimeWithoutHover: boolean;
 
     /**
@@ -151,6 +150,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
+                    userId=''
                     overwriteName={
                         <FormattedMessage
                             id='post_info.system'
@@ -167,12 +167,21 @@ export default class PostHeader extends React.PureComponent<Props> {
             colon = (<strong className='colon'>{':'}</strong>);
         }
 
+        const customStatus = (
+            <PostHeaderCustomStatus
+                userId={this.props.post.user_id}
+                isBot={this.props.isBot || fromWebhook}
+                isSystemMessage={isSystemMessage}
+            />
+        );
+
         return (
             <div className='post__header'>
                 <div className='col col__name'>
                     {userProfile}
                     {colon}
                     {indicator}
+                    {customStatus}
                 </div>
                 <div className='col'>
                     <PostInfo
@@ -181,7 +190,6 @@ export default class PostHeader extends React.PureComponent<Props> {
                         handleCardClick={this.props.handleCardClick}
                         handleDropdownOpened={this.props.handleDropdownOpened}
                         compactDisplay={this.props.compactDisplay}
-                        replyCount={this.props.replyCount}
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}

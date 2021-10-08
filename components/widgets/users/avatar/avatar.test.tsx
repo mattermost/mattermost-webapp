@@ -15,25 +15,20 @@ describe('components/widgets/users/Avatar', () => {
                 size='xl'
             />,
         );
-        expect(wrapper).toMatchInlineSnapshot(`
-<img
-  alt="test-username profile image"
-  className="Avatar Avatar-xl"
-  src="test-url"
-/>
-`);
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match the snapshot only with url', () => {
         const wrapper = shallow(
             <Avatar url='test-url'/>,
         );
-        expect(wrapper).toMatchInlineSnapshot(`
-<img
-  alt="user profile image"
-  className="Avatar Avatar-md"
-  src="test-url"
-/>
-`);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match the snapshot only plain text', () => {
+        const wrapper = shallow(
+            <Avatar text='SA'/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

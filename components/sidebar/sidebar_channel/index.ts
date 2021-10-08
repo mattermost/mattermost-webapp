@@ -3,15 +3,14 @@
 
 import {connect} from 'react-redux';
 
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, makeGetChannel, makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {getPostDraft} from 'selectors/rhs';
-import {getDraggingState, isChannelSelected} from 'selectors/views/channel_sidebar';
-import {GlobalState} from 'types/store';
-import {NotificationLevels, StoragePrefixes} from 'utils/constants';
+import {StoragePrefixes} from 'utils/constants';
 import {hasDraft} from 'utils/channel_utils';
+import {getAutoSortedCategoryIds, getDraggingState, isChannelSelected} from 'selectors/views/channel_sidebar';
+import {GlobalState} from 'types/store';
 
 import SidebarChannel from './sidebar_channel';
 
@@ -21,42 +20,28 @@ type OwnProps = {
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
+    const getUnreadCount = makeGetChannelUnreadCount();
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const channel = getChannel(state, {id: ownProps.channelId});
         const currentTeam = getCurrentTeam(state);
 
-        const member = getMyChannelMemberships(state)[ownProps.channelId];
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channelId);
         const currentChannelId = getCurrentChannelId(state);
 
-        // Unread counts
-        let unreadMentions = 0;
-        let unreadMsgs = 0;
-        let showUnreadForMsgs = true;
-        if (member) {
-            unreadMentions = member.mention_count;
-
-            if (channel) {
-                unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
-            }
-
-            if (member.notify_props) {
-                showUnreadForMsgs = member.notify_props.mark_unread !== NotificationLevels.MENTION;
-            }
-        }
+        const unreadCount = getUnreadCount(state, channel.id);
 
         return {
             channel,
             isCurrentChannel: channel.id === currentChannelId,
             currentTeamName: currentTeam.name,
-            unreadMentions,
-            unreadMsgs,
-            showUnreadForMsgs,
+            unreadMentions: unreadCount.mentions,
+            isUnread: unreadCount.showUnread,
             draggingState: getDraggingState(state),
             hasDraft: hasDraft(draft),
             isChannelSelected: isChannelSelected(state, ownProps.channelId),
             multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
+            autoSortedCategoryIds: getAutoSortedCategoryIds(state),
         };
     };
 }

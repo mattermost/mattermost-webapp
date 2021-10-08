@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+
 import {Groups} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';

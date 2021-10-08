@@ -34,9 +34,9 @@ import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';
 
 import TeamList from 'components/admin_console/system_user_detail/team_list';
-import EmailIcon from 'components/widgets/icons/email_icon.jsx';
-import AtIcon from 'components/widgets/icons/at_icon.jsx';
-import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon.jsx';
+import EmailIcon from 'components/widgets/icons/email_icon';
+import AtIcon from 'components/widgets/icons/at_icon';
+import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon';
 
 import './system_user_detail.scss';
 
@@ -354,12 +354,6 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
     render(): React.ReactNode {
         const {user} = this.props;
         let deactivateMemberModal;
-        let currentRoles = (
-            <FormattedMessage
-                id='admin.user_item.member'
-                defaultMessage='Member'
-            />
-        );
 
         if (!user.id) {
             return (
@@ -369,30 +363,6 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
 
         if (user.id) {
             deactivateMemberModal = this.renderDeactivateMemberModal(user);
-            if (user.delete_at > 0) {
-                currentRoles = (
-                    <FormattedMessage
-                        id='admin.user_item.inactive'
-                        defaultMessage='Inactive'
-                    />
-                );
-            }
-            if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
-                currentRoles = (
-                    <FormattedMessage
-                        id='team_members_dropdown.systemAdmin'
-                        defaultMessage='System Admin'
-                    />
-                );
-            }
-            if (user.roles.length > 0 && Utils.isGuest(user)) {
-                currentRoles = (
-                    <FormattedMessage
-                        id='team_members_dropdown.guest'
-                        defaultMessage='Guest'
-                    />
-                );
-            }
         }
 
         return (
@@ -437,9 +407,6 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
                                         <SheidOutlineIcon className='SystemUserDetail__field-icon'/>
                                         <span className='SystemUserDetail__field-text'>{this.getAuthenticationText()}</span>
                                     </div>
-
-                                    <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.role', 'Role')}</span>
-                                    <p>{currentRoles}</p>
                                 </React.Fragment>
                             }
                             footer={
@@ -521,6 +488,7 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
                         alreadySelected={this.state.teamIds}
+                        excludeGroupConstrained={true}
                     />
                 }
             </div>

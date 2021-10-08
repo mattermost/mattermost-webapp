@@ -1,17 +1,17 @@
 @import 'utils/variables';
 
 .SystemUserDetail__field-label {
-    font-size: 12px;
     display: block;
-    font-weight: bold;
     margin-top: 12px;
     margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .SystemUserDetail__input {
     display: inline-block;
-    height: 40px;
     max-width: 320px;
+    height: 40px;
 }
 
 .SystemUserDetail .add-team-button {
@@ -28,11 +28,11 @@
 }
 
 .SystemUserDetail__field-icon {
+    display: inline-block;
     width: 16px;
     height: 16px;
-    fill: rgba(61, 60, 64, 0.6);
     margin: 0 8px 0 0;
-    display: inline-block;
+    fill: rgba(61, 60, 64, 0.6);
     vertical-align: middle;
 }
 
@@ -42,10 +42,10 @@
 }
 
 .SystemUserDetail__actions-menu-icon svg {
-    color: #333;
     width: 18px;
+    color: #333;
 }
 
 .SystemUserDetail .MenuItem .SystemUserDetail__action-remove-team {
-    color: #8B0008;
+    color: #8b0008;
 }

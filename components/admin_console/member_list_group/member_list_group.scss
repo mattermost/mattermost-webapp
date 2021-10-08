@@ -1,16 +1,17 @@
 .MemberListGroup {
     .DataGrid {
         display: flex;
-        flex-direction: column;
-        height: calc(90vh - 120px);
         width: 100%;
+        height: calc(90vh - 120px);
+        flex-direction: column;
         padding: 0;
 
         .DataGrid_rows {
-            flex-grow: 500;
             height: 1px;
+            flex-grow: 500;
             overflow-y: scroll;
         }
+
         .DataGrid_empty {
             margin: auto;
         }

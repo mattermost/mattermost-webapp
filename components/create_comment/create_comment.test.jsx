@@ -3,17 +3,27 @@
 
 import React from 'react';
 
+import CreateComment from 'components/create_comment/create_comment';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Constants from 'utils/constants';
 
-import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import Textbox from 'components/textbox';
 
 describe('components/CreateComment', () => {
+    jest.useFakeTimers();
+    beforeEach(() => {
+        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+    });
+
+    afterEach(() => {
+        window.requestAnimationFrame.mockRestore();
+    });
+
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
@@ -43,7 +53,6 @@ describe('components/CreateComment', () => {
         resetCreatePostRequest: jest.fn(),
         setShowPreview: jest.fn(),
         shouldShowPreview: false,
-        readOnlyChannel: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
         enableConfirmNotificationsToChannel: true,
@@ -58,6 +67,7 @@ describe('components/CreateComment', () => {
         useChannelMentions: true,
         getChannelMemberCountsByGroup: jest.fn(),
         useGroupMentions: true,
+        openModal: jest.fn(),
     };
 
     test('should match snapshot, empty comment', () => {
@@ -178,7 +188,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -362,9 +372,9 @@ describe('components/CreateComment', () => {
         );
 
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
-        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
 
-        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
     });
 
     test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -449,25 +459,30 @@ describe('components/CreateComment', () => {
     });
 
     test('handleChange should update comment draft correctly', () => {
-        const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, onUpdateCommentDraft, draft};
+        const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
+            <CreateComment
+                {...props}
+            />,
         );
 
         const testMessage = 'new msg';
-        const scrollToBottom = jest.fn();
-        wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.instance().handleChange({target: {value: testMessage}});
 
-        expect(onUpdateCommentDraft).toHaveBeenCalled();
-        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+        // The callback won't we called until after a short delay
+        expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
+
+        jest.runOnlyPendingTimers();
+
+        expect(baseProps.onUpdateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage}),
         );
         expect(wrapper.state().draft.message).toBe(testMessage);
@@ -492,22 +507,25 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>,
         );
 
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: '/fakecommand other text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
         });
 
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: 'some valid text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
@@ -516,14 +534,15 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft};
+        const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
+            <CreateComment
+                {...props}
+            />,
         );
 
-        const scrollToBottom = jest.fn();
-        wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -556,7 +575,7 @@ describe('components/CreateComment', () => {
             preventDefault = jest.fn();
         });
 
-        ['channel', 'all'].forEach((mention) => {
+        ['channel', 'all', 'here'].forEach((mention) => {
             describe(`should not show Confirm Modal for @${mention} mentions`, () => {
                 it('when channel member count too low', () => {
                     const props = {
@@ -578,7 +597,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when feature disabled', () => {
@@ -601,7 +620,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when no mention', () => {
@@ -624,7 +643,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when user has insufficient permissions', () => {
@@ -648,7 +667,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
             });
 
@@ -672,7 +691,7 @@ describe('components/CreateComment', () => {
                 wrapper.instance().handleSubmit({preventDefault});
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
 
             it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, async () => {
@@ -700,7 +719,7 @@ describe('components/CreateComment', () => {
                 expect(preventDefault).toHaveBeenCalled();
                 expect(wrapper.state('channelTimezoneCount')).toBe(4);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
 
             it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, async () => {
@@ -728,7 +747,7 @@ describe('components/CreateComment', () => {
                 expect(preventDefault).toHaveBeenCalled();
                 expect(wrapper.state('channelTimezoneCount')).toBe(0);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
         });
 
@@ -761,16 +780,16 @@ describe('components/CreateComment', () => {
             const wrapper = shallowWithIntl(
                 <CreateComment {...props}/>,
             );
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(10);
-            expect(wrapper.state('channelTimezoneCount')).toBe(0);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should show Confirm Modal for @group mentions when needed and no timezone notification', async () => {
@@ -835,15 +854,16 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(40);
-            expect(wrapper.state('channelTimezoneCount')).toBe(0);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you', '@software-developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should show Confirm Modal for @group mention with timezone enabled', async () => {
@@ -876,15 +896,16 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(10);
-            expect(wrapper.state('channelTimezoneCount')).toBe(5);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 5, 10);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should allow to force send invalid slash command as a message', async () => {
@@ -906,18 +927,23 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmitWithError).toHaveBeenCalledWith({ignoreSlash: false});
+            expect(onSubmitWithError).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
 
             wrapper.setProps({onSubmit});
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: true});
+            expect(onSubmit).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: true});
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
 
@@ -1077,15 +1103,6 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
     });
 
-    test('should match snapshot read only channel', () => {
-        const props = {...baseProps, readOnlyChannel: true};
-        const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should match snapshot when cannot post', () => {
         const props = {...baseProps, canPost: false};
         const wrapper = shallowWithIntl(
@@ -1148,7 +1165,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        instance.refs = {textbox: {blur, focus, getInputBox: jest.fn(mockImpl)}};
+        instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -1205,22 +1222,25 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
+        const scrollToBottom = jest.fn();
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps}/>,
+            <CreateComment
+                {...baseProps}
+                scrollToBottom={scrollToBottom}
+            />,
         );
 
-        wrapper.instance().scrollToBottom = jest.fn();
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(scrollToBottom).toBeCalledTimes(0);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(true);
 
         // should scroll to bottom on first component update
         wrapper.setState({draft: {...draft, message: 'new message'}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
 
         // but not after the first update
         wrapper.setState({draft: {...draft, message: 'another message'}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
     });
 
@@ -1231,24 +1251,25 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
+        const scrollToBottom = jest.fn();
         const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 draft={draft}
+                scrollToBottom={scrollToBottom}
             />,
         );
 
-        wrapper.instance().scrollToBottom = jest.fn();
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(scrollToBottom).toBeCalledTimes(0);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [1]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+        expect(scrollToBottom).toBeCalledTimes(2);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+        expect(scrollToBottom).toBeCalledTimes(2);
     });
 
     it('should be able to format a pasted markdown table', () => {
@@ -1277,7 +1298,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1325,7 +1346,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1376,7 +1397,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
         wrapper.setState({
             draft: {
                 ...draft,
@@ -1453,8 +1474,8 @@ describe('components/CreateComment', () => {
             const mockTop = () => {
                 return document.createElement('div');
             };
-            wrapper.instance().refs = {
-                textbox: {
+            wrapper.instance().textboxRef = {
+                current: {
                     getInputBox: jest.fn(() => {
                         return {
                             focus: jest.fn(),
@@ -1486,8 +1507,8 @@ describe('components/CreateComment', () => {
         const mockTop = () => {
             return document.createElement('div');
         };
-        wrapper.instance().refs = {
-            textbox: {
+        wrapper.instance().textboxRef = {
+            current: {
                 getInputBox: jest.fn(() => {
                     return {
                         focus: jest.fn(),

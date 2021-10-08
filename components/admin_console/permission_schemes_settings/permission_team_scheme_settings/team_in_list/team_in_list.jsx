@@ -33,7 +33,7 @@ export default class TeamInList extends React.PureComponent {
             >
                 <div className='team-info-block'>
                     <TeamIcon
-                        name={team.display_name}
+                        content={team.display_name}
                         url={imageURLForTeam(team)}
                     />
                     <div className='team-data'>

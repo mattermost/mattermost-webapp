@@ -3,10 +3,12 @@
 
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
+import classNames from 'classnames';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
-import {FormattedMessage} from 'react-intl';
-import classNames from 'classnames';
 
 import {t} from 'utils/i18n';
 
@@ -14,7 +16,9 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 
+import './channel_profile.scss';
 interface ChannelProfileProps {
     channel: Partial<Channel>;
     team: Partial<Team>;
@@ -36,6 +40,27 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
         t('admin.channel_settings.channel_details.archiveChannel');
         archiveBtnID = 'admin.channel_settings.channel_details.archiveChannel';
         archiveBtnDefault = 'Archive Channel';
+    }
+
+    let sharedBlock;
+    if (channel.shared && channel.type) {
+        sharedBlock = (
+            <div className='channel-organizations'>
+                <FormattedMarkdownMessage
+                    id='admin.channel_settings.channel_detail.channelOrganizations'
+                    defaultMessage='**Organizations**'
+                />
+                <br/>
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                />
+                <FormattedMessage
+                    id='admin.channel_settings.channel_detail.channelOrganizationsMessage'
+                    defaultMessage='Shared with trusted organizations'
+                />
+            </div>
+        );
     }
 
     return (
@@ -64,6 +89,7 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
                         <br/>
                         {team.display_name}
                     </div>
+                    {sharedBlock}
                     <div className='AdminChannelDetails_archiveContainer'>
                         <button
                             type='button'

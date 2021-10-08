@@ -26,6 +26,7 @@ type Props = {
     preferences: PreferenceType[];
     steps: StepType[];
     isAdmin: boolean;
+    enableOnboardingFlow: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -47,17 +48,16 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         };
     }
 
-    closeNextSteps = (event: React.SyntheticEvent) => {
+    closeNextSteps = (event: React.SyntheticEvent): void => {
+        const {showNextSteps, isAdmin} = this.props;
         event.stopPropagation();
-        if (this.props.showNextSteps) {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
+        if (showNextSteps) {
+            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
         } else {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_tips');
+            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_tips');
         }
 
-        const screenTitle = this.props.showNextSteps ?
-            localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
-            localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
+        const screenTitle = showNextSteps ? localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') : localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
 
         this.props.actions.openModal({
             modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
@@ -102,6 +102,14 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     render() {
+        if (!this.props.enableOnboardingFlow) {
+            return null;
+        }
+
+        if (this.props.preferences.length === 0) {
+            return null;
+        }
+
         if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
             return null;
         }

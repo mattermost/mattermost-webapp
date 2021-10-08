@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
@@ -41,7 +42,7 @@ context('ldap', () => {
     });
 
     describe('LDAP Login flow - Admin Login', () => {
-        it('LDAP login new MM admin, create team', () => {
+        it('MM-T2821 LDAP Admin Filter', () => {
             testSettings.user = admin1;
             const ldapSetting = {
                 LdapSettings: {
@@ -53,7 +54,7 @@ context('ldap', () => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     // # Skip or create team
                     cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
-                        cy.get('#headerTeamName').should('be.visible').then((teamName) => {
+                        cy.uiGetLHSHeader().then((teamName) => {
                             testSettings.teamName = teamName.text();
                         });
 

@@ -1,61 +1,49 @@
 @charset 'UTF-8';
 
 .announcement-bar {
-    &.tall {
-        height: 40px;
-        max-height: 40px;
-        min-height: 40px;
-        padding: 0;
-        margin: 0;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    min-height: $announcement-bar-height;
+    max-height: $announcement-bar-height;
+    align-items: center;
+    justify-content: center;
+    background-color: #579eff;
+    color: $white;
+    text-align: center;
+
+    .announcement-bar__text {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+
+        > p {
+            overflow: hidden;
+            margin: 0;
+            text-overflow: ellipsis;
+        }
+
         > span {
             font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
             line-height: 20px;
-            > span {
-                font-weight: 600;
-            }
         }
 
-        .announcement-bar__close {
-            &:hover {
-                background-color: rgba(255, 255, 255, 0.08);
-                opacity: 0.72;
-            }
-            font-family: 'compass-icons';
-            font-size: 18px;
-            line-height: 32px;
-            display: inline-block;
-            position: absolute;
-            right: 4px;
-            top: 4px;
-            width: 32px;
-            height: 32px;
-            text-decoration: none;
-            padding: 0;
-            font-weight: normal;
-            vertical-align: middle;
-            opacity: 0.56;
+        .annnouncementBar__purchaseNow,
+        .annnouncementBar__renewLicense {
+            margin-top: 0;
         }
-        z-index: 1029;
-    }
 
-    background-color: #113166;
-    color: $white;
-    min-height: $announcement-bar-height;
-    position: fixed;
-    text-align: center;
-    top: 0;
-    width: 100%;
-    z-index: 9999;
-    overflow: hidden;
-    padding: 5px 30px;
-    max-height: $announcement-bar-height;
-
-    > span {
-        max-width: 100%;
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        .annnouncementBar__renewLicense {
+            border-color: $white;
+        }
     }
 
     a {
@@ -69,92 +57,77 @@
         }
 
         &.announcement-bar__close {
+            position: absolute;
+            top: 5px;
+            right: 0;
+            padding: 0 10px;
             color: $white;
             font-family: 'Open Sans', sans-serif;
             font-size: 20px;
             font-weight: 600;
-            padding: 0 10px;
-            position: absolute;
-            right: 0;
             text-decoration: none;
-            top: 1px;
+
             &:hover {
                 color: $white;
                 text-decoration: none;
             }
         }
-
     }
 
     .fa-wrapper {
         margin: 0 5px;
     }
 
-    .resend-verification-wrapper:before {
+    .resend-verification-wrapper::before {
         content: "\00a0 ";
     }
 
-    .content__icon {
-        top: 1px;
-        position: relative;
-        align-items: center;
-        display: inline-block;
+    .content__icon,
+    i {
+        margin-right: 4px;
+        color: #fff;
         font-family: 'compass-icons';
-        font-size: 18px;
-        line-height: 21px;
-        color: #FFFFFF;
-        height: 18px;
-        margin-right: 8px;
+        font-size: 16px;
     }
 
-    .upgrade-button {
+    button {
         &:hover {
-            background-color: rgba(255, 255, 255, 0.08)
+            background-color: rgba(255, 255, 255, 0.08);
         }
-        display: inline-block;
-        margin-top: 8px;
-        margin-bottom: 8px;
-        margin-left: 8px;
-        background-color: #579EFF;
-        font-family: Open Sans;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 16px;
-        padding: 4px 8px;
-        border: 1px solid #FFFFFF;
+
         height: 24px;
         box-sizing: border-box;
+        padding: 4px 8px;
+        border: 1px solid #fff;
+        margin-left: 8px;
+        background-color: inherit !important;
         border-radius: 4px;
-        background-color: inherit
+        font-family: Open Sans;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 16px;
     }
 }
 
-
-
 .announcement-bar-critical {
-    background-color: #B0171F;
-}
-
-.announcement-bar-critical-light {
-    background-color: var(--error-text);
-}
-
-.announcement-bar-developer {
-    background-color: purple;
+    background-color: #f74343;
 }
 
 .announcement-bar-success {
-    color: #3c763d;
-    background-color: #dff0d8;
+    background-color: #06d6a0;
 }
 
 .announcement-bar-advisor {
-    background-color: #579EFF;
+    background-color: #579eff;
 }
 
 .announcement-bar-advisor-ack {
-    background-color: #06D6A0;
+    background-color: #06d6a0;
+}
+
+.announcement-bar-general {
+    background-color: #3d3c40;
 }
 
 .announcement-bar__link {
@@ -162,8 +135,9 @@
 }
 
 .advisor-icon {
-    height: 16px;
     width: 16px;
+    height: 16px;
     margin-right: 8px;
     margin-bottom: 2px;
+    margin-left: 8px;
 }

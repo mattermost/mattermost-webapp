@@ -21,16 +21,18 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
     const admin = getAdminAccount();
     let testTeam;
     let testUser;
+    let offTopicUrl;
 
     before(() => {
         cy.shouldHaveElasticsearchDisabled();
 
-        // # Login as test user and go to town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
-            testUser = user;
-            testTeam = team;
+        // # Login as test user and go to off-topic
+        cy.apiInitSetup({loginAfter: true}).then((out) => {
+            testUser = out.user;
+            testTeam = out.team;
+            offTopicUrl = out.offTopicUrl;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -42,9 +44,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
         // # Create private channel, do not add new user to it (sets @privateChannel alias)
         createPrivateChannel(testTeam.id).then((channel) => {
             // # Go to off-topic channel to partially reload the page
-            cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-                cy.findAllByText('Off-Topic').should('be.visible').click();
-            });
+            cy.uiGetLhsSection('CHANNELS').findAllByText('Off-Topic').click();
 
             // # Search for the private channel
             searchForChannel(channel.name);
@@ -57,9 +57,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
 
     it('private channel I do belong to appears', () => {
         // # Go to off-topic channel to partially reload the page
-        cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-            cy.findAllByText('Off-Topic').should('be.visible').click();
-        });
+        cy.uiGetLhsSection('CHANNELS').findAllByText('Off-Topic').click();
 
         // # Create private channel and add new user to it (sets @privateChannel alias)
         createPrivateChannel(testTeam.id, testUser).then((channel) => {
@@ -96,9 +94,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
             // # Create a private channel where the new user is not a member of
             createPrivateChannel(teamResponse.data.id).then((channel) => {
                 // # Go to off-topic channel to partially reload the page
-                cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-                    cy.findAllByText('Off-Topic').should('be.visible').click();
-                });
+                cy.uiGetLhsSection('CHANNELS').findAllByText('Off-Topic').click();
 
                 // # Search for the private channel
                 searchForChannel(channel.name);
@@ -114,8 +110,8 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
         let channelId;
 
         before(() => {
-            // // # Visit town-square
-            cy.visit(`/${testTeam.name}`);
+            // // # Visit off-topic
+            cy.visit(offTopicUrl);
 
             const name = 'hellothere';
 

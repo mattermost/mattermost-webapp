@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel @channel_settings
+// Group: @channel @channel_settings @not_cloud
 
 // Make sure that the current channel is Town Square and that the
 // channel identified by the passed name is no longer in the channel
@@ -27,6 +27,8 @@ describe('Close direct messages', () => {
     let testTeam;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
             testTeam = team;
@@ -47,15 +49,6 @@ describe('Close direct messages', () => {
             // # Open channel header dropdown menu and click on Close Direct Message
             cy.get('#channelHeaderDropdownIcon').click();
             cy.findByText('Close Direct Message').click();
-
-            verifyChannelWasProperlyClosed(channel.name);
-        });
-    });
-
-    it('Through x button on channel sidebar item', () => {
-        createAndVisitDMChannel([testUser.id, otherUser.id]).then((channel) => {
-            // # Click on the x button on the sidebar channel item
-            cy.get('#sidebarItem_' + channel.name + '>span.btn-close').click({force: true});
 
             verifyChannelWasProperlyClosed(channel.name);
         });
@@ -82,6 +75,8 @@ describe('Close group messages', () => {
 
     before(() => {
         cy.apiAdminLogin();
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
             testTeam = team;
@@ -106,15 +101,6 @@ describe('Close group messages', () => {
             // # Open channel header dropdown menu and click on Close Direct Message
             cy.get('#channelHeaderDropdownIcon').click();
             cy.findByText('Close Group Message').click();
-
-            verifyChannelWasProperlyClosed(channel.name);
-        });
-    });
-
-    it('Through x button on channel sidebar item', () => {
-        createAndVisitGMChannel([otherUser1, otherUser2]).then((channel) => {
-            // # Click on the x button on the sidebar channel item
-            cy.get('#sidebarItem_' + channel.name + '>span.btn-close').click({force: true});
 
             verifyChannelWasProperlyClosed(channel.name);
         });

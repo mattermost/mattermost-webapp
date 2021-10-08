@@ -6,7 +6,7 @@ exports[`components/post_view/DateSeparator should render Timestamp inside of a 
     ranges={
       Array [
         Object {
-          "display": <FormattedMessage
+          "display": <Memo(MemoizedFormattedMessage)
             defaultMessage="Today"
             id="date_separator.today"
           />,
@@ -16,7 +16,7 @@ exports[`components/post_view/DateSeparator should render Timestamp inside of a 
           ],
         },
         Object {
-          "display": <FormattedMessage
+          "display": <Memo(MemoizedFormattedMessage)
             defaultMessage="Yesterday"
             id="date_separator.yesterday"
           />,

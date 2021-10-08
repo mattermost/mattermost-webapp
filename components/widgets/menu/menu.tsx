@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
+import classNames from 'classnames';
 
 import {isMobile} from 'utils/utils';
 
@@ -12,6 +13,8 @@ import MenuGroup from './menu_group';
 import MenuItemAction from './menu_items/menu_item_action';
 import MenuItemExternalLink from './menu_items/menu_item_external_link';
 import MenuItemLink from './menu_items/menu_item_link';
+import MenuCloudTrial from './menu_items/menu_cloud_trial';
+import MenuStartTrial from './menu_items/menu_start_trial';
 import MenuItemToggleModalRedux from './menu_items/menu_item_toggle_modal_redux';
 
 import './menu.scss';
@@ -23,6 +26,7 @@ type Props = {
     id?: string;
     ariaLabel: string;
     customStyles?: CSSProperties;
+    className?: string;
 }
 
 export default class Menu extends React.PureComponent<Props> {
@@ -33,6 +37,8 @@ export default class Menu extends React.PureComponent<Props> {
     public static ItemLink = MenuItemLink
     public static ItemToggleModalRedux = MenuItemToggleModalRedux
     public static ItemSubMenu = SubMenuItem
+    public static CloudTrial = MenuCloudTrial
+    public static StartTrial = MenuStartTrial
 
     public node: React.RefObject<HTMLUListElement>; //Public because it is used by tests
     private observer: MutationObserver;
@@ -112,7 +118,7 @@ export default class Menu extends React.PureComponent<Props> {
         if (customStyles) {
             styles = customStyles;
         } else {
-            if (openLeft && !isMobile()) {
+            if (openLeft) {
                 styles.left = 'inherit';
                 styles.right = 0;
             }
@@ -132,7 +138,7 @@ export default class Menu extends React.PureComponent<Props> {
                 <ul
                     ref={this.node}
                     style={styles}
-                    className='Menu__content dropdown-menu'
+                    className={classNames('Menu__content dropdown-menu', this.props.className)}
                     onClick={this.handleMenuClick}
                 >
                     {children}

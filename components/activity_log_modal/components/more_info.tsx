@@ -4,20 +4,13 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
+import {Session} from 'mattermost-redux/types/sessions';
+
 import {getMonthLong} from 'utils/i18n';
 
 type Props = {
     locale: string;
-    currentSession: {
-        props: {
-            os: string;
-            platform: string;
-            browser: string;
-        };
-        create_at: number;
-        last_activity_at: number;
-        id: string;
-    };
+    currentSession: Session;
     handleMoreInfo: () => void;
     moreInfo: boolean;
 };

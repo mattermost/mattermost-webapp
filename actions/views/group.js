@@ -8,11 +8,11 @@ import Permissions from 'mattermost-redux/constants/permissions';
 export function searchAssociatedGroupsForReference(prefix, teamId, channelId) {
     return async (dispatch, getState) => {
         const state = getState();
-        if (!haveIChannelPermission(state, {
-            permission: Permissions.USE_GROUP_MENTIONS,
-            channel: channelId,
-            team: teamId,
-        })) {
+        if (!haveIChannelPermission(state,
+            teamId,
+            channelId,
+            Permissions.USE_GROUP_MENTIONS,
+        )) {
             return {data: []};
         }
         return {data: searchAssociatedGroupsForReferenceLocal(state, prefix, teamId, channelId)};

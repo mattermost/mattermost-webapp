@@ -1,53 +1,60 @@
 @charset 'UTF-8';
 
 .tip-backdrop {
-    background: alpha-color($black, .5);
-    height: 100%;
-    left: 0;
     position: absolute;
-    top: 0;
-    width: 100%;
     z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: alpha-color($black, 0.5);
 }
 
 .tip-overlay {
     @include border-radius(3px);
-    background-color: $white;
+
+    position: absolute;
+    z-index: 1000;
+    width: 350px;
     max-width: 90%;
     padding: 20px;
-    position: absolute;
-    width: 350px;
-    z-index: 1000;
+    background: var(--center-channel-bg);
 
     .arrow {
-        border-color: transparent;
-        border-style: solid;
-        border-width: 10px;
-        display: block;
-        height: 0;
         position: absolute;
+        display: block;
         width: 0;
+        height: 0;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent;
     }
 
     &.tip-overlay--sidebar {
-        margin: 50px 0 0 10px;
         max-width: 75%;
         min-height: 330px;
+        margin: 50px 0 0 10px;
 
         .tutorial__footer {
+            position: absolute;
             bottom: 20px;
             left: 0;
-            padding: 0 20px;
-            position: absolute;
             width: 100%;
+            padding: 0 20px;
         }
 
         .arrow {
-            border-left-width: 0;
-            border-right-color: $white;
+            top: 115px;
             left: -10px;
+            border-right-color: var(--center-channel-bg);
+            border-left-width: 0;
             margin-top: -10px;
-            top: 80px;
+        }
+    }
+
+    &.tip-overlay--header {
+        .arrow {
+            border-right-color: var(--center-channel-bg);
         }
     }
 
@@ -55,10 +62,16 @@
         margin: 10px 0 0 10px;
 
         .arrow {
-            border-left-width: 0;
-            border-right-color: $white;
-            left: -10px;
             top: 15px;
+            left: -10px;
+            border-right-color: $white;
+            border-left-width: 0;
+        }
+
+        &.tip-overlay--header--heading {
+            .arrow {
+                top: 45px;
+            }
         }
     }
 
@@ -66,11 +79,11 @@
         margin-top: -10px;
 
         .arrow {
-            border-bottom-color: $white;
-            border-top-width: 0;
-            left: 50%;
-            margin-left: -10px;
             top: -10px;
+            left: 50%;
+            border-top-width: 0;
+            border-bottom-color: $white;
+            margin-left: -10px;
         }
     }
 
@@ -78,18 +91,46 @@
         margin-top: -10px;
 
         .arrow {
-            border-bottom-width: 0;
-            border-top-color: $white;
             bottom: -10px;
             left: 50%;
+            border-top-color: var(--center-channel-bg);
+            border-bottom-width: 0;
             margin-left: -10px;
         }
     }
 
+    &.tip-overlay--add-channels {
+        .arrow {
+            top: 97px;
+            left: -10px;
+            border-right-color: $white;
+            border-left-width: 0;
+        }
+    }
+
+    &.tip-overlay--product-switcher {
+        .arrow {
+            top: 10px;
+            left: 0;
+            border-right-color: $white;
+            border-left-width: 0;
+            margin-left: -10px;
+        }
+    }
+
+    &.tip-overlay--settings {
+        .arrow {
+            top: -10px;
+            right: 44px;
+            border-top-width: 0;
+            border-bottom-color: $white;
+        }
+    }
+
     h4 {
+        margin: 5px 0 15px;
         font-size: em(16px);
         font-weight: 600;
-        margin: 5px 0 15px;
     }
 
     p {
@@ -103,16 +144,17 @@
 
     .btn {
         @include border-radius(3px);
-        background: alpha-color($black, .3);
+
         border: none;
-        color: $white;
         margin: 10px 0;
+        background: alpha-color($black, 0.3);
+        color: $white;
 
         &:hover,
         &:active,
         &:focus {
-            background: alpha-color($black, .4);
             border: none;
+            background: alpha-color($black, 0.4);
             color: $white;
         }
     }
@@ -121,7 +163,7 @@
         font-size: 12px;
 
         span {
-            @include opacity(.9);
+            @include opacity(0.9);
         }
     }
 
@@ -129,82 +171,122 @@
         margin: 1.5em 0 -1.7em -4px;
 
         .circle {
+            width: 7px;
             height: 7px;
             margin: 0 4px;
-            width: 7px;
         }
     }
 }
 
 .tip-button {
-    cursor: pointer;
     position: relative;
-    right: -10px;
-    top: -10px;
     z-index: 998;
+    top: -10px;
+    right: -10px;
+    cursor: pointer;
 }
 
 .tip-div {
     position: absolute;
-    right: 0;
     top: 0;
+    right: 0;
+
+    &.tip-overlay--chat {
+        right: unset;
+        left: 0;
+    }
 
     &.tip-overlay--header {
-        right: 2px;
         top: 21px;
+        right: 2px;
 
         .tip-button {
-            @include opacity(.8);
+            @include opacity(0.8);
+        }
+    }
+
+    &.tip-overlay--header--left {
+        // needs to be over the top of the dropdown trigger
+        z-index: 1;
+        top: 8px;
+        right: 14px;
+        padding: 0 0 12px 12px;
+
+        &.tip-overlay--header--heading {
+            top: 0;
+            right: -4px;
+            padding: 0 0 12px 12px;
         }
     }
 
     &.tip-overlay--sidebar {
-        @include opacity(.8);
-        left: 0;
-        top: -9px;
+        @include opacity(0.8);
+
+        top: 10px;
+        right: 21px;
+    }
+
+    &.tip-overlay--add-channels {
+        top: -6px;
+        right: -13px;
+        padding: 0 8px 24px 24px;
+        cursor: pointer;
+    }
+
+    &.tip-overlay--product-switcher {
+        right: unset;
+        padding: 0 4px 16px 16px;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    &.tip-overlay--settings {
+        top: 23px;
+        right: 38px;
+        padding: 10px;
+        margin: 0;
     }
 }
 
 .tutorial-steps__container {
     display: flex;
     overflow: auto;
-    justify-content: center;
     height: 100vh;
-    align-items: center;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 
     .tutorial__content {
-
         .tutorial__steps {
+            position: relative;
             display: inline-block;
-            margin-bottom: 50px;
             max-width: 310px;
             min-height: 480px;
-            position: relative;
+            margin-bottom: 50px;
             text-align: left;
         }
     }
 
     .tutorial__footer {
-        bottom: 0;
         position: absolute;
+        bottom: 0;
     }
 
     h1 {
+        margin: 20px 0 30px 0;
         font-size: em(40px);
         font-weight: 600;
-        margin: -20px 0 30px;
     }
 
     h3 {
+        margin-bottom: 30px;
         font-size: em(24px);
         font-weight: 600;
-        margin-bottom: 30px;
     }
 
     .tutorial__circles {
-        bottom: 25px;
         position: absolute;
+        bottom: 25px;
     }
 
     .tutorial-skip {
@@ -217,15 +299,17 @@
 
     .circle {
         @include border-radius(9px);
-        @include opacity(.2);
-        background: $black;
+        @include opacity(0.2);
+
         display: inline-block;
+        width: 9px;
         height: 9px;
         margin: 0 5px;
-        width: 9px;
+        background: $black;
 
         &.active {
             @include opacity(1);
+
             background: $primary-color;
         }
     }

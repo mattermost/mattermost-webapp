@@ -8,12 +8,12 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Header"
       id="header_id"
     />
@@ -32,7 +32,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="control-label col-sm-4"
           htmlFor="displayName"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Title"
             id="add_incoming_webhook.displayName"
           />
@@ -51,7 +51,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_incoming_webhook.displayName.help"
             />
@@ -65,7 +65,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="control-label col-sm-4"
           htmlFor="description"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Description"
             id="add_incoming_webhook.description"
           />
@@ -84,7 +84,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Describe your incoming webhook."
               id="add_incoming_webhook.description.help"
             />
@@ -98,7 +98,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="control-label col-sm-4"
           htmlFor="channelId"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel"
             id="add_incoming_webhook.channel"
           />
@@ -116,7 +116,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
@@ -130,7 +130,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="control-label col-sm-4"
           htmlFor="channelLocked"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Lock to this channel"
             id="add_incoming_webhook.channelLocked"
           />
@@ -147,7 +147,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="If set, the incoming webhook can post only to the selected channel."
               id="add_incoming_webhook.channelLocked.help"
             />
@@ -161,7 +161,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="control-label col-sm-4"
           htmlFor="username"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Username"
             id="add_incoming_webhook.username"
           />
@@ -180,7 +180,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the username this integration will post as. Usernames can be up to 22 characters, and can contain lowercase letters, numbers and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, the name specified by the webhook creator is used."
               id="add_incoming_webhook.username.help"
             />
@@ -194,7 +194,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="control-label col-sm-4"
           htmlFor="iconURL"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Profile Picture"
             id="add_incoming_webhook.icon_url"
           />
@@ -213,7 +213,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enter the URL of a .png or .jpg file for the profile picture of this integration when posting. The file should be at least 128 pixels by 128 pixels. If left blank, the profile picture specified by the webhook creator is used."
               id="add_incoming_webhook.icon_url.help"
             />
@@ -237,7 +237,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="btn btn-link btn-sm"
           to="/team_name/integrations/incoming_webhooks"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_incoming_webhook.cancel"
           />
@@ -250,7 +250,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           spinningText="Loading"
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Footer"
             id="footer_id"
           />
@@ -269,12 +269,12 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Header"
       id="header_id"
     />
@@ -293,7 +293,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="displayName"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Title"
             id="add_incoming_webhook.displayName"
           />
@@ -312,7 +312,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_incoming_webhook.displayName.help"
             />
@@ -326,7 +326,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="description"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Description"
             id="add_incoming_webhook.description"
           />
@@ -345,7 +345,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Describe your incoming webhook."
               id="add_incoming_webhook.description.help"
             />
@@ -359,7 +359,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="channelId"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel"
             id="add_incoming_webhook.channel"
           />
@@ -377,7 +377,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
@@ -391,7 +391,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="channelLocked"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Lock to this channel"
             id="add_incoming_webhook.channelLocked"
           />
@@ -408,7 +408,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="If set, the incoming webhook can post only to the selected channel."
               id="add_incoming_webhook.channelLocked.help"
             />
@@ -422,7 +422,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="username"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Username"
             id="add_incoming_webhook.username"
           />
@@ -441,7 +441,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the username this integration will post as. Usernames can be up to 22 characters, and can contain lowercase letters, numbers and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, the name specified by the webhook creator is used."
               id="add_incoming_webhook.username.help"
             />
@@ -455,7 +455,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="iconURL"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Profile Picture"
             id="add_incoming_webhook.icon_url"
           />
@@ -474,7 +474,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enter the URL of a .png or .jpg file for the profile picture of this integration when posting. The file should be at least 128 pixels by 128 pixels. If left blank, the profile picture specified by the webhook creator is used."
               id="add_incoming_webhook.icon_url.help"
             />
@@ -498,7 +498,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="btn btn-link btn-sm"
           to="/team_name/integrations/incoming_webhooks"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_incoming_webhook.cancel"
           />
@@ -511,7 +511,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           spinningText="Loading"
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Footer"
             id="footer_id"
           />
@@ -530,12 +530,12 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Header"
       id="header_id"
     />
@@ -554,7 +554,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="displayName"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Title"
             id="add_incoming_webhook.displayName"
           />
@@ -573,7 +573,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_incoming_webhook.displayName.help"
             />
@@ -587,7 +587,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="description"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Description"
             id="add_incoming_webhook.description"
           />
@@ -606,7 +606,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Describe your incoming webhook."
               id="add_incoming_webhook.description.help"
             />
@@ -620,7 +620,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelId"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel"
             id="add_incoming_webhook.channel"
           />
@@ -638,7 +638,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
@@ -652,7 +652,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelLocked"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Lock to this channel"
             id="add_incoming_webhook.channelLocked"
           />
@@ -669,7 +669,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="If set, the incoming webhook can post only to the selected channel."
               id="add_incoming_webhook.channelLocked.help"
             />
@@ -683,7 +683,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="username"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Username"
             id="add_incoming_webhook.username"
           />
@@ -702,7 +702,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the username this integration will post as. Usernames can be up to 22 characters, and can contain lowercase letters, numbers and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, the name specified by the webhook creator is used."
               id="add_incoming_webhook.username.help"
             />
@@ -716,7 +716,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="iconURL"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Profile Picture"
             id="add_incoming_webhook.icon_url"
           />
@@ -735,7 +735,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enter the URL of a .png or .jpg file for the profile picture of this integration when posting. The file should be at least 128 pixels by 128 pixels. If left blank, the profile picture specified by the webhook creator is used."
               id="add_incoming_webhook.icon_url.help"
             />
@@ -750,7 +750,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           errors={
             Array [
               "",
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="A valid channel is required"
                 id="add_incoming_webhook.channelRequired"
               />,
@@ -762,7 +762,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-link btn-sm"
           to="/team_name/integrations/incoming_webhooks"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_incoming_webhook.cancel"
           />
@@ -775,7 +775,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           spinningText="Loading"
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Footer"
             id="footer_id"
           />
@@ -794,12 +794,12 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Header"
       id="header_id"
     />
@@ -818,7 +818,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="displayName"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Title"
             id="add_incoming_webhook.displayName"
           />
@@ -837,7 +837,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_incoming_webhook.displayName.help"
             />
@@ -851,7 +851,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="description"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Description"
             id="add_incoming_webhook.description"
           />
@@ -870,7 +870,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Describe your incoming webhook."
               id="add_incoming_webhook.description.help"
             />
@@ -884,7 +884,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelId"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel"
             id="add_incoming_webhook.channel"
           />
@@ -902,7 +902,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
@@ -916,7 +916,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelLocked"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Lock to this channel"
             id="add_incoming_webhook.channelLocked"
           />
@@ -933,7 +933,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="If set, the incoming webhook can post only to the selected channel."
               id="add_incoming_webhook.channelLocked.help"
             />
@@ -947,7 +947,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="username"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Username"
             id="add_incoming_webhook.username"
           />
@@ -966,7 +966,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the username this integration will post as. Usernames can be up to 22 characters, and can contain lowercase letters, numbers and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, the name specified by the webhook creator is used."
               id="add_incoming_webhook.username.help"
             />
@@ -990,7 +990,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-link btn-sm"
           to="/team_name/integrations/incoming_webhooks"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_incoming_webhook.cancel"
           />
@@ -1003,7 +1003,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           spinningText="Loading"
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Footer"
             id="footer_id"
           />
@@ -1022,12 +1022,12 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Header"
       id="header_id"
     />
@@ -1046,7 +1046,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="displayName"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Title"
             id="add_incoming_webhook.displayName"
           />
@@ -1065,7 +1065,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_incoming_webhook.displayName.help"
             />
@@ -1079,7 +1079,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="description"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Description"
             id="add_incoming_webhook.description"
           />
@@ -1098,7 +1098,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Describe your incoming webhook."
               id="add_incoming_webhook.description.help"
             />
@@ -1112,7 +1112,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelId"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel"
             id="add_incoming_webhook.channel"
           />
@@ -1130,7 +1130,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
@@ -1144,7 +1144,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelLocked"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Lock to this channel"
             id="add_incoming_webhook.channelLocked"
           />
@@ -1161,7 +1161,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="If set, the incoming webhook can post only to the selected channel."
               id="add_incoming_webhook.channelLocked.help"
             />
@@ -1175,7 +1175,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="iconURL"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Profile Picture"
             id="add_incoming_webhook.icon_url"
           />
@@ -1194,7 +1194,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enter the URL of a .png or .jpg file for the profile picture of this integration when posting. The file should be at least 128 pixels by 128 pixels. If left blank, the profile picture specified by the webhook creator is used."
               id="add_incoming_webhook.icon_url.help"
             />
@@ -1218,7 +1218,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-link btn-sm"
           to="/team_name/integrations/incoming_webhooks"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_incoming_webhook.cancel"
           />
@@ -1231,7 +1231,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           spinningText="Loading"
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Footer"
             id="footer_id"
           />
@@ -1250,12 +1250,12 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Header"
       id="header_id"
     />
@@ -1274,7 +1274,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="displayName"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Title"
             id="add_incoming_webhook.displayName"
           />
@@ -1293,7 +1293,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_incoming_webhook.displayName.help"
             />
@@ -1307,7 +1307,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="description"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Description"
             id="add_incoming_webhook.description"
           />
@@ -1326,7 +1326,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Describe your incoming webhook."
               id="add_incoming_webhook.description.help"
             />
@@ -1340,7 +1340,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelId"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel"
             id="add_incoming_webhook.channel"
           />
@@ -1358,7 +1358,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
@@ -1372,7 +1372,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="channelLocked"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Lock to this channel"
             id="add_incoming_webhook.channelLocked"
           />
@@ -1389,7 +1389,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="If set, the incoming webhook can post only to the selected channel."
               id="add_incoming_webhook.channelLocked.help"
             />
@@ -1403,7 +1403,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="username"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Username"
             id="add_incoming_webhook.username"
           />
@@ -1422,7 +1422,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the username this integration will post as. Usernames can be up to 22 characters, and can contain lowercase letters, numbers and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, the name specified by the webhook creator is used."
               id="add_incoming_webhook.username.help"
             />
@@ -1436,7 +1436,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="control-label col-sm-4"
           htmlFor="iconURL"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Profile Picture"
             id="add_incoming_webhook.icon_url"
           />
@@ -1455,7 +1455,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enter the URL of a .png or .jpg file for the profile picture of this integration when posting. The file should be at least 128 pixels by 128 pixels. If left blank, the profile picture specified by the webhook creator is used."
               id="add_incoming_webhook.icon_url.help"
             />
@@ -1479,7 +1479,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="btn btn-link btn-sm"
           to="/team_name/integrations/incoming_webhooks"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_incoming_webhook.cancel"
           />
@@ -1492,7 +1492,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           spinningText="Loading"
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Footer"
             id="footer_id"
           />

@@ -13,13 +13,6 @@ const postMessageAs = require('./cypress/plugins/post_message_as');
 
 const port = 3000;
 
-const {
-    CYPRESS_baseUrl,
-    CYPRESS_webhookBaseUrl,
-    CYPRESS_adminUsername,
-    CYPRESS_adminPassword,
-} = process.env;
-
 const server = express();
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
@@ -27,6 +20,7 @@ server.use(express.urlencoded({extended: true}));
 process.title = process.argv[2];
 
 server.get('/', ping);
+server.post('/setup', doSetup);
 server.post('/message_menus', postMessageMenus);
 server.post('/dialog_request', onDialogRequest);
 server.post('/simple_dialog_request', onSimpleDialogRequest);
@@ -39,34 +33,60 @@ server.post('/post_outgoing_webhook', postOutgoingWebhook);
 server.post('/send_oauth_credentials', postSendOauthCredentials);
 server.get('/start_oauth', getStartOAuth);
 server.get('/complete_oauth', getCompleteOauth);
-server.post('/postOAuthMessage', postOAuthMessage);
-
-function ping(req, res) {
-    const baseUrl = CYPRESS_baseUrl || 'http://localhost:8065';
-    const webhookBaseUrl = CYPRESS_webhookBaseUrl || 'http://localhost:3000';
-
-    return res.json({
-        message: 'I\'m alive!',
-        baseUrl,
-        webhookBaseUrl,
-    });
-}
+server.post('/post_oauth_message', postOAuthMessage);
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`));
 
-let appID;
-let appSecret;
+function ping(req, res) {
+    return res.json({
+        message: 'I\'m alive!',
+        endpoints: [
+            'GET /',
+            'POST /setup',
+            'POST /message_menus',
+            'POST /dialog_request',
+            'POST /simple_dialog_request',
+            'POST /user_and_channel_dialog_request',
+            'POST /dialog_submit',
+            'POST /boolean_dialog_request',
+            'POST /slack_compatible_message_response',
+            'POST /send_message_to_channel',
+            'POST /post_outgoing_webhook',
+            'POST /send_oauth_credentials',
+            'GET /start_oauth',
+            'GET /complete_oauth',
+            'POST /post_oauth_message',
+        ],
+    });
+}
+
+// Set base URLs and credential to be accessible by any endpoint
+let baseUrl;
+let webhookBaseUrl;
+let adminUsername;
+let adminPassword;
+function doSetup(req, res) {
+    baseUrl = req.body.baseUrl;
+    webhookBaseUrl = req.body.webhookBaseUrl;
+    adminUsername = req.body.adminUsername;
+    adminPassword = req.body.adminPassword;
+
+    return res.status(201).send('Successfully setup the new base URLs and credential.');
+}
+
 let client;
 let authedUser;
 function postSendOauthCredentials(req, res) {
-    appID = req.body.appID.trim();
-    appSecret = req.body.appSecret.trim();
+    const {
+        appID,
+        appSecret,
+    } = req.body;
     client = new ClientOAuth2({
         clientId: appID,
         clientSecret: appSecret,
-        authorizationUri: getBaseUrl() + '/oauth/authorize',
-        accessTokenUri: getBaseUrl() + '/oauth/access_token',
-        redirectUri: getWebhookBaseUrl() + '/complete_oauth',
+        authorizationUri: `${baseUrl}/oauth/authorize`,
+        accessTokenUri: `${baseUrl}/oauth/access_token`,
+        redirectUri: `${webhookBaseUrl}/complete_oauth`,
     });
     return res.status(200).send('OK');
 }
@@ -86,7 +106,7 @@ function getCompleteOauth(req, res) {
 
 async function postOAuthMessage(req, res) {
     const {channelId, message, rootId, createAt} = req.body;
-    const apiUrl = getBaseUrl() + '/api/v4/posts';
+    const apiUrl = `${baseUrl}/api/v4/posts`;
     authedUser.sign({
         method: 'post',
         url: apiUrl,
@@ -105,7 +125,6 @@ async function postOAuthMessage(req, res) {
                 message,
                 type: '',
                 create_at: createAt,
-                parent_id: rootId,
                 root_id: rootId,
             },
         });
@@ -139,7 +158,6 @@ function postMessageMenus(req, res) {
 }
 
 async function openDialog(dialog) {
-    const baseUrl = getBaseUrl();
     await axios({
         method: 'post',
         url: `${baseUrl}/api/v4/actions/dialogs/open`,
@@ -150,7 +168,6 @@ async function openDialog(dialog) {
 function onDialogRequest(req, res) {
     const {body} = req;
     if (body.trigger_id) {
-        const webhookBaseUrl = getWebhookBaseUrl();
         const dialog = webhookUtils.getFullDialog(body.trigger_id, webhookBaseUrl);
         openDialog(dialog);
     }
@@ -162,7 +179,6 @@ function onDialogRequest(req, res) {
 function onSimpleDialogRequest(req, res) {
     const {body} = req;
     if (body.trigger_id) {
-        const webhookBaseUrl = getWebhookBaseUrl();
         const dialog = webhookUtils.getSimpleDialog(body.trigger_id, webhookBaseUrl);
         openDialog(dialog);
     }
@@ -174,7 +190,6 @@ function onSimpleDialogRequest(req, res) {
 function onUserAndChannelDialogRequest(req, res) {
     const {body} = req;
     if (body.trigger_id) {
-        const webhookBaseUrl = getWebhookBaseUrl();
         const dialog = webhookUtils.getUserAndChannelDialog(body.trigger_id, webhookBaseUrl);
         openDialog(dialog);
     }
@@ -186,7 +201,6 @@ function onUserAndChannelDialogRequest(req, res) {
 function onBooleanDialogRequest(req, res) {
     const {body} = req;
     if (body.trigger_id) {
-        const webhookBaseUrl = getWebhookBaseUrl();
         const dialog = webhookUtils.getBooleanDialog(body.trigger_id, webhookBaseUrl);
         openDialog(dialog);
     }
@@ -237,20 +251,17 @@ function postSendMessageToChannel(req, res) {
     res.json(response);
 }
 
-function getWebhookBaseUrl() {
-    return CYPRESS_webhookBaseUrl || 'http://localhost:3000';
-}
-
-function getBaseUrl() {
-    return process.env.CYPRESS_baseUrl || 'http://localhost:8065';
-}
-
 // Convenient way to send response in a channel by using sysadmin account
 function sendSysadminResponse(message, channelId) {
-    const username = CYPRESS_adminUsername || 'sysadmin';
-    const password = CYPRESS_adminPassword || 'Sys@dmin-sample1';
-    const baseUrl = getBaseUrl();
-    postMessageAs({sender: {username, password}, message, channelId, baseUrl});
+    postMessageAs({
+        sender: {
+            username: adminUsername,
+            password: adminPassword,
+        },
+        message,
+        channelId,
+        baseUrl,
+    });
 }
 
 const responseTypes = ['in_channel', 'comment'];

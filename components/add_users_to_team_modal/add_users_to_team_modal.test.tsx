@@ -53,7 +53,7 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
 
         actions: {
             getProfilesNotInTeam: jest.fn(),
-            searchProfiles: jest.fn(),
+            searchProfiles: jest.fn().mockResolvedValue({data: []}),
         },
     };
 
@@ -88,27 +88,21 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
     });
 
     test('should search', () => {
-        const getProfilesNotInTeam = jest.fn();
-        const searchProfiles = jest.fn();
         const wrapper = shallow(
             <AddUsersToTeamModal
                 {...baseProps}
-                actions={{
-                    searchProfiles,
-                    getProfilesNotInTeam,
-                }}
             />,
         );
         const addUsers = wrapper.instance() as AddUsersToTeamModal;
 
         // search profiles when search term given
         addUsers.search('foo');
-        expect(searchProfiles).toHaveBeenCalledTimes(1);
-        expect(getProfilesNotInTeam).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.searchProfiles).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.getProfilesNotInTeam).toHaveBeenCalledTimes(1);
 
         // get profiles when no search term
         addUsers.search('');
-        expect(searchProfiles).toHaveBeenCalledTimes(1);
-        expect(getProfilesNotInTeam).toHaveBeenCalledTimes(2);
+        expect(baseProps.actions.searchProfiles).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.getProfilesNotInTeam).toHaveBeenCalledTimes(2);
     });
 });

@@ -4,16 +4,20 @@
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import * as ThreadActions from 'mattermost-redux/actions/threads';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
-import {isEmbedVisible} from 'selectors/posts';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
     ActionTypes,
@@ -51,6 +55,8 @@ export function handleNewPost(post, msg) {
                 dispatch(loadNewGMIfNeeded(post.channel_id));
             }
         }
+
+        return {data: true};
     };
 }
 
@@ -128,6 +134,7 @@ export function addReaction(postId, emojiName) {
     return (dispatch) => {
         dispatch(PostActions.addReaction(postId, emojiName));
         dispatch(addRecentEmoji(emojiName));
+        return {data: true};
     };
 }
 
@@ -185,6 +192,7 @@ export function pinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             addPostToSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
@@ -197,10 +205,11 @@ export function unpinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             removePostFromSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
-export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
+export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = false) {
     return async (dispatch, getState) => {
         const state = getState();
         const post = PostSelectors.getPost(state, postId);
@@ -222,7 +231,7 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
         if (canEditNow) {
             dispatch({
                 type: ActionTypes.SHOW_EDIT_POST_MODAL,
-                data: {postId, commentCount, refocusId, title, isRHS},
+                data: {postId, refocusId, title, isRHS},
             });
         }
 
@@ -230,11 +239,24 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
     };
 }
 
-export function markPostAsUnread(post) {
+export function markPostAsUnread(post, location) {
     return async (dispatch, getState) => {
         const state = getState();
         const userId = getCurrentUserId(state);
-        await dispatch(PostActions.setUnreadPost(userId, post.id));
+        const currentTeamId = getCurrentTeamId(state);
+
+        // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread and followed
+        if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
+            const threadId = post.root_id || post.id;
+            ThreadActions.handleFollowChanged(dispatch, threadId, currentTeamId, true);
+            dispatch(manuallyMarkThreadAsUnread(threadId, post.create_at));
+            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, threadId, post.create_at));
+        } else {
+            // use normal channel unread system
+            await dispatch(PostActions.setUnreadPost(userId, post.id));
+        }
+
+        return {data: true};
     };
 }
 
@@ -288,7 +310,21 @@ export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }
 
-/**
+export function toggleInlineImageVisibility(postId, imageKey) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const visible = isInlineImageVisible(state, postId, imageKey);
+
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !visible));
+    };
+}
+
+export function resetInlineImageVisibility() {
+    return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.INLINE_IMAGE_VISIBLE, () => null);
+}
+
+/*
  * It is called from either center or rhs text input when shortcut for react to last message is pressed
  *
  * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"

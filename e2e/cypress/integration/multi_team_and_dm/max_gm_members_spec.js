@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @multi_team_and_dm
 
 describe('Multi-user group messages', () => {
@@ -32,7 +31,7 @@ describe('Multi-user group messages', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the 'Direct messages' dialog to create a new direct message
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
 
         // # Add the maximum amount of users to a group message (7)
         addUsersToGMViaModal(7);

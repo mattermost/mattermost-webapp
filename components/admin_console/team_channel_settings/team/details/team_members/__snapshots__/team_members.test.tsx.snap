@@ -42,7 +42,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
       }
       id="addTeamMembers"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
@@ -71,34 +71,34 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
               "team_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "system_guest": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
                 />,
                 "value": false,
               },
               "team_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
                 />,
                 "value": false,
               },
               "team_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,
@@ -117,9 +117,12 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         "user-1": Object {
           "delete_at": 0,
           "mention_count": 0,
+          "mention_count_root": 0,
           "msg_count": 0,
+          "msg_count_root": 0,
           "roles": "team_user",
           "scheme_admin": false,
+          "scheme_guest": false,
           "scheme_user": true,
           "team_id": "team_id",
           "user_id": "user-1",
@@ -127,9 +130,12 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         "user-2": Object {
           "delete_at": 0,
           "mention_count": 0,
+          "mention_count_root": 0,
           "msg_count": 0,
+          "msg_count_root": 0,
           "roles": "team_user",
           "scheme_admin": false,
+          "scheme_guest": false,
           "scheme_user": true,
           "team_id": "team_id",
           "user_id": "user-2",
@@ -137,9 +143,12 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         "user-3": Object {
           "delete_at": 0,
           "mention_count": 0,
+          "mention_count_root": 0,
           "msg_count": 0,
+          "msg_count_root": 0,
           "roles": "team_user",
           "scheme_admin": false,
+          "scheme_guest": false,
           "scheme_user": true,
           "team_id": "team_id",
           "user_id": "user-3",
@@ -331,7 +340,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
       }
       id="addTeamMembers"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
@@ -360,34 +369,34 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
               "team_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "system_guest": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
                 />,
                 "value": false,
               },
               "team_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
                 />,
                 "value": false,
               },
               "team_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,

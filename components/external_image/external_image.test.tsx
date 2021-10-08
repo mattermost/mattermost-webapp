@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
@@ -23,7 +23,7 @@ describe('ExternalImage', () => {
     };
 
     test('should render an image', () => {
-        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...baseProps}/>);
+        const wrapper = shallow<ExternalImage>(<ExternalImage {...baseProps}/>);
 
         expect(baseProps.children).toHaveBeenCalledWith(baseProps.src);
         expect(wrapper.find('img').exists()).toBe(true);
@@ -35,7 +35,7 @@ describe('ExternalImage', () => {
             imageMetadata: undefined,
         };
 
-        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
+        const wrapper = shallow<ExternalImage>(<ExternalImage {...props}/>);
 
         expect(baseProps.children).toHaveBeenCalledWith(baseProps.src);
         expect(wrapper.find('img').exists()).toBe(true);
@@ -53,7 +53,7 @@ describe('ExternalImage', () => {
             src: 'https://example.com/logo.svg',
         };
 
-        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
+        const wrapper = shallow<ExternalImage>(<ExternalImage {...props}/>);
 
         expect(props.children).toHaveBeenCalledWith(props.src);
         expect(wrapper.find('img').exists()).toBe(true);
@@ -72,7 +72,7 @@ describe('ExternalImage', () => {
             src: 'https://example.com/logo.svg',
         };
 
-        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
+        const wrapper = shallow<ExternalImage>(<ExternalImage {...props}/>);
 
         expect(props.children).toHaveBeenCalledWith('');
         expect(wrapper.find('img').exists()).toBe(true);
@@ -84,7 +84,7 @@ describe('ExternalImage', () => {
             hasImageProxy: true,
         };
 
-        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
+        const wrapper = shallow<ExternalImage>(<ExternalImage {...props}/>);
 
         expect(props.children).toHaveBeenCalledWith(Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(props.src));
         expect(wrapper.find('img').exists()).toBe(true);
@@ -158,7 +158,7 @@ describe('ExternalImage', () => {
                     imageMetadata: testCase.imageMetadata,
                 };
 
-                const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
+                const wrapper = shallow<ExternalImage>(<ExternalImage {...props}/>);
 
                 expect(wrapper.instance().isSVGImage()).toBe(testCase.expected);
             });

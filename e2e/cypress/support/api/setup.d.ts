@@ -15,13 +15,14 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Creates a new user and make it a member of the new public team and its channels - one public channel, town-square and off-topic.
          * Created user has an option to log in after all are setup.
          * Requires sysadmin session to initiate this command.
          * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new user after setting up. Note that when true, succeeding API request will be limited to access/permission of a regular system user.
+         * @param {boolean} options.promoteNewUserAsAdmin - false (default) or true if wants to promote the newly created user as sysadmin.
          * @param {string} options.userPrefix - 'user' (default) or any prefix to easily identify a user
          * @param {string} options.teamPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a team
          * @param {string} options.channelPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a channel
@@ -29,6 +30,9 @@ declare namespace Cypress {
          * @returns {UserProfile} `out.user` as `UserProfile` object
          * @returns {Team} `out.team` as `Team` object
          * @returns {Channel} `out.channel` as `Channel` object
+         * @returns {string} `out.channelUrl` as channel URL
+         * @returns {string} `out.offTopicUrl` as off-topic URL
+         * @returns {string} `out.townSquareUrl` as town-square URL
          *
          * @example
          *   let testUser;
@@ -40,6 +44,20 @@ declare namespace Cypress {
          *       testChannel = channel;
          *   });
          */
-        apiInitSetup(options: Record<string, any>): Chainable<Record<string, any>>;
+        apiInitSetup(
+            options: {
+                loginAfter: boolean;
+                userPrefix: string;
+                teamPrefix: string;
+                channelPrefix: string;
+            }
+        ): Chainable<{
+            user: UserProfile;
+            team: Team;
+            channel: Channel;
+            channelUrl: string;
+            offTopicUrl: string;
+            townSquareUrl: string;
+        }>;
     }
 }

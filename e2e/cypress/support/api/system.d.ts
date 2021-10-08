@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Get a subset of the server license needed by the client.
@@ -35,13 +35,14 @@ declare namespace Cypress {
         /**
          * Verify if server has license for a certain feature and fail test if not found.
          * Upload a license if it does not exist.
-         * @param {string} feature - feature to check, e.g. 'LDAP'
+         * @param {string[]} ...features - accepts multiple arguments of features to check, e.g. 'LDAP'
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example
          *   cy.apiRequireLicenseForFeature('LDAP');
+        *    cy.apiRequireLicenseForFeature('LDAP', 'SAML');
          */
-        apiRequireLicenseForFeature(feature: string): Chainable<ClientLicense>;
+        apiRequireLicenseForFeature(...features: string[]): Chainable<ClientLicense>;
 
         /**
          * Verify if server has license and fail test if not found.
@@ -168,5 +169,35 @@ declare namespace Cypress {
          *   cy.shouldHavePluginUploadEnabled();
          */
         shouldHavePluginUploadEnabled(): Chainable;
+
+        /**
+         * Allow test for server running with subpath.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldRunWithSubpath();
+         */
+        shouldRunWithSubpath(): Chainable;
+
+        /**
+         * Allow test if matches feature flag setting
+         * Otherwise, fail fast.
+         *
+         * @param {string} feature - feature name
+         * @param {string} expectedValue - expected value
+         *
+         * @example
+         *   cy.shouldHaveFeatureFlag('feature', 'expected-value');
+         */
+        shouldHaveFeatureFlag(feature: string, expectedValue: any): Chainable;
+
+        /**
+         * Require email service to be reachable by the server
+         * thru "/api/v4/email/test" if sysadmin account has
+         * permission to do so. Otherwise, skip email test.
+         *
+         * @example
+         *   cy.shouldHaveEmailEnabled();
+         */
+        shouldHaveEmailEnabled(): Chainable;
     }
 }

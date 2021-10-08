@@ -3,6 +3,8 @@
 
 import {shallow} from 'enzyme';
 
+import React from 'react';
+
 import {
     Post,
     PostEmbed,
@@ -11,8 +13,6 @@ import {
 } from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-
-import React from 'react';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
@@ -44,6 +44,7 @@ describe('PostBodyAdditionalContent', () => {
         actions: {
             toggleEmbedVisibility: jest.fn(),
         },
+        appsEnabled: false,
     };
 
     describe('with an image preview', () => {
@@ -59,7 +60,6 @@ describe('PostBodyAdditionalContent', () => {
                     embeds: [{
                         type: 'image',
                         url: imageUrl,
-                        data: {},
                     }],
                     images: {
                         [imageUrl]: imageMetadata,
@@ -370,5 +370,56 @@ describe('PostBodyAdditionalContent', () => {
         wrapper.instance().getEmbed();
 
         expect(getEmbedFromMetadata).toHaveBeenCalledWith(metadata);
+    });
+
+    describe('with a permalinklink', () => {
+        const permalinkUrl = 'https://community.mattermost.com/core/pl/123456789';
+
+        const permalinkBaseProps = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                message: permalinkUrl,
+                metadata: {
+                    embeds: [{
+                        type: 'permalink',
+                        url: '',
+                        data: {
+                            post_id: 'post_id123',
+                            channel_display_name: 'channel1',
+                            team_name: 'core',
+                        },
+                    }],
+                    images: {},
+                    emojis: [],
+                    files: [],
+                    reactions: [],
+                } as PostMetadata,
+            },
+        };
+
+        test('Render permalink preview', () => {
+            const wrapper = shallow(<PostBodyAdditionalContent {...permalinkBaseProps}/>);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('Render permalink preview with no data', () => {
+            const metadata = {
+                embeds: [{
+                    type: 'permalink',
+                    url: '',
+                }],
+            } as PostMetadata;
+            const props = {
+                ...permalinkBaseProps,
+                post: {
+                    ...permalinkBaseProps.post,
+                    metadata,
+                },
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });

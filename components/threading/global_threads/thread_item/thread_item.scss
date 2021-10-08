@@ -4,35 +4,47 @@
 @import "sass/utils/_mixins";
 
 .ThreadItem {
-    padding: 18px 18px 18px 28px;
-    text-align: left;
-    cursor: pointer;
+    --border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+
     position: relative;
+    padding: 18px 18px 18px 28px;
+    cursor: pointer;
+    text-align: left;
 
     .alt-visible {
-        display: none;
+        visibility: hidden;
     }
 
     &:hover,
     &:focus,
     &:focus-within {
-        background: rgba(var(--center-channel-color-rgb), .04);
+        background: rgba(var(--center-channel-color-rgb), 0.04);
 
         .alt-visible {
-            display: unset;
+            visibility: unset;
         }
+
         .alt-hidden {
-            display: none;
+            visibility: hidden;
         }
     }
 
     &.is-selected {
-        background: rgba(var(--button-bg-rgb), .04);
+        background: rgba(var(--button-bg-rgb), 0.04);
 
         &:hover,
         &:focus {
-            background: rgba(var(--button-bg-rgb), .08);
+            background: rgba(var(--button-bg-rgb), 0.08);
         }
+    }
+
+    .activity {
+        display: flex;
+        align-items: center;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 15px;
     }
 
     &.has-unreads {
@@ -43,24 +55,26 @@
 
     .dot-unreads {
         display: inline-block;
-        text-align: center;
-        border-radius: 50%;
         width: 8px;
         height: 8px;
         margin: 0 8px;
         background: rgba(var(--sidebar-text-active-border-rgb), 1);
+        border-radius: 50%;
+        text-align: center;
     }
+
     .dot-mentions {
         display: inline-block;
-        text-align: center;
-        border-radius: 50%;
         width: 16px;
         height: 16px;
         background: rgba(var(--mention-color-rgb), 1);
+        border-radius: 50%;
         color: rgba(var(--center-channel-bg-rgb), 1);
         font-size: 10px;
-        line-height: 16px;
         font-weight: 700;
+        line-height: 16px;
+        text-align: center;
+
         &.over {
             font-size: 8px;
         }
@@ -69,65 +83,73 @@
     .indicator {
         position: absolute;
         left: -24px;
+        display: grid;
         width: 24px;
         height: 20px;
-        display: grid;
         place-content: center;
     }
 
     h1 {
-        margin: 0 0 6px;
-        font-size: 14px;
-        line-height: 20px;
-        font-weight: 600;
-        display: flex;
         position: relative;
+        display: grid;
+        margin: 0 0 6px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        grid-template-columns: min-content 1fr min-content;
+        line-height: 20px;
         white-space: nowrap;
     }
 
     .Badge {
-        margin-left: 10px;
+        min-width: 0;
+        max-width: 30rem;
+        margin: 0 10px;
     }
 
-    .Badge__box{
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 16px;
-        text-transform: uppercase;
-        padding: 0px 4px;
-        background: rgba(var(--center-channel-color-rgb), .08);
+    .Badge__box {
+        overflow: hidden;
+        padding: 0 4px;
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         color: rgba(var(--center-channel-color-rgb), 1);
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 16px;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+
         &:hover,
         &:focus {
+            background: rgba(var(--center-channel-color-rgb), 0.16);
             cursor: pointer;
-            background: rgba(var(--center-channel-color-rgb), .16);
         }
     }
 
-    p {
+    div.preview {
+        height: 40px;
+        margin: 0 0 10px;
         color: rgba(var(--center-channel-color-rgb), 1);
+
         @include text-clamp(2, 20);
     }
 
     time {
-        font-weight: normal;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
         font-size: 12px;
+        font-weight: normal;
         line-height: 20px;
-        margin-left: auto;
-        color: rgba(var(--center-channel-color-rgb), .64)
     }
 
     .menu-anchor {
         position: absolute;
-        right: 8px;
-        top: 8px;
+        top: 12px;
+        right: 14px;
 
         .Button {
             width: 28px;
             height: 28px;
             padding: 0;
             font-size: 18px;
-            color: rgba(var(--center-channel-color-rgb), .64)
         }
     }
 
@@ -137,14 +159,5 @@
 
     .Avatars {
         margin-right: 10px;
-    }
-
-    .activity {
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 15px;
-        color: rgba(var(--center-channel-color-rgb), .64);
-        display: flex;
-        align-items: center;
     }
 }

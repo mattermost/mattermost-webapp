@@ -2,19 +2,25 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+import deepEqual from 'fast-deep-equal';
 import React from 'react';
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
+
 import {FormattedMessage} from 'react-intl';
+
+import {Timezone} from 'timezones.json';
+
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
@@ -29,10 +35,13 @@ function getDisplayStateFromProps(props: Props) {
     return {
         militaryTime: props.militaryTime,
         teammateNameDisplay: props.teammateNameDisplay,
+        availabilityStatusOnPosts: props.availabilityStatusOnPosts,
         channelDisplayMode: props.channelDisplayMode,
         messageDisplay: props.messageDisplay,
         collapseDisplay: props.collapseDisplay,
+        collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
+        oneClickReactionsOnPosts: props.oneClickReactionsOnPosts,
     };
 }
 
@@ -73,7 +82,7 @@ type Props = {
     collapseModal?: () => void;
     setRequireConfirm?: () => void;
     setEnforceFocus?: () => void;
-    timezones: string[];
+    timezones: Timezone[];
     userTimezone: UserTimezone;
     allowCustomThemes: boolean;
     enableLinkPreviews: boolean;
@@ -86,13 +95,18 @@ type Props = {
     lockTeammateNameDisplay: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
+    availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
+    collapsedReplyThreads: string;
+    collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
+    oneClickReactionsOnPosts: string;
+    emojiPickerEnabled: boolean;
+    timezoneLabel: string;
     actions: {
-        savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
-        getSupportedTimezones: () => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };
 }
@@ -102,10 +116,13 @@ type State = {
     isSaving: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
+    availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
+    collapsedReplyThreads: string;
     linkPreviewDisplay: string;
+    oneClickReactionsOnPosts: string;
     handleSubmit?: () => void;
     serverError?: string;
 }
@@ -128,10 +145,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             ...getDisplayStateFromProps(props),
             isSaving: false,
         };
-
-        if (props.timezones.length === 0) {
-            props.actions.getSupportedTimezones();
-        }
 
         this.prevSections = {
             theme: 'dummySectionName', // dummy value that should never match any section name
@@ -157,6 +170,17 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
     }
 
+    trackChangeIfNecessary(preference: PreferenceType, oldValue: any): void {
+        const props = {
+            field: 'display.' + preference.name,
+            value: preference.value,
+        };
+
+        if (preference.value !== oldValue) {
+            trackEvent('settings', 'user_settings_update', props);
+        }
+    }
+
     handleSubmit = async () => {
         const userId = this.props.user.id;
 
@@ -165,6 +189,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
             name: Preferences.USE_MILITARY_TIME,
             value: this.state.militaryTime,
+        };
+        const availabilityStatusOnPostsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.AVAILABILITY_STATUS_ON_POSTS,
+            value: this.state.availabilityStatusOnPosts,
         };
         const teammateNameDisplayPreference = {
             user_id: userId,
@@ -190,11 +220,23 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.COLLAPSE_DISPLAY,
             value: this.state.collapseDisplay,
         };
+        const collapsedReplyThreadsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.COLLAPSED_REPLY_THREADS,
+            value: this.state.collapsedReplyThreads,
+        };
         const linkPreviewDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
             name: Preferences.LINK_PREVIEW_DISPLAY,
             value: this.state.linkPreviewDisplay,
+        };
+        const oneClickReactionsOnPostsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.ONE_CLICK_REACTIONS_ENABLED,
+            value: this.state.oneClickReactionsOnPosts,
         };
 
         this.setState({isSaving: true});
@@ -203,10 +245,15 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             timePreference,
             channelDisplayModePreference,
             messageDisplayPreference,
+            collapsedReplyThreadsPreference,
             collapseDisplayPreference,
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
+            availabilityStatusOnPostsPreference,
+            oneClickReactionsOnPostsPreference,
         ];
+
+        this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
 
         await this.props.actions.savePreferences(userId, preferences);
 
@@ -221,6 +268,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({teammateNameDisplay});
     }
 
+    handleAvailabilityStatusRadio = (availabilityStatusOnPosts: string) => {
+        this.setState({availabilityStatusOnPosts});
+    }
+
     handleChannelDisplayModeRadio(channelDisplayMode: string) {
         this.setState({channelDisplayMode});
     }
@@ -233,8 +284,16 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({collapseDisplay});
     }
 
+    handleCollapseReplyThreadsRadio(collapsedReplyThreads: string) {
+        this.setState({collapsedReplyThreads});
+    }
+
     handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
+    }
+
+    handleOneClickReactionsRadio = (oneClickReactionsOnPosts: string) => {
+        this.setState({oneClickReactionsOnPosts});
     }
 
     handleOnChange(display: {[key: string]: any}) {
@@ -248,7 +307,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     updateState = () => {
         const newState = getDisplayStateFromProps(this.props);
-        if (!Utils.areObjectsEqual(newState, this.state)) {
+        if (!deepEqual(newState, this.state)) {
             this.setState(newState);
         }
 
@@ -328,7 +387,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         );
 
         const messageDesc = (
-            <FormattedMessage
+            <FormattedMarkdownMessage
                 id={description.id}
                 defaultMessage={description.message}
             />
@@ -603,6 +662,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             disabled: this.props.lockTeammateNameDisplay,
         });
 
+        const availabilityStatusOnPostsSection = this.createSection({
+            section: 'availabilityStatus',
+            display: 'availabilityStatusOnPosts',
+            value: this.state.availabilityStatusOnPosts,
+            defaultDisplay: 'true',
+            title: {
+                id: t('user.settings.display.availabilityStatusOnPostsTitle'),
+                message: 'Show user availability on posts',
+            },
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.on'),
+                    message: 'On',
+                },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.off'),
+                    message: 'Off',
+                },
+            },
+            description: {
+                id: t('user.settings.display.availabilityStatusOnPostsDescription'),
+                message: 'When enabled, online availability is displayed on profile images in the message list.',
+            },
+        });
+
         let timezoneSelection;
         if (this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone) {
             const userTimezone = this.props.userTimezone;
@@ -611,7 +699,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     <div>
                         <ManageTimezones
                             user={this.props.user}
-                            timezones={this.props.timezones}
                             useAutomaticTimezone={Boolean(userTimezone.useAutomaticTimezone)}
                             automaticTimezone={userTimezone.automaticTimezone}
                             manualTimezone={userTimezone.manualTimezone}
@@ -630,7 +717,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                     defaultMessage='Timezone'
                                 />
                             }
-                            describe={getTimezoneRegion(this.props.currentUserTimezone)}
+                            describe={this.props.timezoneLabel}
                             section={'timezone'}
                             updateSection={this.updateSection}
                         />
@@ -672,6 +759,39 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 message: 'Select how messages in a channel should be displayed.',
             },
         });
+
+        let collapsedReplyThreads;
+
+        if (this.props.collapsedReplyThreadsAllowUserPreference) {
+            collapsedReplyThreads = this.createSection({
+                section: Preferences.COLLAPSED_REPLY_THREADS,
+                display: 'collapsedReplyThreads',
+                value: this.state.collapsedReplyThreads,
+                defaultDisplay: Preferences.COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT,
+                title: {
+                    id: t('user.settings.display.collapsedReplyThreadsTitle'),
+                    message: 'Collapsed Reply Threads (Beta)',
+                },
+                firstOption: {
+                    value: Preferences.COLLAPSED_REPLY_THREADS_ON,
+                    radionButtonText: {
+                        id: t('user.settings.display.collapsedReplyThreadsOn'),
+                        message: 'On',
+                    },
+                },
+                secondOption: {
+                    value: Preferences.COLLAPSED_REPLY_THREADS_OFF,
+                    radionButtonText: {
+                        id: t('user.settings.display.collapsedReplyThreadsOff'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.collapsedReplyThreadsDescription'),
+                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                },
+            });
+        }
 
         const channelDisplayModeSection = this.createSection({
             section: Preferences.CHANNEL_DISPLAY_MODE,
@@ -764,6 +884,38 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             );
         }
 
+        let oneClickReactionsOnPostsSection;
+        if (this.props.emojiPickerEnabled) {
+            oneClickReactionsOnPostsSection = this.createSection({
+                section: Preferences.ONE_CLICK_REACTIONS_ENABLED,
+                display: 'oneClickReactionsOnPosts',
+                value: this.state.oneClickReactionsOnPosts,
+                defaultDisplay: 'true',
+                title: {
+                    id: t('user.settings.display.oneClickReactionsOnPostsTitle'),
+                    message: 'One-click reactions on messages',
+                },
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: t('user.settings.sidebar.on'),
+                        message: 'On',
+                    },
+                },
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: t('user.settings.sidebar.off'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.oneClickReactionsOnPostsDescription'),
+                    message: 'When enabled, you can react in one-click with recently used reactions when hovering over a message.',
+                },
+            });
+        }
+
         return (
             <div id='displaySettings'>
                 <div className='modal-header'>
@@ -806,11 +958,14 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {themeSection}
                     {clockSection}
                     {teammateNameDisplaySection}
+                    {availabilityStatusOnPostsSection}
                     {timezoneSelection}
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}
+                    {collapsedReplyThreads}
                     {channelDisplayModeSection}
+                    {oneClickReactionsOnPostsSection}
                     {languagesSection}
                 </div>
             </div>

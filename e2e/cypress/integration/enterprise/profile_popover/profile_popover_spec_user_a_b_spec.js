@@ -39,10 +39,10 @@ describe('Profile popover User A & B', () => {
     it('MM-T5 User A & User B (removed from team)', () => {
         // # Login as the other user
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # @ mention the kicked out user
-        cy.postMessage(`Hi there @${testUser.username}`);
+        cy.postMessage(`Hi there @${testUser.username} `);
 
         // # Click on the @ mention
         cy.getLastPostId().then((postId) => {
@@ -53,7 +53,7 @@ describe('Profile popover User A & B', () => {
         });
 
         // * Add to a Channel should not be shown.
-        cy.findByText('Add to a Channel').should('not.be.visible');
+        cy.findByText('Add to a Channel').should('not.exist');
     });
 
     it('MM-T8 Add User - UserA & UserB (not on team)', () => {
@@ -64,11 +64,11 @@ describe('Profile popover User A & B', () => {
             // # Login as testuser
             cy.apiLogin(testUser);
 
-            // # Visit town square
-            cy.visit(`/${team.name}/channels/town-square`);
+            // # Visit off-topic
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # @ mention the kicked out user
-            cy.postMessage(`Hi there @${otherUser.username}`);
+            cy.postMessage(`Hi there @${otherUser.username} `);
 
             // # Click on the @ mention
             cy.getLastPostId().then((postId) => {
@@ -80,7 +80,7 @@ describe('Profile popover User A & B', () => {
             });
 
             // # Add to a Channel should not be shown.
-            cy.findByText('Add to a Channel').should('not.be.visible');
+            cy.findByText('Add to a Channel').should('not.exist');
         });
     });
 });

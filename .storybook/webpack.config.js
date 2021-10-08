@@ -52,5 +52,8 @@ module.exports = async ({config, mode}) => {
     config.resolve.alias.utils = path.join(path.resolve(__dirname), '..', 'utils')
     config.resolve.alias.sounds = path.join(path.resolve(__dirname), '..', 'sounds')
 
+    config.resolve.alias['mattermost-redux'] = path.join(path.resolve(__dirname), '..', 'packages', 'mattermost-redux', 'src')
+    config.resolve.alias['reselect'] = path.join(path.resolve(__dirname), '..', 'packages', 'reselect', 'src')
+
     return config;
 };

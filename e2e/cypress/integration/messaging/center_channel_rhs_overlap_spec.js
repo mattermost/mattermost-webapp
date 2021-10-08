@@ -7,16 +7,17 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import * as MESSAGES from '../../fixtures/messages';
+import {isMac} from '../../utils';
 
 describe('Messaging', () => {
     let testTeam;
     let testUser;
     let otherUser;
-    let townsquareLink;
 
     const firstMessage = 'Hello';
     const message1 = 'message1';
@@ -31,10 +32,11 @@ describe('Messaging', () => {
     const messageWithCodeblockTextOnly3 = 'codeblock3';
 
     before(() => {
+        let offTopicUrl;
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
-            townsquareLink = `/${team.name}/channels/town-square`;
+            offTopicUrl = `/${team.name}/channels/off-topic`;
         });
 
         cy.apiCreateUser().then(({user: user1}) => {
@@ -42,7 +44,7 @@ describe('Messaging', () => {
             cy.apiAddUserToTeam(testTeam.id, otherUser.id);
         }).then(() => {
             cy.apiLogin(testUser);
-            cy.visit(townsquareLink);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -70,7 +72,7 @@ describe('Messaging', () => {
         // * Check if center channel post text box is not focused
         // Although visually post text box is not visible to user,
         // cypress still considers it visible so the assertion
-        // should('not.be.visible') will fail
+        // should('not.exist') will fail
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Post several replies
@@ -88,19 +90,7 @@ describe('Messaging', () => {
 
     it('MM-T712 Editing a post with Ctrl+Enter on for all messages configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Account Settings > Advanced
-        cy.findAllByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').click();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
-            cy.findByText('Advanced').click();
-            if (cy.isMac()) {
-                cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
-            } else {
-                cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
-            }
-            cy.get('#ctrlSendOn').check().should('be.checked');
-            cy.findByText('Save').click();
-            cy.findAllByLabelText('Close').first().click();
-        });
+        setSendMessagesOnCtrlEnter('On for all messages');
 
         // # [1] Post message
         cy.get('#post_textbox').type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -247,19 +237,7 @@ describe('Messaging', () => {
 
     it('MM-T3448 Editing a post with Ctrl+Enter only for code blocks starting with ``` configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Account Settings > Advanced
-        cy.findAllByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').click();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
-            cy.findByText('Advanced').click();
-            if (cy.isMac()) {
-                cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
-            } else {
-                cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
-            }
-            cy.get('#ctrlSendOnForCode').check().should('be.checked');
-            cy.findByText('Save').click();
-            cy.findAllByLabelText('Close').first().click();
-        });
+        setSendMessagesOnCtrlEnter('On only for code blocks starting with ```');
 
         // # [17] Post message
         cy.get('#post_textbox').type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -397,19 +375,7 @@ describe('Messaging', () => {
 
     it('MM-T3449 Editing a post with Ctrl+Enter off for code blocks configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > Off in Account Settings > Advanced
-        cy.findAllByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').click();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
-            cy.findByText('Advanced').click();
-            if (cy.isMac()) {
-                cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
-            } else {
-                cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
-            }
-            cy.get('#ctrlSendOff').check().should('be.checked');
-            cy.findByText('Save').click();
-            cy.findAllByLabelText('Close').first().click();
-        });
+        setSendMessagesOnCtrlEnter('Off');
 
         // # [29] Post message
         cy.get('#post_textbox').type(message1).wait(TIMEOUTS.HALF_SEC);
@@ -529,15 +495,13 @@ describe('Messaging', () => {
 
             // * Close the modal
             cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
-        });
 
-        // # Verify that last post does not contain (edited)
-        cy.getLastPostId().then(() => {
-            cy.findByText('@sysadmin').should('not.contain', '(edited)');
+            // # Verify that last post does not contain "Edited"
+            cy.get(`#postMessageText_${postId}`).should('contain', message1).and('not.contain', 'Edited');
         });
     });
 
-    it('MM-T2140 Edited message displays edits and `(edited)` in center and RHS', () => {
+    it('MM-T2140 Edited message displays edits and "Edited" in center and RHS', () => {
         // # Mobile app
         cy.viewport('iphone-6');
 
@@ -560,18 +524,18 @@ describe('Messaging', () => {
         });
 
         cy.getLastPostId().then((postId) => {
-            // # Verify that the posted message contains (edited)
+            // # Verify that the posted message contains "Edited"
             cy.get(`#post_${postId}`).within((el) => {
-                cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
             });
 
             // # Open the RHS panel
             cy.clickPostCommentIcon(postId);
 
-            // # Verify that the updated post message in RHS contains (edited)
+            // # Verify that the updated post message in RHS contains "Edited"
             cy.get('#rhsContainer').should('be.visible').within(() => {
                 cy.get(`#rhsPost_${postId}`).within((el) => {
-                    cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                    cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
                 });
             });
         });
@@ -604,15 +568,15 @@ describe('Messaging', () => {
         });
 
         cy.getLastPostId().then((postId) => {
-            // # Verify that the posted message contains (edited)
+            // # Verify that the posted message contains "Edited"
             cy.get(`#post_${postId}`).within((el) => {
-                cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
             });
 
-            // # Verify that the updated post message in RHS contains (edited)
+            // # Verify that the updated post message in RHS contains "Edited"
             cy.get('#rhsContainer').should('be.visible').within(() => {
                 cy.get(`#rhsPost_${postId}`).within((el) => {
-                    cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                    cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
                 });
             });
         });
@@ -679,8 +643,8 @@ describe('Messaging', () => {
                 // # Verify that the message is in a code block
                 cy.wrap(el).find('.post-code.post-code--wrap').should('have.text', 'test update');
 
-                // # Verify that the updated post contains '(edited)'
-                cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                // # Verify that the updated post contains 'Edited'
+                cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
             });
         });
     });
@@ -704,16 +668,16 @@ describe('Messaging', () => {
         });
 
         cy.getLastPostId().then((postId) => {
-            // # Verify that the updated post contains '(edited)'
+            // # Verify that the updated post contains 'Edited'
             cy.get(`#post_${postId}`).within((el) => {
                 // # Verify that the updated post contains updated message
                 cy.wrap(el).findByText(message2).should('be.visible');
-                cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
             });
         });
     });
 
-    it('MM-T2145 Other user sees `(edited)`', () => {
+    it('MM-T2145 Other user sees "Edited"', () => {
         // # Post message
         cy.get('#post_textbox').type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
@@ -735,9 +699,9 @@ describe('Messaging', () => {
         cy.apiLogin(otherUser);
 
         cy.getLastPostId().then((postId) => {
-            // # Verify that the updated post contains '(edited)'
+            // # Verify that the updated post contains 'Edited'
             cy.get(`#post_${postId}`).within((el) => {
-                cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
             });
 
             // # Reply to the message
@@ -745,9 +709,9 @@ describe('Messaging', () => {
             cy.clickPostCommentIcon(postId);
 
             cy.get('#rhsContainer').should('be.visible').within(() => {
-                // # Verify that the updated post in RHS contains '(edited)'
+                // # Verify that the updated post in RHS contains 'Edited'
                 cy.get(`#rhsPost_${postId}`).within((el) => {
-                    cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                    cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
                 });
             });
         });
@@ -774,11 +738,11 @@ describe('Messaging', () => {
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).invoke('val', '').type(message2).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
             // * Post appears in RHS search results, displays Pinned badge
-            cy.get(`#searchResult_${postId}`).findByText('(edited)').should('exist');
+            cy.get(`#searchResult_${postId}`).findByText('Edited').should('exist');
 
-            // # Verify that the updated post contains '(edited)'
+            // # Verify that the updated post contains 'Edited'
             cy.get(`#post_${postId}`).within((el) => {
-                cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
             });
 
             // # Close the modal
@@ -814,10 +778,10 @@ describe('Messaging', () => {
             cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
         });
 
-        // # Verify tha the updated post contians '(edited)'
+        // # Verify tha the updated post contains 'Edited'
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within((el) => {
-                cy.wrap(el).find('.post-edited__indicator').should('have.text', '(edited)');
+                cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');
             });
         });
     });
@@ -850,17 +814,12 @@ describe('Messaging', () => {
 
     it('MM-T2227 Channel shortlinking - can edit', () => {
         // # Click the channel header
-        cy.get('#channelHeaderDropdownButton button').click();
-
-        // # Select View Info
-        cy.get('#channelViewInfo button').click();
-
-        var channelUrl;
+        cy.uiOpenChannelMenu('View Info');
 
         // # Channel URL is listed
         cy.url().then((loc) => {
             cy.contains('div.info__value', loc).should('be.visible').then((el) => {
-                channelUrl = el.text();
+                const channelUrl = el.text();
 
                 // # Close the modal
                 cy.findAllByLabelText('Close').should('be.visible').first().click();
@@ -888,3 +847,17 @@ describe('Messaging', () => {
         });
     });
 });
+
+function setSendMessagesOnCtrlEnter(name) {
+    // # Open 'Advanced' section of 'Settings' modal
+    cy.uiOpenSettingsModal('Advanced').within(() => {
+        // # Open 'Send Messages on Cmd/Ctrl+Enter' setting
+        cy.findByRole('heading', {name: `Send Messages on ${isMac() ? '⌘+ENTER' : 'CTRL+ENTER'}`}).should('be.visible').click();
+
+        // # Click radio button to select
+        cy.findByRole('radio', {name}).click();
+
+        // # Save and close the  modal
+        cy.uiSaveAndClose();
+    });
+}

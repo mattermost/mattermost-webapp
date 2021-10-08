@@ -11,7 +11,8 @@
     "import",
     "cypress",
     "jquery",
-    "no-only-tests"
+    "no-only-tests",
+    "@typescript-eslint"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -26,6 +27,7 @@
     }
   },
   "rules": {
+    "max-nested-callbacks": ["error", 10],
     "no-unused-expressions": 0,
     "babel/no-unused-expressions": 2,
     "eol-last": ["error", "always"],
@@ -47,6 +49,7 @@
       }
     ],
     "no-undefined": 0,
+    "no-use-before-define": 0,
     "react/jsx-filename-extension": 0,
     "react/prop-types": [
       2,
@@ -62,6 +65,11 @@
     "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}],
     "react/style-prop-object": [2, {
       "allow": ["Timestamp"]
+    }],
+    "no-restricted-imports": ["error", {
+      "paths": [
+        {"name": "react-bootstrap", "importNames": ["OverlayTrigger"], "message": "Please use OverlayTrigger from '/components/overlay_trigger' instead"}
+      ]
     }]
   },
   "overrides": [
@@ -71,8 +79,9 @@
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
-        "import/no-unresolved": 0, // ts handles this better
         "camelcase": 0,
+        "no-shadow": 0,
+        "import/no-unresolved": 0, // ts handles this better
         "@typescript-eslint/naming-convention": [
           2,
           {
@@ -119,32 +128,30 @@
             "functions": false,
             "variables": false
           }
-        ],
-        "react/jsx-filename-extension": 0
+        ]
       }
     },
     {
-      "files": ["tests/**", "**/*.test.*"],
+      "files": ["tests/**", "**/*.test.*", "tests/*.js"],
       "env": {
         "jest": true
       },
       "rules": {
         "func-names": 0,
         "global-require": 0,
+        "max-lines": 0,
         "new-cap": 0,
-        "prefer-arrow-callback": 0,
-        "no-import-assign": 0
+        "no-import-assign": 0,
+        "no-process-env": 0,
+        "prefer-arrow-callback": 0
       }
     },
     {
       "files": ["e2e/**"],
       "rules": {
+        "babel/no-unused-expressions": 0,
         "func-names": 0,
         "import/no-unresolved": 0,
-        "max-nested-callbacks": 0,
-        "no-process-env": 0,
-        "babel/no-unused-expressions": 0,
-        "no-unused-expressions": 0,
         "jquery/no-ajax": 0,
         "jquery/no-ajax-events": 0,
         "jquery/no-animate": 0,
@@ -193,7 +200,10 @@
         "jquery/no-trim": 0,
         "jquery/no-val": 0,
         "jquery/no-when": 0,
-        "jquery/no-wrap": 0
+        "jquery/no-wrap": 0,
+        "max-nested-callbacks": 0,
+        "no-process-env": 0,
+        "no-unused-expressions": 0
       }
     }
   ]

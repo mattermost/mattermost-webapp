@@ -1,56 +1,57 @@
 @charset 'UTF-8';
 
 .file-preview__container {
+    position: relative;
     display: flex;
+    overflow: auto;
+    width: 100%;
+    height: 8rem;
     flex-shrink: 0;
     flex-wrap: nowrap;
-    height: 8rem;
     margin: 1px 0 5px;
     overflow-x: auto;
     overflow-y: hidden;
-    overflow: auto;
-    position: relative;
     white-space: nowrap;
-    width: 100%;
 }
 
 .file-preview {
     @include clearfix;
+
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    height: 100px;
     flex-shrink: 0;
     flex-wrap: nowrap;
     border: 1px solid $light-gray;
-    display: inline-block;
-    height: 100px;
     margin-right: 10px;
-    position: relative;
-    width: 120px;
 
     .spinner {
-        height: 32px;
-        left: 50%;
-        margin-left: -16px;
-        margin-top: -16px;
         position: absolute;
         top: 50%;
+        left: 50%;
         width: 32px;
+        height: 32px;
+        margin-top: -16px;
+        margin-left: -16px;
     }
 }
 
 .app__body {
     .file-preview__remove {
-        border-radius: 4px;
-        text-decoration: none;
-        color: rgba(v(center-channel-color-rgb), 0.56);
         position: absolute;
-        right: 4px;
-        text-align: center;
         top: 4px;
+        right: 4px;
+        display: flex;
         width: 2.8rem;
         height: 2.8rem;
-        display: flex;
         align-items: center;
         justify-content: center;
+        border-radius: 4px;
+        color: rgba(v(center-channel-color-rgb), 0.56);
         font-size: 1.4rem;
+        text-align: center;
+        text-decoration: none;
 
         &:focus {
             color: rgba(v(center-channel-color-rgb), 0.56);
@@ -69,16 +70,15 @@
 }
 
 .image-comment {
+    width: 300px;
+    height: 300px;
     background-position: left top;
     background-repeat: no-repeat;
-    height: 300px;
-    width: 300px;
 }
 
-
 .file-icon {
-    height: 100%;
     width: 100%;
+    height: 100%;
 
     &.text {
         @include file-icon('../images/icons/text.svg');
@@ -96,7 +96,8 @@
         @include file-icon('../images/icons/ppt.svg');
     }
 
-    &.generic {
+    &.generic,
+    &.other {
         @include file-icon('../images/icons/generic.svg');
     }
 
@@ -130,10 +131,10 @@
 }
 
 .pdf-max-pages {
-    bottom: 8px;
-    display: block;
-    left: 0;
     position: relative;
+    bottom: 8px;
+    left: 0;
+    display: block;
     width: 100%;
 }
 
@@ -142,21 +143,26 @@
 }
 
 .file-view--single {
-    margin: 5px 0;
     position: relative;
+    margin: 5px 0;
 
     .file__image {
         @include legacy-pie-clearfix;
 
+        .image-header {
+            display: flex;
+            align-items: baseline;
+        }
+
         .image-name {
-            cursor: pointer;
-            font-size: 12px;
+            display: inline-block;
+            overflow: hidden;
             margin: -4px 0 0 0;
             color: rgba(v(center-channel-color-rgb), 0.72);
-            display: inline-block;
-            white-space: nowrap;
-            overflow: hidden;
+            cursor: pointer;
+            font-size: 12px;
             text-overflow: ellipsis;
+            white-space: nowrap;
 
             div {
                 display: inline;
@@ -165,9 +171,10 @@
 
         .image-container {
             @include legacy-pie-clearfix;
+
             position: relative;
-            max-width: 1024px;
             width: 100%;
+            max-width: 1024px;
             height: 100%;
         }
 
@@ -179,23 +186,24 @@
             bottom: 0;
             left: 0;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
 
             .fa {
                 font-size: 20px;
-                opacity: .6;
+                opacity: 0.6;
             }
         }
 
         .image-loaded {
-            @include single-transition(all, .1s, linear);
+            @include single-transition(all, 0.1s, linear);
             @include border-radius(4px);
+
             bottom: 0;
-            min-height: 40px;
             min-width: 40px;
-            max-height: 350px;
             max-width: 100%;
+            min-height: 40px;
+            max-height: 350px;
 
             .file-preview__button {
                 display: block;
@@ -203,13 +211,14 @@
 
             img {
                 @include border-radius(4px);
-                @include single-transition(all, .1s, linear);
-                cursor: pointer;
-                align-self: center;
-                max-height: 350px;
-                overflow: hidden;
+                @include single-transition(all, 0.1s, linear);
+
                 position: relative;
                 z-index: 2;
+                overflow: hidden;
+                max-height: 350px;
+                align-self: center;
+                cursor: pointer;
 
                 &.compact-display {
                     max-height: 175px;
@@ -220,29 +229,29 @@
                 }
 
                 &.min-preview {
-                    max-height: 50px;
                     max-width: 100%;
+                    max-height: 50px;
                 }
 
                 &.min-preview--portrait {
-                    max-height: inherit;
                     max-width: 50px;
+                    max-height: inherit;
                 }
 
                 &.small-image--inside-container {
-                    box-shadow: none;
-                    border-width: 0;
-                    border-radius: 0;
                     width: unset;
-                    margin: 0;
                     max-height: inherit;
+                    border-width: 0;
+                    margin: 0;
+                    border-radius: 0;
+                    box-shadow: none;
                 }
             }
 
             &.svg {
+                display: block;
                 width: 100%;
                 height: inherit;
-                display: block;
 
                 img {
                     height: inherit;
@@ -254,8 +263,8 @@
             }
 
             >.file-preview__button {
-                min-height: 40px;
                 min-width: 40px;
+                min-height: 40px;
                 text-align: left;
             }
         }
@@ -278,30 +287,53 @@
 }
 
 .post-image__columns {
+    position: relative;
     display: flex;
     flex-flow: wrap;
-    position: relative;
 }
 
 .post-image__column {
-    @include single-transition(box-shadow, .15s, ease);
+    @include single-transition(box-shadow, 0.15s, ease);
     @include border-radius(4px);
-    cursor: pointer;
-    overflow: hidden;
-    align-items: center;
-    background: v(center-channel-bg);
-    border: 1px solid rgba(v(center-channel-color-rgb), 0.16);
-    color: v(center-channel-color);
-    display: flex;
-    height: 6.4rem;
-    margin: 4px 12px 4px 0;
-    max-width: 100%;
+
     position: relative;
+    display: flex;
+    overflow: hidden;
     width: 320px;
+    max-width: 100%;
+    height: 6.4rem;
+    align-items: center;
+    border: 1px solid rgba(v(center-channel-color-rgb), 0.16);
+    margin: 4px 12px 4px 0;
+    background: v(center-channel-bg);
+    color: v(center-channel-color);
+    cursor: pointer;
+
+    &:hover,
+    &:focus-within,
+    &.keep-open {
+        @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
+
+        overflow: visible;
+
+        .file-dropdown-icon {
+            display: flex;
+        }
+
+        > .post-image__details {
+            overflow: visible;
+        }
+    }
 
     &:hover {
         @include box-shadow($elevation-1);
 
+        .post-image__download {
+            opacity: 1;
+        }
+    }
+
+    &:focus-within {
         .post-image__download {
             opacity: 1;
         }
@@ -312,10 +344,10 @@
     }
 
     &.file-preview {
-        cursor: auto;
         flex-shrink: 0;
         flex-wrap: nowrap;
         margin: 0 10px 0 0;
+        cursor: auto;
 
         .post-image__details {
             padding-right: 3.2rem;
@@ -328,23 +360,24 @@
 }
 
 .post-image__load {
+    width: 100%;
+    height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: 20px 20px;
-    height: 100%;
-    width: 100%;
 }
 
 .post-image {
     @include background-size(cover);
-    background-color: $white;
-    background-repeat: no-repeat;
-    overflow: hidden;
+
     position: relative;
-    text-align: center;
+    overflow: hidden;
     width: 4rem;
     height: 4rem;
+    background-color: $white;
+    background-repeat: no-repeat;
     border-radius: 4px;
+    text-align: center;
 
     &.small {
         background-position: center;
@@ -356,11 +389,11 @@
 
     .spinner {
         .file__loading {
-            left: 50%;
-            margin-left: -16px;
-            margin-top: -16px;
             position: absolute;
             top: 50%;
+            left: 50%;
+            margin-top: -16px;
+            margin-left: -16px;
         }
     }
 
@@ -380,43 +413,77 @@
 
 .post-image__thumbnail {
     @include cursor(zoom-in);
-    flex: none;
-    height: 100%;
-    width: 6.3rem;
+
     z-index: 1;
     display: flex;
+    width: 6.3rem;
+    height: 100%;
+    flex: none;
     align-items: center;
     justify-content: center;
 }
 
-.post-image__details {
+.file-dropdown-icon {
+    @include single-transition(opacity, 0.15s, ease);
+    @include border-radius(4px);
+
+    display: none;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
     align-items: center;
+    justify-content: center;
+    border: 0;
+    margin-left: 8px;
+    background-color: var(--center-channel-bg);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    cursor: pointer;
+    fill: rgba(var(--center-channel-color-rgb), 0.72);
+    text-decoration: none;
+
+    svg {
+        display: flex;
+    }
+
+    &:hover {
+        display: flex;
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
+
+    &:focus {
+        display: flex;
+    }
+}
+
+.post-image__details {
+    position: relative;
     display: flex;
-    font-size: 12px;
+    overflow: hidden;
     height: 100%;
     flex: 1;
-    overflow: hidden;
+    align-items: center;
+    font-size: 12px;
     text-align: left;
-    position: relative;
 
     .post-image__detail_wrapper {
-        padding: 0;
         display: flex;
         flex: 1;
+        padding: 0;
 
         .post--compact & {
             padding-left: 8px;
         }
 
         .post-image__detail {
+            width: 100%;
             height: 100%;
             line-height: normal;
-            width: 100%;
 
             .post-image__name {
                 display: block;
-                font-weight: 600;
                 margin-bottom: 3px;
+                font-weight: 600;
                 outline: none;
                 text-decoration: none;
                 word-break: break-word;
@@ -427,39 +494,41 @@
             }
 
             .post-image__type {
-                @include opacity(.6);
+                @include opacity(0.6);
             }
 
             .post-image__size {
-                @include opacity(.6);
+                @include opacity(0.6);
+
                 margin-left: 4px;
             }
         }
     }
 
     .post-image__download {
-        @include single-transition(opacity, .15s, ease);
-        align-items: center;
+        @include single-transition(opacity, 0.15s, ease);
+
+        top: 0;
+        right: 0;
         display: flex;
         height: 100%;
+        align-items: center;
         justify-content: center;
-        line-height: 0;
         padding: 0 1.6rem;
-        right: 0;
-        text-align: center;
-        top: 0;
+        line-height: 0;
         opacity: 1;
+        text-align: center;
 
         a {
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 1.6rem;
-            color: rgba(v(center-channel-color-rgb), 0.56);
+            display: flex;
             width: 3.2rem;
             height: 3.2rem;
-            display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 4px;
+            color: rgba(v(center-channel-color-rgb), 0.56);
+            font-size: 1.6rem;
+            text-decoration: none;
 
             &:focus {
                 color: rgba(v(center-channel-color-rgb), 0.56);
@@ -481,13 +550,14 @@
         }
 
         svg {
-            @include opacity(.7);
-            @include single-transition(all, .1s, linear);
+            @include opacity(0.7);
+            @include single-transition(all, 0.1s, linear);
             @include border-radius(50%);
-            border: 1px solid;
+
             display: inline-block;
-            height: 30px;
             width: 30px;
+            height: 30px;
+            border: 1px solid;
 
             &:hover {
                 @include opacity(1);
@@ -495,13 +565,17 @@
         }
     }
 
+    div.MenuWrapper + .post-image__download {
+        padding-left: 8px;
+    }
+
     .post-image__progressBar {
-        margin-bottom: 0px;
-        height: 7px;
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         width: 100%;
-        border-radius: 0px;
+        height: 7px;
+        margin-bottom: 0;
+        border-radius: 0;
     }
 
     .progress-bar {
@@ -515,32 +589,33 @@
 
 .file-details__container {
     @include display-flex;
+
     background: $white;
 
     .file-details {
+        width: 320px;
         height: 270px;
         padding: 14px;
         text-align: left;
         vertical-align: top;
-        width: 320px;
 
         .file-details__name {
-            color: alpha-color($black, .9);
-            font-size: 16px;
             margin: 5px 0;
+            color: alpha-color($black, 0.9);
+            font-size: 16px;
             word-break: break-word;
         }
 
         .file-details__info {
-            color: alpha-color($black, .5);
+            color: alpha-color($black, 0.5);
         }
     }
 
     .file-details__preview {
-        border-right: 1px solid $light-gray;
-        height: 270px;
-        vertical-align: center;
         width: 320px;
+        height: 270px;
+        border-right: 1px solid $light-gray;
+        vertical-align: center;
 
         img {
             width: 80px;
@@ -556,14 +631,15 @@
 }
 
 .file-playback__controls {
-    @include single-transition(opacity, .6s);
+    @include single-transition(opacity, 0.6s);
+
+    position: absolute;
+    z-index: 2;
+    right: 5px;
     bottom: 0;
     cursor: pointer;
     font-size: 22px;
-    position: absolute;
-    right: 5px;
-    transition: opacity .6s;
-    z-index: 2;
+    transition: opacity 0.6s;
 
     &.stop {
         @include opacity(0);
@@ -571,51 +647,53 @@
 }
 
 .view-image__loading {
-    background: $black;
     display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 140px;
-    height: 100%;
-    width: 100%;
-    flex-direction: column;
     padding-top: 28px;
+    background: $black;
 
     .fa {
         color: $white;
         font-size: 20px;
-        opacity: .6;
+        opacity: 0.6;
     }
 }
 
 .image-loading__container {
     position: relative;
-    max-height: inherit;
     overflow: hidden;
+    max-height: inherit;
 }
 
 .file-preview__button {
     display: inline-block;
-    vertical-align: top;
     max-height: inherit;
+    vertical-align: top;
 }
 
 .small-image__container {
-    margin: 5px 2px;
-    background: var(--center-channel-bg);
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
-    @include border-radius(4px);
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 48px;
-    max-height: inherit;
     min-width: 48px;
     max-width: calc(100% - 5px);
+    min-height: 48px;
+    max-height: inherit;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
+    margin: 5px 2px;
+    background: var(--center-channel-bg);
+
+    @include border-radius(4px);
 
     &:hover {
-        @include single-transition(all, .1s, linear);
+        @include single-transition(all, 0.1s, linear);
         @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
+
         z-index: 2;
     }
 }

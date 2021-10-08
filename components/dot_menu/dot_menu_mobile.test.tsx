@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import DotMenu from 'components/dot_menu/dot_menu';
@@ -40,12 +40,25 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 unpinPost: jest.fn(),
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
+                doAppCall: jest.fn(),
+                postEphemeralCallResponseForPost: jest.fn(),
+                setThreadFollow: jest.fn(),
+                openAppsModal: jest.fn(),
+                fetchBindings: jest.fn(),
             },
             canEdit: false,
             canDelete: false,
+            appBindings: [],
+            pluginMenuItems: [],
+            appsEnabled: false,
+            isReadOnly: false,
+            isCollapsedThreadsEnabled: false,
+            currentTeamId: '',
+            threadId: 'post_id_1',
+            userId: 'user_id_1',
         };
 
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallow(
             <DotMenu {...baseProps}/>,
         );
 

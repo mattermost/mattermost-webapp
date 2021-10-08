@@ -10,7 +10,7 @@ class MenuActionSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
 
-        let className = 'mentions__name';
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
@@ -60,7 +60,7 @@ export default class MenuActionProvider extends Provider {
     }
 
     async filterOptions(prefix, resultsCallback) {
-        const filteredOptions = this.options.filter((option) => option.text.toLowerCase().indexOf(prefix) >= 0);
+        const filteredOptions = this.options.filter((option) => option.text.toLowerCase().indexOf(prefix.toLowerCase()) >= 0);
         const terms = filteredOptions.map((option) => option.text);
 
         resultsCallback({

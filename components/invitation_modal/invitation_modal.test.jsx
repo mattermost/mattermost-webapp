@@ -20,9 +20,13 @@ describe('components/invitation_modal/InvitationModal', () => {
         canInviteGuests: true,
         canAddUsers: true,
         emailInvitationsEnabled: true,
+        isFreeTierWithNoFreeSeats: false,
         isCloud: false,
+        userIsAdmin: false,
+        cloudUserLimit: '10',
         actions: {
             closeModal: jest.fn(),
+            openModal: jest.fn(),
             sendGuestsInvites: jest.fn(),
             sendMembersInvites: jest.fn(),
             searchProfiles: jest.fn(),
@@ -96,5 +100,17 @@ describe('components/invitation_modal/InvitationModal', () => {
 
         expect(props.actions.getTeam).toHaveBeenCalledTimes(1);
         expect(props.actions.getTeam).toHaveBeenCalledWith(props.currentTeam.id);
+    });
+
+    test('should match the snapshot when is free tier and have no free seats', () => {
+        const props = {...defaultProps};
+        props.isFreeTierWithNoFreeSeats = true;
+        props.isCloud = true;
+
+        const wrapper = shallow(
+            <InvitationModal {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

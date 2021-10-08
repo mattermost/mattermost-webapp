@@ -9,8 +9,6 @@ import {Tooltip} from 'react-bootstrap';
 
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -26,14 +24,16 @@ type Props = {
     textColor: string;
     type: string;
     message: React.ReactNode;
+    tooltipMsg?: React.ReactNode;
     handleClose?: (e?: any) => void;
+    showModal?: boolean;
     announcementBarCount?: number;
-    showModal?: (() => void) | boolean;
+    onButtonClick?: () => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
-    warnMetricStatus?: Dictionary<WarnMetricStatus>;
-    isTallBanner: boolean;
+    icon?: React.ReactNode;
+    warnMetricStatus?: WarnMetricStatus;
     actions: {
         incrementAnnouncementBarCount: () => void;
         decrementAnnouncementBarCount: () => void;
@@ -52,20 +52,13 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
 
     componentDidMount() {
         this.props.actions.incrementAnnouncementBarCount();
-        if (this.props.isTallBanner) {
-            document.body.classList.add('announcement-banner-tall--fixed');
-        } else {
-            document.body.classList.add('announcement-bar--fixed');
-        }
+        document.body.classList.add('announcement-bar--fixed');
     }
 
     componentWillUnmount() {
-        if (this.props.announcementBarCount === 1 && !this.props.isTallBanner) {
+        if (this.props.announcementBarCount === 1) {
             document.body.classList.remove('announcement-bar--fixed');
-        } else if (this.props.announcementBarCount === 1 && this.props.isTallBanner) {
-            document.body.classList.remove('announcement-banner-tall--fixed');
         }
-
         this.props.actions.decrementAnnouncementBarCount();
     }
 
@@ -88,8 +81,6 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
             barStyle.backgroundColor = this.props.color;
             barStyle.color = this.props.textColor;
             linkStyle.color = this.props.textColor;
-        } else if (this.props.type === AnnouncementBarTypes.DEVELOPER) {
-            barClass = 'announcement-bar announcement-bar-developer';
         } else if (this.props.type === AnnouncementBarTypes.CRITICAL) {
             barClass = 'announcement-bar announcement-bar-critical';
         } else if (this.props.type === AnnouncementBarTypes.SUCCESS) {
@@ -98,12 +89,8 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
             barClass = 'announcement-bar announcement-bar-advisor';
         } else if (this.props.type === AnnouncementBarTypes.ADVISOR_ACK) {
             barClass = 'announcement-bar announcement-bar-advisor-ack';
-        } else if (this.props.type === AnnouncementBarTypes.CRITICAL_LIGHT) {
-            barClass = 'announcement-bar announcement-bar-critical-light';
-        }
-
-        if (this.props.isTallBanner) {
-            barClass += ' tall';
+        } else if (this.props.type === AnnouncementBarTypes.GENERAL) {
+            barClass = 'announcement-bar announcement-bar-general';
         }
 
         let closeButton;
@@ -115,7 +102,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                     style={linkStyle}
                     onClick={this.handleClose}
                 >
-                    {this.props.isTallBanner ? '\uF156' : '×'}
+                    {'×'}
                 </a>
             );
         }
@@ -128,9 +115,14 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         }
         const announcementTooltip = (
             <Tooltip id='announcement-bar__tooltip'>
-                {message}
+                {this.props.tooltipMsg ? this.props.tooltipMsg : message}
             </Tooltip>
         );
+
+        const announcementIcon = () => {
+            return this.props.showLinkAsButton &&
+            (this.props.showCloseButton ? <div className='content__icon'>{'\uF5D6'}</div> : <div className='content__icon'>{'\uF02A'}</div>);
+        };
 
         return (
             <div
@@ -142,10 +134,8 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                     placement='bottom'
                     overlay={announcementTooltip}
                 >
-                    <span>
-                        {this.props.showLinkAsButton &&
-                            (this.props.showCloseButton ? <div className={'content__icon'}>{'\uF5D6'}</div> : <div className={'content__icon'}>{'\uF02A'}</div>)
-                        }
+                    <div className='announcement-bar__text'>
+                        {this.props.icon ? this.props.icon : announcementIcon()}
                         {message}
                         {
                             !this.props.showLinkAsButton &&
@@ -157,7 +147,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                 >
                                     {(linkmessage) => (
                                         <ToggleModalButtonRedux
-                                            accessibilityLabel={linkmessage}
+                                            ariaLabel={linkmessage}
                                             className={'color--link--adminack'}
                                             dialogType={WarnMetricAckModal}
                                             onClick={() => trackEvent('admin', 'click_warn_metric_learn_more')}
@@ -178,6 +168,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                             this.props.showLinkAsButton &&
                             <button
                                 className='upgrade-button'
+                                onClick={this.props.onButtonClick}
                             >
                                 <FormattedMessage
                                     id={this.props.modalButtonText}
@@ -185,7 +176,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                 />
                             </button>
                         }
-                    </span>
+                    </div>
                 </OverlayTrigger>
                 {closeButton}
             </div>

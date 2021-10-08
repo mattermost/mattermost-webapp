@@ -4,14 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
-import {ChannelType} from 'mattermost-redux/types/channels';
+
+import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
 
-import DeleteChannelModal from 'components/delete_channel_modal/delete_channel_modal';
+import DeleteChannelModal, {Props} from 'components/delete_channel_modal/delete_channel_modal';
 
 describe('components/delete_channel_modal', () => {
-    const channel = {
+    const channel: Channel = {
         id: 'owsyt8n43jfxjpzh9np93mx1wa',
         create_at: 1508265709607,
         update_at: 1508265709607,
@@ -23,11 +24,8 @@ describe('components/delete_channel_modal', () => {
         header: 'test',
         purpose: 'test',
         last_post_at: 1508265709635,
-        total_msg_count: 0,
-        extra_update_at: 1508265709628,
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         scheme_id: '',
-        props: null,
         group_constrained: false,
     };
 
@@ -35,7 +33,7 @@ describe('components/delete_channel_modal', () => {
         name: 'mattermostDev',
     };
 
-    const baseProps = {
+    const baseProps: Props = {
         channel,
         currentTeamDetails,
         actions: {

@@ -51,8 +51,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
             <ChannelModerationTableRow
                 key={channelPermissions[0].name}
                 name={channelPermissions[0].name}
-                guests={channelPermissions[0].roles.guests?.['value']}
-                guestsDisabled={!channelPermissions[0].roles.guests?.['enabled']}
+                guests={channelPermissions[0].roles.guests?.value}
+                guestsDisabled={!channelPermissions[0].roles.guests?.enabled}
                 members={channelPermissions[0].roles.members.value}
                 membersDisabled={!channelPermissions[0].roles.members.enabled}
                 onClick={onChannelPermissionsChanged}
@@ -287,8 +287,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
             <ChannelModerationTableRow
                 key={channelPermissions[0].name}
                 name={channelPermissions[0].name}
-                guests={channelPermissions[0].roles.guests?.['value']}
-                guestsDisabled={!channelPermissions[0].roles.guests?.['enabled']}
+                guests={channelPermissions[0].roles.guests?.value}
+                guestsDisabled={!channelPermissions[0].roles.guests?.enabled}
                 members={channelPermissions[0].roles.members.value}
                 membersDisabled={!channelPermissions[0].roles.members.enabled}
                 onClick={onChannelPermissionsChanged}

@@ -69,7 +69,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     clearLandingPreferenceIfNotChecked = () => {
-        if (!this.state.navigating) {
+        if (!this.state.navigating && !this.state.rememberChecked) {
             BrowserStore.clearLandingPreference(this.props.siteUrl);
         }
     }
@@ -151,6 +151,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
                 }}
                 onClick={() => {
+                    this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
                     this.setState({redirectPage: true, navigating: true});
                     if (Utils.isMobile()) {
                         if (UserAgent.isAndroidWeb()) {
@@ -284,7 +285,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
         if (this.state.redirectPage) {
             return (
-                <div className='get-app__launching'>
+                <h1 className='get-app__launching'>
                     {openingLink}
                     <div className={`get-app__alternative${this.state.redirectPage ? ' redirect-page' : ''}`}>
                         <FormattedMessage
@@ -302,7 +303,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                             />
                         </a>
                     </div>
-                </div>
+                </h1>
             );
         }
 
@@ -331,6 +332,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             <div className='get-app__launching'>
                 <FormattedMessage
                     id='get_app.launching'
+                    tagName='h1'
                     defaultMessage='Where would you like to view this?'
                 />
                 <div className='get-app__alternative'>
@@ -364,6 +366,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                                 this.setPreference(LandingPreferenceTypes.BROWSER, true);
                             }}
                             onClick={() => {
+                                this.setPreference(LandingPreferenceTypes.BROWSER, true);
                                 this.setState({navigating: true});
                             }}
                             className='btn btn-default btn-lg get-app__continue'

@@ -6,8 +6,10 @@ import marked, {MarkedOptions} from 'marked';
 import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting';
-import {getScheme, isUrlSafe} from 'utils/url';
+import {getScheme, isUrlSafe, shouldOpenInNewTab} from 'utils/url';
 import EmojiMap from 'utils/emoji_map';
+
+import {parseImageDimensions} from './helpers';
 
 export default class Renderer extends marked.Renderer {
     private formattingOptions: TextFormatting.TextFormattingOptions;
@@ -138,29 +140,20 @@ export default class Renderer extends marked.Renderer {
     }
 
     public image(href: string, title: string, text: string) {
-        let src = href;
-        let dimensions: string[] = [];
-        const parts = href.split(' ');
-        if (parts.length > 1) {
-            const lastPart = parts.pop();
-            src = parts.join(' ');
-            if (lastPart && lastPart[0] === '=') {
-                dimensions = lastPart.substr(1).split('x');
-                if (dimensions.length === 2 && dimensions[1] === '') {
-                    dimensions[1] = 'auto';
-                }
-            }
-        }
+        const dimensions = parseImageDimensions(href);
+
+        let src = dimensions.href;
         src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
+
         let out = `<img src="${src}" alt="${text}"`;
         if (title) {
             out += ` title="${title}"`;
         }
-        if (dimensions.length > 0) {
-            out += ` width="${dimensions[0]}"`;
+        if (dimensions.width) {
+            out += ` width="${dimensions.width}"`;
         }
-        if (dimensions.length > 1) {
-            out += ` height="${dimensions[1]}"`;
+        if (dimensions.height) {
+            out += ` height="${dimensions.height}"`;
         }
         out += ' class="markdown-inline-img"';
         out += this.options.xhtml ? '/>' : '>';
@@ -207,30 +200,7 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
-        const isInternalLink = outHref.startsWith(this.formattingOptions.siteURL || '') || outHref.startsWith('/');
-
-        let openInNewTab;
-        if (isInternalLink) {
-            const path = outHref.startsWith('/') ? outHref : outHref.substring(this.formattingOptions.siteURL?.length || 0);
-
-            // Paths managed by plugins and public file links aren't handled by the web app
-            const unhandledPaths = [
-                'plugins',
-                'files',
-            ];
-
-            // Paths managed by another service shouldn't be handled by the web app either
-            if (this.formattingOptions.managedResourcePaths) {
-                for (const managedPath of this.formattingOptions.managedResourcePaths) {
-                    unhandledPaths.push(TextFormatting.escapeRegex(managedPath));
-                }
-            }
-
-            openInNewTab = unhandledPaths.some((unhandledPath) => new RegExp('^/' + unhandledPath + '\\b').test(path));
-        } else {
-            // All links outside of Mattermost should be opened in a new tab
-            openInNewTab = true;
-        }
+        const openInNewTab = shouldOpenInNewTab(outHref, this.formattingOptions.siteURL, this.formattingOptions.managedResourcePaths);
 
         if (openInNewTab || !this.formattingOptions.siteURL) {
             output += ' target="_blank"';

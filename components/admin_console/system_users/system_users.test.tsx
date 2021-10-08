@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import SystemUsers from 'components/admin_console/system_users/system_users';
 import {Constants, SearchUserTeamFilter, UserFilters} from 'utils/constants';
 
 jest.mock('actions/admin_actions');
+
+jest.useFakeTimers();
 
 describe('components/admin_console/system_users', () => {
     const USERS_PER_PAGE = 50;
@@ -39,14 +41,14 @@ describe('components/admin_console/system_users', () => {
 
     test('should match default snapshot', () => {
         const props = defaultProps;
-        const wrapper: ShallowWrapper<any, any, SystemUsers> = shallow(<SystemUsers {...props}/>);
+        const wrapper = shallow<SystemUsers>(<SystemUsers {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('loadDataForTeam() should have called getProfiles', async () => {
         const getProfiles = jest.fn().mockResolvedValue(undefined);
         const props = {...defaultProps, actions: {...defaultProps.actions, getProfiles}};
-        const wrapper: ShallowWrapper<any, any, SystemUsers> = shallow(<SystemUsers {...props}/>);
+        const wrapper = shallow<SystemUsers>(<SystemUsers {...props}/>);
 
         wrapper.setState({loading: true});
 
@@ -60,7 +62,7 @@ describe('components/admin_console/system_users', () => {
     test('loadDataForTeam() should have called loadProfilesWithoutTeam', async () => {
         const loadProfilesWithoutTeam = jest.fn().mockResolvedValue(undefined);
         const props = {...defaultProps, actions: {...defaultProps.actions, loadProfilesWithoutTeam}};
-        const wrapper: ShallowWrapper<any, any, SystemUsers> = shallow(<SystemUsers {...props}/>);
+        const wrapper = shallow<SystemUsers>(<SystemUsers {...props}/>);
 
         wrapper.setState({loading: true});
 
@@ -83,7 +85,7 @@ describe('components/admin_console/system_users', () => {
             teamId: SearchUserTeamFilter.ALL_USERS,
             actions: {...defaultProps.actions, getProfiles},
         };
-        const wrapper: ShallowWrapper<any, any, SystemUsers> = shallow(<SystemUsers {...props}/>);
+        const wrapper = shallow<SystemUsers>(<SystemUsers {...props}/>);
 
         wrapper.setState({loading: true});
 
@@ -101,7 +103,7 @@ describe('components/admin_console/system_users', () => {
             teamId: SearchUserTeamFilter.NO_TEAM,
             actions: {...defaultProps.actions, loadProfilesWithoutTeam},
         };
-        const wrapper: ShallowWrapper<any, any, SystemUsers> = shallow(<SystemUsers {...props}/>);
+        const wrapper = shallow<SystemUsers>(<SystemUsers {...props}/>);
 
         wrapper.setState({loading: true});
 
@@ -119,7 +121,7 @@ describe('components/admin_console/system_users', () => {
             teamId: SearchUserTeamFilter.NO_TEAM,
             actions: {...defaultProps.actions, searchProfiles},
         };
-        const wrapper: ShallowWrapper<any, any, SystemUsers> = shallow(<SystemUsers {...props}/>);
+        const wrapper = shallow<SystemUsers>(<SystemUsers {...props}/>);
 
         await wrapper.instance().doSearch('searchterm', '', '');
 
@@ -135,7 +137,7 @@ describe('components/admin_console/system_users', () => {
             teamId: SearchUserTeamFilter.NO_TEAM,
             actions: {...defaultProps.actions, searchProfiles},
         };
-        const wrapper: ShallowWrapper<any, any, SystemUsers> = shallow(<SystemUsers {...props}/>);
+        const wrapper = shallow<SystemUsers>(<SystemUsers {...props}/>);
 
         await wrapper.instance().doSearch('searchterm', '', 'system_admin');
 

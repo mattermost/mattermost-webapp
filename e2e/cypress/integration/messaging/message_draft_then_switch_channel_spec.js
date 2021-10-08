@@ -10,60 +10,70 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Message Draft and Switch Channels', () => {
     let testTeam;
+    let testChannel;
 
     before(() => {
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        // # Create new team and new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            testChannel = channel;
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
     it('MM-T131 Message Draft Pencil Icon - CTRL/CMD+K & "Jump to"', () => {
-        // # In a test channel, type some text in the message input box
-        // # Do not send the post
-        cy.get('#sidebarItem_town-square').click({force: true});
+        const {name, display_name: displayName} = testChannel;
+        const message = 'message draft test';
 
-        // * Validate if the channel has been opened
-        cy.url().should('include', `/${testTeam.name}/channels/town-square`);
+        // * Validate if the draft icon is not visible at LHS before making a draft
+        verifyDraftIcon(name, false);
 
-        // * Validate if the draft icon is not visible on the sidebar before making a draft
-        cy.get('#publicChannel').scrollIntoView();
-        cy.get('#sidebarItem_town-square #draftIcon').should('be.not.visible');
+        // # Go to test channel and check if it opened correctly
+        openChannelFromLhs(testTeam.name, displayName, name);
 
-        // Type in some text into the text area of the opened channel
-        cy.get('#post_textbox').type('message draft test');
+        // # Type a message in the input box but do not send
+        cy.findByRole('textbox', `write to ${displayName.toLowerCase()}`).should('be.visible').type(message);
 
-        // # Switch to another channel
-        cy.get('#sidebarItem_off-topic').click({force: true});
+        // # Switch to another channel and check if it opened correctly
+        openChannelFromLhs(testTeam.name, 'Off-Topic', 'off-topic');
 
-        // * Validate if the newly navigated channel is open
-        cy.url().should('include', `/${testTeam.name}/channels/off-topic`);
+        // * Validate if the draft icon is visible at LHS
+        verifyDraftIcon(name, true);
 
-        // # Press CTRL/CMD+K
+        // # Press CTRL/CMD+K shortcut to open Quick Channel Switch modal
         cy.typeCmdOrCtrl().type('K', {release: true});
 
-        // * Click on hint in modal to get out of overlapping suggestion list
-        cy.get('#quickSwitchHint').click();
+        // * Verify that the switch model is shown
+        cy.findAllByRole('dialog').first().findByText('Switch Channels').should('be.visible');
 
         // # Type the first few letters of the channel name you typed the message draft in
-        cy.get('#quickSwitchInput').type('tow');
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(displayName.substring(0, 3));
 
-        // * Suggestion list should be visible
-        cy.get('#suggestionList').should('be.visible');
+        // * Suggestion list is visible
+        cy.get('#suggestionList').should('be.visible').within(() => {
+            // * A pencil icon before the channel name in the filtered list is visible
+            cy.get(`#switchChannel_${name}`).find('.icon-pencil-outline').should('be.visible');
 
-        // * Validate if the draft icon is visible to left of the channel name in the filtered list
-        cy.get('#publicChannel').scrollIntoView();
-        cy.get('#switchChannel_town-square .icon-pencil-outline').should('be.visible');
+            // # Click to switch back to the test channel
+            cy.get(`#switchChannel_${name}`).click({force: true});
+        });
 
-        // * Escape channel switcher and reset post textbox for test channel
-        cy.get('.close').click();
-        cy.clearPostTextbox('town-square');
+        // * Draft is saved in the text input box of the test channel
+        cy.findByRole('textbox', `write to ${displayName.toLowerCase()}`).should('be.visible').and('have.text', message);
     });
 });
 
+function verifyDraftIcon(name, isVisible) {
+    cy.uiGetLhsSection('CHANNELS').find(`#sidebarItem_${name}`).
+        should('be.visible').
+        findByTestId('draftIcon').
+        should(isVisible ? 'be.visible' : 'not.exist');
+}
+
+function openChannelFromLhs(teamName, channelName, name) {
+    // # Go to test channel and check if it opened correctly
+    cy.uiGetLhsSection('CHANNELS').findByText(channelName).click();
+    cy.url().should('include', `/${teamName}/channels/${name}`);
+}

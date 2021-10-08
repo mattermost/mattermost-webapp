@@ -24,8 +24,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
@@ -35,8 +33,8 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         currentUserId: 'current_user_id',
         redirectChannel: 'redirect-channel',
         active: false,
-        botIconUrl: null,
         isCollapsed: false,
+        isMobile: false,
         actions: {
             savePreferences: jest.fn(),
             leaveDirectChannel: jest.fn(),
@@ -87,7 +85,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
                 ...baseProps.teammate,
                 is_bot: true,
             },
-            botIconUrl: 'http://a.fake.url',
         };
 
         const wrapper = shallowWithIntl(

@@ -57,7 +57,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2498 - Individual "User" and "Channel" screens are scrollable', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible').within(() => {
@@ -77,7 +77,7 @@ describe('Interactive Dialog', () => {
                 cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
 
                 // * Verify that the suggestion list or autocomplete open up on click of input element
-                cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
+                cy.wrap($elForm).find('#suggestionList').should('not.exist');
                 cy.wrap($elForm).find('input').click();
                 cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children();
 
@@ -90,15 +90,15 @@ describe('Interactive Dialog', () => {
                     cy.wrap($elForm).find('.suggestion-list__item').first().should('be.visible');
                 } else if (index === 1) {
                     expect(element.name).to.equal('somechannelselector');
-                    cy.wrap($elForm).find('.mentions__name').first().should('be.visible');
+                    cy.wrap($elForm).find('.suggestion-list__item').first().should('be.visible');
                     cy.wrap($elForm).find('.form-control').type('{downarrow}'.repeat(10));
-                    cy.wrap($elForm).find('.mentions__name').first().should('not.be.visible');
+                    cy.wrap($elForm).find('.suggestion-list__item').first().should('not.be.visible');
                     cy.wrap($elForm).find('.form-control').type('{uparrow}'.repeat(10));
-                    cy.wrap($elForm).find('.mentions__name').first().should('be.visible');
+                    cy.wrap($elForm).find('.suggestion-list__item').first().should('be.visible');
                 }
 
                 // # Select one element to close the dropdown
-                cy.wrap($elForm).find('.mentions__name').first().click();
+                cy.wrap($elForm).find('.suggestion-list__item').first().click();
 
                 if (element.help_text) {
                     cy.wrap($elForm).find('.help-text').should('be.visible').and('have.text', element.help_text);
@@ -115,7 +115,7 @@ describe('Interactive Dialog', () => {
             cy.get('.modal-header').should('be.visible').within(($elForm) => {
                 cy.wrap($elForm).find('button.close').should('be.visible').click();
             });
-            cy.get('#interactiveDialogModal').should('not.be.visible');
+            cy.get('#interactiveDialogModal').should('not.exist');
         });
     });
 });

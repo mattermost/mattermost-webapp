@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Click on "Copy Link" of post dropdown menu and verifies if the link is copied into the clipboard

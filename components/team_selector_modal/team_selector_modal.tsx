@@ -25,22 +25,24 @@ type TeamValue = (Team & Value);
 
 export type Props = {
     currentSchemeId?: string;
-    alreadySelected?: Array<string>;
+    alreadySelected?: string[];
+    excludeGroupConstrained?: boolean;
     searchTerm: string;
-    teams: Array<Team>;
+    teams: Team[];
     onModalDismissed?: () => void;
-    onTeamsSelected?: (a: Array<Team>) => void;
+    onTeamsSelected?: (a: Team[]) => void;
     modalID?: string;
     actions: {
-        loadTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => Promise<ActionResult>;
+        loadTeams: (page?: number, perPage?: number, includeTotalCount?: boolean, excludePolicyConstrained?: boolean) => Promise<ActionResult>;
         setModalSearchTerm: (searchTerm: string) => void;
         searchTeams: (searchTerm: string) => void;
     };
     data?: any;
+    excludePolicyConstrained?: boolean;
 };
 
 type State = {
-    values: Array<TeamValue>;
+    values: TeamValue[];
     show: boolean;
     search: boolean;
     loadingTeams: boolean;
@@ -71,7 +73,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
     }
 
     componentDidMount() {
-        this.props.actions.loadTeams(0, TEAMS_PER_PAGE + 1).then(() => {
+        this.props.actions.loadTeams(0, TEAMS_PER_PAGE + 1, false, this.props.excludePolicyConstrained).then(() => {
             this.setTeamsLoadingState(false);
         });
     }
@@ -143,13 +145,13 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
     handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             this.setTeamsLoadingState(true);
-            this.props.actions.loadTeams(page, TEAMS_PER_PAGE + 1).then(() => {
+            this.props.actions.loadTeams(page, TEAMS_PER_PAGE + 1, false, this.props.excludePolicyConstrained).then(() => {
                 this.setTeamsLoadingState(false);
             });
         }
     }
 
-    handleDelete = (values: Array<TeamValue>) => {
+    handleDelete = (values: TeamValue[]) => {
         this.setState({values});
     }
 
@@ -179,7 +181,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
                 >
                     <div className='team-info-block'>
                         <TeamIcon
-                            name={option.display_name}
+                            content={option.display_name}
                             url={imageURLForTeam(option)}
                         />
                         <div className='team-data'>
@@ -242,11 +244,17 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
-        let teams = [] as Array<Team>;
+        let teams = [] as Team[];
         if (this.props.teams) {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
-            teams = teams.filter((team) => this.props.alreadySelected?.indexOf(team.id) === -1);
+            teams = this.props.excludeGroupConstrained ? teams.filter((team) => !team.group_constrained) : teams;
+            if (this.props.alreadySelected) {
+                teams = teams.filter((team) => this.props.alreadySelected?.indexOf(team.id) === -1);
+            }
+            if (this.props.excludePolicyConstrained) {
+                teams = teams.filter((team) => team.policy_id === null);
+            }
             teams.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();
                 const bName = b.display_name.toUpperCase();

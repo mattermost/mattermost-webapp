@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {createSelector} from 'reselect';
 
 import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
@@ -18,6 +19,7 @@ import List from './channel_list';
 const compareByDisplayName = (a: {display_name: string}, b: {display_name: string}) => a.display_name.localeCompare(b.display_name);
 
 const getSortedListOfChannels = createSelector(
+    'getSortedListOfChannels',
     getAllChannels,
     (teams) => Object.values(teams).
         filter((c) => (c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL)).
@@ -33,7 +35,7 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     searchAllChannels: (term: string, opts: ChannelSearchOpts) => Promise<{ data: any }>;
-    getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
+    getData: (page: number, perPage: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

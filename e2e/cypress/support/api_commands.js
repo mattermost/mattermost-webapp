@@ -392,7 +392,6 @@ function linkUnlinkGroupSyncable(groupID, syncableID, syncableType, httpMethod) 
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}/link`,
         method: httpMethod,
-        timeout: 60000,
         body: {auto_add: true},
     }).then((response) => {
         expect(response.status).to.be.oneOf([200, 201, 204]);

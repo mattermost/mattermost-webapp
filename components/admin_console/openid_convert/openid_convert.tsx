@@ -54,14 +54,14 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
         }
         newConfig.GoogleSettings.DiscoveryEndpoint = 'https://accounts.google.com/.well-known/openid-configuration';
 
-        if (newConfig.GitLabSettings.UserApiEndpoint) {
-            const url = newConfig.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+        if (newConfig.GitLabSettings.UserAPIEndpoint) {
+            const url = newConfig.GitLabSettings.UserAPIEndpoint.replace('/api/v4/user', '');
             newConfig.GitLabSettings.DiscoveryEndpoint = url + '/.well-known/openid-configuration';
         }
 
         ['Office365Settings', 'GoogleSettings', 'GitLabSettings'].forEach((setting) => {
             newConfig[setting].Scope = Constants.OPENID_SCOPES;
-            newConfig[setting].UserApiEndpoint = '';
+            newConfig[setting].UserAPIEndpoint = '';
             newConfig[setting].AuthEndpoint = '';
             newConfig[setting].TokenEndpoint = '';
         });
@@ -89,7 +89,7 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                     <div className='OpenIdConvert__heading'>
                         <FormattedMessage
                             id='admin.openIdConvert.heading'
-                            defaultMessage='OAuth 2.0 is being deprecated and replace by OpenID Connect.'
+                            defaultMessage='OAuth 2.0 is being deprecated and replaced by OpenID Connect.'
                         />
                     </div>
                     <p>
@@ -112,7 +112,7 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                         </button>
                         <a
                             className='btn-secondary'
-                            href='https://docs.mattermost.com/deployment/sso-gitlab.html'
+                            href='https://www.mattermost.com/default-openid-docs'
                             data-testid='openIdLearnMore'
                             target='_blank'
                             rel='noopener noreferrer'

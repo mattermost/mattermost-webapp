@@ -14,9 +14,9 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -39,7 +39,7 @@ describe('Messaging', () => {
         cy.get('#edit_textbox').type('{home}{rightarrow}{backspace}');
 
         // * autocomplete closes
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.get('#suggestionList').should('not.exist');
 
         // close the edit modal
         cy.get('#editButton').click();

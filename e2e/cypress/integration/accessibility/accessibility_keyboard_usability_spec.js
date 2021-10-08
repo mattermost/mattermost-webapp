@@ -38,7 +38,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
                 cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
-                        // # Login as test user, visit town-square and post few messages
+                        // # Login as test user, visit test channel and post few messages
                         cy.apiLogin(user);
                         cy.visit(`/${team.name}/channels/${testChannel.name}`);
                     });
@@ -57,7 +57,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         // # Change the focus to search results
         cy.get('#searchContainer').within(() => {
             cy.get('button.sidebar--right__expand').focus().tab({shift: true}).tab();
-            cy.focused().tab().tab();
+            cy.focused().tab().tab().tab().tab();
         });
         cy.get('body').type('{downarrow}{uparrow}');
 
@@ -99,7 +99,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         });
 
         // * Verify that the highlight order is in the reverse direction in RHS
-        cy.get('#rhsContent').should('have.attr', 'data-a11y-order-reversed', 'true').and('have.attr', 'data-a11y-focus-child', 'true');
+        cy.get('#rhsContainer .post-right__content').should('have.attr', 'data-a11y-order-reversed', 'true').and('have.attr', 'data-a11y-focus-child', 'true');
 
         // # Change the focus to the last post
         cy.get('#rhsContainer').within(() => {
@@ -108,11 +108,11 @@ describe('Verify Accessibility keyboard usability across different regions in th
         cy.get('body').type('{uparrow}{downarrow}');
 
         // # Use up arrow keys and verify if results are highlighted sequentially
-        const total = count * 2; // # total number of expected posts in RHS
+        const total = (count * 2) + 1; // # total number of expected posts in RHS
         let row = total - 1; // # the row index which should be focused
 
         for (let index = count; index > 0; index--) {
-            cy.get('#rhsPostList').children('.post').eq(row).then(($el) => {
+            cy.get('#rhsContainer .post-right-comments-container .post').eq(row).then(($el) => {
                 // * Verify search result is highlighted
                 cy.get($el).should('have.class', 'a11y--active a11y--focused');
                 cy.get('body').type('{uparrow}');
@@ -122,7 +122,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
         // # Use down arrow keys and verify if posts are highlighted sequentially
         for (let index = count; index > 0; index--) {
-            cy.get('#rhsPostList').children('.post').eq(row).then(($el) => {
+            cy.get('#rhsContainer .post-right-comments-container .post').eq(row).then(($el) => {
                 // * Verify search result is highlighted
                 cy.get($el).should('have.class', 'a11y--active a11y--focused');
                 cy.get('body').type('{downarrow}');
@@ -137,7 +137,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
             cy.clickPostCommentIcon(postId);
 
             // * Verify Screen reader should not switch to virtual cursor mode. This is handled by adding a role=application attribute
-            const regions = ['#lhsHeader', '#lhsList', '#rhsContent', '.search__form', '#centerChannelFooter'];
+            const regions = ['#sidebar-left', '#rhsContainer .post-right__content', '.search__form', '#centerChannelFooter'];
             regions.forEach((region) => {
                 cy.get(region).should('have.attr', 'role', 'application');
             });

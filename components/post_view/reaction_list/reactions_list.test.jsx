@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ReactionList from './reaction_list.jsx';
+import ReactionList from './reaction_list';
 
 describe('components/ReactionList', () => {
     const reaction = {

@@ -39,6 +39,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,
@@ -63,9 +64,9 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
         channelId="channel_id"
         channelIndex={0}
         getChannelRef={[MockFunction]}
+        isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDMCategory={false}
         isDropDisabled={false}
         key="channel_id"
         setChannelRef={[MockFunction]}
@@ -77,7 +78,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
 
 exports[`components/sidebar/sidebar_category should match snapshot when collapsed 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section"
+  className="SidebarChannelGroup a11y__section isCollapsed"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -114,6 +115,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": true,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,
@@ -138,9 +140,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
         channelId="channel_id"
         channelIndex={0}
         getChannelRef={[MockFunction]}
+        isAutoSortedCategory={true}
         isCategoryCollapsed={true}
         isCategoryDragged={false}
-        isDMCategory={false}
         isDropDisabled={false}
         key="channel_id"
         setChannelRef={[MockFunction]}
@@ -186,7 +188,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
     <div
       className="SidebarCategory_newLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="new"
         id="sidebar_left.sidebar_category.newLabel"
       />
@@ -195,6 +197,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       category={
         Object {
           "channel_ids": Array [],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,
@@ -224,19 +227,23 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       </PublicDraggable>
       <div
         className="SidebarCategory_newDropBox"
-        onTransitionEnd={[Function]}
       >
-        <i
-          className="icon-hand-right"
-        />
-        <span
-          className="SidebarCategory_newDropBox-label"
+        <div
+          className="SidebarCategory_newDropBox-content"
+          onTransitionEnd={[Function]}
         >
-          <FormattedMessage
-            defaultMessage="Drag channels here..."
-            id="sidebar_left.sidebar_category.newDropBoxLabel"
+          <i
+            className="icon-hand-right"
           />
-        </span>
+          <span
+            className="SidebarCategory_newDropBox-label"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Drag channels here..."
+              id="sidebar_left.sidebar_category.newDropBoxLabel"
+            />
+          </span>
+        </div>
       </div>
     </ul>
   </div>
@@ -245,7 +252,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
 
 exports[`components/sidebar/sidebar_category should match snapshot when sorting is set to by recency 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section dmCategory"
+  className="SidebarChannelGroup a11y__section"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -260,6 +267,11 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
   >
     <Component />
   </Connect(Droppable)>
+  <InviteMembersButton
+    className="followingSibling"
+    onClick={[Function]}
+    touchedInviteMembersButton={false}
+  />
 </div>
 `;
 
@@ -276,37 +288,27 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     muted={false}
     onClick={[Function]}
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="new-group-tooltip"
-          placement="right"
-        >
-          Sorted by most recent
-        </Tooltip>
+    <Connect(injectIntl(SidebarCategorySortingMenu))
+      category={
+        Object {
+          "channel_ids": Array [
+            "channel_id",
+          ],
+          "collapsed": false,
+          "display_name": "custom_category_1",
+          "id": "category1",
+          "muted": false,
+          "sorting": "recent",
+          "team_id": "team1",
+          "type": "direct_messages",
+          "user_id": "",
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <button
-        aria-label="Sorted by most recent"
-        className="SidebarChannelGroupHeader_sortButton"
-        onClick={[Function]}
-      >
-        <i
-          className="icon-clock-outline"
-        />
-      </button>
-    </OverlayTrigger>
+      handleOpenDirectMessagesModal={[Function]}
+      isCollapsed={false}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
+    />
     <OverlayTrigger
       defaultOverlayShown={false}
       delayShow={500}
@@ -318,6 +320,22 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
           placement="right"
         >
           Create new direct message
+          <Memo(KeyboardShortcutSequence)
+            hideDescription={true}
+            isInsideTooltip={true}
+            shortcut={
+              Object {
+                "default": Object {
+                  "defaultMessage": "Direct messages menu:	Ctrl|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu",
+                },
+                "mac": Object {
+                  "defaultMessage": "Direct messages menu:	⌘|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu.mac",
+                },
+              }
+            }
+          />
         </Tooltip>
       }
       placement="top"
@@ -340,7 +358,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content"
+    className="SidebarChannelGroup_content hasFollowingSibling"
   >
     <ul
       className="NavGroupContent"
@@ -350,9 +368,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
         channelId="channel_id"
         channelIndex={0}
         getChannelRef={[MockFunction]}
+        isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDMCategory={true}
         isDropDisabled={false}
         key="channel_id"
         setChannelRef={[MockFunction]}
@@ -364,7 +382,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
 
 exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section dmCategory"
+  className="SidebarChannelGroup a11y__section"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -379,6 +397,11 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   >
     <Component />
   </Connect(Droppable)>
+  <InviteMembersButton
+    className="followingSibling"
+    onClick={[Function]}
+    touchedInviteMembersButton={false}
+  />
 </div>
 `;
 
@@ -395,37 +418,27 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     muted={false}
     onClick={[Function]}
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="new-group-tooltip"
-          placement="right"
-        >
-          Sorted by most recent
-        </Tooltip>
+    <Connect(injectIntl(SidebarCategorySortingMenu))
+      category={
+        Object {
+          "channel_ids": Array [
+            "channel_id",
+          ],
+          "collapsed": false,
+          "display_name": "custom_category_1",
+          "id": "category1",
+          "muted": false,
+          "sorting": "recent",
+          "team_id": "team1",
+          "type": "direct_messages",
+          "user_id": "",
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <button
-        aria-label="Sorted by most recent"
-        className="SidebarChannelGroupHeader_sortButton"
-        onClick={[Function]}
-      >
-        <i
-          className="icon-clock-outline"
-        />
-      </button>
-    </OverlayTrigger>
+      handleOpenDirectMessagesModal={[Function]}
+      isCollapsed={false}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
+    />
     <OverlayTrigger
       defaultOverlayShown={false}
       delayShow={500}
@@ -437,6 +450,22 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
           placement="right"
         >
           Create new direct message
+          <Memo(KeyboardShortcutSequence)
+            hideDescription={true}
+            isInsideTooltip={true}
+            shortcut={
+              Object {
+                "default": Object {
+                  "defaultMessage": "Direct messages menu:	Ctrl|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu",
+                },
+                "mac": Object {
+                  "defaultMessage": "Direct messages menu:	⌘|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu.mac",
+                },
+              }
+            }
+          />
         </Tooltip>
       }
       placement="top"
@@ -459,7 +488,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content"
+    className="SidebarChannelGroup_content hasFollowingSibling"
   >
     <ul
       className="NavGroupContent"

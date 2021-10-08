@@ -8,11 +8,9 @@ import ChannelController from './channel_controller.jsx';
 
 describe('components/channel_layout/ChannelController', () => {
     const props = {
-        pathName: 'test',
-        teamType: 'test',
         fetchingChannels: false,
-        useLegacyLHS: true,
     };
+
     test('Should have app__body and channel-view classes on body after mount', () => {
         Object.defineProperty(window.navigator, 'platform', {
             value: 'Win32',

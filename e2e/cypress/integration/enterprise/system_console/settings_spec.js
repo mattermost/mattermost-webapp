@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -16,42 +17,7 @@ describe('Settings', () => {
         cy.apiRequireLicense();
     });
 
-    it('MM-T1161: Data retention - Settings are saved', () => {
-        cy.visit('/admin_console/compliance/data_retention');
-
-        // # Change dropdown
-        cy.findByTestId('enableMessageDeletiondropdown').select('Keep messages for a set amount of time');
-
-        // * Verify that button is enabled
-        cy.get('#adminConsoleWrapper .wrapper--fixed > .admin-console__wrapper').
-            within(() => {
-                cy.get('.job-table__panel button').should('be.enabled');
-            });
-
-        // # Save setting
-        cy.findByTestId('saveSetting').should('be.enabled').click().wait(TIMEOUTS.HALF_SEC);
-
-        // * Confirm that modal shows up
-        cy.get('#confirmModalLabel').should('be.visible').should('have.text', 'Confirm data retention policy');
-        cy.get('#confirmModalButton').should('be.enabled').click();
-
-        // # Change dropdown
-        cy.findByTestId('enableMessageDeletiondropdown').select('Keep all messages indefinitely');
-
-        // * Verify that button is disabled
-        cy.get('#adminConsoleWrapper .wrapper--fixed > .admin-console__wrapper').
-            within(() => {
-                cy.get('.job-table__panel button').should('be.disabled');
-            });
-
-        cy.findByTestId('saveSetting').should('be.enabled').click().wait(TIMEOUTS.HALF_SEC);
-
-        // * Confirm that modal shows up
-        cy.get('#confirmModalLabel').should('be.visible').should('have.text', 'Confirm data retention policy');
-        cy.get('#confirmModalButton').should('be.enabled').click();
-    });
-
-    it('MM-T1181: Compliance and Auditing: Run a report, it appears in the job table', () => {
+    it('MM-T1181 Compliance and Auditing: Run a report, it appears in the job table', () => {
         cy.visit('/admin_console/compliance/monitoring');
 
         // # Enable compliance reporting
@@ -79,15 +45,14 @@ describe('Settings', () => {
         cy.get('.compliance-panel__table tbody tr').first().should('contain.text', 'sample report');
     });
 
-    it('MM-T1635: Channel listing is displayed correctly with proper team name', () => {
+    it('MM-T1635 Channel listing is displayed correctly with proper team name', () => {
         let teamName;
-        cy.visit('/admin_console/user_management/channels').wait(TIMEOUTS.FIVE_SEC);
+        cy.visit('/admin_console/user_management/channels');
 
         // # Get the team name
         cy.get('#channels .DataGrid .DataGrid_rows > :nth-child(1)').
             within(() => {
-                cy.get('.DataGrid_cell').
-                    contains('Team').
+                cy.get('.DataGrid_cell:nth-of-type(2)').
                     invoke('text').
                     then((name) => {
                         teamName = name;

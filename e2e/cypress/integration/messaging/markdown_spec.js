@@ -20,9 +20,9 @@ const testCases = [
 ];
 
 describe('Markdown', () => {
-    let townsquareLink;
-
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Enable latex
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -31,15 +31,15 @@ describe('Markdown', () => {
             },
         });
 
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
+            cy.postMessage('hello');
         });
     });
 
     testCases.forEach((testCase, i) => {
-        it(`MM-T1734_${i + 1}: Code highlighting - ${testCase.name}`, () => {
+        it(`MM-T1734_${i + 1} Code highlighting - ${testCase.name}`, () => {
             // #  Post markdown message
             cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.ONE_SEC);
 
@@ -48,9 +48,9 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T2241: Markdown basics', () => {
+    it('MM-T2241 Markdown basics', () => {
         // # Post markdown message
-        cy.postMessage('/test url test-markdown-basics.md').wait(TIMEOUTS.ONE_SEC);
+        postMarkdownTest('/test url test-markdown-basics.md');
 
         let postId;
         let expectedHtml;
@@ -67,9 +67,9 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T2242: Markdown lists', () => {
+    it('MM-T2242 Markdown lists', () => {
         // # Post markdown message
-        cy.postMessage('/test url test-markdown-lists.md').wait(TIMEOUTS.ONE_SEC);
+        postMarkdownTest('/test url test-markdown-lists.md');
 
         let postId;
         let expectedHtml;
@@ -86,9 +86,9 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T1744: Markdown tables', () => {
+    it('MM-T2244 Markdown tables', () => {
         // # Post markdown message
-        cy.postMessage('/test url test-tables.md').wait(TIMEOUTS.ONE_SEC);
+        postMarkdownTest('/test url test-tables.md');
 
         let postId;
         let expectedHtml;
@@ -105,9 +105,9 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T2246: Markdown code syntax', () => {
+    it('MM-T2246 Markdown code syntax', () => {
         // # Post markdown message
-        cy.postMessage('/test url test-syntax-highlighting').wait(TIMEOUTS.ONE_SEC);
+        postMarkdownTest('/test url test-syntax-highlighting');
 
         let postId;
         let expectedHtml;
@@ -124,3 +124,10 @@ describe('Markdown', () => {
         });
     });
 });
+
+function postMarkdownTest(slashCommand) {
+    // # Post markdown message
+    cy.postMessage(slashCommand).wait(TIMEOUTS.ONE_SEC);
+    cy.uiWaitUntilMessagePostedIncludes('Loaded data');
+    cy.wait(TIMEOUTS.ONE_SEC);
+}

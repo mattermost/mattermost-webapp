@@ -10,28 +10,11 @@
 // Stage: @prod
 // Group: @messaging
 
-/**
- * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
- * @param  message {string[]} [this is the message we send along with some emojis attached to it ]
- * @param  emojis  {string[]} [array of emojis]
- * @param  isJumbo {boolean}  [This parameter is used to verify what kind of matcher and size we need to compare in the emojis]
- */
-function checkEmojiSize(message, emojis, isJumbo) {
-    const [height, width, size] = isJumbo ? ['min-Height', 'min-Width', '32px'] : ['height', 'width', '21px'];
-
-    emojis.forEach((emoji) => {
-        cy.get(message).
-            find('span[alt="' + emoji + '"]').
-            and('have.css', height, size).
-            and('have.css', width, size);
-    });
-}
-
 describe('Messaging', () => {
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -39,7 +22,8 @@ describe('Messaging', () => {
         const emojis = [':book:', ':key:', ':gem:'];
 
         // # Post a message beginning with a new line and followed by emojis
-        cy.postMessage('\n' + emojis.join(' '));
+        cy.postMessage('hello');
+        cy.get('#post_textbox').type('\n' + emojis.join(' ')).type('{enter}');
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
@@ -97,18 +81,29 @@ describe('Messaging', () => {
         // # Post Emojis list
         cy.postMessage(emojis.join(''));
 
-        // #Get last post message
+        // # Get last post message
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).as('lastMessage');
 
-            //# Expect unicode value from last message to have jumbo size
-            cy.get('@lastMessage').find('.emoticon--unicode').should('have.css', 'height', '32px').and('have.css', 'width', '32px').and('have.text', '🤟');
-
-            //#Removes unicode item
-            emojis.pop();
-
-            //# Expect emoji list to have emoji jumbo size
+            // * Expect emoji list to have emoji jumbo size
             checkEmojiSize('@lastMessage', emojis, true);
         });
     });
 });
+
+/**
+ * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
+ * @param  message {string[]} [this is the message we send along with some emojis attached to it ]
+ * @param  emojis  {string[]} [array of emojis]
+ * @param  isJumbo {boolean}  [This parameter is used to verify what kind of matcher and size we need to compare in the emojis]
+ */
+function checkEmojiSize(message, emojis, isJumbo) {
+    const [height, width, size] = isJumbo ? ['min-Height', 'min-Width', '32px'] : ['height', 'width', '21px'];
+
+    emojis.forEach((emoji) => {
+        cy.get(message).
+            find('span[alt="' + (emoji === '🤟' ? ':i_love_you_hand_sign:' : emoji) + '"]').
+            and('have.css', height, size).
+            and('have.css', width, size);
+    });
+}

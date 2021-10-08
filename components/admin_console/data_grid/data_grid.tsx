@@ -3,6 +3,7 @@
 
 import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
@@ -21,6 +22,7 @@ export type Column = {
     fixed?: boolean;
 
     // Optional styling overrides
+    className?: string;
     width?: number;
     textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined;
     overflow?: string;
@@ -61,6 +63,8 @@ type Props = {
         keys: string[];
         onFilter: (options: FilterOptions) => void;
     };
+
+    className?: string;
 };
 
 type State = {
@@ -169,7 +173,6 @@ class DataGrid extends React.PureComponent<Props, State> {
                 );
             });
         }
-
         return (
             <div
                 className='DataGrid_rows'
@@ -278,7 +281,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     public render() {
         return (
             <div
-                className='DataGrid'
+                className={classNames('DataGrid', this.props.className)}
                 ref={this.ref}
             >
                 {this.renderSearch()}

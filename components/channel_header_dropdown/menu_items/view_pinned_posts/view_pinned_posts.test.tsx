@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import Menu from 'components/widgets/menu/menu';
 
@@ -21,12 +21,12 @@ describe('components/ChannelHeaderDropdown/MenuItem.ViewPinnedPosts', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper: ShallowWrapper<any, any, ViewPinnedPosts> = shallow(<ViewPinnedPosts {...baseProps}/>);
+        const wrapper = shallow<ViewPinnedPosts>(<ViewPinnedPosts {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should runs closeRightHandSide function if has any pinned posts', () => {
-        const wrapper: ShallowWrapper<any, any, ViewPinnedPosts> = shallow(<ViewPinnedPosts {...baseProps}/>);
+        const wrapper = shallow<ViewPinnedPosts>(<ViewPinnedPosts {...baseProps}/>);
 
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
@@ -40,7 +40,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ViewPinnedPosts', () => {
             ...baseProps,
             hasPinnedPosts: false,
         };
-        const wrapper: ShallowWrapper<any, any, ViewPinnedPosts> = shallow(<ViewPinnedPosts {...props}/>);
+        const wrapper = shallow<ViewPinnedPosts>(<ViewPinnedPosts {...props}/>);
 
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),

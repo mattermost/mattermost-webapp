@@ -20,6 +20,10 @@
     "experimentalDecorators": true,
     "jsx": "react",
     "baseUrl": ".",
+    "paths": {
+        "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
+        "reselect": ["packages/reselect/src"],
+    }
   },
   "include": [
     "./**/*"

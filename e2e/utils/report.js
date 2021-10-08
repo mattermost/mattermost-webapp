@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-console */
+/* eslint-disable no-console, camelcase */
 
 const axios = require('axios');
 const fse = require('fs-extra');
@@ -106,22 +106,18 @@ const result = [
 
 function generateTestReport(summary, isUploadedToS3, reportLink, environment, testCycleKey) {
     const {
-        BRANCH,
-        BUILD_TAG,
         FULL_REPORT,
-        PULL_REQUEST,
         TEST_CYCLE_LINK_PREFIX,
-        TYPE,
     } = process.env;
     const {statsFieldValue, stats} = summary;
     const {
-        cypressVersion,
-        browserName,
-        browserVersion,
+        cypress_version,
+        browser_name,
+        browser_version,
         headless,
-        osName,
-        osVersion,
-        nodeVersion,
+        os_name,
+        os_version,
+        node_version,
     } = environment;
 
     let testResult;
@@ -132,37 +128,8 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
         }
     }
 
-    let dockerImageLink = '';
-    if (BUILD_TAG) {
-        dockerImageLink = `with [mattermost-enterprise-edition:${BUILD_TAG}](https://hub.docker.com/r/mattermost/mattermost-enterprise-edition/tags?name=${BUILD_TAG})`;
-    }
-
-    let title;
-
-    switch (TYPE) {
-    case 'PR':
-        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) ${dockerImageLink}`;
-        break;
-    case 'RELEASE':
-        title = `E2E for Release Build ${dockerImageLink}`;
-        break;
-    case 'MASTER':
-        title = `E2E for Master Nightly Build (Prod tests) ${dockerImageLink}`;
-        break;
-    case 'MASTER_UNSTABLE':
-        title = `E2E for Master Nightly Build (Unstable tests) ${dockerImageLink}`;
-        break;
-    case 'CLOUD':
-        title = `E2E for Cloud Build (Prod tests) with [${BUILD_TAG}](https://hub.docker.com/r/mattermost/mm-cloud-ee/tags)`;
-        break;
-    case 'CLOUD_UNSTABLE':
-        title = `E2E for Cloud Build (Unstable tests) with [${BUILD_TAG}](https://hub.docker.com/r/mattermost/mm-cloud-ee/tags)`;
-        break;
-    default:
-        title = `E2E for Build ${dockerImageLink}`;
-    }
-
-    const envValue = `cypress@${cypressVersion} | node@${nodeVersion} | ${browserName}@${browserVersion}${headless ? ' (headless)' : ''} | ${osName}@${osVersion}`;
+    const title = generateTitle();
+    const envValue = `cypress@${cypress_version} | node@${node_version} | ${browser_name}@${browser_version}${headless ? ' (headless)' : ''} | ${os_name}@${os_version}`;
 
     if (FULL_REPORT === 'true') {
         let reportField;
@@ -215,7 +182,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
         quickSummary = `[${quickSummary}](${reportLink})`;
     }
 
-    let testCycleLink;
+    let testCycleLink = '';
     if (testCycleKey) {
         testCycleLink = testCycleKey ? `| [Recorded test executions](${TEST_CYCLE_LINK_PREFIX}${testCycleKey})` : '';
     }
@@ -232,6 +199,54 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
             text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins ${testCycleLink}\n${envValue}`,
         }],
     };
+}
+
+function generateTitle() {
+    const {
+        BRANCH,
+        MM_DOCKER_IMAGE,
+        MM_DOCKER_TAG,
+        PULL_REQUEST,
+        RELEASE_DATE,
+        TYPE,
+    } = process.env;
+
+    let dockerImageLink = '';
+    if (MM_DOCKER_IMAGE && MM_DOCKER_TAG) {
+        dockerImageLink = ` with [${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/mattermost/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
+    }
+
+    let releaseDate = '';
+    if (RELEASE_DATE) {
+        releaseDate = ` for ${RELEASE_DATE}`;
+    }
+
+    let title;
+
+    switch (TYPE) {
+    case 'PR':
+        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST})${dockerImageLink}`;
+        break;
+    case 'RELEASE':
+        title = `E2E for Release Build${dockerImageLink}${releaseDate}`;
+        break;
+    case 'MASTER':
+        title = `E2E for Master Nightly Build (Prod tests)${dockerImageLink}`;
+        break;
+    case 'MASTER_UNSTABLE':
+        title = `E2E for Master Nightly Build (Unstable tests)${dockerImageLink}`;
+        break;
+    case 'CLOUD':
+        title = `E2E for Cloud Build (Prod tests)${dockerImageLink}${releaseDate}`;
+        break;
+    case 'CLOUD_UNSTABLE':
+        title = `E2E for Cloud Build (Unstable tests)${dockerImageLink}`;
+        break;
+    default:
+        title = `E2E for Build${dockerImageLink}`;
+    }
+
+    return title;
 }
 
 function generateDiagnosticReport(summary, serverInfo) {

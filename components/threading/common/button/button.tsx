@@ -11,6 +11,7 @@ type Props = {
     append?: ReactNode;
     isActive?: boolean;
     hasDot?: boolean;
+    allowTextOverflow?: boolean;
 }
 
 type Attrs = Exclude<ButtonHTMLAttributes<HTMLButtonElement>, Props>
@@ -21,12 +22,13 @@ function Button({
     children,
     isActive,
     hasDot,
+    allowTextOverflow = false,
     ...attrs
 }: Props & Attrs) {
     return (
         <button
             {...attrs}
-            className={classNames('Button Button___transparent', {'is-active': isActive}, attrs.className)}
+            className={classNames('Button Button___transparent', {'is-active': isActive, allowTextOverflow}, attrs.className)}
         >
             {prepend && (
                 <span className='Button_prepended'>

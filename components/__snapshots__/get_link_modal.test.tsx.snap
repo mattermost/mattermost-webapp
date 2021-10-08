@@ -47,6 +47,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
   >
     <textarea
       className="form-control no-resize min-height"
+      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}
@@ -63,7 +64,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="get_link.close"
       />
@@ -75,7 +76,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Copy Link"
         id="get_link.copy"
       />
@@ -84,7 +85,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
       className="alert alert-success alert--confirm"
     >
       <SuccessIcon />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage=" Link copied"
         id="get_link.clipboard"
       />
@@ -140,6 +141,7 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
   >
     <textarea
       className="form-control no-resize min-height"
+      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}
@@ -156,7 +158,7 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="get_link.close"
       />
@@ -168,7 +170,7 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Copy Link"
         id="get_link.copy"
       />
@@ -229,6 +231,7 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
     </p>
     <textarea
       className="form-control no-resize min-height"
+      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}
@@ -245,7 +248,7 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="get_link.close"
       />
@@ -257,7 +260,7 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Copy Link"
         id="get_link.copy"
       />
@@ -313,6 +316,7 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
   >
     <textarea
       className="form-control no-resize min-height"
+      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}
@@ -329,7 +333,7 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="get_link.close"
       />
@@ -341,7 +345,7 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Copy Link"
         id="get_link.copy"
       />

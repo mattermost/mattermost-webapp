@@ -8,9 +8,10 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @not_cloud @messaging
+// Group: @messaging @plugin @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {matterpollPlugin} from '../../utils/plugins';
 
 describe('Header', () => {
     before(() => {
@@ -37,9 +38,13 @@ describe('Header', () => {
         // # Create a bot
         cy.apiCreateBot().then(({bot}) => {
             // # Open a DM with the bot
-            cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
-            cy.focused().type(bot.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
-            cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiAddDirectMessage().click();
+            cy.get('.more-modal__list .more-modal__row');
+            cy.get('#moreDmModal input').
+                type(bot.username, {force: true}).
+                type('{enter}', {force: true});
+            cy.get('#selectItems').contains(bot.username);
+            cy.get('#saveItems').click();
 
             // * Verify Channel Header is visible
             cy.get('#channelHeaderInfo').should('be.visible');
@@ -50,26 +55,22 @@ describe('Header', () => {
     });
 
     it('MM-T1837_2 - DM channel with bot from plugin displays a normal header', () => {
-        // # Try to remove the plugin, just in case
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
-
         // # Upload and enable "matterpoll" plugin
-        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
-            cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
-        });
+        cy.apiUploadAndEnablePlugin(matterpollPlugin);
 
         // # Open a DM with the bot
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
-        cy.focused().type('matterpoll', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+            type('matterpoll').wait(TIMEOUTS.ONE_SEC).
+            type('{enter}');
+        cy.get('#selectItems').contains('matterpoll');
+        cy.get('#saveItems').click();
 
         // * Verify Channel Header is visible
         cy.get('#channelHeaderInfo').should('be.visible');
 
         // * Verify header content
         cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', 'Poll Bot');
-
-        // # Clean up, uninstall "matterpoll" plugin
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
     });
 });

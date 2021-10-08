@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/custom_status/custom_status_emoji should match snapshot 1`] = `
+<CustomStatusEmoji
+  emojiSize={16}
+  emojiStyle={
+    Object {
+      "marginLeft": 4,
+    }
+  }
+  showTooltip={false}
+  spanStyle={Object {}}
+  tooltipDirection="top"
+  userID=""
+/>
+`;
+
+exports[`components/custom_status/custom_status_emoji should match snapshot with props 1`] = `
+<CustomStatusEmoji
+  emojiSize={34}
+  emojiStyle={
+    Object {
+      "marginLeft": 4,
+    }
+  }
+  showTooltip={true}
+  spanStyle={Object {}}
+  tooltipDirection="bottom"
+  userID=""
+/>
+`;

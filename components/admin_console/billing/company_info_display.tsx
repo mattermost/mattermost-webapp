@@ -8,7 +8,8 @@ import {useSelector} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import noCompanyInfoGraphic from 'images/no_company_info_graphic.svg';
+import CompanySvg from 'components/common/svg_images_components/company.svg';
+
 import {GlobalState} from 'types/store';
 
 import './company_info_display.scss';
@@ -31,9 +32,9 @@ const addInfoButton = (
 
 const noCompanyInfoSection = (
     <div className='CompanyInfoDisplay__noCompanyInfo'>
-        <img
-            className='ComapnyInfoDisplay__noCompanyInfo-graphic'
-            src={noCompanyInfoGraphic}
+        <CompanySvg
+            width={300}
+            height={210}
         />
         <div className='CompanyInfoDisplay__noCompanyInfo-message'>
             <FormattedMessage

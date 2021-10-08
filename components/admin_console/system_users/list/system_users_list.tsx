@@ -15,7 +15,7 @@ import ManageRolesModal from 'components/admin_console/manage_roles_modal';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal';
 import ManageTokensModal from 'components/admin_console/manage_tokens_modal';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
-import ResetEmailModal from 'components/admin_console/reset_email_modal/reset_email_modal.jsx';
+import ResetEmailModal from 'components/admin_console/reset_email_modal';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
 import UserListRowWithError from 'components/user_list_row_with_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -198,8 +198,10 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
         });
     }
 
-    doEmailResetSubmit = (user: UserProfile) => {
-        this.props.actions.getUser(user.id);
+    doEmailResetSubmit = (user?: UserProfile) => {
+        if (user) {
+            this.props.actions.getUser(user.id);
+        }
 
         this.setState({
             showEmailModal: false,
@@ -319,7 +321,7 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const extraInfo: {[key: string]: (string | JSX.Element)[]} = {};
+        const extraInfo: {[key: string]: Array<string | JSX.Element>} = {};
         if (this.props.users) {
             for (const user of this.props.users) {
                 extraInfo[user.id] = this.getInfoForUser(user);

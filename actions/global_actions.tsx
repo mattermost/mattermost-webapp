@@ -4,7 +4,6 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {
-    createDirectChannel,
     fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
@@ -13,13 +12,17 @@ import {
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels, getChannelMessageCount} from 'mattermost-redux/selectors/entities/channels';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {ChannelTypes} from 'mattermost-redux/action_types';
+import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
+import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -37,6 +40,8 @@ import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
+import {GlobalState} from 'types/store';
+
 import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -48,32 +53,21 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 export function emitChannelClickEvent(channel: Channel) {
-    async function userVisitedFakeChannel(chan: Channel, success: (received: Channel) => void, fail: () => void) {
-        const state = getState();
-        const currentUserId = getCurrentUserId(state);
-        const otherUserId = Utils.getUserIdFromChannelName(chan);
-        const res = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
-        if ('data' in res) {
-            success(res.data);
-        } else {
-            fail();
-        }
-    }
     function switchToChannel(chan: Channel) {
         const state = getState();
         const userId = getCurrentUserId(state);
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
+        const isChannelFilesShowing = getRhsState(state) === RHSStates.CHANNEL_FILES;
         const member = getMyChannelMember(state, chan.id);
         const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
-        if (chan.delete_at === 0) {
-            const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
-            if (penultimate !== chan.name) {
-                LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
-                LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
-            }
+
+        const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
+        if (penultimate !== chan.name) {
+            LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
+            LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
         }
 
         // When switching to a different channel if the pinned posts is showing
@@ -82,35 +76,63 @@ export function emitChannelClickEvent(channel: Channel) {
             dispatch(updateRhsState(RHSStates.PIN, chan.id));
         }
 
+        if (isRHSOpened && isChannelFilesShowing) {
+            dispatch(updateRhsState(RHSStates.CHANNEL_FILES, chan.id));
+        }
+
         if (currentChannelId) {
             loadProfilesForSidebar();
         }
 
-        dispatch(batchActions([{
-            type: ChannelTypes.SELECT_CHANNEL,
-            data: chan.id,
-        }, {
-            type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
-            data: chan.id,
-            channel: chan,
-            member: member || {},
-        }]));
+        dispatch(batchActions([
+            {
+                type: ChannelTypes.SELECT_CHANNEL,
+                data: chan.id,
+            },
+            {
+                type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
+                data: chan.id,
+                channel: chan,
+                member: member || {},
+            },
+            setLastUnreadChannel(state, chan),
+        ]));
+
+        if (appsEnabled(state)) {
+            dispatch(fetchAppBindings(chan.id));
+        }
     }
 
-    if (channel.fake) {
-        userVisitedFakeChannel(
-            channel,
-            (data) => {
-                switchToChannel(data);
-            },
-            () => {
-                browserHistory.push('/');
-            },
-        );
-    } else {
-        switchToChannel(channel);
-    }
+    switchToChannel(channel);
 }
+
+function setLastUnreadChannel(state: GlobalState, channel: Channel) {
+    const member = getMyChannelMember(state, channel.id);
+    const messageCount = getChannelMessageCount(state, channel.id);
+
+    let hadMentions = false;
+    let hadUnreads = false;
+    if (member && messageCount) {
+        const crtEnabled = isCollapsedThreadsEnabled(state);
+
+        const unreadCount = calculateUnreadCount(messageCount, member, crtEnabled);
+
+        hadMentions = unreadCount.mentions > 0;
+        hadUnreads = unreadCount.showUnread && unreadCount.messages > 0;
+    }
+
+    return {
+        type: ActionTypes.SET_LAST_UNREAD_CHANNEL,
+        channelId: channel.id,
+        hadMentions,
+        hadUnreads,
+    };
+}
+
+export const clearLastUnreadChannel = {
+    type: ActionTypes.SET_LAST_UNREAD_CHANNEL,
+    channelId: '',
+};
 
 export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = Date.now()) {
     return {
@@ -181,22 +203,23 @@ export function showMobileSubMenuModal(elements: any[]) { // TODO Use more speci
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message: string, channelId: string, parentId: string) {
-    const timestamp = Utils.getTimestamp();
-    const post = {
-        id: Utils.generateId(),
-        user_id: '0',
-        channel_id: channelId || getCurrentChannelId(getState()),
-        message,
-        type: PostTypes.EPHEMERAL,
-        create_at: timestamp,
-        update_at: timestamp,
-        root_id: parentId,
-        parent_id: parentId,
-        props: {},
-    };
+export function sendEphemeralPost(message: string, channelId?: string, parentId?: string, userId?: string): ActionFunc {
+    return (doDispatch: DispatchFunc, doGetState: GetStateFunc) => {
+        const timestamp = Utils.getTimestamp();
+        const post = {
+            id: Utils.generateId(),
+            user_id: userId || '0',
+            channel_id: channelId || getCurrentChannelId(doGetState()),
+            message,
+            type: PostTypes.EPHEMERAL,
+            create_at: timestamp,
+            update_at: timestamp,
+            root_id: parentId,
+            props: {},
+        };
 
-    dispatch(handleNewPost(post));
+        return doDispatch(handleNewPost(post));
+    };
 }
 
 export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: string, addedUserId: string, channelId: string, postRootId = '', timestamp: number) {
@@ -209,7 +232,6 @@ export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: 
         create_at: timestamp,
         update_at: timestamp,
         root_id: postRootId,
-        parent_id: postRootId,
         props: {
             username: user.username,
             addedUsername,

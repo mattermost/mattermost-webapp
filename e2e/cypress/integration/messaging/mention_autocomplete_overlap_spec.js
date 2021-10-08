@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -15,9 +14,9 @@ import * as MESSAGES from '../../fixtures/messages';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -42,7 +41,7 @@ describe('Messaging', () => {
         });
 
         // # Close the RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('At-mention user autocomplete should open above the textbox in RHS is filled with messages', () => {
@@ -56,16 +55,13 @@ describe('Messaging', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Make a series of post so we are way past the first message in terms of scroll
-        cy.get('#reply_textbox').
-            clear().
-            invoke('val', MESSAGES.HUGE).
-            wait(TIMEOUTS.ONE_SEC).
-            type(' {backspace}{enter}');
-        cy.get('#reply_textbox').
-            clear().
-            invoke('val', MESSAGES.HUGE).
-            wait(TIMEOUTS.ONE_SEC).
-            type(' {backspace}{enter}');
+        Cypress._.times(2, () => {
+            cy.get('#reply_textbox').
+                clear().
+                invoke('val', MESSAGES.HUGE).
+                wait(TIMEOUTS.ONE_SEC).
+                type(' {backspace}{enter}');
+        });
 
         // # Enter @ to allow opening of autocomplete box
         cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
@@ -78,7 +74,7 @@ describe('Messaging', () => {
         });
 
         // # Close the RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T70_1 At-mention user autocomplete is legible when it overlaps with channel header when drafting a long message containing a file attachment', () => {

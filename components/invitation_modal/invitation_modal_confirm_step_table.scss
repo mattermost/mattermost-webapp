@@ -2,15 +2,19 @@
 
 .InvitationModalConfirmStepTable {
     width: 100%;
+
     .table-header {
         display: flex;
-        .people-header, .details-header {
-            margin: 12px;
-            width: 50%;
-            font-weight: bold;
+
+        .people-header,
+        .details-header {
             display: flex;
+            width: 50%;
             align-items: center;
+            margin: 12px;
+            font-weight: bold;
         }
+
         span {
             display: flex;
         }

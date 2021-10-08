@@ -4,8 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect} from 'react-router';
-import {viewChannel} from 'mattermost-redux/actions/channels';
+
 import semver from 'semver';
+
+import {viewChannel} from 'mattermost-redux/actions/channels';
 
 import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
@@ -166,11 +168,11 @@ export default class LoggedIn extends React.PureComponent {
             break;
         }
         case 'notification-clicked': {
-            const {channel, teamId} = message;
+            const {channel, teamId, url} = message;
             window.focus();
 
             // navigate to the appropriate channel
-            this.props.actions.getChannelURLAction(channel, teamId);
+            this.props.actions.getChannelURLAction(channel, teamId, url);
             break;
         }
         }

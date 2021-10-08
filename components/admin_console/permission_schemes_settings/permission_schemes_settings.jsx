@@ -216,6 +216,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                         </div>
 
                         <AdminPanelWithLink
+                            id='systemScheme'
                             titleId={t('admin.permissions.systemSchemeBannerTitle')}
                             titleDefault='System Scheme'
                             subtitleId={t('admin.permissions.systemSchemeBannerText')}
@@ -375,5 +376,5 @@ t('admin.permissions.group.manage_shared_channels.name');
 t('admin.permissions.group.manage_shared_channels.description');
 t('admin.permissions.permission.manage_shared_channels.name');
 t('admin.permissions.permission.manage_shared_channels.description');
-t('admin.permissions.permission.manage_remote_clusters.name');
-t('admin.permissions.permission.manage_remote_clusters.description');
+t('admin.permissions.permission.manage_secure_connections.name');
+t('admin.permissions.permission.manage_secure_connections.description');

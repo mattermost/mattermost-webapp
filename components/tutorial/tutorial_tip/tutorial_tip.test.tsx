@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import TutorialTip from 'components/tutorial/tutorial_tip/tutorial_tip';
 import {Constants, Preferences} from 'utils/constants';
@@ -32,7 +32,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         const closeRhsMenu = jest.fn();
 
         const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
-        const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
+        const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
 
@@ -50,7 +50,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         const closeRhsMenu = jest.fn();
 
         const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
-        const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
+        const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
 
@@ -76,7 +76,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
         const props = {...requiredProps};
-        const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
+        const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
 
@@ -92,7 +92,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
         const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
-        const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
+        const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
 

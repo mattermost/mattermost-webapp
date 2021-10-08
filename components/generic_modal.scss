@@ -1,8 +1,14 @@
 @charset 'UTF-8';
 
-.GenericModal {
+.app__body .modal .GenericModal {
     &.modal-dialog {
         margin-top: calc(50vh - 240px);
+    }
+
+    &.modal-overflow {
+        .modal-body {
+            overflow: visible;
+        }
     }
 
     .modal-body {
@@ -10,48 +16,70 @@
         padding: 0;
 
         .form-control {
-            border: 2px solid var(--button-bg);
-            box-sizing: border-box;
-            border-radius: 4px;
             height: 40px;
+            box-sizing: border-box;
+            border: 2px solid var(--button-bg);
+            border-radius: 4px;
+
+            &.has-error {
+                border-color: var(--error-text);
+            }
+        }
+
+        .MaxLengthInput {
+            &.form-control.has-error {
+                padding-right: 66px;
+            }
+
+            &__validation {
+                position: absolute;
+                top: 12px;
+                right: 56px;
+                color: var(--error-text);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: normal;
+                line-height: 16px;
+            }
         }
 
         .input-clear {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 18px;
-            line-height: 16px;
-            color: var(--center-channel-color);
-            opacity: 0.48;
+            top: 12px;
             right: 36px;
-            top: 11px;
             width: 16px;
             height: 16px;
+            color: var(--center-channel-color);
+            font-size: 18px;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 16px;
+            opacity: 0.48;
         }
     }
 
     .modal-content {
+        padding: 16px 15px;
         border-radius: 8px;
     }
 
     .modal-header {
-        background: transparent;
-        border: none;
         min-height: 0;
         padding: 0;
+        border: none;
+        background: transparent;
 
         .close {
-            color: rgba(var(--center-channel-color-rgb), 0.56);
+            top: 6px;
+            right: 6px;
+            display: flex;
             width: 4rem;
             height: 4rem;
-            font-size: 32px;
-            font-weight: 400;
-            display: flex;
             align-items: center;
             justify-content: center;
-            right: 4px;
-            top: 6px;
             border-radius: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            font-size: 32px;
+            font-weight: 400;
 
             &:hover {
                 background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -66,41 +94,41 @@
     }
 
     .modal-footer {
-        border: none;
         padding: 12px 24px 24px 24px;
+        border: none;
         border-radius: 4px;
     }
 }
 
 .GenericModal__header {
-    padding: 24px 24px 16px 24px;
+    padding: 28px 24px 16px 24px;
 
     h1 {
-        font-weight: 600;
-        font-size: 20px;
-        line-height: 28px;
         margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 28px;
     }
 }
 
 .GenericModal__body {
-    padding: 0 24px;
     position: relative;
     width: 100%;
+    padding: 0 24px;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
     font-family: Open Sans;
+    font-size: 14px;
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
     line-height: 20px;
-    color: rgba(var(--center-channel-color-rgb), 0.72);
 }
 
 .GenericModal__button {
     padding: 12px 16px;
-    line-height: 12px;
+    border: none;
     font-size: 14px;
     font-weight: 600;
-    border: none;
+    line-height: 12px;
 
     &.cancel {
         background: var(--center-channel-bg);
@@ -113,8 +141,8 @@
         color: var(--button-color);
 
         &.disabled {
-            color: rgba(var(--center-channel-color-rgb), 0.64);
             background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
 }

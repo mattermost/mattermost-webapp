@@ -17,7 +17,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         id="dotmenu-icon-tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
         />
@@ -69,6 +69,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         text="Add Reaction"
       />
     </Connect(ChannelPermissionGate)>
+    <MenuItemAction
+      extraText="You will be notified about replies"
+      id="follow_post_thread_post_id_1"
+      onClick={[Function]}
+      show={false}
+      text="Follow message"
+    />
     <MenuItemAction
       id="unread_post_post_id_1"
       onClick={[Function]}
@@ -146,7 +153,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         id="dotmenu-icon-tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
         />
@@ -198,6 +205,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         text="Add Reaction"
       />
     </Connect(ChannelPermissionGate)>
+    <MenuItemAction
+      extraText="You will be notified about replies"
+      id="follow_post_thread_post_id_1"
+      onClick={[Function]}
+      show={false}
+      text="Follow message"
+    />
     <MenuItemAction
       id="unread_post_post_id_1"
       onClick={[Function]}

@@ -7,35 +7,7 @@ import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import configureStore from 'store';
 
-import {isCategoryCollapsed} from 'selectors/views/channel_sidebar';
-
 import * as Actions from './channel_sidebar';
-
-describe('setCategoryCollapsed', () => {
-    test('should save category expanded and category collapsed', () => {
-        const category1 = 'category1';
-        const initialState = {
-            entities: {
-                users: {
-                    currentUserId: 'user1',
-                    profiles: {
-                        user1: {},
-                    },
-                },
-            },
-        };
-
-        const store = configureStore(initialState);
-
-        store.dispatch(Actions.setCategoryCollapsed(category1, true));
-
-        expect(isCategoryCollapsed(store.getState(), category1)).toBe(true);
-
-        store.dispatch(Actions.setCategoryCollapsed(category1, false));
-
-        expect(isCategoryCollapsed(store.getState(), category1)).toBe(false);
-    });
-});
 
 describe('adjustTargetIndexForMove', () => {
     const channelIds = ['one', 'twoDeleted', 'three', 'four', 'fiveDeleted', 'six', 'seven'];

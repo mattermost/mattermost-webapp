@@ -19,6 +19,7 @@ import AdminSettings, {BaseProps, BaseState} from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
 import TextSetting from '../text_setting';
+import {appsPluginID} from 'utils/apps';
 
 const PluginItemState = ({state}: {state: number}) => {
     switch (state) {
@@ -148,11 +149,11 @@ type PluginStatus = {
     description: string;
     version: string;
     name: string;
-    instances: Array<any>;
+    instances: any[];
     settings_schema?: {
         header: string;
         footer: string;
-        settings?: Array<unknown>;
+        settings?: unknown[];
     };
 }
 
@@ -164,6 +165,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
+    appsEnabled: boolean;
     isDisabled?: boolean;
 };
 
@@ -175,9 +177,10 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
+    appsEnabled,
     isDisabled,
 }: PluginItemProps) => {
-    let activateButton;
+    let activateButton: React.ReactNode;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
     const deactivating = pluginStatus.state === PluginState.PLUGIN_STATE_STOPPING;
 
@@ -254,7 +257,7 @@ const PluginItem = ({
             />
         );
     }
-    const removeButton = (
+    let removeButton: React.ReactNode = (
         <span>
             {' - '}
             <a
@@ -360,6 +363,11 @@ const PluginItem = ({
         );
     }
 
+    if (pluginStatus.id === appsPluginID && !appsEnabled) {
+        activateButton = (<>{'Plugin disabled by feature flag'}</>);
+        removeButton = null;
+    }
+
     return (
         <div data-testid={pluginStatus.id}>
             <div>
@@ -387,22 +395,11 @@ const PluginItem = ({
     );
 };
 
-interface PluginSettings {
-    Enable: boolean;
-    EnableUploads: boolean;
-    AllowInsecureDownloadUrl: boolean;
-    EnableMarketplace: boolean;
-    EnableRemoteMarketplace: boolean;
-    AutomaticPrepackagedPlugins: boolean;
-    MarketplaceUrl: string;
-    RequirePluginSignature: boolean;
-    isDisabled: boolean;
-}
-
 type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
+    appsEnabled: boolean;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
@@ -466,11 +463,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         if (config && config.PluginSettings) {
             config.PluginSettings.Enable = this.state.enable;
             config.PluginSettings.EnableUploads = this.state.enableUploads;
-            config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
+            config.PluginSettings.AllowInsecureDownloadURL = this.state.allowInsecureDownloadUrl;
             config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
             config.PluginSettings.EnableRemoteMarketplace = this.state.enableRemoteMarketplace;
             config.PluginSettings.AutomaticPrepackagedPlugins = this.state.automaticPrepackagedPlugins;
-            config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
+            config.PluginSettings.MarketplaceURL = this.state.marketplaceUrl;
             config.PluginSettings.RequirePluginSignature = this.state.requirePluginSignature;
         }
 
@@ -481,11 +478,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         const state = {
             enable: config?.PluginSettings?.Enable,
             enableUploads: config?.PluginSettings?.EnableUploads,
-            allowInsecureDownloadUrl: config?.PluginSettings?.AllowInsecureDownloadUrl,
+            allowInsecureDownloadUrl: config?.PluginSettings?.AllowInsecureDownloadURL,
             enableMarketplace: config?.PluginSettings?.EnableMarketplace,
             enableRemoteMarketplace: config?.PluginSettings?.EnableRemoteMarketplace,
             automaticPrepackagedPlugins: config?.PluginSettings?.AutomaticPrepackagedPlugins,
-            marketplaceUrl: config?.PluginSettings?.MarketplaceUrl,
+            marketplaceUrl: config?.PluginSettings?.MarketplaceURL,
             requirePluginSignature: config?.PluginSettings?.RequirePluginSignature,
         };
 
@@ -635,7 +632,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         });
     }
 
-    getMarketplaceUrlHelpText = (url: string) => {
+    getMarketplaceURLHelpText = (url: string) => {
         return (
             <div>
                 {
@@ -935,6 +932,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
+                        appsEnabled={this.props.appsEnabled}
                         isDisabled={this.props.isDisabled}
                     />
                 );
@@ -1152,11 +1150,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                             defaultMessage='Marketplace URL:'
                                         />
                                     }
-                                    helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
+                                    helpText={this.getMarketplaceURLHelpText(this.state.marketplaceUrl)}
                                     value={this.state.marketplaceUrl}
                                     disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                                     onChange={this.handleChange}
-                                    setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
+                                    setByEnv={this.isSetByEnv('PluginSettings.MarketplaceURL')}
                                 />
                             </>
                         )}

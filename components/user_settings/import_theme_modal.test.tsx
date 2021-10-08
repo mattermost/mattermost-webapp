@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -16,35 +16,22 @@ describe('components/user_settings/ImportThemeModal', () => {
     });
 
     it('should correctly parse a Slack theme', () => {
-        const theme: Theme = {
-            sidebarBg: '#4d394b',
+        const theme = setThemeDefaults({
+            type: 'custom',
+            sidebarBg: '#1d2229',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#3e313c',
-            sidebarTextActiveBorder: '#4c9689',
+            sidebarTextHoverBg: '#313843',
+            sidebarTextActiveBorder: '#537aa6',
             sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#3e313c',
+            sidebarHeaderBg: '#0b161e',
+            sidebarTeamBarBg: '#081118',
             sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#38978d',
-            awayIndicator: '#ffbc42',
-            dndIndicator: '#f74343',
-            mentionBg: '#eb4d5c',
-            mentionBj: '#ffffff',
-            mentionColor: '#145dbf',
-            centerChannelBg: '#ffffff',
-            centerChannelColor: '#3d3c40',
-            newMessageSeparator: '#ff8800',
-            linkColor: '#2389d7',
-            buttonBg: '#166de0',
-            buttonColor: '#ffffff',
-            errorTextColor: '#fd5960',
-            mentionHighlightBg: '#ffe577',
-            mentionHighlightLink: '#166de0',
-            codeTheme: 'github',
-            type: 'custom',
-        };
+            onlineIndicator: '#94e864',
+            mentionBg: '#78af8f',
+        });
 
-        const themeString = '#4d394b,#3e313c,#4c9689,#ffffff,#3e313c,#ffffff,#38978d,#eb4d5c';
+        const themeString = '#1d2229,#0b161e,#537aa6,#ffffff,#313843,#ffffff,#94e864,#78af8f,#0b161e,#ffffff';
         const wrapper = mountWithIntl(<ImportThemeModal/>);
         const instance = wrapper.instance();
 

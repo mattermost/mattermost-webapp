@@ -2,7 +2,7 @@
 
 exports[`components/ProfilePicture should match snapshot, no user specified, default props 1`] = `
 <span
-  className="status-wrapper"
+  className="status-wrapper style--none "
 >
   <span
     className="profile-icon "
@@ -22,7 +22,7 @@ exports[`components/ProfilePicture should match snapshot, no user specified, def
 
 exports[`components/ProfilePicture should match snapshot, no user specified, overridden props 1`] = `
 <span
-  className="status-wrapper"
+  className="status-wrapper style--none "
 >
   <span
     className="profile-icon "
@@ -81,7 +81,7 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
 
 exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
 <span
-  className="status-wrapper"
+  className="status-wrapper style--none "
 >
   <span
     className="profile-icon "
@@ -101,7 +101,7 @@ exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
 
 exports[`components/ProfilePicture should match snapshot, user specified, overridden props 1`] = `
 <span
-  className="status-wrapper"
+  className="status-wrapper style--none "
 >
   <span
     className="profile-icon "

@@ -21,10 +21,10 @@ describe('Group Message', () => {
     const groupUsersCount = 3;
 
     before(() => {
-        cy.apiInitSetup({}).then(({team, user}) => {
+        cy.apiInitSetup({}).then(({team, user, townSquareUrl}) => {
             testTeam = team;
             testUser = user;
-            townsquareLink = `/${team.name}/channels/town-square`;
+            townsquareLink = townSquareUrl;
         });
     });
 
@@ -49,7 +49,7 @@ describe('Group Message', () => {
         const otherUser2 = users[1];
 
         // # Click on '+' sign to open DM modal
-        cy.findByLabelText('write a direct message').should('be.visible').click();
+        cy.uiAddDirectMessage().click();
 
         // * Verify that the DM modal is open
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
@@ -70,7 +70,7 @@ describe('Group Message', () => {
         cy.get('#selectItems input').should('be.enabled').type(`@${testUser.username}`, {force: true});
 
         // * Assert that it's not found
-        cy.findByText('No items found').should('be.visible');
+        cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
 
         // # Start GM
         cy.findByText('Go').click();
@@ -79,7 +79,7 @@ describe('Group Message', () => {
         cy.get('#post_textbox').type('Hi!').type('{enter}');
 
         // # Click on '+' sign to open DM modal
-        cy.findByLabelText('write a direct message').should('be.visible').click();
+        cy.uiAddDirectMessage().click();
 
         // * Verify that the DM modal is open
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
@@ -95,10 +95,8 @@ describe('Group Message', () => {
         // # Create a group message with two other users
         createGroupMessageWith(users.slice(0, 2));
 
-        // # Clicks on add members link
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelAddMembers button').click();
-        });
+        // # Open channel menu and click Add Members
+        cy.uiOpenChannelMenu('Add Members');
 
         // # Filter user by username
         cy.get('#selectItems input').type(users[2].username, {force: true}).wait(TIMEOUTS.HALF_SEC);
@@ -181,16 +179,14 @@ describe('Group Message', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Clicks on Mute Channel through Notification Preferences
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelNotificationPreferences button').click().then(() => {
-                // # Set Mute Channel to On
-                cy.get('#markUnreadEdit').click();
-                cy.get('#channelNotificationUnmute').click();
-                cy.get('#saveSetting').click();
+        cy.uiOpenChannelMenu().within(() => {
+            // # Set Mute Channel to On
+            cy.get('#markUnreadEdit').click();
+            cy.get('#channelNotificationUnmute').click();
+            cy.get('#saveSetting').click();
 
-                // * Assert that channel is muted
-                cy.get('#toggleMute').should('be.visible');
-            });
+            // * Assert that channel is muted
+            cy.get('#toggleMute').should('be.visible');
         });
 
         // # Post a message as a different user
@@ -205,7 +201,6 @@ describe('Group Message', () => {
                 cy.visit(townsquareLink);
 
                 // * Assert that user does not receives a notification
-                cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withNotification').should('not.have.been.called');
 
                 // * Should not have unread mentions indicator.
@@ -221,7 +216,6 @@ describe('Group Message', () => {
                 cy.visit(townsquareLink);
 
                 // * Assert that user does not receives a notification
-                cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withNotification').should('not.have.been.called');
 
                 // * Should have unread mentions indicator.
@@ -248,14 +242,14 @@ describe('Group Message', () => {
             const channelName = loc.pathname.split('/').slice(-1)[0];
 
             // # Remove GM from the LHS
-            cy.get(`#sidebarItem_${channelName} .btn-close`).first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
+            cy.uiGetChannelSidebarMenu(channelName).findByText('Close Conversation').click();
 
-            // # Click on More...
-            cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+            // # Open DM modal
+            cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
             // # Open previously closed group message
             cy.get('#selectItems input').type(`${participants[0].username}`).wait(TIMEOUTS.HALF_SEC);
-            cy.get('#multiSelectList .mentions__name').last().click().wait(TIMEOUTS.HALF_SEC);
+            cy.get('#multiSelectList .suggestion-list__item').last().click().wait(TIMEOUTS.HALF_SEC);
 
             // * Verify that participants are listed in the input field
             cy.get('#selectItems').should('contain', `${sortedParticipants[0].username}${sortedParticipants[1].username}`);
@@ -271,7 +265,7 @@ describe('Group Message', () => {
 
 const createGroupMessageWith = (users) => {
     const defaultUserLimit = 7;
-    cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+    cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
     cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 7 more people');
 
     users.forEach((user, index) => {

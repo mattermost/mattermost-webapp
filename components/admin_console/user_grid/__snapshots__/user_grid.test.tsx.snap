@@ -7,7 +7,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "field": "name",
         "fixed": true,
-        "name": <FormattedMessage
+        "name": <Memo(MemoizedFormattedMessage)
           defaultMessage="Name"
           id="admin.user_grid.name"
         />,
@@ -20,7 +20,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
       Object {
         "field": "role",
-        "name": <FormattedMessage
+        "name": <Memo(MemoizedFormattedMessage)
           defaultMessage="Role"
           id="admin.user_grid.role"
         />,
@@ -47,7 +47,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   onSearch={[Function]}
   page={0}
   placeholderEmpty={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="No users found"
       id="admin.user_grid.notFound"
     />
@@ -109,7 +109,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             className="NewUserBadge"
             show={false}
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="New"
               id="admin.user_grid.new"
             />
@@ -168,9 +168,12 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
+                "scheme_guest": false,
                 "scheme_user": true,
                 "team_id": "team",
                 "user_id": "userId1",
@@ -279,7 +282,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             className="NewUserBadge"
             show={false}
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="New"
               id="admin.user_grid.new"
             />
@@ -338,9 +341,12 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
+                "scheme_guest": false,
                 "scheme_user": true,
                 "team_id": "team",
                 "user_id": "userId2",
@@ -416,7 +422,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "field": "name",
         "fixed": true,
-        "name": <FormattedMessage
+        "name": <Memo(MemoizedFormattedMessage)
           defaultMessage="Name"
           id="admin.user_grid.name"
         />,
@@ -429,7 +435,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
       Object {
         "field": "role",
-        "name": <FormattedMessage
+        "name": <Memo(MemoizedFormattedMessage)
           defaultMessage="Role"
           id="admin.user_grid.role"
         />,
@@ -456,7 +462,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   onSearch={[Function]}
   page={0}
   placeholderEmpty={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="No users found"
       id="admin.user_grid.notFound"
     />
@@ -518,7 +524,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             className="NewUserBadge"
             show={true}
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="New"
               id="admin.user_grid.new"
             />
@@ -683,7 +689,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             className="NewUserBadge"
             show={false}
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="New"
               id="admin.user_grid.new"
             />
@@ -742,9 +748,12 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
+                "scheme_guest": false,
                 "scheme_user": true,
                 "team_id": "team",
                 "user_id": "userId1",
@@ -853,7 +862,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             className="NewUserBadge"
             show={false}
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="New"
               id="admin.user_grid.new"
             />
@@ -912,9 +921,12 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
+                "scheme_guest": false,
                 "scheme_user": true,
                 "team_id": "team",
                 "user_id": "userId2",
@@ -990,7 +1002,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "field": "name",
         "fixed": true,
-        "name": <FormattedMessage
+        "name": <Memo(MemoizedFormattedMessage)
           defaultMessage="Name"
           id="admin.user_grid.name"
         />,
@@ -1003,7 +1015,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
       Object {
         "field": "role",
-        "name": <FormattedMessage
+        "name": <Memo(MemoizedFormattedMessage)
           defaultMessage="Role"
           id="admin.user_grid.role"
         />,
@@ -1030,7 +1042,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   onSearch={[Function]}
   page={0}
   placeholderEmpty={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="No users found"
       id="admin.user_grid.notFound"
     />
@@ -1092,7 +1104,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             className="NewUserBadge"
             show={false}
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="New"
               id="admin.user_grid.new"
             />
@@ -1151,9 +1163,12 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
+                "scheme_guest": false,
                 "scheme_user": true,
                 "team_id": "team",
                 "user_id": "userId2",

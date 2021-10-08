@@ -13,7 +13,7 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
       />
@@ -26,18 +26,6 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
     openLeft={true}
     openUp={false}
   >
-    <MenuItemAction
-      id="undefined-make-channel-member"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Member"
-    />
-    <MenuItemAction
-      id="undefined-make-channel-admin"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Admin"
-    />
     <MenuItemAction
       onClick={[Function]}
       show={true}
@@ -60,7 +48,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
       />
@@ -74,18 +62,6 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     openUp={false}
   >
     <MenuItemAction
-      id="undefined-make-channel-member"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Member"
-    />
-    <MenuItemAction
-      id="undefined-make-channel-admin"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Admin"
-    />
-    <MenuItemAction
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
@@ -94,9 +70,49 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
 </MenuWrapper>
 `;
 
+exports[`components/channel_members_dropdown should match snapshot for dropdown with shared user 1`] = `
+<div
+  className="more-modal__shared-actions"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="sharedTooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="From trusted organizations"
+          id="shared_user_indicator.tooltip"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage="Shared Member"
+        id="channel_members_dropdown.shared_member"
+      />
+      <i
+        className="shared-user-icon icon-circle-multiple-outline"
+      />
+    </span>
+  </OverlayTrigger>
+</div>
+`;
+
 exports[`components/channel_members_dropdown should match snapshot for group_constrained channel 1`] = `
 <div>
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="Channel Admin"
     id="channel_members_dropdown.channel_admin"
   />
@@ -116,7 +132,7 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
       />
@@ -129,18 +145,6 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
     openLeft={true}
     openUp={false}
   >
-    <MenuItemAction
-      id="undefined-make-channel-member"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Member"
-    />
-    <MenuItemAction
-      id="undefined-make-channel-admin"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Admin"
-    />
     <MenuItemAction
       onClick={[Function]}
       show={true}
@@ -163,7 +167,7 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
       />
@@ -176,18 +180,6 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
     openLeft={true}
     openUp={true}
   >
-    <MenuItemAction
-      id="undefined-make-channel-member"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Member"
-    />
-    <MenuItemAction
-      id="undefined-make-channel-admin"
-      onClick={[Function]}
-      show={false}
-      text="Make Channel Admin"
-    />
     <MenuItemAction
       onClick={[Function]}
       show={true}

@@ -1,8 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import authenticator from 'authenticator';
+
 import {getRandomId} from '../../utils';
 import {getAdminAccount} from '../env';
+
+import {buildQueryString} from './helpers';
 
 // *****************************************************************************
 // Users
@@ -14,7 +18,7 @@ Cypress.Commands.add('apiLogin', (user, requestOptions = {}) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
-        body: {login_id: user.username, password: user.password},
+        body: {login_id: user.username || user.email, password: user.password},
         ...requestOptions,
     }).then((response) => {
         if (requestOptions.failOnStatusCode) {
@@ -54,7 +58,24 @@ Cypress.Commands.add('apiLoginWithMFA', (user, token) => {
 Cypress.Commands.add('apiAdminLogin', (requestOptions = {}) => {
     const admin = getAdminAccount();
 
-    return cy.apiLogin(admin, requestOptions);
+    // First, login with username
+    cy.apiLogin(admin, requestOptions).then((resp) => {
+        if (resp.error) {
+            if (resp.error.id === 'mfa.validate_token.authenticate.app_error') {
+                // On fail, try to login via MFA
+                return cy.dbGetUser({username: admin.username}).then(({user: {mfasecret}}) => {
+                    const token = authenticator.generateToken(mfasecret);
+                    return cy.apiLoginWithMFA(admin, token);
+                });
+            }
+
+            // Or, try to login via email
+            delete admin.username;
+            return cy.apiLogin(admin, requestOptions);
+        }
+
+        return resp;
+    });
 });
 
 Cypress.Commands.add('apiAdminLoginWithMFA', (token) => {
@@ -97,13 +118,19 @@ Cypress.Commands.add('apiGetUserById', (userId) => {
     });
 });
 
-Cypress.Commands.add('apiGetUserByEmail', (email) => {
+Cypress.Commands.add('apiGetUserByEmail', (email, failOnStatusCode = true) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/email/' + email,
+        failOnStatusCode,
     }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
+        const {body, status} = response;
+
+        if (failOnStatusCode) {
+            expect(status).to.equal(200);
+            return cy.wrap({user: body});
+        }
+        return cy.wrap({user: status === 200 ? body : null});
     });
 });
 
@@ -143,12 +170,20 @@ Cypress.Commands.add('apiPatchMe', (data) => {
     });
 });
 
-Cypress.Commands.add('apiCreateCustomAdmin', () => {
+Cypress.Commands.add('apiCreateCustomAdmin', ({loginAfter = false} = {}) => {
     const sysadminUser = generateRandomUser('other-admin');
 
     return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
         return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
-            return cy.wrap({sysadmin: user});
+            const data = {sysadmin: user};
+
+            if (loginAfter) {
+                return cy.apiLogin(user).then(() => {
+                    return cy.wrap(data);
+                });
+            }
+
+            return cy.wrap(data);
         });
     });
 });
@@ -175,7 +210,7 @@ Cypress.Commands.add('apiCreateAdmin', () => {
     return cy.request(options).then((res) => {
         expect(res.status).to.equal(201);
 
-        return cy.wrap({sysadmin: res.body});
+        return cy.wrap({sysadmin: {...res.body, password}});
     });
 });
 
@@ -195,8 +230,7 @@ function generateRandomUser(prefix = 'user') {
 Cypress.Commands.add('apiCreateUser', ({
     prefix = 'user',
     bypassTutorial = true,
-    hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
+    hideOnboarding = true,
     user = null,
 } = {}) => {
     const newUser = user || generateRandomUser(prefix);
@@ -217,12 +251,8 @@ Cypress.Commands.add('apiCreateUser', ({
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
-        if (hideCloudOnboarding) {
-            cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
-        }
-
-        if (hideWhatsNewModal) {
-            cy.apiHideSidebarWhatsNewModalPreference(createdUser.id, 'true');
+        if (hideOnboarding) {
+            cy.apiSaveOnboardingPreference(createdUser.id, 'hide', 'true');
         }
 
         return cy.wrap({user: {...createdUser, password: newUser.password}});
@@ -231,13 +261,11 @@ Cypress.Commands.add('apiCreateUser', ({
 
 Cypress.Commands.add('apiCreateGuestUser', ({
     prefix = 'guest',
-    hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
-    activate = true,
+    bypassTutorial = true,
+    hideOnboarding = true,
 } = {}) => {
-    return cy.apiCreateUser({prefix, hideCloudOnboarding, hideWhatsNewModal}).then(({user}) => {
+    return cy.apiCreateUser({prefix, bypassTutorial, hideOnboarding}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
-        cy.externalActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
     });
@@ -258,15 +286,21 @@ Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
     });
 });
 
-Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {
+Cypress.Commands.add('apiGetUsers', (queryParams = {}) => {
+    const queryString = buildQueryString(queryParams);
+
     return cy.request({
         method: 'GET',
-        url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
+        url: `/api/v4/users?${queryString}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({users: response.body});
     });
+});
+
+Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {
+    return cy.apiGetUsers({not_in_team: teamId, page, per_page: perPage});
 });
 
 Cypress.Commands.add('apiPatchUserRoles', (userId, roleNames = ['system_user']) => {
@@ -305,7 +339,7 @@ Cypress.Commands.add('apiActivateUser', (userId) => {
         },
     };
 
-    // # Deactivate a user account
+    // # Activate a user account
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -435,6 +469,17 @@ Cypress.Commands.add('apiUpdateUserAuth', (userId, authData, password, authServi
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
+    });
+});
+
+Cypress.Commands.add('apiGetTotalUsers', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'GET',
+        url: '/api/v4/users/stats',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.total_users_count);
     });
 });
 

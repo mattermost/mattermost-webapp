@@ -37,3 +37,24 @@ export function setSystemUsersSearch(term, team = '', filter = '') {
         data: {term, team, filter},
     };
 }
+
+export function setTeamListSearch(term) {
+    return {
+        type: SearchTypes.SET_TEAM_LIST_SEARCH,
+        data: term,
+    };
+}
+
+export function setChannelListSearch(term) {
+    return {
+        type: SearchTypes.SET_CHANNEL_LIST_SEARCH,
+        data: term,
+    };
+}
+
+export function setChannelListFilters(filters = {}) {
+    return {
+        type: SearchTypes.SET_CHANNEL_LIST_FILTERS,
+        data: filters,
+    };
+}

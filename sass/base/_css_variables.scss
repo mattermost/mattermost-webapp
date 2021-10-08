@@ -3,26 +3,27 @@
     // these are define to prevent flashes of unstyled content
     --away-indicator: #ffbc42;
     --button-bg: #166de0;
-    --button-color: #ffffff;
-    --center-channel-bg: #ffffff;
+    --button-color: #fff;
+    --center-channel-bg: #fff;
     --center-channel-color: #3d3c40;
     --dnd-indicator: #f74343;
     --error-text: #fd5960;
     --link-color: #2389d7;
-    --mention-bg: #ffffff;
+    --mention-bg: #fff;
     --mention-color: #145dbf;
     --mention-highlight-bg: #ffe577;
     --mention-highlight-link: #166de0;
-    --new-message-separator: #ff8800;
+    --new-message-separator: #f80;
     --online-indicator: #06d6a0;
     --sidebar-bg: #145dbf;
     --sidebar-header-bg: #1153ab;
-    --sidebar-header-text-color: #ffffff;
-    --sidebar-text: #ffffff;
+    --sidebar-header-text-color: #fff;
+    --sidebar-text: #fff;
     --sidebar-text-active-border: #579eff;
-    --sidebar-text-active-color: #ffffff;
+    --sidebar-text-active-color: #fff;
     --sidebar-text-hover-bg: #4578bf;
-    --sidebar-unread-text: #ffffff;
+    --sidebar-unread-text: #fff;
+    --sidebar-team-background: #0b428c;
 
     // Default RGB values to be replaced by applyTheme() (do not add opacity mutations here)
     // these are define to prevent flashes of unstyled content
@@ -48,5 +49,21 @@
     --sidebar-text-active-color-rgb: 255, 255, 255;
     --sidebar-text-hover-bg-rgb: 69, 120, 191;
     --sidebar-unread-text-rgb: 255, 255, 255;
-    --error-box-background: 197, 67, 72
+    --error-box-background: 197, 67, 72;
+    --sidebar-team-background-rgb: 11, 66, 140;
+
+    // Elevation values used for box shadows.
+    // Defined as CSS variables so that both sass and JS can use them.
+    --elevation-1: 0 2px 3px 0 rgba(0, 0, 0, 0.08);
+    --elevation-2: 0 4px 6px 0 rgba(0, 0, 0, 0.12);
+    --elevation-3: 0 6px 14px 0 rgba(0, 0, 0, 0.12);
+    --elevation-4: 0 8px 24px 0 rgba(0, 0, 0, 0.12);
+    --elevation-5: 0 12px 32px 0 rgba(0, 0, 0, 0.12);
+    --elevation-6: 0 20px 32px 0 rgba(0, 0, 0, 0.12);
+
+    // Global Header variables
+    --global-header-background: var(--sidebar-teambar-bg);
+    --global-header-text: var(--sidebar-header-text-color);
+    --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
+    --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
 }

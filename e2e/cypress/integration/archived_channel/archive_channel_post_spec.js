@@ -14,6 +14,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Archived channels', () => {
     let testTeam;
+    let testUser;
     let otherUser;
 
     before(() => {
@@ -23,14 +24,19 @@ describe('Archived channels', () => {
             },
         });
 
-        // # Login as test user and visit create channel
-        cy.apiInitSetup().then(({team, channel}) => {
+        // # Login as test user and visit created channel
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
                 otherUser = second;
+
+                cy.apiLogin(testUser);
+                cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                });
             });
         });
     });
@@ -53,10 +59,10 @@ describe('Archived channels', () => {
         cy.uiArchiveChannel();
 
         // * Post text box should not be visible
-        cy.get('#post_textbox').should('not.be.visible');
+        cy.get('#post_textbox').should('not.exist');
 
         // * RHS text box should not be visible
-        cy.get('#reply_textbox').should('not.be.visible');
+        cy.get('#reply_textbox').should('not.exist');
     });
 
     it('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
@@ -80,7 +86,7 @@ describe('Archived channels', () => {
 
                 // # Post the message in another channel
                 cy.get('#sidebarItem_off-topic').click();
-                cy.postMessage(`${permalink}`).wait(TIMEOUTS.ONE_SEC);
+                cy.postMessage(permalink).wait(TIMEOUTS.ONE_SEC);
             });
 
             // # Archive the channel
@@ -101,7 +107,7 @@ describe('Archived channels', () => {
         });
 
         // # View saved posts
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * RHS should be visible
@@ -113,7 +119,7 @@ describe('Archived channels', () => {
                 cy.clickPostCommentIcon(rhsPostId, 'SEARCH');
 
                 // * RHS text box should not be visible
-                cy.get('#reply_textbox').should('not.be.visible');
+                cy.get('#reply_textbox').should('not.exist');
             });
     });
 });

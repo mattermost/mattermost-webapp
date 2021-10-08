@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -58,19 +59,19 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2199 @ autocomplete - username', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @  and user name
         cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.username}`);
 
         // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').within(() => {
+        cy.get('#suggestionList').should('be.visible').within(() => {
             cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+            cy.findByText(displayNameOtherUser).should('not.exist');
         });
 
         // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
+        cy.uiPostMessageQuickly(`@${testUser.username} `);
         cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
 
         // # Check that the user name has been posted
@@ -80,7 +81,7 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2200 @ autocomplete - nickname', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @ and user nickname
         cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.nickname}`);
@@ -88,7 +89,7 @@ describe('autocomplete', () => {
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
             cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+            cy.findByText(displayNameOtherUser).should('not.exist');
         });
 
         // # Post user mention
@@ -102,7 +103,7 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2201 @ autocomplete - first name', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @  and user first names
         cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.first_name}`);
@@ -110,7 +111,7 @@ describe('autocomplete', () => {
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
             cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+            cy.findByText(displayNameOtherUser).should('not.exist');
         });
 
         // # Post user mention
@@ -124,19 +125,19 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2203 @ autocomplete - not email', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @ and user email
         cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.email}`);
 
         // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.get('#suggestionList').should('not.exist');
     });
 
     it('MM-T2206 @ autocomplete - not in channel (center), have permission to add (public channel)', () => {
         const message = `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`;
 
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Clear then type @
         cy.get('#post_textbox').should('be.visible').clear().type('@');
@@ -174,7 +175,7 @@ describe('autocomplete', () => {
             cy.apiAddUserToTeam(testTeam.id, tempUser.id);
 
             cy.apiLogin(testUser).then(() => {
-                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                 // # Clear then type @
                 cy.get('#post_textbox').should('be.visible').clear().type('@');
@@ -201,7 +202,7 @@ describe('autocomplete', () => {
                 cy.get('#sidebarItem_off-topic', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
                 cy.apiLogout().then(() => {
                     cy.apiLogin(tempUser).then(() => {
-                        cy.visit(`/${testTeam.name}`).wait(TIMEOUTS.FIVE_SEC);
+                        cy.visit(`/${testTeam.name}`);
 
                         // # Verify the mention notification exists
                         cy.get(`#sidebarItem_${testChannel.name}`).
@@ -235,7 +236,7 @@ describe('autocomplete', () => {
         // # Create a group channel for 3 users
         cy.apiCreateGroupChannel(userGroupIds).then(({channel: gmChannel}) => {
             // # Visit the channel using the name using the channels route
-            cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+            cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
 
             // # Clear then type @
             cy.get('#post_textbox').should('be.visible').clear().type('@');
@@ -265,7 +266,7 @@ describe('autocomplete', () => {
 
         cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
             // # Visit the channel using the channel name
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`).wait(TIMEOUTS.FIVE_SEC);
+            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
 
             // # Clear then type @
             cy.get('#post_textbox').should('be.visible').clear().type('@');
@@ -292,7 +293,7 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2212 @ mention followed by dot or underscore should highlight', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Type input suffixed with '.'
         cy.get('#post_textbox').clear().type(`@${sysadmin.username}.`).type('{enter}{enter}');
@@ -320,7 +321,7 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2214 @ mention from link in profile popover: center', () => {
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Post a message as a different user
         const message = `hello from ${otherUser.username}`;

@@ -1,47 +1,50 @@
 @charset 'UTF-8';
 
 .system-notice {
-    @include box-shadow(0 20px 30px alpha-color($black, .07), 0 14px 20px alpha-color($black, .07));
+    @include box-shadow(0 20px 30px alpha-color($black, 0.07), 0 14px 20px alpha-color($black, 0.07));
     @include border-radius(4px);
-    background-color: $white;
-    border: 1px solid alpha-color($black, .15);
-    bottom: 12px;
-    padding: 18px 20px 0;
+
     position: absolute;
-    right: 12px;
-    width: 280px;
     z-index: 9999;
+    right: 12px;
+    bottom: 12px;
+    width: 280px;
+    padding: 18px 20px 0;
+    border: 1px solid alpha-color($black, 0.15);
+    background-color: var(--center-channel-bg);
 }
 
 .system-notice__header {
-    align-items: flex-start;
     display: flex;
+    align-items: flex-start;
 }
 
 .system-notice__logo {
     height: 36px;
 
     svg {
-        fill: rgb(22, 109, 224);
-        height: 36px;
         width: 36px;
+        height: 36px;
+        fill: rgb(22, 109, 224);
     }
 }
 
 .system-notice__title {
     @include nowrap;
-    @include opacity(.7);
-    flex: 10 1 auto;
-    line-height: 16px;
+    @include opacity(0.7);
+
     overflow: hidden;
+    flex: 10 1 auto;
     padding: 3px 0 0 8px;
+    line-height: 16px;
     text-overflow: ellipsis;
 }
 
 .system-notice__info {
-    @include opacity(.5);
-    font-size: 12px;
+    @include opacity(0.5);
+
     margin-bottom: 12px;
+    font-size: 12px;
 
     .fa {
         margin-right: 4px;
@@ -49,19 +52,20 @@
 }
 
 .system-notice__body {
-    @include opacity(.7);
-    line-height: 16px;
+    @include opacity(0.7);
+
     padding: 18px 0 16px;
+    line-height: 16px;
 }
 
 .system-notice__footer {
-    border-top: 1px solid alpha-color($black, .2);
     display: flex;
+    border-top: 1px solid alpha-color($black, 0.2);
     margin: 0 -20px;
 
     .btn {
-        flex: 1;
         overflow: hidden;
+        flex: 1;
         text-overflow: ellipsis;
 
         &:hover {
@@ -75,7 +79,8 @@
 
         &:last-child {
             @include border-radius(0 0 4px 0);
-            border-left: 1px solid alpha-color($black, .2);
+
+            border-left: 1px solid alpha-color($black, 0.2);
         }
     }
 }

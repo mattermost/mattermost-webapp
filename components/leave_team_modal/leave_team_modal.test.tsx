@@ -3,6 +3,7 @@
 
 import {shallow} from 'enzyme';
 import React from 'react';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import LeaveTeamModal from 'components/leave_team_modal/leave_team_modal';
@@ -14,8 +15,8 @@ describe('components/LeaveTeamModal', () => {
         } as UserProfile,
         currentUserId: 'user_id',
         currentTeamId: 'team_id',
-        publicChannels: [],
-        privateChannels: [],
+        numOfPrivateChannels: 0,
+        numOfPublicChannels: 0,
         onHide: jest.fn(),
         show: false,
         isBusy: false,

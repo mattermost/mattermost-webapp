@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Channel} from 'mattermost-redux/src/types/channels';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -16,6 +16,33 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
     test('should match snapshot', () => {
         const testChannels = [{
             ...channel,
+            id: '123',
+            display_name: 'DN',
+            team_display_name: 'teamDisplayName',
+            team_name: 'teamName',
+            team_update_at: 1,
+        }];
+
+        const actions = {
+            getData: jest.fn().mockResolvedValue(testChannels),
+            searchAllChannels: jest.fn().mockResolvedValue(testChannels),
+        };
+
+        const wrapper = shallow(
+            <ChannelList
+                data={testChannels}
+                total={testChannels.length}
+                actions={actions}
+            />);
+
+        wrapper.setState({loading: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with shared channel', () => {
+        const testChannels = [{
+            ...channel,
+            shared: true,
             id: '123',
             display_name: 'DN',
             team_display_name: 'teamDisplayName',

@@ -21,7 +21,7 @@ function* range(start: number, end: number): Iterable<number> {
     }
 }
 
-const unitDiffs = new Map<Unit, Array<number>>([
+const unitDiffs = new Map<Unit, number[]>([
     ['second', [...range(-1, -3), -57, -58, -59]],
     ['minute', [...range(-1, -3), -57, -58, -59]],
     ['hour', [...range(-1, -3), -12, -22, -23]],
@@ -91,7 +91,7 @@ storiesOf('Connected/Timestamp', module).
         );
     }).
     add('relative, auto unit', () => {
-        const propVariations: [string, Props][] = [
+        const propVariations: Array<[string, Props]> = [
             ['rel=progressive', {} as Props],
             ['rel=progressive, date-only', {useTime: false} as Props],
             ['rel=progressive, numeric', {numeric: 'always'} as Props],
@@ -115,7 +115,7 @@ storiesOf('Connected/Timestamp', module).
                                     value={moment().toDate()}
                                 >
                                     {({formatted}, {relative}) => (
-                                        <span>
+                                        <span style={{width: '100%'}}>
                                             <pre
                                                 style={{
                                                     display: 'inline-grid',
@@ -141,7 +141,10 @@ storiesOf('Connected/Timestamp', module).
                                         value={moment().add(diff, unit).toDate()}
                                     >
                                         {({formatted}, {relative}) => (
-                                            <span key={`span-${diff}`}>
+                                            <span
+                                                key={`span-${diff}`}
+                                                style={{width: '100%'}}
+                                            >
                                                 <pre
                                                     style={{
                                                         display: 'inline-grid',

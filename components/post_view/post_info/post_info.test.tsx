@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {Post, PostType} from 'mattermost-redux/types/posts';
@@ -42,31 +43,34 @@ describe('components/post_view/PostInfo', () => {
         },
         shouldShowDotMenu: true,
         isReadOnly: true,
+        collapsedThreadsEnabled: false,
+        oneClickReactionsEnabled: false,
+        recentEmojis: [],
     };
 
     test('should match snapshot', () => {
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...requiredProps}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, compact display', () => {
         const props = {...requiredProps, compactDisplay: true};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, military time', () => {
         const props = {...requiredProps, useMilitaryTime: true};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, flagged post', () => {
         const props = {...requiredProps, isFlagged: true};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -74,7 +78,7 @@ describe('components/post_view/PostInfo', () => {
         const pinnedPost = {...post, is_pinned: true};
         const requiredPropsWithPinnedPost = {...requiredProps, post: pinnedPost};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...requiredPropsWithPinnedPost}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...requiredPropsWithPinnedPost}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -82,7 +86,7 @@ describe('components/post_view/PostInfo', () => {
         const ephemeralPost = {...post, type: Constants.PostTypes.EPHEMERAL as PostType};
         const requiredPropsWithEphemeralPost = {...requiredProps, post: ephemeralPost};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...requiredPropsWithEphemeralPost}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...requiredPropsWithEphemeralPost}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -90,7 +94,7 @@ describe('components/post_view/PostInfo', () => {
         const deletedPost = {...post, state: Posts.POST_DELETED as any};
         const requiredPropsWithDeletedPost = {...requiredProps, post: deletedPost};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...requiredPropsWithDeletedPost}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...requiredPropsWithDeletedPost}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -98,12 +102,12 @@ describe('components/post_view/PostInfo', () => {
         const deletedEphemeralPost = {...post, type: Constants.PostTypes.EPHEMERAL as PostType, state: Posts.POST_DELETED as any};
         const requiredPropsWithDeletedEphemeralPost = {...requiredProps, post: deletedEphemeralPost};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...requiredPropsWithDeletedEphemeralPost}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...requiredPropsWithDeletedEphemeralPost}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, enable emoji picker', () => {
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(
+        const wrapper = shallow<PostInfo>(
             <PostInfo
                 {...requiredProps}
                 enableEmojiPicker={true}
@@ -116,7 +120,7 @@ describe('components/post_view/PostInfo', () => {
         const handleDropdownOpened = jest.fn();
         const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened, enableEmojiPicker: true};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...requiredPropsWithHandleDropdownOpened}/>);
         (wrapper.instance() as PostInfo).toggleEmojiPicker();
         expect(wrapper).toMatchSnapshot();
         expect(handleDropdownOpened).toHaveBeenCalledTimes(1);
@@ -129,7 +133,7 @@ describe('components/post_view/PostInfo', () => {
         };
         const requiredPropsWithRemovePost = {...requiredProps, actions, enableEmojiPicker: true};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...requiredPropsWithRemovePost}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...requiredPropsWithRemovePost}/>);
         (wrapper.instance() as PostInfo).removePost();
         expect(wrapper).toMatchSnapshot();
         expect(removePost).toHaveBeenCalledTimes(1);
@@ -139,14 +143,14 @@ describe('components/post_view/PostInfo', () => {
     test('should match snapshot, hover', () => {
         const props = {...requiredProps, hover: true};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, showTimeWithoutHover', () => {
         const props = {...requiredProps, showTimeWithoutHover: true};
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow<PostInfo>(<PostInfo {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -156,7 +160,7 @@ describe('components/post_view/PostInfo', () => {
             isFlagged: true,
         };
 
-        const wrapper: ShallowWrapper<any, any, PostInfo> = shallow(
+        const wrapper = shallow<PostInfo>(
             <PostInfo {...props}/>,
         );
 

@@ -24,6 +24,7 @@ type Props = {
     onToggleMenu: (open: boolean) => void;
     draggingState: DraggingState;
     tabIndex?: number;
+    additionalClass?: string;
 };
 
 type State = {
@@ -115,6 +116,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             isMenuOpen,
             tooltipText,
             id,
+            additionalClass,
         } = this.props;
 
         const tooltip = (
@@ -143,7 +145,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                 >
                     <button
                         ref={this.menuButtonRef}
-                        className='SidebarMenu_menuButton'
+                        className={classNames(['SidebarMenu_menuButton', {additionalClass}])}
                         aria-label={buttonAriaLabel}
                         tabIndex={this.props.tabIndex}
                     >

@@ -14,12 +14,6 @@ import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
@@ -32,7 +26,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // * Verify both buttons don't exist
         cy.get('.SidebarChannelNavigator_backButton').should('not.exist');
@@ -45,7 +39,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Click the Channel Switcher button
         cy.get('.SidebarChannelNavigator_jumpToButton').should('be.visible').click();
@@ -56,7 +50,7 @@ describe('Channel sidebar', () => {
         cy.get('.channel-switcher__suggestion-box #quickSwitchInput').type('{enter}');
 
         // * Verify that the channel switcher is closed and the active channel is now Off-Topic
-        cy.get('.channel-switch__modal').should('not.be.visible');
+        cy.get('.channel-switch__modal').should('not.exist');
         cy.url().should('include', `/${teamName}/channels/off-topic`);
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
         cy.get('.SidebarChannel.active:contains(Off-Topic)').should('be.visible');

@@ -10,13 +10,10 @@
 // Stage: @prod
 
 describe('Upload Files', () => {
-    let testTeam;
-
     before(() => {
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Create new team and new user and visit off-topic channel
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -52,7 +49,7 @@ describe('Upload Files', () => {
         // # Post a different file in center channel
         const filename = 'long_text_post.txt';
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.postMessage('{enter}');
+        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
         // * Verify the file is successfully posted as last post
         cy.getLastPostId().then((postId) => {

@@ -7,27 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding
-// Skip:  @electron @chrome @firefox
+// Group: @enterprise @onboarding @cloud_only
 
-const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
+import {stubClipboard} from '../../../../utils';
+import {spyNotificationAs} from '../../../../support/notification';
 
-describe('Cloud Onboarding - Sysadmin', () => {
+describe('Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
 
     before(() => {
         cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
+            ServiceSettings: {EnableOnboardingFlow: true},
         });
 
-        // # Check if with license and has matching database
-        cy.apiRequireLicenseForFeature('Cloud');
-
-        cy.apiInitSetup().then(({team}) => {
-            townSquarePage = `/${team.name}/channels/town-square`;
+        cy.apiInitSetup().then(({townSquareUrl}) => {
+            townSquarePage = townSquareUrl;
         });
 
         cy.apiAdminLogin().then((res) => {
@@ -42,18 +37,25 @@ describe('Cloud Onboarding - Sysadmin', () => {
             category: 'recommended_next_steps',
             value: 'false',
         };
+        const adminSteps = [
+            'complete_profile',
+            'notification_setup',
+            'team_setup',
+            'invite_members',
+            'hide',
+            'skip',
+        ];
 
         cy.apiSaveUserPreference(adminSteps.map((step) => ({...preference, name: step})));
         cy.visit(townSquarePage);
     });
 
-    /*
-     *  Happy Path
-     */
-
     it('MM-T3326 Sysadmin - Happy Path', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
+
+        // # Use to grant permission to Notification
+        spyNotificationAs('withNotification', 'granted');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
@@ -68,7 +70,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 3 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 4 steps complete');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .TeamProfileStep').should('be.visible');
@@ -83,7 +85,15 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 3 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 4 steps complete');
+
+        // * Check to make sure card is expanded
+        cy.findByText('We recommend enabling desktop notifications so you don’t miss any important communications.').should('be.visible');
+
+        cy.findByRole('button', {name: 'Set up notifications'}).should('be.visible').click();
+
+        // * Step counter should increment
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '3 / 4 steps complete');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
@@ -91,7 +101,12 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // # Click Finish button
         cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
 
-        // * Step counter should show Tips and Next Steps
+        // * Should show Tips and Next Steps
+        cy.get('#app-content').within(() => {
+            cy.findByText('Tips & Next Steps').should('be.visible');
+            cy.findByText('A few other areas to explore').should('be.visible');
+        });
+
         cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next Steps');
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
 
@@ -101,10 +116,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // * Completed screen should be visible
         cy.get('.NextStepsView__completedView.completed').should('be.visible');
     });
-
-    /*
-     *  General functionality
-     */
 
     it('MM-T3327 Sysadmin - Switch to Next Step', () => {
         // * Make sure channel view has loaded
@@ -121,7 +132,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card__body.expanded .TeamProfileStep').should('exist').should('be.visible');
 
         // * Step counter should not increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 3 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 4 steps complete');
     });
 
     it('MM-T3328 Sysadmin - Skip Getting Started', () => {
@@ -132,14 +143,12 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
 
         // # Click 'Skip Getting Started'
-        cy.get('.NextStepsView__skipGettingStarted button').should('be.visible').click();
+        cy.findByRole('button', {name: 'Skip Getting Started'}).scrollIntoView().should('be.visible').click();
 
         // * Main screen should be out of view and the completed screen should be visible
-        cy.get('.NextStepsView__mainView.completed').should('exist');//.should('not.be.visible');
+        cy.get('.NextStepsView__mainView.completed').should('exist');
         cy.get('.NextStepsView__completedView.completed').should('be.visible');
-
-        // * Step counter should not increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 3 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
     });
 
     it('MM-T3329 Sysadmin - Remove Recommended Next Steps', () => {
@@ -147,7 +156,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.url().should('include', townSquarePage);
 
         // * Check to make sure first card is expanded
-        cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
+        cy.findByText('Complete your profile').should('be.visible');
 
         // # Click the 'x' in the Sidebar Next Steps section
         cy.get('button.SidebarNextSteps__close').should('be.visible').click();
@@ -162,217 +171,12 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.SidebarNextSteps').should('not.exist');
         cy.get('.app__content:not(.NextStepsView)').should('be.visible');
 
-        // # Click 'Getting Started' in the main menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').scrollIntoView().should('be.visible').click();
+        // # Click 'Getting Started' in the help menu
+        cy.uiOpenHelpMenu('Getting Started');
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');
         cy.get('.app__content.NextStepsView').should('be.visible');
-    });
-
-    /*
-     *  Complete Profile Step
-     */
-
-    it('MM-T3330_1 Sysadmin - Set full name and profile image', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Clear full name
-        cy.apiPatchUser(sysadmin.id, {first_name: '', last_name: ''}).then(() => {
-            // * Check to make sure card is expanded
-            cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
-
-            // * Save profile should be disabled
-            cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.disabled');
-
-            // # Enter full name
-            cy.get('#input_fullName').should('be.visible').clear().type('Theodore Logan');
-
-            // # Select profile picture
-            cy.findByTestId('PictureSelector__input-CompleteProfileStep__profilePicture').attachFile('mattermost-icon.png');
-
-            // # Click Save profile button
-            cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').and('not.be.disabled').click();
-
-            // * Check to make sure card is collapsed and step is complete
-            cy.get('.Card.complete .CompleteProfileStep').should('exist');
-
-            // * Step counter should increment
-            cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 3 steps complete');
-        });
-    });
-
-    it('MM-T3330_2 Sysadmin - Set full name and profile image - no name provided', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
-
-        // # Clear full name box
-        cy.get('#input_fullName').should('be.visible').type('Theodore Logan').clear();
-
-        // * Verify error message is displayed
-        cy.get('.CompleteProfileStep__fullName .Input___error span').should('contain', 'Your name can’t be blank');
-
-        // * Save profile should be disabled
-        cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.disabled');
-    });
-
-    it('MM-T3330_3 Sysadmin - Set full name and profile image - upload file of wrong type', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
-
-        // # Upload file
-        cy.findByTestId('PictureSelector__input-CompleteProfileStep__profilePicture').attachFile('saml_users.json');
-
-        // * Verify error message is displayed
-        cy.get('.CompleteProfileStep__pictureError').should('contain', 'Photos must be in BMP, JPG or PNG format. Maximum file size is 50MB.');
-    });
-
-    /*
-     *  Team Profile Step
-     */
-
-    it('MM-T3331_1 Sysadmin - Set team name and team icon', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Click Name your team header
-        cy.get('button.NextStepsView__cardHeader:contains(Name your team)').should('be.visible').click();
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .TeamProfileStep').should('be.visible');
-
-        // # Enter team name
-        cy.get('#input_teamName').should('be.visible').clear().type('Wyld Stallyns');
-
-        // # Select profile picture
-        cy.findByTestId('PictureSelector__input-TeamProfileStep__teamIcon').attachFile('mattermost-icon.png');
-
-        // # Click Save team button
-        cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').and('not.be.disabled').click();
-
-        // * Check to make sure card is collapsed and step is complete
-        cy.get('.Card.complete .TeamProfileStep').should('exist');
-
-        // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 3 steps complete');
-    });
-
-    it('MM-T3331_2 Sysadmin - Set team name and team icon - no name provided', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Click Name your team header
-        cy.get('button.NextStepsView__cardHeader:contains(Name your team)').should('be.visible').click();
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .TeamProfileStep').should('be.visible');
-
-        // # Clear team name box
-        cy.get('#input_teamName').should('be.visible').type('Wyld Stallyns').clear();
-
-        // * Verify error message is displayed
-        cy.get('.TeamProfileStep__textInputs .Input___error span').should('contain', 'Team name can’t be blank');
-
-        // * Save team should be disabled
-        cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.disabled');
-    });
-
-    it('MM-T3331_3 Sysadmin - Set team name and team icon - upload file of wrong type', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Click Name your team header
-        cy.get('button.NextStepsView__cardHeader:contains(Name your team)').should('be.visible').click();
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .TeamProfileStep').should('be.visible');
-
-        // # Upload file
-        cy.findByTestId('PictureSelector__input-TeamProfileStep__teamIcon').attachFile('saml_users.json');
-
-        // * Verify error message is displayed
-        cy.get('.TeamProfileStep__pictureError').should('contain', 'Photos must be in BMP, JPG or PNG format. Maximum file size is 50MB.');
-    });
-
-    /*
-     *  Invite Members Step
-     */
-    it('MM-T3332_1 Sysadmin - Invite members by email', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Click Invite members to the team header
-        cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
-
-        // * Verify that Send button is disabled until emails are entered
-        cy.findByTestId('InviteMembersStep__sendButton').should('be.disabled');
-
-        // # Enter email addresses
-        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('bill.s.preston@wyldstallyns.com,theodore.logan@wyldstallyns.com,', {force: true});
-        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('joanna.preston@wyldstallyns.com elizabeth.logan@wyldstallyns.com ', {force: true});
-
-        // # Click Send
-        cy.findByTestId('InviteMembersStep__sendButton').should('not.be.disabled').click();
-
-        // * Verify that 4 invitations were sent
-        cy.get('.InviteMembersStep__invitationResults').should('contain', '4 invitations sent');
-    });
-
-    it('MM-T3332_2 Sysadmin - Invite members by email - invalid emails', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Click Invite members to the team header
-        cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
-
-        // # Enter email addresses
-        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('bill.s.preston@wyldstallyns.com,theodoreloganwyldstallynscom,', {force: true});
-
-        // # Click Send
-        cy.findByTestId('InviteMembersStep__sendButton').should('not.be.disabled').click();
-
-        // * Verify that the error message shows
-        cy.get('.InviteMembersStep__invitationResults').should('contain', 'One or more email addresses are invalid');
-    });
-
-    it('MM-T3332_3 Sysadmin - Invite members by email - invite more than 10 emails', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Click Invite members to the team header
-        cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
-
-        // # Enter email addresses
-        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('a@b.c,b@c.d,c@d.e,d@e.f,e@f.g,f@g.h,g@h.i,h@i.j,i@j.k,j@k.l,k@l.m,', {force: true});
-
-        // * Verify that the error message shows
-        cy.get('.InviteMembersStep__invitationResults').should('contain', 'Invitations are limited to 10 email addresses.');
-
-        // * Verify that Send button is disabled until only 10 emails remain
-        cy.findByTestId('InviteMembersStep__sendButton').should('be.disabled');
-
-        // # Remove the last email
-        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('{backspace}');
-
-        // * Verify that Send button is now enabled
-        cy.findByTestId('InviteMembersStep__sendButton').should('not.be.disabled');
     });
 
     it('MM-T3333 Sysadmin - Copy Invite Link', () => {
@@ -380,20 +184,15 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Stub out clipboard
-            const clipboard = {link: '', wasCalled: false};
-            cy.window().then((win) => {
-                cy.stub(win.navigator.clipboard, 'writeText', (link) => {
-                    clipboard.wasCalled = true;
-                    clipboard.link = link;
-                });
-            });
+            stubClipboard().as('clipboard');
 
             // # Get invite link
             const baseUrl = Cypress.config('baseUrl');
             const inviteLink = `${baseUrl}/signup_user_complete/?id=${team.invite_id}`;
 
             // * Verify initial state
-            cy.wrap(clipboard).its('link').should('eq', '');
+            cy.get('@clipboard').its('wasCalled').should('eq', false);
+            cy.get('@clipboard').its('contents').should('eq', '');
 
             // * Make sure channel view has loaded
             cy.url().should('include', `/${team.name}/channels/town-square`);
@@ -414,8 +213,8 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.findByTestId('InviteMembersStep__shareLinkInputButton').should('be.visible').and('contain', 'Copied');
 
             // * Verify if it's called with correct link value
-            cy.wrap(clipboard).its('wasCalled').should('eq', true);
-            cy.wrap(clipboard).its('link').should('eq', inviteLink);
+            cy.get('@clipboard').its('wasCalled').should('eq', true);
+            cy.get('@clipboard').its('contents').should('eq', inviteLink);
         });
     });
 });

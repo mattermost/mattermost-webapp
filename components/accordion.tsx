@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import './accordion.scss';
-
 type Props = {
     defaultExpandedKey: string;
     children: (setExpanded: (expandedKey: string) => void, expandedKey: string) => React.ReactNode;

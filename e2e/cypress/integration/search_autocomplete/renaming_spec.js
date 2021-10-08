@@ -14,43 +14,6 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {withTimestamp, createEmail} from '../enterprise/elasticsearch_autocomplete/helpers';
 
-function searchAndVerifyChannel(channel) {
-    // # Type cmd-K to open channel switcher
-    cy.typeCmdOrCtrl().type('k');
-
-    // # Search for channel's display name
-    cy.get('#quickSwitchInput').
-        should('be.visible').
-        as('input').
-        clear().
-        type(channel.display_name);
-
-    // * Suggestions should appear
-    cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
-
-    // * Channel should appear
-    cy.findByTestId(channel.name).
-        should('be.visible');
-}
-
-function searchAndVerifyUser(user) {
-    // # Start @ mentions autocomplete with username
-    cy.get('#post_textbox').
-        as('input').
-        should('be.visible').
-        clear().
-        type(`@${user.username}`);
-
-    // * Suggestion list should appear
-    cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
-
-    // # Verify user appears in results post-change
-    return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
-        cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-        cy.wrap(name).find('.ml-2').should('have.text', `${user.first_name} ${user.last_name} (${user.nickname})`);
-    });
-}
-
 describe('Autocomplete without Elasticsearch - Renaming', () => {
     const timestamp = Date.now();
     let testTeam;
@@ -77,7 +40,7 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
         // # Create a new user
         cy.apiCreateUser({user: spiderman}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
 
                 // # Verify user appears in search results pre-change
                 searchAndVerifyUser(user);
@@ -133,7 +96,7 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
                 testUser = user;
 
                 cy.apiAddUserToTeam(testTeam.id, testUser.id).then(() => {
-                    cy.visit(`/${testTeam.name}/channels/town-square`);
+                    cy.visit(`/${testTeam.name}/channels/off-topic`);
 
                     // # Hit escape to close and lingering modals
                     cy.get('body').type('{esc}');
@@ -171,3 +134,37 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
         });
     });
 });
+
+function searchAndVerifyChannel(channel) {
+    // # Type cmd-K to open channel switcher
+    cy.typeCmdOrCtrl().type('k');
+
+    // # Search for channel's display name
+    cy.findByRole('textbox', {name: 'quick switch input'}).
+        should('be.visible').
+        as('input').
+        clear().
+        type(channel.display_name);
+
+    // * Suggestions should appear
+    cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
+
+    // * Channel should appear
+    cy.findByTestId(channel.name).
+        should('be.visible');
+}
+
+function searchAndVerifyUser(user) {
+    // # Start @ mentions autocomplete with username
+    cy.get('#post_textbox').
+        as('input').
+        should('be.visible').
+        clear().
+        type(`@${user.username}`);
+
+    // * Suggestion list should appear
+    cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
+
+    // * Verify user appears in results post-change
+    return cy.uiVerifyAtMentionSuggestion(user);
+}

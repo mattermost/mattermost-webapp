@@ -7,48 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @not_cloud @integrations
+// Group: @not_cloud @integrations @plugin
+
+import {demoPlugin, jiraPlugin} from '../../utils/plugins';
 
 describe('Integrations', () => {
-    const pluginIdDemo = 'com.mattermost.demo-plugin';
-    const pluginIdJira = 'jira';
-
     before(() => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
+        cy.apiUploadAndEnablePlugin(demoPlugin);
+        cy.apiUploadAndEnablePlugin(jiraPlugin);
+
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
-
-            // # If Demo plugin is already enabled, uninstall it
-            cy.apiRemovePluginById(pluginIdDemo, true);
-            cy.apiRemovePluginById(pluginIdJira, true);
         });
-
-        const demoURL = 'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.9.0/com.mattermost.demo-plugin-0.9.0.tar.gz';
-        const jiraURL = 'https://github.com/mattermost/mattermost-plugin-jira/releases/download/v3.0.0/jira-3.0.0.tar.gz';
-
-        cy.apiInstallPluginFromUrl(demoURL, true);
-        cy.apiInstallPluginFromUrl(jiraURL, true);
-
-        cy.apiUpdateConfig({
-            PluginSettings: {
-                PluginStates: {
-                    jira: {
-                        Enable: true,
-                    },
-                    'com.mattermost.demo-plugin': {
-                        Enable: true,
-                    },
-                },
-            },
-        });
-    });
-
-    after(() => {
-        cy.apiRemovePluginById(pluginIdDemo);
-        cy.apiRemovePluginById(pluginIdJira);
     });
 
     it('MM-T2829 Test an example of plugin that uses sub commands', () => {
@@ -182,7 +156,7 @@ describe('Integrations', () => {
         cy.get('#post_textbox').type(' ');
 
         // * Verify command text is no longer visible after space is added
-        cy.findByText('Rename the channel').should('not.be.visible');
+        cy.findByText('Rename the channel').should('not.exist');
 
         // * Verify suggestion list is visible with 2 children
         cy.get('#suggestionList').should('be.visible').children().should('have.length', 2);

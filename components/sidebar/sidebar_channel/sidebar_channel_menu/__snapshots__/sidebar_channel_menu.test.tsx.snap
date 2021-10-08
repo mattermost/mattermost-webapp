@@ -5,7 +5,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -35,40 +35,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      text="Move to"
-      xOffset={0}
-    />
-  </MenuGroup>
+    }
+    location="sidebar"
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -109,12 +97,276 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 </Connect(SidebarMenu)>
 `;
 
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items 1`] = `
+<React.Fragment>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    location="sidebar"
+    openUp={false}
+  />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</React.Fragment>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - DM channels and public channels category 1`] = `
+<React.Fragment>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    location="sidebar"
+    openUp={false}
+  />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</React.Fragment>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - public channels and DM category 1`] = `
+<React.Fragment>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    location="sidebar"
+    openUp={false}
+  />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</React.Fragment>
+`;
+
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is DM 1`] = `
 <Connect(SidebarMenu)
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -144,40 +396,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Conversation"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "D",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      text="Move to"
-      xOffset={0}
-    />
-  </MenuGroup>
+    }
+    location="sidebar"
+    openUp={false}
+  />
   <MenuGroup />
   <MenuGroup>
     <MenuItemAction
@@ -200,7 +440,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -230,40 +470,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "town-square",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      text="Move to"
-      xOffset={0}
-    />
-  </MenuGroup>
+    }
+    location="sidebar"
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -296,7 +524,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -326,40 +554,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      text="Move to"
-      xOffset={0}
-    />
-  </MenuGroup>
+    }
+    location="sidebar"
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -405,7 +621,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -435,40 +651,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Unmute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      text="Move to"
-      xOffset={0}
-    />
-  </MenuGroup>
+    }
+    location="sidebar"
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -514,7 +718,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -544,40 +748,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "P",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      text="Move to"
-      xOffset={0}
-    />
-  </MenuGroup>
+    }
+    location="sidebar"
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -623,7 +815,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -664,40 +856,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      text="Move to"
-      xOffset={0}
-    />
-  </MenuGroup>
+    }
+    location="sidebar"
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={

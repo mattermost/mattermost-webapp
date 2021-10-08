@@ -7,49 +7,33 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
-const FAKE_SETTING = '********************************';
-const SERVICE_PROVIDER_LABEL = 'Select service provider:';
-const DISCOVERY_ENDPOINT_LABEL = 'Discovery Endpoint:';
-const CLIENT_ID_LABEL = 'Client ID:';
-const CLIENT_SECRET_LABEL = 'Client Secret:';
-const OPENID_LINK_NAME = 'OpenID Connect';
-const SAVE_BUTTON_NAME = 'Save';
-const CONVERT_NAME = 'Convert to OpenID Connect';
-const OAUTH2_NAME = 'OAuth 2.0deprecated';
+describe('System Console OpenId Connect', () => {
+    const FAKE_SETTING = '********************************';
+    const SERVICE_PROVIDER_LABEL = 'Select service provider:';
+    const DISCOVERY_ENDPOINT_LABEL = 'Discovery Endpoint:';
+    const CLIENT_ID_LABEL = 'Client ID:';
+    const CLIENT_SECRET_LABEL = 'Client Secret:';
+    const OPENID_LINK_NAME = 'OpenID Connect';
+    const SAVE_BUTTON_NAME = 'Save';
 
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
-
-const verifyOAuthLogin = (id, text, color, href) => {
-    cy.apiLogout();
-
-    cy.findByRole('link', {name: `${text}`}).then((btn) => {
-        expect(btn[0].href).equal(href);
-        if (color) {
-            const rbgArr = hexToRgbArray(color);
-            expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
-        }
-    });
-};
-
-describe('MM-27688 - System console-OpenId Connect', () => {
     before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
     });
 
-    it('MM-T3623 - Set to Generic OpenId', () => {
-        // # Go to admin console and set permissions as listed in the test
-        goToAdminConsole();
+    beforeEach(() => {
+        // # Go to the System Scheme page as System Admin
+        cy.apiAdminLogin();
+        cy.visit('/admin_console');
+    });
 
+    it('MM-T3623 - Set to Generic OpenId', () => {
         cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
@@ -74,13 +58,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.OpenIdSettings.DiscoveryEndpoint).to.equal('http://test.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', Cypress.config('baseUrl') + '/oauth/openid/login?extra=expired');
+        verifyOAuthLogin('TestButtonTest', '#c02222', Cypress.config('baseUrl') + '/oauth/openid/login');
     });
 
     it('MM-T3620 - Set to Google OpenId', () => {
-        // # Go to admin console and set permissions as listed in the test
-        goToAdminConsole();
-
         cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
@@ -100,13 +81,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('GoogleButton', 'Google Apps', '', Cypress.config('baseUrl') + '/oauth/google/login?extra=expired');
+        verifyOAuthLogin('Google Apps', '', Cypress.config('baseUrl') + '/oauth/google/login');
     });
 
     it('MM-T3621 - Set to Gitlab OpenId', () => {
-        // # Go to admin console and set permissions as listed in the test
-        goToAdminConsole();
-
         cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
@@ -126,13 +104,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('GitLabButton', 'GitLab', '', Cypress.config('baseUrl') + '/oauth/gitlab/login?extra=expired');
+        verifyOAuthLogin('GitLab', '', Cypress.config('baseUrl') + '/oauth/gitlab/login');
     });
 
     it('MM-T3622 - Set to Exchange OpenId', () => {
-        // # Go to admin console and set permissions as listed in the test
-        goToAdminConsole();
-
         cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
@@ -151,86 +126,25 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.Office365Settings.Id).to.equal('Office365Id');
             expect(config.Office365Settings.DiscoveryEndpoint).to.equal('https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration');
         });
-        verifyOAuthLogin('Office365Button', 'Office 365', '', Cypress.config('baseUrl') + '/oauth/office365/login?extra=expired');
-    });
-
-    it('MM-T3501 - Test Migrate from OAuth', () => {
-        cy.apiAdminLogin();
-
-        cy.apiUpdateConfig({
-            GitLabSettings: {
-                Enable: false,
-                Secret: 'secret',
-                Id: 'app_id',
-                Scope: '',
-                AuthEndpoint: 'https://gitlab.com/oauth/authorize',
-                TokenEndpoint: 'https://gitlab.com/oauth/token',
-                UserApiEndpoint: 'https://gitlab.com/api/v4/user',
-            },
-            GoogleSettings: {
-                Enable: false,
-                Secret: 'secret',
-                Id: 'app_id',
-                Scope: 'profile email',
-                AuthEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
-                TokenEndpoint: 'https://www.googleapis.com/oauth2/v4/token',
-                UserApiEndpoint: 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
-            },
-            Office365Settings: {
-                Enable: false,
-                Secret: 'secret',
-                Id: 'app_id',
-                Scope: 'User.Read',
-                AuthEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-                TokenEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-                UserApiEndpoint: 'https://graph.microsoft.com/v1.0/me',
-                DirectoryId: 'common',
-            },
-        });
-
-        // # Go to admin console and set permissions as listed in the test
-        goToAdminConsole();
-
-        // OAuth button should be visible
-        cy.findByRole('link', {name: OAUTH2_NAME}).click();
-
-        // # Click the OpenId header dropdown
-        cy.wait(TIMEOUTS.FIVE_SEC);
-
-        // OpenId Convert should be visible
-        cy.findByRole('button', {name: CONVERT_NAME}).click();
-
-        // OAuth should no longer be visible
-        cy.findByRole('link', {name: OAUTH2_NAME}).should('be.not.visible');
-
-        // OAuth should no longer be visible
-        cy.findByRole('link', {name: OPENID_LINK_NAME}).click().wait(TIMEOUTS.ONE_SEC);
-
-        cy.get('#openidType').select('office365').wait(TIMEOUTS.ONE_SEC);
-        cy.findByRole('button', {name: CONVERT_NAME}).should('be.not.visible');
-
-        // * Get config from API
-        cy.apiGetConfig().then(({config}) => {
-            expect(config.GitLabSettings.Secret).to.equal(FAKE_SETTING);
-            expect(config.GitLabSettings.Id).to.equal('app_id');
-            expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
-            expect(config.GitLabSettings.AuthEndpoint).to.equal('');
-            expect(config.GitLabSettings.TokenEndpoint).to.equal('');
-            expect(config.GitLabSettings.UserApiEndpoint).to.equal('');
-
-            expect(config.GoogleSettings.Secret).to.equal(FAKE_SETTING);
-            expect(config.GoogleSettings.Id).to.equal('app_id');
-            expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
-            expect(config.GoogleSettings.AuthEndpoint).to.equal('');
-            expect(config.GoogleSettings.TokenEndpoint).to.equal('');
-            expect(config.GoogleSettings.UserApiEndpoint).to.equal('');
-
-            expect(config.Office365Settings.Secret).to.equal(FAKE_SETTING);
-            expect(config.Office365Settings.Id).to.equal('app_id');
-            expect(config.Office365Settings.DiscoveryEndpoint).to.equal('https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration');
-            expect(config.Office365Settings.AuthEndpoint).to.equal('');
-            expect(config.Office365Settings.TokenEndpoint).to.equal('');
-            expect(config.Office365Settings.UserApiEndpoint).to.equal('');
-        });
+        verifyOAuthLogin('Office 365', '', Cypress.config('baseUrl') + '/oauth/office365/login');
     });
 });
+
+const verifyOAuthLogin = (text, color, href) => {
+    cy.uiOpenSystemConsoleMainMenu('Log Out');
+
+    cy.waitUntil(() => cy.url().then((url) => {
+        return url.includes('/login');
+    }));
+
+    cy.url().then((url) => {
+        const withExtra = url.includes('?extra=expired') ? '?extra=expired' : '';
+        cy.findByRole('link', {name: `${text}`}).then((btn) => {
+            expect(btn[0].href).equal(`${href}${withExtra}`);
+            if (color) {
+                const rbgArr = hexToRgbArray(color);
+                expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
+            }
+        });
+    });
+};

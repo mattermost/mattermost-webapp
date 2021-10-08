@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {latinise} from 'utils/latinise';
 import {t} from 'utils/i18n';
+import * as TextFormatting from 'utils/text_formatting';
 
 type WindowObject = {
     location: {
@@ -58,6 +59,14 @@ export function getSiteURLFromWindowObject(obj: WindowObject): string {
 
 export function getSiteURL(): string {
     return getSiteURLFromWindowObject(window);
+}
+
+export function getBasePathFromWindowObject(obj: WindowObject): string {
+    return obj.basename || '';
+}
+
+export function getBasePath(): string {
+    return getBasePathFromWindowObject(window);
 }
 
 export function getRelativeChannelURL(teamName: string, channelName: string): string {
@@ -139,4 +148,40 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
     }
 
     return errors;
+}
+
+export function isInternalURL(url: string, siteURL?: string): boolean {
+    return url.startsWith(siteURL || '') || url.startsWith('/');
+}
+
+export function shouldOpenInNewTab(url: string, siteURL?: string, managedResourcePaths?: string[]): boolean {
+    if (!isInternalURL(url, siteURL)) {
+        return true;
+    }
+
+    const path = url.startsWith('/') ? url : url.substring(siteURL?.length || 0);
+
+    // Paths managed by plugins and public file links aren't handled by the web app
+    const unhandledPaths = [
+        'plugins',
+        'files',
+    ];
+
+    // Paths managed by another service shouldn't be handled by the web app either
+    if (managedResourcePaths) {
+        for (const managedPath of managedResourcePaths) {
+            unhandledPaths.push(TextFormatting.escapeRegex(managedPath));
+        }
+    }
+
+    return unhandledPaths.some((unhandledPath) => new RegExp('^/' + unhandledPath + '\\b').test(path));
+}
+
+// Returns true if the string passed is a permalink URL.
+export function isPermalinkURL(url: string): boolean {
+    const siteURL = getSiteURL();
+
+    const regexp = new RegExp(`^(${siteURL})?/[a-z0-9]+([a-z\\-0-9]+|(__)?)[a-z0-9]+/pl/\\w+`, 'gu');
+
+    return isInternalURL(url, siteURL) && (regexp.test(url));
 }

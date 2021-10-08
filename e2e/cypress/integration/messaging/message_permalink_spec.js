@@ -13,14 +13,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Message permalink', () => {
-    function ignoreUncaughtException() {
-        cy.on('uncaught:exception', (err) => {
-            expect(err.message).to.include('Cannot clear timer: timer created');
-
-            return false;
-        });
-    }
-
     let testTeam;
     let testChannel;
     let testUser;
@@ -57,7 +49,7 @@ describe('Message permalink', () => {
             const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
 
             // # Check if ... button is visible in last post right side
-            cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
+            cy.get(`#CENTER_button_${postId}`).should('not.exist');
 
             // # Click on ... button of last post
             cy.clickPostDotMenu(postId);
@@ -75,8 +67,6 @@ describe('Message permalink', () => {
     });
 
     it('Permalink highlight should fade after timeout and change to channel url', () => {
-        ignoreUncaughtException();
-
         // # Post message to use
         const message = 'Hello' + Date.now();
         cy.postMessage(message);

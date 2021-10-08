@@ -47,7 +47,7 @@ describe('Managing bot accounts', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Assert that adding bots is not possible
-        cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
+        cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('not.exist');
     });
 
     it('MM-T1852 Bot creation via API is not permitted when Enable Bot Account Creation is set to False', () => {
@@ -134,7 +134,7 @@ describe('Managing bot accounts', () => {
 
             // * Check that the bot is in the 'enabled' section
             cy.findByText(bot.fullDisplayName).scrollIntoView().should('be.visible');
-            cy.get('.bot-list__disabled').should('not.be.visible');
+            cy.get('.bot-list__disabled').should('not.exist');
         });
     });
 
@@ -160,7 +160,7 @@ describe('Managing bot accounts', () => {
                 cy.get('#searchInput').type(otherBot.username);
 
                 // * Validate that disabled section disappears
-                cy.get('.bot-list__disabled').should('not.be.visible');
+                cy.get('.bot-list__disabled').should('not.exist');
             });
         });
     });

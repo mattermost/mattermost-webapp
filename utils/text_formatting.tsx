@@ -8,8 +8,6 @@ import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
 
-import {Channel} from 'mattermost-redux/types/channels';
-
 import {formatWithRenderer} from 'utils/markdown';
 
 import * as Emoticons from './emoticons';
@@ -19,7 +17,7 @@ import Constants from './constants';
 
 import EmojiMap from './emoji_map.js';
 
-const punctuation = XRegExp.cache('[^\\pL\\d]');
+const punctuation = XRegExp.cache('[^\\pL\\d]', '');
 
 const AT_MENTION_PATTERN = /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
@@ -32,7 +30,7 @@ export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
         team_name?: string;
-    } | Channel;
+    } | string;
 };
 
 export type Tokens = Map<
@@ -55,108 +53,109 @@ export type Team = {
     name: string;
     displayName: string;
 };
+
 interface TextFormattingOptionsBase {
 
     /**
-   * If specified, this word is highlighted in the resulting html.
-   *
-   * Defaults to nothing.
-   */
+     * If specified, this word is highlighted in the resulting html.
+     *
+     * Defaults to nothing.
+     */
     searchTerm: string;
 
     /**
-   * If specified, an array of words that will be highlighted.
-   *
-   * If both this and `searchTerm` are specified, this takes precedence.
-   *
-   * Defaults to nothing.
-   */
+     * If specified, an array of words that will be highlighted.
+     *
+     * If both this and `searchTerm` are specified, this takes precedence.
+     *
+     * Defaults to nothing.
+     */
     searchMatches: string[];
 
     searchPatterns: SearchPattern[];
 
     /**
-   * Specifies whether or not to highlight mentions of the current user.
-   *
-   * Defaults to `true`.
-   */
+     * Specifies whether or not to highlight mentions of the current user.
+     *
+     * Defaults to `true`.
+     */
     mentionHighlight: boolean;
 
     /**
-   * Specifies whether or not to display group mentions as blue links.
-   *
-   * Defaults to `false`.
-   */
+     * Specifies whether or not to display group mentions as blue links.
+     *
+     * Defaults to `false`.
+     */
     disableGroupHighlight: boolean;
 
     /**
-   * A list of mention keys for the current user to highlight.
-   */
+     * A list of mention keys for the current user to highlight.
+     */
     mentionKeys: MentionKey[];
 
     /**
-   * Specifies whether or not to remove newlines.
-   *
-   * Defaults to `false`.
-   */
+     * Specifies whether or not to remove newlines.
+     *
+     * Defaults to `false`.
+     */
     singleline: boolean;
 
     /**
-   * Enables emoticon parsing with a data-emoticon attribute.
-   *
-   * Defaults to `true`.
-   */
+     * Enables emoticon parsing with a data-emoticon attribute.
+     *
+     * Defaults to `true`.
+     */
     emoticons: boolean;
 
     /**
-   * Enables markdown parsing.
-   *
-   * Defaults to `true`.
-   */
+     * Enables markdown parsing.
+     *
+     * Defaults to `true`.
+     */
     markdown: boolean;
 
     /**
-   * The origin of this Mattermost instance.
-   *
-   * If provided, links to channels and posts will be replaced with internal
-   * links that can be handled by a special click handler.
-   */
+     * The origin of this Mattermost instance.
+     *
+     * If provided, links to channels and posts will be replaced with internal
+     * links that can be handled by a special click handler.
+     */
     siteURL: string;
 
     /**
-   * Whether or not to render at mentions into spans with a data-mention attribute.
-   *
-   * Defaults to `false`.
-   */
+     * Whether or not to render at mentions into spans with a data-mention attribute.
+     *
+     * Defaults to `false`.
+     */
     atMentions: boolean;
 
     /**
-   * An object mapping channel display names to channels.
-   *
-   * If provided, ~channel mentions will be replaced with links to the relevant channel.
-   */
+     * An object mapping channel display names to channels.
+     *
+     * If provided, ~channel mentions will be replaced with links to the relevant channel.
+     */
     channelNamesMap: ChannelNamesMap;
 
     /**
-   * The current team.
-   */
+     * The current team.
+     */
     team: Team;
 
     /**
-   * If specified, images are proxied.
-   *
-   * Defaults to `false`.
-   */
+     * If specified, images are proxied.
+     *
+     * Defaults to `false`.
+     */
     proxyImages: boolean;
 
     /**
-   * An array of url schemes that will be allowed for autolinking.
-   *
-   * Defaults to autolinking with any url scheme.
-   */
+     * An array of url schemes that will be allowed for autolinking.
+     *
+     * Defaults to autolinking with any url scheme.
+     */
     autolinkedUrlSchemes: string[];
 
-    /*
+    /**
      * An array of paths on the server that are managed by another server. Any path provided will be treated as an
      * external link that will not by handled by react-router.
      *
@@ -165,18 +164,24 @@ interface TextFormattingOptionsBase {
     managedResourcePaths: string[];
 
     /**
-   * A custom renderer object to use in the formatWithRenderer function.
-   *
-   * Defaults to empty.
-   */
+     * A custom renderer object to use in the formatWithRenderer function.
+     *
+     * Defaults to empty.
+     */
     renderer: Renderer;
 
     /**
-   * Minimum number of characters in a hashtag.
-   *
-   * Defaults to `3`.
-   */
+     * Minimum number of characters in a hashtag.
+     *
+     * Defaults to `3`.
+     */
     minimumHashtagLength: number;
+
+    /**
+     * the timestamp on which the post was last edited
+     */
+    editedAt: number;
+    postId: string;
 }
 
 export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
@@ -190,6 +195,8 @@ const DEFAULT_OPTIONS: TextFormattingOptions = {
     atMentions: false,
     minimumHashtagLength: 3,
     proxyImages: false,
+    editedAt: 0,
+    postId: '',
 };
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
@@ -200,8 +207,8 @@ export function formatText(
     text: string,
     inputOptions: TextFormattingOptions = DEFAULT_OPTIONS,
     emojiMap: EmojiMap,
-) {
-    if (!text || typeof text !== 'string') {
+): string {
+    if (!text) {
         return '';
     }
 
@@ -224,13 +231,30 @@ export function formatText(
         // the markdown renderer will call doFormatText as necessary
         output = Markdown.format(output, options, emojiMap);
         if (output.includes('class="markdown-inline-img"')) {
-            /*
-            ** remove p tag to allow other divs to be nested,
-            ** which allows markdown images to open preview window
-            */
             const replacer = (match: string) => {
-                return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
+                /*
+                 * remove p tag to allow other divs to be nested,
+                 * which allows markdown images to open preview window
+                 */
+                return match === '<p>' ? '<div class="markdown-inline-img__container">' : '</div>';
             };
+
+            /*
+             * Fix for MM-22267 - replace any carriage-return (\r), line-feed (\n) or cr-lf (\r\n) occurences
+             * in enclosing `<p>` tags with `<br/>` breaks to show correct line-breaks in the UI
+             *
+             * the Markdown.format function removes all duplicate line-breaks beforehand, so it is safe to just
+             * replace occurrences which are not followed by opening <p> tags to prevent duplicate line-breaks
+             *
+             * @link to regex101.com: https://regex101.com/r/iPZ02c/1
+             */
+            output = output.replace(/[\r\n]+(?!(<p>))/g, '<br/>');
+
+            /*
+             * the replacer is not ideal, since it replaces every occurence with a new div
+             * It would be better to more accurately match only the element in question
+             * and replace it with an inlione-version
+             */
             output = output.replace(/<p>|<\/p>/g, replacer);
         }
     } else {
@@ -247,11 +271,21 @@ export function formatText(
         output = `<span class="all-emoji">${output.trim()}</span>`;
     }
 
+    if (options.postId) {
+        // unwrap the output from the closing p tag and add a span that will serve as a
+        // palceholder for `messageToHtmlComponent` function later on
+        if (output.endsWith('</p>')) {
+            output = `${output.slice(0, -4)}<span data-edited-post-id='${options.postId}'></span></p>`;
+        } else {
+            output += `<span data-edited-post-id='${options.postId}'></span>`;
+        }
+    }
+
     return output;
 }
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
-export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap) {
+export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap): string {
     let output = text;
 
     const tokens = new Map();
@@ -295,7 +329,7 @@ export function doFormatText(text: string, options: TextFormattingOptions, emoji
     return output;
 }
 
-export function sanitizeHtml(text: string) {
+export function sanitizeHtml(text: string): string {
     let output = text;
 
     // normal string.replace only does a single occurrence so use a regex instead
@@ -332,10 +366,12 @@ const reEmail = XRegExp.cache(
 // Convert emails into tokens
 function autolinkEmails(text: string, tokens: Tokens) {
     function replaceEmailWithToken(
-        fullMatch: string,
-        prefix: string,
-        email: string,
+        fullMatch: XRegExp.MatchSubString,
+        ...args: Array<string | number | XRegExp.NamedGroupsArray>
     ) {
+        const prefix = args[0] as string;
+        const email = args[1] as string;
+
         const index = tokens.size;
         const alias = `$MM_EMAIL${index}$`;
 
@@ -347,13 +383,10 @@ function autolinkEmails(text: string, tokens: Tokens) {
         return prefix + alias;
     }
 
-    let output = text;
-    output = XRegExp.replace(text, reEmail, replaceEmailWithToken);
-
-    return output;
+    return XRegExp.replace(text, reEmail, replaceEmailWithToken);
 }
 
-export function autolinkAtMentions(text: string, tokens: Tokens) {
+export function autolinkAtMentions(text: string, tokens: Tokens): string {
     function replaceAtMentionWithToken(fullMatch: string, username: string) {
         let originalText = fullMatch;
 
@@ -391,7 +424,7 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
     return output;
 }
 
-export function allAtMentions(text: string) {
+export function allAtMentions(text: string): RegExpMatchArray {
     return text.match(Constants.SPECIAL_MENTIONS_REGEX && AT_MENTION_PATTERN) || [];
 }
 
@@ -402,7 +435,7 @@ function autolinkChannelMentions(
     team?: Team,
 ) {
     function channelMentionExists(c: string) {
-        return Boolean(channelNamesMap[c]);
+        return channelNamesMap.hasOwnProperty(c);
     }
     function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
@@ -436,18 +469,23 @@ function autolinkChannelMentions(
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
+            let displayName = '';
             let teamName = '';
+
             const channelValue = channelNamesMap[channelNameLower];
-            if ('team_name' in channelValue) {
+            if (typeof channelValue === 'object') {
+                displayName = channelValue.display_name;
                 teamName = channelValue.team_name || '';
+            } else {
+                displayName = channelValue;
             }
-            const alias = addToken(
+
+            return addToken(
                 channelNameLower,
                 teamName,
                 mention,
-                escapeHtml(channelValue.display_name),
+                escapeHtml(displayName),
             );
-            return alias;
         }
 
         // Not an exact match, attempt to truncate any punctuation to see if we can find a channel
@@ -459,16 +497,23 @@ function autolinkChannelMentions(
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
+
+                    let displayName = '';
                     let teamName = '';
+
                     const channelValue = channelNamesMap[channelNameLower];
-                    if ('team_name' in channelValue) {
+                    if (typeof channelValue === 'object') {
+                        displayName = channelValue.display_name;
                         teamName = channelValue.team_name || '';
+                    } else {
+                        displayName = channelValue;
                     }
+
                     const alias = addToken(
                         channelNameLower,
                         teamName,
                         '~' + channelNameLower,
-                        escapeHtml(channelValue.display_name),
+                        escapeHtml(displayName),
                     );
                     return alias + suffix;
                 }
@@ -490,11 +535,8 @@ function autolinkChannelMentions(
     return output;
 }
 
-export function escapeRegex(text?: string) {
-    if (text == null) {
-        return '';
-    }
-    return text.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+export function escapeRegex(text?: string): string {
+    return text?.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') || '';
 }
 
 const htmlEntities = {
@@ -505,14 +547,14 @@ const htmlEntities = {
     "'": '&#039;',
 };
 
-export function escapeHtml(text: string) {
+export function escapeHtml(text: string): string {
     return text.replace(
         /[&<>"']/g,
         (match: string) => htmlEntities[match as keyof (typeof htmlEntities)],
     );
 }
 
-export function convertEntityToCharacter(text: string) {
+export function convertEntityToCharacter(text: string): string {
     return text.
         replace(/&lt;/g, '<').
         replace(/&gt;/g, '>').
@@ -651,10 +693,10 @@ function autolinkHashtags(
     );
 }
 
-const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
-const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
+const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+', '');
+const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$', '');
 
-export function parseSearchTerms(searchTerm: string) {
+export function parseSearchTerms(searchTerm: string): string[] {
     let terms = [];
 
     let termString = searchTerm;
@@ -744,7 +786,7 @@ export function highlightSearchTerms(
     text: string,
     tokens: Tokens,
     searchPatterns: SearchPattern[],
-) {
+): string {
     if (!searchPatterns || searchPatterns.length === 0) {
         return text;
     }
@@ -818,7 +860,7 @@ export function highlightSearchTerms(
     return output;
 }
 
-export function replaceTokens(text: string, tokens: Tokens) {
+export function replaceTokens(text: string, tokens: Tokens): string {
     let output = text;
 
     // iterate backwards through the map so that we do replacement in the opposite order that we added tokens
@@ -836,7 +878,7 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp): string {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
@@ -862,7 +904,7 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         if (emojiMap && emojiMap.hasUnicode(emojiCode)) {
             const emoji = emojiMap.getUnicode(emojiCode);
 
-            return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);
+            return Emoticons.renderEmoji(emoji.short_names[0], emojiMatch);
         }
 
         // wrap unsupported unicode emoji in span to style as needed

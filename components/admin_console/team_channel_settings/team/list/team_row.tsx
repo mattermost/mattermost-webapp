@@ -58,7 +58,7 @@ export default class TeamRow extends React.PureComponent<Props> {
                         <TeamIcon
                             size='sm'
                             url={teamIconUrl}
-                            name={team.display_name}
+                            content={team.display_name}
                         />
                         <div>
                             <b data-testid='team-display-name'>{team.display_name}</b>

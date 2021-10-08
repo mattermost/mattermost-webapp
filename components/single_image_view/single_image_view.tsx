@@ -12,7 +12,7 @@ import {
     getFileType,
 } from 'utils/utils';
 
-import ViewImageModal from 'components/view_image';
+import FilePreviewModal from 'components/file_preview_modal';
 
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
@@ -86,7 +86,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         this.setState({showPreviewModal: true});
     }
 
-    showPreviewModal = () => {
+    hidePreviewModal = () => {
         this.setState({showPreviewModal: false});
     }
 
@@ -144,14 +144,16 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         }
 
         const fileHeader = (
-            <div
-                data-testid='image-name'
-                className={imageNameClass}
-            >
+            <div className='image-header'>
                 <div
-                    onClick={this.handleImageClick}
+                    data-testid='image-name'
+                    className={imageNameClass}
                 >
-                    {fileInfo.name}
+                    <div
+                        onClick={this.handleImageClick}
+                    >
+                        {fileInfo.name}
+                    </div>
                 </div>
                 {toggle}
             </div>
@@ -180,9 +182,9 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
         if (loaded) {
             viewImageModal = (
-                <ViewImageModal
+                <FilePreviewModal
                     show={this.state.showPreviewModal}
-                    onModalDismissed={this.showPreviewModal}
+                    onModalDismissed={this.hidePreviewModal}
                     fileInfos={[fileInfo]}
                     postId={this.props.postId}
                 />

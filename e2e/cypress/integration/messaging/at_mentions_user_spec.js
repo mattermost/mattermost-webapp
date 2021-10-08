@@ -14,22 +14,20 @@ describe('Mention self', () => {
     let testUser;
 
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup().then(({team, user}) => {
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl, user}) => {
             testUser = user;
-
-            cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
     it('should be always highlighted', () => {
         [
-            `@${testUser.username}`,
-            `@${testUser.username}.`,
-            `@${testUser.username}_`,
-            `@${testUser.username}-`,
-            `@${testUser.username},`,
+            `@${testUser.username} `,
+            `@${testUser.username}. `,
+            `@${testUser.username}_ `,
+            `@${testUser.username}- `,
+            `@${testUser.username}, `,
         ].forEach((message) => {
             cy.postMessage(message);
 

@@ -39,14 +39,14 @@ describe('Multi Team and DM', () => {
 
     it('MM-T446 DM More... searching from page 2 of user list', () => {
         // # Open the Direct Message modal
-        cy.findByLabelText('write a direct message').click();
+        cy.uiAddDirectMessage().click();
 
         // # Move to the next page of users
         cy.findByText('Next').click();
         cy.findByText('Previous').should('exist');
 
         // # Enter a search term
-        cy.findByText('Search and add members').click().type(searchTerm);
+        cy.findByText('Search for people').click().type(searchTerm);
 
         // * Assert that the previous / next links do not appear since there should only be 1 record displayed
         cy.findByText('Next').should('not.exist');

@@ -6,7 +6,7 @@ exports[`components/post_view/CommentedOn should match snapshot 1`] = `
   data-testid="post-link"
 >
   <span>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
@@ -23,6 +23,7 @@ exports[`components/post_view/CommentedOn should match snapshot 1`] = `
               isRHS={false}
               overwriteImage=""
               overwriteName=""
+              userId=""
             />
           </a>,
         }
@@ -44,7 +45,7 @@ exports[`components/post_view/CommentedOn should match snapshot 2`] = `
   data-testid="post-link"
 >
   <span>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
@@ -61,6 +62,7 @@ exports[`components/post_view/CommentedOn should match snapshot 2`] = `
               isRHS={false}
               overwriteImage=""
               overwriteName=""
+              userId=""
             />
           </a>,
         }
@@ -82,7 +84,7 @@ exports[`components/post_view/CommentedOn should match snapshot 3`] = `
   data-testid="post-link"
 >
   <span>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
@@ -99,6 +101,7 @@ exports[`components/post_view/CommentedOn should match snapshot 3`] = `
               isRHS={false}
               overwriteImage=""
               overwriteName=""
+              userId=""
             />
           </a>,
         }
@@ -122,7 +125,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
   data-testid="post-link"
 >
   <span>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
@@ -139,6 +142,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
+              userId=""
             />
           </a>,
         }
@@ -160,7 +164,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
   data-testid="post-link"
 >
   <span>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
@@ -177,6 +181,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
+              userId=""
             />
           </a>,
         }
@@ -198,7 +203,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
   data-testid="post-link"
 >
   <span>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
@@ -215,6 +220,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
+              userId=""
             />
           </a>,
         }
@@ -236,7 +242,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
   data-testid="post-link"
 >
   <span>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Commented on {name}'s message: "
       id="post_body.commentedOn"
       values={
@@ -253,6 +259,7 @@ exports[`components/post_view/CommentedOn should match snapshots for post with p
               isRHS={false}
               overwriteImage=""
               overwriteName=""
+              userId=""
             />
           </a>,
         }

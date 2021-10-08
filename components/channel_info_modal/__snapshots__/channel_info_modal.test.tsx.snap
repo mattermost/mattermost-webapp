@@ -1,0 +1,225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelInfoModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="channelInfoModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal about-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[MockFunction]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="channelInfoModalLabel"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="About"
+        id="channel_info.about"
+      />
+      <strong>
+        <GlobeIcon
+          className="icon icon__globe icon--body"
+        />
+        name
+      </strong>
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="URL:"
+          id="channel_info.url"
+        />
+      </div>
+      <div
+        className="info__value"
+      >
+        http://localhost:8065/DN/channels/DN
+      </div>
+    </div>
+    <div
+      className="about-modal__hash form-group pt-3"
+    >
+      <p>
+        <MemoizedFormattedMessage
+          defaultMessage="ID: "
+          id="channel_info.id"
+        />
+        channel_id
+      </p>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ChannelInfoModal should match snapshot with channel props 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="channelInfoModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal about-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[MockFunction]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="channelInfoModalLabel"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="About"
+        id="channel_info.about"
+      />
+      <strong>
+        <GlobeIcon
+          className="icon icon__globe icon--body"
+        />
+        name
+      </strong>
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Purpose:"
+          id="channel_info.purpose"
+        />
+      </div>
+      <div
+        className="info__value"
+      >
+        And ~test too
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Header:"
+          id="channel_info.header"
+        />
+      </div>
+      <div
+        className="info__value"
+        onClick={[Function]}
+      >
+        <Connect(Markdown)
+          message="See ~test"
+          options={
+            Object {
+              "channelNamesMap": Object {
+                "test": Object {
+                  "display_name": "Test",
+                },
+              },
+              "mentionHighlight": false,
+              "singleline": false,
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="URL:"
+          id="channel_info.url"
+        />
+      </div>
+      <div
+        className="info__value"
+      >
+        http://localhost:8065/DN/channels/DN
+      </div>
+    </div>
+    <div
+      className="about-modal__hash form-group pt-3"
+    >
+      <p>
+        <MemoizedFormattedMessage
+          defaultMessage="ID: "
+          id="channel_info.id"
+        />
+        channel_id
+      </p>
+    </div>
+  </ModalBody>
+</Modal>
+`;

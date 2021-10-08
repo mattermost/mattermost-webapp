@@ -14,9 +14,9 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -45,11 +45,11 @@ function createMessages(message, aliases) {
         cy.get(`#postMessageText_${postId}`).as(aliases[0]);
         cy.clickPostCommentIcon(postId);
         cy.wait(TIMEOUTS.HALF_SEC);
-    });
 
-    cy.postMessageReplyInRHS(message);
-    cy.getLastPostId().then((postId) => {
-        cy.get(`#postMessageText_${postId}`).as(aliases[1]);
+        cy.postMessageReplyInRHS(message);
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#postMessageText_${lastPostId}`).as(aliases[1]);
+        });
     });
 }
 

@@ -7,9 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
@@ -20,20 +20,14 @@ describe('Category muting', () => {
     let testUser;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true}).then((({team, user}) => {
             testTeam = team;
             testUser = user;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
 
-            // # Wait for the team to load
-            cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            // # Post any message
+            cy.postMessage('hello');
         }));
     });
 
@@ -55,7 +49,7 @@ describe('Category muting', () => {
         clickCategoryMenuItem('channels', 'Unmute Category');
 
         // * Verify that the category is no longer muted
-        cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('have.class', 'muted');
+        cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('not.have.class', 'muted');
         cy.get('#sidebarItem_town-square').should('not.have.class', 'muted');
         cy.get('#sidebarItem_off-topic').should('not.have.class', 'muted');
     });

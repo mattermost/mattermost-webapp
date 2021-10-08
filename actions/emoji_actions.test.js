@@ -4,7 +4,7 @@
 import assert from 'assert';
 
 import {getRecentEmojis} from 'selectors/emojis';
-import * as Actions from 'actions/emoji_actions.jsx';
+import * as Actions from 'actions/emoji_actions';
 import configureStore from 'store';
 
 describe('Actions.Emojis', () => {
@@ -19,8 +19,9 @@ describe('Actions.Emojis', () => {
     });
 
     test('First alias is stored in recent emojis even if second alias used', async () => {
-        store.dispatch(Actions.addRecentEmoji('cop'));
-        assert.ok(getRecentEmojis(store.getState()).includes('policeman'));
+        store.dispatch(Actions.addRecentEmoji('thumbsup'));
+        console.log(getRecentEmojis(store.getState()));
+        assert.ok(getRecentEmojis(store.getState()).includes('+1'));
     });
 
     test('Invalid emoji are not stored in recents', async () => {

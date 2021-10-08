@@ -5,48 +5,28 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelSelectorModal from 'components/channel_selector_modal/channel_selector_modal';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/ChannelSelectorModal', () => {
+    const channel1: ChannelWithTeamData = Object.assign(TestHelper.getChannelWithTeamDataMock({id: 'channel-1', team_id: 'teamid1'}));
+    const channel2: ChannelWithTeamData = Object.assign(TestHelper.getChannelWithTeamDataMock({id: 'channel-2', team_id: 'teamid2'}));
+    const channel3: ChannelWithTeamData = Object.assign(TestHelper.getChannelWithTeamDataMock({id: 'channel-3', team_id: 'teamid1'}));
+
     const defaultProps = {
         excludeNames: [],
         currentSchemeId: 'xxx',
-        alreadySelected: ['id1'],
+        alreadySelected: ['channel-1'],
         searchTerm: '',
-        channels: [
-            {
-                id: 'id1',
-                delete_at: 0,
-                scheme_id: '',
-                display_name: 'Channel 1',
-                team_display_name: 'Team 1',
-            },
-            {
-                id: 'id2',
-                delete_at: 123,
-                scheme_id: '',
-                display_name: 'Channel 2',
-                team_display_name: 'Team 2',
-            },
-            {
-                id: 'id3',
-                delete_at: 0,
-                scheme_id: 'test',
-                display_name: 'Channel 3',
-                team_display_name: 'Team 3',
-            },
-            {
-                id: 'id4',
-                delete_at: 0,
-                scheme_id: '',
-                display_name: 'Channel 4',
-                team_display_name: 'Team 4',
-            },
-        ],
         onModalDismissed: jest.fn(),
         onChannelsSelected: jest.fn(),
         groupID: '',
         actions: {
-            loadChannels: jest.fn(() => Promise.resolve({data: []})),
+            loadChannels: jest.fn().mockResolvedValue({data: [
+                channel1,
+                channel2,
+                channel3,
+            ]}),
             setModalSearchTerm: jest.fn(),
             searchChannels: jest.fn(() => Promise.resolve({data: []})),
             searchAllChannels: jest.fn(() => Promise.resolve({data: []})),
@@ -55,6 +35,26 @@ describe('components/ChannelSelectorModal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(<ChannelSelectorModal {...defaultProps}/>);
+        wrapper.setState({channels: [
+            channel1,
+            channel2,
+            channel3,
+        ]});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('exclude already selected', () => {
+        const wrapper = shallow(
+            <ChannelSelectorModal
+                {...defaultProps}
+                excludeTeamIds={['teamid2']}
+            />,
+        );
+        wrapper.setState({channels: [
+            channel1,
+            channel2,
+            channel3,
+        ]});
 
         expect(wrapper).toMatchSnapshot();
     });

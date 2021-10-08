@@ -1,11 +1,13 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .dropdown-menu {
     @include border-radius(4px);
 
+    background: var(--center-channel-bg);
+
     &.colorpicker {
-        min-width: 125px;
         z-index: 2500;
+        min-width: 125px;
     }
 
     .dropdown-item__plugin {
@@ -28,14 +30,14 @@
     }
 
     .call-plugin-icon {
-        vertical-align: middle;
-        text-align: center;
         width: 20px;
         height: 20px;
         margin-right: 8px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 1.6rem;
-        fill: v(center-channel-color-56);
-        color: v(center-channel-color-56);
+        text-align: center;
+        vertical-align: middle;
 
         svg,
         img,
@@ -68,8 +70,16 @@
     li {
         .fa {
             width: 25px;
-            text-align: center;
             margin-left: -5px;
+            text-align: center;
         }
+    }
+}
+
+@media screen and (min-width: 769px) {
+    // global header style adjustments
+    .dropdown-menu {
+        top: calc(100% + 4px);
+        min-width: 245px;
     }
 }

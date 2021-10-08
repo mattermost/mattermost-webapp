@@ -52,7 +52,7 @@ describe('Messaging', () => {
                 permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
 
                 // # Check if ... button is visible in last post right side
-                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
+                cy.get(`#CENTER_button_${postId}`).should('not.exist');
 
                 // # Click on ... button of last post
                 cy.clickPostDotMenu(postId);
@@ -71,12 +71,9 @@ describe('Messaging', () => {
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // # Check Message is in Unread List
-                cy.get('#unreadsChannelList').should('be.visible').within(() => {
-                    cy.get('#sidebarItem_' + testChannel.name).
-                        scrollIntoView().
-                        should('be.visible').
-                        and('have.attr', 'aria-label', `${testChannel.display_name.toLowerCase()} public channel 1 mention`);
-                });
+                cy.uiGetLhsSection('UNREADS').find('#sidebarItem_' + testChannel.name).
+                    should('be.visible').
+                    and('have.attr', 'aria-label', `${testChannel.display_name.toLowerCase()} public channel 1 mention`);
 
                 // # Read the message and click the permalink
                 clickLink(testChannel);
@@ -88,18 +85,17 @@ describe('Messaging', () => {
                 cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/messages/@${testUser.username}`).and('not.include', `/${postId}`);
 
                 // # Channel should still be visible
-                cy.get('#publicChannelList', {force: true}).scrollIntoView().should('be.visible').within(() => {
+                cy.findAllByRole('button', {name: 'CHANNELS'}).first().parent().next().should('be.visible').within(() => {
                     cy.get('#sidebarItem_' + testChannel.name).
-                        scrollIntoView().
                         should('be.visible').
                         and('have.attr', 'aria-label', `${testChannel.display_name.toLowerCase()} public channel`);
                 });
 
                 // * Check the channel is not under the unread channel list
-                cy.get('#unreadsChannelList').find('#sidebarItem_' + testChannel.name).should('not.exist');
+                cy.uiGetLhsSection('UNREADS').findByText(testChannel.name).should('not.exist');
 
                 // * Check the channel is not marked as unread
-                cy.get('#sidebarItem_' + testChannel.name).invoke('attr', 'aria-label').should('not.include', 'unread');
+                cy.uiGetLhsSection('CHANNELS').find('#sidebarItem_' + testChannel.name).invoke('attr', 'aria-label').should('not.include', 'unread');
             });
         });
     });

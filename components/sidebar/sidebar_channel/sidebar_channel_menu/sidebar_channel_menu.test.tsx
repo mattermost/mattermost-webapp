@@ -5,57 +5,25 @@ import React from 'react';
 import {ShallowWrapper} from 'enzyme';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import Constants from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 
 import SidebarChannelMenu, {SidebarChannelMenu as SidebarChannelMenuType} from './sidebar_channel_menu';
 
 describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
+    const testChannel = TestHelper.getChannelMock();
+    const testCategory = TestHelper.getCategoryMock();
+
     const baseProps = {
-        channel: {
-            id: 'channel_id',
-            display_name: 'channel_display_name',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
-            team_id: '',
-            type: 'O' as ChannelType,
-            name: '',
-            header: '',
-            purpose: '',
-            last_post_at: 0,
-            total_msg_count: 0,
-            extra_update_at: 0,
-            creator_id: '',
-            scheme_id: '',
-            group_constrained: false,
-        },
+        channel: testChannel,
         channelLink: 'http://a.fake.link',
-        categories: [{
-            id: 'category1',
-            team_id: 'team1',
-            user_id: 'user_id',
-            type: CategoryTypes.CUSTOM,
-            display_name: 'custom_category_1',
-            sorting: CategorySorting.Alphabetical,
-            channel_ids: ['channel_id'],
-            muted: false,
-        }],
+        categories: [testCategory],
         currentUserId: 'user_id',
-        currentCategory: {
-            id: 'category1',
-            team_id: 'team1',
-            user_id: 'user_id',
-            type: CategoryTypes.CUSTOM,
-            sorting: CategorySorting.Alphabetical,
-            channel_ids: ['channel_id'],
-            display_name: 'custom_category_1',
-            muted: false,
-        },
-        currentTeamId: 'team1',
+        currentCategory: testCategory,
+        currentTeamId: 'team_id',
         isUnread: false,
         isFavorite: false,
         isMuted: false,
@@ -63,8 +31,10 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         managePrivateChannelMembers: true,
         closeHandler: jest.fn(),
         isCollapsed: false,
-        isMenuOpen: false,
+        isMenuOpen: true,
         onToggleMenu: jest.fn(),
+        multiSelectedChannelIds: [],
+        displayedChannels: [],
         actions: {
             markChannelAsRead: jest.fn(),
             favoriteChannel: jest.fn(),
@@ -73,7 +43,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             unmuteChannel: jest.fn(),
             openModal: jest.fn(),
             createCategory: jest.fn(),
-            addChannelToCategory: jest.fn(),
+            addChannelsInSidebar: jest.fn(),
         },
     };
 
@@ -192,6 +162,72 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot of rendered items', () => {
+        const wrapper = shallowWithIntl(
+            <SidebarChannelMenu {...baseProps}/>,
+        ) as ShallowWrapper<any, any, SidebarChannelMenuType>;
+
+        expect(wrapper.instance().renderDropdownItems()).toMatchSnapshot();
+    });
+
+    test('should match snapshot of rendered items when multiselecting channels - public channels and DM category', () => {
+        const props = {
+            ...baseProps,
+            categories: [
+                ...baseProps.categories,
+                TestHelper.getCategoryMock({
+                    id: 'dm_category_id',
+                    display_name: 'direct_messages',
+                    type: CategoryTypes.DIRECT_MESSAGES,
+                }),
+            ],
+            multiSelectedChannelIds: ['not_a_dm_channel', 'channel_id'],
+            displayedChannels: [
+                testChannel,
+                TestHelper.getChannelMock({
+                    id: 'not_a_dm_channel',
+                }),
+            ],
+        };
+
+        const wrapper = shallowWithIntl(
+            <SidebarChannelMenu {...props}/>,
+        ) as ShallowWrapper<any, any, SidebarChannelMenuType>;
+
+        expect(wrapper.instance().renderDropdownItems()).toMatchSnapshot();
+    });
+
+    test('should match snapshot of rendered items when multiselecting channels - DM channels and public channels category', () => {
+        const props = {
+            ...baseProps,
+            categories: [
+                ...baseProps.categories,
+                TestHelper.getCategoryMock({
+                    id: 'channels_category_id',
+                    display_name: 'channels',
+                    type: CategoryTypes.CHANNELS,
+                }),
+            ],
+            multiSelectedChannelIds: ['a_dm_channel', 'channel_id'],
+            displayedChannels: [
+                TestHelper.getChannelMock({
+                    ...testChannel,
+                    type: 'D',
+                }),
+                TestHelper.getChannelMock({
+                    id: 'a_dm_channel',
+                    type: 'D',
+                }),
+            ],
+        };
+
+        const wrapper = shallowWithIntl(
+            <SidebarChannelMenu {...props}/>,
+        ) as ShallowWrapper<any, any, SidebarChannelMenuType>;
+
+        expect(wrapper.instance().renderDropdownItems()).toMatchSnapshot();
+    });
+
     test('should copy state from SidebarMenu when refCallback is called', () => {
         const wrapper = shallowWithIntl(
             <SidebarChannelMenu {...baseProps}/>,
@@ -200,13 +236,11 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         const ref = {
             state: {
                 openUp: false,
-                width: 1234,
             },
         };
 
         wrapper.instance().refCallback(ref as any);
         expect(wrapper.instance().state.openUp).toEqual(ref.state.openUp);
-        expect(wrapper.instance().state.width).toEqual(ref.state.width);
     });
 
     test('should call the close handler when leave channel is clicked', () => {

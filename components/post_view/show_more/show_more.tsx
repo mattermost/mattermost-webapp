@@ -6,8 +6,9 @@ import React from 'react';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+export type AttachmentTextOverflowType = 'ellipsis';
+
 const MAX_POST_HEIGHT = 600;
-const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 const MARGIN_CHANGE_FOR_COMPACT_POST = 22;
 
 type Props = {
@@ -18,6 +19,8 @@ type Props = {
     isRHSOpen: boolean;
     text?: string;
     compactDisplay: boolean;
+    overflowType?: AttachmentTextOverflowType;
+    maxHeight?: number;
 }
 
 type State = {
@@ -32,7 +35,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.maxHeight = this.props.isAttachmentText ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT;
+        this.maxHeight = this.props.maxHeight || MAX_POST_HEIGHT;
         this.textContainer = React.createRef();
         this.state = {
             isCollapsed: true,
@@ -66,6 +69,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
 
     toggleCollapse = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        e.stopPropagation();
         this.setState((prevState) => {
             return {
                 isCollapsed: !prevState.isCollapsed,
@@ -106,6 +110,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
             children,
             isAttachmentText,
             compactDisplay,
+            overflowType,
         } = this.props;
 
         let className = 'post-message';
@@ -134,29 +139,44 @@ export default class ShowMore extends React.PureComponent<Props, State> {
                 showIcon = 'fa fa-angle-down';
                 showText = localizeMessage('post_info.message.show_more', 'Show more');
             }
+            switch (overflowType) {
+            case 'ellipsis':
+                attachmentTextOverflow = (
+                    <button
+                        id='showMoreButton'
+                        className='post-preview-collapse__show-more-button color--link'
+                        onClick={this.toggleCollapse}
+                    >
+                        {showText}
+                    </button>
+                );
+                className += ' post-message-preview--overflow';
+                break;
 
-            attachmentTextOverflow = (
-                <div className='post-collapse'>
-                    <div
-                        id='collapseGradient'
-                        className={collapseGradientClass}
-                    />
-                    <div className={collapseShowMoreClass}>
-                        <div className='post-collapse__show-more-line'/>
-                        <button
-                            id='showMoreButton'
-                            className='post-collapse__show-more-button'
-                            onClick={this.toggleCollapse}
-                        >
-                            <span className={showIcon}/>
-                            {showText}
-                        </button>
-                        <div className='post-collapse__show-more-line'/>
+            default:
+                attachmentTextOverflow = (
+                    <div className='post-collapse'>
+                        <div
+                            id='collapseGradient'
+                            className={collapseGradientClass}
+                        />
+                        <div className={collapseShowMoreClass}>
+                            <div className='post-collapse__show-more-line'/>
+                            <button
+                                id='showMoreButton'
+                                className='post-collapse__show-more-button'
+                                onClick={this.toggleCollapse}
+                            >
+                                <span className={showIcon}/>
+                                {showText}
+                            </button>
+                            <div className='post-collapse__show-more-line'/>
+                        </div>
                     </div>
-                </div>
-            );
-
-            className += ' post-message--overflow';
+                );
+                className += ' post-message--overflow';
+                break;
+            }
         }
 
         return (

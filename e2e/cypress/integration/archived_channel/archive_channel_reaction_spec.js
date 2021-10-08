@@ -20,7 +20,7 @@ describe('Archived channels', () => {
             },
         });
 
-        // # Login as test user and visit create channel
+        // # Login as test user and visit created channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
@@ -50,7 +50,7 @@ describe('Archived channels', () => {
             cy.clickPostDotMenu(postId);
 
             // * Reaction icon on center channel post should not be visible anymore
-            cy.wait(TIMEOUTS.HALF_SEC).get(`#CENTER_reaction_${postId}`).should('be.not.visible');
+            cy.wait(TIMEOUTS.HALF_SEC).get(`#CENTER_reaction_${postId}`).should('not.exist');
 
             // # Remove focus so we can open RHS
             cy.get('#channel_view').click();
@@ -62,7 +62,7 @@ describe('Archived channels', () => {
             cy.clickPostDotMenu(postId, 'RHS_ROOT');
 
             // * Reaction icon on post in RHS should not be visible anymore
-            cy.wait(TIMEOUTS.HALF_SEC).get(`#RHS_ROOT_reaction_${postId}`).should('be.not.visible');
+            cy.wait(TIMEOUTS.HALF_SEC).get(`#RHS_ROOT_reaction_${postId}`).should('not.exist');
 
             // # Search for "Test archive reaction"
             cy.get('#searchBox').should('be.visible').type(messageText).type('{enter}');
@@ -71,7 +71,7 @@ describe('Archived channels', () => {
             cy.clickPostDotMenu(postId, 'SEARCH');
 
             // * Reaction icon on post in search results should not be visible anymore
-            cy.wait(TIMEOUTS.HALF_SEC).get(`#searchResult_reaction_${postId}`).should('be.not.visible');
+            cy.wait(TIMEOUTS.HALF_SEC).get(`#searchResult_reaction_${postId}`).should('not.exist');
         });
     });
 });
