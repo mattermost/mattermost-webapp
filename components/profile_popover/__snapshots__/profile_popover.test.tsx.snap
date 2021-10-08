@@ -38,6 +38,32 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
       status="offline"
     />
   </div>
+  <div
+    className="user-popover-last-active"
+    key="user-popover-last-active"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Active {timestamp}"
+      id="channel_header.lastActive"
+      values={
+        Object {
+          "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+            day="numeric"
+            units={
+              Array [
+                "now",
+                "minute",
+                "hour",
+                "day",
+              ]
+            }
+            useTime={false}
+            value={1632146562846}
+          />,
+        }
+      }
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -82,6 +108,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -158,6 +185,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -206,6 +234,32 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       status="offline"
     />
   </div>
+  <div
+    className="user-popover-last-active"
+    key="user-popover-last-active"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Active {timestamp}"
+      id="channel_header.lastActive"
+      values={
+        Object {
+          "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+            day="numeric"
+            units={
+              Array [
+                "now",
+                "minute",
+                "hour",
+                "day",
+              ]
+            }
+            useTime={false}
+            value={1632146562846}
+          />,
+        }
+      }
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -250,6 +304,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -334,6 +389,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
               "position": "",
               "props": Object {},
               "roles": "",
+              "show_last_active": true,
               "terms_of_service_create_at": 0,
               "terms_of_service_id": "",
               "update_at": 0,
@@ -411,6 +467,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -457,6 +514,32 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       button={true}
       className="status user-popover-status"
       status="offline"
+    />
+  </div>
+  <div
+    className="user-popover-last-active"
+    key="user-popover-last-active"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Active {timestamp}"
+      id="channel_header.lastActive"
+      values={
+        Object {
+          "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+            day="numeric"
+            units={
+              Array [
+                "now",
+                "minute",
+                "hour",
+                "day",
+              ]
+            }
+            useTime={false}
+            value={1632146562846}
+          />,
+        }
+      }
     />
   </div>
   <hr
@@ -544,6 +627,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
         "props": Object {},
         "remote_id": "fakeuser",
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -629,6 +713,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
               "props": Object {},
               "remote_id": "fakeuser",
               "roles": "",
+              "show_last_active": true,
               "terms_of_service_create_at": 0,
               "terms_of_service_id": "",
               "update_at": 0,
@@ -707,6 +792,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
         "props": Object {},
         "remote_id": "fakeuser",
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -762,6 +848,32 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       status="offline"
     />
   </div>
+  <div
+    className="user-popover-last-active"
+    key="user-popover-last-active"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Active {timestamp}"
+      id="channel_header.lastActive"
+      values={
+        Object {
+          "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+            day="numeric"
+            units={
+              Array [
+                "now",
+                "minute",
+                "hour",
+                "day",
+              ]
+            }
+            useTime={false}
+            value={1632146562846}
+          />,
+        }
+      }
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -806,6 +918,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -935,6 +1048,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
               "position": "",
               "props": Object {},
               "roles": "",
+              "show_last_active": true,
               "terms_of_service_create_at": 0,
               "terms_of_service_id": "",
               "update_at": 0,
@@ -1012,6 +1126,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -1067,6 +1182,32 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
       status="offline"
     />
   </div>
+  <div
+    className="user-popover-last-active"
+    key="user-popover-last-active"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Active {timestamp}"
+      id="channel_header.lastActive"
+      values={
+        Object {
+          "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+            day="numeric"
+            units={
+              Array [
+                "now",
+                "minute",
+                "hour",
+                "day",
+              ]
+            }
+            useTime={false}
+            value={1632146562846}
+          />,
+        }
+      }
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -1111,6 +1252,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -1195,6 +1337,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
               "position": "",
               "props": Object {},
               "roles": "",
+              "show_last_active": true,
               "terms_of_service_create_at": 0,
               "terms_of_service_id": "",
               "update_at": 0,
@@ -1272,6 +1415,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -1320,6 +1464,32 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
       status="offline"
     />
   </div>
+  <div
+    className="user-popover-last-active"
+    key="user-popover-last-active"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Active {timestamp}"
+      id="channel_header.lastActive"
+      values={
+        Object {
+          "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+            day="numeric"
+            units={
+              Array [
+                "now",
+                "minute",
+                "hour",
+                "day",
+              ]
+            }
+            useTime={false}
+            value={1632146562846}
+          />,
+        }
+      }
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -1364,6 +1534,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -1464,6 +1635,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
@@ -1587,7 +1759,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       onClick={[Function]}
     >
       <Connect(injectIntl(ModalToggleButtonRedux))
-        accessibilityLabel="Add to a Channel"
+        ariaLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
@@ -1726,7 +1898,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
       onClick={[Function]}
     >
       <Connect(injectIntl(ModalToggleButtonRedux))
-        accessibilityLabel="Add to a Channel"
+        ariaLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
@@ -1865,7 +2037,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
       onClick={[Function]}
     >
       <Connect(injectIntl(ModalToggleButtonRedux))
-        accessibilityLabel="Add to a Channel"
+        ariaLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
