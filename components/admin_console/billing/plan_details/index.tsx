@@ -10,7 +10,13 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 
-import {seatsAndSubscriptionDates, getPlanDetailElements, planDetailsTopElements, currentPlanText, featureList} from './plan_details';
+import {
+    seatsAndSubscriptionDates,
+    getPlanDetailElements,
+    planDetailsTopElements,
+    currentPlanText,
+    featureList,
+} from './plan_details';
 
 import './plan_details.scss';
 
