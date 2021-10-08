@@ -59,6 +59,7 @@ type Props = {
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
+    isFreeTier: boolean;
     productId: string | undefined;
     actions: {
         closeModal: () => void;
@@ -227,8 +228,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             }
         });
 
-        // if not on trial, only show current plan and those higher than it in terms of price
-        if (!this.props.isFreeTrial) {
+        // if not on trial or not on free tier, only show current plan and those higher than it in terms of price
+        if (!this.props.isFreeTrial && !this.props.isFreeTier) {
             if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
                 flatFeeProducts = [];
                 userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
@@ -509,32 +510,30 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </a>
                 </div>
                 <div className='central-panel'>
-                    {(this.state.editPaymentInfo || !validBillingDetails) ?
-                        <PaymentForm
-                            className='normal-text'
-                            onInputChange={this.onPaymentInput}
-                            onCardInputChange={this.handleCardInputChange}
-                            initialBillingDetails={initialBillingDetails}
-                        /> :
-                        <div className='PaymentDetails'>
-                            <div className='title'>
+                    {(this.state.editPaymentInfo || !validBillingDetails) ? <PaymentForm
+                        className='normal-text'
+                        onInputChange={this.onPaymentInput}
+                        onCardInputChange={this.handleCardInputChange}
+                        initialBillingDetails={initialBillingDetails}
+                                                                            /> : <div className='PaymentDetails'>
+                        <div className='title'>
+                                                                                    <FormattedMessage
+                                defaultMessage='Your saved payment details'
+                                id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
+                            />
+                                                                                </div>
+                        <PaymentDetails>
+                                                                                    <button
+                                onClick={this.editPaymentInfoHandler}
+                                className='editPaymentButton'
+                            >
                                 <FormattedMessage
-                                    defaultMessage='Your saved payment details'
-                                    id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
-                                />
-                            </div>
-                            <PaymentDetails>
-                                <button
-                                    onClick={this.editPaymentInfoHandler}
-                                    className='editPaymentButton'
-                                >
-                                    <FormattedMessage
-                                        defaultMessage='Edit'
-                                        id='admin.billing.purchaseModal.editPaymentInfoButton'
-                                    />
-                                </button>
-                            </PaymentDetails>
-                        </div>
+                                                                                            defaultMessage='Edit'
+                                                                                            id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                                                                        />
+                            </button>
+                                                                                </PaymentDetails>
+                    </div>
                     }
                 </div>
                 <div className='RHS'>
@@ -555,15 +554,13 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
                             {this.displayDecimals()}
                             <span className='monthly-text'>
-                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ?
-                                    <FormattedMessage
-                                        defaultMessage={' /month'}
-                                        id={'admin.billing.subscription.perMonth'}
-                                    /> :
-                                    <FormattedMessage
-                                        defaultMessage={' /user/month'}
-                                        id={'admin.billing.subscription.perUserPerMonth'}
-                                    />
+                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? <FormattedMessage
+                                    defaultMessage={' /month'}
+                                    id={'admin.billing.subscription.perMonth'}
+                                                                                                          /> : <FormattedMessage
+                                    defaultMessage={' /user/month'}
+                                    id={'admin.billing.subscription.perUserPerMonth'}
+                                     />
                                 }
                             </span>
                         </div>
