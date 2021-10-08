@@ -21,7 +21,7 @@ exports[`components/channel_notifications_modal/ExtraInfo should match snapshot,
 exports[`components/channel_notifications_modal/ExtraInfo should match snapshot, on PUSH 1`] = `
 <span>
   <MemoizedFormattedMessage
-    defaultMessage="Selecting an option other than \\"Global default\\" will override the global notification settings for mobile push notifications in account settings. Push notifications must be enabled by the System Admin."
+    defaultMessage="Selecting an option other than \\"Global default\\" will override the global notification settings for mobile push notifications in settings. Push notifications must be enabled by the System Admin."
     id="channel_notifications.overridePush"
   />
 </span>
