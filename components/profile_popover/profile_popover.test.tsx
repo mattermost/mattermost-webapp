@@ -168,14 +168,8 @@ describe('components/ProfilePopover', () => {
     });
 
     test('should match snapshot with last active display', () => {
-        const user = {
-            name: 'some name',
-            username: 'some_username',
-            show_last_active: true,
-        };
         const props = {
             ...baseProps,
-            user,
             status: 'offline',
         };
 
@@ -186,14 +180,8 @@ describe('components/ProfilePopover', () => {
     });
 
     test('should match snapshot with no last active display because of online status', () => {
-        const user = {
-            name: 'some name',
-            username: 'some_username',
-            show_last_active: true,
-        };
         const props = {
             ...baseProps,
-            user,
             status: 'online',
         };
 
@@ -204,11 +192,9 @@ describe('components/ProfilePopover', () => {
     });
 
     test('should match snapshot with no last active display because it is disabled by user', () => {
-        const user = {
-            name: 'some name',
-            username: 'some_username',
+        const user = TestHelper.getUserMock({
             show_last_active: false,
-        };
+        });
         const props = {
             ...baseProps,
             user,
