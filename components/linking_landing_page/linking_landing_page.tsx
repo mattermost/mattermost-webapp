@@ -276,7 +276,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         );
         if (this.props.enableCustomBrand) {
             openingLink = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='get_app.openingLinkWhiteLabel'
                     defaultMessage='Opening link in {appName}...'
                     values={{
