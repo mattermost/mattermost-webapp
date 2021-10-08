@@ -18,6 +18,7 @@ describe('Verify Accessibility Support in Post', () => {
     let otherUser;
     let testTeam;
     let testChannel;
+    let emojiPickerEnabled;
 
     before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
@@ -31,6 +32,10 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
                 });
+            });
+
+            cy.apiGetConfig().then(({config}) => {
+                emojiPickerEnabled = config.ServiceSettings.EnableEmojiPicker;
             });
         });
     });
@@ -171,9 +176,18 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#CENTER_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
                 cy.focused().tab();
 
-                // * Verify focus is on the actions button
-                cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab();
+                // eslint-disable-next-line no-negated-condition
+                if (!emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab();
+                } else {
+                    for (let i = 0; i < 3; i++) {
+                        // * Verify focus is on the reactions button
+                        cy.get(`#recent_reaction_${i}`).should('have.class', 'Reaction__emoji--post-menu emoticon');
+                        cy.focused().tab();
+                    }
+                }
 
                 // * Verify focus is on the reactions button
                 cy.get(`#CENTER_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
@@ -186,6 +200,12 @@ describe('Verify Accessibility Support in Post', () => {
                 // * Verify focus is on the comment button
                 cy.get(`#CENTER_commentIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'reply');
                 cy.focused().tab();
+
+                if (emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab();
+                }
 
                 // * Verify focus is on the post text
                 cy.get(`#postMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
@@ -221,6 +241,12 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
+                if (emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab({shift: true});
+                }
+
                 // * Verify focus is on the save icon
                 cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab({shift: true});
@@ -229,9 +255,15 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#RHS_COMMENT_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
                 cy.focused().tab({shift: true});
 
-                // * Verify focus is on the actions button
-                cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab({shift: true});
+                // eslint-disable-next-line no-negated-condition
+                if (!emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab({shift: true});
+                } else {
+                    cy.get('#recent_reaction_0').should('have.class', 'Reaction__emoji--post-menu emoticon');
+                    cy.focused().tab({shift: true});
+                }
 
                 // * Verify focus is on the time
                 cy.get(`#RHS_COMMENT_time_${postId}`).should('have.class', 'a11y--active a11y--focused');

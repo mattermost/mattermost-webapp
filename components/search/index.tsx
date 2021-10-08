@@ -26,7 +26,6 @@ import {autocompleteUsersInTeam} from 'actions/user_actions';
 import {getRhsState, getSearchTerms, getSearchType, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 import {GlobalState} from 'types/store';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import Search from './search';
 import type {StateProps, DispatchProps, OwnProps} from './types';
@@ -47,7 +46,6 @@ function mapStateToProps(state: GlobalState) {
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 

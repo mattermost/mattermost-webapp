@@ -91,21 +91,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -237,21 +222,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -370,21 +340,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -516,21 +471,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -686,21 +626,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
