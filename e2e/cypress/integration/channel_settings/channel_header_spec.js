@@ -10,6 +10,7 @@
 import {getRandomId} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+// Stage: @prod
 // Group: @channel_settings
 
 describe('Channel Settings', () => {
