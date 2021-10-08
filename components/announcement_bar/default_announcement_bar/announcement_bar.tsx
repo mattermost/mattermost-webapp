@@ -147,7 +147,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                 >
                                     {(linkmessage) => (
                                         <ToggleModalButtonRedux
-                                            accessibilityLabel={linkmessage}
+                                            ariaLabel={linkmessage}
                                             className={'color--link--adminack'}
                                             dialogType={WarnMetricAckModal}
                                             onClick={() => trackEvent('admin', 'click_warn_metric_learn_more')}

@@ -178,7 +178,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     comparePlan = (
         <a
             className='ml-1'
-            href={CloudLinks.COMPARE_PLANS}
+            href={CloudLinks.PRICING}
             target='_blank'
             rel='noreferrer'
             onMouseDown={(e) => {
