@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-export function makeAsyncComponent(LazyComponent, fallback = null) {
+export function makeAsyncComponent(LazyComponent, loadingScreen) {
     return (props) => (
-        <React.Suspense fallback={fallback}>
+        <React.Suspense fallback={loadingScreen}>
             <LazyComponent {...props}/>
         </React.Suspense>
     );
