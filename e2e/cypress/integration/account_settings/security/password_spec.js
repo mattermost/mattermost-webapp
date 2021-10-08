@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings -> Security -> Password', () => {
+describe('Account Settings > Security > Password', () => {
     before(() => {
         // # Login as new user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {

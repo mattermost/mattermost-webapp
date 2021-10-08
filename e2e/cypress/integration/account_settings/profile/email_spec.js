@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {reUrl, getRandomId} from '../../../utils';
 
-describe('Account Settings -> General -> Email', () => {
+describe('Account Settings > Profile > Email', () => {
     let siteName;
     let testUser;
     let otherUser;

@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings > Display > Channel Display Mode', () => {
+describe('Settings > Display > Channel Display Mode', () => {
     before(() => {
         // # Login as new user, visit off-topic and post a message
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {

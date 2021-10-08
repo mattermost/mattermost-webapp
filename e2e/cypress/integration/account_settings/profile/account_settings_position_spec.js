@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings > General > Position', () => {
+describe('Account Settings > Profile > Position', () => {
     beforeEach(() => {
         cy.apiAdminLogin();
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
