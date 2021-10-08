@@ -80,8 +80,8 @@ const THREADING_TIME: typeof BASE_THREADING_TIME = {
 };
 
 const OFFSET_TO_SHOW_TOAST = -50;
-const OVERSCAN_COUNT_FORWARD = 30;
-const OVERSCAN_COUNT_BACKWARD = 30;
+const OVERSCAN_COUNT_FORWARD = 80;
+const OVERSCAN_COUNT_BACKWARD = 80;
 
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
     private mounted = false;
