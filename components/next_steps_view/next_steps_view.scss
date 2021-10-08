@@ -455,6 +455,11 @@
     > img {
         object-fit: contain;
     }
+
+    &--next-step {
+        padding: 24px 40px;
+        margin-top: 0;
+    }
 }
 
 .NextStepsView__downloadText {

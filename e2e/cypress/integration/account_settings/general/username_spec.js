@@ -17,13 +17,15 @@ describe('Account Settings > Sidebar > General > Edit', () => {
     let testUser;
     let testChannel;
     let otherUser;
+    let offTopicUrl;
 
     before(() => {
-        // # Login as admin and visit town-square
-        cy.apiInitSetup().then(({user, team, channel}) => {
+        // # Login as admin and visit off-topic
+        cy.apiInitSetup().then(({user, team, channel, offTopicUrl: url}) => {
             testUser = user;
             testTeam = team;
             testChannel = channel;
+            offTopicUrl = url;
 
             cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;
@@ -33,7 +35,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
                 });
             });
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -98,7 +100,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
             // # Login the temporary user
             cy.apiLogin(tempUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
             cy.uiOpenAccountSettingsModal();
 
             // # Step 1
@@ -113,7 +115,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
             // # Step 3
             // * Verify that we've logged in as the temp user
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
             cy.uiOpenUserMenu().findByText(`@${newTempUserName}`);
             cy.uiGetSetStatusButton().click();
 
@@ -124,7 +126,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             cy.postMessage(text);
 
             // # Click on the @ button
-            cy.uiGetAtMentionButton().should('be.visible').click();
+            cy.uiGetRecentMentionButton().should('be.visible').click();
 
             // * Ensure that the user's name is in the search box after clicking on the @ button
             cy.get('#searchBox').should('be.visible').and('have.value', `@${newTempUserName} `);
@@ -185,16 +187,16 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
     it('MM-T2056 Username changes when viewed by other user', () => {
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
-        // # Post a message in town-square
+        // # Post a message in off-topic
         cy.postMessage('Testing username update');
 
         // # Login as other user
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
-        // # get last post in town-square for verifying username
+        // # Get last post in off-topic for verifying username
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 // # Open profile popover
@@ -209,7 +211,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
         // # Login as test user
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         // # Open account settings modal
         cy.uiOpenAccountSettingsModal();
@@ -226,9 +228,9 @@ describe('Account Settings > Sidebar > General > Edit', () => {
         cy.uiSave();
 
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
-        // # get last post in town-square for verifying username
+        // # Get last post in off-topic for verifying username
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 cy.get('.user-popover').click();

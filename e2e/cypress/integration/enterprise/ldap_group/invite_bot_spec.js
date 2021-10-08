@@ -48,8 +48,8 @@ describe('Group Synced Team - Bot invitation flow', () => {
         // # Visit the group constrained team
         cy.visit(`/${groupConstrainedTeam.name}`);
 
-        // # Click 'Invite People' at main menu
-        cy.uiOpenMainMenu('Invite People');
+        // # Click 'Invite People' at team menu
+        cy.uiOpenTeamMenu('Invite People');
 
         cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
             // # Type the first letters of a bot
@@ -71,8 +71,8 @@ describe('Group Synced Team - Bot invitation flow', () => {
         // # Visit the group constrained team
         cy.visit(`/${groupConstrainedTeam.name}`);
 
-        // # Click 'Manage Members' at main menu
-        cy.uiOpenMainMenu('Manage Members');
+        // # Click 'Manage Members' at team menu
+        cy.uiOpenTeamMenu('Manage Members');
 
         // # Search for the bot that we want to remove
         cy.get('#searchUsersInput').should('be.visible').type(bot.username);

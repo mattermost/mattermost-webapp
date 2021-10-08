@@ -21,7 +21,7 @@ describe('Authentication', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({user, team}) => {
             testUserAlreadyInTeam = user;
@@ -83,7 +83,7 @@ describe('Authentication', () => {
             cy.visit('/');
 
             // # Open Account Settings
-            cy.uiOpenAccountSettingsModal('Profile');
+            cy.uiOpenAccountSettingsModal();
 
             // # Click "Edit" to the right of "Email"
             cy.get('#emailEdit').should('be.visible').click();

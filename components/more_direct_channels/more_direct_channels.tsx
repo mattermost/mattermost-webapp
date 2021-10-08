@@ -1,78 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ComponentProps, ReactNode} from 'react';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {debounce, partition, differenceBy} from 'lodash';
-import classNames from 'classnames';
+import {debounce} from 'lodash';
 
-import {Client4} from 'mattermost-redux/client';
-import {Channel} from 'mattermost-redux/types/channels';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
-import {displayEntireNameForUser, localizeMessage, isGuest, isMobile} from 'utils/utils.jsx';
-import MultiSelect, {Value} from 'components/multiselect/multiselect';
-import ProfilePicture from 'components/profile_picture';
-import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import Timestamp from 'components/timestamp';
-import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import MultiSelect from 'components/multiselect/multiselect';
 
-const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
+import List from './list';
+import {USERS_PER_PAGE} from './list/list';
+import {
+    isGroupChannel,
+    optionValue,
+    OptionValue,
+} from './types';
 
-export const TIME_SPEC: ComponentProps<typeof Timestamp> = {
-    useTime: false,
-    style: 'long',
-    ranges: [
-        {within: ['minute', -1], display: ['second', 0]},
-        {within: ['hour', -1], display: ['minute']},
-        {within: ['hour', -24], display: ['hour']},
-        {within: ['day', -30], display: ['day']},
-        {within: ['month', -11], display: ['month']},
-        {within: ['year', -1000], display: ['year']},
-    ],
-};
-
-export type GroupChannel = Channel & {profiles: UserProfile[]};
-
-function isGroupChannel(option: UserProfile | GroupChannel): option is GroupChannel {
-    return (option as GroupChannel)?.type === 'G';
-}
-
-export type Option = (UserProfile | GroupChannel) & {last_post_at?: number};
-export type OptionValue = Option & Value;
-
-function optionValue(option: Option): OptionValue {
-    return {
-        value: option.id,
-        label: isGroupChannel(option) ? option.display_name : option.username,
-        ...option,
-    };
-}
-
-type Props = {
+export type Props = {
     currentUserId: string;
     currentTeamId: string;
     currentTeamName: string;
     searchTerm: string;
     users: UserProfile[];
-    groupChannels: GroupChannel[];
-    myDirectChannels: Channel[];
-    recentDMUsers?: Array<UserProfile & {last_post_at: number }>;
-    statuses: RelationOneToOne<UserProfile, string>;
-    totalCount?: number;
+    totalCount: number;
 
     /*
     * List of current channel members of existing channel
     */
-    currentChannelMembers: UserProfile[];
+    currentChannelMembers?: UserProfile[];
 
     /*
     * Whether the modal is for existing channel or not
@@ -88,7 +48,7 @@ type Props = {
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
-        loadStatusesByIds: (userIds: string[]) => void;
+        loadProfilesMissingStatus: (users: UserProfile[]) => void;
         getTotalUsersStats: () => void;
         loadStatusesForProfilesList: (users: any) => {
             data: boolean;
@@ -148,7 +108,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     loadModalData = () => {
         this.getUserProfiles();
         this.props.actions.getTotalUsersStats();
-        this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
+        this.props.actions.loadProfilesMissingStatus(this.props.users);
     }
 
     updateFromProps(prevProps: Props) {
@@ -183,25 +143,14 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         }
 
         if (
-            prevProps.users.length !== this.props.users.length ||
-            Object.keys(prevProps.statuses).length !== Object.keys(this.props.statuses).length
+            prevProps.users.length !== this.props.users.length
         ) {
-            this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
+            this.props.actions.loadProfilesMissingStatus(this.props.users);
         }
     }
 
     componentDidUpdate(prevProps: Props) {
         this.updateFromProps(prevProps);
-    }
-
-    public loadProfilesMissingStatus = (users: UserProfile[] = [], statuses: RelationOneToOne<UserProfile, string> = {}) => {
-        const missingStatusByIds = users.
-            filter((user) => !statuses[user.id]).
-            map((user) => user.id);
-
-        if (missingStatusByIds.length > 0) {
-            this.props.actions.loadStatusesByIds(missingStatusByIds);
-        }
     }
 
     handleHide = () => {
@@ -313,240 +262,22 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         this.setState({values});
     }
 
-    renderAriaLabel = (option: OptionValue) => {
-        return (option as UserProfile)?.username ?? '';
-    }
-    optionDisplayParts = (option: OptionValue): ReactNode => {
-        if (isGroupChannel(option)) {
-            return (
-                <>
-                    <div className='more-modal__gm-icon bg-text-200'>
-                        {option.profiles.length}
-                    </div>
-                    <div className='more-modal__details'>
-                        <div className='more-modal__name'>
-                            <span>
-                                {option.profiles.map((profile) => `@${profile.username}`).join(', ')}
-                            </span>
-                        </div>
-                    </div>
-                </>
-            );
-        }
-
-        const {
-            id,
-            delete_at: deleteAt,
-            is_bot: isBot = false,
-            last_picture_update: lastPictureUpdate,
-        } = option;
-
-        const displayName = displayEntireNameForUser(option);
-
-        let modalName: ReactNode = displayName;
-        if (option.id === this.props.currentUserId) {
-            modalName = (
-                <FormattedMessage
-                    id='more_direct_channels.directchannel.you'
-                    defaultMessage='{displayname} (you)'
-                    values={{
-                        displayname: displayName,
-                    }}
-                />
-            );
-        } else if (option.delete_at) {
-            modalName = (
-                <FormattedMessage
-                    id='more_direct_channels.directchannel.deactivated'
-                    defaultMessage='{displayname} - Deactivated'
-                    values={{
-                        displayname: displayName,
-                    }}
-                />
-            );
-        }
-
-        return (
-            <>
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(id, lastPictureUpdate)}
-                    status={!deleteAt && !isBot ? this.props.statuses[id] : undefined}
-                    size='md'
-                />
-                <div className='more-modal__details'>
-                    <div className='more-modal__name'>
-                        {modalName}
-                        <BotBadge
-                            show={isBot}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={isGuest(option)}
-                            className='badge-popoverlist'
-                        />
-                        <CustomStatusEmoji
-                            userID={option.id}
-                            showTooltip={true}
-                            emojiSize={15}
-                        />
-                    </div>
-                    {!isBot && (
-                        <div className='more-modal__description'>
-                            {option.email}
-                        </div>
-                    )}
-                </div>
-            </>
-        );
-    }
-
-    renderValue(props: {data: OptionValue}) {
-        return (props.data as UserProfile).username;
-    }
-
-    handleSubmitImmediatelyOn = (value: OptionValue) => {
-        return value.id === this.props.currentUserId || Boolean(value.delete_at);
-    }
-
-    note = (): ReactNode => {
-        let note;
-        if (this.props.currentChannelMembers) {
-            if (this.state.values && this.state.values.length >= MAX_SELECTABLE_VALUES) {
-                note = (
-                    <FormattedMessage
-                        id='more_direct_channels.new_convo_note.full'
-                        defaultMessage={'You\'ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'}
-                    />
-                );
-            } else if (this.props.isExistingChannel) {
-                note = (
-                    <FormattedMessage
-                        id='more_direct_channels.new_convo_note'
-                        defaultMessage={'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.'}
-                    />
-                );
-            }
-        }
-        return note;
-    }
-
-    renderOptionValue = (
-        option: OptionValue,
-        isSelected: boolean,
-        add: (value: OptionValue) => void,
-        select: (value: OptionValue) => void,
-    ) => {
-        const {id, last_post_at: lastPostAt} = option;
-
-        return (
-            <div
-                key={id}
-                ref={isSelected ? this.selectedItemRef : option.id}
-                className={classNames('more-modal__row clickable', {'more-modal__row--selected': isSelected})}
-                onClick={() => add(option)}
-                onMouseEnter={() => select(option)}
-            >
-                {this.optionDisplayParts(option)}
-
-                {!isMobile() && Boolean(lastPostAt) &&
-                    <div className='more-modal__lastPostAt'>
-                        <Timestamp
-                            {...TIME_SPEC}
-                            value={lastPostAt}
-                        />
-                    </div>
-                }
-
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <AddIcon/>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    computeOptions = (): Option[] => {
-        const {
-            currentUserId,
-            searchTerm,
-            myDirectChannels,
-            recentDMUsers = [],
-        } = this.props;
-
-        const {values} = this.state;
-
-        const [activeUsers, inactiveUsers] = partition(this.props.users, ({delete_at: deleteAt}) => deleteAt === 0);
-
-        const groupChannelsWithAvailableProfiles = this.props.groupChannels.filter(({profiles}) => differenceBy(profiles, values, 'id').length);
-        const [recentGroupChannels, groupChannels] = partition(groupChannelsWithAvailableProfiles, 'last_post_at');
-
-        let users = values.length ? activeUsers.filter(({id}) => id !== currentUserId) : activeUsers.concat(inactiveUsers);
-
-        users = users.filter((user) => (
-            (user.delete_at === 0 || myDirectChannels.some(({name}) => name.includes(user.id))) &&
-            !recentDMUsers.some(({id}) => id === user.id)
-        ));
-
-        const recent = [
-            ...values.length ? recentDMUsers.filter(({id}) => id !== currentUserId) : recentDMUsers,
-            ...recentGroupChannels,
-        ].sort((a, b) => b.last_post_at - a.last_post_at);
-
-        if (recent.length && !searchTerm) {
-            return recent.slice(0, 20);
-        }
-
-        return [
-            ...recent,
-            ...users,
-            ...groupChannels,
-        ];
-    }
-
     render() {
-        const {values} = this.state;
-
-        const buttonSubmitText = localizeMessage('multiselect.go', 'Go');
-        const buttonSubmitLoadingText = localizeMessage('multiselect.loading', 'Loading..');
-
-        const numRemainingText = (
-            <FormattedMessage
-                id='multiselect.numPeopleRemaining'
-                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
-                values={{
-                    num: MAX_SELECTABLE_VALUES - values.length,
-                }}
-            />
-        );
-
         const body = (
-            <MultiSelect<OptionValue>
-                key='moreDirectChannelsList'
-                ref={this.multiselect}
-                options={this.computeOptions().map(optionValue)}
-                optionRenderer={this.renderOptionValue}
-                selectedItemRef={this.selectedItemRef}
-                values={this.state.values}
-                valueRenderer={this.renderValue}
-                ariaLabelRenderer={this.renderAriaLabel}
-                perPage={USERS_PER_PAGE}
-                handlePageChange={this.handlePageChange}
-                handleInput={this.search}
+            <List
+                addValue={this.addValue}
+                currentUserId={this.props.currentUserId}
                 handleDelete={this.handleDelete}
-                handleAdd={this.addValue}
+                handlePageChange={this.handlePageChange}
                 handleSubmit={this.handleSubmit}
-                noteText={this.note()}
-                maxValues={MAX_SELECTABLE_VALUES}
-                numRemainingText={numRemainingText}
-                buttonSubmitText={buttonSubmitText}
-                buttonSubmitLoadingText={buttonSubmitLoadingText}
-                submitImmediatelyOn={this.handleSubmitImmediatelyOn}
-                saving={this.state.saving}
+                isExistingChannel={this.props.isExistingChannel}
                 loading={this.state.loadingUsers}
-                users={this.props.users}
+                saving={this.state.saving}
+                search={this.search}
+                selectedItemRef={this.selectedItemRef}
                 totalCount={this.props.totalCount}
-                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                users={this.props.users}
+                values={this.state.values}
             />
         );
 

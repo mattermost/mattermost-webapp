@@ -47,6 +47,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
             {key: 'collapse', label: 'Default Appearance of Image Previews', type: 'radio'},
             {key: 'message_display', label: 'Message Display', type: 'radio'},
             {key: 'channel_display_mode', label: 'Channel Display', type: 'radio'},
+            {key: 'one_click_reactions_enabled', label: 'One-click reactions on messages', type: 'radio'},
             {key: 'languages', label: 'Language', type: 'dropdown'},
         ],
         sidebar: [
@@ -75,9 +76,9 @@ describe('Verify Accessibility Support in different sections in Account Settings
             },
         });
 
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
             cy.postMessage('hello');
         });
     });

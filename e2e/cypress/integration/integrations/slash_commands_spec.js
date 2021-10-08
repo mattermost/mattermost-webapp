@@ -22,8 +22,8 @@ describe('Integrations', () => {
     let user2;
     let team1;
     let team2;
-    let testChannelUrl1;
-    let testChannelUrl2;
+    let offTopicUrl1;
+    let offTopicUrl2;
     let commandURL;
 
     const commandTrigger = 'test-ephemeral';
@@ -37,11 +37,11 @@ describe('Integrations', () => {
             },
         });
 
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             user1 = user;
             team1 = team;
-            testChannelUrl1 = `/${team.name}/channels/town-square`;
-            cy.apiGetChannelByName(team1.name, 'town-square').then(({channel}) => {
+            offTopicUrl1 = offTopicUrl;
+            cy.apiGetChannelByName(team1.name, 'off-topic').then(({channel}) => {
                 commandURL = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`;
             });
 
@@ -52,7 +52,7 @@ describe('Integrations', () => {
 
             cy.apiCreateTeam(`test-team-${timestamp}`, `test-team-${timestamp}`).then(({team: anotherTeam}) => {
                 team2 = anotherTeam;
-                testChannelUrl2 = `/${team2.name}/channels/town-square`;
+                offTopicUrl2 = `/${team2.name}/channels/off-topic`;
                 cy.apiAddUserToTeam(team2.id, user1.id);
                 cy.apiAddUserToTeam(team2.id, user2.id);
             });
@@ -63,7 +63,7 @@ describe('Integrations', () => {
         const privateChannelName = `private-channel-${getRandomId()}`;
 
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # User 1 Create a private channel, with ${channelName}
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
@@ -72,14 +72,14 @@ describe('Integrations', () => {
         cy.get('#submitNewChannel').click();
 
         // # User, who is a member of the channel, try /join command without tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/join ${privateChannelName} `);
 
         // * Private channel should be active
         cy.uiGetLhsSection('CHANNELS').get('.active').should('contain', privateChannelName);
 
         // # User, who is a member of the channel, try /join command with tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/join ~${privateChannelName} `);
 
         // * private channel should be active
@@ -87,17 +87,17 @@ describe('Integrations', () => {
 
         // # Login with user without privilege
         cy.apiLogin(user2);
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # User, who is *not* a member of the channel, try /join command without tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/join ${privateChannelName} `);
 
         // * Error message should be presented.
         cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
 
         // # User, who is *not* a member of the channel, try /join command with tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/join ~${privateChannelName} `);
 
         // * Error message should be presented.
@@ -108,7 +108,7 @@ describe('Integrations', () => {
         const privateChannelName = `private-channel-${getRandomId()}`;
 
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # User 1 Create a private channel, with ${channelName}
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
@@ -117,14 +117,14 @@ describe('Integrations', () => {
         cy.get('#submitNewChannel').click();
 
         // # User, who is a member of the channel, try /open command without tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/open ${privateChannelName} `);
 
         // * Private channel should be active
         cy.uiGetLhsSection('CHANNELS').find('.active').should('contain', privateChannelName);
 
         // # User, who is a member of the channel, try /open command with tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/open ~${privateChannelName} `);
 
         // * Private channel should be active
@@ -132,17 +132,17 @@ describe('Integrations', () => {
 
         // # Login with user without privilege
         cy.apiLogin(user2);
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # User, who is *not* a member of the channel, try /open command without tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/open ${privateChannelName} `);
 
         // * Error message should be presented.
         cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
 
         // # User, who is *not* a member of the channel, try /open command with tilde
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.uiPostMessageQuickly(`/open ~${privateChannelName} `);
 
         // * Error message should be presented.
@@ -151,7 +151,7 @@ describe('Integrations', () => {
 
     it('MM-T687 /msg', () => {
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # Post message
         const firstMessage = 'First message';
@@ -167,7 +167,7 @@ describe('Integrations', () => {
         // * The last message is written by user1 and contains the correct text.
         cy.getLastPost().should('contain', firstMessage).and('contain', user1.username);
 
-        cy.visit(testChannelUrl2);
+        cy.visit(offTopicUrl2);
 
         // # Post message
         const secondMessage = 'Second message';
@@ -186,7 +186,7 @@ describe('Integrations', () => {
 
     it('MM-T688 /expand', () => {
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # Post message
         cy.postMessage('http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
@@ -212,7 +212,7 @@ describe('Integrations', () => {
 
     it('MM-T689 capital letter autocomplete, /collapse', () => {
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # Post message
         cy.postMessage('http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
@@ -250,11 +250,10 @@ describe('Integrations', () => {
 
     it('MM-T705 Ephemeral message', () => {
         cy.apiAdminLogin();
-        cy.visit(testChannelUrl1);
+        cy.visit(offTopicUrl1);
 
         // # Navigate to slash commands and create the slash command
-        cy.uiGetLHSHeader().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#slashCommands').click();
         cy.get('#addSlashCommand').click();
         cy.get('#displayName').type(`Test${timestamp}`);

@@ -9,12 +9,11 @@ import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
-type ExtraData = {
-    threadsToDelete?: UserThread[];
-}
+import {threadsInTeamReducer, unreadThreadsInTeamReducer, ExtraData} from './threadsInTeam/threadsInTeam';
 
 export const threadsReducer = (state: ThreadsState['threads'] = {}, action: GenericAction, extra: ExtraData) => {
     switch (action.type) {
+    case ThreadTypes.RECEIVED_UNREAD_THREADS:
     case ThreadTypes.RECEIVED_THREADS: {
         const {threads} = action.data;
         return {
@@ -118,102 +117,6 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
         for (const thread of extra.threadsToDelete) {
             Reflect.deleteProperty(nextState, thread.id);
             threadDeleted = true;
-        }
-
-        if (!threadDeleted) {
-            // Nothing was actually removed
-            return state;
-        }
-
-        return nextState;
-    }
-    }
-
-    return state;
-};
-
-export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, action: GenericAction, extra: ExtraData) => {
-    switch (action.type) {
-    case PostTypes.POST_REMOVED: {
-        const post = action.data;
-        if (post.root_id) {
-            return state;
-        }
-
-        const teamId = Object.keys(state).
-            find((id) => state[id].indexOf(post.id) !== -1);
-
-        if (!teamId) {
-            return state;
-        }
-
-        const index = state[teamId].indexOf(post.id);
-
-        return {
-            ...state,
-            [teamId]: [
-                ...state[teamId].slice(0, index),
-                ...state[teamId].slice(index + 1),
-            ],
-        };
-    }
-    case ThreadTypes.RECEIVED_THREADS: {
-        const nextSet = new Set(state[action.data.team_id]);
-
-        action.data.threads.forEach((thread: UserThread) => {
-            nextSet.add(thread.id);
-        });
-
-        return {
-            ...state,
-            [action.data.team_id]: [...nextSet],
-        };
-    }
-    case ThreadTypes.RECEIVED_THREAD: {
-        if (state[action.data.team_id]?.includes(action.data.thread.id)) {
-            return state;
-        }
-
-        const nextSet = new Set(state[action.data.team_id]);
-
-        nextSet.add(action.data.thread.id);
-
-        return {
-            ...state,
-            [action.data.team_id]: [...nextSet],
-        };
-    }
-    case TeamTypes.LEAVE_TEAM: {
-        const team: Team = action.data;
-
-        if (!state[team.id]) {
-            return state;
-        }
-
-        const nextState = {...state};
-        Reflect.deleteProperty(nextState, team.id);
-
-        return nextState;
-    }
-    case UserTypes.LOGOUT_SUCCESS:
-        return {};
-    case ChannelTypes.LEAVE_CHANNEL: {
-        if (!extra.threadsToDelete || extra.threadsToDelete.length === 0) {
-            return state;
-        }
-
-        const teamId = action.data.team_id;
-
-        let threadDeleted = false;
-
-        // Remove entries for any thread in the channel
-        const nextState = {...state};
-        for (const thread of extra.threadsToDelete) {
-            if (nextState[teamId]) {
-                const index = nextState[teamId].indexOf(thread.id);
-                nextState[teamId] = [...nextState[teamId].slice(0, index), ...nextState[teamId].slice(index + 1)];
-                threadDeleted = true;
-            }
         }
 
         if (!threadDeleted) {
@@ -354,9 +257,16 @@ function getThreadsOfChannel(threads: ThreadsState['threads'], channelId: string
     return threadsToDelete;
 }
 
+const initialState = {
+    threads: {},
+    threadsInTeam: {},
+    unreadThreadsInTeam: {},
+    counts: {},
+};
+
 // custom combineReducers function
 // enables passing data between reducers
-function reducer(state: ThreadsState = {threads: {}, threadsInTeam: {}, counts: {}}, action: GenericAction): ThreadsState {
+function reducer(state: ThreadsState = initialState, action: GenericAction): ThreadsState {
     const extra: ExtraData = {};
 
     // acting as a 'middleware'
@@ -374,6 +284,9 @@ function reducer(state: ThreadsState = {threads: {}, threadsInTeam: {}, counts: 
         // Object mapping teams ids to thread ids
         threadsInTeam: threadsInTeamReducer(state.threadsInTeam, action, extra),
 
+        // Object mapping teams ids to unread thread ids
+        unreadThreadsInTeam: unreadThreadsInTeamReducer(state.unreadThreadsInTeam, action, extra),
+
         // Object mapping teams ids to unread counts
         counts: countsReducer(state.counts, action, extra),
     };
@@ -381,6 +294,7 @@ function reducer(state: ThreadsState = {threads: {}, threadsInTeam: {}, counts: 
     if (
         state.threads === nextState.threads &&
         state.threadsInTeam === nextState.threadsInTeam &&
+        state.unreadThreadsInTeam === nextState.unreadThreadsInTeam &&
         state.counts === nextState.counts
     ) {
         // None of the children have changed so don't even let the parent object change

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -25,6 +25,7 @@ type Props = {
         doAppCall: DoAppCall;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 }
 
@@ -42,7 +43,10 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
 
     handleClick = async () => {
         const {binding, post, intl} = this.props;
-        if (!binding.call) {
+
+        const call = binding.form?.call || binding.call;
+
+        if (!call) {
             return;
         }
 
@@ -61,13 +65,19 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             post.id,
             post.root_id,
         );
-        const call = createCallRequest(
-            binding.call,
+        const callRequest = createCallRequest(
+            call,
             context,
             {post: AppExpandLevels.EXPAND_ALL},
         );
+
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+
         this.setState({executing: true});
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
 
         this.setState({executing: false});
 

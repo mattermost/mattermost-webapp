@@ -109,6 +109,16 @@ export const Preferences = {
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
+    ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
+    ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
+
+    // For one off things that have a special, attention-grabbing UI until you interact with them
+    TOUCHED: 'touched',
+};
+
+// For one off things that have a special, attention-grabbing UI until you interact with them
+export const Touched = {
+    INVITE_MEMBERS: 'invite_members',
 };
 
 export const TrialPeriodDays = {
@@ -158,6 +168,7 @@ export const ActionTypes = keyMirror({
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
+    BROWSER_WINDOW_RESIZED: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
@@ -315,6 +326,7 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
+    NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
 };
 
 export const UserStatuses = {
@@ -344,6 +356,7 @@ export const CloudProducts = {
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
+    LEGACY: 'cloud-legacy',
 };
 
 export const A11yClassNames = {
@@ -457,6 +470,7 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
+    DOWNLOAD_APPS: 'download_apps',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -581,7 +595,6 @@ export const StorageTypes = keyMirror({
     REMOVE_GLOBAL_ITEM: null,
     CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
-    ACTION_ON_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
 
@@ -753,9 +766,9 @@ export const AboutLinks = {
 
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
-    COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
-    CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
+    PRICING: 'https://mattermost.com/pricing/',
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
+    DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
 };
 
 export const BillingSchemes = {
@@ -1005,6 +1018,9 @@ export const Constants = {
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    ALL_MENTION_REGEX: /(?:\B|\b_+)@(all)(?!(\.|-|_)*[^\W_])/gi,
+    CHANNEL_MENTION_REGEX: /(?:\B|\b_+)@(channel)(?!(\.|-|_)*[^\W_])/gi,
+    HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
     ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
@@ -1055,7 +1071,11 @@ export const Constants = {
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
+
+    DESKTOP_SCREEN_WIDTH: 1679,
+    TABLET_SCREEN_WIDTH: 1020,
     MOBILE_SCREEN_WIDTH: 768,
+
     POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
@@ -1538,9 +1558,10 @@ export const Constants = {
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_PRIVATE_CHANNELS: 'mention.private.channels',
     MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
-    MENTION_GROUPS: 'mention.groups',
+    MENTION_GROUPS: 'search.group',
     DEFAULT_NOTIFICATION_DURATION: 5000,
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
@@ -1561,6 +1582,7 @@ export const Constants = {
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
+    THREADS_PAGE_SIZE: 25,
 };
 
 export const ValidationErrors = {
@@ -1570,6 +1592,13 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const WindowSizes = {
+    MOBILE_VIEW: 'mobileView',
+    TABLET_VIEW: 'tabletView',
+    SMALL_DESKTOP_VIEW: 'smallDesktopView',
+    DESKTOP_VIEW: 'desktopView',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
@@ -1593,17 +1622,20 @@ export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('se
     {searchTerm: '""', message: {id: t('search_files_list_option.phrases'), defaultMessage: 'Files with phrases'}},
 ];
 
+// adding these rtranslations here so the weblate CI step will not fail with empty translation strings
+t('suggestion.archive');
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
-t('suggestion.mention.public.channels');
+t('suggestion.mention.private.channels');
 t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
-t('suggestion.archive');
 t('suggestion.mention.groups');
+t('suggestion.search.public');
+t('suggestion.search.group');
 
 const {
     DONT_CLEAR,

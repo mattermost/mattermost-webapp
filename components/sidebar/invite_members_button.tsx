@@ -18,13 +18,20 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
+    touchedInviteMembersButton: boolean;
     className?: string;
+    onClick: () => void;
 }
 
 const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element => {
     const intl = useIntl();
 
     const currentTeamId = useSelector(getCurrentTeamId);
+    let buttonClass = 'SidebarChannelNavigator_inviteMembersLhsButton';
+
+    if (!props.touchedInviteMembersButton) {
+        buttonClass += ' SidebarChannelNavigator_inviteMembersLhsButton--untouched';
+    }
 
     return (
         <TeamPermissionGate
@@ -32,14 +39,15 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element => {
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
             <ToggleModalButtonRedux
-                accessibilityLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
+                ariaLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
                 id='introTextInvite'
                 className={`intro-links color--link cursor--pointer${props.className ? ` ${props.className}` : ''}`}
                 modalId={ModalIdentifiers.INVITATION}
                 dialogType={InvitationModal}
+                onClick={props.onClick}
             >
                 <li
-                    className='SidebarChannelNavigator_inviteMembersLhsButton'
+                    className={buttonClass}
                     aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_navigator.inviteUsers', defaultMessage: 'Invite Members'})}
                 >
                     <i className='icon-plus-box'/>

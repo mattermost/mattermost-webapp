@@ -87,15 +87,8 @@ export function cleanUpUrlable(input: string): string {
     return cleaned;
 }
 
-export function getChannelByName(channels: IDMappedObjects<Channel>, name: string): Channel | undefined | null {
-    const channelIds = Object.keys(channels);
-    for (let i = 0; i < channelIds.length; i++) {
-        const id = channelIds[i];
-        if (channels[id].name === name) {
-            return channels[id];
-        }
-    }
-    return null;
+export function getChannelByName(channels: IDMappedObjects<Channel>, name: string): Channel | undefined {
+    return Object.values(channels).find((channel) => channel.name === name);
 }
 
 export function getDirectChannelName(id: string, otherId: string): string {

@@ -65,11 +65,7 @@ describe('Customization', () => {
         cy.visit('/');
 
         // # Open About Mattermost menu option
-        cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
-        cy.findByLabelText('main menu').click();
-
-        // * Find the about menu entry, which contains the new site name
-        cy.findByText(`About ${siteName}`).scrollIntoView().click();
+        cy.uiOpenProductSwitchMenu(`About ${siteName}`);
 
         // * Verify in the about modal that the new site name is being shown
         cy.get('#aboutModalLabel').should('be.visible').and('have.text', `About ${siteName}`);

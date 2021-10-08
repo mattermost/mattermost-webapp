@@ -22,12 +22,15 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -157,7 +160,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -222,12 +225,15 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -245,7 +251,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -429,7 +435,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -494,12 +500,15 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -517,7 +526,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -650,7 +659,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -715,12 +724,15 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -738,7 +750,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -871,7 +883,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -936,12 +948,15 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -959,7 +974,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -1093,7 +1108,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1162,12 +1177,15 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -1297,7 +1315,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1362,12 +1380,15 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -1497,7 +1518,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,

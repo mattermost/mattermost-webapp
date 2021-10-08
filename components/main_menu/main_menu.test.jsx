@@ -187,22 +187,6 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show Marketplace modal', () => {
-        const store = mockStore(defaultState);
-
-        const props = {
-            ...defaultProps,
-            enablePluginMarketplace: true,
-        };
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <MainMenu {...props}/>
-            </Provider>,
-        );
-
-        expect(wrapper.find('#marketplaceModal').at(0).props().show).toEqual(true);
-    });
-
     test('should show leave team option when primary team is set', () => {
         const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
         const wrapper = getMainMenuWrapper(props);
@@ -222,28 +206,7 @@ describe('components/Menu', () => {
         expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
     });
 
-    test('should show subscribe now button when in trial period', () => {
-        const props = {...defaultProps, isCloud: true, isFreeTrial: true};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(1);
-    });
-
-    test('should hide the subscribe now button when NOT in trial period', () => {
-        const props = {...defaultProps, isCloud: true, isFreeTrial: false};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
-    });
-
-    test('should hide the subscribe now button when is NOT cloud', () => {
-        const props = {...defaultProps, isCloud: false, isFreeTrial: false};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
-    });
-
-    test('should hide the subscribe now button when does not have permissions', () => {
+    test('mobile view should hide the subscribe now button when does not have permissions', () => {
         const noPermissionsState = {...defaultState};
         noPermissionsState.entities.roles.roles.system_manager.permissions = [];
         const store = mockStore(noPermissionsState);
@@ -257,7 +220,7 @@ describe('components/Menu', () => {
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
-    test('should hide start trial menu item because user state does not have permission to write license', () => {
+    test('mobile view should hide start trial menu item because user state does not have permission to write license', () => {
         const store = mockStore(defaultState);
 
         const wrapper = mountWithIntl(
@@ -267,56 +230,5 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper.find('#startTrial')).toHaveLength(0);
-    });
-
-    describe('should show integrations', () => {
-        it('when incoming webhooks enabled', () => {
-            const props = {...defaultProps, enableIncomingWebhooks: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when outgoing webhooks enabled', () => {
-            const props = {...defaultProps, enableOutgoingWebhooks: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when slash commands enabled', () => {
-            const props = {...defaultProps, enableCommands: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when oauth providers enabled', () => {
-            const props = {...defaultProps, enableOAuthServiceProvider: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when can manage system bots', () => {
-            const props = {...defaultProps, canManageSystemBots: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('unless mobile', () => {
-            const props = {...defaultProps, mobile: true, canManageSystemBots: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(false);
-        });
-
-        it('unless cannot manage integrations', () => {
-            const props = {...defaultProps, canManageIntegrations: false, enableCommands: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(false);
-        });
     });
 });
