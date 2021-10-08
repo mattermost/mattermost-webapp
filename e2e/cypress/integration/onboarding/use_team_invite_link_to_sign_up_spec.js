@@ -28,7 +28,7 @@ describe('Onboarding', () => {
         });
 
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Update config to require email verification and onboarding flow
         cy.apiUpdateConfig({
