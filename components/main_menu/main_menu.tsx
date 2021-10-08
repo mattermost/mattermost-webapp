@@ -57,7 +57,7 @@ export type Props = {
     intl: IntlShape;
     showNextStepsTips?: boolean;
     actions: {
-        openModal: (params: {modalId: string; dialogType: any, dialogProps: any}) => void;
+        openModal: (params: {modalId: string; dialogType: any; dialogProps: any}) => void;
         showMentions: () => void;
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
@@ -67,7 +67,7 @@ export type Props = {
     };
 
 };
-class MainMenu extends React.PureComponent<Props> {
+export class MainMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
         mobile: false,
@@ -167,7 +167,6 @@ class MainMenu extends React.PureComponent<Props> {
 
         return this.props.mobile ? (
             <Menu
-                mobile={this.props.mobile}
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
@@ -276,7 +275,7 @@ class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId || ''}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
                         invert={true}
                     >
@@ -373,7 +372,6 @@ class MainMenu extends React.PureComponent<Props> {
             </Menu>
         ) : (
             <Menu
-                mobile={this.props.mobile}
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
