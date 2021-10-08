@@ -3,33 +3,38 @@
         position: relative;
 
         .image-header {
-            button.single-image-view__toggle {
-                display: inline-block;
-                padding: 0;
-                border: none;
-                background: transparent;
-                border-radius: 4px;
-                color: rgba(var(--center-channel-color-rgb), 0.56);
-                font-size: 18px;
-                line-height: 18px;
+            &--collapsed {
+                button.single-image-view__toggle {
+                    display: inline-block;
+                    padding: 0;
+                    border: none;
+                    background: transparent;
+                    border-radius: 4px;
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                    font-size: 18px;
+                    line-height: 18px;
 
-                &:hover {
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
-                }
+                    &:hover {
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
+                    }
 
-                .icon {
-                    width: 18px;
-                    height: 18px;
+                    .icon {
+                        width: 18px;
+                        height: 18px;
 
-                    &::before {
-                        margin-right: 0;
-                        margin-left: 0;
+                        &::before {
+                            margin-right: 0;
+                            margin-left: 0;
+                        }
                     }
                 }
             }
 
-            &.active {
+            &--expanded {
                 position: absolute;
+                z-index: 3;
+                top: -6px;
+                left: -2px;
 
                 button.single-image-view__toggle {
                     display: none;
@@ -41,14 +46,19 @@
                     border-radius: 16px;
                     color: rgba(var(--center-channel-color-rgb), 0.56);
                     font-size: 18px;
-                    line-height: 21px;
+                    line-height: 20px;
 
                     @include box-shadow($elevation-1);
+
+                    .icon {
+                        width: 18px;
+                        height: 18px;
+                    }
                 }
             }
         }
 
-        &:hover .image-header.active button.single-image-view__toggle {
+        &:hover .image-header--expanded button.single-image-view__toggle {
             display: block;
 
             @include box-shadow($elevation-2);

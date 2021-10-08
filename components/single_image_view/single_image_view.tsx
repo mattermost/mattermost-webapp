@@ -155,7 +155,8 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         const fileHeader = (
             <div
                 className={classNames('image-header', {
-                    active: this.props.isEmbedVisible,
+                    'image-header--expanded': this.props.isEmbedVisible,
+                    'image-header--collapsed': !this.props.isEmbedVisible,
                 })}
             >
                 {toggle}

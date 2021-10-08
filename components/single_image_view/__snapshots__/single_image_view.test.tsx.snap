@@ -8,15 +8,19 @@ exports[`components/SingleImageView should match snapshot 1`] = `
     className="file__image"
   >
     <div
-      className="image-header active"
+      className="image-header image-header--expanded"
     >
       <button
         aria-label="Toggle Embed Visibility"
-        className="style--none post__embed-visibility"
+        className="style--none single-image-view__toggle"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
-      />
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
     </div>
     <div
       className="image-container"
@@ -71,15 +75,19 @@ exports[`components/SingleImageView should match snapshot 2`] = `
     className="file__image"
   >
     <div
-      className="image-header active"
+      className="image-header image-header--expanded"
     >
       <button
         aria-label="Toggle Embed Visibility"
-        className="style--none post__embed-visibility"
+        className="style--none single-image-view__toggle"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
-      />
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
     </div>
     <div
       className="image-container"
@@ -158,15 +166,19 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
     className="file__image"
   >
     <div
-      className="image-header active"
+      className="image-header image-header--expanded"
     >
       <button
         aria-label="Toggle Embed Visibility"
-        className="style--none post__embed-visibility"
+        className="style--none single-image-view__toggle"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
-      />
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
     </div>
     <div
       className="image-container"
@@ -225,15 +237,19 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
     className="file__image"
   >
     <div
-      className="image-header active"
+      className="image-header image-header--expanded"
     >
       <button
         aria-label="Toggle Embed Visibility"
-        className="style--none post__embed-visibility"
+        className="style--none single-image-view__toggle"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
-      />
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
     </div>
     <div
       className="image-container"
@@ -316,15 +332,19 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
     className="file__image"
   >
     <div
-      className="image-header active"
+      className="image-header image-header--expanded"
     >
       <button
         aria-label="Toggle Embed Visibility"
-        className="style--none post__embed-visibility"
+        className="style--none single-image-view__toggle"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
-      />
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
     </div>
     <div
       className="image-container"
