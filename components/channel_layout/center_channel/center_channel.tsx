@@ -12,6 +12,7 @@ import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import {makeAsyncComponent} from 'components/async_load';
+
 const LazyGlobalThreads = makeAsyncComponent(
     React.lazy(() => import('components/threading/global_threads')),
     (
@@ -83,7 +84,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
         }
     }
 
-    render() {
+    render(): JSX.Element {
         const {lastChannelPath, isCollapsedThreadsEnabled} = this.props;
         const url = this.props.match.url;
         return (
