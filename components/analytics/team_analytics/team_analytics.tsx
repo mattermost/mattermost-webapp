@@ -57,7 +57,9 @@ type Props = {
         /*
          * Function to get users in a team
          */
-        getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => any;
+        getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => Promise<{
+            data: UserProfile[];
+        }>;
     };
 };
 
