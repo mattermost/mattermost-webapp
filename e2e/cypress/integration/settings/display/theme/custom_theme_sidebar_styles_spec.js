@@ -65,7 +65,7 @@ describe('Custom Theme - Sidebar Styles', () => {
         });
     });
 
-    it('MM-T3853_2 Should observe color change in Account Settings modal before saving', () => {
+    it('MM-T3853_2 Should observe color change in Settings modal before saving', () => {
         // * Check Sidebar BG color change
         cy.get('.settings-links').should('have.css', 'background-color', rgbArrayToString(themeRgbColor.sidebarBg));
 

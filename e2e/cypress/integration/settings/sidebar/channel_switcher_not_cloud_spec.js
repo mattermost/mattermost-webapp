@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings > Sidebar > Channel Switcher', () => {
+describe('Settings > Sidebar > Channel Switcher', () => {
     let testUser;
     let testTeam;
 

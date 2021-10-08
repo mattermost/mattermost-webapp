@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-describe('Account Settings - Save Theme', () => {
+describe('Settings > Display > Theme > Save', () => {
     before(() => {
         // # Login as new user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
