@@ -10,7 +10,7 @@ import {intlShape} from 'utils/react_intl';
 
 class ModalToggleButtonRedux extends React.PureComponent {
     static propTypes = {
-        accessibilityLabel: PropTypes.string,
+        ariaLabel: PropTypes.string,
         children: PropTypes.node.isRequired,
         modalId: PropTypes.string.isRequired,
         dialogType: PropTypes.elementType.isRequired,
@@ -55,7 +55,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
             ...props
         } = this.props;
 
-        const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.accessibilityLabel});
+        const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.ariaLabel});
 
         let badge = null;
         if (this.props.showUnread) {
@@ -68,7 +68,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         delete props.modalId;
         delete props.dialogType;
         delete props.dialogProps;
-        delete props.accessibilityLabel;
+        delete props.ariaLabel;
         delete props.actions;
         delete props.showUnread;
 
