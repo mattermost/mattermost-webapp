@@ -147,7 +147,7 @@ function setClockDisplayTo(clockFormat) {
         cy.get('#clockDesc').should('have.text', '24-hour clock (example: 16:00)');
     }
 
-    // # Close Account Settings modal
+    // # Close Settings modal
     cy.uiClose();
 }
 

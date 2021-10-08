@@ -5831,7 +5831,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.enablePreviewFeatures.title'),
                         label_default: 'Enable Preview Features:',
                         help_text: t('admin.experimental.enablePreviewFeatures.desc'),
-                        help_text_default: 'When true, preview features can be enabled from **Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.',
+                        help_text_default: 'When true, preview features can be enabled from **Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Settings > Advanced > Preview pre-release features**.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },

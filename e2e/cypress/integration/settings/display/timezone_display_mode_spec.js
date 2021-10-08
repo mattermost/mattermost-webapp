@@ -203,7 +203,7 @@ function setTimezoneDisplayTo(isAutomatic, value) {
         expect(value.replace('_', ' ')).to.contain(timezoneDesc);
     });
 
-    // # Close Account Settings modal
+    // # Close Settings modal
     cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 }
 
