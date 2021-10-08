@@ -4,25 +4,21 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
-import QuickInput from 'components/quick_input';
+import QuickInput from 'components/quick_input/index';
 
 describe('components/QuickInput', () => {
-    describe('should not render clear button', () => {
-        [
-            ['in default state', {}],
-            ['when not clearable', {value: 'value', clearable: false, onClear: () => {}}],
-            ['when no onClear callback', {value: 'value', clearable: true}],
-            ['when value undefined', {clearable: true, onClear: () => {}}],
-            ['when value empty', {value: '', clearable: true, onClear: () => {}}],
-        ].forEach(([description, props]) => {
-            it(description, () => {
-                const wrapper = mount(
-                    <QuickInput {...props}/>,
-                );
+    test.each([
+        ['in default state', {}],
+        ['when not clearable', {value: 'value', clearable: false, onClear: () => {}}],
+        ['when no onClear callback', {value: 'value', clearable: true}],
+        ['when value undefined', {clearable: true, onClear: () => {}}],
+        ['when value empty', {value: '', clearable: true, onClear: () => {}}],
+    ])('should not render clear button', (description, props) => {
+        const wrapper = mount(
+            <QuickInput {...props}/>,
+        );
 
-                expect(wrapper.find('.input-clear').exists()).toBe(false);
-            });
-        });
+        expect(wrapper.find('.input-clear').exists()).toBe(false);
     });
 
     describe('should render clear button', () => {
