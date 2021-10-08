@@ -28,7 +28,7 @@ window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
-window.luxon = require('luxon');
+window.Luxon = require('luxon');
 
 // Functions exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};
