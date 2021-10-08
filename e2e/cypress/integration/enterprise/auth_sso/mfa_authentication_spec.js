@@ -22,7 +22,7 @@ describe('Authentication', () => {
         cy.apiRequireLicenseForFeature('MFA');
 
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({user}) => {
             testUser = user;

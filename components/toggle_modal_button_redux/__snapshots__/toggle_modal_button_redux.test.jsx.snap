@@ -2,12 +2,12 @@
 
 exports[`components/ToggleModalButtonRedux component should match snapshot 1`] = `
 <ModalToggleButtonRedux
-  accessibilityLabel="Delete Channel"
   actions={
     Object {
       "openModal": [Function],
     }
   }
+  ariaLabel="Delete Channel"
   className=""
   dialogProps={Object {}}
   dialogType={[Function]}

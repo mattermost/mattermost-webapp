@@ -5,9 +5,11 @@ import {connect} from 'react-redux';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import MFAController from './mfa_controller.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import MFAController from './mfa_controller';
+
+function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
     const config = getConfig(state);
 

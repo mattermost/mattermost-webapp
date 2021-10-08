@@ -70,7 +70,6 @@ import {
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
-    ChannelsFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
     DataRetentionFeatureDiscovery,
@@ -530,37 +529,11 @@ const AdminDefinition = {
             url: 'user_management/channels',
             title: t('admin.sidebar.channels'),
             title_default: 'Channels',
-            isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
-            ),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'Channels',
                 component: ChannelSettings,
-            },
-        },
-        channels_feature_discovery: {
-            url: 'user_management/channels',
-            isDiscovery: true,
-            title: t('admin.sidebar.channels'),
-            title_default: 'Channels',
-            isHidden: it.any(
-                it.licensedForFeature('LDAPGroups'),
-                it.not(it.enterpriseReady),
-            ),
-            schema: {
-                id: 'Channels',
-                name: t('admin.channel_settings.title'),
-                name_default: 'Channels',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: ChannelsFeatureDiscovery,
-                        key: 'ChannelsFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                    },
-                ],
             },
         },
         systemScheme: {
@@ -2206,9 +2179,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableConfirmNotificationsToChannel',
                         label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
-                        label_default: 'Show @channel and @all and group mention confirmation dialog:',
+                        label_default: 'Show @channel, @all, @here and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all, @here and group mentions in channels with over five members. When false, no confirmation is required.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                     },
                     {
@@ -4334,7 +4307,10 @@ const AdminDefinition = {
                 shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
-                it.not(it.licensed),
+                it.any(
+                    it.not(it.licensed),
+                    it.licensedForSku('starter'),
+                ),
                 it.all(
                     it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),

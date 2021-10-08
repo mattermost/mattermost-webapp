@@ -8,17 +8,13 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {
     getConfig,
-    getFirstAdminVisitMarketplaceStatus,
-    getLicense,
-    getSubscriptionStats as selectSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {
-    getMyTeams,
     getJoinableTeamIds,
     getCurrentTeam,
 } from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -28,7 +24,6 @@ import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import {
     showOnboarding,
@@ -47,26 +42,13 @@ function mapStateToProps(state: GlobalState) {
 
     const appDownloadLink = config.AppDownloadLink;
     const enableCommands = config.EnableCommands === 'true';
-    const enableCustomEmoji = config.EnableCustomEmoji === 'true';
     const siteName = config.SiteName;
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
-    const enablePluginMarketplace = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
-
-    let canCreateOrDeleteCustomEmoji = (haveISystemPermission(state, {permission: Permissions.CREATE_EMOJIS}) || haveISystemPermission(state, {permission: Permissions.DELETE_EMOJIS}));
-    if (!canCreateOrDeleteCustomEmoji) {
-        for (const team of getMyTeams(state)) {
-            if (haveITeamPermission(state, team.id, Permissions.CREATE_EMOJIS) || haveITeamPermission(state, team.id, Permissions.DELETE_EMOJIS)) {
-                canCreateOrDeleteCustomEmoji = true;
-
-                break;
-            }
-        }
-    }
 
     const canManageTeamIntegrations = (haveICurrentTeamPermission(state, Permissions.MANAGE_SLASH_COMMANDS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OAUTH) || haveICurrentTeamPermission(state, Permissions.MANAGE_INCOMING_WEBHOOKS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OUTGOING_WEBHOOKS));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
@@ -75,23 +57,19 @@ function mapStateToProps(state: GlobalState) {
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
-    const isCloud = getLicense(state).Cloud === 'true';
 
     return {
         appDownloadLink,
         enableCommands,
-        enableCustomEmoji,
         canManageIntegrations,
         enableIncomingWebhooks,
         enableOAuthServiceProvider,
         enableOutgoingWebhooks,
         canManageSystemBots,
-        enablePluginMarketplace,
         experimentalPrimaryTeam,
         helpLink,
         reportAProblemLink,
         pluginMenuItems: state.plugins.components.MainMenu,
-        canCreateOrDeleteCustomEmoji,
         moreTeamsToJoin,
         siteName,
         teamId: currentTeam.id,
@@ -104,10 +82,6 @@ function mapStateToProps(state: GlobalState) {
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
         showNextSteps: showNextSteps(state),
-        isCloud,
-        subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
-        firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 

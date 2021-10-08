@@ -177,7 +177,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     comparePlan = (
         <a
             className='ml-1'
-            href={CloudLinks.COMPARE_PLANS}
+            href={CloudLinks.PRICING}
             target='_blank'
             rel='noreferrer'
             onMouseDown={(e) => {
@@ -484,8 +484,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     />
                     <div className='footer-text'>
                         <FormattedMessage
-                            defaultMessage={'Questions?'}
-                            id={'admin.billing.subscription.questions'}
+                            defaultMessage={'Looking to self-host?'}
+                            id={'admin.billing.subscription.lookingToSelfHost'}
                         />
                     </div>
                     <a
@@ -493,17 +493,17 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         onClick={() =>
                             trackEvent(
                                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                'click_contact_support',
+                                'click_looking_to_self_host',
                             )
                         }
-                        href={this.props.contactSupportLink}
+                        href={CloudLinks.DEPLOYMENT_OPTIONS}
                         rel='noopener noreferrer'
                         target='_new'
                     >
                         <FormattedMessage
-                            defaultMessage={'Contact Support'}
+                            defaultMessage={'Review your deployment options'}
                             id={
-                                'admin.billing.subscription.privateCloudCard.contactSupport'
+                                'admin.billing.subscription.privateCloudCard.deploymentOptions'
                             }
                         />
                     </a>

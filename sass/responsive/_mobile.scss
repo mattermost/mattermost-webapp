@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset "utf-8";
 
 @media screen and (max-width: 768px) {
     #navbar_wrapper {
@@ -1006,6 +1006,10 @@
         }
 
         .post-menu__item--reactions {
+            display: none;
+        }
+
+        .Reaction__emoji--post-menu {
             display: none;
         }
 
