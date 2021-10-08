@@ -94,40 +94,11 @@ export default class ConfirmModal extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
-        if (this.props.show) {
-            document.addEventListener('keydown', this.handleKeypress);
-        }
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeypress);
-    }
-
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         return (
             nextProps.show !== this.props.show ||
             nextState.checked !== this.state.checked
         );
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.show && !this.props.show) {
-            document.removeEventListener('keydown', this.handleKeypress);
-        } else if (!prevProps.show && this.props.show) {
-            document.addEventListener('keydown', this.handleKeypress);
-        }
-    }
-
-    handleKeypress = (e: KeyboardEvent) => {
-        if (e.key === 'Enter' && this.props.show) {
-            const cancelButton = document.getElementById('cancelModalButton');
-            if (cancelButton && cancelButton === document.activeElement) {
-                this.handleCancel();
-            } else {
-                this.handleConfirm();
-            }
-        }
     }
 
     handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
