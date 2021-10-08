@@ -23,7 +23,7 @@ export default function ExtraInfo({section}) {
             <span>
                 <FormattedMessage
                     id='channel_notifications.overridePush'
-                    defaultMessage='Selecting an option other than "Global default" will override the global notification settings for mobile push notifications in account settings. Push notifications must be enabled by the System Admin.'
+                    defaultMessage='Selecting an option other than "Global default" will override the global notification settings for mobile push notifications in settings. Push notifications must be enabled by the System Admin.'
                 />
             </span>
         );
