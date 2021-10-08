@@ -51,6 +51,8 @@ type State = {
     lastViewedBottom: number;
     visibleStartIndex?: number;
     visibleStopIndex?: number;
+    overscanStartIndex?: number;
+    overscanStopIndex?: number;
 }
 
 const virtListStyles = {
@@ -86,6 +88,7 @@ const OVERSCAN_COUNT_BACKWARD = 80;
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
     private mounted = false;
     private scrollStopAction: DelayedAction;
+    private scrollShortCircuit = 0;
     postCreateContainerRef: RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
     innerRef: RefObject<HTMLDivElement>;
@@ -117,6 +120,8 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             lastViewedBottom: Date.now(),
             visibleStartIndex: undefined,
             visibleStopIndex: undefined,
+            overscanStartIndex: undefined,
+            overscanStopIndex: undefined,
         };
     }
 
@@ -191,6 +196,8 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         const userScrolledToBottom = scrollHeight - scrollOffset - createCommentHeight <= clientHeight;
 
         if (!scrollUpdateWasRequested) {
+            this.scrollShortCircuit = 0;
+
             updatedState.userScrolled = true;
             updatedState.userScrolledToBottom = userScrolledToBottom;
 
@@ -222,13 +229,20 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         });
     }
 
-    onItemsRendered = ({visibleStartIndex, visibleStopIndex}: OnItemsRenderedArgs) => {
+    onItemsRendered = ({
+        visibleStartIndex,
+        visibleStopIndex,
+        overscanStartIndex,
+        overscanStopIndex,
+    }: OnItemsRenderedArgs) => {
         if (this.state.isMobile) {
             this.updateFloatingTimestamp(visibleStartIndex);
         }
         this.setState({
             visibleStartIndex,
             visibleStopIndex,
+            overscanStartIndex,
+            overscanStopIndex,
         });
     }
 
@@ -242,6 +256,38 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
 
         return postIndex === -1 ? 0 : postIndex;
+    }
+
+    handleScrollToFailed = (index: number) => {
+        if (index < 0 || index >= this.props.replyListIds.length) {
+            return;
+        }
+        const {overscanStopIndex, overscanStartIndex} = this.state;
+
+        if (overscanStartIndex != null && index < overscanStartIndex) {
+            this.scrollToItemCorrection(index, Math.max(overscanStartIndex + 1, 0));
+        }
+
+        if (overscanStopIndex != null && index > overscanStopIndex) {
+            this.scrollToItemCorrection(index, Math.min(overscanStopIndex - 1, this.props.replyListIds.length - 1));
+        }
+    }
+
+    scrollToItemCorrection = (index: number, nearIndex: number) => {
+        // stop after 10 times so we won't end up in an infinite loop
+        if (this.scrollShortCircuit > 10) {
+            return;
+        }
+
+        this.scrollShortCircuit++;
+
+        // this should not trigger a failure to scroll
+        // it should always be an index in between rendered items (overscanStartIndex < nearIndex < overscanStopIndex)
+        this.scrollToItem(nearIndex, 'start');
+
+        window.requestAnimationFrame(() => {
+            this.scrollToItem(index, 'start');
+        });
     }
 
     scrollToItem = (index: number, position: string, offset?: number) => {
@@ -426,6 +472,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                                     innerListStyle={this.getInnerStyles()}
                                     innerRef={this.innerRef}
                                     itemData={this.props.replyListIds}
+                                    scrollToFailed={this.handleScrollToFailed}
                                     onItemsRendered={this.onItemsRendered}
                                     onScroll={this.handleScroll}
                                     overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
