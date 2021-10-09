@@ -515,24 +515,25 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         onInputChange={this.onPaymentInput}
                         onCardInputChange={this.handleCardInputChange}
                         initialBillingDetails={initialBillingDetails}
-                                                                            /> : <div className='PaymentDetails'>
+                    /> : 
+                    <div className='PaymentDetails'>
                         <div className='title'>
-                                                                                    <FormattedMessage
+                            <FormattedMessage
                                 defaultMessage='Your saved payment details'
                                 id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
                             />
-                                                                                </div>
+                        </div>
                         <PaymentDetails>
-                                                                                    <button
+                            <button
                                 onClick={this.editPaymentInfoHandler}
                                 className='editPaymentButton'
                             >
                                 <FormattedMessage
-                                                                                            defaultMessage='Edit'
-                                                                                            id='admin.billing.purchaseModal.editPaymentInfoButton'
-                                                                                        />
+                                    defaultMessage='Edit'
+                                    id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                />
                             </button>
-                                                                                </PaymentDetails>
+                        </PaymentDetails>
                     </div>
                     }
                 </div>
@@ -554,13 +555,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
                             {this.displayDecimals()}
                             <span className='monthly-text'>
-                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? <FormattedMessage
-                                    defaultMessage={' /month'}
-                                    id={'admin.billing.subscription.perMonth'}
-                                                                                                          /> : <FormattedMessage
-                                    defaultMessage={' /user/month'}
-                                    id={'admin.billing.subscription.perUserPerMonth'}
-                                     />
+                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? 
+                                    <FormattedMessage
+                                        defaultMessage={' /month'}
+                                        id={'admin.billing.subscription.perMonth'}
+                                    /> : 
+                                    <FormattedMessage
+                                        defaultMessage={' /user/month'}
+                                        id={'admin.billing.subscription.perUserPerMonth'}
+                                    />
                                 }
                             </span>
                         </div>
