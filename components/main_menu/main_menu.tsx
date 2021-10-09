@@ -30,6 +30,8 @@ import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
+import {PluginComponent} from 'types/store/plugins';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 export type Props = {
     mobile: boolean;
@@ -37,7 +39,7 @@ export type Props = {
     teamId?: string;
     teamName?: string;
     siteName?: string;
-    currentUser?: any;
+    currentUser?: UserProfile;
     appDownloadLink?: string;
     enableCommands: boolean;
     enableIncomingWebhooks: boolean;
@@ -49,7 +51,7 @@ export type Props = {
     helpLink?: string;
     reportAProblemLink?: string;
     moreTeamsToJoin: boolean;
-    pluginMenuItems?: any[];
+    pluginMenuItems?: PluginComponent[];
     isMentionSearch?: boolean;
     teamIsGroupConstrained: boolean;
     isLicensedForLDAPGroups?: boolean;
@@ -120,7 +122,7 @@ export class MainMenu extends React.PureComponent<Props> {
             currentUser,
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
-            teamId,
+            teamId = '',
         } = this.props;
 
         if (!currentUser) {
@@ -138,7 +140,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         }
                     }}
                     text={item.text}
-                    icon={this.props.mobile && item.mobileIcon}
+                    icon={this.props.mobile && item.icon}
                 />
             );
         });
@@ -214,7 +216,7 @@ export class MainMenu extends React.PureComponent<Props> {
                 </Menu.Group>
                 <Menu.Group>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.MANAGE_TEAM]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -227,7 +229,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
                         {invitePeopleModal}
@@ -235,7 +237,7 @@ export class MainMenu extends React.PureComponent<Props> {
                 </Menu.Group>
                 <Menu.Group>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.MANAGE_TEAM]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -247,7 +249,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.MANAGE_TEAM]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -263,7 +265,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -275,7 +277,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
                         invert={true}
                     >
@@ -377,7 +379,7 @@ export class MainMenu extends React.PureComponent<Props> {
             >
                 <Menu.Group>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.MANAGE_TEAM]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -389,13 +391,13 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
                         {invitePeopleModal}
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.MANAGE_TEAM]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -406,7 +408,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.MANAGE_TEAM]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -419,7 +421,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
                     >
                         <Menu.ItemToggleModalRedux
@@ -430,7 +432,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </TeamPermissionGate>
                     <TeamPermissionGate
-                        teamId={teamId || ''}
+                        teamId={teamId}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
                         invert={true}
                     >

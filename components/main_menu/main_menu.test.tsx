@@ -13,6 +13,8 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import Menu from 'components/widgets/menu/menu';
 
+import {TestHelper} from 'utils/test_helper';
+
 import MainMenu from './main_menu';
 
 describe('components/Menu', () => {
@@ -24,13 +26,12 @@ describe('components/Menu', () => {
     };
 
     const mockStore = configureStore();
-
     const defaultProps = {
         mobile: false,
         teamId: 'team-id',
         teamType: Constants.OPEN_TEAM,
         teamName: 'team_name',
-        currentUser: {id: 'test-user-id'},
+        currentUser: TestHelper.getUserMock(),
         appDownloadLink: null,
         enableCommands: false,
         enableCustomEmoji: false,
