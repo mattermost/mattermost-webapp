@@ -93,6 +93,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         }
         id="status-menu-dnd"
         openUp={false}
+        renderSelected={true}
         selectedValueText={false}
         show={true}
         subMenu={
@@ -368,6 +369,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         }
         id="status-menu-dnd"
         openUp={false}
+        renderSelected={true}
         selectedValueText={false}
         show={true}
         subMenu={
@@ -592,6 +594,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         }
         id="status-menu-dnd"
         openUp={false}
+        renderSelected={true}
         selectedValueText={false}
         show={true}
         subMenu={
@@ -816,6 +819,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         }
         id="status-menu-dnd"
         openUp={false}
+        renderSelected={true}
         selectedValueText={false}
         show={true}
         subMenu={
@@ -1041,6 +1045,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         }
         id="status-menu-dnd"
         openUp={false}
+        renderSelected={true}
         selectedValueText={false}
         show={true}
         subMenu={
@@ -1248,6 +1253,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         }
         id="status-menu-dnd"
         openUp={false}
+        renderSelected={true}
         selectedValueText={false}
         show={true}
         subMenu={
@@ -1451,6 +1457,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         }
         id="status-menu-dnd"
         openUp={false}
+        renderSelected={true}
         selectedValueText={false}
         show={true}
         subMenu={
