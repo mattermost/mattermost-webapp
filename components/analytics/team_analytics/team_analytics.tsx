@@ -359,26 +359,20 @@ export function formatRecentUsersData(data: UserProfile[], locale: string): Item
         return [];
     }
 
-    const formattedData = data.map((user: UserProfile) => {
-        const item = {} as Item;
-        item.name = user.username;
-        item.value = (
+    return data.map((user: UserProfile) => ({
+        name: user.username,
+        value: (
             <FormattedDate
                 value={user.last_activity_at}
                 day='numeric'
                 month={getMonthLong(locale)}
                 year='numeric'
-                hour12={true}
                 hour='2-digit'
                 minute='2-digit'
             />
-        );
-        item.tip = user.email;
-
-        return item;
-    });
-
-    return formattedData;
+        ),
+        tip: user.email,
+    }));
 }
 
 export function formatNewUsersData(data: UserProfile[], locale: string): Item[] {
@@ -386,24 +380,18 @@ export function formatNewUsersData(data: UserProfile[], locale: string): Item[] 
         return [];
     }
 
-    const formattedData = data.map((user) => {
-        const item = {} as Item;
-        item.name = user.username;
-        item.value = (
+    return data.map((user: UserProfile) => ({
+        name: user.username,
+        value: (
             <FormattedDate
-                value={user.create_at}
+                value={user.last_activity_at}
                 day='numeric'
                 month={getMonthLong(locale)}
                 year='numeric'
-                hour12={true}
                 hour='2-digit'
                 minute='2-digit'
             />
-        );
-        item.tip = user.email;
-
-        return item;
-    });
-
-    return formattedData;
+        ),
+        tip: user.email,
+    }));
 }
