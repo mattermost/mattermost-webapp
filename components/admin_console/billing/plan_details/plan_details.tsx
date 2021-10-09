@@ -258,10 +258,10 @@ export const getPlanDetailElements = (
                     {product.billing_scheme === BillingSchemes.FLAT_FEE ? <FormattedMessage
                         id='admin.billing.subscription.planDetails.flatFeePerMonth'
                         defaultMessage='/month (Unlimited Users). '
-                                                                          /> : <FormattedMessage
-                        id='admin.billing.subscription.planDetails.perUserPerMonth'
-                        defaultMessage='/user/month. '
-                         />
+                    /> : <FormattedMessage
+                                                                              id='admin.billing.subscription.planDetails.perUserPerMonth'
+                                                                              defaultMessage='/user/month. '
+                                                                               />
                     }
 
                     {howBillingWorksLink}
@@ -298,7 +298,7 @@ export const getPlanDetailElements = (
                 <a
                     target='_new'
                     rel='noopener noreferrer'
-                    href={'https://mattermost.com/pricing'}
+                    href={CloudLinks.PRICING}
                 >
                     <FormattedMessage
                         id='admin.billing.subscription.planDetails.seeOurPlans'
