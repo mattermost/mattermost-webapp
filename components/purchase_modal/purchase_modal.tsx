@@ -217,7 +217,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         let userBasedProducts: ProductOptions = [];
         Object.keys(products).forEach((key: string) => {
             // Filter out legacy products that are no longer available to subscribe
-            if (products[key].product_family !== CloudProducts.LEGACY) {
+            if (products[key].product_family === CloudProducts.LEGACY) {
                 return;
             }
 
