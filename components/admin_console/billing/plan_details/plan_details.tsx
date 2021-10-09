@@ -255,15 +255,16 @@ export const getPlanDetailElements = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails_paidTier__planName'>
                     {`$${product.price_per_seat.toFixed(2)}`}
-                    {product.billing_scheme === BillingSchemes.FLAT_FEE ? <FormattedMessage
-                        id='admin.billing.subscription.planDetails.flatFeePerMonth'
-                        defaultMessage='/month (Unlimited Users). '
-                    /> : <FormattedMessage
-                                                                              id='admin.billing.subscription.planDetails.perUserPerMonth'
-                                                                              defaultMessage='/user/month. '
-                                                                               />
-                    }
-
+                    {product.billing_scheme === BillingSchemes.FLAT_FEE ? (
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.flatFeePerMonth'
+                            defaultMessage='/month (Unlimited Users). '
+                        />
+                    ) : (
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.perUserPerMonth'
+                            defaultMessage='/user/month. '
+                        />) }
                     {howBillingWorksLink}
                 </div>
             </div>

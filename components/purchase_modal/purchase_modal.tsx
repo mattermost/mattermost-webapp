@@ -1,26 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, { ReactNode } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, {ReactNode} from 'react';
+import {FormattedMessage} from 'react-intl';
 
-import { Stripe, StripeCardElementChangeEvent } from '@stripe/stripe-js';
-import { loadStripe } from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
-import { Elements } from '@stripe/react-stripe-js';
+import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
+import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
+import {Elements} from '@stripe/react-stripe-js';
 
-import { Tooltip } from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
-import { isEmpty } from 'lodash';
+import {isEmpty} from 'lodash';
 
-import { CloudCustomer, Product } from 'mattermost-redux/types/cloud';
+import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
 
-import { Dictionary } from 'mattermost-redux/types/utilities';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import { trackEvent, pageVisited } from 'actions/telemetry_actions';
-import { Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes } from 'utils/constants';
-import { areBillingDetailsValid, BillingDetails } from '../../types/cloud/sku';
+import {trackEvent, pageVisited} from 'actions/telemetry_actions';
+import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
-import { STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY } from 'components/payment_form/stripe';
+import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
@@ -31,7 +31,7 @@ import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
 import BackgroundSvg from 'components/common/svg_images_components/background.svg';
 import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
 
-import { getNextBillingDate } from 'utils/utils';
+import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -160,7 +160,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             paymentInfoIsValid:
                 areBillingDetailsValid(billing) && this.state.cardInputComplete,
         });
-        this.setState({ billingDetails: billing });
+        this.setState({billingDetails: billing});
     }
 
     handleCardInputChange = (event: StripeCardElementChangeEvent) => {
@@ -168,11 +168,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             paymentInfoIsValid:
                 areBillingDetailsValid(this.state.billingDetails) && event.complete,
         });
-        this.setState({ cardInputComplete: event.complete });
+        this.setState({cardInputComplete: event.complete});
     }
 
     handleSubmitClick = async () => {
-        this.setState({ processing: true, paymentInfoIsValid: false });
+        this.setState({processing: true, paymentInfoIsValid: false});
     }
 
     comparePlan = (
@@ -200,7 +200,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const selectedPlan = findProductInDictionary(this.props.products, e.target.value);
-        this.setState({ selectedProduct: selectedPlan });
+        this.setState({selectedProduct: selectedPlan});
     }
 
     listPlans = (): JSX.Element | null => {
@@ -209,7 +209,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
         if (!products || !currentProduct) {
             return (
-                <LoadingSpinner />
+                <LoadingSpinner/>
             );
         }
 
@@ -269,7 +269,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         id='list-plans-radio-buttons'
                         values={options!}
                         value={this.state.selectedProduct?.id as string}
-                        sideLegend={{ matchVal: currentProduct.id as string, text: sideLegendTitle }}
+                        sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
                     />
                 </div>
@@ -510,30 +510,31 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </a>
                 </div>
                 <div className='central-panel'>
-                    {(this.state.editPaymentInfo || !validBillingDetails) ? <PaymentForm
+                    {(this.state.editPaymentInfo || !validBillingDetails) ? (<PaymentForm
                         className='normal-text'
                         onInputChange={this.onPaymentInput}
                         onCardInputChange={this.handleCardInputChange}
                         initialBillingDetails={initialBillingDetails}
-                    /> : <div className='PaymentDetails'>
-                            <div className='title'>
-                                <FormattedMessage
-                                    defaultMessage='Your saved payment details'
-                                    id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
-                                />
-                            </div>
-                            <PaymentDetails>
-                                <button
-                                    onClick={this.editPaymentInfoHandler}
-                                    className='editPaymentButton'
-                                >
-                                    <FormattedMessage
-                                        defaultMessage='Edit'
-                                        id='admin.billing.purchaseModal.editPaymentInfoButton'
-                                    />
-                                </button>
-                            </PaymentDetails>
+                    />
+                    ) : (<div className='PaymentDetails'>
+                        <div className='title'>
+                            <FormattedMessage
+                                defaultMessage='Your saved payment details'
+                                id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
+                            />
                         </div>
+                        <PaymentDetails>
+                            <button
+                                onClick={this.editPaymentInfoHandler}
+                                className='editPaymentButton'
+                            >
+                                <FormattedMessage
+                                    defaultMessage='Edit'
+                                    id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                />
+                            </button>
+                        </PaymentDetails>
+                    </div>)
                     }
                 </div>
                 <div className='RHS'>
@@ -554,13 +555,16 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
                             {this.displayDecimals()}
                             <span className='monthly-text'>
-                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? <FormattedMessage
-                                    defaultMessage={' /month'}
-                                    id={'admin.billing.subscription.perMonth'}
-                                /> : <FormattedMessage
+                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? (
+                                    <FormattedMessage
+                                        defaultMessage={' /month'}
+                                        id={'admin.billing.subscription.perMonth'}
+                                    />
+                                ) : (
+                                    <FormattedMessage
                                         defaultMessage={' /user/month'}
                                         id={'admin.billing.subscription.perUserPerMonth'}
-                                    />
+                                    />)
                                 }
                             </span>
                         </div>
@@ -641,7 +645,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         }
         return (
             <Elements
-                options={{ fonts: [{ cssSrc: STRIPE_CSS_SRC }] }}
+                options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
                 stripe={stripePromise}
             >
                 <RootPortal>
@@ -676,7 +680,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.props.actions.closeModal();
                                         }}
                                         onBack={() => {
-                                            this.setState({ processing: false });
+                                            this.setState({processing: false});
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
@@ -688,7 +692,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             ) : null}
                             {this.purchaseScreen()}
                             <div className='background-svg'>
-                                <BackgroundSvg />
+                                <BackgroundSvg/>
                             </div>
                         </div>
                     </FullScreenModal>
