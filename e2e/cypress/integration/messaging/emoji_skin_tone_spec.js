@@ -18,24 +18,30 @@ describe('Messaging', () => {
     });
 
     it('MM-T3014 Skin tone emoji', () => {
-        const emojis = [
-            ':wave_light_skin_tone:',
-            ':wave_medium_light_skin_tone:',
-            ':wave_medium_skin_tone:',
-            ':wave_medium_dark_skin_tone:',
-            ':wave_dark_skin_tone:',
-        ]
+        const gestures = [
+            ':wave',
+            ':point_up',
+            ':clap',
+            ':+1',
+        ];
+
+        const skinTones = [
+            '_light_skin_tone:',
+            '_medium_light_skin_tone:',
+            '_medium_skin_tone:',
+            '_medium_dark_skin_tone:',
+            '_dark_skin_tone:',
+        ];
 
         // posting emojis and checking if they are visible on desktop viewport
-        emojis.forEach((message) => {
-            cy.postMessage(message);
-            cy.findByTitle(message).should('be.visible');
+        gestures.forEach((gesture) => {
+            skinTones.forEach((skinTone) => {
+                cy.viewport('macbook-13'); // setting viewport to desktop
+                cy.postMessage(gesture + skinTone);
+                cy.findByTitle(gesture + skinTone).should('be.visible');
+                cy.viewport('iphone-se2'); // setting viewport to mobile
+                cy.findByTitle(gesture + skinTone).should('be.visible');
+            });
         });
-
-        // checking if emojis are visible on mobile viewport
-        cy.viewport('iphone-se2')
-        emojis.forEach((message) => {
-            cy.findByTitle(message).should('be.visible');
-        })
     });
 });
