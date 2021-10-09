@@ -133,7 +133,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         const toggle = (
             <button
                 key='toggle'
-                className={classNames('style--none', 'single-image-view__toggle')}
+                className='style--none single-image-view__toggle'
                 data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.toggleEmbedVisibility}
@@ -156,7 +156,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             <div
                 className={classNames('image-header', {
                     'image-header--expanded': this.props.isEmbedVisible,
-                    'image-header--collapsed': !this.props.isEmbedVisible,
                 })}
             >
                 {toggle}

@@ -1,31 +1,38 @@
 .file-view--single {
+    margin: 0;
+
     .file__image {
         position: relative;
 
         .image-header {
-            &--collapsed {
-                button.single-image-view__toggle {
-                    display: inline-block;
-                    padding: 0;
-                    border: none;
-                    background: transparent;
-                    border-radius: 4px;
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
-                    font-size: 18px;
-                    line-height: 18px;
+            // this and the following hover block need to use such an excessive
+            // number of selectors to override the specificity in _files.scss
+            .image-name,
+            button.single-image-view__toggle {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+            }
 
-                    &:hover {
-                        color: rgba(var(--center-channel-color-rgb), 0.72);
-                    }
+            &:hover .image-name,
+            &:hover button.single-image-view__toggle {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
 
-                    .icon {
-                        width: 18px;
-                        height: 18px;
+            button.single-image-view__toggle {
+                display: inline-block;
+                padding: 0;
+                border: none;
+                background: transparent;
+                border-radius: 4px;
+                font-size: 18px;
+                line-height: 18px;
 
-                        &::before {
-                            margin-right: 0;
-                            margin-left: 0;
-                        }
+                .icon {
+                    width: 18px;
+                    height: 18px;
+
+                    &::before {
+                        margin-right: 0;
+                        margin-left: 0;
                     }
                 }
             }
@@ -40,19 +47,17 @@
                     display: none;
                     width: 24px;
                     height: 24px;
-                    padding: 0;
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
                     border-radius: 16px;
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
-                    font-size: 18px;
                     line-height: 20px;
 
                     @include box-shadow($elevation-1);
 
-                    .icon {
-                        width: 18px;
-                        height: 18px;
+                    &:hover {
+                        border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
+
+                        @include box-shadow($elevation-2);
                     }
                 }
             }
@@ -60,8 +65,11 @@
 
         &:hover .image-header--expanded button.single-image-view__toggle {
             display: block;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
 
-            @include box-shadow($elevation-2);
+        .image-container {
+            margin: 5px 0;
         }
     }
 }
