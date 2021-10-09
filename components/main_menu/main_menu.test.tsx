@@ -190,7 +190,7 @@ describe('components/Menu', () => {
     });
 
     test('should show leave team option when primary team is not set', () => {
-        const props = {...defaultProps, teamIsoGroupConstrained: false, experimentalPrimaryTeam: null};
+        const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
         const wrapper = getMainMenuWrapper(props);
 
         // show leave team option when experimentalPrimaryTeam is not set
