@@ -67,7 +67,7 @@ export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => v
         <div className='UpgradeMattermostCloud__description'>
             <FormattedMarkdownMessage
                 id='admin.billing.subscription.upgradeMattermostCloud.description'
-                defaultMessage='The free tier is available until **January 31, 2022.** Add your payment information to continue after January 31.'
+                defaultMessage='The free tier is available until **January 31, 2022.** Add your payment information to continue after January 31st.'
             />
         </div>
         <button

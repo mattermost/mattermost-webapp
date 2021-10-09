@@ -230,7 +230,6 @@ export const getPlanDetailElements = (
     userLimit: number,
     isPaidTier: boolean,
     product: any,
-    aboveUserLimit: number,
 ) => {
     let planPricing;
     let planDetailsDescription;
@@ -277,7 +276,7 @@ export const getPlanDetailElements = (
                 <div className='PlanDetails__planDetailsName'>
                     <FormattedMessage
                         id='admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers'
-                        defaultMessage='Add your payment information to continue after January 31.'
+                        defaultMessage='Add your payment information to continue after January 31st.'
                     />
                 </div>
                 <a
