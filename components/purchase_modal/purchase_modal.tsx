@@ -216,6 +216,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         let flatFeeProducts: ProductOptions = [];
         let userBasedProducts: ProductOptions = [];
         Object.keys(products).forEach((key: string) => {
+            // Filter out legacy products that are no longer available to subscribe
+            if (products[key].product_family !== CloudProducts.LEGACY) {
+                return;
+            }
+
             const tempEl: RadioGroupOption = {
                 key: products[key].name,
                 value: products[key].id,
