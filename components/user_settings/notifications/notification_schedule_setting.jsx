@@ -256,7 +256,7 @@ class setNotificationSchedule extends React.PureComponent {
         }
     };
 
-    handelEnableChange = (e) => {
+    handleEnableChange = (e) => {
         this.setState({
             enableCustomDND: e.target.checked,
         });
@@ -465,7 +465,7 @@ class setNotificationSchedule extends React.PureComponent {
                                         <input
                                             type='checkbox'
                                             checked={this.state.enableCustomDND}
-                                            onChange={this.handelEnableChange}
+                                            onChange={this.handleEnableChange}
                                         />
                                         <span className='slider round'/>
                                     </label>
@@ -1047,7 +1047,7 @@ class setNotificationSchedule extends React.PureComponent {
                                     <input
                                         type='checkbox'
                                         checked={this.state.enableCustomDND}
-                                        onChange={this.handelEnableChange}
+                                        onChange={this.handleEnableChange}
                                     />
                                     <span className='slider round'/>
                                 </label>
