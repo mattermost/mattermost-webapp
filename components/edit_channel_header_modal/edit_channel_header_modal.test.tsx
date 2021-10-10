@@ -4,10 +4,13 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelType} from 'mattermost-redux/types/channels';
+
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 
 import Constants from 'utils/constants';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal/edit_channel_header_modal.jsx';
+import EditChannelHeaderModal, {default as EditChannelHeaderModalClass} from 'components/edit_channel_header_modal/edit_channel_header_modal';
 import Textbox from 'components/textbox';
 
 const KeyCodes = Constants.KeyCodes;
@@ -42,9 +45,9 @@ describe('components/EditChannelHeaderModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
     test('edit direct message channel', () => {
-        const dmChannel = {
+        const dmChannel: Partial<Channel> = {
             ...channel,
-            type: Constants.DM_CHANNEL,
+            type: Constants.DM_CHANNEL as ChannelType,
         };
 
         const wrapper = shallow(
@@ -90,7 +93,7 @@ describe('components/EditChannelHeaderModal', () => {
             <EditChannelHeaderModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        let instance = wrapper.instance() as EditChannelHeaderModalClass;
 
         // on no change, should hide the modal without trying to patch a channel
         await instance.handleSave();
@@ -99,13 +102,15 @@ describe('components/EditChannelHeaderModal', () => {
 
         // on error, should not close modal and set server error state
         wrapper.setState({header: 'New header'});
-        await wrapper.instance().handleSave();
+        instance = wrapper.instance() as EditChannelHeaderModalClass;
+        await instance.handleSave();
         expect(baseProps.actions.patchChannel).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(1);
         expect(wrapper.state('serverError')).toBe(serverError);
 
         // on success, should close modal
-        await wrapper.instance().handleSave();
+        instance = wrapper.instance() as EditChannelHeaderModalClass;
+        await instance.handleSave();
         expect(baseProps.actions.patchChannel).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(2);
     });
@@ -199,7 +204,7 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     testComponentForLineBreak(
-        (value) => (
+        (value: string) => (
             <EditChannelHeaderModal
                 {...baseProps}
                 channel={{
@@ -208,7 +213,7 @@ describe('components/EditChannelHeaderModal', () => {
                 }}
             />
         ),
-        (instance) => instance.state().header,
+        (instance: EditChannelHeaderModalClass) => instance.state.header,
         false,
     );
 });

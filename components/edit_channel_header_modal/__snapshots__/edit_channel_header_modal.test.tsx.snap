@@ -66,14 +66,15 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
+          handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           preview={false}
-          previewMessageLink="Edit Header"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          useChannelMentions={false}
           value="Fake Channel"
         />
       </div>
@@ -83,6 +84,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
         <Connect(TextboxLinks)
           characterLimit={1024}
           message="Fake Channel"
+          previewMessageLink="Edit Header"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -190,14 +192,15 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
+          handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           preview={false}
-          previewMessageLink="Edit Header"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          useChannelMentions={false}
           value="Fake Channel"
         />
       </div>
@@ -207,6 +210,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
         <Connect(TextboxLinks)
           characterLimit={1024}
           message="Fake Channel"
+          previewMessageLink="Edit Header"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -332,14 +336,15 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
+          handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           preview={false}
-          previewMessageLink="Edit Header"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          useChannelMentions={false}
           value="Fake Channel"
         />
       </div>
@@ -349,6 +354,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
         <Connect(TextboxLinks)
           characterLimit={1024}
           message="Fake Channel"
+          previewMessageLink="Edit Header"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -466,14 +472,15 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
+          handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           preview={false}
-          previewMessageLink="Edit Header"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          useChannelMentions={false}
           value="Fake Channel"
         />
       </div>
@@ -483,6 +490,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
         <Connect(TextboxLinks)
           characterLimit={1024}
           message="Fake Channel"
+          previewMessageLink="Edit Header"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -590,14 +598,15 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
+          handlePostError={[Function]}
           id="edit_textbox"
           onChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           preview={false}
-          previewMessageLink="Edit Header"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          useChannelMentions={false}
           value="Fake Channel"
         />
       </div>
@@ -607,6 +616,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
         <Connect(TextboxLinks)
           characterLimit={1024}
           message="Fake Channel"
+          previewMessageLink="Edit Header"
           showPreview={false}
           updatePreview={[Function]}
         />
