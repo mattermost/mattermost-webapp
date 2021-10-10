@@ -384,7 +384,7 @@ export function formatNewUsersData(data: UserProfile[], locale: string): Item[] 
         name: user.username,
         value: (
             <FormattedDate
-                value={user.last_activity_at}
+                value={user.create_at}
                 day='numeric'
                 month={getMonthLong(locale)}
                 year='numeric'
