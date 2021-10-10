@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {RouteComponentProps} from 'react-router';
 
 import {PermissionsScope, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -24,17 +25,17 @@ import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permiss
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
+import {Role} from 'mattermost-redux/types/roles';
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {Team} from 'mattermost-redux/types/teams';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ServerError} from 'mattermost-redux/types/errors';
+
 import TeamInList from './team_in_list';
-import { Scheme, SchemePatch } from 'mattermost-redux/types/schemes';
-import { Role } from 'mattermost-redux/types/roles';
-import { ClientConfig, ClientLicense } from 'mattermost-redux/types/config';
-import { Team } from 'mattermost-redux/types/teams';
-import { RouteComponentProps } from 'react-router';
-import { ActionFunc, ActionResult } from 'mattermost-redux/types/actions';
-import { ServerError } from 'mattermost-redux/types/errors';
 
 type RolesMap = {
-    [x: string]: Role
+    [x: string]: Role;
 };
 
 export type Props = {
@@ -51,8 +52,8 @@ export type Props = {
         loadSchemeTeams: (schemeId: string, page?: number, perPage?: number) => ActionFunc;
         editRole: (role: Role) => Promise<{error: ServerError}>;
         patchScheme: (schemeId: string, scheme: SchemePatch) => ActionFunc;
-        updateTeamScheme: (teamId: string, schemeId: string) => Promise<{error: ServerError, data: Scheme}>;
-        createScheme: (scheme: Scheme) => Promise<{error: ServerError, data: Scheme}>;
+        updateTeamScheme: (teamId: string, schemeId: string) => Promise<{error: ServerError; data: Scheme}>;
+        createScheme: (scheme: Scheme) => Promise<{error: ServerError; data: Scheme}>;
         setNavigationBlocked: (blocked: boolean) => void;
     };
 }
@@ -72,7 +73,7 @@ type State = {
         team_admin: boolean;
         channel_admin: boolean;
         guests: boolean;
-    },
+    };
     urlParams: URLSearchParams;
     schemeName: string | undefined;
     schemeDescription: string | undefined;
@@ -224,12 +225,12 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             all_users: {
                 name: 'all_users',
                 displayName: 'All members',
-                permissions: teamUser?.permissions.concat(channelUser?.permissions || []) || "",
+                permissions: teamUser?.permissions.concat(channelUser?.permissions || []) || '',
             },
             guests: {
                 name: 'guests',
                 displayName: 'Guests',
-                permissions: teamGuest?.permissions.concat(channelGuest?.permissions || []) || "",
+                permissions: teamGuest?.permissions.concat(channelGuest?.permissions || []) || '',
             },
         };
     }
@@ -448,8 +449,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             role = {...roles.guests};
         }
 
-        if (role)
-        {
+        if (role) {
             const newPermissions = [...role.permissions];
             for (const permission of permissions) {
                 if (newPermissions.indexOf(permission) === -1) {

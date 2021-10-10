@@ -16,12 +16,13 @@ import {updateTeamScheme} from 'mattermost-redux/actions/teams';
 
 import {setNavigationBlocked} from 'actions/admin_actions';
 
-import PermissionTeamSchemeSettings, { Props } from './permission_team_scheme_settings';
-import { ActionFunc, ActionResult, GenericAction } from 'mattermost-redux/types/actions';
-import { Role } from 'mattermost-redux/types/roles';
-import { Scheme, SchemePatch } from 'mattermost-redux/types/schemes';
-import { GlobalState } from 'mattermost-redux/types/store';
-import { ServerError } from 'mattermost-redux/types/errors';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {Role} from 'mattermost-redux/types/roles';
+import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ServerError} from 'mattermost-redux/types/errors';
+
+import PermissionTeamSchemeSettings, {Props} from './permission_team_scheme_settings';
 
 type OwnProps = {
     match: {
@@ -53,8 +54,8 @@ type Actions = {
     loadSchemeTeams: (schemeId: string, page?: number, perPage?: number) => ActionFunc;
     editRole: (role: Role) => Promise<{error: ServerError}>;
     patchScheme: (schemeId: string, scheme: SchemePatch) => ActionFunc;
-    updateTeamScheme: (teamId: string, schemeId: string) => Promise<{error: ServerError, data: Scheme}>;
-    createScheme: (scheme: Scheme) => Promise<{error: ServerError, data: Scheme}>;
+    updateTeamScheme: (teamId: string, schemeId: string) => Promise<{error: ServerError; data: Scheme}>;
+    createScheme: (scheme: Scheme) => Promise<{error: ServerError; data: Scheme}>;
     setNavigationBlocked: (blocked: boolean) => void;
 };
 
