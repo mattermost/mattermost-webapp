@@ -9,9 +9,9 @@ import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/e
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {DoAppSubmit, PostEphemeralCallResponseForChannel} from 'types/apps';
 
-import {doAppCall, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
+import {doAppSubmit, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
 import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
@@ -31,7 +31,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    doAppCall: DoAppCall;
+    doAppSubmit: DoAppSubmit;
     postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
     openAppsModal: (form: AppForm, call: AppCallRequest) => void;
 }
@@ -39,7 +39,7 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            doAppCall,
+            doAppSubmit,
             postEphemeralCallResponseForChannel,
             openAppsModal,
         }, dispatch),

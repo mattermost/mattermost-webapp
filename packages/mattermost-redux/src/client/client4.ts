@@ -1,3 +1,5 @@
+/* eslint-disable header/header */
+/* eslint-disable max-lines */
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -6,7 +8,7 @@ import {SystemSetting} from 'mattermost-redux/types/general';
 import {General} from '../constants';
 
 import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
-import type {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
@@ -3391,12 +3393,12 @@ export default class Client4 {
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
-    executeAppCall = async (call: AppCallRequest, type: AppCallType) => {
+    executeAppCall = async (call: AppCallRequest, trackAsSubmit: boolean) => {
         const callCopy: AppCallRequest = {
             ...call,
-            path: `${call.path}/${type}`,
             context: {
                 ...call.context,
+                track_as_submit: trackAsSubmit,
                 user_agent: 'webapp',
             },
         };

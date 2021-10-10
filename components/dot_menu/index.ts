@@ -23,13 +23,13 @@ import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {DoAppFetchForm, DoAppLookup, DoAppSubmit, PostEphemeralCallResponseForPost} from 'types/apps';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall, openAppsModal, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
+import {doAppSubmit, doAppFetchForm, doAppLookup, openAppsModal, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import {
     flagPost,
@@ -143,7 +143,9 @@ type Actions = {
     unpinPost: (postId: string) => void;
     openModal: (postId: any) => void;
     markPostAsUnread: (post: Post) => void;
-    doAppCall: DoAppCall;
+    doAppSubmit: DoAppSubmit;
+    doAppFetchForm: DoAppFetchForm;
+    doAppLookup: DoAppLookup;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
     openAppsModal: (form: AppForm, call: AppCallRequest) => void;
@@ -160,7 +162,9 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             unpinPost,
             openModal,
             markPostAsUnread,
-            doAppCall,
+            doAppSubmit,
+            doAppFetchForm,
+            doAppLookup,
             postEphemeralCallResponseForPost,
             setThreadFollow,
             openAppsModal,

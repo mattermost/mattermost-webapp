@@ -105,7 +105,7 @@ export const viewCommand: AppBinding = {
     location: '/command/jira/issue/view',
     description: 'View details of a Jira issue',
     form: {
-        call: {
+        submit: {
             path: '/view-issue',
         },
         fields: [
@@ -137,7 +137,7 @@ export const createCommand: AppBinding = {
     icon: 'Create icon',
     hint: 'Create hint',
     form: {
-        call: {
+        submit: {
             path: '/create-issue',
         },
         fields: [
@@ -191,7 +191,7 @@ export const restCommand: AppBinding = {
     icon: 'rest icon',
     hint: 'rest hint',
     form: {
-        call: {
+        submit: {
             path: '/create-issue',
         },
         fields: [

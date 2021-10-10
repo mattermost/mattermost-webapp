@@ -7,11 +7,11 @@ import {injectIntl, IntlShape} from 'react-intl';
 
 import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {DoAppSubmit, DoAppFetchForm, DoAppLookup, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
@@ -22,7 +22,9 @@ type Props = {
     binding: AppBinding;
     post: Post;
     actions: {
-        doAppCall: DoAppCall;
+        doAppSubmit: DoAppSubmit;
+        doAppFetchForm: DoAppFetchForm;
+        doAppLookup: DoAppLookup;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
         openAppsModal: (form: AppForm, call: AppCallRequest) => void;
@@ -77,7 +79,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
         }
 
         this.setState({executing: true});
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.doAppSubmit(callRequest, intl);
 
         this.setState({executing: false});
 

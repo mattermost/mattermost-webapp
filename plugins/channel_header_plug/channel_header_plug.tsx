@@ -11,9 +11,9 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
 import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {DoAppSubmit, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
@@ -103,7 +103,7 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCall: DoAppCall;
+        doAppSubmit: DoAppSubmit;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
         openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
@@ -156,7 +156,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     onBindingClick = async (binding: AppBinding) => {
         const {channel, intl} = this.props;
 
-        const call = binding.form?.call || binding.call;
+        const call = binding.form?.submit;
         if (!call) {
             return;
         }
@@ -174,7 +174,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             return;
         }
 
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.doAppSubmit(callRequest, intl);
 
         if (res.error) {
             const errorResponse = res.error;
@@ -248,7 +248,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
         let items = componentItems;
         if (this.props.appsEnabled) {
-            items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
+            items = componentItems.concat(appBindings.filter((binding) => binding.form?.submit).map((binding) => {
                 return (
                     <li
                         key={'channelHeaderPlug' + binding.app_id + binding.location}

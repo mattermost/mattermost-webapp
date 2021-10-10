@@ -45,7 +45,7 @@ describe('components/apps_form/AppsFormContainer', () => {
             path: '/form_url',
         },
         actions: {
-            doAppCall: jest.fn().mockResolvedValue({}),
+            doAppSubmit: jest.fn().mockResolvedValue({}),
         },
         onHide: jest.fn(),
     };
@@ -69,7 +69,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 ...baseProps,
                 actions: {
                     ...baseProps.actions,
-                    doAppCall: jest.fn().mockResolvedValue(response),
+                    doAppSubmit: jest.fn().mockResolvedValue(response),
                 },
             };
 
@@ -81,7 +81,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 },
             });
 
-            expect(props.actions.doAppCall).toHaveBeenCalledWith({
+            expect(props.actions.doAppSubmit).toHaveBeenCalledWith({
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
@@ -97,7 +97,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            }, 'submit', expect.any(Object));
+            }, expect.any(Object));
 
             expect(result).toEqual({
                 data: {
@@ -125,7 +125,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 ...baseProps,
                 actions: {
                     ...baseProps.actions,
-                    doAppCall: jest.fn().mockResolvedValue(response),
+                    doAppLookup: jest.fn().mockResolvedValue(response),
                 },
             };
 
@@ -141,7 +141,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 'My search',
             );
 
-            expect(props.actions.doAppCall).toHaveBeenCalledWith({
+            expect(props.actions.doAppLookup).toHaveBeenCalledWith({
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
@@ -159,7 +159,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            }, 'lookup', expect.any(Object));
+            }, expect.any(Object));
 
             expect(result).toEqual(response);
         });

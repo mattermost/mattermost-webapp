@@ -12,9 +12,9 @@ import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {DoAppSubmit, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
@@ -31,7 +31,7 @@ type Props = {
     post: Post;
     binding: AppBinding;
     actions: {
-        doAppCall: DoAppCall;
+        doAppSubmit: DoAppSubmit;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
         openAppsModal: (form: AppForm, call: AppCallRequest) => void;
@@ -97,7 +97,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             return;
         }
 
-        const call = binding.form?.call || binding.call;
+        const call = binding.form?.submit;
         if (!call) {
             return;
         }
@@ -130,7 +130,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             return;
         }
 
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.doAppSubmit(callRequest, intl);
 
         if (res.error) {
             const errorResponse = res.error;

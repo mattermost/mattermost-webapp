@@ -4,7 +4,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no binding, 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -57,7 +57,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no bindings 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -110,7 +110,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -163,7 +163,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -216,7 +216,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -301,7 +301,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding,
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -381,7 +381,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -463,7 +463,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -568,7 +568,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -647,7 +647,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -725,7 +725,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -801,7 +801,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -904,7 +904,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }
@@ -978,7 +978,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "doAppSubmit": [MockFunction],
       "openAppsModal": [MockFunction],
     }
   }

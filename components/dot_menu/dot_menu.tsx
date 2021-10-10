@@ -9,12 +9,12 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {DoAppSubmit, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -97,9 +97,9 @@ type Props = {
         markPostAsUnread: (post: Post, location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string) => void;
 
         /**
-         * Function to perform an app call
+         * Function to perform an app's submit form call
          */
-        doAppCall: DoAppCall;
+        doAppSubmit: DoAppSubmit;
 
         /**
          * Function to post the ephemeral message for a call response
@@ -349,7 +349,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             return;
         }
 
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.doAppSubmit(callRequest, intl);
 
         if (res.error) {
             const errorResponse = res.error;

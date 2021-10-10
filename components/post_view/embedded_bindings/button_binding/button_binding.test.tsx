@@ -40,7 +40,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         userId: 'user_id',
         binding,
         actions: {
-            doAppCall: jest.fn().mockResolvedValue({
+            doAppSubmit: jest.fn().mockResolvedValue({
                 data: callResponse,
             }),
             getChannel: jest.fn().mockResolvedValue({
@@ -59,7 +59,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call doAppCall on click', async () => {
+    test('should call doAppSubmit on click', async () => {
         const props = {
             ...baseProps,
             intl: {} as any,
@@ -69,7 +69,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         await wrapper.instance().handleClick();
 
         expect(baseProps.actions.getChannel).toHaveBeenCalledWith('some_channel_id');
-        expect(baseProps.actions.doAppCall).toHaveBeenCalledWith({
+        expect(baseProps.actions.doAppSubmit).toHaveBeenCalledWith({
             context: {
                 app_id: 'some_app_id',
                 channel_id: 'some_channel_id',
@@ -86,7 +86,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
             raw_command: undefined,
             selected_field: undefined,
             values: undefined,
-        }, 'submit', {});
+        }, {});
 
         expect(baseProps.actions.postEphemeralCallResponseForPost).toHaveBeenCalledWith(callResponse, 'Nice job!', post);
     });
@@ -103,7 +103,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         const props = {
             ...baseProps,
             actions: {
-                doAppCall: jest.fn().mockResolvedValue({
+                doAppSubmit: jest.fn().mockResolvedValue({
                     error: errorCallResponse,
                 }),
                 getChannel: jest.fn().mockResolvedValue({

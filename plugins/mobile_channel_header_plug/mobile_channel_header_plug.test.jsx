@@ -39,7 +39,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -61,7 +61,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -89,7 +89,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -111,7 +111,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -133,7 +133,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -161,7 +161,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[testBinding, {...testBinding, app_id: 'app2'}]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -183,7 +183,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -205,7 +205,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -227,7 +227,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -250,7 +250,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -280,7 +280,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -302,7 +302,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -325,7 +325,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[testBinding, {...testBinding, app_id: 'app2'}]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -355,7 +355,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -388,7 +388,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    doAppSubmit: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -399,11 +399,11 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         expect(newTestPlug.action).toBeCalledWith(channel, channelMember);
     });
 
-    test('should call doAppCall on fireAppAction', () => {
+    test('should call doAppSubmit on fireAppAction', () => {
         const channel = {id: 'channel_id'};
         const channelMember = {id: 'channel_member_id'};
 
-        const doAppCall = jest.fn().mockResolvedValue({data: {type: AppCallResponseTypes.OK}});
+        const doAppSubmit = jest.fn().mockResolvedValue({data: {type: AppCallResponseTypes.OK}});
 
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
@@ -415,7 +415,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall,
+                    doAppSubmit,
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -430,7 +430,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const call = createCallRequest(testBinding.call, context);
 
         wrapper.instance().fireAppAction(testBinding);
-        expect(doAppCall).toHaveBeenCalledTimes(1);
-        expect(doAppCall).toBeCalledWith(call, AppCallTypes.SUBMIT, expect.anything());
+        expect(doAppSubmit).toHaveBeenCalledTimes(1);
+        expect(doAppSubmit).toBeCalledWith(call, AppCallTypes.SUBMIT, expect.anything());
     });
 });

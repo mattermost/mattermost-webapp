@@ -37,7 +37,7 @@ type Props = {
     appsEnabled: boolean;
     intl: IntlShape;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+        doAppSubmit: (call: AppCallRequest, intl: IntlShape) => Promise<ActionResult>;
         openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 }
@@ -129,7 +129,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
     }
 
     fireAppAction = async (binding: AppBinding) => {
-        const call = binding.form?.call || binding.call;
+        const call = binding.form?.submit;
         if (!call) {
             return;
         }
@@ -146,7 +146,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
             this.props.actions.openAppsModal(binding.form, callRequest);
             return;
         }
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppSubmit(callRequest, this.props.intl);
 
         const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id, '', callResp.app_metadata?.bot_user_id);

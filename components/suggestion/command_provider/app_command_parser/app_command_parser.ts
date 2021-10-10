@@ -9,6 +9,7 @@ import {
     AppsTypes,
     AppCallRequest,
     AppBinding,
+    AppCall,
     AppField,
     DoAppCallResult,
     AppLookupResponse,
@@ -24,13 +25,14 @@ import {
 
     AppBindingLocations,
     AppCallResponseTypes,
-    AppCallTypes,
     AppFieldTypes,
     makeAppBindingsSelector,
     selectChannel,
     getChannel,
     getCurrentTeamId,
-    doAppCall,
+    doAppSubmit,
+    doAppFetchForm,
+    doAppLookup,
     getStore,
     EXECUTE_CURRENT_COMMAND_ITEM_ID,
     COMMAND_SUGGESTION_ERROR,
@@ -91,7 +93,7 @@ export enum ParseState {
 }
 
 interface FormsCache {
-    getForm: (location: string, binding: AppBinding) => Promise<{form?: AppForm; error?: string} | undefined>;
+    getSubmittableForm: (location: string, binding: AppBinding) => Promise<{form?: AppForm; error?: string} | undefined>;
 }
 
 interface Intl {
@@ -113,7 +115,7 @@ export class ParsedCommand {
     incomplete = '';
     incompleteStart = 0;
     binding: AppBinding | undefined;
-    form: AppForm | undefined;
+    resolvedForm: AppForm | undefined;
     formsCache: FormsCache;
     field: AppField | undefined;
     position = 0;
@@ -258,13 +260,13 @@ export class ParsedCommand {
         }
 
         if (!this.binding.bindings?.length) {
-            this.form = this.binding?.form;
-            if (!this.form) {
-                const fetched = await this.formsCache.getForm(this.location, this.binding);
+            this.resolvedForm = this.binding?.form;
+            if (!this.resolvedForm || !this.resolvedForm.submit) {
+                const fetched = await this.formsCache.getSubmittableForm(this.location, this.binding);
                 if (fetched?.error) {
                     return this.asError(fetched.error);
                 }
-                this.form = fetched?.form;
+                this.resolvedForm = fetched?.form;
             }
         }
 
@@ -273,13 +275,13 @@ export class ParsedCommand {
 
     // parseForm parses the rest of the command using the previously matched form.
     public parseForm = (autocompleteMode = false): ParsedCommand => {
-        if (this.state === ParseState.Error || !this.form) {
+        if (this.state === ParseState.Error || !this.resolvedForm) {
             return this;
         }
 
         let fields: AppField[] = [];
-        if (this.form.fields) {
-            fields = this.form.fields;
+        if (this.resolvedForm.fields) {
+            fields = this.resolvedForm.fields;
         }
 
         fields = fields.filter((f) => f.type !== AppFieldTypes.MARKDOWN && !f.readonly);
@@ -855,13 +857,13 @@ export class AppCommandParser {
         this.intl = intl;
     }
 
-    // composeCallFromCommand creates the form submission call
-    public composeCallFromCommand = async (command: string): Promise<{call: AppCallRequest | null; errorMessage?: string}> => {
+    // composeCommandSubmitCall creates the form submission call
+    public composeCommandSubmitCall = async (command: string): Promise<{creq: AppCallRequest | null; errorMessage?: string}> => {
         let parsed = new ParsedCommand(command, this, this.intl);
 
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
-            return {call: null,
+            return {creq: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.parser.no_bindings',
                     defaultMessage: 'No command bindings.',
@@ -871,7 +873,7 @@ export class AppCommandParser {
         parsed = await parsed.matchBinding(commandBindings, false);
         parsed = parsed.parseForm(false);
         if (parsed.state === ParseState.Error) {
-            return {call: null, errorMessage: parserErrorMessage(this.intl, parsed.error, parsed.command, parsed.i)};
+            return {creq: null, errorMessage: parserErrorMessage(this.intl, parsed.error, parsed.command, parsed.i)};
         }
 
         await this.addDefaultAndReadOnlyValues(parsed);
@@ -879,7 +881,7 @@ export class AppCommandParser {
         const missing = this.getMissingFields(parsed);
         if (missing.length > 0) {
             const missingStr = missing.map((f) => f.label).join(', ');
-            return {call: null,
+            return {creq: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.command.field_missing',
                     defaultMessage: 'Required fields missing: `{fieldName}`.',
@@ -888,15 +890,22 @@ export class AppCommandParser {
                 })};
         }
 
-        return this.composeCallFromParsed(parsed);
+        const {creq, errorMessage} = await this.composeCallRequest(parsed, parsed.resolvedForm?.submit);
+        if (errorMessage) {
+            return {creq: null, errorMessage};
+        }
+        if (creq) {
+            creq.context.track_as_submit = true;
+        }
+        return {creq};
     }
 
     private async addDefaultAndReadOnlyValues(parsed: ParsedCommand) {
-        if (!parsed.form?.fields) {
+        if (!parsed.resolvedForm?.fields) {
             return;
         }
 
-        await Promise.all(parsed.form?.fields.map(async (f) => {
+        await Promise.all(parsed.resolvedForm?.fields.map(async (f) => {
             if (!f.value) {
                 return;
             }
@@ -999,7 +1008,7 @@ export class AppCommandParser {
             suggestions = this.getCommandSuggestions(parsed);
         }
 
-        if (parsed.form || parsed.incomplete) {
+        if (parsed.resolvedForm || parsed.incomplete) {
             parsed = parsed.parseForm(true);
             if (parsed.state === ParseState.Error) {
                 suggestions = this.getErrorSuggestion(parsed);
@@ -1017,7 +1026,7 @@ export class AppCommandParser {
             ParseState.ParameterSeparator,
             ParseState.EndValue,
         ];
-        const call = parsed.form?.call || parsed.binding?.call || parsed.binding?.form?.call;
+        const call = parsed.resolvedForm?.submit || parsed.binding?.form?.submit;
         const hasRequired = this.getMissingFields(parsed).length === 0;
         const hasValue = (parsed.state !== ParseState.EndValue || (parsed.field && parsed.values[parsed.field.name] !== undefined));
 
@@ -1058,43 +1067,40 @@ export class AppCommandParser {
         }];
     }
 
-    // composeCallFromParsed creates the form submission call
-    private composeCallFromParsed = async (parsed: ParsedCommand): Promise<{call: AppCallRequest | null; errorMessage?: string}> => {
+    // composeCallRequest creates the form submission call
+    private composeCallRequest = async (parsed: ParsedCommand, call: AppCall | undefined): Promise<{creq: AppCallRequest | null; errorMessage?: string}> => {
         if (!parsed.binding) {
-            return {call: null,
+            return {creq: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.parser.missing_binding',
                     defaultMessage: 'Missing command bindings.',
                 })};
         }
-
-        const call = parsed.form?.call || parsed.binding.call;
         if (!call) {
-            return {call: null,
+            return {creq: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.parser.missing_call',
-                    defaultMessage: 'Missing binding call.',
+                    defaultMessage: 'No submittable form in binding.',
                 })};
         }
 
         const values: AppCallValues = parsed.values;
         const {errorMessage} = await this.expandOptions(parsed, values);
-
         if (errorMessage) {
-            return {call: null, errorMessage};
+            return {creq: null, errorMessage};
         }
 
         const context = this.getAppContext(parsed.binding);
-        return {call: createCallRequest(call, context, {}, values, parsed.command)};
+        return {creq: createCallRequest(call, context, {}, values, parsed.command)};
     }
 
     private expandOptions = async (parsed: ParsedCommand, values: AppCallValues): Promise<{errorMessage?: string}> => {
-        if (!parsed.form?.fields) {
+        if (!parsed.resolvedForm?.fields) {
             return {};
         }
 
         const errors: {[key: string]: string} = {};
-        await Promise.all(parsed.form.fields.map(async (f) => {
+        await Promise.all(parsed.resolvedForm.fields.map(async (f) => {
             if (!values[f.name]) {
                 return;
             }
@@ -1400,7 +1406,7 @@ export class AppCommandParser {
 
     // fetchForm unconditionaly retrieves the form for the given binding (subcommand)
     private fetchForm = async (binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
-        if (!binding.call) {
+        if (!binding.form || !binding.form.source) {
             return {error: this.intl.formatMessage({
                 id: 'apps.error.parser.missing_call',
                 defaultMessage: 'Missing binding call.',
@@ -1408,11 +1414,11 @@ export class AppCommandParser {
         }
 
         const payload = createCallRequest(
-            binding.call,
+            binding.form.source,
             this.getAppContext(binding),
         );
 
-        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM, this.intl)) as DoAppCallResult;
+        const res = await this.store.dispatch(doAppFetchForm(payload, this.intl)) as DoAppCallResult;
         if (res.error) {
             const errorResponse = res.error;
             return {error: errorResponse.error || this.intl.formatMessage({
@@ -1442,15 +1448,22 @@ export class AppCommandParser {
             })};
         }
 
+        if (!callResponse.form?.submit) {
+            return {error: this.intl.formatMessage({
+                id: 'apps.error.parser.missing_call',
+                defaultMessage: 'Missing binding call.',
+            })};
+        }
+
         return {form: callResponse.form};
     }
 
-    public getForm = async (location: string, binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
+    public getSubmittableForm = async (location: string, binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
         const rootID = this.rootPostID || '';
         const key = `${this.channelID}-${rootID}-${location}`;
-        const form = this.rootPostID ? getAppRHSCommandForm(this.store.getState(), key) : getAppCommandForm(this.store.getState(), key);
-        if (form) {
-            return {form};
+        const submittableForm = this.rootPostID ? getAppRHSCommandForm(this.store.getState(), key) : getAppCommandForm(this.store.getState(), key);
+        if (submittableForm) {
+            return {form: submittableForm};
         }
 
         const fetched = await this.fetchForm(binding);
@@ -1504,7 +1517,7 @@ export class AppCommandParser {
         switch (parsed.state) {
         case ParseState.StartParameter: {
             // see if there's a matching positional field
-            const positional = parsed.form?.fields?.find((f: AppField) => f.position === parsed.position + 1);
+            const positional = parsed.resolvedForm?.fields?.find((f: AppField) => f.position === parsed.position + 1);
             if (positional) {
                 parsed.field = positional;
                 return this.getValueSuggestions(parsed);
@@ -1579,7 +1592,7 @@ export class AppCommandParser {
 
     // getMissingFields collects the required fields that were not supplied in a submission
     private getMissingFields = (parsed: ParsedCommand): AppField[] => {
-        const form = parsed.form;
+        const form = parsed.resolvedForm;
         if (!form) {
             return [];
         }
@@ -1599,7 +1612,7 @@ export class AppCommandParser {
 
     // getFlagNameSuggestions returns suggestions for flag names
     private getFlagNameSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        if (!parsed.form || !parsed.form.fields || !parsed.form.fields.length) {
+        if (!parsed.resolvedForm || !parsed.resolvedForm.fields || !parsed.resolvedForm.fields.length) {
             return [];
         }
 
@@ -1609,7 +1622,7 @@ export class AppCommandParser {
             prefix = prefix.substring(1);
         }
 
-        const applicable = parsed.form.fields.filter((field) => field.label && field.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()) && !parsed.values[field.name]);
+        const applicable = parsed.resolvedForm.fields.filter((field) => field.label && field.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()) && !parsed.values[field.name]);
         if (applicable) {
             return applicable.map((f) => {
                 return {
@@ -1710,8 +1723,8 @@ export class AppCommandParser {
             }));
         }
 
-        const {call, errorMessage} = await this.composeCallFromParsed(parsed);
-        if (!call) {
+        const {creq, errorMessage} = await this.composeCallRequest(parsed, f.lookup);
+        if (!creq) {
             return this.makeDynamicSelectSuggestionError(this.intl.formatMessage({
                 id: 'apps.error.lookup.error_preparing_request',
                 defaultMessage: 'Error preparing lookup request: {errorMessage}',
@@ -1719,10 +1732,10 @@ export class AppCommandParser {
                 errorMessage,
             }));
         }
-        call.selected_field = f.name;
-        call.query = parsed.incomplete;
+        creq.selected_field = f.name;
+        creq.query = parsed.incomplete;
 
-        const res = await this.store.dispatch(doAppCall(call, AppCallTypes.LOOKUP, this.intl)) as DoAppCallResult<AppLookupResponse>;
+        const res = await this.store.dispatch(doAppLookup(creq, this.intl)) as DoAppCallResult<AppLookupResponse>;
 
         if (res.error) {
             const errorResponse = res.error;

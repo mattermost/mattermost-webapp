@@ -5,10 +5,10 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppField, AppForm, AppFormValues, AppCallRequest, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
-import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppCall, AppField, AppForm, AppFormValues, AppCallRequest, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppCall, DoAppCallResult, PostEphemeralCallResponseForContext} from 'types/apps';
+import {DoAppSubmit, DoAppFetchForm, DoAppLookup, DoAppCallResult, PostEphemeralCallResponseForContext} from 'types/apps';
 import {makeCallErrorResponse} from 'utils/apps';
 
 import AppsForm from './apps_form_component';
@@ -16,10 +16,12 @@ import AppsForm from './apps_form_component';
 type Props = {
     intl: IntlShape;
     form?: AppForm;
-    call?: AppCallRequest;
+    creq?: AppCallRequest;
     onHide: () => void;
     actions: {
-        doAppCall: DoAppCall<any>;
+        doAppSubmit: DoAppSubmit<any>;
+        doAppFetchForm: DoAppFetchForm<any>;
+        doAppLookup: DoAppLookup<any>;
         postEphemeralCallResponseForContext: PostEphemeralCallResponseForContext;
     };
 };
@@ -51,16 +53,16 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             return {error: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
 
-        const call = this.getCall();
-        if (!call) {
+        const creq = this.getCall(form.submit);
+        if (!creq) {
             const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_call', defaultMessage: '`call` is not defined'});
             return {error: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
 
-        const res = await this.props.actions.doAppCall({
-            ...call,
+        const res = await this.props.actions.doAppSubmit({
+            ...creq,
             values: submission.values,
-        }, AppCallTypes.SUBMIT, this.props.intl) as DoAppCallResult<FormResponseData>;
+        }, this.props.intl) as DoAppCallResult<FormResponseData>;
 
         if (res.error) {
             return res;
@@ -73,7 +75,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
                 this.props.actions.postEphemeralCallResponseForContext(
                     callResp,
                     callResp.markdown,
-                    call.context,
+                    creq.context,
                 );
             }
             break;
@@ -110,8 +112,8 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             })))};
         }
 
-        const call = this.getCall();
-        if (!call) {
+        const creq = this.getCall(form.source);
+        if (!creq) {
             return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
                 id: 'apps.error.form.no_call',
                 defaultMessage: '`call` is not defined.',
@@ -126,11 +128,11 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             })))};
         }
 
-        const res = await this.props.actions.doAppCall({
-            ...call,
+        const res = await this.props.actions.doAppFetchForm({
+            ...creq,
             selected_field: field.name,
             values,
-        }, AppCallTypes.FORM, this.props.intl);
+        }, this.props.intl);
 
         if (res.error) {
             return res;
@@ -171,7 +173,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             },
             {details: message},
         );
-        const call = this.getCall();
+        const call = this.getCall(field.lookup);
         if (!call) {
             return {error: makeCallErrorResponse(makeErrorMsg(intl.formatMessage({
                 id: 'apps.error.form.no_call',
@@ -179,27 +181,25 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             })))};
         }
 
-        return this.props.actions.doAppCall({
+        return this.props.actions.doAppLookup({
             ...call,
             values,
             selected_field: field.name,
             query: userInput,
-        }, AppCallTypes.LOOKUP, intl);
+        }, intl);
     }
 
-    getCall = (): AppCallRequest | null => {
-        const {form} = this.state;
-
-        const {call} = this.props;
-        if (!call) {
+    getCall = (call: AppCall | undefined): AppCallRequest | null => {
+        const {creq} = this.props;
+        if (!creq || !call) {
             return null;
         }
 
         return {
+            ...creq,
             ...call,
-            ...form?.call,
             expand: {
-                ...form?.call?.expand,
+                ...creq.expand,
                 ...call.expand,
             },
         };
@@ -210,13 +210,8 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const call = this.getCall();
-        if (!call) {
-            return null;
-        }
-
         const {form} = this.state;
-        if (!form) {
+        if (!form || !this.getCall(form.submit)) {
             return null;
         }
 

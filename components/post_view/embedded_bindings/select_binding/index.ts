@@ -8,16 +8,18 @@ import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {getChannel} from 'mattermost-redux/actions/channels';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {DoAppSubmit, DoAppFetchForm, DoAppLookup, PostEphemeralCallResponseForPost} from 'types/apps';
 
-import {doAppCall, openAppsModal, postEphemeralCallResponseForPost} from 'actions/apps';
+import {doAppSubmit, doAppFetchForm, doAppLookup, openAppsModal, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 
 import SelectBinding from './select_binding';
 
 type Actions = {
-    doAppCall: DoAppCall;
+    doAppSubmit: DoAppSubmit;
+    doAppFetchForm: DoAppFetchForm;
+    doAppLookup: DoAppLookup;
     getChannel: (channelId: string) => Promise<ActionResult>;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     openAppsModal: (form: AppForm, call: AppCallRequest) => void;
@@ -26,7 +28,9 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            doAppCall,
+            doAppSubmit,
+            doAppFetchForm,
+            doAppLookup,
             getChannel,
             postEphemeralCallResponseForPost,
             openAppsModal,

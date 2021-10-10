@@ -21,24 +21,25 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
     const binding = {
         app_id: 'some_app_id',
         location: '/some_location',
-        call: {
-            path: 'some_url',
-        },
         bindings: [
             {
                 app_id: 'some_app_id',
                 label: 'Option 1',
                 location: 'option1',
-                call: {
-                    path: 'some_url_1',
+                form: {
+                    submit: {
+                        path: 'some_url_1',
+                    },
                 },
             },
             {
                 app_id: 'some_app_id',
                 label: 'Option 2',
                 location: 'option2',
-                call: {
-                    path: 'some_url_2',
+                form: {
+                    submit: {
+                        path: 'some_url_2',
+                    },
                 },
             },
         ] as AppBinding[],
@@ -57,7 +58,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
         userId: 'user_id',
         binding,
         actions: {
-            doAppCall: jest.fn().mockResolvedValue({
+            doAppSubmit: jest.fn().mockResolvedValue({
                 data: callResponse,
             }),
             getChannel: jest.fn().mockResolvedValue({
@@ -78,11 +79,11 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
     });
 
     describe('handleSelected', () => {
-        test('should should call doAppCall', async () => {
+        test('should should call doAppSubmit', async () => {
             const props = {
                 ...baseProps,
                 actions: {
-                    doAppCall: jest.fn().mockResolvedValue({
+                    doAppSubmit: jest.fn().mockResolvedValue({
                         data: {
                             type: 'ok',
                             markdown: 'Nice job!',
@@ -111,7 +112,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
             });
 
             expect(props.actions.getChannel).toHaveBeenCalledWith('some_channel_id');
-            expect(props.actions.doAppCall).toHaveBeenCalledWith({
+            expect(props.actions.doAppSubmit).toHaveBeenCalledWith({
                 context: {
                     app_id: 'some_app_id',
                     channel_id: 'some_channel_id',
@@ -128,7 +129,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                 raw_command: undefined,
                 selected_field: undefined,
                 values: undefined,
-            }, 'submit', {});
+            }, {});
 
             expect(props.actions.postEphemeralCallResponseForPost).toHaveBeenCalledWith(callResponse, 'Nice job!', post);
         });
@@ -146,7 +147,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
         const props = {
             ...baseProps,
             actions: {
-                doAppCall: jest.fn().mockResolvedValue({
+                doAppSubmit: jest.fn().mockResolvedValue({
                     error: errorResponse,
                 }),
                 getChannel: jest.fn().mockResolvedValue({

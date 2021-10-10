@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 export type {
+    AppCall,
     AppCallRequest,
     AppCallValues,
     AppBinding,
@@ -48,7 +49,6 @@ export type {
 
 export {
     AppBindingLocations,
-    AppCallTypes,
     AppFieldTypes,
     AppCallResponseTypes,
 } from 'mattermost-redux/constants/apps';
@@ -65,7 +65,7 @@ export {getUserByUsername as selectUserByUsername, getUser as selectUser} from '
 export {getUserByUsername, getUser} from 'mattermost-redux/actions/users';
 export {getChannelByNameAndTeamName, getChannel, autocompleteChannels} from 'mattermost-redux/actions/channels';
 
-export {doAppCall} from 'actions/apps';
+export {doAppSubmit, doAppFetchForm, doAppLookup} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
 export {
