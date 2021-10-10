@@ -246,7 +246,6 @@ export const getPlanDetailElements = (
     userLimit: number,
     isPaidTier: boolean,
     product: Product,
-    aboveUserLimit: number,
 ) => {
     let planPricing;
     let planDetailsDescription;
@@ -256,17 +255,16 @@ export const getPlanDetailElements = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails_paidTier__planName'>
                     {`$${product.price_per_seat.toFixed(2)}`}
-                    {product.billing_scheme === BillingSchemes.FLAT_FEE ?
+                    {product.billing_scheme === BillingSchemes.FLAT_FEE ? (
                         <FormattedMessage
                             id='admin.billing.subscription.planDetails.flatFeePerMonth'
                             defaultMessage='/month (Unlimited Users). '
-                        /> :
+                        />
+                    ) : (
                         <FormattedMessage
                             id='admin.billing.subscription.planDetails.perUserPerMonth'
                             defaultMessage='/user/month. '
-                        />
-                    }
-
+                        />) }
                     {howBillingWorksLink}
                 </div>
             </div>
@@ -284,7 +282,7 @@ export const getPlanDetailElements = (
                 <div className='PlanDetails__planCaveat'>
                     <FormattedMarkdownMessage
                         id='admin.billing.subscription.planDetails.upToXUsers'
-                        defaultMessage='up to {userLimit} users'
+                        defaultMessage='up to {userLimit} users, until January 31st, 2022'
                         values={{userLimit}}
                     />
                 </div>
@@ -293,16 +291,21 @@ export const getPlanDetailElements = (
         planDetailsDescription = (
             <div className='PlanDetails__description'>
                 <div className='PlanDetails__planDetailsName'>
-                    {`$${product.price_per_seat.toFixed(2)}`}
-                </div>
-                <div className='PlanDetails__planDetailsName'>
                     <FormattedMessage
                         id='admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers'
-                        defaultMessage='/user/month for {aboveUserLimit} or more users.'
-                        values={{aboveUserLimit}}
+                        defaultMessage='Add your payment information to continue after January 31st.'
                     />
                 </div>
-                {howBillingWorksLink}
+                <a
+                    target='_new'
+                    rel='noopener noreferrer'
+                    href={CloudLinks.PRICING}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.planDetails.seeOurPlans'
+                        defaultMessage='See our plans'
+                    />
+                </a>
             </div>
         );
     }
