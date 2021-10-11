@@ -194,7 +194,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         }
         let title = t('admin.billing.subscription.upgradedSuccess');
         const isFirstPurchase = Boolean(!(this.props.preferences.some((pref: PreferenceType) =>
-            pref.name === Unique.HAS_CLOUD_PURCHASE && pref.value === 'true'))
+            pref.name === Unique.HAS_CLOUD_PURCHASE && pref.value === 'true')),
         );
         if (isFirstPurchase) {
             title = t('admin.billing.subscription.firstPurchaseSuccess');
