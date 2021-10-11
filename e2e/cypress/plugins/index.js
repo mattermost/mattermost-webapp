@@ -12,7 +12,6 @@ const {
 } = require('./db_request');
 const externalRequest = require('./external_request');
 const {fileExist, writeToFile} = require('./file_util');
-const getPdfContent = require('./get_pdf_content');
 const getRecentEmail = require('./get_recent_email');
 const keycloakRequest = require('./keycloak_request');
 const oktaRequest = require('./okta_request');
@@ -37,7 +36,6 @@ module.exports = (on, config) => {
         externalRequest,
         fileExist,
         writeToFile,
-        getPdfContent,
         getRecentEmail,
         keycloakRequest,
         log,
