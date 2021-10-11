@@ -7,13 +7,13 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
 
-import ProductSwitcherMenu, {Props as ProductSwitcherMenuProps} from './product_switcher_menu';
+import ProductMenuList, {Props as ProductMenuListProps} from './product_menu_list';
 
 describe('components/global/product_switcher_menu', () => {
     // Neccessary for components enhanced by HOCs due to issue with enzyme.
     // See https://github.com/enzymejs/enzyme/issues/539
-    const getMenuWrapper = (props: ProductSwitcherMenuProps) => {
-        const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
+    const getMenuWrapper = (props: ProductMenuListProps) => {
+        const wrapper = shallowWithIntl(<ProductMenuList {...props}/>);
         return wrapper.find('MenuGroup').shallow();
     };
 
@@ -22,9 +22,8 @@ describe('components/global/product_switcher_menu', () => {
         username: 'username',
     });
 
-    const defaultProps: ProductSwitcherMenuProps = {
+    const defaultProps: ProductMenuListProps = {
         isMobile: false,
-        id: '',
         teamId: '',
         teamName: '',
         siteName: '',
@@ -43,13 +42,13 @@ describe('components/global/product_switcher_menu', () => {
 
     test('should match snapshot with id', () => {
         const props = {...defaultProps, id: 'product-switcher-menu-test'};
-        const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
+        const wrapper = shallowWithIntl(<ProductMenuList {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should not render if the user is not logged in', () => {
         const props = {...defaultProps, currentUser: undefined as unknown as UserProfile};
-        const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
+        const wrapper = shallowWithIntl(<ProductMenuList {...props}/>);
         expect(wrapper.type()).toEqual(null);
     });
 
@@ -64,21 +63,21 @@ describe('components/global/product_switcher_menu', () => {
             canManageIntegrations: true,
             enablePluginMarketplace: true,
         };
-        const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
+        const wrapper = shallowWithIntl(<ProductMenuList {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     describe('should show integrations', () => {
         it('when incoming webhooks enabled', () => {
             const props = {...defaultProps, enableIncomingWebhooks: true};
-            const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
+            const wrapper = shallowWithIntl(<ProductMenuList {...props}/>);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(true);
         });
 
         it('when outgoing webhooks enabled', () => {
             const props = {...defaultProps, enableOutgoingWebhooks: true};
-            const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
+            const wrapper = shallowWithIntl(<ProductMenuList {...props}/>);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(true);
         });

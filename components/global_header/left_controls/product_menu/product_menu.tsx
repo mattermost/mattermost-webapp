@@ -93,7 +93,6 @@ const ProductMenu = (): JSX.Element => {
                     />
                     {productItems}
                     <ProductMenuList
-                        id='ProductMenuList'
                         isMessaging={currentProductID === null}
                         onClick={handleClick}
                     />

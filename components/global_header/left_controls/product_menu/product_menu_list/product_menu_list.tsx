@@ -2,14 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import * as GlobalActions from 'actions/global_actions';
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -22,7 +21,6 @@ import * as UserAgent from 'utils/user_agent';
 
 export type Props = {
     isMobile: boolean;
-    id: string;
     teamId: string;
     teamName: string;
     siteName: string;
@@ -39,120 +37,116 @@ export type Props = {
     onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
-type PropsWithIntl = Props & {
-    intl: IntlShape;
-}
+const ProductMenuList = ({
+    teamId,
+    teamName,
+    siteName,
+    currentUser,
+    appDownloadLink,
+    isMessaging,
+    enableCommands,
+    enableIncomingWebhooks,
+    enableOAuthServiceProvider,
+    enableOutgoingWebhooks,
+    canManageSystemBots,
+    canManageIntegrations,
+    enablePluginMarketplace,
+    onClick,
+    isMobile = false,
+}: Props): JSX.Element | null => {
+    const {formatMessage} = useIntl();
 
-// TODO: rewrite this to a functional component
-class ProductMenuList extends React.PureComponent<PropsWithIntl> {
-    static defaultProps = {
-        teamType: '',
-        isMobile: false,
-    };
-
-    handleEmitUserLoggedOutEvent = () => {
-        GlobalActions.emitUserLoggedOutEvent();
+    if (!currentUser) {
+        return null;
     }
 
-    render() {
-        const {currentUser, isMessaging, isMobile, onClick} = this.props;
+    const someIntegrationEnabled = enableIncomingWebhooks || enableOutgoingWebhooks || enableCommands || enableOAuthServiceProvider || canManageSystemBots;
+    const showIntegrations = !isMobile && someIntegrationEnabled && canManageIntegrations;
 
-        if (!currentUser) {
-            return null;
-        }
-
-        const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
-        const showIntegrations = !isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
-
-        const {formatMessage} = this.props.intl;
-
-        return (
-            <Menu.Group>
-                <div onClick={onClick}>
-                    <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
-                        <Menu.CloudTrial
-                            id='menuCloudTrial'
-                        />
-                    </SystemPermissionGate>
-                    <SystemPermissionGate
-                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
-                    >
-                        <Menu.StartTrial
-                            id='startTrial'
-                        />
-                    </SystemPermissionGate>
-                    <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
-                        <Menu.ItemLink
-                            id='systemConsole'
-                            show={!isMobile}
-                            to='/admin_console'
-                            text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'application-cog'}
-                                />
-                            }
-                        />
-                    </SystemPermissionGate>
+    return (
+        <Menu.Group>
+            <div onClick={onClick}>
+                <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
+                    <Menu.CloudTrial id='menuCloudTrial'/>
+                </SystemPermissionGate>
+                <SystemPermissionGate
+                    permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
+                >
+                    <Menu.StartTrial
+                        id='startTrial'
+                    />
+                </SystemPermissionGate>
+                <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                     <Menu.ItemLink
-                        id='integrations'
-                        show={isMessaging && showIntegrations}
-                        to={'/' + this.props.teamName + '/integrations'}
-                        text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                        id='systemConsole'
+                        show={!isMobile}
+                        to='/admin_console'
+                        text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
                         icon={
                             <Icon
                                 size={16}
-                                glyph={'webhook-incoming'}
+                                glyph={'application-cog'}
                             />
                         }
                     />
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='marketplaceModal'
-                            modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
-                            show={isMessaging && !isMobile && this.props.enablePluginMarketplace}
-                            dialogType={MarketplaceModal}
-                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'apps'}
-                                />
-                            }
+                </SystemPermissionGate>
+                <Menu.ItemLink
+                    id='integrations'
+                    show={isMessaging && showIntegrations}
+                    to={'/' + teamName + '/integrations'}
+                    text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'webhook-incoming'}
                         />
-                    </TeamPermissionGate>
-                    <Menu.ItemExternalLink
-                        id='nativeAppLink'
-                        show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink)}
-                        text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
-                        icon={
-                            <Icon
-                                size={16}
-                                glyph={'download-outline'}
-                            />
-                        }
-                    />
+                    }
+                />
+                <TeamPermissionGate
+                    teamId={teamId}
+                    permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
+                >
                     <Menu.ItemToggleModalRedux
-                        id='about'
-                        modalId={ModalIdentifiers.ABOUT}
-                        dialogType={AboutBuildModal}
-                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
+                        id='marketplaceModal'
+                        modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
+                        show={isMessaging && !isMobile && enablePluginMarketplace}
+                        dialogType={MarketplaceModal}
+                        text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                         icon={
                             <Icon
                                 size={16}
-                                glyph={'information-outline'}
+                                glyph={'apps'}
                             />
                         }
                     />
-                </div>
-            </Menu.Group>
-        );
-    }
-}
+                </TeamPermissionGate>
+                <Menu.ItemExternalLink
+                    id='nativeAppLink'
+                    show={appDownloadLink && !UserAgent.isMobileApp()}
+                    url={useSafeUrl(appDownloadLink)}
+                    text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'download-outline'}
+                        />
+                    }
+                />
+                <Menu.ItemToggleModalRedux
+                    id='about'
+                    modalId={ModalIdentifiers.ABOUT}
+                    dialogType={AboutBuildModal}
+                    text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: siteName})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'information-outline'}
+                        />
+                    }
+                />
+            </div>
+        </Menu.Group>
+    );
+};
 
-export default injectIntl(ProductMenuList);
+export default ProductMenuList;

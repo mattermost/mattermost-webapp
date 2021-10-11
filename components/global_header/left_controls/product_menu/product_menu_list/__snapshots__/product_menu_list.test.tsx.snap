@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/global/product_switcher_menu should match snapshot with id 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "defaultRichTextElements": undefined,
+      "formatDate": [Function],
+      "formatDateTimeRange": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatListToParts": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": Symbol(react.fragment),
+      "timeZone": undefined,
+      "wrapRichTextChunksInFragment": undefined,
+    }
+  }
+>
+  <ProductMenuList
+    appDownloadLink="test–link"
+    canManageIntegrations={true}
+    canManageSystemBots={false}
+    currentUser={
+      Object {
+        "allow_marketing": false,
+        "auth_data": "",
+        "auth_service": "",
+        "bot_description": "",
+        "bot_last_icon_update": 0,
+        "create_at": 0,
+        "delete_at": 0,
+        "email": "",
+        "email_verified": true,
+        "failed_attempts": 0,
+        "first_name": "",
+        "id": "test-user-id",
+        "is_bot": false,
+        "last_activity_at": 0,
+        "last_name": "",
+        "last_password_update": 0,
+        "last_picture_update": 0,
+        "locale": "",
+        "mfa_active": false,
+        "mfa_secret": "",
+        "nickname": "",
+        "notify_props": Object {
+          "channel": "false",
+          "comments": "never",
+          "desktop": "default",
+          "desktop_sound": "false",
+          "email": "false",
+          "first_name": "false",
+          "mark_unread": "mention",
+          "mention_keys": "",
+          "push": "none",
+          "push_status": "offline",
+        },
+        "password": "",
+        "position": "",
+        "props": Object {},
+        "roles": "",
+        "terms_of_service_create_at": 0,
+        "terms_of_service_id": "",
+        "update_at": 0,
+        "username": "username",
+      }
+    }
+    enableCommands={false}
+    enableIncomingWebhooks={false}
+    enableOAuthServiceProvider={false}
+    enableOutgoingWebhooks={false}
+    enablePluginMarketplace={false}
+    id="product-switcher-menu-test"
+    isMessaging={true}
+    isMobile={false}
+    onClick={[Function]}
+    siteName=""
+    teamId=""
+    teamName=""
+  />
+</ContextProvider>
+`;
+
+exports[`components/global/product_switcher_menu should match snapshot with most of the thing enabled 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "defaultRichTextElements": undefined,
+      "formatDate": [Function],
+      "formatDateTimeRange": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatListToParts": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": Symbol(react.fragment),
+      "timeZone": undefined,
+      "wrapRichTextChunksInFragment": undefined,
+    }
+  }
+>
+  <ProductMenuList
+    appDownloadLink="test–link"
+    canManageIntegrations={true}
+    canManageSystemBots={true}
+    currentUser={
+      Object {
+        "allow_marketing": false,
+        "auth_data": "",
+        "auth_service": "",
+        "bot_description": "",
+        "bot_last_icon_update": 0,
+        "create_at": 0,
+        "delete_at": 0,
+        "email": "",
+        "email_verified": true,
+        "failed_attempts": 0,
+        "first_name": "",
+        "id": "test-user-id",
+        "is_bot": false,
+        "last_activity_at": 0,
+        "last_name": "",
+        "last_password_update": 0,
+        "last_picture_update": 0,
+        "locale": "",
+        "mfa_active": false,
+        "mfa_secret": "",
+        "nickname": "",
+        "notify_props": Object {
+          "channel": "false",
+          "comments": "never",
+          "desktop": "default",
+          "desktop_sound": "false",
+          "email": "false",
+          "first_name": "false",
+          "mark_unread": "mention",
+          "mention_keys": "",
+          "push": "none",
+          "push_status": "offline",
+        },
+        "password": "",
+        "position": "",
+        "props": Object {},
+        "roles": "",
+        "terms_of_service_create_at": 0,
+        "terms_of_service_id": "",
+        "update_at": 0,
+        "username": "username",
+      }
+    }
+    enableCommands={true}
+    enableIncomingWebhooks={true}
+    enableOAuthServiceProvider={true}
+    enableOutgoingWebhooks={true}
+    enablePluginMarketplace={true}
+    isMessaging={true}
+    isMobile={false}
+    onClick={[Function]}
+    siteName=""
+    teamId=""
+    teamName=""
+  />
+</ContextProvider>
+`;
