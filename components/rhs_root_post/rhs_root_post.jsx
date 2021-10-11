@@ -21,6 +21,7 @@ import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
+import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -29,6 +30,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -80,6 +82,10 @@ export default class RhsRootPost extends React.PureComponent {
         * true when Actions Menu is first time opened
          */
         firstTimeActionsMenuOpened: PropTypes.bool,
+        oneClickReactionsEnabled: PropTypes.bool,
+        recentEmojis: PropTypes.arrayOf(Emoji),
+
+        isExpanded: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -255,6 +261,21 @@ export default class RhsRootPost extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
+        let showRecentReacions;
+        if (showRecentlyUsedReactions) {
+            showRecentReacions = (
+                <PostRecentReactions
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    teamId={this.props.teamId}
+                    emojis={this.props.recentEmojis}
+                    getDotMenuRef={this.getDotMenuRef}
+                    size={this.props.isExpanded ? 3 : 1}
+                />
+            );
+        }
+
         let postReaction;
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
             postReaction = (
@@ -378,11 +399,12 @@ export default class RhsRootPost extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {!collapsedThreadsEnabled && dotMenu}
+                    {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
+                    {showRecentReacions}
                     {postReaction}
                     {postFlagIcon}
                     {actionsMenu}
-                    {collapsedThreadsEnabled && dotMenu}
+                    {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 </div>
             );
         }

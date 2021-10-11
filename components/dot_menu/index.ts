@@ -15,7 +15,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -128,7 +128,7 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             flagPost,
             unflagPost,
             setEditingPost,

@@ -16,7 +16,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
-import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
+import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {isEmbedVisible} from 'selectors/posts';
 import {getHighlightedPostId} from 'selectors/rhs';
 
@@ -59,6 +59,12 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const highlightedPostId = getHighlightedPostId(state);
     const firstTimeActionsMenuOpened = showActionsMenuPulsatingDot(state);
 
+    let emojis = [];
+    const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
+    if (oneClickReactionsEnabled) {
+        emojis = getOneClickReactionEmojis(state);
+    }
+
     return {
         enableEmojiPicker,
         enablePostUsernameOverride,
@@ -76,6 +82,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         shouldHighlight: highlightedPostId === ownProps.post.id,
+        oneClickReactionsEnabled,
+        recentEmojis: emojis,
+        isExpanded: state.views.rhs.isSidebarExpanded,
     };
 }
 

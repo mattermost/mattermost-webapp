@@ -47,6 +47,8 @@ describe('components/post_view/PostInfo', () => {
         shouldShowActionsMenu: true,
         isReadOnly: true,
         collapsedThreadsEnabled: false,
+        oneClickReactionsEnabled: false,
+        recentEmojis: [],
     };
 
     // test('should not show actions menu, plugins disabled', () => {

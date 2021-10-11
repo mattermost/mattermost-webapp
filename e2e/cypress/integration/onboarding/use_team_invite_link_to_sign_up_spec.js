@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -28,7 +29,7 @@ describe('Onboarding', () => {
         });
 
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Update config to require email verification and onboarding flow
         cy.apiUpdateConfig({
