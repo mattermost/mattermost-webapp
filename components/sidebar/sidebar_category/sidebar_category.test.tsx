@@ -33,12 +33,10 @@ describe('components/sidebar/sidebar_category', () => {
         limitVisibleDMsGMs: 10000,
         touchedInviteMembersButton: false,
         currentUserId: '',
-        totalUserCount: 10,
         actions: {
             setCategoryCollapsed: jest.fn(),
             setCategorySorting: jest.fn(),
             savePreferences: jest.fn(),
-            getTotalUsersStats: jest.fn(),
         },
     };
 
