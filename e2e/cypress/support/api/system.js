@@ -283,6 +283,14 @@ Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
     });
 });
 
+Cypress.Commands.add('shouldHaveEmailEnabled', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        if (!config.ExperimentalSettings.RestrictSystemAdmin) {
+            cy.apiEmailTest();
+        }
+    });
+});
+
 /**
  * Upload a license if it does not exist.
  */

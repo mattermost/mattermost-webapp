@@ -364,6 +364,7 @@ export const CloudProducts = {
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
+    LEGACY: 'cloud-legacy',
 };
 
 export const A11yClassNames = {

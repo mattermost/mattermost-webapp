@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {debounce} from 'lodash';
 
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -28,7 +27,6 @@ export type Props = {
     currentTeamName: string;
     searchTerm: string;
     users: UserProfile[];
-    statuses: RelationOneToOne<UserProfile, string>;
     totalCount: number;
 
     /*
@@ -50,7 +48,7 @@ export type Props = {
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
-        loadStatusesByIds: (userIds: string[]) => void;
+        loadProfilesMissingStatus: (users: UserProfile[]) => void;
         getTotalUsersStats: () => void;
         loadStatusesForProfilesList: (users: any) => {
             data: boolean;
@@ -110,7 +108,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     loadModalData = () => {
         this.getUserProfiles();
         this.props.actions.getTotalUsersStats();
-        this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
+        this.props.actions.loadProfilesMissingStatus(this.props.users);
     }
 
     updateFromProps(prevProps: Props) {
@@ -145,26 +143,14 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         }
 
         if (
-            prevProps.users.length !== this.props.users.length ||
-            Object.keys(prevProps.statuses).length !== Object.keys(this.props.statuses).length
+            prevProps.users.length !== this.props.users.length
         ) {
-            this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
+            this.props.actions.loadProfilesMissingStatus(this.props.users);
         }
     }
 
     componentDidUpdate(prevProps: Props) {
         this.updateFromProps(prevProps);
-    }
-
-    // TODO do this in an action so we're not passing in statuses
-    public loadProfilesMissingStatus = (users: UserProfile[] = [], statuses: RelationOneToOne<UserProfile, string> = {}) => {
-        const missingStatusByIds = users.
-            filter((user) => !statuses[user.id]).
-            map((user) => user.id);
-
-        if (missingStatusByIds.length > 0) {
-            this.props.actions.loadStatusesByIds(missingStatusByIds);
-        }
     }
 
     handleHide = () => {

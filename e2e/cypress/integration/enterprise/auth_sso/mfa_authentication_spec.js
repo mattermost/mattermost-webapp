@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @authentication @mfa
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -22,7 +23,7 @@ describe('Authentication', () => {
         cy.apiRequireLicenseForFeature('MFA');
 
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({user}) => {
             testUser = user;
