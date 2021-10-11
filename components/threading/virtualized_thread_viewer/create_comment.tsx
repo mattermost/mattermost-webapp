@@ -22,6 +22,7 @@ type Props = {
     teammate?: UserProfile;
     threadId: string;
     latestPostId: $ID<Post>;
+    isThreadView?: boolean;
 };
 
 const CreateComment = forwardRef<HTMLDivElement, Props>(({
@@ -35,6 +36,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
     teammate,
     threadId,
     latestPostId,
+    isThreadView,
 }: Props, ref) => {
     if (channelType === Constants.DM_CHANNEL && teammate?.delete_at) {
         return (
@@ -76,6 +78,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
                 onHeightChange={onHeightChange}
                 rootDeleted={isDeleted}
                 rootId={threadId}
+                isThreadView={isThreadView}
             />
         </div>
     );
