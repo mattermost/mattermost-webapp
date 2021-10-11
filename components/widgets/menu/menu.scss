@@ -136,4 +136,22 @@
             }
         }
     }
+
+    // global header style adjustments
+    > .product-switcher-menu {
+        .MenuItem {
+            .MenuItem__primary-text {
+                line-height: 26px;
+            }
+
+            a,
+            button {
+                padding: 0 20px;
+
+                .icon {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                }
+            }
+        }
+    }
 }

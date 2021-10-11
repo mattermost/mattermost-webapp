@@ -46,6 +46,8 @@ export interface ChannelDetailsProps {
     channelPermissions: ChannelPermissions[];
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
+    channelModerationEnabled: boolean;
+    channelGroupsEnabled: boolean;
     isDisabled?: boolean;
     actions: ChannelDetailsActions;
 }
@@ -701,15 +703,17 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     toPublic={isPublic}
                 />
 
-                <ChannelModeration
-                    channelPermissions={channelPermissions}
-                    onChannelPermissionsChanged={this.channelPermissionsChanged}
-                    teamSchemeID={teamScheme?.id}
-                    teamSchemeDisplayName={teamScheme?.display_name}
-                    guestAccountsEnabled={this.props.guestAccountsEnabled}
-                    isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
-                    readOnly={this.props.isDisabled}
-                />
+                {this.props.channelModerationEnabled &&
+                    <ChannelModeration
+                        channelPermissions={channelPermissions}
+                        onChannelPermissionsChanged={this.channelPermissionsChanged}
+                        teamSchemeID={teamScheme?.id}
+                        teamSchemeDisplayName={teamScheme?.display_name}
+                        guestAccountsEnabled={this.props.guestAccountsEnabled}
+                        isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
+                        readOnly={this.props.isDisabled}
+                    />
+                }
 
                 <RemoveConfirmModal
                     show={showRemoveConfirmModal}
@@ -736,17 +740,19 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     isDisabled={this.props.isDisabled}
                 />
 
-                <ChannelGroups
-                    synced={isSynced}
-                    channel={channel}
-                    totalGroups={totalGroups}
-                    groups={groups}
-                    removedGroups={removedGroups}
-                    onAddCallback={this.handleGroupChange}
-                    onGroupRemoved={this.handleGroupRemoved}
-                    setNewGroupRole={this.setNewGroupRole}
-                    isDisabled={this.props.isDisabled}
-                />
+                {this.props.channelGroupsEnabled &&
+                    <ChannelGroups
+                        synced={isSynced}
+                        channel={channel}
+                        totalGroups={totalGroups}
+                        groups={groups}
+                        removedGroups={removedGroups}
+                        onAddCallback={this.handleGroupChange}
+                        onGroupRemoved={this.handleGroupRemoved}
+                        setNewGroupRole={this.setNewGroupRole}
+                        isDisabled={this.props.isDisabled}
+                    />
+                }
 
                 {!isSynced &&
                     <ChannelMembers

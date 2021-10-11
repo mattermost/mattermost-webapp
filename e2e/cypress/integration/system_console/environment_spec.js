@@ -284,6 +284,23 @@ describe('Environment', () => {
         });
     });
 
+    it('MM-T963 - Configuration - Purge caches', () => {
+        cy.visit('/admin_console/environment/web_server');
+
+        // # Find the purge all caches button on the page and click it
+        cy.get('#PurgeButton').scrollIntoView().should('be.visible').within(() => {
+            cy.findByText('Purge All Caches').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
+        });
+
+        // # Reload the page
+        cy.reload();
+
+        // * Verify app continues to run successfully by querying for the header
+        cy.get('.admin-console', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+            cy.get('.admin-console__header').should('be.visible').and('have.text', 'Web Server');
+        });
+    });
+
     function waitForAlert(message) {
         cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
             return alert[0].innerText === message;

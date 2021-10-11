@@ -43,7 +43,7 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
         <>
             <TextCardWithAction
                 cardBodyMessageId={t('next_steps_view.preferenceSetup')}
-                cardBodyDefaultMessage={'You can change how you receive notifications, update your profile, customize display settings and more. Preferences can be accessed through the Main Menu.'}
+                cardBodyDefaultMessage={'You can update your profile and manage security settings from Account Settings by selecting your Avatar. Select Settings to change how you receive notifications, customize your display settings, and more.'}
                 buttonMessageId={t('next_steps_view.preferenceSetup.setPreferences')}
                 buttonDefaultMessage={'Set Preferences'}
                 onClick={onClick}

@@ -27,7 +27,6 @@ type Props = {
     steps: StepType[];
     isAdmin: boolean;
     enableOnboardingFlow: boolean;
-    globalHeaderEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -50,7 +49,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     closeNextSteps = (event: React.SyntheticEvent): void => {
-        const {globalHeaderEnabled, showNextSteps, isAdmin} = this.props;
+        const {showNextSteps, isAdmin} = this.props;
         event.stopPropagation();
         if (showNextSteps) {
             trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
@@ -65,7 +64,6 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             dialogType: RemoveNextStepsModal,
             dialogProps: {
                 screenTitle,
-                globalHeaderEnabled,
                 onConfirm: this.onConfirmModal,
                 onCancel: this.onCloseModal,
             },

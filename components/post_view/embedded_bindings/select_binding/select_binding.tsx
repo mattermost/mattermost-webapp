@@ -9,7 +9,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
@@ -34,6 +34,7 @@ type Props = {
         doAppCall: DoAppCall;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 };
 
@@ -96,7 +97,8 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (!binding.call) {
+        const call = binding.form?.call || binding.call;
+        if (!call) {
             return;
         }
 
@@ -117,13 +119,18 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             post.id,
             post.root_id,
         );
-        const call = createCallRequest(
-            binding.call,
+        const callRequest = createCallRequest(
+            call,
             context,
             {post: AppExpandLevels.EXPAND_ALL},
         );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
 
         if (res.error) {
             const errorResponse = res.error;
