@@ -71,6 +71,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             error: false,
             state: ProcessState.PROCESSING,
         };
+        this.saveIsPurchaseInPrefs = this.saveIsPurchaseInPrefs.bind(this);
     }
 
     public componentDidMount() {
@@ -81,6 +82,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
     public componentWillUnmount() {
         clearInterval(this.intervalId);
+        window.removeEventListener('onbeforeunload', this.saveIsPurchaseInPrefs, false);
     }
 
     private updateProgress = () => {
@@ -139,6 +141,15 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         this.setState({state: ProcessState.SUCCESS, progress: 100});
     }
 
+    private saveIsPurchaseInPrefs = () => {
+        this.props.savePreferences(this.props.currentUser.id, [{
+            category: Preferences.UNIQUE,
+            user_id: this.props.currentUser.id,
+            name: Unique.HAS_CLOUD_PURCHASE,
+            value: 'true',
+        }]);
+    };
+
     private handleGoBack = () => {
         clearInterval(this.intervalId);
         this.setState({
@@ -196,14 +207,18 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         const isFirstPurchase = Boolean(!(this.props.preferences.some((pref: PreferenceType) =>
             pref.name === Unique.HAS_CLOUD_PURCHASE && pref.value === 'true')),
         );
+        let handleClose = () => {
+            this.props.onClose();
+        };
         if (isFirstPurchase) {
             title = t('admin.billing.subscription.firstPurchaseSuccess');
-            this.props.savePreferences(this.props.currentUser.id, [{
-                category: Preferences.UNIQUE,
-                user_id: this.props.currentUser.id,
-                name: Unique.HAS_CLOUD_PURCHASE,
-                value: 'true',
-            }]);
+            window.addEventListener('beforeunload', () => {
+                this.saveIsPurchaseInPrefs();
+            });
+            handleClose = () => {
+                this.saveIsPurchaseInPrefs();
+                this.props.onClose();
+            };
         }
         return (
             <IconMessage
@@ -218,7 +233,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     />
                 }
                 buttonText={t('admin.billing.subscription.letsGo')}
-                buttonHandler={this.props.onClose}
+                buttonHandler={handleClose}
                 className={'success'}
             />
         );
