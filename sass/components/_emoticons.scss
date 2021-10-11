@@ -42,6 +42,15 @@
             color: transparent;
         }
     }
+
+    &--post-menu {
+        @extend .emoticon;
+
+        width: 18px;
+        min-width: 18px;
+        height: 18px;
+        min-height: 18px;
+    }
 }
 
 .emoticon-suggestion {
