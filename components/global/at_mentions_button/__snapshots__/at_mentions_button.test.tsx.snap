@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/global/AtMentionsButton should match snapshot 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={400}
+  overlay={<React.Fragment />}
+  placement="bottom"
+  trigger={
+    Array [
+      "hover",
+    ]
+  }
+>
+  <ForwardRef
+    aria-label="Select to toggle a list of recent mentions."
+    compact={true}
+    icon="at"
+    inverted={true}
+    onClick={[Function]}
+    size="sm"
+    toggled={false}
+  />
+</OverlayTrigger>
+`;

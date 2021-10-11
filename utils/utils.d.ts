@@ -42,9 +42,6 @@ export function getTimestamp(): number;
 export function getRemainingDaysFromFutureTimestamp(timestamp: number | undefined): number;
 export function getLocaleDateFromUTC(timestamp: number, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = ''): number;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function areObjectsEqual(x: any, y: any): boolean;
-
 export function replaceHtmlEntities(text: string): string;
 
 export function isGIFImage(extin: string): boolean;
