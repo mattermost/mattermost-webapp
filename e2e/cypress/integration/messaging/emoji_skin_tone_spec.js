@@ -33,13 +33,20 @@ describe('Messaging', () => {
             '_dark_skin_tone:',
         ];
 
-        // posting emojis and checking if they are visible on desktop viewport
+        // # Post emojis and check if they are visible on desktop and mobile viewports
         gestures.forEach((gesture) => {
             skinTones.forEach((skinTone) => {
-                cy.viewport('macbook-13'); // setting viewport to desktop
+                // # Set viewport to desktop and post gesture with skin tone
+                cy.viewport('macbook-13');
                 cy.postMessage(gesture + skinTone);
+
+                // * Check if gesture with skin tone is visible
                 cy.findByTitle(gesture + skinTone).should('be.visible');
-                cy.viewport('iphone-se2'); // setting viewport to mobile
+
+                // # Set viewport to mobile
+                cy.viewport('iphone-se2');
+
+                // * Check if gesture with skin tone is visible
                 cy.findByTitle(gesture + skinTone).should('be.visible');
             });
         });
