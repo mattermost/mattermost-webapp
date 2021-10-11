@@ -44,7 +44,7 @@ type PropsWithIntl = Props & {
 }
 
 // TODO: rewrite this to a functional component
-class ProductSwitcherMenu extends React.PureComponent<PropsWithIntl> {
+class ProductMenuList extends React.PureComponent<PropsWithIntl> {
     static defaultProps = {
         teamType: '',
         isMobile: false,
@@ -155,4 +155,4 @@ class ProductSwitcherMenu extends React.PureComponent<PropsWithIntl> {
     }
 }
 
-export default injectIntl(ProductSwitcherMenu);
+export default injectIntl(ProductMenuList);

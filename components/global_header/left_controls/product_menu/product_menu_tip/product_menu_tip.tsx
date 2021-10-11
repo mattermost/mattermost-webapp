@@ -59,7 +59,7 @@ const screens = [
     </div>,
 ];
 
-export class ProductSwitcherTip extends React.PureComponent<Props, State> {
+export class ProductMenuTip extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
