@@ -76,37 +76,37 @@ export class MainMenu extends React.PureComponent<Props> {
         pluginMenuItems: [],
     };
 
-    toggleShortcutsModal = (e: Event) => {
+    toggleShortcutsModal = (e: Event): void => {
         e.preventDefault();
         GlobalActions.toggleShortcutsModal();
     }
 
-    async componentDidMount() {
+    async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
-    handleKeyDown = (e: KeyboardEvent) => {
+    handleKeyDown = (e: KeyboardEvent): void => {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             e.preventDefault();
             this.props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
         }
     }
 
-    handleEmitUserLoggedOutEvent = () => {
+    handleEmitUserLoggedOutEvent = (): void => {
         GlobalActions.emitUserLoggedOutEvent();
     }
 
-    getFlagged = (e: Event) => {
+    getFlagged = (e: Event): void => {
         e.preventDefault();
         this.props.actions.showFlaggedPosts();
         this.props.actions.closeRhsMenu();
     }
 
-    searchMentions = (e: Event) => {
+    searchMentions = (e: Event): void => {
         e.preventDefault();
 
         if (this.props.isMentionSearch) {
@@ -129,21 +129,19 @@ export class MainMenu extends React.PureComponent<Props> {
             return null;
         }
 
-        const pluginItems = this.props.pluginMenuItems?.map((item) => {
-            return (
-                <Menu.ItemAction
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={() => {
-                        if (item.action) {
-                            item.action();
-                        }
-                    }}
-                    text={item.text}
-                    icon={this.props.mobile && item.icon}
-                />
-            );
-        });
+        const pluginItems = this.props.pluginMenuItems?.map((item) => (
+            <Menu.ItemAction
+                id={item.id + '_pluginmenuitem'}
+                key={item.id + '_pluginmenuitem'}
+                onClick={() => {
+                    if (item.action) {
+                        item.action();
+                    }
+                }}
+                text={item.text}
+                icon={this.props.mobile && item.icon}
+            />
+        ));
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
