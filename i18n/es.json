@@ -607,7 +607,7 @@
   "admin.customization.enableLatexDesc": "Habilitar el renderizado de código Latex. Si es falso, el código Latex será enfatizado únicamente.",
   "admin.customization.enableLatexTitle": "Habilitar Renderizado Latex:",
   "admin.customization.enableLinkPreviewsDesc": "Mostrar una vista previa del contenido del sitio web, los vínculos de la imagen y enlaces de YouTube a continuación el mensaje cuando esté disponible. El servidor debe estar conectado a internet y debe tener acceso a través del cortafuego (si es aplicable) a los sitios web de los cuales se espera obtener las vistas previas. Los usuarios pueden deshabilitar estas vistas previas de Configuración de la Cuenta > Visualización > Vista previa de enlaces a sitios web.",
-  "admin.customization.enableLinkPreviewsTitle": "Habilitar Vista Previa del Enlace:",
+  "admin.customization.enableLinkPreviewsTitle": "Habilitar la vista previa de los enlaces a sitios web:",
   "admin.customization.enableSVGsDesc": "Habilitar vista previa para archivos adjuntos SVG y permitir que aparezcan en mensajes.",
   "admin.customization.enableSVGsTitle": "Habilitar SVG:",
   "admin.customization.gfycatApiKey": "Identificador del API de Gfycat:",
