@@ -38,7 +38,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
 
     useEffect(() => {
         if (!totalUserCount) {
-            getTotalUsersStats()(dispatch, store.getState());
+            getTotalUsersStats()(dispatch, store.getState);
         }
     }, []);
 
