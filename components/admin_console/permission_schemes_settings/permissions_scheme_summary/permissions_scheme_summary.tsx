@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import {Link, RouteComponentProps} from 'react-router-dom';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -13,25 +12,34 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
+import {Scheme} from 'mattermost-redux/types/schemes';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
 
 const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
 
-export default class PermissionsSchemeSummary extends React.PureComponent {
-    static propTypes = {
-        scheme: PropTypes.object.isRequired,
-        teams: PropTypes.array,
-        isDisabled: PropTypes.func,
-        actions: PropTypes.shape({
-            deleteScheme: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    scheme: Scheme;
+    teams?: Team[];
+    isDisabled?: () => void;
+    actions: {
+        deleteScheme: (id: string) => Promise<ActionResult>;
     };
+}
 
-    constructor(props) {
+type State = {
+    showConfirmModal: boolean;
+    deleting: boolean;
+    serverError?: string;
+}
+
+export default class PermissionsSchemeSummary extends React.PureComponent<Props & RouteComponentProps, State> {
+    constructor(props: Props & RouteComponentProps) {
         super(props);
         this.state = {
             showConfirmModal: false,
             deleting: false,
-            serverError: null,
+            serverError: undefined,
         };
     }
 
@@ -90,35 +98,35 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
         );
     }
 
-    stopPropagation = (e) => {
+    stopPropagation = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
         e.stopPropagation();
     }
 
-    handleDeleteCanceled = () => {
+    handleDeleteCanceled = (): void => {
         this.setState({
             showConfirmModal: false,
         });
     }
 
-    handleDeleteConfirmed = async () => {
-        this.setState({deleting: true, serverError: null});
-        const data = await this.props.actions.deleteScheme(this.props.scheme.id);
-        if (data.error) {
+    handleDeleteConfirmed = async (): Promise<void> => {
+        this.setState({deleting: true, serverError: undefined});
+        const data = await this.props.actions?.deleteScheme(this.props.scheme.id);
+        if (data && data.error) {
             this.setState({deleting: false, serverError: data.error.message});
         } else {
             this.setState({deleting: false, showConfirmModal: false});
         }
     }
 
-    delete = (e) => {
+    delete = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         e.stopPropagation();
         if (this.props.isDisabled) {
             return;
         }
-        this.setState({showConfirmModal: true, serverError: null});
+        this.setState({showConfirmModal: true, serverError: undefined});
     }
 
-    goToEdit = () => {
+    goToEdit = (): void => {
         this.props.history.push('/admin_console/user_management/permissions/team_override_scheme/' + this.props.scheme.id);
     }
 
