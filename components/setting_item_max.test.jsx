@@ -130,4 +130,38 @@ describe('components/SettingItemMax', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, disabled state', () => {
+        const props = {
+            ...baseProps,
+            disabled: true,
+            disabledMessage: 'This content is disabled',
+            enableButtonText: 'Enable',
+            onEnableButtonClick: () => {} 
+        };
+        const wrapper = shallow(
+            <SettingItemMax {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should execute onEnableButtonClick on "Enable" button click', () => {
+        const onEnableButtonClick = jest.fn();
+        const props = {
+            ...baseProps,
+            disabled: true,
+            disabledMessage: 'This content is disabled',
+            enableButtonText: 'Enable',
+            onEnableButtonClick,
+        };
+        const wrapper = shallow(
+            <SettingItemMax {...props}/>,
+        );
+
+        const enableButton = wrapper.find('.btn-secondary');
+        enableButton.simulate('click');
+
+        expect(onEnableButtonClick).toHaveBeenCalled();
+    });
 });

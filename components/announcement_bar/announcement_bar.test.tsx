@@ -12,6 +12,7 @@ describe('components/AnnouncementBar', () => {
         isLoggedIn: true,
         canViewSystemErrors: false,
         canViewAPIv3Banner: false,
+        showDontAskAgainButton: false,
         license: {
             id: '',
         },
@@ -98,6 +99,18 @@ describe('components/AnnouncementBar', () => {
         // Banner should return
         newProps.bannerText = 'Some new text';
         wrapper.setProps(newProps as any);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, "Don\'t ask again" button', () => {
+        const props = {
+            ...baseProps,
+            showDontAskAgainButton: true,
+        };
+        const wrapper = shallow<AnnouncementBar>(
+            <AnnouncementBar {...props}/>,
+        );
+
         expect(wrapper).toMatchSnapshot();
     });
 });

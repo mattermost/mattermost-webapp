@@ -1,5 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/AnnouncementBar should match snapshot, "Don't ask again" button 1`] = `
+<div
+  className="announcement-bar announcement-bar-critical"
+  style={
+    Object {
+      "backgroundColor": "",
+      "color": "",
+    }
+  }
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="announcement-bar__tooltip"
+        placement="right"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          id="text"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <div
+      className="announcement-bar__text"
+    >
+      <injectIntl(FormattedMarkdownMessage)
+        id="text"
+      />
+      <span
+        className="announcement-bar__link"
+      />
+    </div>
+  </OverlayTrigger>
+  <button
+    className="announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again"
+    type="button"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Don't ask again"
+      id="announcement_bar.dont_ask_again_button_text"
+    />
+  </button>
+</div>
+`;
+
 exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] = `
 <div
   className="announcement-bar announcement-bar-critical"

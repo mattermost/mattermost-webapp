@@ -52,6 +52,8 @@ describe('components/Root', () => {
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
             emitBrowserWindowResized: () => {},
+            setBrowserNotificationsPermission: () => {},
+            scheduleNextNotificationsPermissionRequest: () => {}
         },
         location: {
             pathname: '/',
