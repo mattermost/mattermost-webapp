@@ -9,7 +9,7 @@ import {createIntl} from 'react-intl';
 
 import {shallow} from 'enzyme';
 
-import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
 
