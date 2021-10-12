@@ -58,15 +58,15 @@ type Props = {
          * Function to get users in a team
          */
         getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => Promise<{
-            data: UserProfile[];
+            data?: UserProfile[];
         }>;
     };
 };
 
 type State = {
     team?: Team;
-    recentlyActiveUsers: UserProfile[];
-    newUsers: UserProfile[];
+    recentlyActiveUsers?: UserProfile[];
+    newUsers?: UserProfile[];
 };
 
 export default class TeamAnalytics extends React.PureComponent<Props, State> {
@@ -235,8 +235,8 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
             );
         }
 
-        const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers, this.props.locale);
-        const newlyCreatedUsers = formatNewUsersData(this.state.newUsers, this.props.locale);
+        const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers!, this.props.locale);
+        const newlyCreatedUsers = formatNewUsersData(this.state.newUsers!, this.props.locale);
 
         const teams = this.props.teams.sort((a, b) => {
             const aName = a.display_name.toUpperCase();

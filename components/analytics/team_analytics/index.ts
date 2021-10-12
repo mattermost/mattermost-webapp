@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {Action, GenericAction} from 'mattermost-redux/types/actions';
+import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {getProfilesInTeam} from 'mattermost-redux/actions/users';
@@ -32,9 +32,14 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
+type Actions = {
+    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean, excludePolicyConstrained?: boolean) => void;
+    getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => Promise<ActionResult>;
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<Action>, any>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             getTeams,
             getProfilesInTeam,
         }, dispatch),
