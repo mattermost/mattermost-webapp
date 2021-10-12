@@ -12,6 +12,7 @@ import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_c
 import {Command} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Session} from 'mattermost-redux/types/sessions';
+import {ProductComponent} from 'types/store/plugins';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -202,8 +203,9 @@ export class TestHelper {
             user_id: 'user_id',
             roles: 'team_user',
             delete_at: 0,
-            scheme_user: true,
             scheme_admin: false,
+            scheme_guest: false,
+            scheme_user: true,
         };
         return Object.assign({}, defaultMembership, override);
     }
@@ -330,5 +332,19 @@ export class TestHelper {
             local: false,
         };
         return Object.assign({}, defaultSession, override);
+    }
+
+    public static makeProduct(name: string): ProductComponent {
+        return {
+            id: name,
+            pluginId: '',
+            switcherIcon: `product-${name.toLowerCase()}` as ProductComponent['switcherIcon'],
+            switcherText: name,
+            baseURL: '',
+            switcherLinkURL: '',
+            mainComponent: null,
+            headerCentreComponent: null,
+            headerRightComponent: null,
+        };
     }
 }

@@ -4,14 +4,17 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import * as Utils from 'utils/utils';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_row.scss';
 import TeamListDropdown from './team_list_dropdown';
+import {TeamWithMembership} from './types';
 
 type Props = {
-    team: {[x: string]: string};
+    team: TeamWithMembership;
     onRowClick?: () => void;
     doRemoveUserFromTeam: (teamId: string) => Promise<void>;
     doMakeUserTeamAdmin: (teamId: string) => Promise<void>;
@@ -20,7 +23,7 @@ type Props = {
 }
 
 export default class TeamRow extends React.PureComponent<Props> {
-    private renderTeamType = (team: {[x: string]: string}) => {
+    private renderTeamType = (team: Team) => {
         if (team.group_constrained) {
             return (
                 <FormattedMessage
@@ -44,7 +47,7 @@ export default class TeamRow extends React.PureComponent<Props> {
             />
         );
     }
-    private renderTeamRole = (team: {[x: string]: string}) => {
+    private renderTeamRole = (team: TeamWithMembership) => {
         if (team.scheme_guest) {
             return (
                 <FormattedMessage

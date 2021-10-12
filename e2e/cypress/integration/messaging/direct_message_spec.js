@@ -70,10 +70,10 @@ describe('Direct Message', () => {
             cy.get('#edit_textbox').should('have.text', originalMessage).type(' World{enter}');
             cy.get('#editPostModal').should('not.exist');
 
-            // * Verify that last post does contain (edited)
+            // * Verify that last post does contain "Edited"
             cy.getLastPostId().then((postId) => {
                 const postEdited = `#postEdited_${postId}`;
-                cy.get(postEdited).should('be.visible');
+                cy.get(postEdited).should('be.visible').and('have.text', 'Edited');
             });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);
 
@@ -93,7 +93,7 @@ describe('Direct Message', () => {
                 const postEdited = `#postEdited_${postId}`;
 
                 // * Check the post and verify that it contains new edited message.
-                cy.get(postText).should('have.text', editedMessage);
+                cy.get(postText).should('have.text', `${editedMessage} Edited`);
                 cy.get(postEdited).should('be.visible');
             });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);

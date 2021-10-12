@@ -48,6 +48,7 @@ describe('components/Root', () => {
         telemetryId: '1234ab',
         noAccounts: false,
         showTermsOfService: false,
+        theme: {},
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
             emitBrowserWindowResized: () => {},
