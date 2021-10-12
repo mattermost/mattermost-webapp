@@ -9,11 +9,14 @@ import {TutorialSteps, TopLevelProducts} from 'utils/constants';
 
 import {TestHelper} from 'utils/test_helper';
 
-import {Props, ProductMenuTip} from './product_menu_tip';
+import ProductMenuTip from './product_menu_tip';
+
+import type {Props} from './index';
 
 let props: Props = {
     currentUserId: '',
     step: 0,
+    products: [],
     actions: {
         savePreferences: jest.fn(),
     },
@@ -32,6 +35,12 @@ describe('components/product_switcher/product_switcher_tip', () => {
                 savePreferences: jest.fn(),
             },
         };
+    });
+
+    it('matches snapshot with default props', () => {
+        const wrapper = shallow(<ProductMenuTip {...props}/>);
+
+        expect(wrapper.find(TutorialTip)).toMatchSnapshot();
     });
 
     it('shows tutorial tip when it should', () => {
@@ -81,7 +90,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
     });
 
     it('does not show tutorial tip if there are no products', () => {
-        delete props.products;
+        props.products = [];
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
         const wrapper = shallow(<ProductMenuTip {...props}/>);
         expect(props.actions.savePreferences).toHaveBeenCalled();
