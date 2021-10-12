@@ -501,6 +501,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         let newMessage = '';
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
+            this.setCaretPosition(newMessage.length);
         } else {
             const {message} = draft;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition || 0, message);
