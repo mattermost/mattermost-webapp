@@ -34,6 +34,7 @@ import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
+import {DEFAULT_TEAM} from './constants';
 
 import {getDefaultConfig} from './api/system';
 
@@ -197,11 +198,6 @@ function sysadminSetup(user) {
 
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {
-        // Default team is meant for sysadmin's primary team,
-        // selected for compatibility with existing local development.
-        // It is not exported since it should not be used for testing.
-        const DEFAULT_TEAM = {name: 'ad-1', display_name: 'eligendi', type: 'O'};
-
         const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
 
         if (!defaultTeam) {
