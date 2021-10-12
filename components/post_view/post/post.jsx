@@ -103,6 +103,8 @@ export default class Post extends React.PureComponent {
         isFlagged: PropTypes.bool.isRequired,
 
         isCollapsedThreadsEnabled: PropTypes.bool,
+
+        clickToReply: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -178,7 +180,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        const {post, isCollapsedThreadsEnabled} = this.props;
+        const {post, isCollapsedThreadsEnabled, clickToReply} = this.props;
 
         if (!post) {
             return;
@@ -189,6 +191,7 @@ export default class Post extends React.PureComponent {
 
         if (
             !e.altKey &&
+            clickToReply &&
             isCollapsedThreadsEnabled &&
             (fromAutoResponder || !isSystemMessage) &&
             isEligibleForClick(e)
@@ -306,7 +309,7 @@ export default class Post extends React.PureComponent {
 
         if (
             (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) ||
-            (this.props.isCollapsedThreadsEnabled && (fromAutoResponder || !isSystemMessage))
+            (this.props.clickToReply && this.props.isCollapsedThreadsEnabled && (fromAutoResponder || !isSystemMessage))
         ) {
             className += ' cursor--pointer';
         }

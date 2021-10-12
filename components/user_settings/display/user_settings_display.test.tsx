@@ -86,6 +86,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         globalHeaderAllowed: true,
         oneClickReactionsOnPosts: '',
         emojiPickerEnabled: true,
+        clickToReply: '',
     };
 
     test('should match snapshot, no active section', () => {

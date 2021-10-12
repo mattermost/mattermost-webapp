@@ -4458,6 +4458,8 @@
   "user.settings.display.availabilityStatusOnPostsTitle": "Show online availability on profile images",
   "user.settings.display.channeldisplaymode": "Select the width of the center channel.",
   "user.settings.display.channelDisplayTitle": "Channel Display",
+  "user.settings.display.clickToReply": "Click to open threads",
+  "user.settings.display.clickToReplyDescription": "When enabled, click anywhere on a message to open the reply thread",
   "user.settings.display.clockDisplay": "Clock Display",
   "user.settings.display.collapseDesc": "Set whether previews of image links and image attachment thumbnails show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.",
   "user.settings.display.collapseDisplay": "Default Appearance of Image Previews",
