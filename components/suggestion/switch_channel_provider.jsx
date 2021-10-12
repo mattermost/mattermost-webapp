@@ -166,6 +166,10 @@ class SwitchChannelSuggestion extends Suggestion {
                 description = '@' + userItem.username + deactivated;
             } else {
                 name = userItem.username;
+                const currentUserId = getCurrentUserId(getState());
+                if (userItem.id === currentUserId) {
+                    name += (' ' + Utils.localizeMessage('suggestion.user.isCurrent', '(you)'));
+                }
                 description = deactivated;
             }
         } else if (channel.type === Constants.GM_CHANNEL) {
@@ -465,7 +469,7 @@ export default class SwitchChannelProvider extends Provider {
             displayName += `${Utils.getFullName(user)}`;
         }
 
-        if (user.id === currentUserId) {
+        if (user.id === currentUserId && displayName) {
             displayName += (' ' + Utils.localizeMessage('suggestion.user.isCurrent', '(you)'));
         }
 
