@@ -176,6 +176,12 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, clickToReply section', () => {
+        const props = {...requiredProps, activeSection: 'click_to_reply'};
+        const wrapper = shallow(<UserSettingsDisplay {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should have called handleSubmit', async () => {
         const updateSection = jest.fn();
 
