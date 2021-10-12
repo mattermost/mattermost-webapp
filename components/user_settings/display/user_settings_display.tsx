@@ -807,38 +807,34 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             });
         }
 
-        let clickToReply = null;
-
-        if (this.state.collapsedReplyThreads) {
-            clickToReply = this.createSection({
-                section: Preferences.CLICK_TO_REPLY,
-                display: 'clickToReply',
-                value: this.state.clickToReply,
-                defaultDisplay: 'true',
-                title: {
-                    id: t('user.settings.display.clickToReply'),
-                    message: 'Click to open threads',
+        const clickToReply = this.createSection({
+            section: Preferences.CLICK_TO_REPLY,
+            display: 'clickToReply',
+            value: this.state.clickToReply,
+            defaultDisplay: 'true',
+            title: {
+                id: t('user.settings.display.clickToReply'),
+                message: 'Click to open threads',
+            },
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.on'),
+                    message: 'On',
                 },
-                firstOption: {
-                    value: 'true',
-                    radionButtonText: {
-                        id: t('user.settings.sidebar.on'),
-                        message: 'On',
-                    },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.off'),
+                    message: 'Off',
                 },
-                secondOption: {
-                    value: 'false',
-                    radionButtonText: {
-                        id: t('user.settings.sidebar.off'),
-                        message: 'Off',
-                    },
-                },
-                description: {
-                    id: t('user.settings.display.clickToReplyDescription'),
-                    message: 'When enabled, click anywhere on a message to open the reply thread.',
-                },
-            });
-        }
+            },
+            description: {
+                id: t('user.settings.display.clickToReplyDescription'),
+                message: 'When enabled, click anywhere on a message to open the reply thread.',
+            },
+        });
 
         const channelDisplayModeSection = this.createSection({
             section: Preferences.CHANNEL_DISPLAY_MODE,
