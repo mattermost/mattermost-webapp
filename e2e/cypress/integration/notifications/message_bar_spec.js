@@ -16,18 +16,12 @@ describe('Notifications', () => {
     let testTeam;
     let testChannel;
     let otherUser;
-    let townChannelId;
 
     beforeEach(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
             otherUser = user;
-
-            cy.makeClient().then(async (client) => {
-                const townChannel = await client.getChannelByName(testTeam.id, 'town-square');
-                townChannelId = townChannel.id;
-            });
 
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
@@ -62,33 +56,38 @@ describe('Notifications', () => {
     });
 
     it('MM-T566 New message bar - Displays in permalink view', () => {
-        // # Post messages in town-square channel
-        Cypress._.times(15, (postNumber) => {
-            cy.postMessageAs({sender: otherUser, message: `P${postNumber}`, channelId: townChannelId});
+        cy.makeClient().then(async (client) => {
+            const townChannel = await client.getChannelByName(testTeam.id, 'town-square');
+            const townChannelId = townChannel.id;
+
+            // # Post messages in town-square channel
+            Cypress._.times(15, (postNumber) => {
+                cy.postMessageAs({sender: otherUser, message: `P${postNumber}`, channelId: townChannelId});
+            });
+
+            // # Enter "in:town-square" in the search bar and hit ENTER
+            cy.get('#searchBox').type('in:town-square').type('{enter}', {force: true}).type('{enter}', {force: true});
+
+            // # Click "Jump" to one of the search results
+            cy.get('a.search-item__jump').last().click();
+
+            // * Verify permalink in main channel view (post highlighted, fades in 6sec.)
+            cy.getNthPostId(1).then((postIdTest) => {
+                cy.get(`#post_${postIdTest}`, {timeout: TIMEOUTS.HALF_MIN}).should('have.class', 'post--highlight');
+                cy.clock();
+                cy.tick(6000);
+                cy.get(`#post_${postIdTest}`).should('not.have.class', 'post--highlight');
+            });
+
+            // # Other user post a message in town-square channel
+            cy.postMessageAs({
+                sender: otherUser,
+                message: 'message from user B',
+                channelId: townChannelId,
+            });
+
+            // * Verify New message bar appears
+            cy.get('.NotificationSeparator').should('exist');
         });
-
-        // # Enter "in:town-square" in the search bar and hit ENTER
-        cy.get('#searchBox').type('in:town-square').type('{enter}', {force: true}).type('{enter}', {force: true});
-
-        // # Click "Jump" to one of the search results
-        cy.get('a.search-item__jump').last().click();
-
-        // * Verify permalink in main channel view (post highlighted, fades in 6sec.)
-        cy.getNthPostId(1).then((postIdTest) => {
-            cy.get(`#post_${postIdTest}`, {timeout: TIMEOUTS.HALF_MIN}).should('have.class', 'post--highlight');
-            cy.clock();
-            cy.tick(6000);
-            cy.get(`#post_${postIdTest}`).should('not.have.class', 'post--highlight');
-        });
-
-        // # Other user post a message in town-square channel
-        cy.postMessageAs({
-            sender: otherUser,
-            message: 'message from user B',
-            channelId: townChannelId,
-        });
-
-        // * Verify New message bar appears
-        cy.get('.NotificationSeparator').should('exist');
     });
 });
