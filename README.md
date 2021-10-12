@@ -38,7 +38,7 @@ Other Install Guides:
 
 - [Contribute to Mattermost](https://handbook.mattermost.com/contributors/contributors/ways-to-contribute)
 - [Find "Help Wanted" projects](https://github.com/mattermost/mattermost-server/issues?page=1&q=is%3Aissue+is%3Aopen+%22Help+Wanted%22&utf8=%E2%9C%93)
-- [Join Developer Discussion on a Mattermost Server for contributors](https://community.mattermost.com/signup_user_complete/?id=f1924a8db44ff3bb41c96424cdc20676)
+- [Join Developer Discussion on a Mattermost Server for contributors](https://docs.mattermost.com/guides/community-chat.html)
 - [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html)
 
 ## Learn More
