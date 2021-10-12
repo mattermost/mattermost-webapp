@@ -11,13 +11,27 @@ import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import Constants from 'utils/constants';
 import EditChannelHeaderModal, {default as EditChannelHeaderModalClass} from 'components/edit_channel_header_modal/edit_channel_header_modal';
 import Textbox from 'components/textbox';
+import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
 describe('components/EditChannelHeaderModal', () => {
+    const timestamp = Utils.getTimestamp();
     const channel = {
         id: 'fake-id',
+        create_at: timestamp,
+        update_at: timestamp,
+        delete_at: timestamp,
+        team_id: 'fake-team-id',
+        type: Constants.OPEN_CHANNEL as ChannelType,
+        display_name: 'Fake Channel',
+        name: 'Fake Channel',
         header: 'Fake Channel',
+        purpose: 'purpose',
+        last_post_at: timestamp,
+        creator_id: 'fake-creator-id',
+        scheme_id: 'fake-scheme-id',
+        group_constrained: false,
     };
 
     const serverError = {
@@ -44,7 +58,7 @@ describe('components/EditChannelHeaderModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
     test('edit direct message channel', () => {
-        const dmChannel: Partial<Channel> = {
+        const dmChannel: Channel = {
             ...channel,
             type: Constants.DM_CHANNEL as ChannelType,
         };
@@ -92,7 +106,7 @@ describe('components/EditChannelHeaderModal', () => {
             <EditChannelHeaderModal {...baseProps}/>,
         );
 
-        let instance = wrapper.instance() as EditChannelHeaderModalClass;
+        const instance = wrapper.instance() as EditChannelHeaderModalClass;
 
         // on no change, should hide the modal without trying to patch a channel
         await instance.handleSave();
@@ -101,14 +115,13 @@ describe('components/EditChannelHeaderModal', () => {
 
         // on error, should not close modal and set server error state
         wrapper.setState({header: 'New header'});
-        instance = wrapper.instance() as EditChannelHeaderModalClass;
+
         await instance.handleSave();
         expect(baseProps.actions.patchChannel).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(1);
         expect(wrapper.state('serverError')).toBe(serverError);
 
         // on success, should close modal
-        instance = wrapper.instance() as EditChannelHeaderModalClass;
         await instance.handleSave();
         expect(baseProps.actions.patchChannel).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(2);

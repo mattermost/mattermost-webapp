@@ -168,7 +168,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
         id="edit_channel_header_modal.title"
         values={
           Object {
-            "channel": undefined,
+            "channel": "Fake Channel",
           }
         }
       />
@@ -312,7 +312,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
         id="edit_channel_header_modal.title"
         values={
           Object {
-            "channel": undefined,
+            "channel": "Fake Channel",
           }
         }
       />
@@ -448,7 +448,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
         id="edit_channel_header_modal.title"
         values={
           Object {
-            "channel": undefined,
+            "channel": "Fake Channel",
           }
         }
       />
@@ -574,7 +574,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
         id="edit_channel_header_modal.title"
         values={
           Object {
-            "channel": undefined,
+            "channel": "Fake Channel",
           }
         }
       />

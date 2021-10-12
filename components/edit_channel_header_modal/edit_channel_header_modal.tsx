@@ -25,7 +25,7 @@ type Props = {
     /*
      * Object with info about current channel ,
      */
-    channel: Partial<Channel>;
+    channel: Channel;
 
     /*
      * Set whether to show the modal or not
