@@ -30,7 +30,7 @@
     "mime": "2.5.2",
     "mime-types": "2.1.33",
     "mocha": "9.1.2",
-    "mocha-junit-reporters": "1.23.6",
+    "mocha-junit-reporter": "2.0.2",
     "mocha-multi-reporters": "1.5.1",
     "mochawesome": "6.3.1",
     "mochawesome-merge": "4.2.0",
