@@ -305,7 +305,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
                 {isCreateComment(itemId) && (
                     <CreateComment
-                        focusOnMount={this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0)}
+                        focusOnMount={false}
                         channelId={this.props.channel.id}
                         channelIsArchived={this.props.channel.delete_at !== 0}
                         channelType={this.props.channel.type}

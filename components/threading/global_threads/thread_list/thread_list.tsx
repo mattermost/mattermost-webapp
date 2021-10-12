@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, PropsWithChildren} from 'react';
+import React, {memo, useCallback, PropsWithChildren, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
+import * as Utils from 'utils/utils.jsx';
 
 import {getTeamThreadCounts} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
@@ -53,6 +54,7 @@ const ThreadList = ({
 }: PropsWithChildren<Props>) => {
     const unread = ThreadFilter.unread === currentFilter;
     const data = unread ? unreadIds : ids;
+    const {select} = useThreadRouting();
 
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
@@ -60,26 +62,61 @@ const ThreadList = ({
 
     const {total = 0, total_unread_threads: totalUnread} = useSelector((state: GlobalState) => getTeamThreadCounts(state, currentTeamId));
 
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        // Ensure that arrow keys navigation is not triggered if the textbox is focused
+        const target = e.target as HTMLElement;
+        if (target?.id === 'reply_textbox')
+            return;
+
+        if (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) 
+            && !Utils.isKeyPressed(e, Constants.KeyCodes.UP))
+            return;
+
+        let threadIdToSelect = 0;
+        if (selectedThreadId) {
+            const selectedThreadIndex = ids.indexOf(selectedThreadId);
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+                threadIdToSelect = selectedThreadIndex < ids.length - 1
+                    ? selectedThreadIndex + 1
+                    : 0;
+           }
+
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+                threadIdToSelect = selectedThreadIndex > 0
+                    ? selectedThreadIndex - 1
+                    : ids.length - 1;
+           }
+       }
+        select(ids[threadIdToSelect]);
+   }, [selectedThreadId, ids]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+       };
+   }, [handleKeyDown]);
+
     const handleRead = useCallback(() => {
         setFilter(ThreadFilter.none);
-    }, [setFilter]);
+   }, [setFilter]);
 
     const handleUnread = useCallback(() => {
         setFilter(ThreadFilter.unread);
-    }, [setFilter]);
+   }, [setFilter]);
 
     const handleLoadMoreItems = useCallback(async (startIndex) => {
         const before = data[startIndex - 1];
         await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: Constants.THREADS_PAGE_SIZE, before}));
         return {data: true};
-    }, [currentTeamId, data, unread]);
+   }, [currentTeamId, data, unread]);
 
     const handleAllMarkedRead = useCallback(() => {
         dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
         if (currentFilter === ThreadFilter.unread) {
             clear();
-        }
-    }, [currentTeamId, currentUserId, currentFilter]);
+       }
+   }, [currentTeamId, currentUserId, currentFilter]);
 
     return (
         <div className={'ThreadList'}>
@@ -116,7 +153,7 @@ const ThreadList = ({
                             content={formatMessage({
                                 id: 'threading.threadList.markRead',
                                 defaultMessage: 'Mark all as read',
-                            })}
+                           })}
                         >
                             <Button
                                 className={'Button___large Button___icon'}
@@ -145,7 +182,7 @@ const ThreadList = ({
                         title={formatMessage({
                             id: 'globalThreads.threadList.noUnreadThreads',
                             defaultMessage: 'No unread threads',
-                        })}
+                       })}
                     />
                 ) : null}
             </div>
