@@ -1948,22 +1948,12 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
   </MenuGroup>
   <MenuGroup>
     <MenuItemAction
-      icon={
-        <i
-          className="fa fa-anchor"
-        />
-      }
       id="plugin-id-1_pluginmenuitem"
       key="plugin-id-1_pluginmenuitem"
       onClick={[Function]}
       show={true}
     />
     <MenuItemAction
-      icon={
-        <i
-          className="fa fa-anchor"
-        />
-      }
       id="plugind-id-2_pluginmenuitem"
       key="plugind-id-2_pluginmenuitem"
       onClick={[Function]}

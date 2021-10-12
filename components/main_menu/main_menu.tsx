@@ -139,7 +139,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     }
                 }}
                 text={item.text}
-                icon={this.props.mobile && item.icon}
+                icon={this.props.mobile && item.mobileIcon}
             />
         ));
 

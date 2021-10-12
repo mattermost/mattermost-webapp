@@ -178,7 +178,7 @@ describe('components/Menu', () => {
             pluginMenuItems: [{
                 id: 'plugin-id-1',
                 pluginId: 'plugin-1',
-                icon: <i className='fa fa-anchor'/>,
+                mobileIcon: <i className='fa fa-anchor'/>,
                 action: jest.fn,
                 dropdownText: 'some dropdown text',
                 tooltipText: 'some tooltip text',
@@ -186,7 +186,7 @@ describe('components/Menu', () => {
             {
                 id: 'plugind-id-2',
                 pluginId: 'plugin-2',
-                icon: <i className='fa fa-anchor'/>,
+                mobileIcon: <i className='fa fa-anchor'/>,
                 action: jest.fn,
                 dropdownText: 'some dropdown text',
                 tooltipText: 'some tooltip text',
