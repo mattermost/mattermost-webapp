@@ -6,9 +6,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
 
-export type ExtraData = {
-    threadsToDelete?: UserThread[];
-}
+import {ExtraData} from './types';
 
 type State = ThreadsState['threadsInTeam'] | ThreadsState['unreadThreadsInTeam'];
 
