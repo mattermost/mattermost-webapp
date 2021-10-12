@@ -62,15 +62,9 @@ describe('Notifications', () => {
     });
 
     it('MM-T566 New message bar - Displays in permalink view', () => {
-        // # Visit town-square once so that when user A came back, the new messages bar will appear
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-        // # Post some messages in town-square channel
-        cy.postMessageAs({
-            sender: otherUser,
-            message: 'message from user B',
-            channelId: townChannelId,
+        // # Post messages in town-square channel
+        Cypress._.times(15, (postNumber) => {
+            cy.postMessageAs({sender: otherUser, message: `P${postNumber}`, channelId: townChannelId});
         });
 
         // # Enter "in:town-square" in the search bar and hit ENTER
@@ -83,16 +77,18 @@ describe('Notifications', () => {
         cy.getNthPostId(1).then((postIdTest) => {
             cy.get(`#post_${postIdTest}`, {timeout: TIMEOUTS.HALF_MIN}).should('have.class', 'post--highlight');
             cy.clock();
-
-            Cypress._.times(15, (postNumber) => {
-                cy.postMessageAs({sender: otherUser, message: `P${postNumber}`, channelId: townChannelId});
-            });
-
             cy.tick(6000);
             cy.get(`#post_${postIdTest}`).should('not.have.class', 'post--highlight');
         });
 
-        // * Verify New message bar appears if user is not within the view of the channel bottom (updated for 5.22)
+        // # Other user post a message in town-square channel
+        cy.postMessageAs({
+            sender: otherUser,
+            message: 'message from user B',
+            channelId: townChannelId,
+        });
+
+        // * Verify New message bar appears
         cy.get('.NotificationSeparator').should('exist');
     });
 });
