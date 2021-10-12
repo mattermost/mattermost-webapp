@@ -268,4 +268,24 @@ describe('components/Root', () => {
 
         wrapper.unmount();
     });
+
+    test('should set notifications permission to store and schedule next request for it on mount', () => {
+        const setBrowserNotificationsPermission = jest.fn();
+        const scheduleNextNotificationsPermissionRequest = jest.fn();
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                setBrowserNotificationsPermission,
+                scheduleNextNotificationsPermissionRequest,
+            },
+        };
+
+        const wrapper = shallow(<Root {...props}/>);
+
+        expect(props.actions.setBrowserNotificationsPermission).toBeCalledTimes(1);
+        expect(props.actions.scheduleNextNotificationsPermissionRequest).toBeCalledTimes(1);
+
+        wrapper.unmount();
+    });
 });
