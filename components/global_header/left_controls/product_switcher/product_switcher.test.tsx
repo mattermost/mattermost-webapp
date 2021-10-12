@@ -3,12 +3,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ProductSwitcher, {SwitcherNavEntry, ProductSwitcherButton, ProductSwitcherContainer} from './product_switcher';
-import ProductSwitcherMenu from './product_switcher_menu';
 import {ProductComponent} from 'types/store/plugins';
 import {TopLevelProducts} from 'utils/constants';
-
 import * as hooks from '../../hooks';
+
+import ProductSwitcher, {SwitcherNavEntry, ProductSwitcherButton, ProductSwitcherContainer} from './product_switcher';
+import ProductSwitcherMenu from './product_switcher_menu';
 
 function makeProduct(name: string): ProductComponent {
     return {
