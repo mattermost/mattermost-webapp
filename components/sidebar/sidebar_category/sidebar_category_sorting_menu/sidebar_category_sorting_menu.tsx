@@ -98,7 +98,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                 action: () => this.handlelimitVisibleDMsGMs(10000),
             },
             {
-                id: 'SidebarChannelMenu-moveToDivider',
+                id: 'ChannelMenu-moveToDivider',
                 text: (<li className='MenuGroup menu-divider'/>),
             },
             ...selectedDmCount,

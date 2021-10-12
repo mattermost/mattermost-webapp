@@ -14,10 +14,10 @@ describe('Messaging - Opening a private channel using keyboard shortcuts', () =>
     let testTeam;
 
     before(() => {
-        // # Create new team and new user and visit Town Square channel
+        // # Create new team and new user and visit Off-Topic channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -29,7 +29,7 @@ describe('Messaging - Opening a private channel using keyboard shortcuts', () =>
             // # Type the first letter of a private channel in the "Switch Channels" modal message box
             // # Use up/down arrow keys to highlight a private channel
             // # Press ENTER
-            cy.findByRole('textbox', {name: 'quick switch input'}).type('P').type('{downarrow}').type('{uparrow}').type('{enter}');
+            cy.findByRole('textbox', {name: 'quick switch input'}).type('P').type('{downarrow}').type('{downarrow}').type('{enter}');
 
             // * Private channel opens
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel');

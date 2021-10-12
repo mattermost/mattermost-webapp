@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
+import LocalizedIcon from 'components/localized_icon';
 import ResetStatusModal from 'components/reset_status_modal';
 import Avatar, {TAvatarSizeToken} from 'components/widgets/users/avatar/avatar';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
@@ -33,9 +34,11 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {UserCustomStatus, UserStatus, CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
 
-import './status_dropdown.scss';
 import {toUTCUnix} from 'utils/datetime';
+import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone} from 'utils/timezone';
+
+import './status_dropdown.scss';
 
 type Props = {
     status?: string;
@@ -180,19 +183,13 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
 
     renderDropdownIcon = (): ReactNode => {
         return (
-            <FormattedMessage
-                id='generic_icons.dropdown'
-                defaultMessage='Dropdown Icon'
-            >
-                { (title: string) => (
-                    <i
-                        className={'fa fa-caret-down'}
-                        aria-label={title}
-                    />)
-                }
-            </FormattedMessage>
+            <LocalizedIcon
+                className={'fa fa-caret-down'}
+                ariaLabel={{id: t('generic_icons.dropdown'), defaultMessage: 'Dropdown Icon'}}
+            />
         );
     }
+
     handleClearStatus = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.stopPropagation();
         e.preventDefault();
@@ -274,7 +271,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         return (
             <Menu.Group>
                 <Menu.ItemToggleModalRedux
-                    accessibilityLabel='Custom Status'
+                    ariaLabel='Custom Status'
                     modalId={ModalIdentifiers.CUSTOM_STATUS}
                     dialogType={CustomStatusModal}
                     className='MenuItem__primary-text custom_status__row'
@@ -489,7 +486,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     <Menu.Group>
                         <Menu.ItemToggleModalRedux
                             id='accountSettings'
-                            accessibilityLabel='Account Settings'
+                            ariaLabel='Account Settings'
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}

@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Chart, {ChartOptions} from 'chart.js';
-
-import * as Utils from 'utils/utils';
 
 type Props = {
     title: React.ReactNode;
@@ -62,7 +60,7 @@ export default class LineChart extends React.PureComponent<Props> {
             this.chart = null;
         }
 
-        if (Utils.areObjectsEqual(prevProps.data, this.props.data)) {
+        if (deepEqual(prevProps.data, this.props.data)) {
             return;
         }
 

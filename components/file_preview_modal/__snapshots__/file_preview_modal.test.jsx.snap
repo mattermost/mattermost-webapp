@@ -31,7 +31,7 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -124,7 +124,7 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -216,7 +216,7 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -313,7 +313,7 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -410,7 +410,7 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -508,7 +508,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -605,7 +605,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -702,7 +702,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -800,7 +800,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -897,7 +897,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -994,7 +994,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -1091,7 +1091,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -1188,7 +1188,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -1285,7 +1285,7 @@ exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
   show={true}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >
@@ -1378,7 +1378,7 @@ exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] 
   show={false}
   style={
     Object {
-      "padding-left": 0,
+      "paddingLeft": 0,
     }
   }
 >

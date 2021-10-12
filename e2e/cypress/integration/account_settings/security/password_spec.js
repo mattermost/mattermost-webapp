@@ -10,25 +10,21 @@
 // Stage: @prod
 // Group: @account_setting
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 describe('Account Settings -> Security -> Password', () => {
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
+
+            // # Go to Account Settings
+            cy.uiOpenAccountSettingsModal('Security');
+
+            // * Check that the Security tab is loaded
+            cy.get('#securityButton').should('be.visible');
+
+            // # Click the Security tab
+            cy.get('#securityButton').click();
         });
-    });
-
-    beforeEach(() => {
-        // # Go to Account Settings
-        cy.toAccountSettingsModal();
-
-        // * Check that the Security tab is loaded
-        cy.get('#securityButton').should('be.visible');
-
-        // # Click the Security tab
-        cy.get('#securityButton').click();
     });
 
     it('MM-T2085 Password: Valid values in password change fields allow the form to save successfully', () => {
@@ -41,7 +37,7 @@ describe('Account Settings -> Security -> Password', () => {
         cy.get('#confirmPassword').should('be.visible').type('passwd');
 
         // # Save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave();
 
         // * Check that there are no errors
         cy.get('#clientError').should('not.exist');

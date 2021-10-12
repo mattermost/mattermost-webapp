@@ -6,8 +6,9 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-//
-//  Group: @collapsed_reply_threads
+
+// Stage: @prod
+// Group: @collapsed_reply_threads
 
 describe('Collapsed Reply Threads', () => {
     let testTeam;

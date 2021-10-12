@@ -17,7 +17,7 @@ describe('Account Settings > General', () => {
     let testChannel;
 
     before(() => {
-        cy.apiInitSetup().then(({team, channel}) => {
+        cy.apiInitSetup().then(({team, channel, offTopicUrl}) => {
             testChannel = channel;
 
             cy.apiCreateUser().then(({user}) => {
@@ -28,22 +28,22 @@ describe('Account Settings > General', () => {
                 });
             });
 
-            // # Go to town square
-            cy.visit(`/${team.name}/channels/town-square`);
+            // # Go to off-topic
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T285 Main Menu stays open', () => {
         // # Click the hamburger button
-        cy.get('#headerInfo').find('button').click({force: true});
+        cy.uiGetSetStatusButton().click();
 
         // * Menu should be visible
-        cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');
+        cy.uiGetStatusMenu();
 
-        // # Post a message as other user and wait for it to reach
+        // # Post a message as other user
         cy.postMessageAs({sender: otherUser, message: 'abc', channelId: testChannel.id}).wait(TIMEOUTS.FIVE_SEC);
 
         // * Menu should still be visible
-        cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');
+        cy.uiGetStatusMenu();
     });
 });

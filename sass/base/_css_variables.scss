@@ -51,4 +51,19 @@
     --sidebar-unread-text-rgb: 255, 255, 255;
     --error-box-background: 197, 67, 72;
     --sidebar-team-background-rgb: 11, 66, 140;
+
+    // Elevation values used for box shadows.
+    // Defined as CSS variables so that both sass and JS can use them.
+    --elevation-1: 0 2px 3px 0 rgba(0, 0, 0, 0.08);
+    --elevation-2: 0 4px 6px 0 rgba(0, 0, 0, 0.12);
+    --elevation-3: 0 6px 14px 0 rgba(0, 0, 0, 0.12);
+    --elevation-4: 0 8px 24px 0 rgba(0, 0, 0, 0.12);
+    --elevation-5: 0 12px 32px 0 rgba(0, 0, 0, 0.12);
+    --elevation-6: 0 20px 32px 0 rgba(0, 0, 0, 0.12);
+
+    // Global Header variables
+    --global-header-background: var(--sidebar-teambar-bg);
+    --global-header-text: var(--sidebar-header-text-color);
+    --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
+    --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
 }

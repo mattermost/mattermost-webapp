@@ -598,6 +598,8 @@
 
     .emoji-picker__preview-image-label-box {
         .emoji-picker__preview-name {
+            @include user-select(text);
+
             display: inline-block;
             overflow: hidden;
             max-width: 120px;

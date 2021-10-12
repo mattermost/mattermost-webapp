@@ -14,18 +14,17 @@ import EditPostModal from 'components/edit_post_modal';
 import GetPublicLinkModal from 'components/get_public_link_modal';
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
-import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
-import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal.tsx';
 
 export default class ChannelController extends React.PureComponent {
     static propTypes = {
@@ -77,7 +76,7 @@ export default class ChannelController extends React.PureComponent {
                     <EditPostModal/>
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
-                    <ShortcutsModal isMac={Utils.isMac()}/>
+                    <KeyboardShortcutsModal/>
                 </div>
             </div>
         );

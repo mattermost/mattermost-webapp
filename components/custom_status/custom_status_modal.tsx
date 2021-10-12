@@ -136,12 +136,15 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     }, []);
 
     const handleSetStatus = () => {
-        const customStatus = {
+        const expiresAt = calculateExpiryTime();
+        const customStatus: UserCustomStatus = {
             emoji: emoji || 'speech_balloon',
             text: text.trim(),
             duration: duration === CUSTOM_DATE_TIME ? DATE_AND_TIME : duration,
-            expires_at: calculateExpiryTime(),
         };
+        if (expiresAt) {
+            customStatus.expires_at = expiresAt;
+        }
         dispatch(setCustomStatus(customStatus));
     };
 

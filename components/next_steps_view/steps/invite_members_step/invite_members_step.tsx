@@ -36,9 +36,10 @@ type Props = StepComponentProps & {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
     };
-    subscriptionStats: SubscriptionStats;
+    subscriptionStats: SubscriptionStats | null;
     intl: IntlShape;
     isCloud: boolean;
+    downloadAppsAsNextStep: boolean;
 };
 
 type State = {
@@ -277,6 +278,39 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
 
     render(): JSX.Element {
         const linkBtn = this.props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/> : <NotifyLink/>;
+        let subtitle = (
+            <FormattedMessage
+                id='next_steps_view.invite_members_step.youCanInvite'
+                defaultMessage='You can invite team members using a space or comma between addresses'
+            />
+        );
+
+        if (this.props?.subscriptionStats?.is_paid_tier === 'false') {
+            subtitle = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.youCanInviteUpTo'
+                    defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
+                    values={{
+                        members: this.props?.subscriptionStats?.remaining_seats,
+                    }}
+                />
+            );
+        }
+
+        let finishMessage = (
+            <FormattedMessage
+                id='next_steps_view.invite_members_step.finish'
+                defaultMessage='Finish'
+            />
+        );
+        if (this.props.downloadAppsAsNextStep) {
+            finishMessage = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.next_step'
+                    defaultMessage='Next step'
+                />
+            );
+        }
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
@@ -288,13 +322,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                     defaultMessage='Send invitations via email'
                                 />
                             </h4>
-                            <FormattedMessage
-                                id='next_steps_view.invite_members_step.youCanInviteUpTo'
-                                defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
-                                values={{
-                                    members: this.props?.subscriptionStats?.remaining_seats,
-                                }}
-                            />
+                            {subtitle}
                             <MultiInput
                                 onBlur={this.onBlur}
                                 onInputChange={this.onInputChange}
@@ -367,7 +395,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                 type='text'
                                 readOnly={true}
                                 value={this.getInviteURL()}
-                                aria-label={Utils.localizeMessage({id: 'next_steps_view.invite_members_step.shareLinkInput', defaultMessage: 'team invite link'})}
+                                aria-label={Utils.localizeMessage('next_steps_view.invite_members_step.shareLinkInput', 'team invite link')}
                                 data-testid='InviteMembersStep__shareLinkInput'
                             />
                             <button
@@ -403,10 +431,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                         className={'NextStepsView__button NextStepsView__finishButton primary'}
                         onClick={this.onFinish}
                     >
-                        <FormattedMessage
-                            id='next_steps_view.invite_members_step.finish'
-                            defaultMessage='Finish'
-                        />
+                        {finishMessage}
                     </button>
                 </div>
             </div>

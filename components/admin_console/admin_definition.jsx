@@ -70,7 +70,6 @@ import {
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
-    ChannelsFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
     DataRetentionFeatureDiscovery,
@@ -510,7 +509,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.teams'),
             title_default: 'Teams',
             isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             ),
             schema: {
@@ -531,37 +529,11 @@ const AdminDefinition = {
             url: 'user_management/channels',
             title: t('admin.sidebar.channels'),
             title_default: 'Channels',
-            isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
-            ),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'Channels',
                 component: ChannelSettings,
-            },
-        },
-        channels_feature_discovery: {
-            url: 'user_management/channels',
-            isDiscovery: true,
-            title: t('admin.sidebar.channels'),
-            title_default: 'Channels',
-            isHidden: it.any(
-                it.licensedForFeature('LDAPGroups'),
-                it.not(it.enterpriseReady),
-            ),
-            schema: {
-                id: 'Channels',
-                name: t('admin.channel_settings.title'),
-                name_default: 'Channels',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: ChannelsFeatureDiscovery,
-                        key: 'ChannelsFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                    },
-                ],
             },
         },
         systemScheme: {
@@ -1943,7 +1915,7 @@ const AdminDefinition = {
                         label: t('admin.support.emailTitle'),
                         label_default: 'Support Email:',
                         help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications and during tutorial for end users to ask support questions.',
+                        help_text_default: 'Email address displayed on email notifications.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -2207,9 +2179,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableConfirmNotificationsToChannel',
                         label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
-                        label_default: 'Show @channel and @all and group mention confirmation dialog:',
+                        label_default: 'Show @channel, @all, @here and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all, @here and group mentions in channels with over five members. When false, no confirmation is required.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                     },
                     {
@@ -2553,7 +2525,8 @@ const AdminDefinition = {
                         label: t('admin.customization.enablePermalinkPreviewsTitle'),
                         label_default: 'Enable message link previews:',
                         help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
-                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
+                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -2573,6 +2546,18 @@ const AdminDefinition = {
                         help_text: t('admin.customization.enableLatexDesc'),
                         help_text_default: 'Enable rendering of Latex code. If false, Latex code will be highlighted only.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableInlineLatex',
+                        label: t('admin.customization.enableInlineLatexTitle'),
+                        label_default: 'Enable Inline Latex Rendering:',
+                        help_text: t('admin.customization.enableInlineLatexDesc'),
+                        help_text_default: 'When true, users may render inline Latex code with dollar signs surrounding the text. When false, Latex can only be rendered in a code block using syntax highlighting. [Learn more about text formatting in our documentation](!https://docs.mattermost.com/messaging/formatting-text.html).',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                            it.configIsFalse('ServiceSettings', 'EnableLatex'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -2751,7 +2736,10 @@ const AdminDefinition = {
                         help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). New teams can only be created by users from the above domain(s). This setting affects email login for users. For Guest users, please add domains under Signup > Guest Access.',
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
-                        isHidden: it.not(it.licensed),
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
@@ -4319,7 +4307,10 @@ const AdminDefinition = {
                 shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
-                it.not(it.licensed),
+                it.any(
+                    it.not(it.licensed),
+                    it.licensedForSku('starter'),
+                ),
                 it.all(
                     it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),
@@ -5179,17 +5170,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'ServiceSettings.EnableOnlyAdminIntegrations',
-                        label: t('admin.service.integrationAdmin'),
-                        label_default: 'Restrict managing integrations to Admins:',
-                        help_text: t('admin.service.integrationAdminDesc'),
-                        help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
-                        permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: it.licensed,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnablePostUsernameOverride',
                         label: t('admin.service.overrideTitle'),
@@ -5682,7 +5662,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
                         help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, any via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.licensed), // documented as E20 and higher, but only E10 in the code
+                        isHidden: it.any( // documented as E20 and higher, but only E10 in the code
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5860,7 +5843,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5871,7 +5857,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
                         help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
@@ -5912,7 +5901,10 @@ const AdminDefinition = {
                                 display_name_default: 'Onyx',
                             },
                         ],
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -6053,17 +6045,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalTownSquareIsReadOnly',
-                        label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
-                        label_default: 'Town Square is Read-Only:',
-                        help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
-                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
-                        help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {

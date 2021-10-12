@@ -10,6 +10,7 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadMeAndConfig} from 'actions/views/root';
+import {emitBrowserWindowResized} from 'actions/views/browser';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {changeOsColorScheme, initOsColorScheme} from 'mattermost-redux/actions/general';
@@ -43,6 +44,7 @@ function mapDispatchToProps(dispatch) {
             loadMeAndConfig,
             initOsColorScheme,
             changeOsColorScheme,
+            emitBrowserWindowResized,
         }, dispatch),
     };
 }
