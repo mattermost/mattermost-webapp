@@ -310,7 +310,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} 사용자",
   "admin.billing.subscription.privateCloudCard.contactSales": "영업팀에 문의",
   "admin.billing.subscription.privateCloudCard.contactSupport": "고객센터에 문의",
-  "admin.billing.subscription.questions": "질문이 있으십니까?",
   "admin.billing.subscription.stateprovince": "시/도",
   "admin.billing.subscription.title": "구독",
   "admin.billing.subscription.updatePaymentInfo": "결제 정보 업데이트",
