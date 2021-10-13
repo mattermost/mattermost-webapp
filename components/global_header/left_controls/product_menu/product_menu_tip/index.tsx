@@ -52,4 +52,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect<StateProps, DispatchProps, null, GlobalState>(mapStateToProps, mapDispatchToProps)(ProductMenuTip);
+export default connect<StateProps, DispatchProps, Record<string, never>, GlobalState>(mapStateToProps, mapDispatchToProps)(ProductMenuTip);
