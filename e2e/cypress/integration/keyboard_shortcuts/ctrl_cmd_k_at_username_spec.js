@@ -37,7 +37,7 @@ describe('Keyboard Shortcuts', () => {
         // # Click on the username in the suggestion list
         cy.findByTestId(otherUser.username).click();
 
-        // * the direct message channel for the user opens
+        // * The direct message channel for the user opens
         cy.url().should('include', `/${testTeam.name}/messages/@${otherUser.username}`);
     });
 });
