@@ -8,6 +8,7 @@ describe('Reducers.Browser', () => {
     const initialState = {
         focused: true,
         windowSize: WindowSizes.DESKTOP_VIEW,
+        isNotificationsPermissionGranted: false,
     };
 
     test('Initial state', () => {
@@ -15,6 +16,7 @@ describe('Reducers.Browser', () => {
             {
                 focused: true,
                 windowSize: WindowSizes.DESKTOP_VIEW,
+                isNotificationsPermissionGranted: false,
             },
             {},
         );
@@ -27,6 +29,7 @@ describe('Reducers.Browser', () => {
             {
                 focused: true,
                 windowSize: WindowSizes.DESKTOP_VIEW,
+                isNotificationsPermissionGranted: false,
             },
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
@@ -45,6 +48,7 @@ describe('Reducers.Browser', () => {
             {
                 focused: false,
                 windowSize: WindowSizes.DESKTOP_VIEW,
+                isNotificationsPermissionGranted: false,
             },
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
@@ -63,6 +67,7 @@ describe('Reducers.Browser', () => {
             {
                 focused: true,
                 windowSize: WindowSizes.DESKTOP_VIEW,
+                isNotificationsPermissionGranted: false,
             },
             {
                 type: ActionTypes.BROWSER_WINDOW_RESIZED,
@@ -73,6 +78,25 @@ describe('Reducers.Browser', () => {
         expect(nextState).toEqual({
             ...initialState,
             windowSize: WindowSizes.MOBILE_VIEW,
+        });
+    });
+
+    test(`should save notifications permission status on ${ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED}`, () => {
+        const nextState = browserReducer(
+            {
+                focused: true,
+                windowSize: WindowSizes.DESKTOP_VIEW,
+                isNotificationsPermissionGranted: false,
+            },
+            {
+                type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
+                data: true,
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            isNotificationsPermissionGranted: true,
         });
     });
 });
