@@ -113,6 +113,10 @@
                         &:hover {
                             background: transparent;
                         }
+
+                        .SubMenu__icon-right {
+                            color: rgba(var(--center-channel-bg-rgb), 0.56);
+                        }
                     }
 
                     .navbar-right__icon {
