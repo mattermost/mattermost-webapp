@@ -300,7 +300,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} usuários",
   "admin.billing.subscription.privateCloudCard.contactSales": "Contate Vendas",
   "admin.billing.subscription.privateCloudCard.contactSupport": "Contate o Suporte",
-  "admin.billing.subscription.questions": "Questões?",
   "admin.billing.subscription.stateprovince": "Estado/Província",
   "admin.billing.subscription.title": "Assinaturas",
   "admin.billing.subscription.updatePaymentInfo": "Atualizar informações de pagamento",
