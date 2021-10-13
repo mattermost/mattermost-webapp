@@ -67,7 +67,6 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             error: false,
             state: ProcessState.PROCESSING,
         };
-        this.handleSetIsUpgradeValueToFalse = this.handleSetIsUpgradeValueToFalse.bind(this);
     }
 
     public componentDidMount() {
@@ -78,12 +77,6 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
     public componentWillUnmount() {
         clearInterval(this.intervalId);
-        window.removeEventListener('onbeforeunload', this.handleSetIsUpgradeValueToFalse, false);
-    }
-
-    // set the property isUpgrading to false onClose or window leave event since we can not use directly isFreeTrial because of component rerendering
-    private handleSetIsUpgradeValueToFalse = () => {
-        this.props.setIsUpgradeFromTrialToFalse();
     }
 
     private updateProgress = () => {
@@ -204,11 +197,9 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         // if is the first purchase, show a different success purchasing title
         if (this.props.isUpgradeFromTrial) {
             title = t('admin.billing.subscription.firstPurchaseSuccess');
-            window.addEventListener('beforeunload', () => {
-                this.handleSetIsUpgradeValueToFalse();
-            });
             handleClose = () => {
-                this.handleSetIsUpgradeValueToFalse();
+                // set the property isUpgrading to false onClose since we can not use directly isFreeTrial because of component rerendering
+                this.props.setIsUpgradeFromTrialToFalse();
                 this.props.onClose();
             };
         }
