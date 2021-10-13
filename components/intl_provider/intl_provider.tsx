@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {IntlProvider as BaseIntlProvider} from 'react-intl';
+
+import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 
 import {Client4} from 'mattermost-redux/client';
 import {setLocalizeFunction} from 'mattermost-redux/utils/i18n_utils';
@@ -11,17 +12,18 @@ import {setLocalizeFunction} from 'mattermost-redux/utils/i18n_utils';
 import * as I18n from 'i18n/i18n';
 
 import {localizeMessage} from 'utils/utils';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
-export default class IntlProvider extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.element.isRequired,
-        locale: PropTypes.string.isRequired,
-        translations: PropTypes.object,
-        actions: PropTypes.shape({
-            loadTranslations: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    children: ReactNode;
+    locale: string;
+    translations?: Record<string, string> | Record<string, MessageFormatElement[]>;
+    actions: {
+        loadTranslations: ((locale: string, url: string) => ActionFunc) | (() => void);
     };
+};
 
+export default class IntlProvider extends React.PureComponent<Props> {
     componentDidMount() {
         // Initialize browser's i18n data
         I18n.doAddLocaleData();
@@ -32,19 +34,19 @@ export default class IntlProvider extends React.PureComponent {
         this.handleLocaleChange(this.props.locale);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.locale !== this.props.locale) {
             this.handleLocaleChange(this.props.locale);
         }
     }
 
-    handleLocaleChange = (locale) => {
+    handleLocaleChange = (locale: string) => {
         Client4.setAcceptLanguage(locale);
 
         this.loadTranslationsIfNecessary(locale);
     }
 
-    loadTranslationsIfNecessary = (locale) => {
+    loadTranslationsIfNecessary = (locale: string) => {
         if (this.props.translations) {
             // Already loaded
             return;
