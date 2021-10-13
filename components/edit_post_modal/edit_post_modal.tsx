@@ -164,7 +164,18 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         }
 
         if (this.state.editText === '') {
-            this.setState({editText: ':' + emojiAlias + ': '});
+            const newMessage = ':' + emojiAlias + ': ';
+            const textbox = this.editbox && this.editbox.getInputBox();
+
+            this.setState(
+                {
+                    editText: newMessage,
+                    caretPosition: newMessage.length,
+                },
+                () => {
+                    Utils.setCaretPosition(textbox, newMessage.length);
+                },
+            );
         } else {
             const {editText} = this.state;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(
