@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
@@ -237,7 +238,7 @@ export default class Root extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (!Utils.areObjectsEqual(prevProps.theme, this.props.theme)) {
+        if (!deepEqual(prevProps.theme, this.props.theme)) {
             Utils.applyTheme(this.props.theme);
         }
         if (this.props.location.pathname === '/') {
