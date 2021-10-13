@@ -26,16 +26,12 @@ import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
-interface FetchingChannelsProp {
+interface Props {
     fetchingChannels: boolean;
 }
 
-export default class ChannelController extends React.PureComponent<FetchingChannelsProp> {
-    static propTypes = {
-        fetchingChannels: PropTypes.bool.isRequired,
-    };
-
-    componentDidMount(): void {
+export default class ChannelController extends React.PureComponent<Props> {
+    componentDidMount() {
         const platform = window.navigator.platform;
 
         document.body.classList.add('app__body', 'channel-view');
@@ -53,11 +49,11 @@ export default class ChannelController extends React.PureComponent<FetchingChann
         }
     }
 
-    componentWillUnmount(): void {
+    componentWillUnmount() {
         document.body.classList.remove('app__body', 'channel-view');
     }
 
-    render(): JSX.Element {
+    render() {
         return (
             <div
                 id='channel_view'
