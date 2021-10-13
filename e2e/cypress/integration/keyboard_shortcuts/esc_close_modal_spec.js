@@ -20,7 +20,7 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('MM-T1236 Arrow up key - Edit modal open up for own message of a user', () => {
+    it('MM-T1244 CTRL/CMD+K - Esc closes modal', () => {
         const searchTerm = 'test';
 
         // # Open Channel switcher modal by click on the button
