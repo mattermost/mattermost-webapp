@@ -7,7 +7,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 
-import {sendDesktopNotification} from './notification_actions';
+import {sendDesktopNotification, enableBrowserNotifications} from './notification_actions';
 
 describe('notification_actions', () => {
     describe('sendDesktopNotification', () => {
@@ -361,5 +361,28 @@ describe('notification_actions', () => {
                 });
             });
         });
+    });
+
+    describe('trackEnableNotificationsBarDisplay', () => {
+
+    });
+
+    describe('setBrowserNotificationsPermission', () => {
+
+    });
+
+    describe('enableBrowserNotifications', () => {
+        it('should track successful permission grant', async () => {
+            const requestNotificationsPermissionSpy = jest.spyOn(utils, 'requestNotificationsPermission');
+            requestNotificationsPermissionSpy.mockImplementationOnce(() => Promise.resolve(true));
+        });
+
+        it('should track permission request rejection', () => {
+
+        });
+    });
+
+    describe('scheduleNextNotificationsPermissionRequest', () => {
+
     });
 });
