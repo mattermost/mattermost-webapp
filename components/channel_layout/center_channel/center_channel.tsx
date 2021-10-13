@@ -84,7 +84,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
         }
     }
 
-    render(): JSX.Element {
+    render() {
         const {lastChannelPath, isCollapsedThreadsEnabled} = this.props;
         const url = this.props.match.url;
         return (
