@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 
 import AnnouncementBarController from 'components/announcement_bar';
