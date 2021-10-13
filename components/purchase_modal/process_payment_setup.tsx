@@ -6,12 +6,9 @@ import {Stripe} from '@stripe/stripe-js';
 
 import {FormattedMessage} from 'react-intl';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited} from 'actions/telemetry_actions';
-import {Unique, Preferences, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import {getNextBillingDate} from 'utils/utils';
@@ -38,9 +35,8 @@ type Props = {
     selectedProduct?: Product | null | undefined;
     currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
-    currentUser: UserProfile;
-    savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-    preferences: PreferenceType[];
+    isUpgradeFromTrial: boolean;
+    setIsUpgradeFromTrialToFalse: () => void;
 }
 
 type State = {
@@ -71,7 +67,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             error: false,
             state: ProcessState.PROCESSING,
         };
-        this.saveIsPurchaseInPrefs = this.saveIsPurchaseInPrefs.bind(this);
+        this.handleSetIsUpgradeValueToFalse = this.handleSetIsUpgradeValueToFalse.bind(this);
     }
 
     public componentDidMount() {
@@ -82,7 +78,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
     public componentWillUnmount() {
         clearInterval(this.intervalId);
-        window.removeEventListener('onbeforeunload', this.saveIsPurchaseInPrefs, false);
+        window.removeEventListener('onbeforeunload', this.handleSetIsUpgradeValueToFalse, false);
+    }
+
+    // set the property isUpgrading to false onClose or window leave event since we can not use directly isFreeTrial because of component rerendering
+    private handleSetIsUpgradeValueToFalse = () => {
+        this.props.setIsUpgradeFromTrialToFalse();
     }
 
     private updateProgress = () => {
@@ -141,15 +142,6 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         this.setState({state: ProcessState.SUCCESS, progress: 100});
     }
 
-    private saveIsPurchaseInPrefs = () => {
-        this.props.savePreferences(this.props.currentUser.id, [{
-            category: Preferences.UNIQUE,
-            user_id: this.props.currentUser.id,
-            name: Unique.HAS_CLOUD_PURCHASE,
-            value: 'true',
-        }]);
-    };
-
     private handleGoBack = () => {
         clearInterval(this.intervalId);
         this.setState({
@@ -204,19 +196,19 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             );
         }
         let title = t('admin.billing.subscription.upgradedSuccess');
-        const isFirstPurchase = Boolean(!(this.props.preferences.some((pref: PreferenceType) =>
-            pref.name === Unique.HAS_CLOUD_PURCHASE && pref.value === 'true')),
-        );
+
         let handleClose = () => {
             this.props.onClose();
         };
-        if (isFirstPurchase) {
+
+        // if is the first purchase, show a different success purchasing title
+        if (this.props.isUpgradeFromTrial) {
             title = t('admin.billing.subscription.firstPurchaseSuccess');
             window.addEventListener('beforeunload', () => {
-                this.saveIsPurchaseInPrefs();
+                this.handleSetIsUpgradeValueToFalse();
             });
             handleClose = () => {
-                this.saveIsPurchaseInPrefs();
+                this.handleSetIsUpgradeValueToFalse();
                 this.props.onClose();
             };
         }
