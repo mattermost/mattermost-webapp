@@ -53,7 +53,6 @@ const ProductMenuTip = ({
     const [skippedBecauseIrrelevant, setSkippedBecauseIrrelevant] = useState(false);
     const tipIsRelevant = (step === TutorialSteps.PRODUCT_SWITCHER) && !skippedBecauseIrrelevant && products && checkHasPlaybooks(products) && checkHasBoards(products);
 
-    console.log('#### 0:', actions);
     useEffect(() => {
         // We check this at the component level because we want to wait until
         // global header is visible to the user.
@@ -64,21 +63,15 @@ const ProductMenuTip = ({
         // 4) Boards and Playbooks get installed & enabled.
         // 5) User turns on global header or it gets enabled for all users.
         // 6) The user misses seeing this tip.
-        console.log('#### 1:', actions);
 
         if (skippedBecauseIrrelevant || (step !== TutorialSteps.PRODUCT_SWITCHER)) {
-            console.log('#### 2:', actions);
             return;
         }
 
-        console.log('#### 3:', actions);
         const userHasProducts = products && checkHasPlaybooks(products) && checkHasBoards(products);
         if (userHasProducts) {
-            console.log('#### 4:', actions);
             return;
         }
-
-        console.log('#### actions:', actions);
 
         // If user does not have access to these products, we do not want to show them the tutorial.
         actions.savePreferences(
