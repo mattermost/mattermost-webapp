@@ -5,7 +5,7 @@ import React, {useEffect} from 'react';
 
 import {useIntl, FormattedMessage} from 'react-intl';
 
-import {useSelector, useDispatch, useStore} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -30,7 +30,6 @@ type Props = {
 
 const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null => {
     const dispatch = useDispatch<DispatchFunc>();
-    const store = useStore();
 
     const intl = useIntl();
     const currentTeamId = useSelector(getCurrentTeamId);
