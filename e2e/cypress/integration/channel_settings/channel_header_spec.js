@@ -7,10 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel_settings
+
 import {getRandomId} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
-// Group: @channel_settings
 
 describe('Channel Settings', () => {
     let testTeam;

@@ -10,9 +10,11 @@
 // Stage: @prod
 // Group: @accessibility @smoke
 
+import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
+    const sysadmin = getAdminAccount();
     let testUser;
     let testTeam;
     let testChannel;
@@ -27,6 +29,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
             testTeam = team;
             testChannel = channel;
             offTopicUrl = url;
+            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
             return cy.apiCreateChannel(testTeam.id, 'test', 'Test');
         }).then(({channel}) => {
             otherChannel = channel;
@@ -89,39 +92,6 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
             }
 
             // * Verify if focus changes to different channels in Channels section
-            cy.wrap(el).find('.SidebarLink').should('be.focused');
-            cy.focused().tab().tab();
-        });
-    });
-
-    it('MM-T1472 Verify Tab Support in Direct Messages section', () => {
-        // # Trigger DM with a user
-        cy.uiAddDirectMessage().click();
-        cy.get('.more-modal__row.clickable').first().click();
-        cy.get('#saveItems').click();
-
-        // # Trigger DM with couple of users
-        cy.uiAddDirectMessage().click();
-        cy.get('.more-modal__row.clickable').first().click();
-        cy.get('.more-modal__row.clickable').eq(1).click();
-        cy.get('#saveItems').click();
-
-        cy.wait(TIMEOUTS.TWO_SEC);
-
-        // # Press tab to the Create DM button and verify if the Plus button has focus
-        cy.uiAddDirectMessage().
-            focus().
-            tab({shift: true}).tab().
-            should('be.focused').and('have.css', 'border-radius', '4px').
-            tab({shift: true}).tab({shift: true});
-
-        cy.focused().parent().next().find('.SidebarChannel').each((el, i) => {
-            if (i === 0) {
-                cy.focused().findByText('DIRECT MESSAGES');
-                cy.focused().tab().tab().tab().tab();
-            }
-
-            // * Verify if focus changes to different channels in Direct Messages section
             cy.wrap(el).find('.SidebarLink').should('be.focused');
             cy.focused().tab().tab();
         });
