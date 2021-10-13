@@ -41,9 +41,12 @@ export function displayUsername(
     return name;
 }
 
-export function spaceSeparatedStringIncludes(spaceSeparated: string, item: string): boolean {
-    const items = String(spaceSeparated).split(' ');
-    return items.includes(item);
+export function spaceSeparatedStringIncludes(item: string, spaceSeparated?: string): boolean {
+    if (spaceSeparated) {
+        const items = spaceSeparated?.split(' ');
+        return items.includes(item);
+    }
+    return false;
 }
 
 export function isAdmin(roles: string): boolean {
@@ -51,15 +54,15 @@ export function isAdmin(roles: string): boolean {
 }
 
 export function isGuest(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, 'system_guest');
+    return spaceSeparatedStringIncludes('system_guest', roles);
 }
 
 export function isTeamAdmin(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.TEAM_ADMIN_ROLE);
+    return spaceSeparatedStringIncludes(General.TEAM_ADMIN_ROLE, roles);
 }
 
 export function isSystemAdmin(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_ADMIN_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_ADMIN_ROLE, roles);
 }
 
 export function includesAnAdminRole(roles: string): boolean {
@@ -73,19 +76,19 @@ export function includesAnAdminRole(roles: string): boolean {
 }
 
 export function isChannelAdmin(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.CHANNEL_ADMIN_ROLE);
+    return spaceSeparatedStringIncludes(General.CHANNEL_ADMIN_ROLE, roles);
 }
 
 export function hasUserAccessTokenRole(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_USER_ACCESS_TOKEN_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_USER_ACCESS_TOKEN_ROLE, roles);
 }
 
 export function hasPostAllRole(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_POST_ALL_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_POST_ALL_ROLE, roles);
 }
 
 export function hasPostAllPublicRole(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_POST_ALL_PUBLIC_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_POST_ALL_PUBLIC_ROLE, roles);
 }
 
 export function profileListToMap(profileList: UserProfile[]): IDMappedObjects<UserProfile> {
