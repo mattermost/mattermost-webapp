@@ -49,7 +49,7 @@ describe('Keyboard Shortcuts', () => {
         // # Visit the channel using the channel name
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-        // # Post message in the channel from User 1
+        // # Post message in the channel from User 2
         cy.postMessage(message2);
         cy.apiLogout();
 
@@ -62,7 +62,7 @@ describe('Keyboard Shortcuts', () => {
         // * Verify that the Edit Post Modal is visible
         cy.get('#editPostModal').should('be.visible');
 
-        // * Verify that the Edit textbox contains previously sent message
+        // * Verify that the Edit textbox contains previously sent message by user 1
         cy.get('#edit_textbox').should('have.text', message1);
     });
 });
