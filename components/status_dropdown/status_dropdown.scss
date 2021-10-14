@@ -194,7 +194,8 @@
     #status-menu-dnd {
         padding: 1px 16px;
 
-        .MenuItem__primary-text {
+        .MenuItem__primary-text,
+        .grid {
             display: grid;
             align-items: center;
             grid-template-columns: auto 1fr auto auto;

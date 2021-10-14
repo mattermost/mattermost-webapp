@@ -26,7 +26,9 @@ exports[`components/widgets/menu/menu_items/submenu_item empty subMenu should ma
       onMouseLeave={[Function]}
       tabIndex={0}
     >
-      <div>
+      <div
+        className="grid"
+      >
         test
       </div>
       <div>
@@ -93,7 +95,9 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
       onMouseLeave={[Function]}
       tabIndex={0}
     >
-      <div>
+      <div
+        className="grid"
+      >
         test
       </div>
       <div>
@@ -143,7 +147,9 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
                 onMouseLeave={[Function]}
                 tabIndex={0}
               >
-                <div>
+                <div
+                  className="grid"
+                >
                   Test A
                 </div>
                 <div>
@@ -197,7 +203,9 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
                 onMouseLeave={[Function]}
                 tabIndex={0}
               >
-                <div>
+                <div
+                  className="grid"
+                >
                   Test B
                 </div>
                 <div>

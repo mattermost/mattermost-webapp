@@ -49,6 +49,7 @@ export type Props = {
     openUp?: boolean;
     styleSelectableItem?: boolean;
     extraText?: string;
+    rightDecorator?: React.ReactNode;
 }
 
 type State = {
@@ -148,7 +149,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -233,8 +234,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     onKeyDown={this.handleKeyDown}
                 >
-                    <div>
-                        {textProp}
+                    <div className={'grid'}>
+                        {textProp}{rightDecorator}
                     </div>
                     <div>
                         {renderSelected && <span className='selected'>{selectedValueText}</span>}

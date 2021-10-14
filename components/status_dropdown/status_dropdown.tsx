@@ -434,7 +434,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                                     className={'status-icon'}
                                 />
                             )}
-                            selectedValueText={status === 'dnd' && selectedIndicator}
+                            rightDecorator={status === 'dnd' && selectedIndicator}
                             direction={globalHeader ? 'left' : 'right'}
                             openUp={this.state.openUp}
                             id={'status-menu-dnd'}
