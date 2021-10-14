@@ -188,7 +188,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 </>
             );
         }
-        let title = t('admin.billing.subscription.upgradedSuccess');
+        let title = (
+            <FormattedMessage
+                id={'admin.billing.subscription.upgradedSuccess'}
+                defaultMessage={'Great! You\'re now upgraded'}
+            />
+        );
 
         let handleClose = () => {
             this.props.onClose();
@@ -196,7 +201,14 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
         // if is the first purchase, show a different success purchasing title
         if (this.props.isUpgradeFromTrial) {
-            title = t('admin.billing.subscription.firstPurchaseSuccess');
+            const productName = this.props.currentProduct?.name;
+            title = (
+                <FormattedMessage
+                    id={'admin.billing.subscription.firstPurchaseSuccess'}
+                    defaultMessage={'You are now subscribed to {productName}'}
+                    values={{productName}}
+                />
+            );
             handleClose = () => {
                 // set the property isUpgrading to false onClose since we can not use directly isFreeTrial because of component rerendering
                 this.props.setIsUpgradeFromTrialToFalse();
@@ -205,7 +217,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         }
         return (
             <IconMessage
-                title={title}
+                formattedTitle={title}
                 subtitle={t('admin.billing.subscription.nextBillingDate')}
                 date={getNextBillingDate()}
                 error={error}

@@ -12,9 +12,7 @@ import {Tooltip} from 'react-bootstrap';
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
@@ -68,8 +66,6 @@ type Props = {
     isFreeTrial: boolean;
     isFreeTier: boolean;
     productId: string | undefined;
-    currentUser: UserProfile;
-    preferences: PreferenceType[];
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -77,7 +73,6 @@ type Props = {
         subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
-        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
 }
 
