@@ -31,6 +31,7 @@ describe('Keyboard Shortcuts', () => {
             // * Confirm the RHS is shown
             cy.get('#rhsCloseButton').should('exist');
 
+            // # Press CTRL/CMD+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
 
             // * Confirm the message box has focus
