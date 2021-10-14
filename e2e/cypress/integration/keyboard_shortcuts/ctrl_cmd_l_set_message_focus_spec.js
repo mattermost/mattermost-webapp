@@ -25,14 +25,15 @@ describe('Keyboard Shortcuts', () => {
             cy.clickPostDotMenu(postId);
             cy.findByText('Reply').click();
 
-            cy.get('#rhsContainer').click();
+            // * Confirm that reply text box has focus
+            cy.get('#reply_textbox').should('be.focused');
 
             // * Confirm the RHS is shown
             cy.get('#rhsCloseButton').should('exist');
 
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
 
-            // * Confirm the message box have focus
+            // * Confirm the message box has focus
             cy.get('#post_textbox').should('be.focused');
         });
     });
