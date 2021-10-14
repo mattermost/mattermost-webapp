@@ -31,7 +31,10 @@ describe('Keyboard Shortcuts', () => {
 
             // * Confirm the RHS is shown
             cy.get('#rhsCloseButton').should('exist');
+
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
+
+            // * Confirm the message box have focus
             cy.get('#post_textbox').should('be.focused');
         });
     });
