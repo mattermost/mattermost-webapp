@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@testing-library/cypress": "8.0.1",
+    "@testing-library/cypress": "7.0.6",
     "@types/lodash": "4.14.175",
     "async": "3.2.1",
     "authenticator": "1.1.5",
