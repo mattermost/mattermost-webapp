@@ -147,11 +147,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             </button>
         );
 
-        const imageNameClasses = ['image-name'];
-        if (compactDisplay) {
-            imageNameClasses.push('compact-display');
-        }
-
         const fileHeader = (
             <div
                 className={classNames('image-header', {
@@ -162,7 +157,9 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                 {!this.props.isEmbedVisible && (
                     <div
                         data-testid='image-name'
-                        className={classNames(imageNameClasses)}
+                        className={classNames('image-name', {
+                            'compact-display': compactDisplay,
+                        })}
                     >
                         <div onClick={this.handleImageClick}>
                             {fileInfo.name}
