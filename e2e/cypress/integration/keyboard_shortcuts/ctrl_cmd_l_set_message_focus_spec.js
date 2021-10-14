@@ -25,8 +25,8 @@ describe('Keyboard Shortcuts', () => {
         cy.postMessage('Hello World!');
 
         cy.getLastPostId().then((postId) => {
+            // # Open RHS
             cy.clickPostDotMenu(postId);
-
             cy.findByText('Reply').click();
 
             cy.get('#rhsContainer').click();
