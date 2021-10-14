@@ -15,6 +15,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import StatusIcon from 'components/status_icon';
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
@@ -130,19 +131,23 @@ export default class AtMentionSuggestion extends Suggestion {
             } else if (item.first_name || item.last_name || item.nickname) {
                 description = (
                     <span className='ml-2'>
-                        {`${Utils.getFullName(item)} ${
-                            item.nickname ? `(${item.nickname})` : ''
+                        {`${Utils.getFullName(item)} ${item.nickname ? `(${item.nickname})` : ''
                         }`.trim()}
                     </span>
                 );
             }
 
             icon = (
-                <Avatar
-                    size='sm'
-                    username={item && item.username}
-                    url={Utils.imageURLForUser(item.id, item.last_picture_update)}
-                />
+                <span className={'status-wrapper style--none'}>
+                    <span className='profile-icon'>
+                        <Avatar
+                            username={item && item.username}
+                            size='sm'
+                            url={Utils.imageURLForUser(item.id, item.last_picture_update)}
+                        />
+                    </span>
+                    <StatusIcon status={item && item.status}/>
+                </span>
             );
 
             customStatus = (
@@ -160,12 +165,12 @@ export default class AtMentionSuggestion extends Suggestion {
         let youElement = null;
         if (item.isCurrentUser) {
             youElement =
-            (<span className='ml-1'>
-                <FormattedMessage
-                    id='suggestion.user.isCurrent'
-                    defaultMessage='(you)'
-                />
-            </span>);
+                (<span className='ml-1'>
+                    <FormattedMessage
+                        id='suggestion.user.isCurrent'
+                        defaultMessage='(you)'
+                    />
+                </span>);
         }
 
         let className = 'suggestion-list__item';
