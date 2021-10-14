@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments, AutoTourTreatments} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -18,6 +18,7 @@ export type ClientConfig = {
     AndroidMinVersion: string;
     AppDownloadLink: string;
     AsymmetricSigningPublicKey: string;
+    AutoTour: AutoTourTreatments;
     AvailableLocales: string;
     BannerColor: string;
     BannerText: string;

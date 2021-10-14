@@ -19,9 +19,15 @@ type Preference = {
     value: string;
 }
 
+type ValueOf<T> = T[keyof T];
 type Props = {
     currentUserId: string;
-    step: number;
+
+    // the current tour tip state in redux state
+    currentStep: number;
+
+    // the step that an instance of TutorialTip is tied to, e.g.
+    step: ValueOf<typeof TutorialSteps>;
     screens: JSX.Element[];
     placement: string;
     overlayClass: string;
@@ -30,15 +36,22 @@ type Props = {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
     };
+    autoTour: boolean;
 }
 
 type State = {
     currentScreen: number;
     show: boolean;
+
+    // give auto tour a chance to engage
+    hasShown: boolean;
 }
+
+const COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME = 150;
 
 export default class TutorialTip extends React.PureComponent<Props, State> {
     public targetRef: React.RefObject<HTMLImageElement>;
+    private showPendingTimeout!: NodeJS.Timeout;
 
     public static defaultProps: Partial<Props> = {
         overlayClass: '',
@@ -46,17 +59,17 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     public constructor(props: Props) {
         super(props);
-
         this.state = {
             currentScreen: 0,
             show: false,
+            hasShown: false,
         };
 
         this.targetRef = React.createRef();
     }
 
     private show = (): void => {
-        this.setState({show: true});
+        this.setState({show: true, hasShown: true});
     }
 
     private hide = (): void => {
@@ -89,6 +102,28 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
+    private autoShow(couldAutoShow: boolean) {
+        if (!couldAutoShow) {
+            return;
+        }
+        const isShowable = this.props.autoTour && !this.state.hasShown && this.props.currentStep === this.props.step;
+        if (isShowable) {
+            // POST_POPOVER is the only tip that is not automatically rendered if it is the currentStep.
+            // This is because tips and next steps may display.
+            // It can further happen that the post popover gets the first chance to display,
+            // and then tips and next steps determines it should display.
+            // So this is tutorial_tip's way of being polite to the user and not flashing its tip
+            // in the user's face right before showing tips and next steps.
+            if (this.props.step === TutorialSteps.POST_POPOVER) {
+                this.showPendingTimeout = setTimeout(() => {
+                    this.show();
+                }, COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME);
+            } else {
+                this.show();
+            }
+        }
+    }
+
     public handleNext = (): void => {
         if (this.state.currentScreen < this.props.screens.length - 1) {
             this.setState({currentScreen: this.state.currentScreen + 1});
@@ -118,7 +153,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             user_id: currentUserId,
             category: Preferences.TUTORIAL_STEP,
             name: currentUserId,
-            value: (this.props.step + 1).toString(),
+            value: (this.props.currentStep + 1).toString(),
         }];
 
         closeRhsMenu();
@@ -157,6 +192,20 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     private getTarget = (): HTMLImageElement | null => {
         return this.targetRef.current;
+    }
+
+    public componentDidMount() {
+        this.autoShow(true);
+    }
+
+    public componentDidUpdate(prevProps: Props) {
+        const currentStepChanged = prevProps.currentStep !== this.props.currentStep;
+        const autoTourChanged = prevProps.autoTour !== this.props.autoTour;
+        this.autoShow(currentStepChanged || autoTourChanged);
+    }
+
+    public componentWillUnmount() {
+        clearTimeout(this.showPendingTimeout);
     }
 
     public render(): JSX.Element {

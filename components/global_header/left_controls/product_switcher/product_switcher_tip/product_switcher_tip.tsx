@@ -124,6 +124,7 @@ export class ProductSwitcherTip extends React.PureComponent<Props, State> {
             <TutorialTip
                 placement='right'
                 screens={screens}
+                step={TutorialSteps.PRODUCT_SWITCHER}
                 overlayClass='tip-overlay--product-switcher'
                 telemetryTag='tutorial_tip_product_switcher'
             />

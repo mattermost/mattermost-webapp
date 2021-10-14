@@ -70,6 +70,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
         return (
             <TutorialTip
                 placement='right'
+                step={Constants.TutorialSteps.ADD_CHANNEL_POPOVER}
                 screens={screens}
                 overlayClass='tip-overlay--add-channels'
                 telemetryTag='tutorial_tip_add_channels'
