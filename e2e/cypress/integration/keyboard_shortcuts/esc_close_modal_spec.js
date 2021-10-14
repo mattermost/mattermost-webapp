@@ -10,13 +10,12 @@
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
-    let testUser;
+    let channelUrl;
 
     before(() => {
-        cy.apiInitSetup().then(({user, offTopicUrl}) => {
-            testUser = user;
-            cy.apiLogin(testUser);
-            cy.visit(offTopicUrl);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            channelUrl = offTopicUrl
+            cy.visit(channelUrl);
         });
     });
 
@@ -27,7 +26,7 @@ describe('Keyboard Shortcuts', () => {
         cy.findByRole('button', {name: 'Channel Switcher'}).click();
 
         // # Type in the quick switch input box
-        cy.get('#quickSwitchInput').type(searchTerm);
+        cy.get('#quickSwitchInput').type(searchTerm, {force: true});
 
         // * Verify that the no search result test is displayed
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + searchTerm + '"');
@@ -37,5 +36,8 @@ describe('Keyboard Shortcuts', () => {
 
         // * Verify that the modal is closed
         cy.get('.modal-content').should('not.exist');
+
+        // * Verify that the user does not leave the off-topic channel
+        cy.url().should('contain', channelUrl)
     });
 });
