@@ -26,6 +26,7 @@ import {isAdmin} from 'utils/utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 
 import FullscreenInvitationModal from './fullscreen/invitation_modal.jsx';
+import InvitationModal from './invitation_modal';
 
 const searchProfiles = (term, options = {}) => {
     if (!term) {
@@ -91,12 +92,6 @@ function mapDispatchToProps(dispatch) {
             openModal: (modalData) => openModal(modalData),
         }, dispatch),
     };
-}
-
-function InvitationModal() {
-    return <div>
-        lightbox version.
-    </div>
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(({asLightbox, ...props}) => asLightbox ? <InvitationModal {...props}/> : <FullscreenInvitationModal {...props} />);
