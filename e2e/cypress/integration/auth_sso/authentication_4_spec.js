@@ -18,7 +18,7 @@ describe('Authentication', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiCreateUser().then(({user: newUser}) => {
             testUser = newUser;

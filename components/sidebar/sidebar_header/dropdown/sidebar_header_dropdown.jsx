@@ -31,7 +31,6 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             getFirstAdminVisitMarketplaceStatus: PropTypes.func.isRequired,
         }).isRequired,
-        globalHeaderEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -83,7 +82,6 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
                     openModal={this.props.actions.openModal}
                     getFirstAdminVisitMarketplaceStatus={this.props.actions.getFirstAdminVisitMarketplaceStatus}
                     showUnread={this.props.enablePluginMarketplace && isAdmin(this.props.currentUser.roles) && !this.props.firstAdminVisitMarketplaceStatus}
-                    globalHeaderEnabled={this.props.globalHeaderEnabled}
                 />
                 <MainMenu id='sidebarDropdownMenu'/>
             </MenuWrapper>
