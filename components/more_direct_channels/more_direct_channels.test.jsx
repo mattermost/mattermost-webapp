@@ -37,7 +37,6 @@ describe('components/MoreDirectChannels', () => {
             },
         ],
         recentDirectChannelUsers: [],
-        statuses: {user_id_1: 'online', user_id_2: 'away'},
         currentChannelMembers: [
             {
                 id: 'user_id_1',
@@ -61,7 +60,7 @@ describe('components/MoreDirectChannels', () => {
                 });
             }),
             getProfilesInTeam: emptyFunction,
-            loadStatusesByIds: emptyFunction,
+            loadProfilesMissingStatus: emptyFunction,
             searchProfiles: emptyFunction,
             searchGroupChannels: emptyFunction,
             setModalSearchTerm: emptyFunction,
@@ -78,13 +77,13 @@ describe('components/MoreDirectChannels', () => {
     };
 
     test('should match snapshot', () => {
-        const props = {...baseProps, actions: {...baseProps.actions, loadStatusesByIds: jest.fn()}};
+        const props = {...baseProps, actions: {...baseProps.actions, loadProfilesMissingStatus: jest.fn()}};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call for modal data on callback of modal onEntered', () => {
-        const props = {...baseProps, actions: {...baseProps.actions, loadStatusesByIds: jest.fn()}};
+        const props = {...baseProps, actions: {...baseProps.actions, loadProfilesMissingStatus: jest.fn()}};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
 
         wrapper.find(Modal).prop('onEntered')();
@@ -92,26 +91,23 @@ describe('components/MoreDirectChannels', () => {
         expect(props.actions.getProfiles).toHaveBeenCalledTimes(1);
         expect(props.actions.getTotalUsersStats).toHaveBeenCalledTimes(1);
         expect(props.actions.getProfiles).toBeCalledWith(0, 100);
-        expect(props.actions.loadStatusesByIds).toHaveBeenCalledTimes(1);
-        expect(props.actions.loadStatusesByIds).toBeCalledWith(['user_id_3']);
-
-        // on componentWillReceiveProps
-        wrapper.setProps({statuses: {user_id_1: 'online', user_id_2: 'away', user_id_3: 'offline'}});
-        expect(props.actions.loadStatusesByIds).toHaveBeenCalledTimes(1);
+        expect(props.actions.loadProfilesMissingStatus).toHaveBeenCalledTimes(1);
+        expect(props.actions.loadProfilesMissingStatus).toBeCalledWith(baseProps.users);
     });
 
-    test('should call actions.loadStatusesByIds on loadProfilesMissingStatus', () => {
-        const props = {...baseProps, actions: {...baseProps.actions, loadStatusesByIds: jest.fn()}};
+    test('should call actions.loadProfilesMissingStatus on componentDidUpdate when users prop changes length', () => {
+        const props = {...baseProps, actions: {...baseProps.actions, loadProfilesMissingStatus: jest.fn()}};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
-        wrapper.find(Modal).prop('onEntered')();
+        const newUsers = [{
+            id: 'user_id_1',
+            label: 'user_id_1',
+            value: 'user_id_1',
+            delete_at: 0,
+        }];
 
-        wrapper.instance().loadProfilesMissingStatus(props.users, props.statuses);
-        expect(props.actions.loadStatusesByIds).toHaveBeenCalledTimes(2);
-        expect(props.actions.loadStatusesByIds).toBeCalledWith(['user_id_3']);
-
-        props.statuses = {user_id_1: 'online', user_id_2: 'away', user_id_3: 'offline'};
-        wrapper.instance().loadProfilesMissingStatus(props.users, props.statuses);
-        expect(props.actions.loadStatusesByIds).toHaveBeenCalledTimes(2);
+        wrapper.setProps({users: newUsers});
+        expect(props.actions.loadProfilesMissingStatus).toHaveBeenCalledTimes(1);
+        expect(props.actions.loadProfilesMissingStatus).toBeCalledWith(newUsers);
     });
 
     test('should call actions.setModalSearchTerm and match state on handleHide', () => {
