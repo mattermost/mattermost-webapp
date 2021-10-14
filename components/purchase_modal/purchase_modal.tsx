@@ -478,6 +478,34 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             validBillingDetails = areBillingDetailsValid(initialBillingDetails);
         }
 
+        let priceSection =
+           (<>
+               <div className='price-text'>
+                   {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
+                   {this.displayDecimals()}
+                   <span className='monthly-text'>
+                       {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? (
+                           <FormattedMessage
+                               defaultMessage={' /month'}
+                               id={'admin.billing.subscription.perMonth'}
+                           />
+                       ) : (
+                           <FormattedMessage
+                               defaultMessage={' /user/month'}
+                               id={'admin.billing.subscription.perUserPerMonth'}
+                           />)
+                       }
+                   </span>
+               </div>
+               <div className='footer-text'>
+                   {this.paymentFooterText()}
+               </div>
+           </>);
+
+        if (this.state.selectedProduct?.billing_scheme === BillingSchemes.INTERNAL) {
+            priceSection = <>{'Please contact sales for a quote.'}</>;
+        }
+
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
@@ -557,46 +585,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </Badge>
                         }
-                        <div className='price-text'>
-                            {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
-                            {this.displayDecimals()}
-                            <span className='monthly-text'>
-                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? (
-                                    <FormattedMessage
-                                        defaultMessage={' /month'}
-                                        id={'admin.billing.subscription.perMonth'}
-                                    />
-                                ) : (
-                                    <FormattedMessage
-                                        defaultMessage={' /user/month'}
-                                        id={'admin.billing.subscription.perUserPerMonth'}
-                                    />)
-                                }
-                            </span>
-                        </div>
-                        {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
-                            <div className='payment-note'>
-                                <FormattedMessage
-                                    defaultMessage={'If your Mattermost Cloud trial started on or before September 15, please '}
-                                    id={'admin.billing.subscription.paymentNoteStart'}
-                                />
-                                {this.contactSalesLink(
-                                    <FormattedMessage
-                                        defaultMessage={'contact our Sales team'}
-                                        id={
-                                            'admin.billing.subscription.privateCloudCard.contactOurSalesTeam'
-                                        }
-                                    />,
-                                )}
-                                <FormattedMessage
-                                    defaultMessage={' for assistance'}
-                                    id={'admin.billing.subscription.paymentNoteEnd'}
-                                />
-                            </div>
-                        }
-                        <div className='footer-text'>
-                            {this.paymentFooterText()}
-                        </div>
+                        {priceSection}
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
