@@ -37,8 +37,8 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
         },
     };
 
-    private ADDITIONAL_VALUES;
-    private groups;
+    private ADDITIONAL_VALUES: any;
+    private groups: any;
     constructor(props: Props) {
         super(props);
 
