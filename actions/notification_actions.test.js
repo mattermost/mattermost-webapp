@@ -4,10 +4,10 @@
 import testConfigureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
+import Constants, {ActionTypes, NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 
-import {sendDesktopNotification, enableBrowserNotifications} from './notification_actions';
+import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest} from './notification_actions';
 
 describe('notification_actions', () => {
     describe('sendDesktopNotification', () => {
@@ -364,25 +364,199 @@ describe('notification_actions', () => {
     });
 
     describe('trackEnableNotificationsBarDisplay', () => {
+        let currentDate = new Date();
 
+        beforeAll(() => {
+            jest.useFakeTimers('modern');
+            jest.setSystemTime(currentDate);
+        });
+
+        afterAll(() => {
+            jest.useRealTimers();
+        });
+
+        it('should increment display count for notifications bar', async () => {
+            const initialShownCount = 1;
+            const initialState = {
+                storage: {
+                    storage: {
+                        [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
+                            value: initialShownCount,
+                        },
+                    }
+                }
+            };
+            
+            const store = testConfigureStore(initialState);
+            await store.dispatch(trackEnableNotificationsBarDisplay());
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: "SET_GLOBAL_ITEM",
+                    data: {
+                        name: StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES,
+                        value: initialShownCount + 1,
+                        timestamp: currentDate
+                    }
+                }
+            ]);
+        });
     });
 
     describe('setBrowserNotificationsPermission', () => {
-
+        
     });
 
     describe('enableBrowserNotifications', () => {
         it('should track successful permission grant', async () => {
             const requestNotificationsPermissionSpy = jest.spyOn(utils, 'requestNotificationsPermission');
-            requestNotificationsPermissionSpy.mockImplementationOnce(() => Promise.resolve(true));
+            requestNotificationsPermissionSpy.mockImplementationOnce(() => Promise.resolve('granted'));
+
+            const store = testConfigureStore();
+
+            await store.dispatch(enableBrowserNotifications());
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
+                    data: true
+                }
+            ]);
         });
 
-        it('should track permission request rejection', () => {
+        it('should track permission request rejection', async () => {
+            const requestNotificationsPermissionSpy = jest.spyOn(utils, 'requestNotificationsPermission');
+            requestNotificationsPermissionSpy.mockImplementationOnce(() => Promise.resolve('rejected'));
 
+            const store = testConfigureStore();
+
+            await store.dispatch(enableBrowserNotifications());
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
+                    data: false
+                }
+            ]);
         });
     });
 
     describe('scheduleNextNotificationsPermissionRequest', () => {
+        let currentDate = new Date();
 
+        beforeAll(() => {
+            jest.useFakeTimers('modern');
+            jest.setSystemTime(currentDate);
+        });
+
+        afterAll(() => {
+            jest.useRealTimers();
+        });
+
+        it(`should disable scheduling forever if there were already more than ${Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS} requests`, async () => {
+            const initialState = {
+                storage: {
+                    storage: {
+                        [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
+                            value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1
+                        }
+                    }
+                }
+            };
+            const store = testConfigureStore(initialState);
+
+            await store.dispatch(scheduleNextNotificationsPermissionRequest());
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: "SET_GLOBAL_ITEM",
+                    data: {
+                        name: StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT,
+                        value: null,
+                        timestamp: currentDate
+                    }
+                }
+            ]);
+        });
+
+        it('should not schedule next request if request has already been scheduled', async () => {
+            const initialState = {
+                storage: {
+                    storage: {
+                        [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
+                            value: 0
+                        },
+                        [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
+                            value: 1
+                        }
+                    }
+                }
+            };
+            const store = testConfigureStore(initialState);
+
+            await store.dispatch(scheduleNextNotificationsPermissionRequest());
+
+            expect(store.getActions()).toEqual([]);
+        });
+
+        it(`should schedule next request immediately if there have been less than ${Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS} requests`, async () => {
+            const initialState = {
+                storage: {
+                    storage: {
+                        [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
+                            value: 1
+                        },
+                        [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
+                            value: null
+                        }
+                    }
+                }
+            };
+            const store = testConfigureStore(initialState);
+
+            await store.dispatch(scheduleNextNotificationsPermissionRequest());
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: "SET_GLOBAL_ITEM",
+                    data: {
+                        name: StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT,
+                        value: 0,
+                        timestamp: currentDate
+                    }
+                }
+            ]);
+        });
+
+        it('should schedule last possible request in seven days from now', async () => {
+            const initialState = {
+                storage: {
+                    storage: {
+                        [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
+                            value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS
+                        },
+                        [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
+                            value: null
+                        }
+                    }
+                }
+            };
+            const store = testConfigureStore(initialState);
+
+            await store.dispatch(scheduleNextNotificationsPermissionRequest());
+
+            const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: "SET_GLOBAL_ITEM",
+                    data: {
+                        name: StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT,
+                        value: currentDate.getTime() + SEVEN_DAYS_IN_MS,
+                        timestamp: currentDate
+                    }
+                }
+            ]);
+        });
     });
 });

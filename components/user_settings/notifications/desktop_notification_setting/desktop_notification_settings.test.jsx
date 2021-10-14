@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels} from 'utils/constants';
 
-import DesktopNotificationSettings from 'components/user_settings/notifications/desktop_notification_setting';
+import DesktopNotificationSettings from 'components/user_settings/notifications/desktop_notification_setting/desktop_notification_settings';
 
 jest.mock('utils/utils.jsx', () => {
     const original = jest.requireActual('utils/utils.jsx');
@@ -21,6 +21,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
 
     const baseProps = {
         activity: NotificationLevels.MENTION,
+        areNotificationsDisabled: false,
         sound: 'false',
         updateSection: emptyFunction,
         setParentState: emptyFunction,
@@ -33,6 +34,9 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         selectedSound: 'Bing',
         isCollapsedThreadsEnabled: false,
         threads: NotificationLevels.ALL,
+        actions: {
+            enableBrowserNotifications: emptyFunction,
+        }
     };
 
     test('should match snapshot, on max setting', () => {

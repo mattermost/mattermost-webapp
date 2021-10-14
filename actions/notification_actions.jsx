@@ -261,7 +261,7 @@ export const scheduleNextNotificationsPermissionRequest = () => {
         }
 
         const currentShowBarAt = getGlobalItem(state, StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, 0);
-        if (currentShowBarAt === null || currentShowBarAt !== 0) {
+        if (currentShowBarAt !== 0) {
             return;
         }
 
