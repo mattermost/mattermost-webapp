@@ -14,7 +14,7 @@ describe('Keyboard Shortcuts', () => {
 
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
-            channelUrl = offTopicUrl
+            channelUrl = offTopicUrl;
             cy.visit(channelUrl);
         });
     });
@@ -38,6 +38,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('.modal-content').should('not.exist');
 
         // * Verify that the user does not leave the off-topic channel
-        cy.url().should('contain', channelUrl)
+        cy.url().should('contain', channelUrl);
     });
 });
