@@ -342,9 +342,9 @@ export class TestHelper {
             switcherText: name,
             baseURL: '',
             switcherLinkURL: '',
-            mainComponent: null,
-            headerCentreComponent: null,
-            headerRightComponent: null,
+            mainComponent: () => null,
+            headerCentreComponent: () => null,
+            headerRightComponent: () => null,
         };
     }
 }

@@ -31,16 +31,16 @@ exports[`components/global/product_switcher should have an active button state w
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -85,16 +85,16 @@ exports[`components/global/product_switcher should match snapshot 1`] = `
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -139,16 +139,16 @@ exports[`components/global/product_switcher should match snapshot with product s
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -193,16 +193,16 @@ exports[`components/global/product_switcher should render once when there are no
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -247,16 +247,16 @@ exports[`components/global/product_switcher should render the correct amount of 
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <SwitcherNavEntry
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
