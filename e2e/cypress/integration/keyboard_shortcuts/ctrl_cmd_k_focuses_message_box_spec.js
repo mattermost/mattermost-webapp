@@ -20,29 +20,27 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    describe('Keyboard Shortcuts', () => {
-        it('MM-T1243 CTRL/CMD+K - Open public channel using arrow keys and Enter, click out of current channel message box first', () => {
-            // # To remove focus from message text box
-            cy.get('#postListContent').click();
-            cy.get('#post_textbox').should('not.be.focused');
+    it('MM-T1243 CTRL/CMD+K - Open public channel using arrow keys and Enter, click out of current channel message box first', () => {
+        // # To remove focus from message text box
+        cy.get('#postListContent').click();
+        cy.get('#post_textbox').should('not.be.focused');
 
-            // # Press CTRL/CMD+K
-            cy.get('body').cmdOrCtrlShortcut('K');
-            cy.get('#quickSwitchInput').type('T');
+        // # Press CTRL/CMD+K
+        cy.get('body').cmdOrCtrlShortcut('K');
+        cy.get('#quickSwitchInput').type('T');
 
-            // # Press down arrow
-            cy.wait(TIMEOUTS.HALF_SEC);
-            cy.get('body').type('{downarrow}');
+        // # Press down arrow
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.get('body').type('{downarrow}');
 
-            // * Confirm the offtopic channel is selected in the suggestion list
-            cy.get('#suggestionList').findByTestId('off-topic').should('be.visible').and('have.class', 'suggestion--selected');
+        // * Confirm the offtopic channel is selected in the suggestion list
+        cy.get('#suggestionList').findByTestId('off-topic').should('be.visible').and('have.class', 'suggestion--selected');
 
-            // # Press ENTER
-            cy.get('body').type('{enter}');
+        // # Press ENTER
+        cy.get('body').type('{enter}');
 
-            // * Confirm that channel is open, and post text box has focus
-            cy.contains('#channelHeaderTitle', 'Off-Topic');
-            cy.get('#post_textbox').should('be.focused');
-        });
+        // * Confirm that channel is open, and post text box has focus
+        cy.contains('#channelHeaderTitle', 'Off-Topic');
+        cy.get('#post_textbox').should('be.focused');
     });
 });
