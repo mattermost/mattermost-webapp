@@ -201,7 +201,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
         // if is the first purchase, show a different success purchasing title
         if (this.props.isUpgradeFromTrial) {
-            const productName = this.props.currentProduct?.name;
+            const productName = this.props.selectedProduct?.name;
             title = (
                 <FormattedMessage
                     id={'admin.billing.subscription.firstPurchaseSuccess'}
