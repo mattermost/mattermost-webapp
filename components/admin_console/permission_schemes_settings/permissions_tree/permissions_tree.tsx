@@ -19,7 +19,7 @@ type Props = {
     config: Partial<ClientConfig>;
     role: Partial<Role>;
     onToggle: (name: string, ids: string[]) => void;
-    parentRole?: Partial<Role>;
+    parentRole?: Partial<Role> | null;
     selected?: boolean;
     selectRow: (id: string) => void;
     readOnly?: boolean;
