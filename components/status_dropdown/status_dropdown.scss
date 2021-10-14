@@ -1,4 +1,4 @@
-#statusDropdownMenu-timedDND {
+#statusDropdownMenu {
     .icon {
         position: relative;
         display: inline-flex;
@@ -18,7 +18,7 @@
         }
     }
 
-    #status-menu-dnd-timed {
+    #status-menu-dnd {
         padding: 4px 16px;
 
         .dropdown-menu {
@@ -191,7 +191,7 @@
     }
 
     .MenuItem > button,
-    #status-menu-dnd-timed {
+    #status-menu-dnd {
         padding: 1px 16px;
 
         .MenuItem__primary-text {
@@ -210,8 +210,8 @@
         }
     }
 
-    #statusDropdownMenu-timedDND,
-    #statusDropdownMenu-timedDND #status-menu-dnd-timed, {
+    #statusDropdownMenu,
+    #statusDropdownMenu #status-menu-dnd {
         .icon {
             top: unset;
             width: auto;
