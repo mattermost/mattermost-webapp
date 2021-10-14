@@ -51,7 +51,7 @@ const COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME = 150;
 
 export default class TutorialTip extends React.PureComponent<Props, State> {
     public targetRef: React.RefObject<HTMLImageElement>;
-    private showPendingTimeout!: NodeJS.Timeout;
+    private showPendingTimeout?: NodeJS.Timeout;
 
     public static defaultProps: Partial<Props> = {
         overlayClass: '',
@@ -205,7 +205,9 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     public componentWillUnmount() {
-        clearTimeout(this.showPendingTimeout);
+        if (this.showPendingTimeout) {
+            clearTimeout(this.showPendingTimeout);
+        }
     }
 
     public render(): JSX.Element {
