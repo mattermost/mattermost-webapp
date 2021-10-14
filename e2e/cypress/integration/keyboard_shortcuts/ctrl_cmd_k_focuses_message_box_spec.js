@@ -40,7 +40,7 @@ describe('Keyboard Shortcuts', () => {
             // # Press ENTER
             cy.get('body').type('{enter}');
 
-            // # Confirm that channel is open, and post text box has focus
+            // * Confirm that channel is open, and post text box has focus
             cy.contains('#channelHeaderTitle', 'Off-Topic');
             cy.get('#post_textbox').should('be.focused');
         });
