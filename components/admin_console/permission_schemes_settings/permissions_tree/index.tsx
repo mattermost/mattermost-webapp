@@ -7,7 +7,9 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import PermissionsTree from './permissions_tree.jsx';
+import {GlobalState} from 'types/store';
+
+import PermissionsTree from './permissions_tree';
 
 export const EXCLUDED_PERMISSIONS = [
     Permissions.VIEW_MEMBERS,
@@ -17,7 +19,7 @@ export const EXCLUDED_PERMISSIONS = [
     Permissions.LIST_PRIVATE_TEAMS,
 ];
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const license = getLicense(state);
 

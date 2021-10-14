@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionsTree from 'components/admin_console/permission_schemes_settings/permissions_tree/permissions_tree.jsx';
+import PermissionsTree from 'components/admin_console/permission_schemes_settings/permissions_tree/permissions_tree';
 
 import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 

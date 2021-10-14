@@ -2,36 +2,44 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config.js';
+
 import Permissions from 'mattermost-redux/constants/permissions';
+import {Role} from 'mattermost-redux/types/roles';
 
 import PermissionGroup from '../permission_group.jsx';
 
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
-export default class PermissionsTree extends React.PureComponent {
-    static propTypes = {
-        scope: PropTypes.string.isRequired,
-        config: PropTypes.object.isRequired,
-        role: PropTypes.object.isRequired,
-        onToggle: PropTypes.func.isRequired,
-        parentRole: PropTypes.object,
-        selected: PropTypes.string,
-        selectRow: PropTypes.func.isRequired,
-        readOnly: PropTypes.bool,
-        license: PropTypes.object,
-    };
+type Props = {
+    scope: string;
+    config: Partial<ClientConfig>;
+    role: Partial<Role>;
+    onToggle: (name: string, ids: string[]) => void;
+    parentRole?: Partial<Role>;
+    selected?: boolean;
+    selectRow: (id: string) => void;
+    readOnly?: boolean;
+    license?: Partial<ClientLicense>;
+}
 
-    static defaultProps = {
+type State = {
+    editTimeLimitModalIsVisible: boolean;
+}
+
+export default class PermissionsTree extends React.PureComponent<Props, State> {
+    static defaultProps: Partial<Props> = {
         role: {
             permissions: [],
         },
     };
 
-    constructor(props) {
+    private ADDITIONAL_VALUES;
+    private groups;
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -199,17 +207,17 @@ export default class PermissionsTree extends React.PureComponent {
         this.setState({editTimeLimitModalIsVisible: false});
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.config !== prevProps.config || this.props.license !== prevProps.license) {
             this.updateGroups();
         }
     }
 
-    toggleGroup = (ids) => {
+    toggleGroup = (ids: string[]) => {
         if (this.props.readOnly) {
             return;
         }
-        this.props.onToggle(this.props.role.name, ids);
+        this.props.onToggle(this.props.role.name!, ids);
     }
 
     render = () => {
