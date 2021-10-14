@@ -34,7 +34,7 @@ describe('Keyboard Shortcuts', () => {
             cy.wait(TIMEOUTS.HALF_SEC);
             cy.get('body').type('{downarrow}');
 
-            // # Confirm the offtopic channel is selected in the suggestion list
+            // * Confirm the offtopic channel is selected in the suggestion list
             cy.get('#suggestionList').findByTestId('off-topic').should('be.visible').and('have.class', 'suggestion--selected');
 
             // # Press ENTER
