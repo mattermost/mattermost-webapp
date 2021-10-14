@@ -21,7 +21,6 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1249 CTRL/CMD+SHIFT+L - Set focus to center channel message box (with REPLY RHS open)', () => {
-        cy.apiLogin(testUser);
         cy.postMessage('Hello World!');
 
         cy.getLastPostId().then((postId) => {
