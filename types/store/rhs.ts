@@ -26,6 +26,7 @@ export type PostDraft = {
     caretPosition?: number;
     channelId: string;
     createAt: Date;
+    updateAt: Date;
 };
 
 export type RhsViewState = {

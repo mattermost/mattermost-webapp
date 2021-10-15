@@ -23,7 +23,8 @@ import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {updateDraft} from 'actions/views/drafts';
 import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
@@ -45,18 +46,9 @@ export function clearCommentDraftUploads() {
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
 // we're on will not save the draft quickly enough on page unload.
-export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
+export function updateCommentDraft(rootId: string, draft?: PostDraft) {
     const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
-    let updatedDraft = draft;
-    if (draft) {
-        const item = localStorage.getItem(key);
-        const data = item ? JSON.parse(item) : {};
-        updatedDraft = {...draft, createAt: data.createAt || new Date()};
-        localStorage.setItem(key, JSON.stringify(updatedDraft));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, updatedDraft);
+    return updateDraft(key, draft ?? null);
 }
 
 export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
@@ -167,7 +159,7 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
 
         dispatch(addMessageIntoHistory(message));
 
-        dispatch(updateCommentDraft(rootId, null));
+        dispatch(updateCommentDraft(rootId));
 
         const isReaction = Utils.REACTION_PATTERN.exec(message);
 

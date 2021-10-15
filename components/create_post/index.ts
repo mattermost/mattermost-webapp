@@ -41,6 +41,7 @@ import {
     removeReaction,
 } from 'mattermost-redux/actions/posts';
 import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+import {updateDraft} from 'actions/views/drafts';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -166,22 +167,17 @@ type Actions = {
 // we're on will not save the draft quickly enough on page unload.
 function setDraft(key: string, value: PostDraft) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let updatedValue;
+        let updatedValue = null;
         if (value) {
-            const item = localStorage.getItem(key);
-            const data = item ? JSON.parse(item) : {};
+            updatedValue = {...value};
             const channelId = getCurrentChannelId(getState());
             updatedValue = {
                 ...value,
                 channelId,
-                createAt: data.createAt || new Date(),
             };
-            localStorage.setItem(key, JSON.stringify(updatedValue));
-        } else {
-            localStorage.removeItem(key);
         }
 
-        return dispatch(setGlobalItem(key, updatedValue));
+        return dispatch(updateDraft(key, updatedValue));
     };
 }
 

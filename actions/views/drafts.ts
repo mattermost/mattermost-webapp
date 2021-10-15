@@ -12,6 +12,24 @@ export function removeDraft(key: string) {
     };
 }
 
+export function updateDraft(key: string, value: PostDraft|null) {
+    let updatedValue = null;
+    if (value) {
+        const item = localStorage.getItem(key);
+        const data = item ? JSON.parse(item) : {};
+        updatedValue = {
+            ...value,
+            createAt: data.createAt || new Date(),
+            updateAt: new Date(),
+        };
+        localStorage.setItem(key, JSON.stringify(updatedValue));
+    } else {
+        localStorage.removeItem(key);
+    }
+
+    return setGlobalItem(key, updatedValue);
+}
+
 export function removeFilePreview(key: string, id: string) {
     return (dispatch: DispatchFunc) => {
         const item = localStorage.getItem(key);

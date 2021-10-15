@@ -17,28 +17,30 @@ type Props = {
 }
 
 function DraftRow({draft, user, status, displayName}: Props) {
-    let Component;
-
     switch (draft.type) {
     case 'channel':
-        Component = ChannelDraft;
-        break;
+        return (
+            <ChannelDraft
+                {...draft}
+                draftId={String(draft.key)}
+                user={user}
+                status={status}
+                displayName={displayName}
+            />
+        );
     case 'thread':
-        Component = ThreadDraft;
-        break;
+        return (
+            <ThreadDraft
+                {...draft}
+                draftId={String(draft.key)}
+                user={user}
+                status={status}
+                displayName={displayName}
+            />
+        );
     default:
         return null;
     }
-
-    return (
-        <Component
-            {...draft}
-            draftId={String(draft.key)}
-            user={user}
-            status={status}
-            displayName={displayName}
-        />
-    );
 }
 
 export default memo(DraftRow);

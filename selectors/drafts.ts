@@ -85,16 +85,7 @@ export function makeGetDrafts(): DraftSelector {
             [...channelDrafts, ...rhsDrafts]
         ).
             filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).
-            sort((a, b) => {
-                if (a.value.createAt < b.value.createAt) {
-                    return 1;
-                }
-
-                if (a.value.createAt > b.value.createAt) {
-                    return -1;
-                }
-                return 0;
-            }),
+            sort((a, b) => new Date(b.value.updateAt).getTime() - new Date(a.value.updateAt).getTime()),
     );
 }
 

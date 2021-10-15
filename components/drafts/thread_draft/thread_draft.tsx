@@ -106,7 +106,7 @@ function ThreadDraft({
                                 userId={user.id}
                             />
                         )}
-                        timestamp={value.createAt}
+                        timestamp={value.updateAt}
                     />
                     <Body
                         channelId={channel.id}
