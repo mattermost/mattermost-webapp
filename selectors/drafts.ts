@@ -7,7 +7,7 @@ import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/rhs';
 
-import {StoragePrefixes, Constants} from 'utils/constants';
+import {StoragePrefixes} from 'utils/constants';
 
 type Info = {
     id: string;
