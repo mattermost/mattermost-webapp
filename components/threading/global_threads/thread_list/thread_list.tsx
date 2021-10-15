@@ -76,9 +76,9 @@ const ThreadList = ({
 
         let threadIdToSelect = 0;
         if (selectedThreadId) {
-            const selectedThreadIndex = ids.indexOf(selectedThreadId);
+            const selectedThreadIndex = data.indexOf(selectedThreadId);
             if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
-                if (selectedThreadIndex < ids.length - 1) {
+                if (selectedThreadIndex < data.length - 1) {
                     threadIdToSelect = selectedThreadIndex + 1;
                 }
             }
@@ -87,12 +87,12 @@ const ThreadList = ({
                 if (selectedThreadIndex > 0) {
                     threadIdToSelect = selectedThreadIndex - 1;
                 } else {
-                    threadIdToSelect = ids.length - 1;
+                    threadIdToSelect = data.length - 1;
                 }
             }
         }
-        select(ids[threadIdToSelect]);
-    }, [selectedThreadId, ids]);
+        select(data[threadIdToSelect]);
+    }, [selectedThreadId, data]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
