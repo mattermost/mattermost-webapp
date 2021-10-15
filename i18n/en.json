@@ -277,6 +277,7 @@
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " to avoid any disruption.",
   "admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation": "update your payment information",
   "admin.billing.subscription.creditCardHasExpired.please": "Please ",
+  "admin.billing.subscription.firstPurchaseSuccess": "You are now subscribed to {productName}",
   "admin.billing.subscription.freeTrial.description": "Your free trial will expire in {daysLeftOnTrial} days. Add your payment information to continue after the trial ends.",
   "admin.billing.subscription.freeTrial.lastDay.description": "Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.",
   "admin.billing.subscription.freeTrial.lastDay.title": "Your free trial ends today",
