@@ -1275,6 +1275,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                             </div>
                             <div className='col col-auto'>
                                 <TextboxLinks
+                                    isMarkdownPreviewEnabled={this.props.canPost}
                                     characterLimit={this.props.maxPostSize}
                                     showPreview={this.props.shouldShowPreview}
                                     updatePreview={this.setShowPreview}

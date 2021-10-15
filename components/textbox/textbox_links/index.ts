@@ -14,9 +14,20 @@ import TextboxLinks from './textbox_links';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-const mapStateToProps = (state: GlobalState) => {
+type Props = {
+    isMarkdownPreviewEnabled?: boolean;
+}
+
+function mapStateToProps(state: GlobalState, props: Props) {
+    let isMarkdownPreviewEnabled;
+    if (props.isMarkdownPreviewEnabled === undefined) {
+        isMarkdownPreviewEnabled = isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW, state);
+    } else {
+        isMarkdownPreviewEnabled = isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW, state) && props.isMarkdownPreviewEnabled;
+    }
+
     return ({
-        isMarkdownPreviewEnabled: isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW, state),
+        isMarkdownPreviewEnabled,
         currentLocale: getCurrentLocale(state),
     });
 };

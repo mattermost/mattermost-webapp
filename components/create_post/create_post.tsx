@@ -1627,6 +1627,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 postId=''
                             />
                             <TextboxLinks
+                                isMarkdownPreviewEnabled={this.props.canPost}
                                 characterLimit={this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
