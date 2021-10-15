@@ -197,6 +197,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, {
                 ...draft,
                 createAt: new Date(42),
+                updateAt: new Date(42),
             }));
 
             expect(store.getActions()).toEqual(testStore.getActions());
