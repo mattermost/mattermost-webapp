@@ -6,8 +6,8 @@ import nock from 'nock';
 
 import Client4 from 'mattermost-redux/client/client4';
 
-import { DEFAULT_LOCALE } from 'mattermost-redux/constants/general';
-import { generateId } from 'mattermost-redux/utils/helpers';
+import {DEFAULT_LOCALE} from 'mattermost-redux/constants/general';
+import {generateId} from 'mattermost-redux/utils/helpers';
 
 export const DEFAULT_SERVER = 'http://localhost:8065';
 const PASSWORD = 'password1';
@@ -362,24 +362,24 @@ class TestHelper {
 
     mockLogin = () => {
         nock(this.basicClient4.getBaseRoute()).
-        post('/users/login').
-        reply(200, this.basicUser, { 'X-Version-Id': 'Server Version' });
+            post('/users/login').
+            reply(200, this.basicUser, {'X-Version-Id': 'Server Version'});
 
         nock(this.basicClient4.getBaseRoute()).
-        get('/users/me/teams/members').
-        reply(200, [this.basicTeamMember]);
+            get('/users/me/teams/members').
+            reply(200, [this.basicTeamMember]);
 
         nock(this.basicClient4.getBaseRoute()).
-        get('/users/me/teams/unread?include_collapsed_threads=true').
-        reply(200, [{ team_id: this.basicTeam.id, msg_count: 0, mention_count: 0 }]);
+            get('/users/me/teams/unread?include_collapsed_threads=true').
+            reply(200, [{team_id: this.basicTeam.id, msg_count: 0, mention_count: 0}]);
 
         nock(this.basicClient4.getBaseRoute()).
-        get('/users/me/teams').
-        reply(200, [this.basicTeam]);
+            get('/users/me/teams').
+            reply(200, [this.basicTeam]);
 
         nock(this.basicClient4.getBaseRoute()).
-        get('/users/me/preferences').
-        reply(200, [{ user_id: this.basicUser.id, category: 'tutorial_step', name: this.basicUser.id, value: '999' }]);
+            get('/users/me/preferences').
+            reply(200, [{user_id: this.basicUser.id, category: 'tutorial_step', name: this.basicUser.id, value: '999'}]);
     }
 
     initMockEntities = () => {
@@ -389,7 +389,7 @@ class TestHelper {
         this.basicTeamMember = this.fakeTeamMember(this.basicUser.id, this.basicTeam.id);
         this.basicChannel = this.fakeChannelWithId(this.basicTeam.id);
         this.basicChannelMember = this.fakeChannelMember(this.basicUser.id, this.basicChannel.id);
-        this.basicPost = {...this.fakePostWithId(this.basicChannel.id), create_at: 1507841118796 };
+        this.basicPost = {...this.fakePostWithId(this.basicChannel.id), create_at: 1507841118796};
         this.basicRoles = {
             system_admin: {
                 id: this.generateId(),

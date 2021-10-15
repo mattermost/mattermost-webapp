@@ -5,7 +5,7 @@ import assert from 'assert';
 import TestHelper from 'mattermost-redux/test/test_helper.js';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
-import { makeAddLastViewAtToProfiles } from './utils';
+import {makeAddLastViewAtToProfiles} from './utils';
 
 describe('utils.makeAddLastViewAtToProfiles', () => {
     it('Should return profiles with last_viewed_at from membership if channel and membership exists', () => {
@@ -32,9 +32,9 @@ describe('utils.makeAddLastViewAtToProfiles', () => {
             [channel3.id]: channel3,
         };
 
-        const membership1 = {...TestHelper.fakeChannelMember(currentUser.id, channel1.id), last_viewed_at: 1 };
-        const membership2 = {...TestHelper.fakeChannelMember(currentUser.id, channel2.id), last_viewed_at: 2 };
-        const membership3 = {...TestHelper.fakeChannelMember(currentUser.id, channel3.id), last_viewed_at: 3 };
+        const membership1 = {...TestHelper.fakeChannelMember(currentUser.id, channel1.id), last_viewed_at: 1};
+        const membership2 = {...TestHelper.fakeChannelMember(currentUser.id, channel2.id), last_viewed_at: 2};
+        const membership3 = {...TestHelper.fakeChannelMember(currentUser.id, channel3.id), last_viewed_at: 3};
 
         const myMembers = {
             [membership1.channel_id]: membership1,
@@ -71,6 +71,6 @@ describe('utils.makeAddLastViewAtToProfiles', () => {
         });
 
         const addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
-        assert.deepEqual(addLastViewAtToProfiles(testState, [user1, user2, user3, user4]), [{...user1, last_viewed_at: 1 }, {...user2, last_viewed_at: 2 }, {...user3, last_viewed_at: 3 }, {...user4, last_viewed_at: 0 }]);
+        assert.deepEqual(addLastViewAtToProfiles(testState, [user1, user2, user3, user4]), [{...user1, last_viewed_at: 1}, {...user2, last_viewed_at: 2}, {...user3, last_viewed_at: 3}, {...user4, last_viewed_at: 0}]);
     });
 });
