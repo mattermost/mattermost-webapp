@@ -218,7 +218,7 @@
     display: none; // only visible < 480px width screen
     width: 100%;
     padding: 13px 10px 13px 15px;
-    border: 1px solid $light-gray;
+    border: 1px solid rgba(var(--center-channel-color-rgb),0.2);
     background: $primary-color;
     color: var(--sidebar-header-text-color);
 
