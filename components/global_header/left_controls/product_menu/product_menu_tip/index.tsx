@@ -14,7 +14,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {Preferences} from 'utils/constants';
 
-import {ProductSwitcherTip} from './product_switcher_tip';
+import {ProductMenuTip} from './product_menu_tip';
 
 function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
@@ -39,4 +39,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductSwitcherTip);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductMenuTip);
