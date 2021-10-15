@@ -6,8 +6,8 @@ import nock from 'nock';
 
 import Client4 from 'mattermost-redux/client/client4';
 
-import {DEFAULT_LOCALE} from 'mattermost-redux/constants/general';
-import {generateId} from 'mattermost-redux/utils/helpers';
+import { DEFAULT_LOCALE } from 'mattermost-redux/constants/general';
+import { generateId } from 'mattermost-redux/utils/helpers';
 
 export const DEFAULT_SERVER = 'http://localhost:8065';
 const PASSWORD = 'password1';
@@ -73,6 +73,17 @@ class TestHelper {
         return {
             ...this.fakeUser(),
             id,
+            create_at: 1507840900004,
+            update_at: 1507840900004,
+            delete_at: 0,
+        };
+    };
+
+    fakeUserWithStatus = (id = this.generateId()) => {
+        return {
+            ...this.fakeUser(),
+            id,
+            status: undefined,
             create_at: 1507840900004,
             update_at: 1507840900004,
             delete_at: 0,
@@ -209,14 +220,13 @@ class TestHelper {
             homepage_url: 'http://myplugin.com',
             download_url: 'http://github.myplugin.tar.gz',
             download_signature_url: 'http://github.myplugin.tar.gz.asc',
-            manifest:
-                {
-                    id: 'com.mattermost.fake-plugin',
-                    name: 'Fake Plugin',
-                    description: 'This plugin is for Redux testing purposes',
-                    version: '0.1.0',
-                    min_server_version: '5.12.0',
-                },
+            manifest: {
+                id: 'com.mattermost.fake-plugin',
+                name: 'Fake Plugin',
+                description: 'This plugin is for Redux testing purposes',
+                version: '0.1.0',
+                min_server_version: '5.12.0',
+            },
         };
     }
 
@@ -352,24 +362,24 @@ class TestHelper {
 
     mockLogin = () => {
         nock(this.basicClient4.getBaseRoute()).
-            post('/users/login').
-            reply(200, this.basicUser, {'X-Version-Id': 'Server Version'});
+        post('/users/login').
+        reply(200, this.basicUser, { 'X-Version-Id': 'Server Version' });
 
         nock(this.basicClient4.getBaseRoute()).
-            get('/users/me/teams/members').
-            reply(200, [this.basicTeamMember]);
+        get('/users/me/teams/members').
+        reply(200, [this.basicTeamMember]);
 
         nock(this.basicClient4.getBaseRoute()).
-            get('/users/me/teams/unread?include_collapsed_threads=true').
-            reply(200, [{team_id: this.basicTeam.id, msg_count: 0, mention_count: 0}]);
+        get('/users/me/teams/unread?include_collapsed_threads=true').
+        reply(200, [{ team_id: this.basicTeam.id, msg_count: 0, mention_count: 0 }]);
 
         nock(this.basicClient4.getBaseRoute()).
-            get('/users/me/teams').
-            reply(200, [this.basicTeam]);
+        get('/users/me/teams').
+        reply(200, [this.basicTeam]);
 
         nock(this.basicClient4.getBaseRoute()).
-            get('/users/me/preferences').
-            reply(200, [{user_id: this.basicUser.id, category: 'tutorial_step', name: this.basicUser.id, value: '999'}]);
+        get('/users/me/preferences').
+        reply(200, [{ user_id: this.basicUser.id, category: 'tutorial_step', name: this.basicUser.id, value: '999' }]);
     }
 
     initMockEntities = () => {
@@ -379,7 +389,7 @@ class TestHelper {
         this.basicTeamMember = this.fakeTeamMember(this.basicUser.id, this.basicTeam.id);
         this.basicChannel = this.fakeChannelWithId(this.basicTeam.id);
         this.basicChannelMember = this.fakeChannelMember(this.basicUser.id, this.basicChannel.id);
-        this.basicPost = {...this.fakePostWithId(this.basicChannel.id), create_at: 1507841118796};
+        this.basicPost = {...this.fakePostWithId(this.basicChannel.id), create_at: 1507841118796 };
         this.basicRoles = {
             system_admin: {
                 id: this.generateId(),
