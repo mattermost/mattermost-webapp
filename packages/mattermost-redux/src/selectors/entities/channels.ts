@@ -384,7 +384,7 @@ export const getChannelsInCurrentTeam: (state: GlobalState) => Channel[] = creat
 );
 
 export const getChannelsInAllTeams: (state: GlobalState) => Channel[] = createSelector(
-    'getChannelsInCurrentTeam',
+    'getChannelsInAllTeams',
     getAllChannels,
     getChannelSetAllTeam,
     getCurrentUser,
