@@ -13,7 +13,7 @@ import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redu
 import {Permissions} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
 
-import ProductSwitcherMenu from './product_switcher_menu';
+import ProductMenuList from './product_menu_list';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -50,4 +50,4 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-export default connect(mapStateToProps)(ProductSwitcherMenu);
+export default connect(mapStateToProps)(ProductMenuList);
