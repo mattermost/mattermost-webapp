@@ -55,7 +55,7 @@ import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal, closeModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
