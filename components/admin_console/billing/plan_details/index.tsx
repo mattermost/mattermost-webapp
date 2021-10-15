@@ -29,7 +29,6 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
     const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
-    const aboveUserLimit = userLimit + 1;
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const product = useSelector((state: GlobalState) => {
         if (state.entities.cloud.products && subscription) {
@@ -48,7 +47,7 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}
     const {
         planPricing,
         planDetailsDescription,
-    } = getPlanDetailElements(userLimit, isPaidTier, product, aboveUserLimit);
+    } = getPlanDetailElements(userLimit, isPaidTier, product);
 
     return (
         <div className='PlanDetails'>

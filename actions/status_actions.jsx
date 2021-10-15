@@ -89,6 +89,25 @@ export function loadStatusesByIds(userIds) {
     };
 }
 
+export function loadProfilesMissingStatus(users) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const statuses = state.entities.users.statuses;
+
+        const missingStatusByIds = users.
+            filter((user) => !statuses[user.id]).
+            map((user) => user.id);
+
+        if (missingStatusByIds.length === 0) {
+            return {data: false};
+        }
+
+        dispatch(getStatusesByIds(missingStatusByIds));
+        dispatch(loadCustomEmojisForCustomStatusesByUserIds(missingStatusByIds));
+        return {data: true};
+    };
+}
+
 let intervalId = '';
 
 export function startPeriodicStatusUpdates() {

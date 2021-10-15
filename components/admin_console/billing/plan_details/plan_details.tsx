@@ -119,19 +119,55 @@ export const planDetailsTopElements = (
     userLimit: number,
     subscriptionPlan: string | undefined,
 ) => {
-    let userCountDisplay = (
-        <div className='PlanDetails__userCount'>
-            <FormattedMarkdownMessage
-                id='admin.billing.subscription.planDetails.userCount'
-                defaultMessage='{userCount} users'
-                values={{userCount}}
-            />
-        </div>
-    );
-
+    let userCountDisplay;
     let productName;
 
-    if (!isPaidTier) {
+    if (isPaidTier) {
+        userCountDisplay = (
+            <div className='PlanDetails__userCount'>
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.planDetails.userCount'
+                    defaultMessage='{userCount} users'
+                    values={{userCount}}
+                />
+            </div>
+        );
+        switch (subscriptionPlan) {
+        case CloudProducts.PROFESSIONAL:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                    defaultMessage='Cloud Professional'
+                />
+            );
+            break;
+        case CloudProducts.ENTERPRISE:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
+                    defaultMessage='Cloud Enterprise'
+                />
+            );
+            break;
+        case CloudProducts.STARTER:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudStarter'
+                    defaultMessage='Cloud Starter'
+                />
+            );
+            break;
+        default:
+            // must be CloudProducts.LEGACY
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.mmCloud'
+                    defaultMessage='Mattermost Cloud'
+                />
+            );
+            break;
+        }
+    } else {
         userCountDisplay = (
             <div
                 className={classNames('PlanDetails__userCount', {
@@ -153,41 +189,6 @@ export const planDetailsTopElements = (
                 defaultMessage='Mattermost Cloud'
             />
         );
-    }
-
-    switch (subscriptionPlan) {
-    case CloudProducts.PROFESSIONAL:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                defaultMessage='Cloud Professional'
-            />
-        );
-        break;
-    case CloudProducts.ENTERPRISE:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
-                defaultMessage='Cloud Enterprise'
-            />
-        );
-        break;
-    case CloudProducts.STARTER:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudStarter'
-                defaultMessage='Cloud Starter'
-            />
-        );
-        break;
-    default:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                defaultMessage='Cloud Professional'
-            />
-        );
-        break;
     }
 
     const trialBadge = (
@@ -231,7 +232,6 @@ export const getPlanDetailElements = (
     userLimit: number,
     isPaidTier: boolean,
     product: Product,
-    aboveUserLimit: number,
 ) => {
     let planPricing;
     let planDetailsDescription;
@@ -241,17 +241,16 @@ export const getPlanDetailElements = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails_paidTier__planName'>
                     {`$${product.price_per_seat.toFixed(2)}`}
-                    {product.billing_scheme === BillingSchemes.FLAT_FEE ?
+                    {product.billing_scheme === BillingSchemes.FLAT_FEE ? (
                         <FormattedMessage
                             id='admin.billing.subscription.planDetails.flatFeePerMonth'
                             defaultMessage='/month (Unlimited Users). '
-                        /> :
+                        />
+                    ) : (
                         <FormattedMessage
                             id='admin.billing.subscription.planDetails.perUserPerMonth'
                             defaultMessage='/user/month. '
-                        />
-                    }
-
+                        />) }
                     {howBillingWorksLink}
                 </div>
             </div>
@@ -269,7 +268,7 @@ export const getPlanDetailElements = (
                 <div className='PlanDetails__planCaveat'>
                     <FormattedMarkdownMessage
                         id='admin.billing.subscription.planDetails.upToXUsers'
-                        defaultMessage='up to {userLimit} users'
+                        defaultMessage='up to {userLimit} users, until January 31st, 2022'
                         values={{userLimit}}
                     />
                 </div>
@@ -278,16 +277,21 @@ export const getPlanDetailElements = (
         planDetailsDescription = (
             <div className='PlanDetails__description'>
                 <div className='PlanDetails__planDetailsName'>
-                    {`$${product.price_per_seat.toFixed(2)}`}
-                </div>
-                <div className='PlanDetails__planDetailsName'>
                     <FormattedMessage
                         id='admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers'
-                        defaultMessage='/user/month for {aboveUserLimit} or more users.'
-                        values={{aboveUserLimit}}
+                        defaultMessage='Add your payment information to continue after January 31st.'
                     />
                 </div>
-                {howBillingWorksLink}
+                <a
+                    target='_new'
+                    rel='noopener noreferrer'
+                    href={CloudLinks.PRICING}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.planDetails.seeOurPlans'
+                        defaultMessage='See our plans'
+                    />
+                </a>
             </div>
         );
     }
@@ -349,7 +353,8 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
             features = featuresCloudEnterprise;
             break;
         default:
-            features = featuresCloudProfessional;
+            // must be CloudProducts.LEGACY
+            features = featuresFreeTier;
             break;
         }
     } else {
