@@ -535,6 +535,7 @@
             }
 
             .app__content {
+                > .Drafts__main,
                 > #post-list {
                     margin-right: 0 !important;
                 }

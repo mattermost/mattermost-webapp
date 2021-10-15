@@ -22,9 +22,6 @@
         grid-area: list;
     }
 
-    /* === Responsiveness === */
-    --list: minmax(min-content, auto);
-
     display: grid;
     background: rgba(var(--center-channel-color-rgb), 0.04);
     grid-template-areas:
