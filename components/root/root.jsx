@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
@@ -20,7 +21,7 @@ import {trackLoadTime} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
-import GlobalHeader from 'components/global/global_header';
+import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
@@ -60,6 +61,8 @@ import {getSiteURL} from 'utils/url';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
+
+import RootRedirect from './root_redirect';
 
 const CreateTeam = makeAsyncComponent(LazyCreateTeam);
 const ErrorPage = makeAsyncComponent(LazyErrorPage);
@@ -235,7 +238,7 @@ export default class Root extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (!Utils.areObjectsEqual(prevProps.theme, this.props.theme)) {
+        if (!deepEqual(prevProps.theme, this.props.theme)) {
             Utils.applyTheme(this.props.theme);
         }
         if (this.props.location.pathname === '/') {
@@ -416,12 +419,7 @@ export default class Root extends React.PureComponent {
                                 path={'/:team'}
                                 component={NeedsTeam}
                             />
-                            <Redirect
-                                to={{
-                                    ...this.props.location,
-                                    pathname: '/login',
-                                }}
-                            />
+                            <RootRedirect/>
                         </Switch>
                     </CompassThemeProvider>
                 </Switch>

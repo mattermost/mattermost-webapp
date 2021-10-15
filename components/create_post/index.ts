@@ -55,7 +55,7 @@ import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {openModal} from 'actions/views/modals';
+import {openModal, closeModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
@@ -146,13 +146,14 @@ type Actions = {
     addReaction: (postId: string, emojiName: string) => void;
     onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
     removeReaction: (postId: string, emojiName: string) => void;
-    clearDraftUploads: (prefix: string, action: (key: string, value?: PostDraft) => PostDraft | undefined) => void;
+    clearDraftUploads: () => void;
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
     setDraft: (name: string, value: PostDraft | null) => void;
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
     openModal: (modalData: ModalData) => void;
+    closeModal: (modalId: string) => void;
     executeCommand: (message: string, args: CommandArgs) => ActionResult;
     getChannelTimezones: (channelId: string) => ActionResult;
     scrollPostListToBottom: () => void;
@@ -184,6 +185,16 @@ function setDraft(key: string, value: PostDraft) {
     };
 }
 
+function clearDraftUploads() {
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.DRAFT, (_key: string, draft: PostDraft) => {
+        if (!draft || draft.uploadsInProgress.length === 0) {
+            return draft;
+        }
+
+        return {...draft, uploadsInProgress: []};
+    });
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
@@ -194,11 +205,12 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             addReaction,
             removeReaction,
             setDraft,
-            clearDraftUploads: actionOnGlobalItemsWithPrefix,
+            clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
             emitShortcutReactToLastPostFrom,
             openModal,
+            closeModal,
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,

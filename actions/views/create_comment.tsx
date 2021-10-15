@@ -34,11 +34,12 @@ import {GlobalState} from 'types/store';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 export function clearCommentDraftUploads() {
-    return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, value: PostDraft) => {
-        if (value) {
-            return {...value, uploadsInProgress: []};
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, draft: PostDraft) => {
+        if (!draft || draft.uploadsInProgress.length === 0) {
+            return draft;
         }
-        return value;
+
+        return {...draft, uploadsInProgress: []};
     });
 }
 

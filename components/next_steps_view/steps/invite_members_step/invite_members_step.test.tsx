@@ -148,6 +148,11 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
                 is_paid_tier: 'false',
             },
         };
+
+        const nonCloudProps = {
+            ...baseProps,
+            subscriptionStats: null, // in non cloud instances, the subscription stats in redux state remain null
+        };
         const paidTierwrapper: ReactWrapper<any, any, any> = mountWithIntl(
             <InviteMembersStep {...paidTierProps}/>,
         );
@@ -156,7 +161,12 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
             <InviteMembersStep {...freeTierProps}/>,
         );
 
+        const nonCloudWrapper: ReactWrapper<any, any, any> = mountWithIntl(
+            <InviteMembersStep {...nonCloudProps}/>,
+        );
+
         expect(paidTierwrapper.find('.InviteMembersStep__emailInvitations').find('span').at(1).text()).toEqual('You can invite team members using a space or comma between addresses');
         expect(freeTierWrapper.find('.InviteMembersStep__emailInvitations').find('span').at(1).text()).toEqual('You can invite up to 5 team members using a space or comma between addresses');
+        expect(nonCloudWrapper.find('.InviteMembersStep__emailInvitations').find('span').at(1).text()).toEqual('You can invite team members using a space or comma between addresses');
     });
 });

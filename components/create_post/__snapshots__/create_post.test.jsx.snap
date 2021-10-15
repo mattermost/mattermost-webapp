@@ -139,21 +139,6 @@ exports[`components/create_post Show tutorial 1`] = `
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -285,21 +270,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -433,21 +403,6 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -580,21 +535,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -726,21 +666,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
