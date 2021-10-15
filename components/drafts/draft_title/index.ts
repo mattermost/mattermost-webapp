@@ -3,10 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getUser, getUserIdsInChannels} from 'mattermost-redux/selectors/entities/users';
-import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {getUserIdsInChannels} from 'mattermost-redux/selectors/entities/users';
 import {Constants} from 'utils/constants';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -22,16 +19,10 @@ type OwnProps = {
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const {channel, userId} = ownProps;
 
-    let channelName = channel.display_name;
+    const channelName = channel.display_name;
     let teammateId;
     let teammate;
     let membersCount;
-
-    if (channel.type === Constants.DM_CHANNEL) {
-        teammateId = getUserIdFromChannelName(userId, channel.name);
-        teammate = getUser(state, teammateId);
-        channelName = displayUsername(teammate, getTeammateNameDisplaySetting(state));
-    }
 
     if (channel.type === Constants.GM_CHANNEL) {
         const memberIds = getUserIdsInChannels(state);
@@ -43,6 +34,10 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
             if (groupMemberIds.has(userId)) {
                 membersCount--;
             }
+        }
+
+        if (membersCount === 0) {
+            membersCount = channelName.split(',').length;
         }
     }
 

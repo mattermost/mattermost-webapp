@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 
 import {PostDraft} from 'types/store/rhs';
@@ -17,18 +17,22 @@ type OwnProps = {
     value: PostDraft;
 }
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const channel = getChannel(state, ownProps.value.channelId);
-    const post = getPost(state, ownProps.id);
+function makeMapStatetoProps() {
+    const getChannel = makeGetChannel();
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const channel = getChannel(state, {id: ownProps.value.channelId});
+        const post = getPost(state, ownProps.id);
 
-    let thread;
-    if (post) {
-        thread = getThreadOrSynthetic(state, post);
-    }
+        let thread;
+        if (post) {
+            thread = getThreadOrSynthetic(state, post);
+        }
 
-    return {
-        channel,
-        thread,
+        return {
+            channel,
+            thread,
+        };
     };
 }
-export default connect(mapStateToProps)(ThreadDraft);
+
+export default connect(makeMapStatetoProps)(ThreadDraft);

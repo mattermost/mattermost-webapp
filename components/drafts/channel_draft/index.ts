@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getChannelURL} from 'utils/utils';
@@ -16,15 +16,19 @@ type OwnProps = {
     id: string;
 }
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const channel = getChannel(state, ownProps.id);
+function makeMapStateToProps() {
+    const getChannel = makeGetChannel();
 
-    const teamId = getCurrentTeamId(state);
-    const channelUrl = getChannelURL(state, channel, teamId);
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const channel = getChannel(state, ownProps);
 
-    return {
-        channel,
-        channelUrl,
+        const teamId = getCurrentTeamId(state);
+        const channelUrl = getChannelURL(state, channel, teamId);
+
+        return {
+            channel,
+            channelUrl,
+        };
     };
 }
-export default connect(mapStateToProps)(ChannelDraft);
+export default connect(makeMapStateToProps)(ChannelDraft);
