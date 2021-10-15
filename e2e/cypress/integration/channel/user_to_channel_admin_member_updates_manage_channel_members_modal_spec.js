@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 import {getAdminAccount} from '../../support/env';
@@ -70,7 +69,7 @@ describe('Change Roles', () => {
     it('MM-T4174 User role to channel admin/member updates channel member modal immediately without refresh', () => {
         // # Go to member modal
         cy.uiGetChannelMemberButton().click();
-        cy.findByText('View Members').click();
+        cy.findByText('Manage Members').click();
 
         // * Check to see if no drop down menu exists
         cy.findAllByTestId('userListItemActions').then((el) => {

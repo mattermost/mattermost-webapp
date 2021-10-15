@@ -11,7 +11,7 @@
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
-// Custom command should follow naming convention of having `ui` prefix, e.g. `uiOpenMainMenu`.
+// Custom command should follow naming convention of the Testing Library commands
 // ***************************************************************
 
 declare namespace Cypress {

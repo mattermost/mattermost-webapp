@@ -38,7 +38,7 @@ describe('Messaging', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -88,7 +88,7 @@ describe('Messaging', () => {
             // # Click a reply arrow to open reply RHS
             cy.clickPostCommentIcon(postId).then(() => {
                 // # Click the expand arrows in top right to expand RHS
-                cy.findByLabelText('Expand').click();
+                cy.uiExpandRHS();
 
                 // # Hover over the message, observe emoji picker icon
                 cy.get(`#RHS_ROOT_reaction_${postId}`).should('exist').click({force: true});
@@ -116,7 +116,7 @@ describe('Messaging', () => {
                 });
 
                 // # Close RHS
-                cy.closeRHS();
+                cy.uiCloseRHS();
             });
         });
     });

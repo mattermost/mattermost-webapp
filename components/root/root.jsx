@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import throttle from 'lodash/throttle';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -19,7 +21,7 @@ import {trackLoadTime} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
-import GlobalHeader from 'components/global/global_header';
+import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
@@ -59,6 +61,8 @@ import {getSiteURL} from 'utils/url';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
+
+import RootRedirect from './root_redirect';
 
 const CreateTeam = makeAsyncComponent(LazyCreateTeam);
 const ErrorPage = makeAsyncComponent(LazyErrorPage);
@@ -100,6 +104,7 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            emitBrowserWindowResized: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -143,6 +148,9 @@ export default class Root extends React.PureComponent {
         if (!UserAgent.isInternetExplorer()) {
             this.a11yController = new A11yController();
         }
+
+        // set initial window size state
+        this.props.actions.emitBrowserWindowResized();
     }
 
     onConfigLoaded = () => {
@@ -230,6 +238,9 @@ export default class Root extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
+        if (!deepEqual(prevProps.theme, this.props.theme)) {
+            Utils.applyTheme(this.props.theme);
+        }
         if (this.props.location.pathname === '/') {
             if (this.props.noAccounts) {
                 prevProps.history.push('/signup_user_complete');
@@ -248,11 +259,15 @@ export default class Root extends React.PureComponent {
             this.onConfigLoaded();
         });
         trackLoadTime();
+
+        window.addEventListener('resize', this.handleWindowResizeEvent);
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
+
+        window.removeEventListener('resize', this.handleWindowResizeEvent);
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -279,6 +294,10 @@ export default class Root extends React.PureComponent {
             document.addEventListener('visibilitychange', onVisibilityChange, false);
         }
     }
+
+    handleWindowResizeEvent = throttle(() => {
+        this.props.actions.emitBrowserWindowResized();
+    }, 100);
 
     render() {
         if (!this.state.configLoaded) {
@@ -400,12 +419,7 @@ export default class Root extends React.PureComponent {
                                 path={'/:team'}
                                 component={NeedsTeam}
                             />
-                            <Redirect
-                                to={{
-                                    ...this.props.location,
-                                    pathname: '/login',
-                                }}
-                            />
+                            <RootRedirect/>
                         </Switch>
                     </CompassThemeProvider>
                 </Switch>

@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/global/settings_button should match snapshot 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={400}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="productSettings"
+      placement="right"
+    >
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Settings"
+        id="global_header.productSettings"
+      />
+    </Tooltip>
+  }
+  placement="bottom"
+  trigger={
+    Array [
+      "hover",
+    ]
+  }
+>
+  <ForwardRef
+    aria-label="Select to open the settings modal."
+    compact={true}
+    icon="settings-outline"
+    inverted={true}
+    onClick={[Function]}
+    size="sm"
+  />
+</OverlayTrigger>
+`;
+
+exports[`components/global/settings_button should trigger the open modal action 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={400}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="productSettings"
+      placement="right"
+    >
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Settings"
+        id="global_header.productSettings"
+      />
+    </Tooltip>
+  }
+  placement="bottom"
+  trigger={
+    Array [
+      "hover",
+    ]
+  }
+>
+  <ForwardRef
+    aria-label="Select to open the settings modal."
+    compact={true}
+    icon="settings-outline"
+    inverted={true}
+    onClick={[Function]}
+    size="sm"
+  />
+</OverlayTrigger>
+`;

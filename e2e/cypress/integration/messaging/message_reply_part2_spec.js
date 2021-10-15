@@ -67,7 +67,7 @@ describe('Message Reply', () => {
         cy.get('#reply_textbox').clear();
 
         // # Close RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T2134 - Reply to message displays in RHS and center and shows reply count', () => {
@@ -98,7 +98,7 @@ describe('Message Reply', () => {
         });
 
         // # Close RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T2135 - Can open reply thread from reply count arrow and reply', () => {
@@ -126,7 +126,7 @@ describe('Message Reply', () => {
         });
 
         // # Close RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T2136 - Reply in RHS with different channel open in center', () => {
@@ -151,6 +151,6 @@ describe('Message Reply', () => {
         cy.get(`#sidebarItem_${mainChannel.name}`).should('not.have.class', 'unread-title');
 
         // # Close RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 });

@@ -25,9 +25,9 @@ describe('Emoji reactions to posts/messages', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, userTwo.id);
 
-                // # Login as userOne and town-square
+                // # Login as userOne and Off-Topic
                 cy.apiLogin(userOne);
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
             });
         });
     });
@@ -57,9 +57,9 @@ describe('Emoji reactions to posts/messages', () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as userTwo and town-square
+        // # Login as userTwo and off-topic
         cy.apiLogin(userTwo);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         cy.getLastPostId().then((postId) => {
             // * userOne's reaction "slightly_frowning_face" is visible and is equal to 1

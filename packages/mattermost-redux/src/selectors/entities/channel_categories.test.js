@@ -522,6 +522,12 @@ describe('makeSortChannelsByName', () => {
                     currentUser,
                 },
             },
+            general: {
+                config: {},
+            },
+            preferences: {
+                myPreferences: {},
+            },
         },
     };
 
@@ -714,15 +720,24 @@ describe('makeSortChannelsByNameWithDMs', () => {
 });
 
 describe('makeSortChannelsByRecency', () => {
-    const channel1 = {id: 'channel1', display_name: 'Apple', last_post_at: 1000};
-    const channel2 = {id: 'channel2', display_name: 'Banana', last_post_at: 2000};
-    const channel3 = {id: 'channel3', display_name: 'Zucchini', last_post_at: 3000};
+    const channel1 = {id: 'channel1', display_name: 'Apple', last_post_at: 1000, last_root_post_at: 3000};
+    const channel2 = {id: 'channel2', display_name: 'Banana', last_post_at: 2000, last_root_post_at: 1000};
+    const channel3 = {id: 'channel3', display_name: 'Zucchini', last_post_at: 3000, last_root_post_at: 2000};
 
     const baseState = {
         entities: {
             posts: {
                 posts: {},
                 postsInChannel: {},
+            },
+            general: {
+                config: {
+                    FeatureFlagCollapsedThreads: 'true',
+                    CollapsedThreads: 'default_off',
+                },
+            },
+            preferences: {
+                myPreferences: {},
             },
         },
     };
@@ -734,6 +749,27 @@ describe('makeSortChannelsByRecency', () => {
 
         expect(sortChannelsByRecency(state, [channel1, channel2, channel3])).toMatchObject([channel3, channel2, channel1]);
         expect(sortChannelsByRecency(state, [channel3, channel2, channel1])).toMatchObject([channel3, channel2, channel1]);
+    });
+
+    test('should sort channels by their last_post_at when no posts are loaded and CRT in enabled', () => {
+        const sortChannelsByRecency = Selectors.makeSortChannelsByRecency();
+
+        const state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                preferences: {
+                    myPreferences: {
+                        [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSED_REPLY_THREADS}`]: {
+                            value: 'on',
+                        },
+                    },
+                },
+            },
+        };
+
+        expect(sortChannelsByRecency(state, [channel3, channel2, channel1])).toMatchObject([channel1, channel3, channel2]);
+        expect(sortChannelsByRecency(state, [channel1, channel3, channel2])).toMatchObject([channel1, channel3, channel2]);
     });
 
     test('should sort channels by their latest post when possible', () => {

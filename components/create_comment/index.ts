@@ -8,10 +8,11 @@ import {GlobalState} from 'types/store/index.js';
 
 import {PostDraft} from 'types/store/rhs.js';
 
+import {ModalData} from 'types/actions.js';
+
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
@@ -37,6 +38,7 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
+import {openModal, closeModal} from 'actions/views/modals';
 
 import CreateComment from './create_comment';
 
@@ -80,7 +82,6 @@ function makeMapStateToProps() {
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             createPostErrorId: err.server_error_id,
-            readOnlyChannel: !isCurrentUserSystemAdmin(state) && channel.name === Constants.DEFAULT_CHANNEL,
             enableConfirmNotificationsToChannel,
             enableEmojiPicker,
             enableGifPicker,
@@ -118,6 +119,8 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
+    openModal: (modalData: ModalData) => void;
+    closeModal: (modalId: string) => void;
 }
 
 function makeMapDispatchToProps() {
@@ -168,6 +171,8 @@ function makeMapDispatchToProps() {
             emitShortcutReactToLastPostFrom,
             setShowPreview: setShowPreviewOnCreateComment,
             getChannelMemberCountsByGroup,
+            openModal,
+            closeModal,
         }, dispatch);
     };
 }

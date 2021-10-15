@@ -17,9 +17,9 @@ describe('DM/GM filtering and sorting', () => {
     let testUser;
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({user, townSquareUrl}) => {
             testUser = user;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(townSquareUrl);
 
             // # upgrade user to sys admin role
             cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
@@ -96,33 +96,5 @@ describe('DM/GM filtering and sorting', () => {
 
         // * Verify that there are 10 DMs shown in the sidebar
         cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', 10);
-    });
-
-    it('MM-T3832 DMs/GMs should not be removed from the sidebar when only viewed (no message)', () => {
-        cy.apiCreateUser().then(({user}) => {
-            cy.apiCreateDirectChannel([testUser.id, user.id]).then(({channel}) => {
-                // # Post a message as the new user
-                cy.postMessageAs({
-                    sender: user,
-                    message: `Hey ${testUser.username}`,
-                    channelId: channel.id,
-                });
-
-                // # Click on the new DM channel to mark it read
-                cy.get(`#sidebarItem_${channel.name}`).should('be.visible').click();
-
-                // # Click on Town Square
-                cy.get('.SidebarLink:contains(Town Square)').should('be.visible').click();
-
-                // * Verify we're on Town Square
-                cy.url().should('contain', 'town-square');
-
-                // # Refresh the page
-                cy.visit('/');
-
-                // * Verify that the DM we just read remains in the sidebar
-                cy.get(`#sidebarItem_${channel.name}`).should('be.visible');
-            });
-        });
     });
 });

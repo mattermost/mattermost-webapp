@@ -23,14 +23,13 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
+import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
-import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
@@ -64,11 +63,11 @@ const GlobalThreads = () => {
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
-    const globalHeaderEnabled = useSelector((state: GlobalState) => getGlobalHeaderEnabled(state));
 
     useEffect(() => {
         dispatch(suppressRHS);
         dispatch(selectChannel(''));
+        dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 
         // unsuppresses RHS on navigating away (unmount)
@@ -84,11 +83,12 @@ const GlobalThreads = () => {
     }, [currentTeamId, selectedThreadId, threadIdentifier]);
 
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
+        // this is needed to jump start threads fetching
+        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 10}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
-        if ((!selectedThread || !selectedPost) && !isLoading) {
+        if (!selectedThread && !selectedPost && !isLoading) {
             clear();
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
@@ -125,7 +125,6 @@ const GlobalThreads = () => {
                     id: 'globalThreads.subtitle',
                     defaultMessage: 'Threads you’re participating in will automatically show here',
                 })}
-                right={globalHeaderEnabled ? null : <RHSSearchNav/>}
             />
 
             {isEmpty(threadIds) ? (
@@ -164,6 +163,7 @@ const GlobalThreads = () => {
                             <ThreadViewer
                                 rootPostId={selectedThread.id}
                                 useRelativeTimestamp={true}
+                                isThreadView={true}
                             />
                         </ThreadPane>
                     ) : (

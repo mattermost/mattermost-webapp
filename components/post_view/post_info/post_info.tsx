@@ -19,8 +19,10 @@ import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
+import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 type Props = {
 
@@ -125,6 +127,9 @@ type Props = {
     shouldShowDotMenu: boolean;
 
     collapsedThreadsEnabled: boolean;
+
+    oneClickReactionsEnabled: boolean;
+    recentEmojis: Emoji[];
 };
 
 type State = {
@@ -210,6 +215,20 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        const showRecentlyUsedReactions = !isMobile && !isSystemMessage && hover && !isReadOnly && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker;
+        let showRecentReacions;
+        if (showRecentlyUsedReactions) {
+            showRecentReacions = (
+                <PostRecentReactions
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    emojis={this.props.recentEmojis}
+                    teamId={this.props.teamId}
+                    getDotMenuRef={this.getDotMenu}
+                />
+            );
+        }
+
         const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker;
         let postReaction;
         if (showReactionIcon) {
@@ -259,11 +278,12 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 data-testid={`post-menu-${post.id}`}
                 className={'col post-menu'}
             >
-                {!collapsedThreadsEnabled && dotMenu}
+                {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
+                {showRecentReacions}
                 {postReaction}
                 {postFlagIcon}
                 {commentIcon}
-                {collapsedThreadsEnabled && dotMenu}
+                {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
             </div>
         );
     };

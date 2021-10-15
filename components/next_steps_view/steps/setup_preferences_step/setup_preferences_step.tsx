@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
+import {t} from 'utils/i18n';
 import {ModalIdentifiers} from 'utils/constants';
 import UserSettingsModal from '../../../user_settings/modal';
 import {StepComponentProps} from '../../steps';
@@ -41,9 +42,9 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
     return (
         <>
             <TextCardWithAction
-                cardBodyMessageId={'next_steps_view.preferenceSetup'}
-                cardBodyDefaultMessage={'You can change how you receive notifications, update your profile, customize display settings and more. Preferences can be accessed through the Main Menu.'}
-                buttonMessageId={'next_steps_view.preferenceSetup.setPreferences'}
+                cardBodyMessageId={t('next_steps_view.preferenceSetup')}
+                cardBodyDefaultMessage={'You can update your profile and manage security settings from Account Settings by selecting your Avatar. Select Settings to change how you receive notifications, customize your display settings, and more.'}
+                buttonMessageId={t('next_steps_view.preferenceSetup.setPreferences')}
                 buttonDefaultMessage={'Set Preferences'}
                 onClick={onClick}
             />

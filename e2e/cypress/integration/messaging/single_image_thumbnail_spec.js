@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging @smoke
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -40,7 +41,7 @@ function verifySingleImageThumbnail({mode = null} = {}) {
 
     // # Make a post with some text and a single image
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-    cy.get('post-image__thumbnail').should('be.visible');
+    cy.get('.post-image__thumbnail').should('be.visible');
 
     cy.postMessage(MESSAGES.MEDIUM);
 

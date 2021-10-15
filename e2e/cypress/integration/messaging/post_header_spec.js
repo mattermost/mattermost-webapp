@@ -130,7 +130,7 @@ describe('Post Header', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Close RHS on click of close button
-        cy.closeRHS();
+        cy.uiCloseRHS();
 
         // * Check that the RHS is close
         cy.get('#rhsContainer').should('not.exist');

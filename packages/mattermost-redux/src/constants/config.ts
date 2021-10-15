@@ -11,3 +11,14 @@ export enum AddChannelButtonTreatments {
     BY_TEAM_NAME = 'by_team_name',
     INVERTED_SIDEBAR_BG_COLOR = 'inverted_sidebar_bg_color',
 }
+
+export enum DownloadAppsCTATreatments {
+    NONE = 'none',
+    TIPS_AND_NEXT_STEPS = 'tips_and_next_steps',
+}
+
+export enum PrewrittenMessagesTreatments {
+    NONE = 'none',
+    TOUR_POINT = 'tour_point',
+    AROUND_INPUT = 'around_input',
+}

@@ -48,6 +48,7 @@ import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
+    getPostThread,
     getProfilesAndStatusesForPosts,
     getThreadsForPosts,
     postDeleted,
@@ -213,8 +214,11 @@ export function reconnect(includeWebSocket = true) {
         }
         StatusActions.loadStatusesForChannelAndSidebar();
 
-        dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state), true));
-        dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        const crtEnabled = isCollapsedThreadsEnabled(state);
+        dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
+        if (crtEnabled) {
+            dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        }
     }
 
     if (state.websocket.lastDisconnectAt) {
@@ -657,7 +661,8 @@ export function handleNewPostEvents(queue) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch(receivedPost(post));
+    const crtEnabled = isCollapsedThreadsEnabled(getState());
+    dispatch(receivedPost(post, crtEnabled));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
@@ -671,9 +676,26 @@ export function handlePostEditEvent(msg) {
     }
 }
 
-function handlePostDeleteEvent(msg) {
+async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(postDeleted(post));
+
+    // update thread when a comment is deleted and CRT is on
+    const state = getState();
+    if (post.root_id && isCollapsedThreadsEnabled(state)) {
+        const thread = getThread(state, post.root_id);
+        if (thread) {
+            const userId = getCurrentUserId(state);
+            const teamId = getCurrentTeamId(state);
+            dispatch(fetchThread(userId, teamId, post.root_id, true));
+        } else {
+            const res = await dispatch(getPostThread(post.id));
+            const {order, posts} = res.data;
+            const rootPost = posts[order[0]];
+            dispatch(receivedPost(rootPost));
+        }
+    }
+
     if (post.is_pinned) {
         dispatch(getChannelStats(post.channel_id));
     }
@@ -1501,6 +1523,13 @@ function handleThreadUpdated(msg) {
         const currentTeamId = getCurrentTeamId(state);
 
         let lastViewedAt;
+
+        // if current user has replied to the thread
+        // make sure to set following as true
+        if (currentUserId === threadData.post.user_id) {
+            threadData.is_following = true;
+        }
+
         if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
             lastViewedAt = Date.now();
 

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -45,11 +44,8 @@ describe('Leave an archived channel', () => {
             // # Visit the archived channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-            // # Click the channel header
-            cy.get('#channelHeaderDropdownButton button').click();
-
-            // # Select View Info
-            cy.get('#channelViewInfo button').click();
+            // # Open channel menu and click View Info
+            cy.uiOpenChannelMenu('View Info');
 
             // * Channel title is shown with archived icon
             cy.get('#channelInfoModalLabel span.icon__archive').should('be.visible');
@@ -70,11 +66,8 @@ describe('Leave an archived channel', () => {
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
 
-            // # Click the channel header
-            cy.get('#channelHeaderDropdownButton button').click();
-
-            // # Select "View Members"
-            cy.get('#channelViewMembers button').click();
+            // # Open channel menu and click View Members
+            cy.uiOpenChannelMenu('View Members');
 
             // * Channel Members modal opens
             cy.get('div#channelMembersModal').should('be.visible');
@@ -98,10 +91,9 @@ describe('Leave an archived channel', () => {
             // # Create another archived channel and post a message
             const messageD = 'archived channel D message';
             cy.apiCreateArchivedChannel('archived-d', 'Archived D', 'O', testTeam.id, [messageD], testUser).then((archivedChannelD) => {
-                // # Visit off-topic and post a message
-                const previousChannel = `/${testTeam.name}/channels/off-topic`;
+                // # Visit town-square and post a message
+                const previousChannel = `/${testTeam.name}/channels/town-square`;
                 cy.visit(previousChannel);
-                cy.postMessage('hello');
 
                 // # Search for content from an archived channel
                 cy.get('#searchBox').click().clear().type(`${messageD}{enter}`);

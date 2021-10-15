@@ -277,7 +277,7 @@ export default class FilePreviewModal extends React.PureComponent {
 
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
         const showPublicLink = !fileInfo.link;
-        const fileName = fileInfo.link || fileInfo.name;
+        const fileName = fileInfo.name || fileInfo.link;
         const fileType = Utils.getFileType(fileInfo.extension);
         const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
         const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
@@ -381,7 +381,7 @@ export default class FilePreviewModal extends React.PureComponent {
                 animation={true}
                 backdrop={false}
                 role='dialog'
-                style={{'padding-left': 0}}
+                style={{paddingLeft: 0}}
                 aria-labelledby='viewImageModalLabel'
             >
                 <Modal.Body className='file-preview-modal__body'>

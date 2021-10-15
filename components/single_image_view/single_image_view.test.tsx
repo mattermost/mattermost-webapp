@@ -58,14 +58,14 @@ describe('components/SingleImageView', () => {
         expect(wrapper.state('showPreviewModal')).toEqual(true);
     });
 
-    test('should match state on showPreviewModal', () => {
+    test('should match state on hidePreviewModal', () => {
         const wrapper = shallow(
             <SingleImageView {...baseProps}/>,
         );
 
         wrapper.setState({showPreviewModal: true});
         const instance = wrapper.instance() as SingleImageView;
-        instance.showPreviewModal();
+        instance.hidePreviewModal();
         expect(wrapper.state('showPreviewModal')).toEqual(false);
     });
 

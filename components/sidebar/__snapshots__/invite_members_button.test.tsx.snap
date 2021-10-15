@@ -13,7 +13,10 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
     }
   }
 >
-  <InviteMembersButton>
+  <InviteMembersButton
+    onClick={[MockFunction]}
+    touchedInviteMembersButton={false}
+  >
     <Connect(TeamPermissionGate)
       permissions={
         Array [
@@ -36,7 +39,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
         teamId="team_id2sss"
       >
         <Connect(injectIntl(ModalToggleButtonRedux))
-          accessibilityLabel="Invite Users"
+          ariaLabel="Invite Users"
           className="intro-links color--link cursor--pointer"
           dialogType={
             Object {
@@ -49,14 +52,15 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
           }
           id="introTextInvite"
           modalId="invitation"
+          onClick={[MockFunction]}
         >
           <injectIntl(ModalToggleButtonRedux)
-            accessibilityLabel="Invite Users"
             actions={
               Object {
                 "openModal": [Function],
               }
             }
+            ariaLabel="Invite Users"
             className="intro-links color--link cursor--pointer"
             dialogType={
               Object {
@@ -69,14 +73,15 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
             }
             id="introTextInvite"
             modalId="invitation"
+            onClick={[MockFunction]}
           >
             <ModalToggleButtonRedux
-              accessibilityLabel="Invite Users"
               actions={
                 Object {
                   "openModal": [Function],
                 }
               }
+              ariaLabel="Invite Users"
               className="intro-links color--link cursor--pointer"
               dialogProps={Object {}}
               dialogType={
@@ -126,6 +131,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
                 }
               }
               modalId="invitation"
+              onClick={[MockFunction]}
             >
               <button
                 aria-label="Invite Users dialog"
@@ -136,7 +142,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
               >
                 <li
                   aria-label="Invite Members"
-                  className="SidebarChannelNavigator_inviteMembersLhsButton"
+                  className="SidebarChannelNavigator_inviteMembersLhsButton SidebarChannelNavigator_inviteMembersLhsButton--untouched"
                 >
                   <i
                     className="icon-plus-box"

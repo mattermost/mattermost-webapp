@@ -18,7 +18,7 @@ describe('Authentication', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiCreateUser().then(({user: newUser}) => {
             testUser = newUser;
@@ -277,10 +277,10 @@ describe('Authentication', () => {
         cy.findByText('Members').click();
 
         // # Input email, select member
-        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{enter}{enter}');
+        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');
 
         // # Click invite members button
-        cy.findByText('Invite Members').click();
+        cy.findByRole('button', {name: 'Invite Members'}).click({force: true});
 
         // * Verify message is what you expect it to be
         cy.contains('The following email addresses do not belong to an accepted domain:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');

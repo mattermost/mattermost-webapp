@@ -26,15 +26,24 @@ export const contactSalesCard = (
 
     const pricingLink = (
         <a
-            href={CloudLinks.CLOUD_PRICING}
+            href={CloudLinks.PRICING}
             rel='noopener noreferrer'
             target='_blank'
             className='PrivateCloudCard__pricingLink'
             onClick={() => trackEvent('cloud_admin', 'click_pricing_link')}
         >
-            {CloudLinks.CLOUD_PRICING}
+            {CloudLinks.PRICING}
         </a>
     );
+
+    // prior to releasing the cloud-{(s)tarter,(p)rofessional,(e)nterprise} plans,
+    // there is only one product fetched and available on this page, Mattermost Cloud.
+    // Mattermost Cloud pre cloud-{s,p,e} release does not have a sku,
+    // so we test for it with `productLengths === 1`.
+    // Post cloud-{s,p,e} release, Mattermost Cloud has a sku named cloud-legacy,
+    // so we test for it with `subscriptionPlan === CloudProducts.LEGACY`.
+    // We have to, since post cloud-{s,p,e} we fetch all 4 products.
+    const isCloudLegacyPlan = productsLength === 1 || subscriptionPlan === CloudProducts.LEGACY;
 
     if (isFreeTrial) {
         title = (
@@ -49,7 +58,7 @@ export const contactSalesCard = (
                 defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
             />
         );
-    } else if (productsLength === 1) {
+    } else if (isCloudLegacyPlan) {
         title = (
             <FormattedMessage
                 id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
@@ -134,7 +143,7 @@ export const contactSalesCard = (
                 <div className='PrivateCloudCard__text-description'>
                     {description}
                 </div>
-                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || productsLength === 1) &&
+                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || isCloudLegacyPlan) &&
                     <a
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                         rel='noopener noreferrer'
@@ -149,7 +158,7 @@ export const contactSalesCard = (
 
                     </a>
                 }
-                {(!isFreeTrial && productsLength > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
+                {(!isFreeTrial && productsLength > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
                         onClick={onUpgradeMattermostCloud}

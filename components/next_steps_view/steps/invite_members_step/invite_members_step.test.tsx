@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow, ShallowWrapper, ReactWrapper} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersStep from './invite_members_step';
 
@@ -25,6 +25,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
             remaining_seats: 10,
             is_paid_tier: 'false',
         },
+        downloadAppsAsNextStep: false,
         actions: {
             sendEmailInvitesToTeamGracefully: jest.fn(),
             regenerateTeamInviteId: jest.fn(),
@@ -129,5 +130,43 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         wrapper.setState({emails: []});
         wrapper.instance().onChange(emails.map((e) => ({label: e, value: e, error: false})), {action: 'set-value'});
         expect(wrapper.state('emails')).toStrictEqual([]);
+    });
+
+    test('show correct subtitles depending on subscription being paid or not', () => {
+        const paidTierProps = {
+            ...baseProps,
+            subscriptionStats: {
+                remaining_seats: 0, // this value doesn't matter if is_paid_tier is true because no limitations are applied to paid tiers
+                is_paid_tier: 'true',
+            },
+        };
+
+        const freeTierProps = {
+            ...baseProps,
+            subscriptionStats: {
+                remaining_seats: 5,
+                is_paid_tier: 'false',
+            },
+        };
+
+        const nonCloudProps = {
+            ...baseProps,
+            subscriptionStats: null, // in non cloud instances, the subscription stats in redux state remain null
+        };
+        const paidTierwrapper: ReactWrapper<any, any, any> = mountWithIntl(
+            <InviteMembersStep {...paidTierProps}/>,
+        );
+
+        const freeTierWrapper: ReactWrapper<any, any, any> = mountWithIntl(
+            <InviteMembersStep {...freeTierProps}/>,
+        );
+
+        const nonCloudWrapper: ReactWrapper<any, any, any> = mountWithIntl(
+            <InviteMembersStep {...nonCloudProps}/>,
+        );
+
+        expect(paidTierwrapper.find('.InviteMembersStep__emailInvitations').find('span').at(1).text()).toEqual('You can invite team members using a space or comma between addresses');
+        expect(freeTierWrapper.find('.InviteMembersStep__emailInvitations').find('span').at(1).text()).toEqual('You can invite up to 5 team members using a space or comma between addresses');
+        expect(nonCloudWrapper.find('.InviteMembersStep__emailInvitations').find('span').at(1).text()).toEqual('You can invite team members using a space or comma between addresses');
     });
 });

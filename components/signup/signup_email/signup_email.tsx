@@ -40,14 +40,6 @@ export type Actions = {
     getTeamInviteInfo: (inviteId: string) => Promise<{data: TeamInviteInfo} | {error: ServerError}>;
 };
 
-export type PasswordConfig = {
-    minimumLength: number;
-    requireLowercase: boolean;
-    requireNumber: boolean;
-    requireSymbol: boolean;
-    requireUppercase: boolean;
-}
-
 export type Props = {
     location?: {search: string};
     enableSignUpWithEmail: boolean;
@@ -55,7 +47,7 @@ export type Props = {
     termsOfServiceLink?: string;
     privacyPolicyLink?: string;
     customDescriptionText?: string;
-    passwordConfig?: PasswordConfig;
+    passwordConfig: Utils.PasswordConfig;
     hasAccounts: boolean;
     actions: Actions;
 };
@@ -277,7 +269,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
             return false;
         }
 
-        const providedPassword = this.passwordRef.current?.value;
+        const providedPassword = this.passwordRef.current?.value ?? '';
         const {valid, error} = Utils.isValidPassword(providedPassword, this.props.passwordConfig);
         if (!valid && error) {
             this.setState({
