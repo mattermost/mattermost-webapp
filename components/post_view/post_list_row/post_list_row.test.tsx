@@ -82,6 +82,7 @@ describe('components/post_view/post_list_row', () => {
                 update_at: 0,
                 delete_at: 0,
                 last_post_at: 0,
+                last_root_post_at: 0,
             },
             fullWidth: true,
             listId,
