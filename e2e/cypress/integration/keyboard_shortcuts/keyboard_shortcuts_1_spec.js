@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -438,22 +439,6 @@ describe('Keyboard Shortcuts', () => {
         // # Type CTRL/CMD+SHIFT+K to close 'Direct Messages' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}K');
         cy.get('#moreDmModal').should('not.exist');
-    });
-
-    it('MM-T1242 - CTRL/CMD+K - Typed characters are not lost after switching channels', () => {
-        const message = 'Hello World!';
-
-        // # Type CTRL/CMD+K to open 'Switch Channels'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
-
-        // # Type ENTER to switch to new channel
-        cy.get('#quickSwitchInput').type('{enter}');
-
-        // # Typing message
-        cy.get('body').type(message);
-
-        // * Textbox should have text equal to message
-        cy.get('#post_textbox').should('have.text', message);
     });
 
     function markAsFavorite(channelName) {
