@@ -37,23 +37,24 @@ export type Props = {
     onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
-const ProductMenuList = ({
-    teamId,
-    teamName,
-    siteName,
-    currentUser,
-    appDownloadLink,
-    isMessaging,
-    enableCommands,
-    enableIncomingWebhooks,
-    enableOAuthServiceProvider,
-    enableOutgoingWebhooks,
-    canManageSystemBots,
-    canManageIntegrations,
-    enablePluginMarketplace,
-    onClick,
-    isMobile = false,
-}: Props): JSX.Element | null => {
+const ProductMenuList = (props: Props): JSX.Element | null => {
+    const {
+        teamId,
+        teamName,
+        siteName,
+        currentUser,
+        appDownloadLink,
+        isMessaging,
+        enableCommands,
+        enableIncomingWebhooks,
+        enableOAuthServiceProvider,
+        enableOutgoingWebhooks,
+        canManageSystemBots,
+        canManageIntegrations,
+        enablePluginMarketplace,
+        onClick,
+        isMobile = false,
+    } = props;
     const {formatMessage} = useIntl();
 
     if (!currentUser) {
