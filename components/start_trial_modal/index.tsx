@@ -96,7 +96,7 @@ function StartTrialModal(): JSX.Element | null {
                 <div className='description'>
                     <FormattedMessage
                         id='start_trial.modal_body'
-                        defaultMessage='Start Enterprise for free to try advanced security and compliance features with premium support.'
+                        defaultMessage='Access all platform features including advanced security and enterprise compliance.'
                     />
                 </div>
                 <div className='buttons'>
