@@ -5,19 +5,10 @@ import React from 'react';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-interface ModalList<T> {
-    [key: string]: T;
-}
-
-type ModaListType<T> = ModalList<T> & {
-    modalState?: T;
-}
-
 type Modal = {
-    [key: string]: any;
     open: boolean;
     dialogProps: Dictionary<any>;
-    dialogType: React.Component;
+    dialogType: React.ComponentType;
 }
 
 type Props = {
@@ -25,7 +16,11 @@ type Props = {
     /*
      * Object that has map of modal's id and element
      */
-    modals: ModaListType<Modal>;
+    modals: {
+        modalState: {
+            [modalId: string]: Modal;
+        };
+    };
 
     /*
      * Object with action creators
