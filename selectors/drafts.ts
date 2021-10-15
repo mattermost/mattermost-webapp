@@ -7,7 +7,7 @@ import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/rhs';
 
-import {StoragePrefixes} from 'utils/constants';
+import {StoragePrefixes, Constants} from 'utils/constants';
 
 type Info = {
     id: string;
@@ -22,6 +22,15 @@ export type Draft = Info & {
 
 export type DraftSelector = (state: GlobalState) => Draft[];
 export type DraftCountSelector = (state: GlobalState) => number;
+
+function getMyActiveChannels(state: GlobalState) {
+    return getMyChannels(state).flatMap((chan) => {
+        if (chan.delete_at > 0) {
+            return [];
+        }
+        return chan.id;
+    });
+}
 
 function getInfoFromKey(key: string, prefix: string): Info {
     const keyArr = key.split('_');
@@ -80,7 +89,7 @@ export function makeGetDrafts(): DraftSelector {
         'makeGetDrafts',
         getChannelDrafts,
         getRHSDrafts,
-        (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
+        getMyActiveChannels,
         (channelDrafts, rhsDrafts, myChannels) => (
             [...channelDrafts, ...rhsDrafts]
         ).
@@ -96,7 +105,7 @@ export function makeGetDraftsCount(): DraftCountSelector {
         'makeGetDraftsCount',
         getChannelDrafts,
         getRHSDrafts,
-        (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
+        getMyActiveChannels,
         (channelDrafts, rhsDrafts, myChannels) => [...channelDrafts, ...rhsDrafts].
             filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).length,
     );
