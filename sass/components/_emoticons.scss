@@ -180,7 +180,7 @@
     display: none; // only visible < 480px width screen
     padding: 13px 10px 13px 15px;
     background: $primary-color;
-    border: 1px solid $light-gray;
+    border: 1px solid rgba(var(--center-channel-color-rgb),0.2);
     color: $white;
     position: absolute;
     top: 0;
