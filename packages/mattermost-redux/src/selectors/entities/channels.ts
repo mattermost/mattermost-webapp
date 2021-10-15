@@ -339,7 +339,7 @@ export const getChannelSetInCurrentTeam: (state: GlobalState) => string[] = crea
 );
 
 export const getChannelSetAllTeam: (state: GlobalState) => string[] = createSelector(
-    'getChannelSetInCurrentTeam',
+    'getChannelSetAllTeam',
     getAllChannels,
     (allChannels): string[] => {
         const channelSet: string[] = [];
