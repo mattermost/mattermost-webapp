@@ -1,4 +1,4 @@
-.StartTrialModal {
+.TrialBenefitsModal {
     .modal-dialog {
         position: absolute;
         top: 50%;
@@ -55,25 +55,41 @@
         flex-direction: column;
         padding: 0;
 
-        .upgrade-image {
+        .svg-wrapper {
             display: block;
-            margin: auto;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            margin-left: 180px;
+        }
+
+        .handsSvg {
+            margin-left: 190px;
+        }
+
+        .personMacSvg {
+            margin-top: -15px;
+        }
+
+        .personSheetSvg {
+            margin-top: -15px;
         }
 
         .title {
-            width: 80%;
+            width: 100%;
             margin: 0 auto;
-            margin-top: 16px;
+            margin-top: 10px 0;
+            color: var(--center-channel-color);
             font-family: Metropolis, sans-serif;
             font-size: 22px;
             font-style: normal;
             font-weight: 600;
             line-height: 28px;
-            text-align: center;
+            text-align: left;
         }
 
         .description {
-            width: 80%;
+            width: 100%;
             margin: 0 auto;
             margin-top: 8px;
             font-family: 'Open Sans';
@@ -81,28 +97,54 @@
             font-style: normal;
             font-weight: normal;
             line-height: 16px;
-            text-align: center;
+            text-align: left;
         }
 
-        .disclaimer {
-            width: 80%;
-            height: 32px;
-            margin: 10px auto;
-            margin-bottom: 32px;
-            font-family: 'Open Sans';
+        .learnMoreButton {
+            display: block;
+            width: 120px;
+            padding: 13px 20px;
+            border: none;
+            margin-top: 16px;
+            background: var(--sys-center-channel-bg);
+            border-radius: 4px;
+            box-shadow: inset 0 0 0 1px var(--sys-button-bg);
+            color: var(--sys-button-bg);
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 14px;
+
+            &:hover:not(.disabled) {
+                background: rgba(var(--sys-button-bg-rgb), 0.04);
+                text-decoration: none;
+            }
+
+            &:active {
+                background: rgba(var(--sys-button-bg-rgb), 0.08);
+                text-decoration: none;
+            }
+
+            &:focus {
+                box-shadow: inset 0 0 0 2px var(--sys-button-bg);
+                text-decoration: none;
+            }
+        }
+
+        .bottom-text-left-message {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            color: rgba(var(--center-channel-color-rgb), 0.72);
             font-size: 12px;
             font-style: normal;
             font-weight: normal;
             line-height: 16px;
-            text-align: center;
         }
 
         .buttons {
-            margin-top: 32px;
-            margin-bottom: 32px;
             text-align: center;
 
-            .dismiss-btn {
+            .previous-btn {
                 &:hover,
                 &:active,
                 &:focus,
@@ -112,18 +154,20 @@
                     border-radius: 4px;
                 }
 
-                height: 40px;
+                height: 30px;
                 align-items: center;
                 align-self: center;
+                padding: 8px 16px;
                 border: none;
-                background: var(--center-channel-bg);
+                background: rgba(var(--button-bg-rgb), 0.08);
+                border-radius: 4px;
                 color: var(--button-bg);
                 font-size: 14px;
                 font-weight: 600;
                 line-height: 14px;
             }
 
-            .confirm-btn {
+            .next-btn {
                 &:hover,
                 &:active,
                 &:focus,
@@ -133,9 +177,9 @@
                         var(--button-bg);
                 }
 
-                height: 40px;
+                height: 30px;
                 flex: none;
-                padding: 12px 20px;
+                padding: 8px 16px;
                 border: none;
                 margin-left: 8px;
                 background: var(--button-bg);
