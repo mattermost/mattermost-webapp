@@ -661,7 +661,8 @@ export function handleNewPostEvents(queue) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch(receivedPost(post));
+    const crtEnabled = isCollapsedThreadsEnabled(getState());
+    dispatch(receivedPost(post, crtEnabled));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
