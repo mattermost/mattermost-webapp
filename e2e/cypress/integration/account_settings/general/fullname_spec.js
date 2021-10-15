@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @account_setting
 
 import {getRandomId} from '../../../utils';
@@ -72,41 +71,5 @@ describe('Account Settings > Sidebar > General', () => {
             last().
             scrollIntoView().
             should('be.visible');
-    });
-});
-
-describe('Account Settings -> General -> Full Name', () => {
-    let testUser;
-
-    before(() => {
-        cy.apiAdminLogin();
-
-        // # Login as new user and visit off-topic
-        cy.apiInitSetup({loginAfter: true}).then(({user, offTopicUrl}) => {
-            testUser = user;
-            cy.visit(offTopicUrl);
-        });
-    });
-
-    beforeEach(() => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
-    });
-
-    it('MM-T2043 Enter first name', () => {
-        // # Click "Edit" to the right of "Full Name"
-        cy.get('#nameEdit').should('be.visible').click();
-
-        // # Clear the first name
-        cy.get('#firstName').clear();
-
-        // # Type a new first name
-        cy.get('#firstName').should('be.visible').type(testUser.first_name + '_new');
-
-        // # Save the settings
-        cy.uiSave();
-
-        // * Check that the first name was correctly updated
-        cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name + '_new ' + testUser.last_name);
     });
 });

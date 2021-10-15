@@ -39,7 +39,6 @@ type Props = {
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
-    globalHeaderEnabled: boolean;
     isMobileView: boolean;
 };
 
@@ -187,20 +186,18 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     dragging: this.state.isDragging,
                 })}
             >
-                {
-                    this.props.globalHeaderEnabled && !this.props.isMobileView ? (
-                        <SidebarHeader
-                            showNewChannelModal={this.showNewChannelModal}
-                            showMoreChannelsModal={this.showMoreChannelsModal}
-                            invitePeopleModal={this.invitePeopleModal}
-                            showCreateCategoryModal={this.showCreateCategoryModal}
-                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
-                            canJoinPublicChannel={this.props.canJoinPublicChannel}
-                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
-                            unreadFilterEnabled={this.props.unreadFilterEnabled}
-                        />
-                    ) : <LegacySidebarHeader/>
-                }
+                {this.props.isMobileView ? <LegacySidebarHeader/> : (
+                    <SidebarHeader
+                        showNewChannelModal={this.showNewChannelModal}
+                        showMoreChannelsModal={this.showMoreChannelsModal}
+                        invitePeopleModal={this.invitePeopleModal}
+                        showCreateCategoryModal={this.showCreateCategoryModal}
+                        canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                        canJoinPublicChannel={this.props.canJoinPublicChannel}
+                        handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                        unreadFilterEnabled={this.props.unreadFilterEnabled}
+                    />
+                )}
                 <div
                     id='lhsNavigator'
                     role='application'
