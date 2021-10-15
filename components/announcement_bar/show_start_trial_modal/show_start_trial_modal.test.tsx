@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import ShowStartTrialModal from 'components/announcement_bar/show_start_trial_modal/show_start_trial_modal';
+import {mount, shallow} from 'enzyme';
 
-import { mount, shallow } from 'enzyme';
+import ShowStartTrialModal from 'components/announcement_bar/show_start_trial_modal/show_start_trial_modal';
 
 const mockDispatch = jest.fn();
 let mockState: any;
@@ -18,14 +18,15 @@ jest.mock('react-redux', () => ({
 
 describe('components/sidebar/show_start_trial_modal', () => {
     beforeEach(() => {
-    const now = new Date().getTime();
-    // required state to mount using the provider
-    mockState = {
+        const now = new Date().getTime();
+
+        // required state to mount using the provider
+        mockState = {
             entities: {
                 admin: {
                     analytics: {
                         TOTAL_USERS: 9,
-                    }
+                    },
                 },
                 preferences: {
                     myPreferences: {
@@ -33,7 +34,7 @@ describe('components/sidebar/show_start_trial_modal', () => {
                             name: 'trial_modal_auto_shown',
                             value: 'false',
                         },
-                    }
+                    },
                 },
                 general: {
                     config: {
@@ -63,19 +64,8 @@ describe('components/sidebar/show_start_trial_modal', () => {
         expect(wrapper).toMatchSnapshot();
     });
     test('should return nothing when user is not an admin', () => {
-        const guestUser = {
-            currentUserId: 'guest_user_id',
-            profiles: {
-                user_id: {
-                    id: 'guest_user_id',
-                    roles: 'team_role',
-                },
-            },
-        };
-        const noPermissionsState = {...mockState, entities: {...mockState.entities, users: guestUser}};
-
-        const wrapper = mount(
-                <ShowStartTrialModal />
+        mount(
+            <ShowStartTrialModal/>,
         );
         expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
@@ -94,16 +84,15 @@ describe('components/sidebar/show_start_trial_modal', () => {
                 // installation date is set to be 10 hours before current time
                 InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
             },
-        }
+        };
 
         mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, general: moreThan6Hours}};
 
-        const wrapper = mount(
-                <ShowStartTrialModal />
+        mount(
+            <ShowStartTrialModal/>,
         );
         expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
-
 
     test('should NOT dispatch the modal when the env has less than 6 hours of creation', () => {
         const isAdminUser = {
@@ -116,7 +105,7 @@ describe('components/sidebar/show_start_trial_modal', () => {
         const moreThan10Users = {
             analytics: {
                 TOTAL_USERS: 11,
-            }
+            },
         };
 
         const moreThan6Hours = {
@@ -125,12 +114,12 @@ describe('components/sidebar/show_start_trial_modal', () => {
                 // installation date is set to be 5 hours before current time
                 InstallationDate: new Date().getTime() - ((5 * 60 * 60) * 1000),
             },
-        }
+        };
 
         mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10Users, general: moreThan6Hours}};
 
-        const wrapper = mount(
-                <ShowStartTrialModal />
+        mount(
+            <ShowStartTrialModal/>,
         );
         expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
@@ -146,7 +135,7 @@ describe('components/sidebar/show_start_trial_modal', () => {
         const moreThan10Users = {
             analytics: {
                 TOTAL_USERS: 11,
-            }
+            },
         };
 
         const moreThan6Hours = {
@@ -155,7 +144,7 @@ describe('components/sidebar/show_start_trial_modal', () => {
                 // installation date is set to be 10 hours before current time
                 InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
             },
-        }
+        };
 
         const modalDismissed = {
             myPreferences: {
@@ -163,8 +152,8 @@ describe('components/sidebar/show_start_trial_modal', () => {
                     name: 'trial_modal_auto_shown',
                     value: 'true',
                 },
-            }
-        }
+            },
+        };
 
         mockState = {
             ...mockState,
@@ -173,12 +162,12 @@ describe('components/sidebar/show_start_trial_modal', () => {
                 users: isAdminUser,
                 admin: moreThan10Users,
                 general: moreThan6Hours,
-                preferences: modalDismissed
-            }
+                preferences: modalDismissed,
+            },
         };
 
-        const wrapper = mount(
-                <ShowStartTrialModal />
+        mount(
+            <ShowStartTrialModal/>,
         );
         expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
@@ -194,7 +183,7 @@ describe('components/sidebar/show_start_trial_modal', () => {
         const moreThan10Users = {
             analytics: {
                 TOTAL_USERS: 11,
-            }
+            },
         };
 
         const moreThan6Hours = {
@@ -203,12 +192,12 @@ describe('components/sidebar/show_start_trial_modal', () => {
                 // installation date is set to be 10 hours before current time
                 InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
             },
-        }
+        };
 
         mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10Users, general: moreThan6Hours}};
 
-        const wrapper = mount(
-                <ShowStartTrialModal />
+        mount(
+            <ShowStartTrialModal/>,
         );
         expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
