@@ -17,8 +17,10 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+import {removeDraft} from 'actions/views/drafts';
 import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
+import {getGlobalItem} from 'selectors/storage';
 import {
     ActionTypes,
     Constants,
@@ -288,6 +290,13 @@ export function deleteAndRemovePost(post) {
                 postId: '',
                 channelId: '',
             });
+        }
+
+        if (post.root_id === '') {
+            const key = StoragePrefixes.COMMENT_DRAFT + post.id;
+            if (getGlobalItem(getState(), key, null)) {
+                dispatch(removeDraft(key));
+            }
         }
 
         dispatch(PostActions.removePost(post));
