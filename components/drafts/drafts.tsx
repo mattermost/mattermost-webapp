@@ -2,18 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {Draft} from 'selectors/drafts';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import Header from 'components/widgets/header';
-import RHSSearchNav from 'components/rhs_search_nav';
 
 import DraftRow from './draft_row';
 import DraftsIllustration from './drafts_illustration';
@@ -35,7 +33,6 @@ function Drafts({
 }: Props) {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
-    const globalHeaderEnabled = useSelector(getGlobalHeaderEnabled);
 
     useEffect(() => {
         dispatch(selectChannel(''));
@@ -57,7 +54,6 @@ function Drafts({
                     id: 'drafts.subtitle',
                     defaultMessage: 'All messages you\'ve started will show here',
                 })}
-                right={globalHeaderEnabled ? null : <RHSSearchNav/>}
             />
             <div className='Drafts__main'>
                 {drafts.map((d) => (
