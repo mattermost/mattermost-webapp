@@ -182,7 +182,7 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         };
     }
     case ChannelTypes.LEAVE_CHANNEL: {
-        if (action.data && action.data.type === General.PRIVATE_CHANNEL) {
+        if (action.data) {
             const nextState = {...state};
             Reflect.deleteProperty(nextState, action.data.id);
             return nextState;
@@ -263,7 +263,7 @@ function channelsInTeam(state: RelationOneToMany<Team, Channel> = {}, action: Ge
         return channelListToSet(state, action);
     }
     case ChannelTypes.LEAVE_CHANNEL: {
-        if (action.data && action.data.type === General.PRIVATE_CHANNEL) {
+        if (action.data) {
             return removeChannelFromSet(state, action);
         }
         return state;
