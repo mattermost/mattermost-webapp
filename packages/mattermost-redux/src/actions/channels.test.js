@@ -2077,7 +2077,7 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            expect(state.entities.channels.channels[channel.id]).toBeDefined();
+            expect(state.entities.channels.channels[channel.id]).not.toBeDefined();
             expect(state.entities.channels.myMembers[channel.id]).not.toBeDefined();
         });
 
@@ -2148,7 +2148,7 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            expect(state.entities.channels.channels[channel.id]).toBeDefined();
+            expect(state.entities.channels.channels[channel.id]).not.toBeDefined();
             expect(state.entities.channels.myMembers[channel.id]).not.toBeDefined();
             expect(state.entities.channelCategories.byId[category.id].channel_ids).toEqual([]);
         });
