@@ -502,7 +502,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                </div>
            </>);
 
-        if (this.state.selectedProduct?.billing_scheme === BillingSchemes.INTERNAL) {
+        if (this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE) {
             priceSection = (<div className='normal-payment-text'>
                 <FormattedMessage
                     defaultMessage={'Please '}
@@ -604,7 +604,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         }
                         {priceSection}
                         <button
-                            disabled={!this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.INTERNAL}
+                            disabled={!this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE}
                             onClick={this.handleSubmitClick}
                         >
                             {buttonTitle}
