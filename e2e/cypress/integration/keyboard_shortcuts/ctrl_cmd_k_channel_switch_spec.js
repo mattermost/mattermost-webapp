@@ -10,14 +10,8 @@
 // Group: @keyboard_shortcuts¨
 
 describe('Keyboard Shortcuts', () => {
-    let testChannel;
-    let testUser;
-
     before(() => {
-        cy.apiInitSetup().then(({channel, user, channelUrl}) => {
-            testUser = user;
-            testChannel = channel;
-            cy.apiAddUserToChannel(testChannel.id, testUser.id);
+        cy.apiInitSetup().then(({channelUrl}) => {
             cy.visit(channelUrl);
         });
     });
