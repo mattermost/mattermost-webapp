@@ -11,25 +11,18 @@
 // Group: @account_setting
 
 describe('Account Settings > General > Position', () => {
-    let testTeam;
-    let testUser;
-    const position = 'Master hacker';
-
     beforeEach(() => {
         cy.apiAdminLogin();
-        cy.apiInitSetup().then(({team, user}) => {
-            testTeam = team;
-            testUser = user;
-
-            cy.apiLogin(testUser);
-
-            // # Visit town square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            // # Visit off-topic channel
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T2063 Position', () => {
-        // # Open 'Account Settings' modal and view the default 'General Settings'
+        const position = 'Master hacker';
+
+        // # Open 'Account Settings' modal and view the default 'Profile'
         cy.uiOpenAccountSettingsModal().within(() => {
             // # Open 'Position' setting
             cy.findByRole('heading', {name: 'Position'}).should('be.visible').click();
@@ -48,13 +41,13 @@ describe('Account Settings > General > Position', () => {
         cy.get('.profile-icon > img').as('profileIconForPopover').click();
 
         // # Verify that the popover is visible and contains position
-        cy.contains('#user-profile-popover', 'Master hacker').should('be.visible');
+        cy.contains('#user-profile-popover', position).should('be.visible');
     });
 
     it('MM-T2064 Position / 128 characters', () => {
         const longPosition = 'Master Hacker II'.repeat(8);
 
-        // # Open 'Account Settings' modal and view the default 'General Settings'
+        // # Open 'Account Settings' modal and view the default 'Profile'
         cy.uiOpenAccountSettingsModal().within(() => {
             const minPositionHeader = () => cy.findByRole('heading', {name: 'Position'});
             const maxPositionInput = () => cy.findByRole('textbox', {name: 'Position'});

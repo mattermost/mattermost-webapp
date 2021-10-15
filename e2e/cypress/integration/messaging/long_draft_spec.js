@@ -13,16 +13,19 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    let testTeam;
+    let otherChannelName;
+    let otherChannelUrl;
 
     before(() => {
         // # Make sure the viewport is the expected one, so written lines always create new lines
         cy.viewport(1000, 660);
 
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then((out) => {
+            otherChannelName = out.channel.name;
+            otherChannelUrl = out.channelUrl;
+            cy.visit(out.offTopicUrl);
+            cy.postMessage('hello');
         });
     });
 
@@ -35,9 +38,6 @@ describe('Messaging', () => {
             'facilisis in purus sed, auctor.',
         ];
 
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.postMessage('Hello');
-
         // # Get the height before starting to write
         cy.get('#post_textbox').should('be.visible').clear().invoke('height').as('initialHeight').as('previousHeight');
 
@@ -45,11 +45,11 @@ describe('Messaging', () => {
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel and verify textbox
-        cy.get('#sidebarItem_off-topic').click({force: true}).wait(TIMEOUTS.THREE_SEC);
+        cy.get(`#sidebarItem_${otherChannelName}`).click({force: true}).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@initialHeight', '');
 
         // # Return to the channel and verify textbox
-        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.THREE_SEC);
+        cy.get('#sidebarItem_off-topic').click({force: true}).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@previousHeight', lines.join('\n'));
 
         // # Clear the textbox
@@ -61,13 +61,13 @@ describe('Messaging', () => {
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel by URL and verify textbox
-        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.THREE_SEC);
+        cy.visit(otherChannelUrl).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@initialHeight', '');
 
         // # Should have returned to the channel by URL. However, Cypress is clearing storage for some reason.
         // # Does not happened on actual user interaction.
         // * Verify textbox
-        cy.get('#sidebarItem_town-square').click({force: true}).wait(TIMEOUTS.THREE_SEC);
+        cy.get('#sidebarItem_off-topic').click({force: true}).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@previousHeight', lines.join('\n'));
     });
 });

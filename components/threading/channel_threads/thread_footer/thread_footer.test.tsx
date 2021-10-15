@@ -179,7 +179,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
         expect(wrapper.find(SimpleTooltip).find('.dot-unreads').exists()).toBe(false);
     });
 
-    test('should should have avatars', () => {
+    test('should have avatars', () => {
         const {mountOptions} = mockStore(state);
         const wrapper = mount(
             <ThreadFooter
@@ -187,7 +187,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
             />,
             mountOptions,
         );
-        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', ['1', '2', '3', '4', '5']);
+        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', ['5', '4', '3', '2', '1']);
     });
 
     test('should have a timestamp', () => {

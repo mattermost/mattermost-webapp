@@ -36,13 +36,13 @@ const languages = {
     },
     en: {
         value: 'en',
-        name: 'English',
+        name: 'English (US)',
         order: 1,
         url: '',
     },
     'en-AU': {
         value: 'en-AU',
-        name: 'English Australian (Beta)',
+        name: 'English (Australia)',
         order: 2,
         url: enAU,
     },
@@ -60,13 +60,13 @@ const languages = {
     },
     it: {
         value: 'it',
-        name: 'Italiano (Beta)',
+        name: 'Italiano (Alpha)',
         order: 5,
         url: it,
     },
     hu: {
         value: 'hu',
-        name: 'Magyar (Beta)',
+        name: 'Magyar',
         order: 6,
         url: hu,
     },
@@ -78,7 +78,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski (Beta)',
+        name: 'Polski (Alpha)',
         order: 8,
         url: pl,
     },

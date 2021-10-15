@@ -10,14 +10,17 @@ import * as UserActions from 'mattermost-redux/actions/users';
 import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
 import {
     getChannel,
-    getCurrentChannelId,
-    getMyChannels,
-    getMyChannelMember,
     getChannelMembersInChannels,
+    getChannelMessageCount,
+    getCurrentChannelId,
+    getMyChannelMember,
+    getMyChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
+
+import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
 import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
@@ -321,13 +324,12 @@ export async function loadProfilesForGM() {
         const isVisible = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channel.id);
 
         if (!isVisible) {
+            const messageCount = getChannelMessageCount(state, channel.id);
             const member = getMyChannelMember(state, channel.id);
 
-            const noUnreads = collapsedThreads ?
-                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
-                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+            const unreadCount = calculateUnreadCount(messageCount, member, collapsedThreads);
 
-            if (!member || noUnreads) {
+            if (!unreadCount.showUnread) {
                 continue;
             }
 
@@ -373,12 +375,11 @@ export async function loadProfilesForDM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
+            const messageCount = getChannelMessageCount(state, channel.id);
 
-            const noUnreads = collapsedThreads ?
-                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
-                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+            const unreadCount = calculateUnreadCount(messageCount, member, collapsedThreads);
 
-            if (!member || noUnreads) {
+            if (!member || !unreadCount.showUnread) {
                 continue;
             }
 

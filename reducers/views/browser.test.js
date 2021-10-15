@@ -2,17 +2,19 @@
 // See LICENSE.txt for license information.
 
 import browserReducer from 'reducers/views/browser';
-import {ActionTypes} from 'utils/constants';
+import {ActionTypes, WindowSizes} from 'utils/constants';
 
 describe('Reducers.Browser', () => {
     const initialState = {
         focused: true,
+        windowSize: WindowSizes.DESKTOP_VIEW,
     };
 
     test('Initial state', () => {
         const nextState = browserReducer(
             {
                 focused: true,
+                windowSize: WindowSizes.DESKTOP_VIEW,
             },
             {},
         );
@@ -24,6 +26,7 @@ describe('Reducers.Browser', () => {
         const nextState = browserReducer(
             {
                 focused: true,
+                windowSize: WindowSizes.DESKTOP_VIEW,
             },
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
@@ -41,6 +44,7 @@ describe('Reducers.Browser', () => {
         const nextState = browserReducer(
             {
                 focused: false,
+                windowSize: WindowSizes.DESKTOP_VIEW,
             },
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
@@ -51,6 +55,24 @@ describe('Reducers.Browser', () => {
         expect(nextState).toEqual({
             ...initialState,
             focused: true,
+        });
+    });
+
+    test(`should reflect window resize update on ${ActionTypes.BROWSER_WINDOW_RESIZED}`, () => {
+        const nextState = browserReducer(
+            {
+                focused: true,
+                windowSize: WindowSizes.DESKTOP_VIEW,
+            },
+            {
+                type: ActionTypes.BROWSER_WINDOW_RESIZED,
+                data: WindowSizes.MOBILE_VIEW,
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            windowSize: WindowSizes.MOBILE_VIEW,
         });
     });
 });

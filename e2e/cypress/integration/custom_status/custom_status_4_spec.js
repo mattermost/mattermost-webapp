@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @custom_status
 
-import {openCustomStatusModal} from './helper';
-
 describe('Custom Status - Recent Statuses', () => {
     before(() => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
@@ -33,10 +31,11 @@ describe('Custom Status - Recent Statuses', () => {
     };
 
     it('MM-T3847_1 set a status', () => {
-        openCustomStatusModal();
+        // # Open the custom status modal
+        cy.uiOpenUserMenu('Set a Custom Status');
 
         // # Type the custom status text in the custom status modal input
-        cy.get('#custom_status_modal .StatusModal__input input').type(customStatus.text);
+        cy.get('#custom_status_modal .StatusModal__input input').type(customStatus.text, {force: true});
 
         // # Select an emoji from the emoji picker and set the status
         cy.get('#custom_status_modal .StatusModal__emoji-button').click();
@@ -44,11 +43,14 @@ describe('Custom Status - Recent Statuses', () => {
         cy.get('#custom_status_modal .GenericModal__button.confirm').click();
 
         // * Custom status emoji should be visible in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T3847_2 should show status in the top in the Recents list', () => {
-        openCustomStatusModal();
+        // # Open the custom status modal
+        cy.uiOpenUserMenu(customStatus.text);
 
         // # Click on the clear button in the custom status modal
         cy.get('#custom_status_modal .StatusModal__clear-container').click();
@@ -78,11 +80,14 @@ describe('Custom Status - Recent Statuses', () => {
         cy.get('#custom_status_modal .GenericModal__button.confirm').click();
 
         // * Check if custom status is successfully set by checking the emoji in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', defaultStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', defaultStatus.emoji);
     });
 
     it('MM-T3847_5 should show status set in step 4 in the top in the Recents list', () => {
-        openCustomStatusModal();
+        // # Open the custom status modal
+        cy.uiOpenUserMenu(defaultStatus.text);
 
         // # Click on the clear button in the custom status modal input
         cy.get('#custom_status_modal .StatusModal__clear-container').click();

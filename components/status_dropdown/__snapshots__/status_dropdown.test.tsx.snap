@@ -15,20 +15,22 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -54,52 +56,112 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
+        renderSelected={true}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -157,20 +219,22 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -188,7 +252,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -268,52 +332,112 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
+        renderSelected={true}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -371,20 +495,22 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -402,7 +528,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -431,52 +557,112 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
+        renderSelected={true}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -534,20 +720,22 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -565,7 +753,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -594,52 +782,112 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
+        renderSelected={true}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -697,20 +945,22 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -728,7 +978,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Custom Status"
+        ariaLabel="Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -758,52 +1008,112 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
+        renderSelected={true}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -865,20 +1175,22 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -904,52 +1216,112 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
+        renderSelected={true}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1007,20 +1379,22 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -1046,52 +1420,112 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
+        renderSelected={true}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        accessibilityLabel="Account Settings"
+        ariaLabel="Account Settings"
         dialogProps={
           Object {
             "isContentProductSettings": false,

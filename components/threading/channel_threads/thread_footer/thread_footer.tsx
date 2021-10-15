@@ -56,7 +56,7 @@ function ThreadFooter({
             channel_id: channelId,
         },
     } = thread;
-    const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
+    const participantIds = useMemo(() => participants?.map(({id}) => id).reverse(), [participants]);
 
     const handleReply = useCallback((e) => {
         e.stopPropagation();

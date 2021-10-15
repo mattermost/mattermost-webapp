@@ -116,8 +116,8 @@ describe('Guest Accounts', () => {
         // # From the main page, invite a Guest user and click on the Join Team in the email sent to the guest user.
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu, click Invite People, then invite guest
+        cy.uiOpenTeamMenu('Invite People');
         cy.findByTestId('inviteGuestLink').find('.arrow').click();
 
         // # Type guest user e-mail address.
@@ -136,7 +136,7 @@ describe('Guest Accounts', () => {
                 eq(0).should('contain', testChannel.name).click();
         });
 
-        cy.get('[id="inviteGuestButton"]').scrollIntoView().click();
+        cy.get('#inviteGuestButton').scrollIntoView().click();
         cy.get('#closeIcon').should('be.visible').click();
 
         // # Get invitation link.

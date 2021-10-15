@@ -11,22 +11,22 @@
 // Group: @messaging
 
 describe('Hide ephemeral message on refresh', () => {
-    let townsquareLink;
+    let offtopiclink;
 
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+            offtopiclink = `/${team.name}/channels/off-topic`;
+            cy.visit(offtopiclink);
         });
     });
 
     it('MM-T2197 Ephemeral message disappears in center after refresh', () => {
         // # Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_off-topic').click({force: true});
 
         // * Validate if the channel has been opened
-        cy.url().should('include', townsquareLink);
+        cy.url().should('include', offtopiclink);
 
         // # Set initial status to online
         cy.apiUpdateUserStatus('online');
@@ -41,7 +41,7 @@ describe('Hide ephemeral message on refresh', () => {
 
             // # Refresh the page
             cy.reload();
-            cy.visit(townsquareLink);
+            cy.visit(offtopiclink);
 
             // * Assert message disappearing
             cy.get(`#postMessageText_${postID}`).should('not.exist');

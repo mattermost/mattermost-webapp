@@ -134,6 +134,8 @@
     }
 
     .modal-footer {
+        background: var(--center-channel-bg);
+
         &.modal-footer--invisible {
             overflow: hidden;
             height: 0;
@@ -258,7 +260,6 @@
             white-space: nowrap;
 
             .name {
-                color: $white;
                 font-weight: 600;
             }
 

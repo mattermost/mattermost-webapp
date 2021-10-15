@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .app__body {
     .custom-textarea {
@@ -216,6 +216,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
+        background: var(--center-channel-bg);
 
         &.active {
             display: inline;
@@ -386,6 +387,7 @@
 
     z-index: 12;
     width: 100%;
+    background: var(--center-channel-bg);
 
     label {
         font-weight: normal;
@@ -395,6 +397,14 @@
         width: 100%;
         padding: 0 15px 0;
         margin: 0 auto;
+
+        &.prewritten {
+            background: rgba(var(--button-bg-rgb), 0.08);
+
+            .custom-textarea {
+                background: var(--center-channel-bg);
+            }
+        }
     }
 
     .center {
@@ -449,6 +459,13 @@
                 padding-right: 90px;
             }
         }
+    }
+
+    .post-create-prewritten-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
     }
 
     .post-create-body {
@@ -1057,13 +1074,18 @@
     }
 
     .post-edited__indicator {
-        @include opacity(0.6);
-
-        font-size: 0.87em;
+        display: inline-block;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 11px;
+        font-style: italic;
         -webkit-user-select: none; /* Chrome all / Safari all */
         -moz-user-select: none;    /* Firefox all */
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
+
+        > i {
+            margin-right: 2px;
+        }
     }
 
     .emoticon {
@@ -1856,7 +1878,7 @@
             display: -webkit-box;
             overflow: hidden;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 5;
+            -webkit-line-clamp: 4;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
@@ -1864,7 +1886,6 @@
         .post-preview-collapse__show-more-button {
             padding: 0;
             border: none;
-            margin-top: 10px;
             background: none;
             font-size: 12px;
         }
@@ -1892,6 +1913,10 @@
                 line-height: 16px;
             }
         }
+    }
+
+    .Menu .MenuItem {
+        background: var(--center-channel-bg);
     }
 }
 
@@ -1925,7 +1950,11 @@
 
 .post-message {
     position: relative;
+
+    // MM-38006 - There's a bug on Chrome/Safari where a collapsed post will sometimes have its contents scroll. This
+    // is prevented by using clip instead of hidden, but that's not supported on the stable version of Safari yet.
     overflow: hidden;
+    overflow: clip;
 }
 
 .post-collapse {
@@ -1937,12 +1966,12 @@
     .post-collapse__gradient,
     .post-attachment-collapse__gradient {
         position: relative;
-        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), v(center-channel-bg));
+        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), var(--center-channel-bg));
     }
 
     .post-collapse__show-more,
     .post-attachment-collapse__show-more {
-        background: v(center-channel-bg);
+        background: var(--center-channel-bg);
         pointer-events: auto;
     }
 }
@@ -2149,4 +2178,22 @@
 .app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient,
 .app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient {
     background: linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
+}
+
+.post--pinned-or-flagged {
+    background-color: rgb(var(--pinned-highlight-bg-mixed-rgb));
+
+    .post-collapse {
+        .post-collapse__gradient,
+        .post-attachment-collapse__gradient {
+            position: relative;
+            background: linear-gradient(transparent, rgb(var(--pinned-highlight-bg-mixed-rgb)));
+        }
+
+        .post-collapse__show-more,
+        .post-attachment-collapse__show-more {
+            background: rgb(var(--pinned-highlight-bg-mixed-rgb));
+            pointer-events: auto;
+        }
+    }
 }

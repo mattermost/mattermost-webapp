@@ -17,16 +17,16 @@ describe('Account Settings > Sidebar > General', () => {
     let testTeam;
 
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({team, user, offTopicUrl}) => {
             testUser = user;
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T3848 No nickname is present', () => {
-        // # Open 'Account Settings' modal and view the default 'General Settings'
+        // # Open 'Account Settings' modal and view the default 'Profile'
         cy.uiOpenAccountSettingsModal().within(() => {
             // # Open 'Nickname' setting
             cy.uiGetHeading('Nickname').click();
@@ -38,8 +38,8 @@ describe('Account Settings > Sidebar > General', () => {
             cy.uiSaveAndClose();
         });
 
-        // # Open main menu and click "View Members"
-        cy.uiOpenMainMenu('View Members');
+        // # Open team menu and click "View Members"
+        cy.uiOpenTeamMenu('View Members');
 
         // # Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
@@ -67,8 +67,8 @@ describe('Account Settings > Sidebar > General', () => {
             cy.uiSaveAndClose();
         });
 
-        // # Open main menu and click "View Members"
-        cy.uiOpenMainMenu('View Members');
+        // # Open team menu and click "View Members"
+        cy.uiOpenTeamMenu('View Members');
 
         // # Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');

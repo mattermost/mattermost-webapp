@@ -1,114 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/CreateComment should match snapshot read only channel 1`] = `
-<form
-  onSubmit={[Function]}
->
-  <div
-    aria-label="reply input region"
-    className="post-create a11y__region"
-    data-a11y-sort-order="4"
-    role="form"
-    tabIndex={-1}
-  >
-    <div
-      className="post-create-body comment-create-body"
-      id=""
-    >
-      <div
-        className="post-body__cell"
-      >
-        <Connect(Textbox)
-          badConnection={false}
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          characterLimit={4000}
-          createMessage="This channel is read-only. Only members with permission can post here."
-          disabled={true}
-          emojiEnabled={true}
-          handlePostError={[Function]}
-          id="reply_textbox"
-          isRHS={true}
-          listenForMentionKeyClick={true}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onComposition={[Function]}
-          onHeightChange={[Function]}
-          onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onKeyUp={[Function]}
-          onMouseUp={[Function]}
-          onSelect={[Function]}
-          preview={false}
-          rootId=""
-          suggestionList={[Function]}
-          useChannelMentions={true}
-          value=""
-        />
-        <span
-          className="post-body__actions"
-        />
-      </div>
-    </div>
-    <div
-      className="post-create-footer"
-    >
-      <div
-        className="d-flex justify-content-between"
-      >
-        <div
-          className="col"
-        >
-          <Connect(MsgTyping)
-            channelId="g6139tbospd18cmxroesdk3kkc"
-            postId=""
-          />
-        </div>
-        <div
-          className="col col-auto"
-        >
-          <Connect(TextboxLinks)
-            characterLimit={4000}
-            showPreview={false}
-            updatePreview={[Function]}
-          />
-        </div>
-      </div>
-      <div
-        className="text-right mt-2"
-      >
-        <input
-          className="btn btn-primary comment-btn"
-          disabled={false}
-          id="addCommentButton"
-          onClick={[Function]}
-          type="button"
-          value="Add Comment"
-        />
-      </div>
-    </div>
-  </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
-</form>
-`;
-
 exports[`components/CreateComment should match snapshot when cannot post 1`] = `
 <form
   onSubmit={[Function]}
@@ -199,21 +90,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -346,21 +222,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -479,21 +340,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -625,21 +471,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -795,21 +626,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;

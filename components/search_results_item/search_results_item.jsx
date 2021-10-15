@@ -112,6 +112,14 @@ export default class SearchResultsItem extends React.PureComponent {
          * Is the search results item from the pinned posts list.
          */
         isPinnedPosts: PropTypes.bool,
+
+        channelTeamDisplayName: PropTypes.string,
+        channelTeamName: PropTypes.string,
+
+        /**
+         * Is this a post that we can directly reply to?
+         */
+        canReply: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -141,7 +149,8 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         this.props.actions.setRhsExpanded(false);
-        browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
+        const teamToJumpTo = this.props.channelTeamName || this.props.currentTeamName;
+        browserHistory.push(`/${teamToJumpTo}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post) => {
@@ -214,7 +223,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived} = this.props;
+        const {post, channelIsArchived, channelTeamDisplayName, canReply} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -318,14 +327,16 @@ export default class SearchResultsItem extends React.PureComponent {
                         isReadOnly={channelIsArchived || null}
                     />
                     {flagContent}
-                    <CommentIcon
-                        location={Locations.SEARCH}
-                        handleCommentClick={this.handleFocusRHSClick}
-                        commentCount={this.props.replyCount}
-                        postId={post.id}
-                        searchStyle={'search-item__comment'}
-                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
-                    />
+                    {canReply &&
+                        <CommentIcon
+                            location={Locations.SEARCH}
+                            handleCommentClick={this.handleFocusRHSClick}
+                            commentCount={this.props.replyCount}
+                            postId={post.id}
+                            searchStyle={'search-item__comment'}
+                            extraClass={this.props.replyCount ? 'icon--visible' : ''}
+                        />
+                    }
                     <a
                         href='#'
                         onClick={this.handleJumpClick}
@@ -375,10 +386,12 @@ export default class SearchResultsItem extends React.PureComponent {
                     data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
-                        className='search-channel__name'
+                        className='search-channel__name__container'
                         aria-hidden='true'
                     >
-                        {channelName}
+                        <span className='search-channel__name'>
+                            {channelName}
+                        </span>
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
                                 <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color'/>
@@ -386,6 +399,11 @@ export default class SearchResultsItem extends React.PureComponent {
                                     id='search_item.channelArchived'
                                     defaultMessage='Archived'
                                 />
+                            </span>
+                        }
+                        {Boolean(channelTeamDisplayName) &&
+                            <span className='search-team__name'>
+                                {channelTeamDisplayName}
                             </span>
                         }
                     </div>

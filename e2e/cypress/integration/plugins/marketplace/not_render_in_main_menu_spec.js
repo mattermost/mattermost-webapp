@@ -34,7 +34,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: true,
                 EnableMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
             },
         });
 
@@ -53,7 +53,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: true,
                 EnableMarketplace: false,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
             },
         });
 
@@ -71,7 +71,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: false,
                 EnableMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
             },
         });
 
