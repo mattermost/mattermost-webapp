@@ -24,7 +24,7 @@ import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermissi
 import {
     getCurrentTeamId,
     getMyTeams,
-    getTeamMemberships, getTeamsList,
+    getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
@@ -340,11 +340,10 @@ export const getChannelSetInCurrentTeam: (state: GlobalState) => string[] = crea
 
 export const getChannelSetAllTeam: (state: GlobalState) => string[] = createSelector(
     'getChannelSetInCurrentTeam',
-    getTeamsList,
     getAllChannels,
-    (teams: Team[], allchannels): string[] => {
+    (allChannels): string[] => {
         const channelSet: string[] = [];
-        Object.entries(allchannels).forEach((channelEntry: [string, Channel]) => {
+        Object.entries(allChannels).forEach((channelEntry: [string, Channel]) => {
             const [, channel] = channelEntry;
             if (channel.type !== General.GM_CHANNEL && channel.type !== General.DM_CHANNEL) {
                 channelSet.push(channel.id);

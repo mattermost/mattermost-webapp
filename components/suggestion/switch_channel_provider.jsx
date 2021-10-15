@@ -24,7 +24,11 @@ import ProfilePicture from '../profile_picture';
 
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentTeamId,
+    getMyTeams,
+    getTeam,
+} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
     getUserIdsInChannels,
@@ -237,7 +241,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const status = getStatusForUserId(state, channel.userId);
     const collapsedThreads = isCollapsedThreadsEnabled(state);
     const team = getTeam(state, channel.team_id);
-    const isPartOfOnlyOneTeam = getTeamsList(state).length === 1;
+    const isPartOfOnlyOneTeam = getMyTeams(state).length === 1;
 
     if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
