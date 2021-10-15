@@ -250,6 +250,8 @@ type Props = {
       * Function to close a modal
       */
     closeModal: (modalId: string) => void;
+
+    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
@@ -1275,7 +1277,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                             </div>
                             <div className='col col-auto'>
                                 <TextboxLinks
-                                    isMarkdownPreviewEnabled={this.props.canPost}
+                                    isMarkdownPreviewEnabled={this.props.canPost && this.props.markdownPreviewFeatureIsEnabled}
                                     characterLimit={this.props.maxPostSize}
                                     showPreview={this.props.shouldShowPreview}
                                     updatePreview={this.setShowPreview}
