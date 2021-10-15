@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-describe('Account Settings > Sidebar > Channel Switcher', () => {
+describe('Settings > Sidebar > Channel Switcher', () => {
     let testChannel;
     let testTeam;
 

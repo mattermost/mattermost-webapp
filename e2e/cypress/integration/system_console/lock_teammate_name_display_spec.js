@@ -37,7 +37,7 @@ describe('System Console', () => {
         // # Go to main page
         cy.visit(townSquareUrl);
 
-        // # Go to Account Settings - Display
+        // # Go to Settings > Display
         cy.uiOpenSettingsModal('Display');
 
         // # Click Edit button beside Teammate Name Display
@@ -65,7 +65,7 @@ describe('System Console', () => {
         // # Go to main page
         cy.visit(townSquareUrl);
 
-        // # Go to Account Settings - Display
+        // # Go to Settings > Display
         cy.uiOpenSettingsModal('Display');
 
         // * Assert the description under the Teammate Name Display title has changed to Show username

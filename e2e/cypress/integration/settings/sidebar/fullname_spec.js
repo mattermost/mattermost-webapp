@@ -11,7 +11,7 @@
 
 import {getRandomId} from '../../../utils';
 
-describe('Account Settings > Sidebar > General', () => {
+describe('Settings > Sidebar > General', () => {
     const randomId = getRandomId();
     const newFirstName = `정트리나${randomId}/trina.jung/집단사무국(CO)`;
 

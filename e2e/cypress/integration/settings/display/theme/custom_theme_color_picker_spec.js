@@ -12,7 +12,7 @@
 
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
-describe('Account Settings', () => {
+describe('Settings > Display > Theme', () => {
     before(() => {
         // # Login as new user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {

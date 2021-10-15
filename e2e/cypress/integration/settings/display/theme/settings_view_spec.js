@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings Theme - Settings View', () => {
+describe('Settings > Display > Theme', () => {
     before(() => {
         // # Login as new user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
