@@ -3476,7 +3476,7 @@
   "invitation_modal.guests.search-and-add.placeholder": "Add guests or email addresses",
   "invitation_modal.guests.search-and-add.placeholder-email-disabled": "Add guests",
   "invitation_modal.guests.title": "Invite **Guests** to {teamName}",
-  "invitation_modal.guests.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type email to invite",
+  "invitation_modal.guests.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "invitation_modal.guests.users_emails_input.no_user_found_matching-email-disabled": "No one found matching **{text}**",
   "invitation_modal.guests.users_emails_input.valid_email": "Invite **{email}** as a guest",
   "invitation_modal.invite_guests.description": "Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of.",
@@ -3500,7 +3500,7 @@
   "invitation_modal.members.share_link.link_copied": "Link Copied",
   "invitation_modal.members.share_link.title": "Share This Link",
   "invitation_modal.members.title": "Invite **Members** to {teamName}",
-  "invitation_modal.members.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type email to invite",
+  "invitation_modal.members.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled": "No one found matching **{text}**",
   "invitation_modal.members.users_emails_input.valid_email": "Invite **{email}** as a team member",
   "invitation_modal.title": "Invite people to **{teamName}**",
@@ -4784,7 +4784,7 @@
   "widgets.channels_input.empty": "No channels found",
   "widgets.channels_input.loading": "Loading",
   "widgets.users_emails_input.loading": "Loading",
-  "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type email address",
+  "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
   "yourcomputer": "Your computer"
 }
