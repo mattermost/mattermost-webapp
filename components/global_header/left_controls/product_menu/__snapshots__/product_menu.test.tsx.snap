@@ -7,28 +7,28 @@ exports[`components/global/product_switcher should have an active button state w
     className=""
     open={true}
   >
-    <ProductSwitcherContainer
+    <ProductMenuContainer
       onClick={[Function]}
     >
-      <ProductSwitcherButton
+      <ProductMenuButton
         active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductSwitcherTip) />
+      <Connect(ProductMenuTip) />
       <ProductBranding />
-    </ProductSwitcherContainer>
+    </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
     >
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={true}
         destination="/"
         icon="product-channels"
         onClick={[Function]}
         text="Channels"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -36,7 +36,7 @@ exports[`components/global/product_switcher should have an active button state w
         onClick={[Function]}
         text="Boards"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -44,8 +44,7 @@ exports[`components/global/product_switcher should have an active button state w
         onClick={[Function]}
         text="Playbooks"
       />
-      <Connect(injectIntl(ProductSwitcherMenu))
-        id="ProductSwitcherMenu"
+      <Connect(ProductMenuList)
         isMessaging={true}
         onClick={[Function]}
       />
@@ -61,28 +60,28 @@ exports[`components/global/product_switcher should match snapshot 1`] = `
     className=""
     open={false}
   >
-    <ProductSwitcherContainer
+    <ProductMenuContainer
       onClick={[Function]}
     >
-      <ProductSwitcherButton
+      <ProductMenuButton
         active={false}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductSwitcherTip) />
+      <Connect(ProductMenuTip) />
       <ProductBranding />
-    </ProductSwitcherContainer>
+    </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
     >
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={true}
         destination="/"
         icon="product-channels"
         onClick={[Function]}
         text="Channels"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -90,7 +89,7 @@ exports[`components/global/product_switcher should match snapshot 1`] = `
         onClick={[Function]}
         text="Boards"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -98,8 +97,7 @@ exports[`components/global/product_switcher should match snapshot 1`] = `
         onClick={[Function]}
         text="Playbooks"
       />
-      <Connect(injectIntl(ProductSwitcherMenu))
-        id="ProductSwitcherMenu"
+      <Connect(ProductMenuList)
         isMessaging={true}
         onClick={[Function]}
       />
@@ -115,28 +113,28 @@ exports[`components/global/product_switcher should match snapshot with product s
     className=""
     open={false}
   >
-    <ProductSwitcherContainer
+    <ProductMenuContainer
       onClick={[Function]}
     >
-      <ProductSwitcherButton
+      <ProductMenuButton
         active={false}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductSwitcherTip) />
+      <Connect(ProductMenuTip) />
       <ProductBranding />
-    </ProductSwitcherContainer>
+    </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
     >
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={true}
         destination="/"
         icon="product-channels"
         onClick={[Function]}
         text="Channels"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -144,7 +142,7 @@ exports[`components/global/product_switcher should match snapshot with product s
         onClick={[Function]}
         text="Boards"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -152,8 +150,7 @@ exports[`components/global/product_switcher should match snapshot with product s
         onClick={[Function]}
         text="Playbooks"
       />
-      <Connect(injectIntl(ProductSwitcherMenu))
-        id="ProductSwitcherMenu"
+      <Connect(ProductMenuList)
         isMessaging={true}
         onClick={[Function]}
       />
@@ -169,28 +166,28 @@ exports[`components/global/product_switcher should render once when there are no
     className=""
     open={false}
   >
-    <ProductSwitcherContainer
+    <ProductMenuContainer
       onClick={[Function]}
     >
-      <ProductSwitcherButton
+      <ProductMenuButton
         active={false}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductSwitcherTip) />
+      <Connect(ProductMenuTip) />
       <ProductBranding />
-    </ProductSwitcherContainer>
+    </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
     >
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={true}
         destination="/"
         icon="product-channels"
         onClick={[Function]}
         text="Channels"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -198,7 +195,7 @@ exports[`components/global/product_switcher should render once when there are no
         onClick={[Function]}
         text="Boards"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -206,8 +203,7 @@ exports[`components/global/product_switcher should render once when there are no
         onClick={[Function]}
         text="Playbooks"
       />
-      <Connect(injectIntl(ProductSwitcherMenu))
-        id="ProductSwitcherMenu"
+      <Connect(ProductMenuList)
         isMessaging={true}
         onClick={[Function]}
       />
@@ -223,28 +219,28 @@ exports[`components/global/product_switcher should render the correct amount of 
     className=""
     open={false}
   >
-    <ProductSwitcherContainer
+    <ProductMenuContainer
       onClick={[Function]}
     >
-      <ProductSwitcherButton
+      <ProductMenuButton
         active={false}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductSwitcherTip) />
+      <Connect(ProductMenuTip) />
       <ProductBranding />
-    </ProductSwitcherContainer>
+    </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
     >
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={true}
         destination="/"
         icon="product-channels"
         onClick={[Function]}
         text="Channels"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -252,7 +248,7 @@ exports[`components/global/product_switcher should render the correct amount of 
         onClick={[Function]}
         text="Boards"
       />
-      <SwitcherNavEntry
+      <ProductMenuItem
         active={false}
         destination=""
         icon="none"
@@ -260,8 +256,7 @@ exports[`components/global/product_switcher should render the correct amount of 
         onClick={[Function]}
         text="Playbooks"
       />
-      <Connect(injectIntl(ProductSwitcherMenu))
-        id="ProductSwitcherMenu"
+      <Connect(ProductMenuList)
         isMessaging={true}
         onClick={[Function]}
       />
