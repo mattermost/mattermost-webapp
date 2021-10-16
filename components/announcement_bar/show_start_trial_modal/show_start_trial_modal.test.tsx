@@ -27,6 +27,9 @@ describe('components/sidebar/show_start_trial_modal', () => {
                     analytics: {
                         TOTAL_USERS: 9,
                     },
+                    prevTrialLicense: {
+                        IsLicensed: 'false',
+                    },
                 },
                 preferences: {
                     myPreferences: {
@@ -39,6 +42,9 @@ describe('components/sidebar/show_start_trial_modal', () => {
                 general: {
                     config: {
                         InstallationDate: now,
+                    },
+                    license: {
+                        IsLicensed: 'false',
                     },
                 },
                 users: {
@@ -124,6 +130,64 @@ describe('components/sidebar/show_start_trial_modal', () => {
         expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
 
+    test('should NOT dispatch the modal when the env has previous license', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_admin system_user'},
+            },
+        };
+
+        const moreThan10UsersAndPrevLicensed = {
+            analytics: {
+                TOTAL_USERS: 11,
+            },
+            prevTrialLicense: {
+                IsLicensed: 'true',
+            },
+        };
+
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10UsersAndPrevLicensed}};
+
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
+
+    test('should NOT dispatch the modal when the env is currently licensed', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_admin system_user'},
+            },
+        };
+
+        const moreThan10UsersAndLicensed = {
+            analytics: {
+                TOTAL_USERS: 11,
+            },
+        };
+
+        const moreThan6HoursAndLicensed = {
+            config: {
+
+                // installation date is set to be 10 hours before current time
+                InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
+            },
+            license: {
+                IsLicensed: 'true',
+            },
+        };
+
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10UsersAndLicensed, general: moreThan6HoursAndLicensed}};
+
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
+
     test('should NOT dispatch the modal when the modal has been already dismissed', () => {
         const isAdminUser = {
             currentUserId: 'current_user_id',
@@ -184,6 +248,9 @@ describe('components/sidebar/show_start_trial_modal', () => {
             analytics: {
                 TOTAL_USERS: 11,
             },
+            prevTrialLicense: {
+                IsLicensed: 'false',
+            },
         };
 
         const moreThan6Hours = {
@@ -191,6 +258,9 @@ describe('components/sidebar/show_start_trial_modal', () => {
 
                 // installation date is set to be 10 hours before current time
                 InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
+            },
+            license: {
+                IsLicensed: 'false',
             },
         };
 

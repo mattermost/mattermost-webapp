@@ -8,7 +8,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -41,6 +41,14 @@ const ShowStartTrialModal = () => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.START_TRIAL_MODAL));
 
+    const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+    const currentLicense = useSelector(getLicense);
+    const isPrevLicensed = prevTrialLicense?.IsLicensed;
+    const isCurrentLicensed = currentLicense?.IsLicensed;
+
+    // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
+    const isNotLicensedNorPreviousLicensed = (isCurrentLicensed === 'false') && (isPrevLicensed === 'false');
+
     const handleOnClose = () => {
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_AUTO_MODAL,
@@ -67,7 +75,7 @@ const ShowStartTrialModal = () => {
         const now = new Date().getTime();
         const hasEnvMoreThan6Hours = now > installationDatePlus6Hours;
         const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === 'true');
-        if (Number(analytics?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal) {
+        if (Number(analytics?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal && isNotLicensedNorPreviousLicensed) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.START_TRIAL_MODAL,
                 dialogType: StartTrialModal,
