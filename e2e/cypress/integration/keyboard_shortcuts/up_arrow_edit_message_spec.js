@@ -91,7 +91,7 @@ describe('Keyboard Shortcuts', () => {
             // # Clear message and type ENTER
             cy.get('#edit_textbox').clear().type('{enter}');
 
-            // # Delete post confirmation modal should be visible
+            // * Delete post confirmation modal should be visible
             cy.get('#deletePostModal').should('be.visible');
 
             // # Confirm delete
