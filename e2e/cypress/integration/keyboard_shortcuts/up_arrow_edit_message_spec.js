@@ -65,4 +65,27 @@ describe('Keyboard Shortcuts', () => {
         // * Verify that the Edit textbox contains previously sent message by user 1
         cy.get('#edit_textbox').should('have.text', message1);
     });
+
+    it('MM-T1269 Arrow up key - Edit code block', () => {
+        const messageWithCodeblock1 = '```{shift}{enter}codeblock1{shift}{enter}```{shift}{enter}';
+        const messageWithCodeblock2 = '```{shift}{enter}codeblock2{shift}{enter}```{shift}{enter}';
+
+        cy.apiLogin(testUser);
+
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post code block message from User 1
+        cy.get('#post_textbox').type(messageWithCodeblock1).type('{enter}');
+
+        // # Press UP arrow
+        cy.get('#post_textbox').type('{uparrow}');
+
+        // # Edit text
+        cy.get('#edit_textbox').clear().type(messageWithCodeblock2).type('{enter}');
+
+        // * Verify that the message was edited
+        cy.getLastPostId().then((postID) => {
+           cy.get(`#postMessageText_${postID}`).should('contain', 'codeblock2'); 
+        });
+    });
 });
