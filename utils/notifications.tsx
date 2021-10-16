@@ -51,7 +51,8 @@ export async function showNotification(
     }
 
     if (Notification.permission !== 'granted' && requestedNotificationPermission) {
-        throw new Error('Notifications already requested but not granted');
+        // User didn't allow notifications
+        return () => {};
     }
 
     requestedNotificationPermission = true;
@@ -65,7 +66,8 @@ export async function showNotification(
     }
 
     if (permission !== 'granted') {
-        throw new Error('Notifications not granted');
+        // User has denied notification for the site
+        return () => {};
     }
 
     const notification = new Notification(title, {
