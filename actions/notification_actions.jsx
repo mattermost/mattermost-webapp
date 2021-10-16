@@ -241,10 +241,13 @@ export const enableBrowserNotifications = () => {
     return async (dispatch) => {
         const permission = await requestNotificationsPermission();
 
-        dispatch({
-            type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
-            data: permission === 'granted'
-        });
+        dispatch(setBrowserNotificationsPermission(permission));
+    };
+};
+
+export const disableNotificationsPermissionRequests = () => {
+    return (dispatch) => {
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1));
     };
 };
 
@@ -282,9 +285,11 @@ export const trackEnableNotificationsBarDisplay = () => {
     };
 };
 
-export const setBrowserNotificationsPermission = () => {
+export const setBrowserNotificationsPermission = (permission) => {
     return (dispatch) => {
-        const permission = getNotificationsPermission();
+        if (permission == null) {
+            permission = getNotificationsPermission();
+        }
         const isPermissionGranted = permission === 'granted';
 
         if (isPermissionGranted) {

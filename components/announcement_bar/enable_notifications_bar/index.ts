@@ -4,7 +4,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GlobalState} from 'types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import EnableNotificationsBar from './enable_notifications_bar';
-import { enableBrowserNotifications, trackEnableNotificationsBarDisplay } from 'actions/notification_actions';
+import { enableBrowserNotifications, trackEnableNotificationsBarDisplay, disableNotificationsPermissionRequests } from 'actions/notification_actions';
 import { shouldShowEnableNotificationsBar } from 'selectors/views/enable_notifications_bar';
 
 function mapStateToProps(state: GlobalState) {
@@ -18,6 +18,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             enableBrowserNotifications,
             trackEnableNotificationsBarDisplay,
+            disableNotificationsPermissionRequests,
         }, dispatch)
     };
 }

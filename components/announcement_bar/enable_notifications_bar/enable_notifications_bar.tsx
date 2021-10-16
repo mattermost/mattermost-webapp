@@ -9,6 +9,7 @@ type Props = {
   actions: {
     enableBrowserNotifications: () => void,
     trackEnableNotificationsBarDisplay: () => void,
+    disableNotificationsPermissionRequests: () => void,
   }
 }
 
@@ -28,6 +29,10 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
     actions.enableBrowserNotifications();
   };
 
+  const handleDontAskAgainButtonClick = () => {
+    actions.disableNotificationsPermissionRequests();
+  };
+
   return (
     <AnnouncementBar
       type={AnnouncementBarTypes.GENERAL}
@@ -37,7 +42,8 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
       modalButtonDefaultText="Enable" 
       onButtonClick={handleEnableButtonClick}
       showCloseButton
-      showDontAskAgainButton 
+      showDontAskAgainButton
+      onDontAskAgainButtonClick={handleDontAskAgainButtonClick} 
     />
   );
 };

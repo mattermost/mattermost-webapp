@@ -11,6 +11,7 @@ describe('components/EnableNotificationsBar', () => {
     actions: {
       enableBrowserNotifications: () => {},
       trackEnableNotificationsBarDisplay: () => {},
+      disableNotificationsPermissionRequests: () => {},
     }
   }
 

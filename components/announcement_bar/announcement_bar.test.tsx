@@ -113,4 +113,20 @@ describe('components/AnnouncementBar', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should execute "Don\'t ask again" button click handler', () => {
+        const onDontAskAgainButtonClick = jest.fn();
+        const props = {
+            ...baseProps,
+            showDontAskAgainButton: true,
+            onDontAskAgainButtonClick,
+        };
+        const wrapper = shallow<AnnouncementBar>(
+            <AnnouncementBar {...props}/>,
+        );
+
+        wrapper.find('.announcement-bar__dont-ask-again').simulate('click');
+
+        expect(onDontAskAgainButtonClick).toHaveBeenCalled();
+    });
 });

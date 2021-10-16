@@ -30,6 +30,7 @@ type Props = {
     showModal?: boolean;
     announcementBarCount?: number;
     onButtonClick?: () => void;
+    onDontAskAgainButtonClick?: () => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
@@ -111,7 +112,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         let dontAskAgainButton;
         if (this.props.showDontAskAgainButton) {
             dontAskAgainButton = (
-                <button className='announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again' type="button">
+                <button onClick={this.props.onDontAskAgainButtonClick} className='announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again' type="button">
                     <FormattedMessage id={"announcement_bar.dont_ask_again_button_text"} defaultMessage={"Don't ask again"} />
                 </button>
             );

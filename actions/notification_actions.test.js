@@ -7,7 +7,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants, {ActionTypes, NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 
-import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest} from './notification_actions';
+import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest, setBrowserNotificationsPermission} from './notification_actions';
 
 describe('notification_actions', () => {
     describe('sendDesktopNotification', () => {
@@ -410,7 +410,9 @@ describe('notification_actions', () => {
     describe('enableBrowserNotifications', () => {
         it('should track successful permission grant', async () => {
             const requestNotificationsPermissionSpy = jest.spyOn(utils, 'requestNotificationsPermission');
+            const setBrowserNotificationsPermissionSpy = jest.spyOn(setBrowserNotificationsPermission);
             requestNotificationsPermissionSpy.mockImplementationOnce(() => Promise.resolve('granted'));
+            setBrowserNotificationsPermissionSpy.mockImplementationOnce((permission) => ({type: 'MOCK_ACTION', data: permission}));
 
             const store = testConfigureStore();
 
