@@ -1,45 +1,50 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
-import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.jsx';
+import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
+import {Team} from 'mattermost-redux/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 const HEADER = {id: t('integrations.add'), defaultMessage: 'Add'};
 const FOOTER = {id: t('add_incoming_webhook.save'), defaultMessage: 'Save'};
 const LOADING = {id: t('add_incoming_webhook.saving'), defaultMessage: 'Saving...'};
 
-export default class AddIncomingWebhook extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+    * The current team
+    */
+    team: Team;
+
+    /**
+    * Whether to allow configuration of the default post username.
+    */
+    enablePostUsernameOverride: boolean;
+
+    /**
+    * Whether to allow configuration of the default post icon.
+    */
+    enablePostIconOverride: boolean;
+
+    actions: {
 
         /**
-        * The current team
+        * The function to call to add a new incoming webhook
         */
-        team: PropTypes.object.isRequired,
+        createIncomingHook: (hook: IncomingWebhook) => Promise<{ data: IncomingWebhook; error: Error }>;
+    };
+};
 
-        /**
-        * Whether to allow configuration of the default post username.
-        */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+type State = {
+    serverError: string;
+};
 
-        /**
-        * Whether to allow configuration of the default post icon.
-        */
-        enablePostIconOverride: PropTypes.bool.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call to add a new incoming webhook
-            */
-            createIncomingHook: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+export default class AddIncomingWebhook extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -47,7 +52,7 @@ export default class AddIncomingWebhook extends React.PureComponent {
         };
     }
 
-    addIncomingHook = async (hook) => {
+    addIncomingHook = async (hook: IncomingWebhook) => {
         this.setState({serverError: ''});
 
         const {data, error} = await this.props.actions.createIncomingHook(hook);

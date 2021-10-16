@@ -4,7 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AddIncomingWebhook from 'components/integrations/add_incoming_webhook/add_incoming_webhook.jsx';
+import AddIncomingWebhook from 'components/integrations/add_incoming_webhook/add_incoming_webhook';
+
+import {Team} from 'mattermost-redux/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 describe('components/integrations/AddIncomingWebhook', () => {
     const createIncomingHook = jest.fn().mockResolvedValue({data: true});
@@ -12,7 +15,7 @@ describe('components/integrations/AddIncomingWebhook', () => {
         team: {
             id: 'testteamid',
             name: 'test',
-        },
+        } as Team,
         enablePostUsernameOverride: true,
         enablePostIconOverride: true,
         actions: {createIncomingHook},
@@ -30,9 +33,10 @@ describe('components/integrations/AddIncomingWebhook', () => {
             description: 'description',
             username: 'username',
             icon_url: 'icon_url',
-        };
+        } as IncomingWebhook;
         const wrapper = shallow(<AddIncomingWebhook {...props}/>);
-        wrapper.instance().addIncomingHook(hook);
+        const instance = wrapper.instance() as AddIncomingWebhook;
+        instance.addIncomingHook(hook);
         expect(createIncomingHook).toHaveBeenCalledTimes(1);
         expect(createIncomingHook).toBeCalledWith(hook);
     });

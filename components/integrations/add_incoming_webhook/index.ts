@@ -2,14 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {createIncomingHook} from 'mattermost-redux/actions/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import AddIncomingWebhook from './add_incoming_webhook.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
-function mapStateToProps(state) {
+import AddIncomingWebhook from './add_incoming_webhook';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
@@ -20,9 +24,13 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+type Actions = {
+    createIncomingHook: (hook: IncomingWebhook) => Promise<{ data: IncomingWebhook; error: Error }>;
+}
+
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             createIncomingHook,
         }, dispatch),
     };
