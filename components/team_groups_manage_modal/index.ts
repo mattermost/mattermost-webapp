@@ -43,7 +43,7 @@ type Actions = {
     unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => Promise<{
         data: boolean;
     }>;
-    patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{
+    patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => Promise<{
         data: boolean;
     }>;
     getMyTeamMembers: () => Promise<{

@@ -44,7 +44,7 @@ type Props = {
         unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => Promise<{
             data: boolean;
         }>;
-        patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{
+        patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => Promise<{
             data: boolean;
         }>;
         getMyTeamMembers: () => Promise<{
@@ -56,7 +56,7 @@ type Props = {
 type State = {
     showConfirmModal: boolean;
     item: Group;
-    listModal: ListModal | null;
+    listModal?: ListModal;
 }
 
 class TeamGroupsManageModal extends React.PureComponent<Props, State> {
@@ -65,7 +65,6 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
         item: {
             member_count: 0,
         },
-        listModal: null,
     } as State;
 
     loadItems = async (pageNumber: number, searchTerm: string) => {
@@ -114,7 +113,7 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
     };
 
     setTeamMemberStatus = async (item: Group, listModal: any, isTeamAdmin: boolean) => {
-        this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: isTeamAdmin} as SyncablePatch).then(async () => {
+        this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: isTeamAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
 
