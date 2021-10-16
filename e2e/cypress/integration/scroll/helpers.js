@@ -3,15 +3,16 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-export function postMessagesAndScrollUp(otherUser, testChannelId) {
-    // # Other user posts a few messages so that the first message is hidden
-    Cypress._.times(30, (postIndex) => {
-        cy.postMessageAs({sender: otherUser, message: `Other users p-${postIndex}`, channelId: testChannelId});
+// # Other user posts a few messages so that the first message is hidden
+export function postListOfMessages({sender, channelId, numberOfMessages = 30}) {
+    Cypress._.times(numberOfMessages, (postIndex) => {
+        cy.postMessageAs({sender, message: `Other users p-${postIndex}`, channelId});
     });
-
-    // # Scroll above the last few messages
-    cy.get('div.post-list__dynamic', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').
-        scrollTo(0, '90%', {duration: TIMEOUTS.ONE_SEC}).
-        wait(TIMEOUTS.ONE_SEC);
 }
 
+// # Scroll above the last few messages
+export function scrollCurrentChannelFromTop(listPercentageRatio) {
+    cy.get('div.post-list__dynamic', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').
+        scrollTo(0, listPercentageRatio, {duration: TIMEOUTS.ONE_SEC}).
+        wait(TIMEOUTS.ONE_SEC);
+}
