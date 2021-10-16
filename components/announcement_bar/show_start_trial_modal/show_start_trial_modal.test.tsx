@@ -60,6 +60,15 @@ describe('components/sidebar/show_start_trial_modal', () => {
                     },
                 },
             },
+            views: {
+                modals: {
+                    modalState: {
+                        'trial_benefits_modal': {
+                            open: false,
+                        },
+                    }
+                }
+            }
         };
     });
 
