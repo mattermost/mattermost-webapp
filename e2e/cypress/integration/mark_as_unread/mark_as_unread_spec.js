@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @mark_as_unread
 
 import {beRead, beUnread} from '../../support/assertions';
@@ -16,6 +15,7 @@ import {verifyPostNextToNewMessageSeparator, verifyTopSpaceForNewMessage, verify
 
 describe('Mark as Unread', () => {
     let testUser;
+    let otherUser;
 
     let channelA;
     let channelB;
@@ -36,7 +36,7 @@ describe('Mark as Unread', () => {
             });
 
             cy.apiCreateUser().then(({user: user2}) => {
-                const otherUser = user2;
+                otherUser = user2;
 
                 cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(channelA.id, otherUser.id);
@@ -351,6 +351,28 @@ describe('Mark as Unread', () => {
 
         // * Verify the channelA does not have unread in LHS
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+    });
+
+    it('MM-T2924_1 Channel is marked as read as soon as user leaves', () => {
+        switchToChannel(channelA);
+
+        cy.postMessageAs({sender: otherUser, message: 'post4', channelId: channelA.id});
+
+        switchToChannel(channelB);
+
+        // * Verify that channelA does not have unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+    });
+
+    it('MM-T2924_2 Channel is left unread if post is manually marked as unread and user leaves', () => {
+        switchToChannel(channelA);
+
+        markAsUnreadFromPost(post1);
+
+        switchToChannel(channelB);
+
+        // * Verify that channelA has unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
     });
 });
 
