@@ -266,7 +266,9 @@ h6 {
         background: $white;
 
         &:nth-child(2n) {
-            background-color: #f8f8f8;
+            .app__body & {
+                background: rgba(var(--center-channel-color-rgb), 0.07);
+            }
         }
     }
 }
