@@ -65,4 +65,40 @@ describe('Keyboard Shortcuts', () => {
         // * Verify that the Edit textbox contains previously sent message by user 1
         cy.get('#edit_textbox').should('have.text', message1);
     });
+
+    it('MM-T1272 Arrow up key - Removing all text in edit deletes reply', () => {
+        const message = 'Test message from User 1';
+        const reply = 'Reply from User 1';
+
+        cy.apiLogin(testUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post message in the channel from User 1
+        cy.postMessage(message);
+
+        // # Reply to message
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostCommentIcon(postId);
+            cy.postMessageReplyInRHS(reply);
+        });
+
+        cy.getLastPostId().then((postID) => {
+            // # Press UP arrow
+            cy.get('#post_textbox').type('{uparrow}');
+
+            // # Clear message and type ENTER
+            cy.get('#edit_textbox').clear().type('{enter}');
+
+            // # Delete post confirmation modal should be visible
+            cy.get('#deletePostModal').should('be.visible');
+
+            // # Confirm delete
+            cy.get('#deletePostModalButton').click();
+
+            // * Assert post message disappears
+            cy.get(`#postMessageText_${postID}`).should('not.exist');
+        });
+    });
 });
