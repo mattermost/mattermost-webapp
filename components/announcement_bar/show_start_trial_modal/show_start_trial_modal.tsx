@@ -76,8 +76,8 @@ const ShowStartTrialModal = () => {
         const installationDatePlus6Hours = (6 * 60 * 60 * 1000) + Number(installationDate);
         const now = new Date().getTime();
         const hasEnvMoreThan6Hours = now > installationDatePlus6Hours;
-        const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === 'true1');
-        if (!isBenefitsModalOpened && Number(analytics?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal && !isNotLicensedNorPreviousLicensed) {
+        const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === 'true');
+        if (!isBenefitsModalOpened && Number(analytics?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal && isNotLicensedNorPreviousLicensed) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.START_TRIAL_MODAL,
                 dialogType: StartTrialModal,
