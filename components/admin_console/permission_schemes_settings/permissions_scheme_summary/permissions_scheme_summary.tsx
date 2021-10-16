@@ -111,7 +111,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent<Props 
     handleDeleteConfirmed = async (): Promise<void> => {
         this.setState({deleting: true, serverError: undefined});
         const data = await this.props.actions?.deleteScheme(this.props.scheme.id);
-        if (data && data.error) {
+        if (data?.error) {
             this.setState({deleting: false, serverError: data.error.message});
         } else {
             this.setState({deleting: false, showConfirmModal: false});
