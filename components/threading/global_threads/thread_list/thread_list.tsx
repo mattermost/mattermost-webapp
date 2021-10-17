@@ -81,13 +81,17 @@ const ThreadList = ({
                 if (selectedThreadIndex < data.length - 1) {
                     threadIdToSelect = selectedThreadIndex + 1;
                 }
+
+                if (selectedThreadIndex === data.length - 1) {
+                    return;
+                }
             }
 
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
                 if (selectedThreadIndex > 0) {
                     threadIdToSelect = selectedThreadIndex - 1;
                 } else {
-                    threadIdToSelect = data.length - 1;
+                    return;
                 }
             }
         }

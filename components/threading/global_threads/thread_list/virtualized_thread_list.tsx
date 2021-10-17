@@ -39,12 +39,11 @@ function VirtualizedThreadList({
 
     const scrollToItem = useCallback((index: number) => {
         if (ids.length > 0 && selectedThreadId) {
-            if (startIndex <= index && index <= stopIndex) {
-                return;
+            if (startIndex >= index || index > stopIndex) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment, no-underscore-dangle
+                // @ts-ignore
+                infiniteLoaderRef.current?._listRef.scrollToItem(index);
             }
-
-            // @ts-ignore
-            infiniteLoaderRef.current?._listRef.scrollToItem(index);
         }
     }, [infiniteLoaderRef, ids, selectedThreadId, startIndex, stopIndex]);
 
@@ -58,8 +57,8 @@ function VirtualizedThreadList({
         <AutoSizer>
             {({height, width}) => (
                 <InfiniteLoader
-
-                    //@ts-ignore
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
                     ref={infiniteLoaderRef}
                     itemCount={total}
                     loadMoreItems={loadMoreItems}
@@ -67,7 +66,8 @@ function VirtualizedThreadList({
                     minimumBatchSize={Constants.THREADS_PAGE_SIZE}
                 >
                     {({onItemsRendered, ref}) => {
-                        return (<FixedSizeList
+                        return (
+                        <FixedSizeList
                             onItemsRendered={({
                                 overscanStartIndex,
                                 overscanStopIndex,
