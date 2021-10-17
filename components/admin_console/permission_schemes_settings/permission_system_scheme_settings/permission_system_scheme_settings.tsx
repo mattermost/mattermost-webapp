@@ -44,7 +44,7 @@ type State = {
     saveNeeded: boolean;
     serverError: null;
     roles: Record<string, Partial<Role>>;
-    selectedPermission: string | null;
+    selectedPermission?: string;
     openRoles: Record<string, boolean>;
     urlParams: URLSearchParams;
 }
@@ -68,7 +68,6 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                 team_admin: true,
                 channel_admin: true,
             },
-            selectedPermission: null,
             urlParams: new URLSearchParams(props.location.search),
         };
         this.rolesNeeded = [
@@ -129,13 +128,12 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
 
         // Remove selection after animation
         setTimeout(() => {
-            this.setState({selectedPermission: null});
+            this.setState({selectedPermission: undefined});
         }, 3000);
     }
 
     loadRolesIntoState(props: Props) {
         this.setState({
-            selectedPermission: null,
             loaded: true,
             roles: {
                 system_admin: props.roles.system_admin,

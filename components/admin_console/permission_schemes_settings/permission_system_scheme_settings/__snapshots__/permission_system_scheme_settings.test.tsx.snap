@@ -64,7 +64,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -92,7 +91,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -360,7 +358,6 @@ Object {
   },
   "saveNeeded": false,
   "saving": false,
-  "selectedPermission": null,
   "serverError": null,
   "showResetDefaultModal": false,
   "urlParams": URLSearchParams {},
@@ -427,7 +424,6 @@ Object {
   },
   "saveNeeded": false,
   "saving": false,
-  "selectedPermission": null,
   "serverError": null,
   "showResetDefaultModal": false,
   "urlParams": URLSearchParams {},
@@ -494,7 +490,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -518,7 +513,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -758,7 +752,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -782,7 +775,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1022,7 +1014,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1046,7 +1037,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1286,7 +1276,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1310,7 +1299,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
