@@ -24,15 +24,31 @@ const style = {
     willChange: 'auto',
 };
 
+let startIndex = 0;
+let stopIndex = 0;
+
 function VirtualizedThreadList({
     ids,
     selectedThreadId,
     loadMoreItems,
     total,
 }: Props) {
+    const infiniteLoaderRef = React.useRef<InfiniteLoader>();
+
     const itemKey = useCallback((index) => ids[index], [ids]);
 
-    const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
+    const scrollToItem = useCallback((index: number) => {
+        if (ids.length > 0 && selectedThreadId) {
+            if (startIndex <= index && index <= stopIndex) {
+                return;
+            }
+
+            // @ts-ignore
+            infiniteLoaderRef.current?._listRef.scrollToItem(index);
+        }
+    }, [infiniteLoaderRef, ids, selectedThreadId, startIndex, stopIndex]);
+
+    const data = useMemo(() => ({ids, selectedThreadId, scrollToItem}), [ids, selectedThreadId, scrollToItem]);
 
     const isItemLoaded = useCallback((index) => {
         return ids.length === total || index < ids.length;
@@ -42,14 +58,31 @@ function VirtualizedThreadList({
         <AutoSizer>
             {({height, width}) => (
                 <InfiniteLoader
+
+                    //@ts-ignore
+                    ref={infiniteLoaderRef}
                     itemCount={total}
                     loadMoreItems={loadMoreItems}
                     isItemLoaded={isItemLoaded}
                     minimumBatchSize={Constants.THREADS_PAGE_SIZE}
                 >
-                    {({onItemsRendered, ref}) => (
-                        <FixedSizeList
-                            onItemsRendered={onItemsRendered}
+                    {({onItemsRendered, ref}) => {
+                        return (<FixedSizeList
+                            onItemsRendered={({
+                                overscanStartIndex,
+                                overscanStopIndex,
+                                visibleStartIndex,
+                                visibleStopIndex,
+                            }) => {
+                                onItemsRendered({
+                                    overscanStartIndex,
+                                    overscanStopIndex,
+                                    visibleStartIndex,
+                                    visibleStopIndex,
+                                });
+                                startIndex = visibleStartIndex;
+                                stopIndex = visibleStopIndex;
+                            }}
                             ref={ref}
                             height={height}
                             itemCount={ids.length}
@@ -60,8 +93,9 @@ function VirtualizedThreadList({
                             width={width}
                         >
                             {Row}
-                        </FixedSizeList>
-                    )}
+                        </FixedSizeList>);
+                    }
+                    }
                 </InfiniteLoader>
             )}
         </AutoSizer>

@@ -13,6 +13,7 @@ type Props = {
     data: {
         ids: Array<$ID<UserThread>>;
         selectedThreadId?: $ID<UserThread>;
+        scrollToItem: (index: number) => void;
     };
     index: number;
     style: any;
@@ -21,6 +22,10 @@ type Props = {
 function Row({index, style, data}: Props) {
     const itemId = data.ids[index];
     const isSelected = data.selectedThreadId === itemId;
+
+    if (isSelected) {
+        data.scrollToItem(index);
+    }
 
     return (
         <ThreadItem
