@@ -40,8 +40,9 @@ function VirtualizedThreadList({
     const scrollToItem = useCallback((index: number) => {
         if (ids.length > 0 && selectedThreadId) {
             if (startIndex >= index || index > stopIndex) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment, no-underscore-dangle
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
+                // eslint-disable-next-line no-underscore-dangle
                 infiniteLoaderRef.current?._listRef.scrollToItem(index);
             }
         }
@@ -67,33 +68,33 @@ function VirtualizedThreadList({
                 >
                     {({onItemsRendered, ref}) => {
                         return (
-                        <FixedSizeList
-                            onItemsRendered={({
-                                overscanStartIndex,
-                                overscanStopIndex,
-                                visibleStartIndex,
-                                visibleStopIndex,
-                            }) => {
-                                onItemsRendered({
+                            <FixedSizeList
+                                onItemsRendered={({
                                     overscanStartIndex,
                                     overscanStopIndex,
                                     visibleStartIndex,
                                     visibleStopIndex,
-                                });
-                                startIndex = visibleStartIndex;
-                                stopIndex = visibleStopIndex;
-                            }}
-                            ref={ref}
-                            height={height}
-                            itemCount={ids.length}
-                            itemData={data}
-                            itemKey={itemKey}
-                            itemSize={133}
-                            style={style}
-                            width={width}
-                        >
-                            {Row}
-                        </FixedSizeList>);
+                                }) => {
+                                    onItemsRendered({
+                                        overscanStartIndex,
+                                        overscanStopIndex,
+                                        visibleStartIndex,
+                                        visibleStopIndex,
+                                    });
+                                    startIndex = visibleStartIndex;
+                                    stopIndex = visibleStopIndex;
+                                }}
+                                ref={ref}
+                                height={height}
+                                itemCount={ids.length}
+                                itemData={data}
+                                itemKey={itemKey}
+                                itemSize={133}
+                                style={style}
+                                width={width}
+                            >
+                                {Row}
+                            </FixedSizeList>);
                     }
                     }
                 </InfiniteLoader>
