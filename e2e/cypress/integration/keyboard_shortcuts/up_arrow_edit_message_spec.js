@@ -85,7 +85,7 @@ describe('Keyboard Shortcuts', () => {
 
         // * Verify that the message was edited
         cy.getLastPostId().then((postID) => {
-           cy.get(`#postMessageText_${postID}`).should('contain', 'codeblock2'); 
+            cy.get(`#postMessageText_${postID}`).should('contain', 'codeblock2');
         });
     });
 });
