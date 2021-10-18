@@ -50,7 +50,7 @@ export default class UsersEmailsInput extends React.PureComponent {
 
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
-        noMatchMessageDefault: 'No one found matching **{text}**, type email address',
+        noMatchMessageDefault: 'No one found matching **{text}**. Enter their email to invite them.',
         validAddressMessageId: t('widgets.users_emails_input.valid_email'),
         validAddressMessageDefault: 'Add **{email}**',
         loadingMessageId: t('widgets.users_emails_input.loading'),

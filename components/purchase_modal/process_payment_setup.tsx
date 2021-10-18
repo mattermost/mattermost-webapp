@@ -35,6 +35,8 @@ type Props = {
     selectedProduct?: Product | null | undefined;
     currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
+    isUpgradeFromTrial: boolean;
+    setIsUpgradeFromTrialToFalse: () => void;
 }
 
 type State = {
@@ -186,9 +188,36 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 </>
             );
         }
+        let title = (
+            <FormattedMessage
+                id={'admin.billing.subscription.upgradedSuccess'}
+                defaultMessage={'Great! You\'re now upgraded'}
+            />
+        );
+
+        let handleClose = () => {
+            this.props.onClose();
+        };
+
+        // if is the first purchase, show a different success purchasing title
+        if (this.props.isUpgradeFromTrial) {
+            const productName = this.props.selectedProduct?.name;
+            title = (
+                <FormattedMessage
+                    id={'admin.billing.subscription.firstPurchaseSuccess'}
+                    defaultMessage={'You are now subscribed to {productName}'}
+                    values={{productName}}
+                />
+            );
+            handleClose = () => {
+                // set the property isUpgrading to false onClose since we can not use directly isFreeTrial because of component rerendering
+                this.props.setIsUpgradeFromTrialToFalse();
+                this.props.onClose();
+            };
+        }
         return (
             <IconMessage
-                title={t('admin.billing.subscription.upgradedSuccess')}
+                formattedTitle={title}
                 subtitle={t('admin.billing.subscription.nextBillingDate')}
                 date={getNextBillingDate()}
                 error={error}
@@ -199,7 +228,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     />
                 }
                 buttonText={t('admin.billing.subscription.letsGo')}
-                buttonHandler={this.props.onClose}
+                buttonHandler={handleClose}
                 className={'success'}
             />
         );

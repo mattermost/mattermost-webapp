@@ -9,7 +9,7 @@ import {TutorialSteps, TopLevelProducts} from 'utils/constants';
 
 import {TestHelper} from 'utils/test_helper';
 
-import {Props, ProductSwitcherTip} from './product_switcher_tip';
+import {Props, ProductMenuTip} from './product_menu_tip';
 
 let props: Props = {
     currentUserId: '',
@@ -35,7 +35,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
     });
 
     it('shows tutorial tip when it should', () => {
-        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
+        const wrapper = shallow(<ProductMenuTip {...props}/>);
 
         expect(wrapper.find(TutorialTip)).toHaveLength(1);
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
@@ -43,7 +43,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
 
     it('does not show tutorial tip when tutorial step does not match', () => {
         props.step = TutorialSteps.PRODUCT_SWITCHER - 1;
-        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
+        const wrapper = shallow(<ProductMenuTip {...props}/>);
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);
     });
@@ -53,7 +53,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
         props.products = [
             TestHelper.makeProduct(TopLevelProducts.BOARDS),
         ];
-        shallow(<ProductSwitcherTip {...props}/>);
+        shallow(<ProductMenuTip {...props}/>);
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
     });
 
@@ -63,7 +63,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
         ];
 
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
-        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
+        const wrapper = shallow(<ProductMenuTip {...props}/>);
         expect(props.actions.savePreferences).toHaveBeenCalled();
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);
@@ -74,7 +74,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
             TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ];
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
-        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
+        const wrapper = shallow(<ProductMenuTip {...props}/>);
         expect(props.actions.savePreferences).toHaveBeenCalled();
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);
@@ -83,7 +83,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
     it('does not show tutorial tip if there are no products', () => {
         delete props.products;
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
-        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
+        const wrapper = shallow(<ProductMenuTip {...props}/>);
         expect(props.actions.savePreferences).toHaveBeenCalled();
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);
