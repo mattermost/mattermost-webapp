@@ -29,7 +29,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#reply_textbox').type('{enter}');
             cy.uiWaitUntilMessagePostedIncludes(replyMessage);
 
-            // * Press up arrow key
+            // # Press up arrow key
             cy.get('body').type('{uparrow}');
 
             // * Verify that the Edit Post Modal is visible
