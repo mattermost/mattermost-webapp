@@ -136,13 +136,11 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             timezoneLabel = getTimezoneLabel(this.props.timezones, automaticTimezone);
             selectedOptionValue = automaticTimezone;
         } else {
-            timezoneLabel = getTimezoneLabel(this.props.timezones, this.props.manualTimezone || getBrowserTimezone());
-            selectedOptionValue = this.props.manualTimezone || getBrowserTimezone();
-            if (!this.props.manualTimezone) {
-                this.setState({
-                    manualTimezone: getBrowserTimezone(),
-                });
-            }
+            timezoneLabel = getTimezoneLabel(this.props.timezones, getBrowserTimezone());
+            selectedOptionValue = getBrowserTimezone();
+            this.setState({
+                manualTimezone: getBrowserTimezone(),
+            });
         }
 
         this.setState({
