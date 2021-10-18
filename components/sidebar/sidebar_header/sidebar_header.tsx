@@ -190,14 +190,16 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
         );
     }
 
-    const sidebarHeader = (
+    return (
         <>
             {(showMenuTip && !hasAddChannelTreatment) ? <MenuTutorialTip onBottom={false}/> : null}
             <SidebarHeaderContainer menuInHeading={hasAddChannelTreatment}>
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
-                    overlay={currentTeam.description?.length ? <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip> : <></>}
+                    overlay={currentTeam.description?.length ? (
+                        <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>
+                    ) : <></>}
                 >
                     {sidebarHeadingContent}
                 </OverlayTrigger>
@@ -205,8 +207,6 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
             </SidebarHeaderContainer>
         </>
     );
-
-    return sidebarHeader;
 };
 
 export default SidebarHeader;

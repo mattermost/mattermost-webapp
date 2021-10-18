@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 export function verifyPluginMarketplaceVisibility(shouldBeVisible) {
-    cy.uiOpenProductSwitchMenu().within(() => {
+    cy.uiOpenProductMenu().within(() => {
         if (shouldBeVisible) {
             // * Verify Marketplace button should exist
             cy.findByText('Marketplace').should('exist');
