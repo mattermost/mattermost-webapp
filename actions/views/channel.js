@@ -29,11 +29,13 @@ import {
 import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
 
 import {getChannelByName} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {loadCustomStatusEmojisForPostList} from 'actions/emoji_actions';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
@@ -56,7 +58,7 @@ export function checkAndSetMobileView() {
 export function goToLastViewedChannel() {
     return async (dispatch, getState) => {
         const state = getState();
-        const currentChannel = getCurrentChannel(state);
+        const currentChannel = getCurrentChannel(state) || {};
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
         const directChannel = getAllDirectChannelsNameMapInCurrentTeam(state);
         const channels = Object.assign({}, channelsInTeam, directChannel);
@@ -84,7 +86,7 @@ export function switchToChannel(channel) {
         const state = getState();
         const teamUrl = getCurrentRelativeTeamUrl(state);
 
-        if (channel.fake || channel.userId) {
+        if (channel.userId) {
             const username = channel.userId ? channel.name : channel.display_name;
             const user = getUserByUsername(state, username);
             if (!user) {
@@ -182,11 +184,25 @@ export function leaveDirectChannel(channelName) {
 }
 
 export function autocompleteUsersInChannel(prefix, channelId) {
+    const addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
     return async (dispatch, getState) => {
         const state = getState();
         const currentTeamId = getCurrentTeamId(state);
 
-        return dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
+        const respose = await dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
+        const data = respose.data;
+        if (data) {
+            return {
+                ...respose,
+                data: {
+                    ...data,
+                    users: addLastViewAtToProfiles(state, data.users || []),
+                    out_of_channel: addLastViewAtToProfiles(state, data.out_of_channel || []),
+                },
+            };
+        }
+
+        return respose;
     };
 }
 
@@ -215,8 +231,9 @@ export function loadUnreads(channelId, prefetch = false) {
                 atOldestmessage: false,
             };
         }
-        const actions = [];
+        dispatch(loadCustomStatusEmojisForPostList(data.posts));
 
+        const actions = [];
         actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,
@@ -330,6 +347,8 @@ export function loadPosts({channelId, postId, type}) {
                 moreToLoad: true,
             };
         }
+
+        dispatch(loadCustomStatusEmojisForPostList(data.posts));
         actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,

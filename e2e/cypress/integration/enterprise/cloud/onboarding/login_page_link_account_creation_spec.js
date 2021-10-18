@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -8,26 +7,33 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding
+// Group: @enterprise @onboarding @cloud_only
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {generateRandomUser} from '../../../../support/api/user';
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../../../utils';
+import {
+    getWelcomeEmailTemplate,
+    reUrl,
+    verifyEmailBody,
+} from '../../../../utils';
 
 describe('Onboarding', () => {
+    let siteName;
+    let siteUrl;
     let testTeam;
     const {username, email, password} = generateRandomUser();
 
-    const baseUrl = Cypress.config('baseUrl');
-    const mailUrl = getEmailUrl(baseUrl);
-
     before(() => {
-        // * Check if server has license for Cloud
-        cy.apiRequireLicenseForFeature('Cloud');
-
         // # Disable LDAP, require email invitation, and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}, EmailSettings: {RequireEmailVerification: true}});
-        cy.apiEmailTest();
+        cy.apiUpdateConfig({
+            LdapSettings: {Enable: false},
+            EmailSettings: {RequireEmailVerification: true},
+            ServiceSettings: {EnableOnboardingFlow: true},
+        }).then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+            siteUrl = config.ServiceSettings.SiteURL;
+        });
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
@@ -36,8 +42,8 @@ describe('Onboarding', () => {
     });
 
     it('MM-T400 Create account from login page link using email-password', () => {
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open team menu and click on "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -50,12 +56,6 @@ describe('Onboarding', () => {
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
         });
-
-        // * In system console, verify that 'Enable Open Server' is set to true
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#systemConsole').should('be.visible').click();
-        cy.findByText('Signup').scrollIntoView().should('be.visible').click();
-        cy.get(`#${CSS.escape('TeamSettings.EnableOpenServertrue')}`).should('be.checked');
 
         // # Logout from sysadmin account
         cy.apiLogout();
@@ -87,7 +87,7 @@ describe('Onboarding', () => {
         cy.get('#loginButton').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
-        cy.get('#headerTeamName', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {
@@ -95,44 +95,22 @@ describe('Onboarding', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        cy.findByText(`Welcome to ${siteName}`).should('be.visible');
     });
 
     // eslint-disable-next-line no-shadow
     function getEmail(username, email) {
-        cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            verifyEmailVerification(response, testTeam.name, testTeam.display_name, email, messageSeparator);
+        cy.getRecentEmail({username, email}).then((data) => {
+            // * Verify that the email subject is correct
+            expect(data.subject).to.equal(`[${siteName}] You joined ${siteUrl.split('/')[2]}`);
 
-            const bodyText = response.data.body.text.split('\n');
-            const permalink = bodyText[6].match(reUrl)[0];
+            // * Verify that the email body is correct
+            const expectedEmailBody = getWelcomeEmailTemplate(email, siteName, testTeam.name);
+            verifyEmailBody(expectedEmailBody, data.body);
 
             // # Visit permalink (e.g. click on email link)
+            const permalink = data.body[4].match(reUrl)[0];
             cy.visit(permalink);
         });
-    }
-
-    function verifyEmailVerification(response, teamName, teamDisplayName, userEmail, messageSeparator) {
-        const isoDate = new Date().toISOString().substring(0, 10);
-        const {data, status} = response;
-
-        // * Should return success status
-        expect(status).to.equal(200);
-
-        // * Verify that email is addressed to the correct user
-        expect(data.to.length).to.equal(1);
-        expect(data.to[0]).to.contain(userEmail);
-
-        // * Verify that date is current
-        expect(data.date).to.contain(isoDate);
-
-        // * Verify that the email subject is correct
-        expect(data.subject).to.contain('[Mattermost] You joined localhost:8065');
-
-        // * Verify that the email body is correct
-        const bodyText = data.body.text.split(messageSeparator);
-        expect(bodyText.length).to.equal(23);
-        expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
-        expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');
     }
 });

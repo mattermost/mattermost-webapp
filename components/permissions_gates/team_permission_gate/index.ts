@@ -11,7 +11,7 @@ import TeamPermissionGate from './team_permission_gate';
 
 type Props = {
     teamId: string;
-    permissions: Array<string>;
+    permissions: string[];
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
@@ -20,7 +20,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     }
 
     for (const permission of ownProps.permissions) {
-        if (haveITeamPermission(state, {team: ownProps.teamId, permission})) {
+        if (haveITeamPermission(state, ownProps.teamId, permission)) {
             return {hasPermission: true};
         }
     }

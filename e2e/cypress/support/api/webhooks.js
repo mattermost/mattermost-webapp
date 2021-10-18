@@ -16,7 +16,7 @@ Cypress.Commands.add('apiGetIncomingWebhook', (hookId) => {
 
     return cy.request(options).then((response) => {
         const {body, status} = response;
-        return {webhook: body, status};
+        return cy.wrap({webhook: body, status});
     });
 });
 
@@ -30,6 +30,6 @@ Cypress.Commands.add('apiGetOutgoingWebhook', (hookId) => {
 
     return cy.request(options).then((response) => {
         const {body, status} = response;
-        return {webhook: body, status};
+        return cy.wrap({webhook: body, status});
     });
 });

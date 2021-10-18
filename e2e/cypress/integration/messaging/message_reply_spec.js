@@ -26,7 +26,7 @@ describe('Message Reply', () => {
 
     it('MM-T90 Reply to older message', () => {
         // # Get yesterdays date in UTC
-        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        const yesterdaysDate = Cypress.dayjs().subtract(1, 'days').valueOf();
 
         // # Post a day old message
         cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId: newChannel.id, createAt: yesterdaysDate}).
@@ -55,7 +55,7 @@ describe('Message Reply', () => {
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.findByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.exist');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                 });
 
@@ -70,9 +70,9 @@ describe('Message Reply', () => {
         });
 
         // # Close RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
 
         // # Verify RHS is open
-        cy.get('#rhsContainer').should('not.be.visible');
+        cy.get('#rhsContainer').should('not.exist');
     });
 });

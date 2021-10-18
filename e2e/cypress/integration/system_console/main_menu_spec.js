@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
 
 // # Goes to the System Scheme page as System Admin
@@ -37,8 +38,14 @@ describe('Main menu', () => {
     });
 
     it('MM-T910 Can open Administrators Guide', () => {
-        // * Verify administrator's guide link
-        verifyLink("Administrator's Guide", 'https://about.mattermost.com/administrators-guide/');
+        cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+            const guideLink = isCloudLicensed ?
+                'https://docs.mattermost.com/guides/cloud-admin-guide.html' :
+                'https://about.mattermost.com/administrators-guide/';
+
+            // * Verify administrator's guide link
+            verifyLink("Administrator's Guide", guideLink);
+        });
     });
 
     it('MM-T911 Can open Troubleshooting Forum', () => {
@@ -46,14 +53,16 @@ describe('Main menu', () => {
         verifyLink('Troubleshooting Forum', 'https://about.mattermost.com/troubleshooting-forum/');
     });
 
-    it('MM-T912 Can open Commercial Support', () => {
-        // * Verify commercial support
-        verifyLink('Commercial Support', 'https://about.mattermost.com/commercial-support/');
-    });
-
     it('MM-T914 Can log out from system console', () => {
         // * Verify log out button is visible
         cy.findByText('Log Out').should('be.visible');
+    });
+
+    it('MM-T912 Can open Commercial Support', () => {
+        // * Verify commercial support
+        cy.findByText('Commercial Support').click();
+        cy.get('#commercialSupportModal').should('be.visible');
+        cy.uiClose();
     });
 });
 

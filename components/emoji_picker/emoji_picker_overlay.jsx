@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
+import memoize from 'memoize-one';
 
 import {popOverOverlayPosition} from 'utils/position_utils.tsx';
 import {Constants} from 'utils/constants';
@@ -30,9 +31,11 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         onHide: PropTypes.func.isRequired,
         topOffset: PropTypes.number,
         rightOffset: PropTypes.number,
+        leftOffset: PropTypes.number,
         spaceRequiredAbove: PropTypes.number,
         spaceRequiredBelow: PropTypes.number,
         enableGifPicker: PropTypes.bool,
+        defaultHorizontalPosition: PropTypes.oneOf(['left', 'right']),
     };
 
     // Reasonable defaults calculated from from the center channel
@@ -42,56 +45,51 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         enableGifPicker: false,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+    emojiPickerPosition = memoize((emojiTrigger, show) => {
+        let calculatedRightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
 
-    static emojiPickerPosition(props) {
-        const emojiTrigger = props.target();
-
-        if (typeof props.rightOffset !== 'undefined') {
-            return props.rightOffset;
+        if (!show) {
+            return calculatedRightOffset;
         }
 
-        let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         if (emojiTrigger) {
-            rightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
+            calculatedRightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
 
-            if (rightOffset < Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET) {
-                rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+            if (calculatedRightOffset < Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET) {
+                calculatedRightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
             }
         }
 
-        return rightOffset;
-    }
+        return calculatedRightOffset;
+    });
 
-    static getPlacement(props) {
-        const target = props.target();
+    getPlacement = memoize((target, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition, show) => {
+        if (!show) {
+            return 'top';
+        }
+
         if (target) {
             const targetBounds = target.getBoundingClientRect();
-            return popOverOverlayPosition(targetBounds, window.innerHeight, props.spaceRequiredAbove, props.spaceRequiredBelow);
+            return popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition);
         }
 
         return 'top';
-    }
-
-    static getDerivedStateFromProps(props) {
-        return {
-            placement: EmojiPickerOverlay.getPlacement(props),
-            rightOffset: EmojiPickerOverlay.emojiPickerPosition(props),
-        };
-    }
+    });
 
     render() {
+        const {target, rightOffset, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition, show} = this.props;
+
+        const calculatedRightOffset = typeof rightOffset === 'undefined' ? this.emojiPickerPosition(target(), show) : rightOffset;
+        const placement = this.getPlacement(target(), spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition, show);
+
         return (
             <Overlay
-                show={this.props.show}
-                placement={this.state.placement}
+                show={show}
+                placement={placement}
                 rootClose={true}
                 container={this.props.container}
                 onHide={this.props.onHide}
-                target={this.props.target}
+                target={target}
                 animation={false}
             >
                 <EmojiPickerTabs
@@ -99,8 +97,9 @@ export default class EmojiPickerOverlay extends React.PureComponent {
                     onEmojiClose={this.props.onHide}
                     onEmojiClick={this.props.onEmojiClick}
                     onGifClick={this.props.onGifClick}
-                    rightOffset={this.state.rightOffset}
+                    rightOffset={calculatedRightOffset}
                     topOffset={this.props.topOffset}
+                    leftOffset={this.props.leftOffset}
                 />
             </Overlay>
         );

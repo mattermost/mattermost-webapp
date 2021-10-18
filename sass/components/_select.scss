@@ -5,34 +5,35 @@
     margin: 8px 8px 0 0;
 
     &:hover {
-        &:after {
-            opacity: .6;
+        &::after {
+            opacity: 0.6;
         }
     }
 
-    &:after {
-        @include single-transition(opacity, .15s, ease);
-        content: '\F107';
+    &::after {
+        @include single-transition(opacity, 0.15s, ease);
+
+        position: absolute;
+        top: 8px;
+        right: 1rem;
         display: inline-block;
+        content: '\F107';
         font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
+        font-size: 16px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        top: 8px;
-        position: absolute;
-        right: 1rem;
-        opacity: .4;
-        font-size: 16px;
+        opacity: 0.4;
         pointer-events: none;
+        text-rendering: auto;
     }
 
     .form-control {
+        max-width: 100%;
+        height: 32px;
+        padding-right: 3rem;
         cursor: pointer;
         font-size: 13px;
-        height: 32px;
-        max-width: 100%;
-        padding-right: 3rem;
+
         @include border-radius(3px);
         @include box-shadow(unset);
     }

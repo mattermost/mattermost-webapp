@@ -40,7 +40,7 @@ const Header = () => {
 };
 
 interface Props {
-    data?: Partial<Group>[];
+    data?: Array<Partial<Group>>;
     onPageChangedCallback?: () => void;
     total: number;
     emptyListTextId: string;

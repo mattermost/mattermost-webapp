@@ -1,25 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
+import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
+import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -27,16 +28,16 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
-class RhsRootPost extends React.PureComponent {
+export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
-        author: PropTypes.string,
-        reactions: PropTypes.object,
         isFlagged: PropTypes.bool.isRequired,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
@@ -58,7 +59,6 @@ class RhsRootPost extends React.PureComponent {
          * To check if the state of emoji for last message and from where it was emitted
          */
         shortcutReactToLastPostEmittedFrom: PropTypes.string,
-        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
 
@@ -67,7 +67,13 @@ class RhsRootPost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
-        emojiMap: PropTypes.object.isRequired,
+        timestampProps: PropTypes.object,
+        isBot: PropTypes.bool,
+        collapsedThreadsEnabled: PropTypes.bool,
+        oneClickReactionsEnabled: PropTypes.bool,
+        recentEmojis: PropTypes.arrayOf(Emoji),
+
+        isExpanded: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -82,10 +88,11 @@ class RhsRootPost extends React.PureComponent {
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
-            currentAriaLabel: '',
+            fileDropdownOpened: false,
         };
 
         this.postHeaderRef = React.createRef();
+        this.dotMenuRef = React.createRef();
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -133,7 +140,7 @@ class RhsRootPost extends React.PureComponent {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
-        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+            shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
         if (shortcutReactToLastPostEmittedFromRHS) {
             this.handleShortcutReactToLastPost(isLastPost);
         }
@@ -156,6 +163,7 @@ class RhsRootPost extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.RHS_ROOT}
+                timestampProps={this.props.timestampProps}
             />
         );
     };
@@ -182,7 +190,7 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -205,32 +213,48 @@ class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
+        });
+    };
+
     handlePostClick = (e) => {
         if (this.props.channelIsArchived) {
             return;
         }
 
         if (e.altKey) {
-            this.props.actions.markPostAsUnread(this.props.post);
+            this.props.actions.markPostAsUnread(this.props.post, 'RHS_ROOT');
         }
     }
 
-    handlePostFocus = () => {
-        const {post, author, reactions, isFlagged, emojiMap} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap)});
-    }
-
     getDotMenuRef = () => {
-        return this.refs.dotMenu;
+        return this.dotMenuRef.current;
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
+
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
+        let showRecentReacions;
+        if (showRecentlyUsedReactions) {
+            showRecentReacions = (
+                <PostRecentReactions
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    teamId={this.props.teamId}
+                    emojis={this.props.recentEmojis}
+                    getDotMenuRef={this.getDotMenuRef}
+                    size={this.props.isExpanded ? 3 : 1}
+                />
+            );
+        }
 
         let postReaction;
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
@@ -253,6 +277,7 @@ class RhsRootPost extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }
@@ -342,12 +367,14 @@ class RhsRootPost extends React.PureComponent {
         if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
-                    ref='dotMenu'
+                    ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {dotMenu}
+                    {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
+                    {showRecentReacions}
                     {postReaction}
                     {postFlagIcon}
+                    {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 </div>
             );
         }
@@ -383,16 +410,29 @@ class RhsRootPost extends React.PureComponent {
             );
         }
 
+        let customStatus;
+        if (!(isSystemMessage || post?.props?.from_webhook || isBot)) {
+            customStatus = (
+                <CustomStatusEmoji
+                    userID={post.user_id}
+                    showTooltip={true}
+                    emojiStyle={{
+                        marginLeft: 4,
+                        marginTop: 2,
+                    }}
+                />
+            );
+        }
+
         return (
-            <div
+            <PostAriaLabelDiv
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
-                aria-label={this.state.currentAriaLabel}
                 onClick={this.handlePostClick}
-                onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
+                post={post}
             >
                 <PostPreHeader
                     isFlagged={this.props.isFlagged}
@@ -410,6 +450,7 @@ class RhsRootPost extends React.PureComponent {
                             isRHS={true}
                             post={post}
                             userId={post.user_id}
+                            channelId={post.channel_id}
                         />
                     </div>
                     <div>
@@ -420,6 +461,7 @@ class RhsRootPost extends React.PureComponent {
                             <div className='col__name'>
                                 {userProfile}
                                 {botIndicator}
+                                {customStatus}
                             </div>
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}
@@ -445,10 +487,7 @@ class RhsRootPost extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-            </div>
+            </PostAriaLabelDiv>
         );
     }
 }
-
-export default injectIntl(RhsRootPost);
-/* eslint-enable react/no-string-refs */

@@ -2,32 +2,33 @@
     &.tips {
         height: 70px;
     }
-    width: 100%;
-    color: var(--sidebar-text);
-    height: 82px;
-    padding: 8px 16px 18px 14px;
-    align-self: flex-end;
+
     position: relative;
+    width: 100%;
+    height: 82px;
+    align-self: flex-end;
+    padding: 8px 16px 18px 14px;
     background-color: var(--sidebar-bg);
-    transition: 0.2s ease-in-out;
+    color: var(--sidebar-text);
     cursor: pointer;
+    transition: 0.2s ease-in-out;
 
     &:hover:not(.active) {
-        background-color: rgba(var(--button-color-rgb), 0.08);
+        background-color: var(--sidebar-text-hover-bg);
     }
 
     &.active {
-        background-color: var(--sidebar-text-hover-bg);
+        background-color: rgba(var(--sidebar-text-rgb), 0.08);
 
         &::before {
-            content: '';
-            height: 100%;
             position: absolute;
-            left: -2px;
             top: 0;
+            left: -2px;
             width: 4px;
-            background: var(--sidebar-text-active-border);
+            height: 100%;
+            background: rgb(var(--sidebar-text-active-border-rgb));
             border-radius: 4px;
+            content: '';
         }
     }
 }
@@ -36,24 +37,23 @@
     display: flex;
 
     span {
-        font-weight: 600;
         font-size: 14px;
+        font-weight: 600;
         line-height: 28px;
     }
 }
 
 .SidebarNextSteps__close {
-    border: none;
-    border-radius: 4px;
-    background: none;
-    padding: 0;
-    margin-left: auto;
-    font-size: 14.4px;
-    line-height: 14px;
-
-    align-self: center;
     width: 28px;
     height: 28px;
+    align-self: center;
+    padding: 0;
+    border: none;
+    margin-left: auto;
+    background: none;
+    border-radius: 4px;
+    font-size: 14.4px;
+    line-height: 14px;
 
     i {
         color: var(--sidebar-text);
@@ -79,18 +79,18 @@
 }
 
 .SidebarNextSteps__progressBar {
-    margin-top: 8px;
     height: 4px;
-    border-radius: 4px;
+    margin-top: 8px;
     background-color: rgba(var(--sidebar-text-rgb), 0.16);
+    border-radius: 4px;
 
     .ProgressBar {
-        border-radius: 4px;
         overflow: hidden;
+        border-radius: 4px;
     }
 
     .ProgressBar__progress {
-        border-radius: 4px;
         background-color: var(--sidebar-text);
+        border-radius: 4px;
     }
 }

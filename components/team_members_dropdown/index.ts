@@ -14,8 +14,8 @@ import {
 } from 'mattermost-redux/actions/teams';
 import {getUser, updateUserActive} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
@@ -28,9 +28,9 @@ import TeamMembersDropdown from './team_members_dropdown';
 function mapStateToProps(state: GlobalState) {
     return {
         currentUser: getCurrentUser(state),
-        currentChannelId: getCurrentChannelId(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
         currentTeam: getCurrentTeam(state),
+        collapsedThreads: isCollapsedThreadsEnabled(state),
     };
 }
 

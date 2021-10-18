@@ -16,12 +16,14 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Get a subset of the server license needed by the client.
          * See https://api.mattermost.com/#tag/system/paths/~1license~1client/get
          * @returns {ClientLicense} `out.license` as `ClientLicense`
+         * @returns {Boolean} `out.isLicensed`
+         * @returns {Boolean} `out.isCloudLicensed`
          *
          * @example
          *   cy.apiGetClientLicense().then(({license}) => {
@@ -33,13 +35,14 @@ declare namespace Cypress {
         /**
          * Verify if server has license for a certain feature and fail test if not found.
          * Upload a license if it does not exist.
-         * @param {string} feature - feature to check, e.g. 'LDAP'
+         * @param {string[]} ...features - accepts multiple arguments of features to check, e.g. 'LDAP'
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example
          *   cy.apiRequireLicenseForFeature('LDAP');
+        *    cy.apiRequireLicenseForFeature('LDAP', 'SAML');
          */
-        apiRequireLicenseForFeature(feature: string): Chainable<ClientLicense>;
+        apiRequireLicenseForFeature(...features: string[]): Chainable<ClientLicense>;
 
         /**
          * Verify if server has license and fail test if not found.
@@ -62,6 +65,16 @@ declare namespace Cypress {
          *   cy.apiUploadLicense(filePath);
          */
         apiUploadLicense(filePath: string): Chainable<Response>;
+
+        /**
+         * Request and install a trial license for your server.
+         * See https://api.mattermost.com/#tag/system/paths/~1trial-license/post
+         * @returns {Object} `out.data` as response status
+         *
+         * @example
+         *   cy.apiInstallTrialLicense();
+         */
+        apiInstallTrialLicense(): Chainable<Record<string, any>>;
 
         /**
          * Remove the license file from the server. This will disable all enterprise features.
@@ -101,6 +114,7 @@ declare namespace Cypress {
         /**
          * Get configuration.
          * See https://api.mattermost.com/#tag/system/paths/~1config/get
+         * @param {Boolean} old - false (default) or true to return old format of client config
          * @returns {AdminConfig} `out.config` as `AdminConfig`
          *
          * @example
@@ -131,5 +145,59 @@ declare namespace Cypress {
          *   cy.apiInvalidateCache();
          */
         apiInvalidateCache(): Chainable<Record<string, any>>;
+
+        /**
+         * Allow test for server other than Cloud edition or with Cloud license.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldNotRunOnCloudEdition();
+         */
+        shouldNotRunOnCloudEdition(): Chainable;
+
+        /**
+         * Allow test for server on Team edition or without license.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldRunOnTeamEdition();
+         */
+        shouldRunOnTeamEdition(): Chainable;
+
+        /**
+         * Allow test for server with Plugin upload enabled.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldHavePluginUploadEnabled();
+         */
+        shouldHavePluginUploadEnabled(): Chainable;
+
+        /**
+         * Allow test for server running with subpath.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldRunWithSubpath();
+         */
+        shouldRunWithSubpath(): Chainable;
+
+        /**
+         * Allow test if matches feature flag setting
+         * Otherwise, fail fast.
+         *
+         * @param {string} feature - feature name
+         * @param {string} expectedValue - expected value
+         *
+         * @example
+         *   cy.shouldHaveFeatureFlag('feature', 'expected-value');
+         */
+        shouldHaveFeatureFlag(feature: string, expectedValue: any): Chainable;
+
+        /**
+         * Require email service to be reachable by the server
+         * thru "/api/v4/email/test" if sysadmin account has
+         * permission to do so. Otherwise, skip email test.
+         *
+         * @example
+         *   cy.shouldHaveEmailEnabled();
+         */
+        shouldHaveEmailEnabled(): Chainable;
     }
 }

@@ -14,7 +14,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
         id="channelMembersTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
           id="channel_header.channelMembers"
         />
@@ -30,17 +30,16 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
   >
     <button
       aria-label="members"
-      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      className="member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
       id="member_popover"
       onClick={[Function]}
     >
       <div
         className="d-flex align-items-center"
       >
-        <MemberIcon
+        <i
           aria-hidden="true"
-          className="icon icon--standard"
-          id="channelMemberIcon"
+          className="icon icon-account-outline channel-header__members"
         />
         <span
           className="icon__text"
@@ -60,7 +59,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
     target={[Function]}
   >
     <Popover
-      className="member-list__popover"
+      className="a11y__popup member-list__popover"
       id="member-list-popover"
       placement="right"
       popoverSize="sm"
@@ -69,7 +68,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       <div
         className="more-modal__header"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
@@ -125,7 +124,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
         id="channelMembersTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
           id="channel_header.channelMembers"
         />
@@ -141,17 +140,16 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
   >
     <button
       aria-label="members"
-      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      className="member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
       id="member_popover"
       onClick={[Function]}
     >
       <div
         className="d-flex align-items-center"
       >
-        <MemberIcon
+        <i
           aria-hidden="true"
-          className="icon icon--standard"
-          id="channelMemberIcon"
+          className="icon icon-account-outline channel-header__members"
         />
         <span
           className="icon__text"
@@ -171,7 +169,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
     target={[Function]}
   >
     <Popover
-      className="member-list__popover"
+      className="a11y__popup member-list__popover"
       id="member-list-popover"
       placement="right"
       popoverSize="sm"
@@ -180,7 +178,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       <div
         className="more-modal__header"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
@@ -236,7 +234,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
         id="channelMembersTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
           id="channel_header.channelMembers"
         />
@@ -252,17 +250,16 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
   >
     <button
       aria-label="members"
-      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      className="member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
       id="member_popover"
       onClick={[Function]}
     >
       <div
         className="d-flex align-items-center"
       >
-        <MemberIcon
+        <i
           aria-hidden="true"
-          className="icon icon--standard"
-          id="channelMemberIcon"
+          className="icon icon-account-outline channel-header__members"
         />
         <span
           className="icon__text"
@@ -282,7 +279,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
     target={[Function]}
   >
     <Popover
-      className="member-list__popover"
+      className="a11y__popup member-list__popover"
       id="member-list-popover"
       placement="right"
       popoverSize="sm"
@@ -291,14 +288,14 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       <div
         className="more-modal__header"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
         <div
           className="subhead"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Members managed by linked groups."
             id="channel_header.groupConstrained"
           />

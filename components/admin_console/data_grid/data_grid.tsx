@@ -3,6 +3,7 @@
 
 import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
@@ -21,6 +22,7 @@ export type Column = {
     fixed?: boolean;
 
     // Optional styling overrides
+    className?: string;
     width?: number;
     textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined;
     overflow?: string;
@@ -52,8 +54,8 @@ type Props = {
     nextPage: () => void;
     previousPage: () => void;
 
-    search: (term: string) => void;
-    term: string;
+    onSearch?: (term: string) => void;
+    term?: string;
     searchPlaceholder?: string;
 
     filterProps?: {
@@ -61,6 +63,8 @@ type Props = {
         keys: string[];
         onFilter: (options: FilterOptions) => void;
     };
+
+    className?: string;
 };
 
 type State = {
@@ -74,6 +78,11 @@ const MINIMUM_COLUMN_WIDTH = 100;
 
 class DataGrid extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
+
+    static defaultProps = {
+        term: '',
+        searchPlaceholder: '',
+    }
 
     public constructor(props: Props) {
         super(props);
@@ -164,7 +173,6 @@ class DataGrid extends React.PureComponent<Props, State> {
                 );
             });
         }
-
         return (
             <div
                 className='DataGrid_rows'
@@ -183,15 +191,18 @@ class DataGrid extends React.PureComponent<Props, State> {
         );
     }
 
-    private renderSearch(): JSX.Element {
-        return (
-            <DataGridSearch
-                onSearch={this.search}
-                placeholder={this.props.searchPlaceholder || ''}
-                term={this.props.term}
-                filterProps={this.props.filterProps}
-            />
-        );
+    private renderSearch(): JSX.Element | null {
+        if (this.props.onSearch) {
+            return (
+                <DataGridSearch
+                    onSearch={this.search}
+                    placeholder={this.props.searchPlaceholder}
+                    term={this.props.term}
+                    filterProps={this.props.filterProps}
+                />
+            );
+        }
+        return null;
     }
 
     private nextPage = () => {
@@ -207,7 +218,9 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private search = (term: string) => {
-        this.props.search(term);
+        if (this.props.onSearch) {
+            this.props.onSearch(term);
+        }
     }
 
     private renderFooter = (): JSX.Element | null => {
@@ -242,6 +255,7 @@ class DataGrid extends React.PureComponent<Props, State> {
                         />
 
                         <button
+                            type='button'
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
                             onClick={prevPageFn}
                             disabled={firstPage}
@@ -249,6 +263,7 @@ class DataGrid extends React.PureComponent<Props, State> {
                             <PreviousIcon/>
                         </button>
                         <button
+                            type='button'
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
                             onClick={nextPageFn}
                             disabled={lastPage}
@@ -266,7 +281,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     public render() {
         return (
             <div
-                className='DataGrid'
+                className={classNames('DataGrid', this.props.className)}
                 ref={this.ref}
             >
                 {this.renderSearch()}

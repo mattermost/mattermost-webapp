@@ -21,17 +21,17 @@ import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 
 import './channel_list.scss';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, opts: ChannelSearchOpts) => Promise<{ data: any }>;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
+        getData: (page: number, perPage: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
     data: ChannelWithTeamData[];
     total: number;
     removeGroup?: () => void;
-    onPageChangedCallback?: () => void;
     emptyListTextId?: string;
     emptyListTextDefaultMessage?: string;
     isDisabled?: boolean;
@@ -118,7 +118,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({page: this.state.page - 1});
     }
 
-    search = async (term = '') => {
+    onSearch = async (term = '') => {
         this.loadPage(0, term, this.state.filters);
     }
 
@@ -188,6 +188,15 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     <ArchiveIcon
                         className='channel-icon'
                         data-testid={`${channel.name}-archive-icon`}
+                    />
+                );
+            }
+
+            if (channel.shared) {
+                iconToDisplay = (
+                    <SharedChannelIndicator
+                        className='channel-icon'
+                        channelType={channel.type}
                     />
                 );
             }
@@ -397,7 +406,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     startCount={startCount}
                     endCount={endCount}
                     total={total}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     term={term}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}

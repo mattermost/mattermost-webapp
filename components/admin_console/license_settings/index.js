@@ -3,8 +3,9 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
-import {uploadLicense, removeLicense} from 'mattermost-redux/actions/admin';
+import {uploadLicense, removeLicense, getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {requestTrialLicense, upgradeToE0Status, upgradeToE0, restartServer, ping} from 'actions/admin_actions';
@@ -16,6 +17,7 @@ function mapStateToProps(state) {
     return {
         stats: state.entities.admin.analytics,
         upgradedFromTE: config.UpgradedFromTE === 'true',
+        prevTrialLicense: state.entities.admin.prevTrialLicense,
     };
 }
 
@@ -25,6 +27,7 @@ function mapDispatchToProps(dispatch) {
             getLicenseConfig,
             uploadLicense,
             removeLicense,
+            getPrevTrialLicense,
             upgradeToE0,
             upgradeToE0Status,
             restartServer,

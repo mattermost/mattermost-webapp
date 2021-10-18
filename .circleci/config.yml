@@ -7,16 +7,16 @@ orbs:
 executors:
   default:
     docker:
-      - image: mattermost/mattermost-build-webapp:20200829_node-10.22
+      - image: mattermost/mattermost-build-webapp:20210524_node-16
     resource_class: "xlarge"
 
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-5
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
   - &save_cache
     save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-5
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
 
@@ -29,7 +29,6 @@ jobs:
       - checkout
       - run: |
           npm ci
-          cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
 
   check-deps:
@@ -63,7 +62,7 @@ jobs:
           steps:
             # Taken from https://github.com/entur/owasp-orb/blob/master/src/%40orb.yml#L349-L361
             - owasp/generate_cache_keys:
-                cache_key: commmandline-default-cache-key-v6
+                cache_key: commmandline-default-cache-key-v7
             - owasp/restore_owasp_cache
             - run:
                 name: Update OWASP Dependency-Check Database
@@ -116,6 +115,7 @@ jobs:
           diff /tmp/en.json i18n/en.json
           # Address weblate behavior which does not remove whole translation item when translation string is set to empty
           npm run mmjstool -- i18n clean-empty --webapp-dir . --mobile-dir /tmp/fake-mobile-dir --check
+          npm run mmjstool -- i18n check-empty-src --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
 
           rm -rf tmp
 
@@ -215,7 +215,7 @@ jobs:
           at: ~/mattermost/
       - run:
           command: |
-            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz
 
             tar xf server.tar.gz
             rm -rf mattermost/client
@@ -232,32 +232,39 @@ jobs:
   build-docker:
     working_directory: ~/mattermost/
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: cimg/base:stable
     steps:
       - attach_workspace:
           at: ~/mattermost/
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           command: |
             export TAG="${CIRCLE_SHA1:0:7}"
 
-            git clone https://github.com/mattermost/mattermost-server.git
+            mkdir -p ./docker-build
+            cd ./docker-build
+            wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/Dockerfile
+            wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/entrypoint.sh
+            chmod +x entrypoint.sh
 
-            cd mattermost-server
-            export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
-            docker build --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} build
+            export DOCKER_CLI_EXPERIMENTAL=enabled
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-            docker push mattermost/mattermost-enterprise-edition:${TAG}
+            export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
+            # Pushing the images to two places to not break anything, but the `mattermost/mattermost-enterprise-edition` will be removed soon.
+            docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} -t mattermost/mm-ee-test:${TAG} .
 
 workflows:
   version: 2
   untagged-build:
     jobs:
       - install
-      - check-deps:
-          context: sast-webhook
-          requires:
-            - install
+      # Disabling check-deps since the new version is not on bintray and all builds will fail
+      #       # we've are on top of this, and it's going to be temporary.
+      # - check-deps:
+      #     context: sast-webhook
+      #     requires:
+      #       - install
       - lint:
           requires:
             - install

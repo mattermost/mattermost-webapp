@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 

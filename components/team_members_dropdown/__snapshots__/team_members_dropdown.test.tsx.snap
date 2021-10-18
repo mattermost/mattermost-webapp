@@ -12,7 +12,7 @@ exports[`components/team_members_dropdown should match snapshot for a bot with g
     type="button"
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Admin"
         id="team_members_dropdown.teamAdmin"
       />
@@ -31,11 +31,6 @@ exports[`components/team_members_dropdown should match snapshot for a bot with g
         onClick={[Function]}
         show={true}
         text="Remove From Team"
-      />
-      <MenuItemAction
-        onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
       />
       <MenuItemAction
         onClick={[Function]}
@@ -59,7 +54,7 @@ exports[`components/team_members_dropdown should match snapshot for team_members
     type="button"
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Admin"
         id="team_members_dropdown.teamAdmin"
       />
@@ -78,11 +73,6 @@ exports[`components/team_members_dropdown should match snapshot for team_members
         onClick={[Function]}
         show={true}
         text="Remove From Team"
-      />
-      <MenuItemAction
-        onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
       />
       <MenuItemAction
         onClick={[Function]}
@@ -106,7 +96,7 @@ exports[`components/team_members_dropdown should match snapshot opening dropdown
     type="button"
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Admin"
         id="team_members_dropdown.teamAdmin"
       />
@@ -125,11 +115,6 @@ exports[`components/team_members_dropdown should match snapshot opening dropdown
         onClick={[Function]}
         show={true}
         text="Remove From Team"
-      />
-      <MenuItemAction
-        onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
       />
       <MenuItemAction
         onClick={[Function]}
@@ -153,7 +138,7 @@ exports[`components/team_members_dropdown should match snapshot with group-const
     type="button"
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Admin"
         id="team_members_dropdown.teamAdmin"
       />
@@ -167,17 +152,6 @@ exports[`components/team_members_dropdown should match snapshot with group-const
       openLeft={true}
       openUp={false}
     >
-      <MenuItemAction
-        id="removeFromTeam"
-        onClick={[Function]}
-        show={false}
-        text="Remove From Team"
-      />
-      <MenuItemAction
-        onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
-      />
       <MenuItemAction
         onClick={[Function]}
         show={true}

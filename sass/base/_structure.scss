@@ -6,22 +6,18 @@ body {
 }
 
 body {
-    background: $bg--gray;
     position: relative;
     width: 100%;
+    background: $bg--gray;
 
     &.announcement-bar--fixed {
         padding-top: $announcement-bar-height;
     }
 
-    &.announcement-banner-tall--fixed {
-        padding-top: 40px;
-    }
-
     &.sticky {
         .container-fluid {
-            -webkit-overflow-scrolling: touch;
             overflow: auto;
+            -webkit-overflow-scrolling: touch;
         }
     }
 }
@@ -34,9 +30,9 @@ body {
     background: $white;
 
     > .channel-view {
+        overflow: auto;
         height: 100vh;
         padding: 0 15px;
-        overflow: auto;
     }
 
     .inner-wrap {
@@ -68,22 +64,33 @@ body {
 
     > .row {
         &.main {
-            height: 100%;
             position: relative;
+            height: 100%;
         }
     }
 }
 
 .container-fluid {
     @include legacy-pie-clearfix;
-    height: 100%;
+
     position: relative;
+    height: 100%;
 }
 
 .channel-view {
     @include clearfix;
-    height: 100%;
+
     position: relative;
+    height: 100%;
+
+    #root {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+#channel_view.channel-view {
+    background: var(--center-channel-bg);
 }
 
 img {

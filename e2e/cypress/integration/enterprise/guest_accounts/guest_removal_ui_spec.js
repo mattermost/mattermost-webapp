@@ -64,7 +64,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
         });
     });
 
-    it('MM-18044 Verify behavior when Guest User is removed from channel', () => {
+    it('MM-T1360 Taken to login screen when removed from last channel', () => {
         // # Demote the current member to a guest user
         cy.apiAdminLogin();
         cy.apiDemoteUserToGuest(guest.id);

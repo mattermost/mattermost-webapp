@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
+exports[`components/SearchResultsItem should hide reply button when said so 1`] = `
 <div
   className="search-item__container"
   data-testid="search-item-container"
@@ -8,21 +8,42 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
-      className="search-channel__name"
+      className="search-channel__name__container"
     >
-      Direct Message (with Other guy)
+      <span
+        className="search-channel__name"
+      >
+        channel_name
+      </span>
     </div>
     <Connect(injectIntl(PostPreHeader))
       channelId="channel_id"
       isFlagged={true}
-      isPinned={true}
+      isPinned={false}
     />
     <div
       className="post__content"
@@ -40,10 +61,9 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               "delete_at": 0,
               "edit_at": 1502715372443,
               "id": "id",
-              "is_pinned": true,
+              "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -85,7 +105,231 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className="col__controls post-menu"
           >
-            <Connect(DotMenu)
+            <Connect(injectIntl(DotMenuClass))
+              handleDropdownOpened={[Function]}
+              isFlagged={true}
+              isMenuOpen={false}
+              isReadOnly={null}
+              location="SEARCH"
+              post={
+                Object {
+                  "channel_id": "channel_id",
+                  "create_at": 1502715365009,
+                  "delete_at": 0,
+                  "edit_at": 1502715372443,
+                  "id": "id",
+                  "is_pinned": false,
+                  "message": "post message",
+                  "original_id": "",
+                  "pending_post_id": "",
+                  "props": Object {},
+                  "root_id": "",
+                  "type": "",
+                  "update_at": 1502715372443,
+                  "user_id": "user_id",
+                }
+              }
+            />
+            <Connect(PostFlagIcon)
+              isFlagged={true}
+              location="SEARCH"
+              postId="id"
+            />
+            <a
+              className="search-item__jump"
+              href="#"
+              onClick={[Function]}
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Jump"
+                id="search_item.jump"
+              />
+            </a>
+          </div>
+        </div>
+        <div
+          className="search-item-snippet post__body"
+        >
+          <div
+            className=" post--edited"
+          >
+            <Connect(PostBodyAdditionalContent)
+              options={
+                Object {
+                  "searchMatches": undefined,
+                  "searchTerm": "test",
+                }
+              }
+              post={
+                Object {
+                  "channel_id": "channel_id",
+                  "create_at": 1502715365009,
+                  "delete_at": 0,
+                  "edit_at": 1502715372443,
+                  "id": "id",
+                  "is_pinned": false,
+                  "message": "post message",
+                  "original_id": "",
+                  "pending_post_id": "",
+                  "props": Object {},
+                  "root_id": "",
+                  "type": "",
+                  "update_at": 1502715372443,
+                  "user_id": "user_id",
+                }
+              }
+            >
+              <Connect(PostMessageView)
+                isRHS={true}
+                options={
+                  Object {
+                    "mentionHighlight": false,
+                    "searchMatches": undefined,
+                    "searchTerm": "test",
+                  }
+                }
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+              />
+            </Connect(PostBodyAdditionalContent)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </PostAriaLabelDiv>
+</div>
+`;
+
+exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
+<div
+  className="search-item__container"
+  data-testid="search-item-container"
+>
+  <Memo(DateSeparator)
+    date={2017-12-14T18:15:28.290Z}
+  />
+  <PostAriaLabelDiv
+    className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": true,
+        "message": "post message",
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
+  >
+    <div
+      aria-hidden="true"
+      className="search-channel__name__container"
+    >
+      <span
+        className="search-channel__name"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Direct Message (with {username})"
+          id="search_item.direct"
+          values={
+            Object {
+              "username": "Other guy",
+            }
+          }
+        />
+      </span>
+    </div>
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
+      isFlagged={true}
+      isPinned={true}
+    />
+    <div
+      className="post__content"
+      role="application"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={true}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "id": "id",
+              "is_pinned": true,
+              "message": "post message",
+              "original_id": "",
+              "pending_post_id": "",
+              "props": Object {},
+              "root_id": "",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+          userId="user_id"
+        />
+      </div>
+      <div>
+        <div
+          className="post__header"
+        >
+          <div
+            className="col col__name"
+          >
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
+          </div>
+          <div
+            className="col"
+          >
+            <Connect(PostTime)
+              eventTime={1502715365009}
+              isPermalink={true}
+              location="SEARCH"
+              postId="id"
+            />
+          </div>
+          <div
+            className="col__controls post-menu"
+          >
+            <Connect(injectIntl(DotMenuClass))
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
@@ -101,7 +345,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                   "is_pinned": true,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {},
                   "root_id": "",
@@ -129,7 +372,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
               />
@@ -159,7 +402,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                   "is_pinned": true,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {},
                   "root_id": "",
@@ -188,7 +430,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                     "is_pinned": true,
                     "message": "post message",
                     "original_id": "",
-                    "parent_id": "",
                     "pending_post_id": "",
                     "props": Object {},
                     "root_id": "",
@@ -203,7 +444,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -215,23 +456,44 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
-      className="search-channel__name"
+      className="search-channel__name__container"
     >
-      channel_name
+      <span
+        className="search-channel__name"
+      >
+        channel_name
+      </span>
       <span
         className="search-channel__archived"
       >
         <ArchiveIcon
           className="icon icon__archive channel-header-archived-icon svg-text-color"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Archived"
           id="search_item.channelArchived"
         />
@@ -261,7 +523,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -303,7 +564,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
           <div
             className="col__controls post-menu"
           >
-            <Connect(DotMenu)
+            <Connect(injectIntl(DotMenuClass))
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
@@ -319,7 +580,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
                   "is_pinned": false,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {},
                   "root_id": "",
@@ -347,7 +607,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
               />
@@ -377,7 +637,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
                   "is_pinned": false,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {},
                   "root_id": "",
@@ -406,7 +665,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
                     "is_pinned": false,
                     "message": "post message",
                     "original_id": "",
-                    "parent_id": "",
                     "pending_post_id": "",
                     "props": Object {},
                     "root_id": "",
@@ -421,7 +679,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -433,16 +691,37 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
-      className="search-channel__name"
+      className="search-channel__name__container"
     >
-      channel_name
+      <span
+        className="search-channel__name"
+      >
+        channel_name
+      </span>
     </div>
     <Connect(injectIntl(PostPreHeader))
       channelId="channel_id"
@@ -468,7 +747,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -510,7 +788,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className="col__controls post-menu"
           >
-            <Connect(DotMenu)
+            <Connect(injectIntl(DotMenuClass))
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
@@ -526,7 +804,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                   "is_pinned": false,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {},
                   "root_id": "",
@@ -554,7 +831,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
               />
@@ -584,7 +861,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                   "is_pinned": false,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {},
                   "root_id": "",
@@ -613,7 +889,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                     "is_pinned": false,
                     "message": "post message",
                     "original_id": "",
-                    "parent_id": "",
                     "pending_post_id": "",
                     "props": Object {},
                     "root_id": "",
@@ -628,7 +903,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -640,16 +915,45 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "file_ids": Array [
+          "id",
+          "id2",
+        ],
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {
+          "from_webhook": true,
+          "override_username": "overridden_username",
+        },
+        "root_id": "",
+        "state": "DELETED",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
-      className="search-channel__name"
+      className="search-channel__name__container"
     >
-      channel_name
+      <span
+        className="search-channel__name"
+      >
+        channel_name
+      </span>
     </div>
     <Connect(injectIntl(PostPreHeader))
       channelId="channel_id"
@@ -679,7 +983,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {
                 "from_webhook": true,
@@ -731,13 +1034,14 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             className=" post--edited"
           >
             <p>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(message deleted)"
                 id="post_body.deleted"
               />
             </p>
             <Connect(FileAttachmentList)
               compactDisplay={true}
+              handleFileDropdownOpened={[Function]}
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -752,7 +1056,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
                   "is_pinned": false,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {
                     "from_webhook": true,
@@ -770,7 +1073,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -782,16 +1085,45 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "file_ids": Array [
+          "id",
+          "id2",
+        ],
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {
+          "from_webhook": true,
+          "override_username": "overridden_username",
+        },
+        "root_id": "",
+        "state": "deleted",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
-      className="search-channel__name"
+      className="search-channel__name__container"
     >
-      channel_name
+      <span
+        className="search-channel__name"
+      >
+        channel_name
+      </span>
     </div>
     <Connect(injectIntl(PostPreHeader))
       channelId="channel_id"
@@ -821,7 +1153,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {
                 "from_webhook": true,
@@ -873,13 +1204,14 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             className=" post--edited"
           >
             <p>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(message deleted)"
                 id="post_body.deleted"
               />
             </p>
             <Connect(FileAttachmentList)
               compactDisplay={true}
+              handleFileDropdownOpened={[Function]}
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -894,7 +1226,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
                   "is_pinned": false,
                   "message": "post message",
                   "original_id": "",
-                  "parent_id": "",
                   "pending_post_id": "",
                   "props": Object {
                     "from_webhook": true,
@@ -912,6 +1243,235 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
+</div>
+`;
+
+exports[`components/SearchResultsItem should show team name when provided 1`] = `
+<div
+  className="search-item__container"
+  data-testid="search-item-container"
+>
+  <Memo(DateSeparator)
+    date={2017-12-14T18:15:28.290Z}
+  />
+  <PostAriaLabelDiv
+    className="a11y__section post post--thread post--compact"
+    id="searchResult_id"
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
+  >
+    <div
+      aria-hidden="true"
+      className="search-channel__name__container"
+    >
+      <span
+        className="search-channel__name"
+      >
+        channel_name
+      </span>
+      <span
+        className="search-team__name"
+      >
+        teamname
+      </span>
+    </div>
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
+      isFlagged={true}
+      isPinned={false}
+    />
+    <div
+      className="post__content"
+      role="application"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={true}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "id": "id",
+              "is_pinned": false,
+              "message": "post message",
+              "original_id": "",
+              "pending_post_id": "",
+              "props": Object {},
+              "root_id": "",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+          userId="user_id"
+        />
+      </div>
+      <div>
+        <div
+          className="post__header"
+        >
+          <div
+            className="col col__name"
+          >
+            <Connect(UserProfile)
+              disablePopover={false}
+              isRHS={true}
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={false}
+            />
+          </div>
+          <div
+            className="col"
+          >
+            <Connect(PostTime)
+              eventTime={1502715365009}
+              isPermalink={true}
+              location="SEARCH"
+              postId="id"
+            />
+          </div>
+          <div
+            className="col__controls post-menu"
+          >
+            <Connect(injectIntl(DotMenuClass))
+              handleDropdownOpened={[Function]}
+              isFlagged={true}
+              isMenuOpen={false}
+              isReadOnly={null}
+              location="SEARCH"
+              post={
+                Object {
+                  "channel_id": "channel_id",
+                  "create_at": 1502715365009,
+                  "delete_at": 0,
+                  "edit_at": 1502715372443,
+                  "id": "id",
+                  "is_pinned": false,
+                  "message": "post message",
+                  "original_id": "",
+                  "pending_post_id": "",
+                  "props": Object {},
+                  "root_id": "",
+                  "type": "",
+                  "update_at": 1502715372443,
+                  "user_id": "user_id",
+                }
+              }
+            />
+            <Connect(PostFlagIcon)
+              isFlagged={true}
+              location="SEARCH"
+              postId="id"
+            />
+            <CommentIcon
+              commentCount={0}
+              extraClass=""
+              handleCommentClick={[Function]}
+              location="SEARCH"
+              postId="id"
+              searchStyle="search-item__comment"
+            />
+            <a
+              className="search-item__jump"
+              href="#"
+              onClick={[Function]}
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Jump"
+                id="search_item.jump"
+              />
+            </a>
+          </div>
+        </div>
+        <div
+          className="search-item-snippet post__body"
+        >
+          <div
+            className=" post--edited"
+          >
+            <Connect(PostBodyAdditionalContent)
+              options={
+                Object {
+                  "searchMatches": undefined,
+                  "searchTerm": "test",
+                }
+              }
+              post={
+                Object {
+                  "channel_id": "channel_id",
+                  "create_at": 1502715365009,
+                  "delete_at": 0,
+                  "edit_at": 1502715372443,
+                  "id": "id",
+                  "is_pinned": false,
+                  "message": "post message",
+                  "original_id": "",
+                  "pending_post_id": "",
+                  "props": Object {},
+                  "root_id": "",
+                  "type": "",
+                  "update_at": 1502715372443,
+                  "user_id": "user_id",
+                }
+              }
+            >
+              <Connect(PostMessageView)
+                isRHS={true}
+                options={
+                  Object {
+                    "mentionHighlight": false,
+                    "searchMatches": undefined,
+                    "searchTerm": "test",
+                  }
+                }
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+              />
+            </Connect(PostBodyAdditionalContent)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </PostAriaLabelDiv>
 </div>
 `;

@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {createSelector} from 'reselect';
 
 import {linkLdapGroup, unlinkLdapGroup, getLdapGroups as fetchLdapGroups} from 'mattermost-redux/actions/admin';
@@ -14,6 +15,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import GroupsList from './groups_list';
 
 const getSortedListOfLdapGroups = createSelector(
+    'getSortedListOfLdapGroups',
     getLdapGroups,
     (ldapGroups) => {
         const groups = Object.values(ldapGroups);

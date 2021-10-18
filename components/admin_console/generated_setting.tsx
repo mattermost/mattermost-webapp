@@ -88,6 +88,7 @@ export default class GeneratedSetting extends React.PureComponent<Props> {
                     </div>
                     <div className='help-text'>
                         <button
+                            type='button'
                             className='btn btn-default'
                             onClick={this.regenerate}
                             disabled={this.props.disabled || this.props.setByEnv}

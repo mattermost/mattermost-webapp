@@ -10,30 +10,31 @@ import * as UserActions from 'mattermost-redux/actions/users';
 import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
 import {
     getChannel,
-    getCurrentChannelId,
-    getMyChannels,
-    getMyChannelMember,
     getChannelMembersInChannels,
-    getDirectChannels,
+    getChannelMessageCount,
+    getCurrentChannelId,
+    getMyChannelMember,
+    getMyChannels,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
+import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
+
+import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
+
+import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
+
 import store from 'stores/redux_store.jsx';
+
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
 
 export const queue = new PQueue({concurrency: 4});
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
-export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
 export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '', options = {}) {
     return async (doDispatch) => {
@@ -291,27 +292,31 @@ export async function loadProfilesForSidebar() {
     await Promise.all([loadProfilesForDM(), loadProfilesForGM()]);
 }
 
-export function filterGMsDMs(state, channels) {
-    const filteredClosedChannels = filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
-    return filterManuallyClosedDMs(state, filteredClosedChannels);
-}
+export const getGMsForLoading = (() => {
+    return (state) => {
+        // Get all channels visible on the current team which doesn't include hidden GMs/DMs
+        let channels = getDisplayedChannels(state);
+
+        // Make sure we only have GMs
+        channels = channels.filter((channel) => channel.type === General.GM_CHANNEL);
+
+        return channels;
+    };
+})();
 
 export async function loadProfilesForGM() {
     const state = getState();
     const newPreferences = [];
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
-    const channels = getMyChannels(state);
-    const filteredChannels = filterGMsDMs(state, channels);
-
-    for (let i = 0; i < filteredChannels.length; i++) {
-        const channel = filteredChannels[i];
-        if (channel.type !== Constants.GM_CHANNEL) {
-            continue;
-        }
-
+    const userIdsForLoadingCustomEmojis = new Set();
+    for (const channel of getGMsForLoading(state)) {
         const userIds = userIdsInChannels[channel.id] || new Set();
+
+        userIds.forEach((userId) => userIdsForLoadingCustomEmojis.add(userId));
+
         if (userIds.size >= Constants.MIN_USERS_IN_GM) {
             continue;
         }
@@ -319,8 +324,12 @@ export async function loadProfilesForGM() {
         const isVisible = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channel.id);
 
         if (!isVisible) {
+            const messageCount = getChannelMessageCount(state, channel.id);
             const member = getMyChannelMember(state, channel.id);
-            if (!member || (member.mention_count === 0 && member.msg_count >= channel.total_msg_count)) {
+
+            const unreadCount = calculateUnreadCount(messageCount, member, collapsedThreads);
+
+            if (!unreadCount.showUnread) {
                 continue;
             }
 
@@ -337,6 +346,10 @@ export async function loadProfilesForGM() {
     }
 
     await queue.onEmpty();
+
+    if (userIdsForLoadingCustomEmojis.size > 0) {
+        dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIdsForLoadingCustomEmojis));
+    }
     if (newPreferences.length > 0) {
         dispatch(savePreferences(currentUserId, newPreferences));
     }
@@ -349,6 +362,7 @@ export async function loadProfilesForDM() {
     const profilesToLoad = [];
     const profileIds = [];
     const currentUserId = Selectors.getCurrentUserId(state);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     for (let i = 0; i < channels.length; i++) {
         const channel = channels[i];
@@ -361,7 +375,11 @@ export async function loadProfilesForDM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
-            if (!member || member.mention_count === 0) {
+            const messageCount = getChannelMessageCount(state, channel.id);
+
+            const unreadCount = calculateUnreadCount(messageCount, member, collapsedThreads);
+
+            if (!member || !unreadCount.showUnread) {
                 continue;
             }
 
@@ -386,6 +404,7 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
+    await loadCustomEmojisForCustomStatusesByUserIds(profileIds)(dispatch, getState);
 }
 
 export function autocompleteUsersInTeam(username) {
@@ -420,15 +439,5 @@ export function autoResetStatus() {
         }
 
         return userStatus;
-    };
-}
-
-export function trackDMGMOpenChannels() {
-    return (doDispatch, doGetState) => {
-        const state = doGetState();
-        const channels = getDirectChannels(state);
-        trackEvent('ui', 'LHS_DM_GM_Count', {count: channels.length});
-
-        return {data: true};
     };
 }

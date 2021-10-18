@@ -34,9 +34,28 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         defaultClientLocale: 'en',
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
+        timezoneLabel: '',
         timezones: [
-            'America/New_York',
-            'America/Los_Angeles',
+            {
+                value: 'Caucasus Standard Time',
+                abbr: 'CST',
+                offset: 4,
+                isdst: false,
+                text: '(UTC+04:00) Yerevan',
+                utc: [
+                    'Asia/Yerevan',
+                ],
+            },
+            {
+                value: 'Afghanistan Standard Time',
+                abbr: 'AST',
+                offset: 4.5,
+                isdst: false,
+                text: '(UTC+04:30) Kabul',
+                utc: [
+                    'Asia/Kabul',
+                ],
+            },
         ],
         userTimezone: {
             useAutomaticTimezone: 'true',
@@ -44,7 +63,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             manualTimezone: '',
         },
         actions: {
-            getSupportedTimezones: jest.fn(),
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
         },
@@ -54,14 +72,20 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableTimezone: true,
         shouldAutoUpdateTimezone: true,
         lockTeammateNameDisplay: false,
-
+        collapsedReplyThreads: '',
+        collapsedReplyThreadsAllowUserPreference: true,
         allowCustomThemes: true,
+        availabilityStatusOnPosts: '',
         militaryTime: '',
         teammateNameDisplay: '',
         channelDisplayMode: '',
         messageDisplay: '',
         collapseDisplay: '',
         linkPreviewDisplay: '',
+        globalHeaderDisplay: '',
+        globalHeaderAllowed: true,
+        oneClickReactionsOnPosts: '',
+        emojiPickerEnabled: true,
     };
 
     test('should match snapshot, no active section', () => {
@@ -284,5 +308,17 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'collapseDisplay'});
         expect(wrapper.state('display')).toBe('collapseDisplay');
+    });
+
+    test('should update collapsed reply threads state', () => {
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+        );
+
+        (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('off');
+        expect(wrapper.state('collapsedReplyThreads')).toBe('off');
+
+        (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('on');
+        expect(wrapper.state('collapsedReplyThreads')).toBe('on');
     });
 });

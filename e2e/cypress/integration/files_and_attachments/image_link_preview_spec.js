@@ -7,10 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @file_and_attachments
+// Stage: @prod
+// Group: @files_and_attachments
 
 describe('Image Link Preview', () => {
-    let testTeam;
+    let offTopicUrl;
 
     before(() => {
         // # Enable Link Previews
@@ -20,17 +21,20 @@ describe('Image Link Preview', () => {
             },
         });
 
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
+        // # Create new team and new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then((out) => {
+            offTopicUrl = out.offTopicUrl;
 
-            // # For test user, enable link previews and expand image previews
+            // # Enable link previews
             cy.apiSaveLinkPreviewsPreference('true');
 
-            cy.apiSaveCollapsePreviewsPreference('false');
-
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
+    });
+
+    beforeEach(() => {
+        // # Expand image previews
+        cy.apiSaveCollapsePreviewsPreference('false');
     });
 
     it('MM-T331 Image link preview - Collapse and expand', () => {
@@ -80,13 +84,13 @@ describe('Image Link Preview', () => {
         });
 
         // # In center message box, post slash command /collapse
-        cy.postMessage('/collapse');
+        cy.postMessage('/collapse ');
 
         // # Observe all image previews collapse
         cy.findByLabelText('file thumbnail').should('not.exist');
 
         // # In RHS reply box, post slash command /expand
-        cy.postMessageReplyInRHS('/expand');
+        cy.postMessageReplyInRHS('/expand ');
 
         // # All image previews expand back open
         cy.findAllByLabelText('file thumbnail').should('be.visible').and('have.length', 4);
@@ -129,7 +133,7 @@ describe('Image Link Preview', () => {
 
     it('MM-T2389 Inline markdown image links open with preview modal', () => {
         // Go to home channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         const markdownImageText = 'exampleImage';
         const markdownImageSrc = 'https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
@@ -154,17 +158,21 @@ describe('Image Link Preview', () => {
             });
         });
 
+        const baseUrl = Cypress.config('baseUrl');
+        const expectedSrc = `${baseUrl}/api/v4/image?url=${markdownImageSrcEncoded}`;
+
         // * Verify image preview modal is opened
-        cy.get('.a11y__modal').should('exist').and('be.visible').
-            within(() => {
-                // * Verify we have the image inside the modal
-                cy.findByTestId('imagePreview').should('exist').and('be.visible').
-                    and('have.attr', 'alt', 'preview url image').
-                    and('have.attr', 'src').should('include', markdownImageSrcEncoded);
-            });
+        cy.uiGetFilePreviewModal().within(() => {
+            // * Verify we have the image inside the modal
+            cy.uiGetContentFilePreviewModal().
+                find('img').
+                should('be.visible').
+                and('have.attr', 'alt', 'preview url image').
+                and('have.attr', 'src', expectedSrc);
+        });
 
         // # Close the image preview modal
-        cy.get('body').type('{esc}');
+        cy.uiCloseFilePreviewModal();
     });
 
     it('MM-T1447 Images below a min-width and min-height are posted in a container that is clickable', () => {
@@ -205,75 +213,80 @@ describe('Image Link Preview', () => {
             {
                 filename: 'image-1000x40.jpg',
                 originalSize: {width: 1000, height: 40},
-                thumbnailSize: {width: 971, height: 38.82},
+                thumbnailSize: {width: 951, height: 38},
                 containerSize: {height: 46},
             },
             {
                 filename: 'image-1600x40.jpg',
                 originalSize: {width: 1600, height: 40},
-                thumbnailSize: {width: 971, height: 24.26},
-                previewSize: {width: 1248, height: 31.18},
+                thumbnailSize: {width: 951, height: 24},
+                previewSize: {width: 1204, height: 30},
                 containerSize: {height: 46},
             },
         ];
 
-        listOfMinWidthHeightImages.forEach((imageWithMinWidthHeight) => {
+        listOfMinWidthHeightImages.forEach(({
+            filename,
+            originalSize,
+            thumbnailSize,
+            previewSize,
+            containerSize,
+        }) => {
             // # Upload Image as attachment and post it
-            cy.get('#fileUploadInput').attachFile(imageWithMinWidthHeight.filename);
-            cy.postMessage(`file uploaded-${imageWithMinWidthHeight.filename}`);
+            cy.get('#fileUploadInput').attachFile(filename);
+            cy.postMessage(`file uploaded-${filename}`);
+
+            // # If image is below min dimensions then do checks for image container dimensions
+            if (containerSize) {
+                // * Check if container is rendered for preview of image
+                cy.uiGetPostEmbedContainer().
+                    find('.small-image__container').
+                    should((imageContainer) => {
+                        if (containerSize.height) {
+                        // * Should match thumbnail's container height
+                            expect(imageContainer.height()).to.closeTo(containerSize.height, 1);
+                        } else {
+                        // * Should match thumbnail's container width
+                            expect(imageContainer.width()).to.closeTo(containerSize.width, 1);
+                        }
+                    });
+            }
 
             // # Get the last uploaded image post
-            cy.getLastPostId().then((lastPostId) => {
-                // # Move inside the last post for finer control
-                cy.get(`#${lastPostId}_message`).should('exist').and('be.visible').within(() => {
-                // # If image is below min dimensions then do checks for image container dimensions
-                    if (imageWithMinWidthHeight.containerSize) {
-                    // * Check if container is rendered for preview of image
-                        cy.get('.small-image__container').should('be.visible').and((imageContainer) => {
-                            if (imageWithMinWidthHeight.containerSize.height) {
-                            // * Should match thumbnail's container height
-                                expect(imageContainer.height()).to.closeTo(imageWithMinWidthHeight.containerSize.height, 0.01);
-                            } else {
-                            // * Should match thumbnail's container width
-                                expect(imageContainer.width()).to.closeTo(imageWithMinWidthHeight.containerSize.width, 0.01);
-                            }
-                        });
-                    }
-
-                    // # Find the attached image and verify its dimensions and click on it to open preview modal
-                    cy.findByLabelText(`file thumbnail ${imageWithMinWidthHeight.filename}`).should('exist').and('be.visible').
-                        and((imageAttachment) => {
-                            // * Check the dimensions of image's dimensions is almost equal to its thumbnail dimensions
-                            expect(imageAttachment.height()).to.closeTo(imageWithMinWidthHeight.thumbnailSize.height, 0.01);
-                            expect(imageAttachment.width()).to.be.closeTo(imageWithMinWidthHeight.thumbnailSize.width, 0.01);
-                        }).click();
-                });
-
-                // * Verify image preview modal is opened
-                cy.get('.a11y__modal').should('exist').and('be.visible').
-                    within(() => {
-                    // * Verify we have the image inside the modal
-                        cy.findByTestId('imagePreview').should('exist').and('be.visible').
-                            and((imagePreview) => {
-                                // * Verify that preview has correct alt text
-                                expect(imagePreview.attr('alt')).equals('preview url image');
-
-                                // # If image is bigger than viewport, then its preview will be check for dimensions
-                                if (imageWithMinWidthHeight.previewSize) {
-                                    // * It should match preview dimension for images bigger than viewport
-                                    expect(imagePreview.height()).to.closeTo(imageWithMinWidthHeight.previewSize.height, 0.01);
-                                    expect(imagePreview.width()).to.be.closeTo(imageWithMinWidthHeight.previewSize.width, 0.01);
-                                } else {
-                                    // * It should match original dimension for images less than viewport size
-                                    expect(imagePreview.height()).to.equal(imageWithMinWidthHeight.originalSize.height);
-                                    expect(imagePreview.width()).to.be.equal(imageWithMinWidthHeight.originalSize.width);
-                                }
-                            });
-                    });
-
-                // # Close the image preview modal
-                cy.get('body').type('{esc}');
+            cy.uiGetPostBody().within(() => {
+                // # Find the attached image and verify its dimensions and click on it to open preview modal
+                // # Open file preview
+                cy.uiGetFileThumbnail(filename).
+                    should((imageAttachment) => {
+                        // * Check the dimensions of image's dimensions is almost equal to its thumbnail dimensions
+                        expect(imageAttachment.height()).to.closeTo(thumbnailSize.height, 1);
+                        expect(imageAttachment.width()).to.be.closeTo(thumbnailSize.width, 1);
+                    }).
+                    click();
             });
+
+            // * Verify image preview modal is opened
+            cy.uiGetFilePreviewModal().within(() => {
+                // * Verify we have the image inside the modal
+                cy.uiGetContentFilePreviewModal().find('img').should((imagePreview) => {
+                    // * Verify that preview has correct alt text
+                    expect(imagePreview.attr('alt')).equals('preview url image');
+
+                    // # If image is bigger than viewport, then its preview will be check for dimensions
+                    if (previewSize) {
+                        // * It should match preview dimension for images bigger than viewport
+                        expect(imagePreview.height()).to.closeTo(previewSize.height, 1);
+                        expect(imagePreview.width()).to.be.closeTo(previewSize.width, 1);
+                    } else {
+                        // * It should match original dimension for images less than viewport size
+                        expect(imagePreview.height()).to.equal(originalSize.height);
+                        expect(imagePreview.width()).to.be.equal(originalSize.width);
+                    }
+                });
+            });
+
+            // # Close modal
+            cy.uiCloseFilePreviewModal();
         });
     });
 });

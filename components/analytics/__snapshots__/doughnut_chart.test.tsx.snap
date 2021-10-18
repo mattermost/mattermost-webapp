@@ -89,7 +89,7 @@ exports[`components/analytics/doughnut_chart.tsx should match snapshot, on loadi
     <div
       className="content"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Loading..."
         id="analytics.chart.loading"
       />

@@ -15,7 +15,7 @@
  * @param {String} text - DM channel name
  */
 function createNewDMChannel(channelname) {
-    cy.get('#addDirectChannel').scrollIntoView().click();
+    cy.uiAddDirectMessage().scrollIntoView().click();
 
     cy.get('#selectItems').within(() => {
         cy.get('input[type="text"]').scrollIntoView().type(channelname, {force: true});
@@ -48,11 +48,11 @@ describe('Search in DMs', () => {
         });
     });
 
-    it('S14672 Search "in:[username]" returns results in DMs', () => {
+    it('MM-T358 Search "in:[username]" returns results in DMs', () => {
         const message = 'Hello' + Date.now();
 
         // # Ensure Direct Message is visible in LHS sidebar
-        cy.get('#directChannel').scrollIntoView().should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').should('be.visible');
 
         // # Create new DM channel with user's email
         createNewDMChannel(otherUser.email);
@@ -64,7 +64,7 @@ describe('Search in DMs', () => {
         cy.get('#searchBox').type('in:');
 
         // # Select user from suggestion list
-        cy.contains('.search-autocomplete__item', `@${otherUser.username}`).scrollIntoView().click();
+        cy.contains('.suggestion-list__item', `@${otherUser.username}`).scrollIntoView().click();
 
         // # Validate searchbox contains the username
         cy.get('#searchBox').should('have.value', 'in:@' + otherUser.username + ' ');

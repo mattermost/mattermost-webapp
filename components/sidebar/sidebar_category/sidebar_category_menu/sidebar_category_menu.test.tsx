@@ -20,6 +20,8 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             display_name: 'custom_category_1',
             channel_ids: ['channel_id'],
             sorting: CategorySorting.Alphabetical,
+            muted: false,
+            collapsed: false,
         },
         currentTeamId: 'team1',
         isMuted: false,
@@ -27,6 +29,8 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         onToggleMenu: jest.fn(),
         actions: {
             openModal: jest.fn(),
+            setCategoryMuted: jest.fn(),
+            setCategorySorting: jest.fn(),
         },
     };
 

@@ -8,17 +8,24 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/teams
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O', unique = true) => {
+export function createTeamPatch(name = 'team', displayName = 'Team', type = 'O', unique = true) {
     const randomSuffix = getRandomId();
 
+    return {
+        name: unique ? `${name}-${randomSuffix}` : name,
+        display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
+        type,
+    };
+}
+
+Cypress.Commands.add('apiCreateTeam', (name, displayName, type, unique, options) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/teams',
         method: 'POST',
         body: {
-            name: unique ? `${name}-${randomSuffix}` : name,
-            display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
-            type,
+            ...createTeamPatch(name, displayName, type, unique),
+            ...options,
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
@@ -94,7 +101,7 @@ Cypress.Commands.add('apiGetTeamsForUser', (userId = 'me') => {
 });
 
 Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
-    cy.request({
+    return cy.request({
         method: 'POST',
         url: `/api/v4/teams/${teamId}/members`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},

@@ -1,25 +1,26 @@
 .channel-header__icon {
     @include border-radius(4px);
-    border: none;
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    height: 32px;
-    margin: 16px 0 0 4px;
-    min-width: 32px;
+
     position: relative;
-    text-align: center;
     z-index: 5;
-    fill: v(center-channel-color-56);
-    color: v(center-channel-color-56);
+    display: flex;
+    min-width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
     padding: 0;
+    border: none;
+    margin: 16px 0 0 4px;
+    background: transparent;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    cursor: pointer;
+    fill: rgba(var(--center-channel-color-rgb), 0.56);
+    text-align: center;
 
     &:hover {
-        background: v(center-channel-color-08);
-        fill: v(center-channel-color-72);
-        color: v(center-channel-color-72);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        fill: rgba(var(--center-channel-color-rgb), 0.72);
     }
 
     .icon {
@@ -33,8 +34,8 @@
 
     .icon.icon__flag {
         svg {
-            height: 18px;
             width: 18px;
+            height: 18px;
         }
     }
 
@@ -42,13 +43,21 @@
     &--active,
     &--active:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
-        fill: v(button-bg);
         color: v(button-bg);
+        fill: v(button-bg);
+
+        .icon__text {
+            color: v(button-bg);
+        }
+
+        .icon {
+            color: v(button-bg);
+        }
     }
 
     .icon__text {
-        font-weight: 600;
         margin: 0 2px;
+        font-weight: 600;
     }
 
     .icon__search {
@@ -58,7 +67,24 @@
 
 .channel-header__icon--wide {
     width: auto;
+    min-width: unset;
     padding: 0 6px;
+}
+
+.channel-header__icon--left {
+    height: unset;
+    padding: 4px;
+    margin: 0 4px 0 0;
+
+    .icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    svg {
+        width: 12px;
+        height: 12px;
+    }
 }
 
 .userGuideHelp {

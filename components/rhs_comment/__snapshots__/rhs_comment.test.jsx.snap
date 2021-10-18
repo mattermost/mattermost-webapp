@@ -1,14 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/RhsComment should match snapshot 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -25,6 +41,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -38,7 +55,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -58,10 +74,24 @@ exports[`components/RhsComment should match snapshot 1`] = `
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div
@@ -72,6 +102,11 @@ exports[`components/RhsComment should match snapshot 1`] = `
             isPermalink={true}
             location="RHS_COMMENT"
             postId="id"
+            timestampProps={
+              Object {
+                "style": undefined,
+              }
+            }
           />
         </div>
       </div>
@@ -94,7 +129,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -119,7 +153,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -132,18 +165,34 @@ exports[`components/RhsComment should match snapshot 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot hovered 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -160,6 +209,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -173,7 +223,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -193,10 +242,24 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div
@@ -207,12 +270,18 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             isPermalink={true}
             location="RHS_COMMENT"
             postId="id"
+            timestampProps={
+              Object {
+                "style": undefined,
+              }
+            }
           />
         </div>
         <div
           className="col post-menu"
+          data-testid="post-menu-id"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenuClass))
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}
@@ -230,7 +299,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -275,7 +343,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -300,7 +367,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -313,18 +379,35 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot hovered on deleted post 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "state": "DELETED",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -341,6 +424,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -354,7 +438,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -375,10 +458,24 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div
@@ -389,6 +486,11 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             isPermalink={false}
             location="RHS_COMMENT"
             postId="id"
+            timestampProps={
+              Object {
+                "style": undefined,
+              }
+            }
           />
         </div>
         <div
@@ -422,7 +524,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -448,7 +549,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -462,18 +562,34 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot mobile 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -490,6 +606,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -503,7 +620,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -523,10 +639,24 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div
@@ -537,12 +667,18 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             isPermalink={true}
             location="RHS_COMMENT"
             postId="id"
+            timestampProps={
+              Object {
+                "style": undefined,
+              }
+            }
           />
         </div>
         <div
           className="col post-menu"
+          data-testid="post-menu-id"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenuClass))
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}
@@ -560,7 +696,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -600,7 +735,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -625,7 +759,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -638,5 +771,423 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
+`;
+
+exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
+<PostAriaLabelDiv
+  className="a11y__section post post--thread same--root post--comment current--user post--compact"
+  id="rhsPost_id"
+  onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
+  role="listitem"
+  tabIndex="-1"
+>
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={true}
+    isPinned={false}
+  />
+  <div
+    className="post__content"
+    role="application"
+  >
+    <div
+      className="post__img"
+    >
+      <Connect(PostProfilePicture)
+        channelId="channel_id"
+        compactDisplay={true}
+        isBusy={false}
+        isRHS={true}
+        post={
+          Object {
+            "channel_id": "channel_id",
+            "create_at": 1502715365009,
+            "delete_at": 0,
+            "edit_at": 1502715372443,
+            "id": "id",
+            "is_pinned": false,
+            "message": "post message",
+            "original_id": "",
+            "pending_post_id": "",
+            "props": Object {},
+            "root_id": "",
+            "type": "",
+            "update_at": 1502715372443,
+            "user_id": "user_id",
+          }
+        }
+        userId="user_id"
+      />
+    </div>
+    <div>
+      <div
+        className="post__header"
+      >
+        <div
+          className="col col__name"
+        >
+          <Connect(UserProfile)
+            channelId="channel_id"
+            hasMention={true}
+            isBusy={false}
+            isRHS={true}
+            userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
+          />
+        </div>
+        <div
+          className="col"
+        >
+          <Connect(PostTime)
+            eventTime={1502715365009}
+            isPermalink={true}
+            location="RHS_COMMENT"
+            postId="id"
+            timestampProps={
+              Object {
+                "style": undefined,
+              }
+            }
+          />
+        </div>
+        <div
+          className="col post-menu"
+          data-testid="post-menu-id"
+        >
+          <Connect(PostReaction)
+            channelId="channel_id"
+            getDotMenuRef={[Function]}
+            location="RHS_COMMENT"
+            postId="id"
+            showEmojiPicker={false}
+            teamId="team_id"
+            toggleEmojiPicker={[Function]}
+          />
+          <Connect(injectIntl(DotMenuClass))
+            enableEmojiPicker={true}
+            handleAddReactionClick={[Function]}
+            handleDropdownOpened={[Function]}
+            isFlagged={true}
+            isMenuOpen={false}
+            isReadOnly={false}
+            location="RHS_COMMENT"
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="post__body"
+      >
+        <div
+          className=" post--edited"
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
+        <Connect(ReactionList)
+          isReadOnly={false}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "id": "id",
+              "is_pinned": false,
+              "message": "post message",
+              "original_id": "",
+              "pending_post_id": "",
+              "props": Object {},
+              "root_id": "",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</PostAriaLabelDiv>
+`;
+
+exports[`components/RhsComment should match snapshot when highlighted 1`] = `
+<PostAriaLabelDiv
+  className="a11y__section post post--thread same--root post--comment post--highlight current--user post--compact"
+  id="rhsPost_id"
+  onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
+  role="listitem"
+  tabIndex="-1"
+>
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={true}
+    isPinned={false}
+  />
+  <div
+    className="post__content"
+    role="application"
+  >
+    <div
+      className="post__img"
+    >
+      <Connect(PostProfilePicture)
+        channelId="channel_id"
+        compactDisplay={true}
+        isBusy={false}
+        isRHS={true}
+        post={
+          Object {
+            "channel_id": "channel_id",
+            "create_at": 1502715365009,
+            "delete_at": 0,
+            "edit_at": 1502715372443,
+            "id": "id",
+            "is_pinned": false,
+            "message": "post message",
+            "original_id": "",
+            "pending_post_id": "",
+            "props": Object {},
+            "root_id": "",
+            "type": "",
+            "update_at": 1502715372443,
+            "user_id": "user_id",
+          }
+        }
+        userId="user_id"
+      />
+    </div>
+    <div>
+      <div
+        className="post__header"
+      >
+        <div
+          className="col col__name"
+        >
+          <Connect(UserProfile)
+            channelId="channel_id"
+            hasMention={true}
+            isBusy={false}
+            isRHS={true}
+            userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
+          />
+        </div>
+        <div
+          className="col"
+        >
+          <Connect(PostTime)
+            eventTime={1502715365009}
+            isPermalink={true}
+            location="RHS_COMMENT"
+            postId="id"
+            timestampProps={
+              Object {
+                "style": undefined,
+              }
+            }
+          />
+        </div>
+        <div
+          className="col post-menu"
+          data-testid="post-menu-id"
+        >
+          <Connect(injectIntl(DotMenuClass))
+            enableEmojiPicker={true}
+            handleAddReactionClick={[Function]}
+            handleDropdownOpened={[Function]}
+            isFlagged={true}
+            isMenuOpen={false}
+            isReadOnly={false}
+            location="RHS_COMMENT"
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+          <Connect(PostReaction)
+            channelId="channel_id"
+            getDotMenuRef={[Function]}
+            location="RHS_COMMENT"
+            postId="id"
+            showEmojiPicker={false}
+            teamId="team_id"
+            toggleEmojiPicker={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="post__body"
+      >
+        <div
+          className=" post--edited"
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
+        <Connect(ReactionList)
+          isReadOnly={false}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "id": "id",
+              "is_pinned": false,
+              "message": "post message",
+              "original_id": "",
+              "pending_post_id": "",
+              "props": Object {},
+              "root_id": "",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</PostAriaLabelDiv>
 `;

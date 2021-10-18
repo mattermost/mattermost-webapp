@@ -25,9 +25,9 @@ describe('Emoji reactions to posts/messages', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, userTwo.id);
 
-                // # Login as userOne and town-square
+                // # Login as userOne and Off-Topic
                 cy.apiLogin(userOne);
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
             });
         });
     });
@@ -44,9 +44,9 @@ describe('Emoji reactions to posts/messages', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            // delaying 500ms in case of lag
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
+            cy.findByTestId('slightly_frowning_face').
+                should('exist').
+                click({force: true});
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
@@ -57,9 +57,9 @@ describe('Emoji reactions to posts/messages', () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as userTwo and town-square
+        // # Login as userTwo and off-topic
         cy.apiLogin(userTwo);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         cy.getLastPostId().then((postId) => {
             // * userOne's reaction "slightly_frowning_face" is visible and is equal to 1
@@ -87,7 +87,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get(`#postReaction-${postId}-slightly_frowning_face`).
                 should('be.visible').
                 should('have.css', 'background-color').
-                and('eq', 'rgba(22, 109, 224, 0.08)');
+                and('eq', 'rgba(28, 88, 217, 0.08)');
         });
     });
 
@@ -117,12 +117,12 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get('#emojiPicker').should('be.visible');
 
             // # Select the "sweat_smile" emoji
-            // delaying 500ms in case of lag
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f605').wait(500).click();
+            cy.findByTestId('sweat_smile').
+                should('exist').
+                click({force: true});
 
             // * The emoji picker is no longer open
-            cy.get('#emojiPicker').should('be.not.visible');
+            cy.get('#emojiPicker').should('not.exist');
 
             // * The "sweat_smile" emoji is added to the post
             cy.get(`#postReaction-${postId}-sweat_smile`).should('be.visible');
@@ -138,7 +138,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get(`#postReaction-${postId}-sweat_smile`).click();
 
             // * The "sweat_smile" emoji is removed
-            cy.get(`#postReaction-${postId}-sweat_smile`).should('be.not.visible');
+            cy.get(`#postReaction-${postId}-sweat_smile`).should('not.exist');
         });
     });
 });

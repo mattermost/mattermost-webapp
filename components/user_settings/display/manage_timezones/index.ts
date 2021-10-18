@@ -2,9 +2,16 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import timezones from 'timezones.json';
+
 import {updateMe} from 'mattermost-redux/actions/users';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {getTimezoneLabel} from 'mattermost-redux/selectors/entities/timezone';
+
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import ManageTimezones from './manage_timezones';
 
@@ -18,6 +25,13 @@ function mapDispatchToProps(dispatch: Dispatch) {
             updateMe,
         }, dispatch)};
 }
-
-export default connect(null, mapDispatchToProps)(ManageTimezones);
+function mapStateToProps(state: GlobalState) {
+    const currentUserId = getCurrentUserId(state);
+    const timezoneLabel = getTimezoneLabel(state, currentUserId);
+    return {
+        timezones,
+        timezoneLabel,
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ManageTimezones);
 

@@ -3,10 +3,10 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
 import {getOptionValue} from 'react-select/src/builtins';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
 
@@ -23,9 +23,10 @@ export type Props<T extends Value> = {
     optionRenderer: (
         option: T,
         isSelected: boolean,
-        onAdd: (value: T) => void,
-        onMouseMove: (value: T) => void
+        add: (value: T) => void,
+        select: (value: T) => void
     ) => void;
+    query?: string;
     selectedItemRef?: React.RefObject<HTMLDivElement>;
     options: T[];
     page: number;
@@ -129,7 +130,12 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
         this.props.onSelect(options[selected]);
     }
 
-    private defaultOptionRenderer = (option: T, isSelected: boolean, onAdd: Props<T>['onAdd'], onMouseMove: (value: T) => void) => {
+    private defaultOptionRenderer = (
+        option: T,
+        isSelected: boolean,
+        add: (value: T) => void,
+        select: (value: T) => void,
+    ) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -140,15 +146,15 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                 ref={isSelected ? this.selectedItemRef : option.value}
                 className={rowSelected}
                 key={'multiselectoption' + option.value}
-                onClick={() => onAdd(option)}
-                onMouseMove={() => onMouseMove(option)}
+                onClick={() => add(option)}
+                onMouseEnter={() => select(option)}
             >
                 {option.label}
             </div>
         );
     }
 
-    private onMouseMove = (option: T) => {
+    private select = (option: T) => {
         const i = this.props.options.indexOf(option);
         if (i !== -1) {
             if (this.state.selected !== i) {
@@ -177,9 +183,12 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                     className='no-channel-message'
                 >
                     <p className='primary-message'>
-                        <FormattedMessage
+                        <FormattedMarkdownMessage
                             id='multiselect.list.notFound'
-                            defaultMessage='No items found'
+                            defaultMessage='No results found matching **{searchQuery}**'
+                            values={{
+                                searchQuery: this.props.query,
+                            }}
                         />
                     </p>
                 </div>
@@ -192,7 +201,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                 renderer = this.defaultOptionRenderer;
             }
 
-            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove));
+            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.select));
 
             const selectedOption = options[this.state.selected];
             const ariaLabel = this.props.ariaLabelRenderer(selectedOption);
@@ -209,6 +218,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                     <div
                         ref={this.listRef}
                         id='multiSelectList'
+                        className='more-modal__options'
                         role='presentation'
                         aria-hidden={true}
                     >

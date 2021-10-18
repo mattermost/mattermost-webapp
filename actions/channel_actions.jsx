@@ -116,7 +116,7 @@ export function autocompleteChannels(term, success, error) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
         if (!teamId) {
-            return;
+            return {data: false};
         }
 
         const {data, error: err} = await dispatch(ChannelActions.autocompleteChannels(teamId, term));
@@ -125,6 +125,8 @@ export function autocompleteChannels(term, success, error) {
         } else if (err && error) {
             error({id: err.server_error_id, ...err});
         }
+
+        return {data: true};
     };
 }
 

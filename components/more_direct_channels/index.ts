@@ -3,10 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
+
 import {
     getProfiles,
     getProfilesInTeam,
-    getStatusesByIds,
     getTotalUsersStats,
     searchProfiles,
 } from 'mattermost-redux/actions/users';
@@ -15,21 +15,19 @@ import {
     getCurrentUserId,
     getProfiles as selectProfiles,
     getProfilesInCurrentChannel,
-    getProfilesInCurrentTeam, searchProfiles as searchProfilesSelector,
+    getProfilesInCurrentTeam,
+    makeSearchProfilesStartingWithTerm,
     searchProfilesInCurrentTeam,
     getTotalUsersStats as getTotalUsersStatsSelector,
 } from 'mattermost-redux/selectors/entities/users';
-import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadStatusesForProfilesList, loadProfilesMissingStatus} from 'actions/status_actions.jsx';
 import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
@@ -41,75 +39,54 @@ type OwnProps = {
     isExistingChannel: boolean;
 }
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const currentUserId = getCurrentUserId(state);
-    let currentChannelMembers: UserProfile[] = [];
-    if (ownProps.isExistingChannel) {
-        currentChannelMembers = getProfilesInCurrentChannel(state);
-    }
+const makeMapStateToProps = () => {
+    const searchProfilesStartingWithTerm = makeSearchProfilesStartingWithTerm();
 
-    const config = getConfig(state);
-    const restrictDirectMessage = config.RestrictDirectMessage;
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const currentUserId = getCurrentUserId(state);
+        let currentChannelMembers;
+        if (ownProps.isExistingChannel) {
+            currentChannelMembers = getProfilesInCurrentChannel(state);
+        }
 
-    const searchTerm = state.views.search.modalSearch;
+        const config = getConfig(state);
+        const restrictDirectMessage = config.RestrictDirectMessage;
 
-    let users;
-    if (searchTerm) {
-        if (restrictDirectMessage === 'any') {
-            users = searchProfilesSelector(state, searchTerm, false);
+        const searchTerm = state.views.search.modalSearch;
+
+        let users: UserProfile[];
+        if (searchTerm) {
+            if (restrictDirectMessage === 'any') {
+                users = searchProfilesStartingWithTerm(state, searchTerm, false);
+            } else {
+                users = searchProfilesInCurrentTeam(state, searchTerm, false);
+            }
+        } else if (restrictDirectMessage === 'any') {
+            users = selectProfiles(state);
         } else {
-            users = searchProfilesInCurrentTeam(state, searchTerm, false);
+            users = getProfilesInCurrentTeam(state);
         }
-    } else if (restrictDirectMessage === 'any') {
-        users = selectProfiles(state, {});
-    } else {
-        users = getProfilesInCurrentTeam(state);
-    }
 
-    const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
-    const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
+        const team = getCurrentTeam(state);
+        const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
-    const team = getCurrentTeam(state);
-    const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
-
-    return {
-        currentTeamId: team.id,
-        currentTeamName: team.name,
-        searchTerm,
-        users: users.sort(sortByUsername),
-        myDirectChannels,
-        groupChannels: filteredGroupChannels,
-        statuses: state.entities.users.statuses,
-        currentChannelMembers,
-        currentUserId,
-        restrictDirectMessage,
-        totalCount: stats.total_users_count,
+        return {
+            currentTeamId: team.id,
+            currentTeamName: team.name,
+            searchTerm,
+            users,
+            currentChannelMembers,
+            currentUserId,
+            restrictDirectMessage,
+            totalCount: stats.total_users_count,
+        };
     };
-}
-
-const filterGroupChannels = memoizeResult((channels: Array<{profiles: Array<UserProfile>} & Channel>, term: string) => {
-    return channels.filter((channel) => {
-        const matches = filterProfilesMatchingTerm(channel.profiles, term);
-        return matches.length > 0;
-    });
-});
-
-const filterDirectChannels = memoizeResult((channels: Channel[], userId: string) => {
-    return Object.values(channels).filter((channel) => {
-        if (channel.type !== 'D') {
-            return false;
-        }
-        if (channel.name && channel.name.indexOf(userId) < 0) {
-            return false;
-        }
-        return true;
-    });
-});
+};
 
 type Actions = {
     getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
     getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
-    getStatusesByIds: (userIds: string[]) => ActionFunc;
+    loadProfilesMissingStatus: (users: UserProfile[]) => ActionFunc;
     getTotalUsersStats: () => ActionFunc;
     loadStatusesForProfilesList: (users: any) => {
         data: boolean;
@@ -127,7 +104,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getProfiles,
             getProfilesInTeam,
-            getStatusesByIds,
+            loadProfilesMissingStatus,
             getTotalUsersStats,
             loadStatusesForProfilesList,
             loadProfilesForGroupChannels,
@@ -140,4 +117,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoreDirectChannels);
+export default connect(makeMapStateToProps, mapDispatchToProps)(MoreDirectChannels);

@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
+
 import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -59,29 +61,41 @@ describe('components/AdminSidebar', () => {
             read: {
                 about: true,
                 reporting: true,
-                user_management: true,
                 environment: true,
                 site_configuration: true,
                 authentication: true,
                 plugins: true,
                 integrations: true,
                 compliance: true,
-                experimental: true,
             },
             write: {
                 about: true,
                 reporting: true,
-                user_management: true,
                 environment: true,
                 site_configuration: true,
                 authentication: true,
                 plugins: true,
                 integrations: true,
                 compliance: true,
-                experimental: true,
             },
         },
     };
+
+    Object.keys(RESOURCE_KEYS).forEach((key) => {
+        Object.values(RESOURCE_KEYS[key]).forEach((value) => {
+            defaultProps.consoleAccess = {
+                ...defaultProps.consoleAccess,
+                read: {
+                    ...defaultProps.consoleAccess.read,
+                    [value]: true,
+                },
+                write: {
+                    ...defaultProps.consoleAccess.write,
+                    [value]: true,
+                },
+            };
+        });
+    });
 
     test('should match snapshot', () => {
         const props = {...defaultProps};
@@ -90,35 +104,10 @@ describe('components/AdminSidebar', () => {
     });
 
     test('should match snapshot, no access', () => {
-        const ca = {
-            consoleAccess: {
-                read: {
-                    about: false,
-                    reporting: false,
-                    user_management: false,
-                    environment: false,
-                    site_configuration: false,
-                    authentication: false,
-                    plugins: false,
-                    integrations: false,
-                    compliance: false,
-                    experimental: false,
-                },
-                write: {
-                    about: false,
-                    reporting: false,
-                    user_management: false,
-                    environment: false,
-                    site_configuration: false,
-                    authentication: false,
-                    plugins: false,
-                    integrations: false,
-                    compliance: false,
-                    experimental: false,
-                },
-            },
+        const props = {
+            ...defaultProps,
+            consoleAccess: {},
         };
-        const props = {...defaultProps, ...ca};
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
@@ -252,13 +241,15 @@ describe('components/AdminSidebar', () => {
                 LDAPGroups: 'true',
                 LDAP: 'true',
                 Cluster: 'true',
-                Metrics: 'true',
                 SAML: 'true',
                 Compliance: 'true',
                 CustomTermsOfService: 'true',
                 MessageExport: 'true',
                 Elasticsearch: 'true',
                 CustomPermissionsSchemes: 'true',
+                OpenId: 'true',
+                GuestAccounts: 'true',
+                Announcement: 'true',
             },
             config: {
                 ExperimentalSettings: {
@@ -267,6 +258,21 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                GoogleSettings: {
+                    Id: 'googleID',
+                    Secret: 'googleSecret',
+                    Scope: 'scope',
+                },
+                GitLabSettings: {
+                    Id: 'gitlabID',
+                    Secret: 'gitlabSecret',
+                    Scope: 'scope',
+                },
+                Office365Settings: {
+                    Id: 'office365ID',
+                    Secret: 'office365Secret',
+                    Scope: 'scope',
                 },
             },
             adminDefinition: AdminDefinition,
@@ -291,6 +297,9 @@ describe('components/AdminSidebar', () => {
             onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
+            },
+            consoleAccess: {
+                ...defaultProps.consoleAccess,
             },
         };
 

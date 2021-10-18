@@ -9,8 +9,10 @@ import EllipsisHorizontalIcon from 'components/widgets/icons/ellipsis_h_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
+import {TeamWithMembership} from './types';
+
 type Props = {
-    team: {[x: string]: string};
+    team: TeamWithMembership;
     doRemoveUserFromTeam: (teamId: string) => void;
     doMakeUserTeamAdmin: (teamId: string) => void;
     doMakeUserTeamMember: (teamId: string) => void;
@@ -43,9 +45,9 @@ export default class TeamListDropdown extends React.PureComponent<Props, State> 
                 isDisabled={this.props.isDisabled}
             >
                 <button
+                    type='button'
                     id={`teamListDropdown_${team.id}`}
                     className='dropdown-toggle theme color--link style--none'
-                    type='button'
                     aria-expanded='true'
                 >
                     <span className='SystemUserDetail__actions-menu-icon'><EllipsisHorizontalIcon/></span>

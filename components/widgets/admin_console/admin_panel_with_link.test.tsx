@@ -33,7 +33,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
                   onClick={[Function]}
                   to="/path"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="test-button-text-default"
                     id="test-button-text-id"
                   />
@@ -62,30 +62,30 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
             </AdminPanelWithLink>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-      <AdminPanel
-        button={
-          <Link
-            className="btn btn-primary disabled"
-            data-testid="test-id-link"
-            onClick={[Function]}
-            to="/path"
-          >
-            <FormattedMessage
-              defaultMessage="test-button-text-default"
-              id="test-button-text-id"
-            />
-          </Link>
-        }
-        className="AdminPanelWithLink test-class-name"
-        data-testid="test-id"
-        id="test-id"
-        subtitleDefault="test-subtitle-default"
-        subtitleId="test-subtitle-id"
-        titleDefault="test-title-default"
-        titleId="test-title-id"
-      >
-        Test
-      </AdminPanel>
-    `);
+            <AdminPanel
+              button={
+                <Link
+                  className="btn btn-primary disabled"
+                  data-testid="test-id-link"
+                  onClick={[Function]}
+                  to="/path"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="test-button-text-default"
+                    id="test-button-text-id"
+                  />
+                </Link>
+              }
+              className="AdminPanelWithLink test-class-name"
+              data-testid="test-id"
+              id="test-id"
+              subtitleDefault="test-subtitle-default"
+              subtitleId="test-subtitle-id"
+              titleDefault="test-title-default"
+              titleId="test-title-id"
+            >
+              Test
+            </AdminPanel>
+        `);
     });
 });

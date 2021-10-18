@@ -5,12 +5,16 @@ import './entry.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {logError} from 'mattermost-redux/actions/errors';
+
 import PDFJS from 'pdfjs-dist';
+
+import {logError} from 'mattermost-redux/actions/errors';
 
 // Import our styles
 import 'sass/styles.scss';
 import 'katex/dist/katex.min.css';
+
+import '@mattermost/compass-icons/css/compass-icons.css';
 
 import {isDevMode, setCSRFFromCookie} from 'utils/utils';
 import store from 'stores/redux_store.jsx';

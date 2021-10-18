@@ -7,16 +7,17 @@ import {shallow} from 'enzyme';
 import {General} from 'mattermost-redux/constants';
 
 import MoreInfo from 'components/activity_log_modal/components/more_info';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/activity_log_modal/MoreInfo', () => {
     const baseProps = {
         locale: General.DEFAULT_LOCALE,
-        currentSession: {
+        currentSession: TestHelper.getSessionMock({
             props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'},
             id: 'sessionId',
             create_at: 1534917291042,
             last_activity_at: 1534917643890,
-        },
+        }),
         moreInfo: false,
         handleMoreInfo: jest.fn(),
     };

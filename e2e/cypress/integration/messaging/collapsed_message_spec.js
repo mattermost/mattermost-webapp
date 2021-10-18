@@ -10,27 +10,11 @@
 // Stage: @prod
 // Group: @messaging
 
-function verifyCollapsedPost() {
-    // * Verify show more button
-    cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show more');
-
-    // * Verify gradient
-    cy.get('#collapseGradient').should('be.visible');
-}
-
-function verifyExpandedPost() {
-    // * Verify show more button now says 'Show less'
-    cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show less');
-
-    // * Verify gradient
-    cy.get('#collapseGradient').should('be.not.visible');
-}
-
 describe('Long message', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -61,3 +45,19 @@ describe('Long message', () => {
         });
     });
 });
+
+function verifyCollapsedPost() {
+    // * Verify show more button
+    cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show more');
+
+    // * Verify gradient
+    cy.get('#collapseGradient').should('be.visible');
+}
+
+function verifyExpandedPost() {
+    // * Verify show more button now says 'Show less'
+    cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show less');
+
+    // * Verify gradient
+    cy.get('#collapseGradient').should('not.be.visible');
+}

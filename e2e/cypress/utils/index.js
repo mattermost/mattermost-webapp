@@ -8,6 +8,10 @@ import {v4 as uuidv4} from 'uuid';
 import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
 
+export * from './constants';
+export * from './email';
+export * from './plugins';
+
 /**
  * @param {Number} length - length on random string to return, e.g. 7 (default)
  * @return {String} random string
@@ -18,20 +22,8 @@ export function getRandomId(length = 7) {
     return uuidv4().replace(/-/g, '').substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
 }
 
-export function getEmailUrl(baseUrl) {
-    if (baseUrl === 'http://localhost:8065') {
-        return 'http://localhost:10080/api/v1/mailbox';
-    }
-
-    return `${baseUrl}/mail`;
-}
-
-export function getEmailMessageSeparator(baseUrl) {
-    if (baseUrl === 'http://localhost:8065') {
-        return '\r\n';
-    }
-
-    return '\n';
+export function getRandomLetter(length) {
+    return Array.from({length}, () => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
 }
 
 export function getMessageMenusPayload({dataSource, options, prefix = Date.now()} = {}) {
@@ -72,12 +64,28 @@ export function rgbArrayToString(rgbArr) {
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
 
+const userAgent = () => window.navigator.userAgent;
+
+export function isWindows() {
+    return userAgent().indexOf('Windows') !== -1;
+}
+
+export function isMac() {
+    return userAgent().indexOf('Macintosh') !== -1;
+}
+
 // Stubs out the clipboard so that we can intercept copy events. Note that this only stubs out calls to
 // navigator.clipboard.writeText and not document.execCommand.
 export function stubClipboard() {
     const clipboard = {contents: '', wasCalled: false};
 
     cy.window().then((win) => {
+        if (!win.navigator.clipboard) {
+            win.navigator.clipboard = {
+                writeText: () => {}, //eslint-disable-line no-empty-function
+            };
+        }
+
         cy.stub(win.navigator.clipboard, 'writeText', (link) => {
             clipboard.wasCalled = true;
             clipboard.contents = link;

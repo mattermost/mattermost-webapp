@@ -41,7 +41,7 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
       componentClass="h1"
       id="teamMemberModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{team} Members"
         id="team_member_modal.members"
         values={
@@ -66,7 +66,7 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Invite People"
           id="team_member_modal.invitePeople"
         />

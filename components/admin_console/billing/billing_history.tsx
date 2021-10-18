@@ -10,10 +10,13 @@ import {Client4} from 'mattermost-redux/client';
 import {Invoice} from 'mattermost-redux/types/cloud';
 import {GlobalState} from 'mattermost-redux/types/store';
 
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
+
 import {CloudLinks} from 'utils/constants';
 
 import './billing_history.scss';
@@ -26,9 +29,9 @@ const PAGE_LENGTH = 4;
 
 const noBillingHistorySection = (
     <div className='BillingHistory__noHistory'>
-        <img
-            className='BillingHistory__noHistory-graphic'
-            src={noBillingHistoryGraphic}
+        <EmptyBillingHistorySvg
+            width={300}
+            height={210}
         />
         <div className='BillingHistory__noHistory-message'>
             <FormattedMessage
@@ -112,7 +115,6 @@ const BillingHistory: React.FC<Props> = () => {
 
         // TODO: When server paging, check if there are more invoices
     };
-
     useEffect(() => {
         dispatch(getCloudProducts());
         dispatch(getCloudSubscription());
@@ -184,8 +186,8 @@ const BillingHistory: React.FC<Props> = () => {
                     <th>{''}</th>
                 </tr>
                 {billingHistory.map((invoice: Invoice) => {
-                    const fullUsers = invoice.line_items.filter((item) => item.metadata.type === 'full').reduce((val, item) => val + item.quantity, 0);
-                    const partialUsers = invoice.line_items.filter((item) => item.metadata.type === 'partial').reduce((val, item) => val + item.quantity, 0);
+                    const fullUsers = invoice.line_items.filter((item) => item.type === 'full').reduce((val, item) => val + item.quantity, 0);
+                    const partialUsers = invoice.line_items.filter((item) => item.type === 'partial').reduce((val, item) => val + item.quantity, 0);
 
                     return (
                         <tr
@@ -198,6 +200,7 @@ const BillingHistory: React.FC<Props> = () => {
                                     month='2-digit'
                                     day='2-digit'
                                     year='numeric'
+                                    timeZone='UTC'
                                 />
                             </td>
                             <td>
@@ -266,8 +269,20 @@ const BillingHistory: React.FC<Props> = () => {
                                 </div>
                             </div>
                         </div>
+
                         <div className='BillingHistory__cardBody'>
-                            {billingHistory ? billingHistoryTable : noBillingHistorySection}
+                            {invoices != null && (
+                                <>
+                                    {billingHistory ?
+                                        billingHistoryTable :
+                                        noBillingHistorySection}
+                                </>
+                            )}
+                            {invoices == null && (
+                                <div className='BillingHistory__spinner'>
+                                    <LoadingSpinner/>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

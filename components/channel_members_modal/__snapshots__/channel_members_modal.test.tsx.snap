@@ -47,7 +47,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         >
           channel_display_name
         </span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage=" Members"
           id="channel_members_modal.members"
         />
@@ -58,7 +58,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         id="showInviteModal"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage=" Add Members"
           id="channel_members_modal.addNew"
         />
@@ -75,16 +75,15 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
             "creator_id": "",
             "delete_at": 0,
             "display_name": "channel_display_name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "",
             "id": "channel_id",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "",
             "purpose": "",
             "scheme_id": "",
             "team_id": "",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -142,7 +141,7 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
         >
           channel_display_name
         </span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage=" Members"
           id="channel_members_modal.members"
         />
@@ -159,16 +158,15 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
             "creator_id": "",
             "delete_at": 1234,
             "display_name": "channel_display_name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "",
             "id": "channel_id",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "",
             "purpose": "",
             "scheme_id": "",
             "team_id": "",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           }

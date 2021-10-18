@@ -22,8 +22,7 @@ describe('components/sidebar/sidebar_channel', () => {
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            extra_update_at: 0,
+            last_root_post_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
@@ -31,16 +30,18 @@ describe('components/sidebar/sidebar_channel', () => {
         channelIndex: 0,
         currentTeamName: 'team_name',
         unreadMentions: 0,
-        unreadMsgs: 0,
-        showUnreadForMsgs: false,
+        isUnread: false,
         getChannelRef: jest.fn(),
         setChannelRef: jest.fn(),
         isCategoryCollapsed: false,
         isCurrentChannel: false,
-        isDMCategory: false,
+        isAutoSortedCategory: false,
         isCategoryDragged: false,
         isDropDisabled: false,
         draggingState: {},
+        multiSelectedChannelIds: [],
+        autoSortedCategoryIds: new Set<string>(),
+        isChannelSelected: false,
     };
 
     test('should match snapshot', () => {
@@ -77,6 +78,7 @@ describe('components/sidebar/sidebar_channel', () => {
     test('should match snapshot when unread', () => {
         const props = {
             ...baseProps,
+            isUnread: true,
             unreadMentions: 1,
         };
 
@@ -156,13 +158,13 @@ describe('components/sidebar/sidebar_channel', () => {
         const props = {
             ...baseProps,
             isCategoryCollapsed: true,
+            isUnread: true,
         };
 
         const wrapper = shallow<SidebarChannel>(
             <SidebarChannel {...props}/>,
         );
 
-        wrapper.instance().isUnread = jest.fn(() => true);
         expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);
     });
 

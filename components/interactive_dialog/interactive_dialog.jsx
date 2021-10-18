@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {
     checkDialogElementForError,
     checkIfErrorsMatchElements,
@@ -200,7 +201,10 @@ export default class InteractiveDialog extends React.PureComponent {
                 role='dialog'
                 aria-labelledby='interactiveDialogModalLabel'
             >
-                <form onSubmit={this.handleSubmit}>
+                <form
+                    onSubmit={this.handleSubmit}
+                    autoComplete={'off'}
+                >
                     <Modal.Header
                         closeButton={true}
                         style={{borderBottom: elements == null && '0px'}}

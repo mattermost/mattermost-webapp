@@ -15,8 +15,18 @@ describe('components/channel_layout/CenterChannel', () => {
         lhsOpen: true,
         rhsOpen: true,
         rhsMenuOpen: true,
+        isCollapsedThreadsEnabled: true,
         match: {
             url: '/url',
+        },
+        currentUserId: 'testUserId',
+        showNextSteps: false,
+        showNextStepsTips: false,
+        isOnboardingHidden: true,
+        showNextStepsEphemeral: false,
+        actions: {
+            setShowNextStepsView: jest.fn,
+            getProfiles: jest.fn,
         },
     };
     test('should call update returnTo on props change', () => {

@@ -9,7 +9,7 @@ import {text, withKnobs} from '@storybook/addon-knobs';
 import BasicSeparator from './basic-separator';
 import NotificationSeparator from './notification-separator';
 
-storiesOf('Separator', module).
+storiesOf('Widgets/Separator', module).
     addDecorator(withKnobs).
     add(
         'basic separator without text',

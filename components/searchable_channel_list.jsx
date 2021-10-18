@@ -16,6 +16,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 
 import {t} from 'utils/i18n';
 
@@ -64,6 +65,7 @@ export default class SearchableChannelList extends React.PureComponent {
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
         let archiveIcon;
+        let sharedIcon;
         const {shouldShowArchivedChannels} = this.props;
 
         if (shouldShowArchivedChannels) {
@@ -71,6 +73,16 @@ export default class SearchableChannelList extends React.PureComponent {
                 <div className='more-modal__icon-container'>
                     <ArchiveIcon className='icon icon__archive'/>
                 </div>
+            );
+        }
+
+        if (channel.shared) {
+            sharedIcon = (
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                    withTooltip={true}
+                />
             );
         }
 
@@ -88,6 +100,7 @@ export default class SearchableChannelList extends React.PureComponent {
                     >
                         {archiveIcon}
                         {channel.display_name}
+                        {sharedIcon}
                     </button>
                     <p className='more-modal__description'>{channel.purpose}</p>
                 </div>
@@ -102,7 +115,7 @@ export default class SearchableChannelList extends React.PureComponent {
                             text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
-                                id={shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
+                                id={shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
                                 defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
                             />
                         </LoadingWrapper>
@@ -147,16 +160,17 @@ export default class SearchableChannelList extends React.PureComponent {
         let previousButton;
 
         if (this.props.loading && channels.length === 0) {
-            listContent = <LoadingScreen style={{marginTop: '50%'}}/>;
+            listContent = <LoadingScreen/>;
         } else if (channels.length === 0) {
             listContent = (
                 <div className='no-channel-message'>
-                    <p className='primary-message'>
+                    <h3 className='primary-message'>
                         <FormattedMessage
                             id='more_channels.noMore'
+                            tagName='strong'
                             defaultMessage='No more channels to join'
                         />
-                    </p>
+                    </h3>
                     {this.props.noResultsText}
                 </div>
             );

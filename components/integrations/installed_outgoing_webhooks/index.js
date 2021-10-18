@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -18,7 +19,7 @@ import InstalledOutgoingWebhook from './installed_outgoing_webhooks.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
     const teamId = getCurrentTeamId(state);
-    const canManageOthersWebhooks = haveITeamPermission(state, {team: teamId, permission: Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS});
+    const canManageOthersWebhooks = haveITeamPermission(state, teamId, Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS);
     const outgoingHooks = getOutgoingHooks(state);
     const outgoingWebhooks = Object.keys(outgoingHooks).
         map((key) => outgoingHooks[key]).

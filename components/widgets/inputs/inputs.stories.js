@@ -8,8 +8,9 @@ import {withKnobs, text} from '@storybook/addon-knobs';
 
 import ChannelsInput from './channels_input';
 import UsersEmailsInput from './users_emails_input';
+import DropdownInputHybrid from './dropdown_input_hybrid';
 
-storiesOf('Inputs', module).
+storiesOf('Widgets/Inputs', module).
     addDecorator(withKnobs).
     add(
         'channels input',
@@ -56,13 +57,44 @@ storiesOf('Inputs', module).
         },
     ).
     add(
+        'dropdown input hybrid',
+        () => {
+            const WrapperComponent = () => {
+                const [dropdownValue, setDropdownValue] = useState({value: 'forever', label: 'Keep Forever'});
+                const [inputValue, setInputValue] = useState('');
+                return (
+                    <DropdownInputHybrid
+                        onDropdownChange={(value) => {
+                            setDropdownValue(value);
+                        }}
+                        onInputChange={(e) => {
+                            setInputValue(e.target.value);
+                        }}
+                        value={dropdownValue}
+                        inputValue={inputValue}
+                        width={90}
+                        exceptionToInput={['forever']}
+                        defaultValue={{value: 'forever', label: 'Keep Forever'}}
+                        options={[{value: 'days', label: 'Days'}, {value: 'months', label: 'Months'}, {value: 'years', label: 'Years'}, {value: 'forever', label: 'Keep Forever'}]}
+                        legend={'Channel Message Retention'}
+                        placeholder={'Channel Message Retention'}
+                        name={'channel_message_retention'}
+                    />
+                );
+            };
+            return (
+                <WrapperComponent/>
+            );
+        },
+    ).
+    add(
         'users emails input',
         () => {
             const WrapperComponent = () => {
                 const placeholder = text('Placeholder', 'Placeholder');
                 const ariaLabel = text('Aria Label', 'Aria Label');
                 const loadingMessageDefault = text('Loading Message', 'Loading');
-                const noMatchMessageDefault = text('No Match Message', 'No one found matching **{text}**, type email address');
+                const noMatchMessageDefault = text('No Match Message', 'No one found matching **{text}**. Enter their email to invite them.');
                 const validAddressMessageDefault = text('Valid Address', 'Add **{email}**');
                 const options = [
                     {id: '1', username: 'jesus.espino', first_name: 'Jesús', last_name: 'Espino', nickname: 'jespino'},

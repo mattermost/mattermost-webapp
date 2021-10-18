@@ -33,7 +33,7 @@ type Actions = {
     loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {[key: string]: any}) => Promise<{
         data: boolean;
     }>;
-    loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
+    loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{
         data: boolean;
     }>;
     loadTeamMembersForProfilesList: (profiles: any, teamId: string, reloadAllMembers: boolean) => Promise<{
@@ -43,7 +43,7 @@ type Actions = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_ROLES});
+    const canManageTeamMembers = haveITeamPermission(state, ownProps.teamId, Permissions.MANAGE_TEAM_ROLES);
 
     const searchTerm = state.views.search.modalSearch;
 

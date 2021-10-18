@@ -19,7 +19,7 @@ import {
     setupTestData,
 } from './helpers';
 
-describe('SF15699 Search Date Filter - on', () => {
+describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const {
         commonText,
@@ -30,36 +30,45 @@ describe('SF15699 Search Date Filter - on', () => {
     } = testData;
     const admin = getAdminAccount();
     let anotherAdmin;
+    let channelName;
 
     before(() => {
-        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
+        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, channel, user, channelUrl}) => {
             anotherAdmin = user;
+            channelName = channel.name;
 
-            setupTestData(testData, {team, admin, anotherAdmin});
+            // # Visit test channel
+            cy.visit(channelUrl);
+
+            setupTestData(testData, {team, channel, admin, anotherAdmin});
         });
     });
 
-    it('omits results before and after target date', () => {
+    it('MM-T588 on: omits results before and after target date', () => {
         searchAndValidate(`on:${secondDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
     });
 
-    it('takes precedence over "after:" and "before:"', () => {
-        searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} on:${secondDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
+    it('MM-T590_1 on: takes precedence over "before:"', () => {
+        searchAndValidate(`before:${Cypress.dayjs().format('YYYY-MM-DD')} on:${secondDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
     });
 
-    it('takes precedence over "after:"', () => {
+    it('MM-T590_2 on: takes precedence over "after:"', () => {
         searchAndValidate(`after:${firstDateEarly.query} on:${secondDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
     });
 
-    it('can be used in conjunction with "in:"', () => {
-        searchAndValidate(`on:${secondDateEarly.query} in:town-square ${commonText}`, [secondMessage]);
+    it('MM-T3994_1 on: can be used in conjunction with "in:"', () => {
+        searchAndValidate(`on:${secondDateEarly.query} in:${channelName} ${commonText}`, [secondMessage]);
     });
 
-    it('can be used in conjunction with "from:"', () => {
+    it('MM-T3994_2 on: can be used in conjunction with "from:"', () => {
         searchAndValidate(`on:${secondDateEarly.query} from:${anotherAdmin.username} ${commonText}`, [secondOffTopicMessage]);
     });
 
-    it('works from 12:00am to 11:59pm', () => {
+    it('MM-T3994_3 on: re-add "in:" in conjunction with "from:"', () => {
+        searchAndValidate(`on:${secondDateEarly.query} in:${channelName} from:${anotherAdmin.username} ${commonText}`);
+    });
+
+    it('MM-T604 Use "on:" to return only results from today', () => {
         // create posts on a day at 11:59 the previous day, 12:00am the main day, 11:59pm the main day, and 12:00 the next day
         const identifier = 'christmas' + Date.now();
 
@@ -81,9 +90,5 @@ describe('SF15699 Search Date Filter - on', () => {
 
         // * Verify we only see messages from the expected date, and not outside of it
         searchAndValidate(`on:${targetAM.query} ${identifier}`, [targetPMMessage, targetAMMessage]);
-    });
-
-    it('using a date from the future shows no results', () => {
-        searchAndValidate(`on:2099-7-15 ${commonText}`);
     });
 });

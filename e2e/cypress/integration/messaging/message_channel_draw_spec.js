@@ -8,44 +8,31 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging @plugin
-
-/**
- * Note: This test requires draw plugin tar file under fixtures folder.
- * Download from: https://integrations.mattermost.com/draw-plugin/
- * Copy to: ./e2e/cypress/fixtures/com.mattermost.draw-plugin.tar.gz
- */
+// Group: @not_cloud @messaging @plugin
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
+import {drawPlugin} from '../../utils/plugins';
 
 describe('M17448 Does not post draft message', () => {
-    const pluginId = 'com.mattermost.draw-plugin';
-
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
-                RequirePluginSignature: false,
             },
         });
 
         // # Upload and enable "Draw" plugin
-        cy.apiUploadPlugin('com.mattermost.draw-plugin.tar.gz').then(() => {
-            cy.apiEnablePluginById(pluginId);
+        cy.apiUploadAndEnablePlugin(drawPlugin);
 
-            // # Login as test user and visit town-square
-            cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-                cy.visit(`/${team.name}/channels/town-square`);
-            });
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
-    });
-
-    after(() => {
-        // # Uninstall "Draw" plugin
-        cy.apiAdminLogin();
-        cy.apiRemovePluginById(pluginId);
     });
 
     it('on successful upload via "Draw" plugin', () => {

@@ -1,0 +1,14 @@
+@import 'compass/css3';
+@import 'sass/utils/variables';
+
+.tooltip-container {
+    @include single-transition(opacity, $transition-quick, ease-in);
+
+    opacity: 0;
+    visibility: hidden;
+
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+}

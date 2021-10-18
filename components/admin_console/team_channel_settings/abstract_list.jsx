@@ -88,11 +88,7 @@ export default class AbstractList extends React.PureComponent {
     }
 
     performSearch = (page) => {
-        const newState = {...this.state};
-        delete newState.page;
-
-        newState.loading = true;
-        this.setState(newState);
+        this.setState({loading: true});
 
         this.props.actions.getData(page, PAGE_SIZE, '', false, true).then((response) => {
             if (this.props.onPageChangedCallback) {
@@ -147,6 +143,7 @@ export default class AbstractList extends React.PureComponent {
                         />
                     </div>
                     <button
+                        type='button'
                         className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
                         onClick={firstPage ? null : this.previousPage}
                         disabled={firstPage}
@@ -154,6 +151,7 @@ export default class AbstractList extends React.PureComponent {
                         <PreviousIcon/>
                     </button>
                     <button
+                        type='button'
                         className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
                         onClick={lastPage ? null : this.nextPage}
                         disabled={lastPage}

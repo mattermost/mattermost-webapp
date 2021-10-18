@@ -1,12 +1,24 @@
 [
   {
-    "section": "about",
+    "section": "about.license",
     "system_manager": "read",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
   },
   {
-    "section": "reporting",
+    "section": "reporting.system_analytics",
+    "system_manager": "read",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "reporting.team_statistics",
+    "system_manager": "read",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "reporting.server_logs",
     "system_manager": "read",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
@@ -42,19 +54,193 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "environment",
+    "section": "user_management.system_roles",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "none"
+  },
+  {
+    "section": "environment.web_server",
     "system_manager": "read+write",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
   },
   {
-    "section": "site",
+    "section": "environment.database",
     "system_manager": "read+write",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
   },
   {
-    "section": "authentication",
+    "section": "environment.elasticsearch",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.storage",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.image_proxy",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.smtp",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.push_notification_server",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.high_availability",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.rate_limiting",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.logging",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.session_lengths",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.metrics",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.developer",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.customization",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.localization",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.users_and_teams",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.notifications",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.announcement_banner",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.emoji",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.posts",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.file_sharing_downloads",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.public_links",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.notices",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.signup",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.email",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.password",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.mfa",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.ldap",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.saml",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.openid",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.guest_access",
     "system_manager": "read",
     "system_user_manager": "read",
     "system_read_only_admin": "read"
@@ -66,19 +252,67 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "integrations",
+    "section": "integrations.integration_management",
     "system_manager": "read+write",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
   },
   {
-    "section": "compliance",
-    "system_manager": "none",
+    "section": "integrations.bot_accounts",
+    "system_manager": "read+write",
     "system_user_manager": "none",
-    "system_read_only_admin": "none"
+    "system_read_only_admin": "read"
   },
   {
-    "section": "experimental",
+    "section": "integrations.gif",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "integrations.cors",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "compliance.data_retention",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "compliance.message_export",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "compliance.audits",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "compliance.custom_terms_of_service",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "experimental.experimental_features",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "experimental.feature_flags",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "experimental.bleve",
     "system_manager": "none",
     "system_user_manager": "none",
     "system_read_only_admin": "read"

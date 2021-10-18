@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 import SearchItem from 'components/gif_picker/components/SearchItem';
@@ -25,21 +26,12 @@ function mapStateToProps(state) {
     return {
         ...state.entities.gifs.cache,
         ...state.entities.gifs.search,
-        theme: getTheme(state),
         appProps: state.entities.gifs.app,
     };
 }
 
 const mapDispatchToProps = ({
     saveSearchScrollPosition,
-});
-
-const getStyle = makeStyleFromTheme((theme) => {
-    return {
-        background: {
-            backgroundColor: changeOpacity(theme.centerChannelColor, 0.05),
-        },
-    };
 });
 
 export class SearchGrid extends PureComponent {
@@ -50,12 +42,10 @@ export class SearchGrid extends PureComponent {
         containerClassName: PropTypes.string,
         keyword: PropTypes.string, // searchText, tagName
         handleItemClick: PropTypes.func,
-        onCategories: PropTypes.func,
         loadMore: PropTypes.func,
         numberOfColumns: PropTypes.number,
         scrollPosition: PropTypes.number,
         saveSearchScrollPosition: PropTypes.func,
-        theme: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -148,7 +138,6 @@ export class SearchGrid extends PureComponent {
     }
 
     render() {
-        const style = getStyle(this.props.theme);
         const {
             containerClassName,
             gifs,
@@ -156,11 +145,10 @@ export class SearchGrid extends PureComponent {
             resultsByTerm,
             scrollPosition,
             loadMore,
-            onCategories,
         } = this.props;
 
         const {containerWidth} = this.state;
-        const {moreRemaining, items = [], isEmpty} = resultsByTerm[keyword] ? resultsByTerm[keyword] : {};
+        const {moreRemaining, items = [], isEmpty = items.length === 0, isFetching} = resultsByTerm[keyword] ? resultsByTerm[keyword] : {};
 
         /**
          * Columns 'left' values
@@ -216,21 +204,17 @@ export class SearchGrid extends PureComponent {
             </InfiniteScroll>
         ) : null;
 
-        const emptySearch = isEmpty ? (
-            <div className='empty-search'>
-                <div className='empty-search-image'/>
-                <p>{'0 Gifs found for '}<strong>{keyword}</strong></p>
-                <a onClick={onCategories}>
-                    <div className='empty-search-button'>{'Go to Reactions'}</div>
-                </a>
-            </div>
+        const emptySearch = !isFetching && isEmpty ? (
+            <NoResultsIndicator
+                variant={NoResultsVariant.ChannelSearch}
+                titleValues={{channelName: `"${keyword}"`}}
+            />
         ) : null;
 
         return (
             <div
                 id='search-grid-container'
                 className={`search-grid-container ${containerClassName}`}
-                style={style.background}
             >
                 {content}
                 {emptySearch}

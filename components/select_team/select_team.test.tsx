@@ -8,9 +8,9 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import SelectTeam, {TEAMS_PER_PAGE} from 'components/select_team/select_team';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitUserLoggedOutEvent: jest.fn(),
 }));
 
@@ -19,7 +19,6 @@ jest.mock('utils/policy_roles_adapter', () => ({
 }));
 
 describe('components/select_team/SelectTeam', () => {
-    const addUserToTeam = jest.fn().mockResolvedValue({data: true});
     const baseProps = {
         currentUserRoles: 'system_admin',
         currentUserId: 'test',
@@ -35,9 +34,9 @@ describe('components/select_team/SelectTeam', () => {
         canJoinPrivateTeams: false,
         history: {push: jest.fn()},
         actions: {
-            getTeams: jest.fn(),
+            getTeams: jest.fn().mockResolvedValue({}),
             loadRolesIfNeeded: jest.fn(),
-            addUserToTeam,
+            addUserToTeam: jest.fn().mockResolvedValue({data: true}),
         },
         totalTeamsCount: 15,
     };
@@ -99,7 +98,7 @@ describe('components/select_team/SelectTeam', () => {
         );
         await wrapper.instance().handleTeamClick({id: 'team_id'} as any);
         expect(wrapper.state('loadingTeamId')).toEqual('team_id');
-        expect(addUserToTeam).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.addUserToTeam).toHaveBeenCalledTimes(1);
     });
 
     test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {

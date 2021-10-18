@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 import request from 'superagent';
+
 import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 const DEFAULT_PAGE_SIZE = 100;
 
@@ -96,7 +98,10 @@ export function loadProfilesForCommands(commands) {
 }
 
 export function loadOAuthAppsAndProfiles(page = 0, perPage = DEFAULT_PAGE_SIZE) {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        if (appsEnabled(getState())) {
+            dispatch(IntegrationActions.getAppsOAuthAppIDs());
+        }
         const {data} = await dispatch(IntegrationActions.getOAuthApps(page, perPage));
         if (data) {
             dispatch(loadProfilesForOAuthApps(data));

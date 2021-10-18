@@ -2,15 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import OverlayTrigger from 'components/overlay_trigger';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
@@ -28,7 +32,7 @@ type Props = {
     isDisabled?: boolean;
 }
 
-export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'guest';
+export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'shared_member' | 'guest';
 
 export default class UserGridRoleDropdown extends React.PureComponent<Props> {
     private getDropDownOptions = () => {
@@ -52,7 +56,9 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
             return 'system_admin';
         } else if (membership) {
             if (scope === 'team') {
-                if (membership.scheme_admin) {
+                if (user.remote_id) {
+                    return 'shared_member';
+                } else if (membership.scheme_admin) {
                     return 'team_admin';
                 } else if (membership.scheme_user) {
                     return 'team_user';
@@ -60,7 +66,9 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
             }
 
             if (scope === 'channel') {
-                if (membership.scheme_admin) {
+                if (user.remote_id) {
+                    return 'shared_member';
+                } else if (membership.scheme_admin) {
                     return 'channel_admin';
                 } else if (membership.scheme_user) {
                     return 'channel_user';
@@ -79,6 +87,8 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
             return Utils.localizeMessage('admin.user_grid.team_admin', 'Team Admin');
         case 'channel_admin':
             return Utils.localizeMessage('admin.user_grid.channel_admin', 'Channel Admin');
+        case 'shared_member':
+            return Utils.localizeMessage('admin.user_grid.shared_member', 'Shared Member');
         case 'team_user':
         case 'channel_user':
             return Utils.localizeMessage('admin.group_teams_and_channels_row.member', 'Member');
@@ -111,7 +121,7 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
         return Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member');
     }
 
-    public render = (): JSX.Element | null => {
+    public render = (): React.ReactNode => {
         if (!this.props.membership) {
             return null;
         }
@@ -122,6 +132,32 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
         const currentRole = this.getCurrentRole();
         const localizedRole = this.getLocalizedRole(currentRole);
         const ariaLabel = this.getAriaLabel();
+
+        if (currentRole === 'shared_member') {
+            const sharedTooltip = (
+                <Tooltip id='sharedTooltip'>
+                    <FormattedMessage
+                        id='shared_user_indicator.tooltip'
+                        defaultMessage='From trusted organizations'
+                    />
+                </Tooltip>
+            );
+
+            return (
+                <div className='more-modal__shared-actions'>
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={sharedTooltip}
+                    >
+                        <span>
+                            {localizedRole}
+                            <i className='shared-user-icon icon-circle-multiple-outline'/>
+                        </span>
+                    </OverlayTrigger>
+                </div>
+            );
+        }
 
         const dropdownEnabled = !['system_admin', 'guest'].includes(currentRole);
         const showMakeAdmin = ['channel_user', 'team_user'].includes(currentRole);

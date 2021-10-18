@@ -3,10 +3,15 @@
 
 import {isDirectChannel, isGroupChannel, sortChannelsByTypeListAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
+import store from 'stores/redux_store.jsx';
+
 import Constants from 'utils/constants';
+import {getCurrentLocale} from 'selectors/i18n';
 
 import Provider from './provider.jsx';
 import SearchChannelSuggestion from './search_channel_suggestion';
+
+const getState = store.getState;
 
 function itemToTerm(isAtSearch, item) {
     const prefix = isAtSearch ? '' : '@';
@@ -51,10 +56,9 @@ export default class SearchChannelProvider extends Provider {
                         channels = channels.filter((ch) => isDirectChannel(ch) || isGroupChannel(ch));
                     }
 
-                    //
-                    // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
-                    //
-                    channels = channels.sort(sortChannelsByTypeListAndDisplayName.bind(null, 'en', [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL, Constants.DM_CHANNEL, Constants.GM_CHANNEL]));
+                    const locale = getCurrentLocale(getState());
+
+                    channels = channels.sort(sortChannelsByTypeListAndDisplayName.bind(null, locale, [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL, Constants.DM_CHANNEL, Constants.GM_CHANNEL]));
                     const channelNames = channels.map(itemToTerm.bind(null, isAtSearch));
 
                     resultsCallback({

@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Post} from 'mattermost-redux/src/types/posts';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -26,10 +26,8 @@ describe('components/RhsThread', () => {
         purpose: '',
         creator_id: '',
         scheme_id: '',
-        isCurrent: false,
         teammate_id: '',
         status: '',
-        fake: false,
     });
 
     const actions = {
@@ -57,80 +55,5 @@ describe('components/RhsThread', () => {
             <RhsThread {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should make api call to get thread posts on socket reconnect', () => {
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-        );
-
-        wrapper.setProps({socketConnectionStatus: false});
-        wrapper.setProps({socketConnectionStatus: true});
-
-        expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
-    });
-
-    test('should update openTime state when selected prop updated', async () => {
-        jest.useRealTimers();
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-        );
-
-        const waitMilliseconds = 100;
-        const originalOpenTimeState = wrapper.state('openTime');
-
-        await new Promise((resolve) => setTimeout(resolve, waitMilliseconds));
-
-        wrapper.setProps({selected: {...post, id: `${post.id}_new`}});
-        expect(wrapper.state('openTime')).not.toEqual(originalOpenTimeState);
-    });
-
-    test('should scroll to the bottom when the current user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-        );
-        const instance = wrapper.instance() as RhsThread;
-        instance.scrollToBottom = scrollToBottom;
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).toHaveBeenCalled();
-    });
-
-    test('should not scroll to the bottom when another user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-        );
-        const instance = wrapper.instance() as RhsThread;
-        instance.scrollToBottom = scrollToBottom;
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'other_user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
     });
 });

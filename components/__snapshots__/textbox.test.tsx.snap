@@ -16,7 +16,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     inputComponent={[Function]}
     isRHS={true}
     listComponent={[Function]}
-    listStyle="style"
+    listPosition="top"
     listenForMentionKeyClick={true}
     onBlur={[Function]}
     onChange={[Function]}
@@ -49,6 +49,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -57,16 +58,9 @@ exports[`components/TextBox should match snapshot with additional, optional prop
               "id": "id2",
             },
           ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -78,12 +72,14 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": ":",
         },
       ]
     }
@@ -132,7 +128,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     inputComponent={[Function]}
     isRHS={false}
     listComponent={[Function]}
-    listStyle="top"
+    listPosition="top"
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
@@ -164,6 +160,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -172,16 +169,9 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
               "id": "id2",
             },
           ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -193,12 +183,14 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": ":",
         },
       ]
     }
@@ -232,7 +224,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     inputComponent={[Function]}
     isRHS={false}
     listComponent={[Function]}
-    listStyle="top"
+    listPosition="top"
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
@@ -264,6 +256,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -272,16 +265,9 @@ exports[`components/TextBox should throw error when new property is too long 1`]
               "id": "id2",
             },
           ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -293,12 +279,14 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": ":",
         },
       ]
     }
@@ -332,7 +320,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     inputComponent={[Function]}
     isRHS={false}
     listComponent={[Function]}
-    listStyle="top"
+    listPosition="top"
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
@@ -364,6 +352,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -372,16 +361,9 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
               "id": "id2",
             },
           ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -393,12 +375,14 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
+          "triggerCharacter": ":",
         },
       ]
     }

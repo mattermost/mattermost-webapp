@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 import './submenu_modal.scss';
 
 type Props = {
-    elements?: (React.ComponentProps<typeof SubMenuItem>)[];
+    elements?: Array<React.ComponentProps<typeof SubMenuItem>>;
     onHide: () => void;
 }
 
@@ -45,7 +45,6 @@ export default class SubMenuModal extends React.PureComponent<Props, State> {
                         subMenu={element.subMenu}
                         action={element.action}
                         filter={element.filter}
-                        xOffset={0}
                         root={false}
                     />
                 );

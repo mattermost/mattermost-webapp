@@ -8,12 +8,16 @@ import NotificationSeparator from 'components/widgets/separator/notification-sep
 
 type Props = {
     separatorId: string;
+    wrapperRef?: React.RefObject<HTMLDivElement>;
 }
 
 export default class NewMessageSeparator extends React.PureComponent<Props> {
     render(): JSX.Element {
         return (
-            <div className='new-separator'>
+            <div
+                ref={this.props.wrapperRef}
+                className='new-separator'
+            >
                 <NotificationSeparator id={this.props.separatorId}>
                     <FormattedMessage
                         id='posts_view.newMsg'

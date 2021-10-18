@@ -13,19 +13,20 @@ const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 import TeamSettings from 'components/team_settings';
 
 type Props = {
-    onHide: () => void
+    onHide: () => void;
+    isCloud?: boolean;
 }
 
 export type State = {
-    activeTab: string,
-    activeSection: string,
-    show: boolean,
+    activeTab: string;
+    activeSection: string;
+    show: boolean;
 }
 
 export default class TeamSettingsModal extends React.PureComponent<Props, State> {
     modalBodyRef: React.RefObject<Modal>;
 
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -44,7 +45,7 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
         });
     }
 
-    updateSection = (section:string) => {
+    updateSection = (section: string) => {
         this.setState({activeSection: section});
     }
 
@@ -74,7 +75,6 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
     render() {
         const tabs = [];
         tabs.push({name: 'general', uiName: Utils.localizeMessage('team_settings_modal.generalTab', 'General'), icon: 'icon fa fa-cog', iconTitle: Utils.localizeMessage('generic_icons.settings', 'Settings Icon')});
-        tabs.push({name: 'import', uiName: Utils.localizeMessage('team_settings_modal.importTab', 'Import'), icon: 'icon fa fa-upload', iconTitle: Utils.localizeMessage('generic_icons.upload', 'Upload Icon')});
 
         return (
             <Modal

@@ -5,40 +5,54 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
-import {getCurrentChannel, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getCurrentChannelId, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
+import {switchToGlobalThreads} from 'actions/views/threads';
 import {
-    expandCategory,
-    moveChannelInSidebar,
+    moveChannelsInSidebar,
     setDraggingState,
     stopDragging,
+    clearChannelSelection,
+    multiSelectChannelAdd,
 } from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
-import {isUnreadFilterEnabled, getDraggingState, getDisplayedChannels} from 'selectors/views/channel_sidebar';
+import {
+    getDisplayedChannels,
+    getDraggingState,
+    getCategoriesForCurrentTeam,
+    isUnreadFilterEnabled,
+} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarChannelList from './sidebar_channel_list';
 
-function makeMapStateToProps() {
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
+function mapStateToProps(state: GlobalState) {
+    const currentTeam = getCurrentTeam(state);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
-    return (state: GlobalState) => {
-        const currentTeam = getCurrentTeam(state);
+    let hasUnreadThreads = false;
+    if (collapsedThreads) {
+        hasUnreadThreads = Boolean(getThreadCountsInCurrentTeam(state)?.total_unread_threads);
+    }
 
-        return {
-            currentTeam,
-            currentChannel: getCurrentChannel(state),
-            categories: getCategoriesForTeam(state, currentTeam.id),
-            isUnreadFilterEnabled: isUnreadFilterEnabled(state),
-            unreadChannelIds: getUnreadChannelIds(state),
-            displayedChannels: getDisplayedChannels(state),
-            draggingState: getDraggingState(state),
-            newCategoryIds: state.views.channelSidebar.newCategoryIds,
-        };
+    return {
+        currentTeam,
+        currentChannelId: getCurrentChannelId(state),
+        categories: getCategoriesForCurrentTeam(state),
+        isUnreadFilterEnabled: isUnreadFilterEnabled(state),
+        unreadChannelIds: getUnreadChannelIds(state),
+        displayedChannels: getDisplayedChannels(state),
+        draggingState: getDraggingState(state),
+        newCategoryIds: state.views.channelSidebar.newCategoryIds,
+        multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
+        showUnreadsCategory: shouldShowUnreadsCategory(state),
+        collapsedThreads,
+        hasUnreadThreads,
     };
 }
 
@@ -47,13 +61,15 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             close,
             switchToChannelById,
-            moveChannelInSidebar,
+            switchToGlobalThreads,
+            moveChannelsInSidebar,
             moveCategory,
             setDraggingState,
             stopDragging,
-            expandCategory,
+            clearChannelSelection,
+            multiSelectChannelAdd,
         }, dispatch),
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarChannelList);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelList);

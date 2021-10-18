@@ -12,16 +12,15 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-1",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "team_id",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           },
@@ -44,7 +43,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
       }
       id="addChannelMembers"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
@@ -73,34 +72,34 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "channel_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "channel_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Channel Admin"
                   id="admin.user_grid.channel_admin"
                 />,
                 "value": false,
               },
               "channel_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,
                 "value": false,
               },
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "system_guest": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
                 />,
@@ -121,7 +120,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_update_at": 0,
           "last_viewed_at": 0,
           "mention_count": 0,
+          "mention_count_root": 0,
           "msg_count": 0,
+          "msg_count_root": 0,
           "notify_props": Object {
             "desktop": "default",
             "email": "default",
@@ -139,7 +140,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_update_at": 0,
           "last_viewed_at": 0,
           "mention_count": 0,
+          "mention_count_root": 0,
           "msg_count": 0,
+          "msg_count_root": 0,
           "notify_props": Object {
             "desktop": "default",
             "email": "default",
@@ -157,7 +160,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_update_at": 0,
           "last_viewed_at": 0,
           "mention_count": 0,
+          "mention_count_root": 0,
           "msg_count": 0,
+          "msg_count_root": 0,
           "notify_props": Object {
             "desktop": "default",
             "email": "default",
@@ -172,9 +177,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         },
       }
     }
+    onSearch={[Function]}
     removeUser={[Function]}
     scope="channel"
-    search={[Function]}
     term=""
     totalCount={3}
     updateMembership={[Function]}
@@ -327,16 +332,15 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-1",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "team_id",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           },
@@ -359,7 +363,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
       }
       id="addChannelMembers"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
@@ -388,34 +392,34 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
               "channel_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "channel_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Channel Admin"
                   id="admin.user_grid.channel_admin"
                 />,
                 "value": false,
               },
               "channel_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,
                 "value": false,
               },
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "system_guest": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
                 />,
@@ -430,9 +434,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     loadPage={[Function]}
     loading={true}
     memberships={Object {}}
+    onSearch={[Function]}
     removeUser={[Function]}
     scope="channel"
-    search={[Function]}
     term=""
     totalCount={0}
     updateMembership={[Function]}

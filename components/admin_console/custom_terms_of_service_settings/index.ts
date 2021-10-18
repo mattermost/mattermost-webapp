@@ -12,7 +12,7 @@ import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 
 type Actions = {
     getTermsOfService: () => Promise<{data: TermsOfService}>;
-    createTermsOfService: (text: string) => Promise<{data: TermsOfService, error?: Error}>;
+    createTermsOfService: (text: string) => Promise<{data: TermsOfService; error?: Error}>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

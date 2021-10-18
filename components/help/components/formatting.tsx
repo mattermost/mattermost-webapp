@@ -3,11 +3,11 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Markdown from 'components/markdown';
-import {getSiteURL} from 'utils/url';
+import HelpLinks from 'components/help/components/help_links';
+import {HelpLink} from 'components/help/types';
 
 export default function HelpFormatting(): JSX.Element {
     const renderRawExample = (example: string | React.ReactNode): JSX.Element => {
@@ -39,14 +39,14 @@ export default function HelpFormatting(): JSX.Element {
             <h1 className='markdown__heading'>
                 <FormattedMessage
                     id='help.formatting.title'
-                    defaultMessage='Formatting Text'
+                    defaultMessage='Formatting Messages Using Markdown'
                 />
             </h1>
             <hr/>
             <p>
                 <FormattedMessage
                     id='help.formatting.intro'
-                    defaultMessage='Markdown makes it easy to format messages. Type a message as you normally would, and use these rules to render it with special formatting.'
+                    defaultMessage='Markdown makes it easy to format messages. Type a message as you normally would, then use the following syntax options to format your message a specific way.'
                 />
             </p>
             <h2 className='markdown__heading'>
@@ -58,7 +58,7 @@ export default function HelpFormatting(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.formatting.style.description'
-                    defaultMessage='You can use either `_` or `*` around a word to make it italic. Use two to make it bold.'
+                    defaultMessage='You can use either `_` or `*` around a word to make it italic. Use two to make a word bold.'
                 />
             </p>
             <ul>
@@ -120,13 +120,13 @@ export default function HelpFormatting(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.formatting.syntax.description'
-                    defaultMessage='To add syntax highlighting, type the language to be highlighted after the ``` at the beginning of the code block. Mattermost also offers four different code themes (GitHub, Solarized Dark, Solarized Light, Monokai) that can be changed in **Account Settings** > **Display** > **Theme** > **Custom Theme** > **Center Channel Styles**'
+                    defaultMessage='To add syntax highlighting, type the language to be highlighted after the ``` at the beginning of the code block. Mattermost also offers four different code themes (GitHub, Solarized Dark, Solarized Light, Monokai) that can be changed in **Settings > Display > Theme > Custom Theme > Center Channel Styles > Code Theme**.'
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.formatting.supportedSyntax'
-                    defaultMessage={'Supported languages are: `as`, `applescript`, `osascript`, `scpt`, `bash`, `sh`, `zsh`, `clj`, `boot`, `cl2`, `cljc`, `cljs`, `cljs.hl`, `cljscm`, `cljx`, `hic`, `coffee`, `_coffee`, `cake`, `cjsx`, `cson`, `iced`, `cpp`, `c`, `cc`, `h`, `c++`, `h++`, `hpp`, `cs`, `csharp`, `css`, `d`, `di`, `dart`, `delphi`, `dpr`, `dfm`, `pas`, `pascal`, `freepascal`, `lazarus`, `lpr`, `lfm`, `diff`, `django`, `jinja`, `dockerfile`, `docker`, `erl`, `fortran`, `fsharp`, `fs`, `gcode`, `nc`, `go`, `groovy`, `handlebars`, `hbs`, `html.hbs`, `html.handlebars`, `hs`, `hx`, `java`, `jsp`, `js`, `jsx`, `json`, `jl`, `kt`, `ktm`, `kts`, `less`, `lisp`, `lua`, `mk`, `mak`, `md`, `mkdown`, `mkd`, `matlab`, `m`, `mm`, `objc`, `obj-c`, `ml`, `perl`, `pl`, `php`, `php3`, `php4`, `php5`, `php6`, `ps`, `ps1`, `pp`, `py`, `gyp`, `r`, `ruby`, `rb`, `gemspec`, `podspec`, `thor`, `irb`, `rs`, `scala`, `scm`, `sld`, `scss`, `st`, `styl`, `sql`, `swift`, `tex`, `vbnet`, `vb`, `bas`, `vbs`, `v`, `veo`, `xml`, `html`, `xhtml`, `rss`, `atom`, `xsl`, `plist`, `yaml`'}
+                    defaultMessage={'Supported languages are: `applescript`, `as`, `atom`, `bas`, `bash`, `boot`, `_coffee`, `c++`, `c`, `cake`, `cc`, `cl2`, `clj`, `cljc`, `cljs`, `cljs.hl`, `cljscm`, `cljx`, `cjsx`, `cson`, `coffee`, `cpp`, `cs`, `csharp`, `css`, `d`, `dart`, `dfm`, `di`, `delphi`, `diff`, `django`, `docker`, `dockerfile`, `dpr`, `erl`, `fortran`, `freepascal`, `fs`, `fsharp`, `gcode`, `gemspec`, `go`, `groovy`, `gyp`, `h++`, `h`, `handlebars`, `hbs`, `hic`, `hpp`, `html`, `html.handlebars`, `html.hbs`, `hs`, `hx`, `iced`, `irb`, `java`, `jinja`, `jl`, `js`, `json`, `jsp`, `jsx`, `kt`, `ktm`, `kts`, `latexcode`, `lazarus`, `less`, `lfm`, `lisp`, `lpr`, `lua`, `m`, `mak`, `matlab`, `md`, `mk`, `mkd`, `mkdown`, `ml`, `mm`, `nc`, `objc`, `obj-c`, `osascript`, `pas`, `pascal`, `perl`, `pgsql`, `php`, `php3`, `php4`, `php5`, `php6`, `pl`, `plist`, `podspec`, `postgres`, `postgresql`, `ps`, `ps1`, `pp`, `py`, `r`, `rb`, `rs`, `rss`, `ruby`, `scala`, `scm`, `scpt`, `scss`, `sh`, `sld`, `st`, `styl`, `sql`, `swift`, `tex`, `texcode`, `thor`, `ts`, `tsx`, `v`, `vb`, `vbnet`, `vbs`, `veo`, `xhtml`, `xml`, `xsl`, `yaml`, `zsh`.'}
                 />
             </p>
             <p>
@@ -156,7 +156,7 @@ export default function HelpFormatting(): JSX.Element {
             </p>
             <p>
                 <img
-                    src='https://docs.mattermost.com/_images/syntax-highlighting-github.PNG'
+                    src='https://docs.mattermost.com/_images/syntax-highlighting-github.png'
                     alt='go syntax-highlighting'
                     className='markdown-inline-img'
                 />
@@ -169,7 +169,7 @@ export default function HelpFormatting(): JSX.Element {
             </p>
             <p>
                 <img
-                    src='https://docs.mattermost.com/_images/syntax-highlighting-sol-dark.PNG'
+                    src='https://docs.mattermost.com/_images/syntax-highlighting-sol-dark.png'
                     alt='go syntax-highlighting'
                     className='markdown-inline-img'
                 />
@@ -182,7 +182,7 @@ export default function HelpFormatting(): JSX.Element {
             </p>
             <p>
                 <img
-                    src='https://docs.mattermost.com/_images/syntax-highlighting-sol-light.PNG'
+                    src='https://docs.mattermost.com/_images/syntax-highlighting-sol-light.png'
                     alt='go syntax-highlighting'
                     className='markdown-inline-img'
                 />
@@ -195,7 +195,7 @@ export default function HelpFormatting(): JSX.Element {
             </p>
             <p>
                 <img
-                    src='https://docs.mattermost.com/_images/syntax-highlighting-monokai.PNG'
+                    src='https://docs.mattermost.com/_images/syntax-highlighting-monokai.png'
                     alt='go syntax-highlighting'
                     className='markdown-inline-img'
                 />
@@ -258,16 +258,9 @@ export default function HelpFormatting(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.formatting.images.description'
-                    defaultMessage='Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link.'
+                    defaultMessage='Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link. See the [product documentation](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) for details on working with in-line images.'
                 />
             </p>
-            <FormattedMessage
-                id='help.formatting.imagesExample'
-                defaultMessage={'![alt text]({siteUrl}/static/images/logo-email.png "Mattermost horizontal logo")\n\nand\n\n[![Atlassian](https://wac-cdn.atlassian.com/assets/img/favicons/atlassian/favicon.png)](https://travis-ci.org/mattermost/mattermost-server) [![Github](https://github.githubassets.com/favicon.ico)](https://github.com/mattermost/mattermost-server)'}
-                values={{siteURL: getSiteURL()}}
-            >
-                {(example) => renderRawExampleWithResult(example)}
-            </FormattedMessage>
             <h2 className='markdown__heading'>
                 <FormattedMessage
                     id='help.formatting.emojis.title'
@@ -277,7 +270,7 @@ export default function HelpFormatting(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.formatting.emojis.description'
-                    defaultMessage={'Open the emoji autocomplete by typing `:`. A full list of emojis can be found [here](!http://www.emoji-cheat-sheet.com/). It is also possible to create your own [Custom Emoji](!http://docs.mattermost.com/help/settings/custom-emoji.html) if the emoji you want to use doesn\'t exist.'}
+                    defaultMessage={'Open the emoji autocomplete by typing `:`. A full list of emojis can be found [online](!http://www.emoji-cheat-sheet.com/). It is also possible to create your own [Custom Emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) if the emoji you want to use doesn\'t exist.'}
                 />
             </p>
             {renderRawExampleWithResult(':smile: :+1: :sheep:')}
@@ -416,54 +409,7 @@ export default function HelpFormatting(): JSX.Element {
             >
                 {(example) => renderRawExampleWithResult(example)}
             </FormattedMessage>
-            <p className='links'>
-                <FormattedMessage
-                    id='help.learnMore'
-                    defaultMessage='Learn more about:'
-                />
-            </p>
-            <ul>
-                <li>
-                    <Link to='/help/messaging'>
-                        <FormattedMessage
-                            id='help.link.messaging'
-                            defaultMessage='Basic Messaging'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/composing'>
-                        <FormattedMessage
-                            id='help.link.composing'
-                            defaultMessage='Composing Messages and Replies'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/mentioning'>
-                        <FormattedMessage
-                            id='help.link.mentioning'
-                            defaultMessage='Mentioning Teammates'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/attaching'>
-                        <FormattedMessage
-                            id='help.link.attaching'
-                            defaultMessage='Attaching Files'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/commands'>
-                        <FormattedMessage
-                            id='help.link.commands'
-                            defaultMessage='Executing Commands'
-                        />
-                    </Link>
-                </li>
-            </ul>
+            <HelpLinks excludedLinks={[HelpLink.Formatting]}/>
         </div>
     );
 }

@@ -7,11 +7,14 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
+import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
+import FollowButton from 'components/threading/common/follow_button';
 
-import Constants, {RHSStates} from 'utils/constants';
-import {isMobile} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
+import Constants, {RHSStates} from 'utils/constants';
+import {t} from 'utils/i18n';
+import {isMobile} from 'utils/utils';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
@@ -19,15 +22,18 @@ interface RhsHeaderPostProps {
     previousRhsState?: string;
     relativeTeamUrl: string;
     channel: Channel;
-    actions: {
-        setRhsExpanded: (b: boolean) => void;
-        showMentions: () => void;
-        showSearchResults: () => void;
-        showFlaggedPosts: () => void;
-        showPinnedPosts: () => void;
-        closeRightHandSide: (e?: React.MouseEvent) => void;
-        toggleRhsExpanded: (e: React.MouseEvent) => void;
-    };
+    isCollapsedThreadsEnabled: boolean;
+    isFollowingThread?: boolean;
+    currentTeamId: string;
+    currentUserId: string;
+    setRhsExpanded: (b: boolean) => void;
+    showMentions: () => void;
+    showSearchResults: () => void;
+    showFlaggedPosts: () => void;
+    showPinnedPosts: () => void;
+    closeRightHandSide: (e?: React.MouseEvent) => void;
+    toggleRhsExpanded: (e: React.MouseEvent) => void;
+    setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 }
 
 export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProps> {
@@ -36,16 +42,16 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
         switch (this.props.previousRhsState) {
         case RHSStates.SEARCH:
-            this.props.actions.showSearchResults();
+            this.props.showSearchResults();
             break;
         case RHSStates.MENTION:
-            this.props.actions.showMentions();
+            this.props.showMentions();
             break;
         case RHSStates.FLAG:
-            this.props.actions.showFlaggedPosts();
+            this.props.showFlaggedPosts();
             break;
         case RHSStates.PIN:
-            this.props.actions.showPinnedPosts();
+            this.props.showPinnedPosts();
             break;
         default:
             break;
@@ -54,12 +60,17 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
     handleJumpClick = () => {
         if (isMobile()) {
-            this.props.actions.closeRightHandSide();
+            this.props.closeRightHandSide();
         }
 
-        this.props.actions.setRhsExpanded(false);
+        this.props.setRhsExpanded(false);
         const teamUrl = this.props.relativeTeamUrl;
         browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
+    }
+
+    handleFollowChange = () => {
+        const {currentTeamId, currentUserId, rootPostId, isFollowingThread} = this.props;
+        this.props.setThreadFollow(currentUserId, currentTeamId, rootPostId, !isFollowingThread);
     }
 
     render() {
@@ -141,17 +152,10 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                         onClick={this.handleBack}
                         className='sidebar--right__back'
                     >
-                        <FormattedMessage
-                            id='generic_icons.back'
-                            defaultMessage='Back Icon'
-                        >
-                            {(ariaLabel: string) => (
-                                <i
-                                    className='icon icon-arrow-back-ios'
-                                    aria-label={ariaLabel}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='icon icon-arrow-back-ios'
+                            ariaLabel={{id: t('generic_icons.back'), defaultMessage: 'Back Icon'}}
+                        />
                     </a>
                 </OverlayTrigger>
             );
@@ -174,7 +178,15 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                         </button>
                     }
                 </span>
-                <div className='pull-right'>
+                <div className='controls'>
+                    {this.props.isCollapsedThreadsEnabled ? (
+                        <FollowButton
+                            className='sidebar--right__follow__thread'
+                            isFollowing={this.props.isFollowingThread ?? false}
+                            onClick={this.handleFollowChange}
+                        />
+                    ) : null}
+
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
@@ -184,30 +196,16 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                             type='button'
                             className='sidebar--right__expand btn-icon'
                             aria-label='Expand'
-                            onClick={this.props.actions.toggleRhsExpanded}
+                            onClick={this.props.toggleRhsExpanded}
                         >
-                            <FormattedMessage
-                                id='rhs_header.expandSidebarTooltip.icon'
-                                defaultMessage='Expand Sidebar Icon'
-                            >
-                                {(ariaLabel: string) => (
-                                    <i
-                                        className='icon icon-arrow-expand'
-                                        aria-label={ariaLabel}
-                                    />
-                                )}
-                            </FormattedMessage>
-                            <FormattedMessage
-                                id='rhs_header.collapseSidebarTooltip.icon'
-                                defaultMessage='Collapse Sidebar Icon'
-                            >
-                                {(ariaLabel: string) => (
-                                    <i
-                                        className='icon icon-arrow-collapse'
-                                        aria-label={ariaLabel}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='icon icon-arrow-expand'
+                                ariaLabel={{id: t('rhs_header.expandSidebarTooltip.icon'), defaultMessage: 'Expand Sidebar Icon'}}
+                            />
+                            <LocalizedIcon
+                                className='icon icon-arrow-collapse'
+                                ariaLabel={{id: t('rhs_header.collapseSidebarTooltip.icon'), defaultMessage: 'Collapse Sidebar Icon'}}
+                            />
                         </button>
                     </OverlayTrigger>
 
@@ -221,19 +219,12 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                             type='button'
                             className='sidebar--right__close btn-icon'
                             aria-label='Close'
-                            onClick={this.props.actions.closeRightHandSide}
+                            onClick={this.props.closeRightHandSide}
                         >
-                            <FormattedMessage
-                                id='rhs_header.closeTooltip.icon'
-                                defaultMessage='Close Sidebar Icon'
-                            >
-                                {(ariaLabel: string) => (
-                                    <i
-                                        className='icon icon-close'
-                                        aria-label={ariaLabel}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='icon icon-close'
+                                ariaLabel={{id: t('rhs_header.closeTooltip.icon'), defaultMessage: 'Close Sidebar Icon'}}
+                            />
                         </button>
                     </OverlayTrigger>
                 </div>

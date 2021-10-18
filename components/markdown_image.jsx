@@ -6,9 +6,10 @@ import React from 'react';
 
 import Constants from 'utils/constants.jsx';
 
+import MarkdownImageExpand from 'components/markdown_image_expand';
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
-import ViewImageModal from 'components/view_image';
+import FilePreviewModal from 'components/file_preview_modal';
 
 import brokenImageIcon from 'images/icons/brokenimage.png';
 
@@ -21,13 +22,17 @@ export default class MarkdownImage extends React.PureComponent {
         alt: PropTypes.string,
         imageMetadata: PropTypes.object,
         src: PropTypes.string.isRequired,
-        height: PropTypes.number,
-        width: PropTypes.number,
+
+        // height and width come from the Markdown renderer as either "auto" or a string containing a number.
+        height: PropTypes.string,
+        width: PropTypes.string,
+
         title: PropTypes.string,
         className: PropTypes.string.isRequired,
         postId: PropTypes.string.isRequired,
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
+        onImageHeightChanged: PropTypes.func,
         postType: PropTypes.string,
     }
 
@@ -39,6 +44,26 @@ export default class MarkdownImage extends React.PureComponent {
             loadFailed: false,
             loaded: false,
         };
+    }
+
+    getHeight = () => {
+        const {
+            height,
+            imageMetadata,
+            width,
+        } = this.props;
+
+        if (!height) {
+            return imageMetadata.height;
+        }
+
+        if (height === 'auto') {
+            const widthNumber = parseInt(width, 10);
+
+            return (imageMetadata.height / imageMetadata.width) * widthNumber;
+        }
+
+        return parseInt(height, 10);
     }
 
     showModal = (e) => {
@@ -140,15 +165,16 @@ export default class MarkdownImage extends React.PureComponent {
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
-                    const {height, width, title} = this.props;
-                    return (
+                    const {height, width, title, postId, onImageHeightChanged} = this.props;
+
+                    let imageElement = (
                         <>
                             <SizeAwareImage
                                 alt={alt}
                                 className={className}
                                 src={safeSrc}
-                                height={height}
-                                width={width}
+                                height={height === 'auto' ? undefined : height}
+                                width={width === 'auto' ? undefined : width}
                                 title={title}
                                 dimensions={imageMetadata}
                                 showLoader={false}
@@ -157,7 +183,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 onImageLoaded={this.handleImageLoaded}
                             />
                             {!imageIsLink && extension &&
-                            <ViewImageModal
+                            <FilePreviewModal
                                 show={this.state.showModal}
                                 onModalDismissed={this.hideModal}
                                 postId={this.props.postId}
@@ -172,6 +198,22 @@ export default class MarkdownImage extends React.PureComponent {
                             }
                         </>
                     );
+
+                    const actualHeight = this.getHeight();
+                    if (actualHeight >= Constants.EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT) {
+                        imageElement = (
+                            <MarkdownImageExpand
+                                alt={alt || safeSrc}
+                                postId={postId}
+                                imageKey={safeSrc}
+                                onToggle={onImageHeightChanged}
+                            >
+                                {imageElement}
+                            </MarkdownImageExpand>
+                        );
+                    }
+
+                    return imageElement;
                 }}
             </ExternalImage>
         );

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import AccessHistoryModal from 'components/access_history_modal/access_history_modal';
 import AuditTable from 'components/audit_table';
@@ -43,7 +43,7 @@ describe('components/AccessHistoryModal', () => {
             getUserAudits: jest.fn(),
         };
         const props = {...baseProps, actions};
-        const wrapper: ShallowWrapper<any, any, AccessHistoryModal> = shallow(
+        const wrapper = shallow<AccessHistoryModal>(
             <AccessHistoryModal {...props}/>,
         );
 
@@ -52,7 +52,7 @@ describe('components/AccessHistoryModal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper: ShallowWrapper<any, any, AccessHistoryModal> = shallow(
+        const wrapper = shallow<AccessHistoryModal>(
             <AccessHistoryModal {...baseProps}/>,
         );
 

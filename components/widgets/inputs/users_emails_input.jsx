@@ -15,6 +15,7 @@ import MailIcon from 'components/widgets/icons/mail_icon';
 import MailPlusIcon from 'components/widgets/icons/mail_plus_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
@@ -44,11 +45,12 @@ export default class UsersEmailsInput extends React.PureComponent {
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
         emailInvitationsEnabled: PropTypes.bool,
+        extraErrorText: PropTypes.any,
     }
 
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
-        noMatchMessageDefault: 'No one found matching **{text}**, type email address',
+        noMatchMessageDefault: 'No one found matching **{text}**. Enter their email to invite them.',
         validAddressMessageId: t('widgets.users_emails_input.valid_email'),
         validAddressMessageDefault: 'Add **{email}**',
         loadingMessageId: t('widgets.users_emails_input.loading'),
@@ -102,6 +104,12 @@ export default class UsersEmailsInput extends React.PureComponent {
     formatOptionLabel = (user, options) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
+        let botBadge = null;
+
+        if (user.is_bot) {
+            botBadge = <BotBadge/>;
+        }
+
         if (!isEmail(user.value) && isGuest(user)) {
             guestBadge = <GuestBadge/>;
         }
@@ -118,6 +126,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                         url={profileImg}
                     />
                     {this.renderUserName(user)}
+                    {botBadge}
                     {guestBadge}
                 </React.Fragment>
             );
@@ -140,6 +149,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                     url={profileImg}
                 />
                 {getDisplayName(user)}
+                {botBadge}
                 {guestBadge}
             </React.Fragment>
         );
@@ -314,6 +324,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                                 </components.NoOptionsMessage>
                             )}
                         </FormattedMarkdownMessage>
+                        {this.props.extraErrorText || null}
                     </div>
                 )}
             </>

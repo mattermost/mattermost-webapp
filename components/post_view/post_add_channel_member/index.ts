@@ -3,6 +3,7 @@
 
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
+
 import {addChannelMember} from 'mattermost-redux/actions/channels';
 import {removePost} from 'mattermost-redux/actions/posts';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -11,9 +12,13 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import PostAddChannelMember, {Props} from './post_add_channel_member';
+import PostAddChannelMember from './post_add_channel_member';
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+type OwnProps = {
+    postId: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const post = getPost(state, ownProps.postId) || {};
     let channelType = '';
     if (post && post.channel_id) {

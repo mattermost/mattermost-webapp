@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SignupEmail should match snapshot 1`] = `
+<div>
+  <div
+    className="col-sm-12"
+    id="signup_email_section"
+  >
+    <div
+      className="signup-team__container padding--less"
+    >
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <SiteNameAndDescription
+        customDescriptionText=""
+        siteName="Mattermost"
+      />
+      <h4
+        className="color--light"
+        id="create_account"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Let's create your account"
+          id="signup_user_completed.lets"
+        />
+      </h4>
+      <span
+        className="color--light"
+        id="signin_account"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+        />
+         
+        <Link
+          id="signin_account_link"
+          onClick={[Function]}
+          to="/login?token=9f392f193973g11ggh398h39hg0ghH&email=test@example.com"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+          />
+        </Link>
+      </span>
+      <form>
+        <div
+          className="inner__content"
+        >
+          <div
+            className="mt-8"
+          >
+            <h5
+              id="email_label"
+            >
+              <strong>
+                <MemoizedFormattedMessage
+                  defaultMessage="What's your email address?"
+                  id="signup_user_completed.whatis"
+                />
+              </strong>
+            </h5>
+            <div
+              className="form-group"
+            >
+              <input
+                autoCapitalize="off"
+                autoFocus={true}
+                className="form-control"
+                id="email"
+                maxLength={128}
+                placeholder=""
+                spellCheck="false"
+                type="email"
+              />
+              <span
+                className="help-block"
+                id="valid_email"
+              >
+                <MemoizedFormattedMessage
+                  defaultMessage="Valid email required for sign-up"
+                  id="signup_user_completed.emailHelp"
+                />
+              </span>
+            </div>
+          </div>
+          <div
+            className="mt-8"
+          >
+            <h5
+              id="name_label"
+            >
+              <strong>
+                <MemoizedFormattedMessage
+                  defaultMessage="Choose your username"
+                  id="signup_user_completed.chooseUser"
+                />
+              </strong>
+            </h5>
+            <div
+              className="form-group"
+            >
+              <input
+                autoCapitalize="off"
+                className="form-control"
+                id="name"
+                maxLength={22}
+                placeholder=""
+                spellCheck="false"
+                type="text"
+              />
+              <span
+                className="help-block"
+                id="valid_name"
+              >
+                <MemoizedFormattedMessage
+                  defaultMessage="You can use lowercase letters, numbers, periods, dashes, and underscores."
+                  id="signup_user_completed.userHelp"
+                />
+              </span>
+            </div>
+          </div>
+          <div
+            className="mt-8"
+          >
+            <h5
+              id="password_label"
+            >
+              <strong>
+                <MemoizedFormattedMessage
+                  defaultMessage="Choose your password"
+                  id="signup_user_completed.choosePwd"
+                />
+              </strong>
+            </h5>
+            <div
+              className="form-group"
+            >
+              <input
+                className="form-control"
+                id="password"
+                maxLength={128}
+                placeholder=""
+                spellCheck="false"
+                type="password"
+              />
+            </div>
+          </div>
+          <p
+            className="mt-5"
+          >
+            <button
+              className="btn-primary btn"
+              id="createAccountButton"
+              onClick={[Function]}
+              type="submit"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Create Account"
+                id="signup_user_completed.create"
+              />
+            </button>
+          </p>
+        </div>
+      </form>
+      <p
+        id="signup_agreement"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
+          id="create_team.agreement"
+          values={
+            Object {
+              "PrivacyPolicyLink": "!",
+              "TermsOfServiceLink": "!",
+              "siteName": "Mattermost",
+            }
+          }
+        />
+      </p>
+    </div>
+  </div>
+</div>
+`;

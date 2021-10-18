@@ -10,7 +10,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -29,7 +29,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -42,7 +42,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -50,7 +50,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -60,7 +60,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -73,7 +73,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -81,7 +81,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -91,7 +91,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -104,7 +104,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -112,7 +112,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -125,7 +125,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -138,8 +138,9 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -156,7 +157,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -177,7 +178,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -190,7 +191,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -198,7 +199,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -208,7 +209,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -221,7 +222,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -229,7 +230,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -248,7 +249,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -264,7 +265,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -275,7 +276,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -292,7 +293,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -318,6 +319,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -340,7 +342,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -359,7 +361,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -372,7 +374,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -380,7 +382,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -390,7 +392,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -403,7 +405,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -411,7 +413,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -421,7 +423,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -434,7 +436,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -442,7 +444,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -455,7 +457,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -468,8 +470,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -486,7 +489,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -507,7 +510,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -520,7 +523,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -528,7 +531,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -538,7 +541,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
           <BooleanSetting
             disabled={true}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -551,7 +554,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -559,7 +562,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -578,7 +581,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -594,7 +597,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -605,7 +608,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -622,7 +625,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -648,6 +651,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -670,7 +674,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -692,7 +696,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -703,7 +707,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -720,7 +724,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -746,6 +750,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -768,7 +773,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -787,7 +792,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -800,7 +805,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -808,7 +813,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -818,7 +823,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -831,7 +836,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -839,7 +844,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -849,7 +854,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -862,7 +867,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -870,7 +875,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -883,7 +888,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -896,8 +901,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -914,7 +920,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -935,7 +941,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -948,7 +954,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -956,7 +962,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -966,7 +972,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -979,7 +985,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -987,7 +993,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1006,7 +1012,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -1022,7 +1028,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -1033,7 +1039,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -1050,7 +1056,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -1076,6 +1082,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -1098,7 +1105,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -1117,7 +1124,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1130,7 +1137,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -1138,7 +1145,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1148,7 +1155,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1161,7 +1168,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -1169,7 +1176,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1179,7 +1186,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1192,7 +1199,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -1200,7 +1207,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1213,7 +1220,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -1227,8 +1234,9 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                 <button
                   className="btn btn-primary"
                   disabled={true}
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -1246,7 +1254,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -1267,7 +1275,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1280,7 +1288,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -1288,7 +1296,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1298,7 +1306,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1311,7 +1319,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -1319,7 +1327,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1338,7 +1346,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -1354,7 +1362,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -1365,7 +1373,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -1382,7 +1390,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -1408,6 +1416,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -1430,7 +1439,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -1449,7 +1458,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1462,7 +1471,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -1470,7 +1479,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1480,7 +1489,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1493,7 +1502,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -1501,7 +1510,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1511,7 +1520,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1524,7 +1533,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -1532,7 +1541,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1545,7 +1554,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -1558,8 +1567,9 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -1576,7 +1586,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -1597,7 +1607,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1610,7 +1620,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -1618,7 +1628,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1628,7 +1638,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1641,7 +1651,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -1649,7 +1659,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1668,7 +1678,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -1684,7 +1694,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -1695,13 +1705,13 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
               </p>
               <br />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="No installed plugins."
                 id="admin.plugin.no_plugins"
               />
@@ -1716,7 +1726,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -1742,6 +1752,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -1764,7 +1775,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -1783,7 +1794,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1796,7 +1807,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -1804,7 +1815,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1814,7 +1825,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1827,7 +1838,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -1835,7 +1846,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1845,7 +1856,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1858,7 +1869,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -1866,7 +1877,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1879,7 +1890,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -1892,8 +1903,9 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -1910,7 +1922,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -1931,7 +1943,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1944,7 +1956,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -1952,7 +1964,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -1962,7 +1974,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -1975,7 +1987,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -1983,7 +1995,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2002,7 +2014,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -2018,7 +2030,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -2029,7 +2041,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -2046,7 +2058,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -2072,6 +2084,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -2094,7 +2107,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -2113,7 +2126,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2126,7 +2139,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -2134,7 +2147,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2144,7 +2157,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           <BooleanSetting
             disabled={true}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2157,7 +2170,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -2165,7 +2178,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2175,7 +2188,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           <BooleanSetting
             disabled={true}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2188,7 +2201,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -2196,7 +2209,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2209,7 +2222,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -2223,8 +2236,9 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                 <button
                   className="btn btn-primary"
                   disabled={true}
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -2242,7 +2256,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -2263,7 +2277,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           <BooleanSetting
             disabled={true}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2276,7 +2290,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -2284,7 +2298,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2294,7 +2308,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           <BooleanSetting
             disabled={true}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2307,7 +2321,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -2315,7 +2329,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2334,7 +2348,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -2353,7 +2367,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -2379,6 +2393,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -2401,7 +2416,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -2420,7 +2435,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2433,7 +2448,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -2441,7 +2456,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2451,7 +2466,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2464,7 +2479,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -2472,7 +2487,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2482,7 +2497,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2495,7 +2510,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -2503,7 +2518,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2516,7 +2531,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -2529,8 +2544,9 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -2547,7 +2563,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -2568,7 +2584,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2581,7 +2597,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -2589,7 +2605,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2599,7 +2615,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2612,7 +2628,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -2620,7 +2636,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2639,7 +2655,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -2655,7 +2671,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -2666,7 +2682,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -2683,7 +2699,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -2709,6 +2725,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -2731,7 +2748,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -2750,7 +2767,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2763,7 +2780,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -2771,7 +2788,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2781,7 +2798,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2794,7 +2811,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -2802,7 +2819,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2812,7 +2829,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2825,7 +2842,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -2833,7 +2850,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2846,7 +2863,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -2860,8 +2877,9 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 <button
                   className="btn"
                   disabled={true}
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -2879,7 +2897,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -2900,7 +2918,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2913,7 +2931,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -2921,7 +2939,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2931,7 +2949,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -2944,7 +2962,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -2952,7 +2970,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -2971,7 +2989,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -2987,7 +3005,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -2998,7 +3016,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -3015,7 +3033,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -3041,6 +3059,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -3063,7 +3082,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -3082,7 +3101,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3095,7 +3114,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -3103,7 +3122,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3113,7 +3132,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3126,7 +3145,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -3134,7 +3153,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3144,7 +3163,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3157,7 +3176,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -3165,7 +3184,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3178,7 +3197,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -3191,8 +3210,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -3209,7 +3229,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -3230,7 +3250,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3243,7 +3263,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -3251,7 +3271,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3261,7 +3281,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3274,7 +3294,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -3282,7 +3302,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3301,7 +3321,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -3317,7 +3337,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -3328,7 +3348,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -3338,6 +3358,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3364,6 +3385,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3406,7 +3428,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -3432,6 +3454,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -3454,7 +3477,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -3473,7 +3496,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3486,7 +3509,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -3494,7 +3517,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3504,7 +3527,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3517,7 +3540,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -3525,7 +3548,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3535,7 +3558,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3548,7 +3571,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -3556,7 +3579,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3569,7 +3592,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -3582,8 +3605,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -3600,7 +3624,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -3621,7 +3645,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3634,7 +3658,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -3642,7 +3666,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3652,7 +3676,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3665,7 +3689,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -3673,7 +3697,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3692,7 +3716,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -3708,7 +3732,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -3719,7 +3743,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -3729,6 +3753,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3766,7 +3791,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -3792,6 +3817,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -3814,7 +3840,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -3833,7 +3859,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3846,7 +3872,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -3854,7 +3880,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3864,7 +3890,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3877,7 +3903,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -3885,7 +3911,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3895,7 +3921,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3908,7 +3934,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -3916,7 +3942,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -3929,7 +3955,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -3942,8 +3968,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -3960,7 +3987,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -3981,7 +4008,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -3994,7 +4021,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -4002,7 +4029,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4012,7 +4039,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4025,7 +4052,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -4033,7 +4060,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4052,7 +4079,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -4068,7 +4095,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -4079,7 +4106,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -4089,6 +4116,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4126,7 +4154,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -4152,6 +4180,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -4174,7 +4203,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -4193,7 +4222,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4206,7 +4235,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -4214,7 +4243,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4224,7 +4253,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4237,7 +4266,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -4245,7 +4274,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4255,7 +4284,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4268,7 +4297,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -4276,7 +4305,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4289,7 +4318,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -4302,8 +4331,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -4320,7 +4350,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -4341,7 +4371,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4354,7 +4384,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -4362,7 +4392,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4372,7 +4402,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4385,7 +4415,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -4393,7 +4423,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4412,7 +4442,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -4428,7 +4458,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -4439,7 +4469,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -4449,6 +4479,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4486,7 +4517,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -4512,6 +4543,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -4534,7 +4566,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Management"
         id="admin.plugin.management.title"
       />
@@ -4553,7 +4585,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4566,7 +4598,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enable"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Plugins: "
                 id="admin.plugins.settings.enable"
               />
@@ -4574,7 +4606,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4584,7 +4616,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4597,7 +4629,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="requirePluginSignature"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Require Plugin Signature:"
                 id="admin.plugins.settings.requirePluginSignature"
               />
@@ -4605,7 +4637,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4615,7 +4647,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4628,7 +4660,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="automaticPrepackagedPlugins"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Automatic Prepackaged Plugins:"
                 id="admin.plugins.settings.automaticPrepackagedPlugins"
               />
@@ -4636,7 +4668,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4649,7 +4681,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload Plugin: "
                 id="admin.plugin.uploadTitle"
               />
@@ -4662,8 +4694,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Choose File"
                     id="admin.plugin.choose"
                   />
@@ -4680,7 +4713,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 id="uploadPlugin"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Upload"
                   id="admin.plugin.upload"
                 />
@@ -4701,7 +4734,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4714,7 +4747,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
               />
@@ -4722,7 +4755,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4732,7 +4765,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -4745,7 +4778,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="enableRemoteMarketplace"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Enable Remote Marketplace:"
                 id="admin.plugins.settings.enableRemoteMarketplace"
               />
@@ -4753,7 +4786,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -4772,7 +4805,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             id="marketplaceUrl"
             label={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Marketplace URL:"
                 id="admin.plugins.settings.marketplaceUrl"
               />
@@ -4788,7 +4821,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             <label
               className="control-label col-sm-4"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Installed Plugins: "
                 id="admin.plugin.installedTitle"
               />
@@ -4799,7 +4832,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
                 />
@@ -4809,6 +4842,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4835,6 +4869,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4877,7 +4912,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -4903,6 +4938,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"

@@ -23,18 +23,19 @@ export default class AtMentionProvider extends Provider {
         this.data = null;
         this.lastCompletedWord = '';
         this.lastPrefixWithNoResults = '';
+        this.triggerCharacter = '@';
     }
 
     // setProps gives the provider additional context for matching pretexts. Ideally this would
     // just be something akin to a connected component with access to the store itself.
-    setProps({currentUserId, profilesInChannel, profilesNotInChannel, autocompleteUsersInChannel, useChannelMentions, autocompleteGroups, searchAssociatedGroupsForReference}) {
+    setProps({currentUserId, profilesInChannel, autocompleteUsersInChannel, useChannelMentions, autocompleteGroups, searchAssociatedGroupsForReference, priorityProfiles}) {
         this.currentUserId = currentUserId;
         this.profilesInChannel = profilesInChannel;
-        this.profilesNotInChannel = profilesNotInChannel;
         this.autocompleteUsersInChannel = autocompleteUsersInChannel;
         this.useChannelMentions = useChannelMentions;
         this.autocompleteGroups = autocompleteGroups;
         this.searchAssociatedGroupsForReference = searchAssociatedGroupsForReference;
+        this.priorityProfiles = priorityProfiles;
     }
 
     // specialMentions matches one of @here, @channel or @all, unless using /msg.
@@ -119,10 +120,21 @@ export default class AtMentionProvider extends Provider {
         const localMembers = this.profilesInChannel.
             filter((profile) => this.filterProfile(profile)).
             map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS)).
-            sort((a, b) => a.username.localeCompare(b.username)).
             splice(0, 25);
 
         return localMembers;
+    }
+
+    filterPriorityProfiles() {
+        if (!this.priorityProfiles) {
+            return [];
+        }
+
+        const priorityProfiles = this.priorityProfiles.
+            filter((profile) => this.filterProfile(profile)).
+            map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS));
+
+        return priorityProfiles;
     }
 
     // localGroups matches up to 25 local results from the store
@@ -181,30 +193,44 @@ export default class AtMentionProvider extends Provider {
     }
 
     items() {
+        const priorityProfilesIds = {};
+        const priorityProfiles = this.filterPriorityProfiles();
+
+        priorityProfiles.forEach((member) => {
+            priorityProfilesIds[member.id] = true;
+        });
+
         const specialMentions = this.specialMentions();
-        const localMembers = this.localMembers();
+        const localMembers = this.localMembers().filter((member) => !priorityProfilesIds[member.id]);
 
         const localUserIds = {};
+
         localMembers.forEach((member) => {
             localUserIds[member.id] = true;
         });
 
-        const remoteMembers = this.remoteMembers().filter((member) => !localUserIds[member.id]);
+        const remoteMembers = this.remoteMembers().filter((member) => !localUserIds[member.id] && !priorityProfilesIds[member.id]);
 
         // comparator which prioritises users with usernames starting with search term
         const orderUsers = (a, b) => {
             const aStartsWith = a.username.startsWith(this.latestPrefix);
             const bStartsWith = b.username.startsWith(this.latestPrefix);
 
-            if (aStartsWith && bStartsWith) {
-                return a.username.localeCompare(b.username);
-            }
-            if (aStartsWith) {
+            if (aStartsWith && !bStartsWith) {
                 return -1;
-            }
-            if (bStartsWith) {
+            } else if (!aStartsWith && bStartsWith) {
                 return 1;
             }
+
+            // Sort recently viewed channels first
+            if (a.last_viewed_at && b.last_viewed_at) {
+                return b.last_viewed_at - a.last_viewed_at;
+            } else if (a.last_viewed_at) {
+                return -1;
+            } else if (b.last_viewed_at) {
+                return 1;
+            }
+
             return a.username.localeCompare(b.username);
         };
 
@@ -245,7 +271,7 @@ export default class AtMentionProvider extends Provider {
             filter((member) => !localUserIds[member.id]).
             sort(orderUsers);
 
-        return localAndRemoteMembers.concat(localAndRemoteGroups).concat(specialMentions).concat(remoteNonMembers);
+        return priorityProfiles.concat(localAndRemoteMembers).concat(localAndRemoteGroups).concat(specialMentions).concat(remoteNonMembers);
     }
 
     // updateMatches invokes the resultCallback with the metadata for rendering at mentions

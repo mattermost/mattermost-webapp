@@ -30,7 +30,6 @@ function makeMapStateToProps() {
             scheme: schemeId ? getScheme(state, schemeId) : null,
             teams: schemeId ? getSchemeTeams(state, {schemeId}) : null,
             roles: getRoles(state),
-            rolesRequest: state.requests.roles.getRolesByNames,
         };
     };
 }

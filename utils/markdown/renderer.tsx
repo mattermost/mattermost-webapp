@@ -6,15 +6,17 @@ import marked, {MarkedOptions} from 'marked';
 import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting';
-import {getScheme, isUrlSafe} from 'utils/url';
+import {getScheme, isUrlSafe, shouldOpenInNewTab} from 'utils/url';
 import EmojiMap from 'utils/emoji_map';
+
+import {parseImageDimensions} from './helpers';
 
 export default class Renderer extends marked.Renderer {
     private formattingOptions: TextFormatting.TextFormattingOptions;
     private emojiMap: EmojiMap;
     public constructor(
         options: MarkedOptions,
-        formattingOptions = {},
+        formattingOptions: TextFormatting.TextFormattingOptions,
         emojiMap = new EmojiMap(new Map()),
     ) {
         super(options);
@@ -35,7 +37,7 @@ export default class Renderer extends marked.Renderer {
             return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
         }
         if (usedLanguage === 'texcode' || usedLanguage === 'latexcode') {
-            usedLanguage = 'tex';
+            usedLanguage = 'latex';
         }
 
         // treat html as xml to prevent injection attacks
@@ -138,29 +140,20 @@ export default class Renderer extends marked.Renderer {
     }
 
     public image(href: string, title: string, text: string) {
-        let src = href;
-        let dimensions: string[] = [];
-        const parts = href.split(' ');
-        if (parts.length > 1) {
-            const lastPart = parts.pop();
-            src = parts.join(' ');
-            if (lastPart && lastPart[0] === '=') {
-                dimensions = lastPart.substr(1).split('x');
-                if (dimensions.length === 2 && dimensions[1] === '') {
-                    dimensions[1] = 'auto';
-                }
-            }
-        }
+        const dimensions = parseImageDimensions(href);
+
+        let src = dimensions.href;
         src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
+
         let out = `<img src="${src}" alt="${text}"`;
         if (title) {
             out += ` title="${title}"`;
         }
-        if (dimensions.length > 0) {
-            out += ` width="${dimensions[0]}"`;
+        if (dimensions.width) {
+            out += ` width="${dimensions.width}"`;
         }
-        if (dimensions.length > 1) {
-            out += ` height="${dimensions[1]}"`;
+        if (dimensions.height) {
+            out += ` height="${dimensions.height}"`;
         }
         out += ' class="markdown-inline-img"';
         out += this.options.xhtml ? '/>' : '>';
@@ -207,29 +200,15 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
-        const pluginURL = `${this.formattingOptions.siteURL}/plugins`;
-        const fileURL = `${this.formattingOptions.siteURL}/files`;
+        const openInNewTab = shouldOpenInNewTab(outHref, this.formattingOptions.siteURL, this.formattingOptions.managedResourcePaths);
 
-        // Any link that begins with siteURL should be opened inside the app, except when rooted
-        // at /plugins, which is logically "outside the app" despite being hosted by a plugin,
-        // or /files, which should be launched "outside the app".
-        let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '') && !outHref.startsWith(pluginURL) && !outHref.startsWith(fileURL);
-
-        // special case for team invite links, channel links, and permalinks that are inside the app
-        const pattern = new RegExp(
-            '^(' +
-            TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
-            ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages|plugins))\\/',
-        );
-        internalLink = internalLink || pattern.test(outHref);
-
-        if (internalLink && this.formattingOptions.siteURL) {
+        if (openInNewTab || !this.formattingOptions.siteURL) {
+            output += ' target="_blank"';
+        } else {
             output += ` data-link="${outHref.replace(
                 this.formattingOptions.siteURL,
                 '',
             )}"`;
-        } else {
-            output += ' target="_blank"';
         }
 
         if (title) {

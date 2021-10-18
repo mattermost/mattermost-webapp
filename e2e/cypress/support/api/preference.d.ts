@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         // *******************************************************************************
         // Preferences
@@ -58,7 +58,7 @@ declare namespace Cypress {
         apiSaveClockDisplayModeTo24HourPreference(is24Hour: boolean): Chainable<Response>;
 
         /**
-         * Save cloud onboarding preference.
+         * Save onboarding preference.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
          * @param {string} userId - User ID
          * @param {string} name - options are complete_profile, team_setup, invite_members or hide
@@ -66,20 +66,33 @@ declare namespace Cypress {
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   cy.apiSaveCloudOnboardingPreference('user-id', 'hide', 'true');
+         *   cy.apiSaveOnboardingPreference('user-id', 'hide', 'true');
          */
-        apiSaveCloudOnboardingPreference(userId: string, name: string, value: string): Chainable<Response>;
+        apiSaveOnboardingPreference(userId: string, name: string, value: string): Chainable<Response>;
 
         /**
-         * Save hiding of What's New modal.
+         * Save DM channel show preference.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
          * @param {string} userId - User ID
-         * @param {string} value - options are 'true' to hide or 'false' to show
+         * @param {string} otherUserId - Other user in a DM channel
+         * @param {string} value - options are 'true' or 'false'
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   cy.apiHideSidebarWhatsNewModalPreference('user-id', 'true');
+         *   cy.apiSaveDirectChannelShowPreference('user-id', 'other-user-id', 'false');
          */
-        apiHideSidebarWhatsNewModalPreference(userId: string, name: string): Chainable<Response>;
+        apiSaveDirectChannelShowPreference(userId: string, otherUserId: string, value: string): Chainable<Response>;
+
+        /**
+         * Save Collapsed Reply Threads preference.
+         * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+         * @param {string} userId - User ID
+         * @param {string} value - options are 'on' or 'off'
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiSaveCRTPreference('user-id', 'on');
+         */
+        apiSaveCRTPreference(userId: string, value: string): Chainable<Response>;
     }
 }

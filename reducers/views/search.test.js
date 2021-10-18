@@ -10,6 +10,8 @@ describe('Reducers.Search', () => {
         modalFilters: {},
         systemUsersSearch: {},
         userGridSearch: {},
+        teamListSearch: '',
+        channelListSearch: {},
     };
 
     test('Initial state', () => {

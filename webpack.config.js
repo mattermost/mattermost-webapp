@@ -4,6 +4,7 @@
 const childProcess = require('child_process');
 
 const path = require('path');
+
 const url = require('url');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -27,8 +28,8 @@ const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
 
-// react-hot-loader requires eval
-const CSP_UNSAFE_EVAL_IF_DEV = targetIsDevServer ? ' \'unsafe-eval\'' : '';
+// react-hot-loader and development source maps require eval
+const CSP_UNSAFE_EVAL_IF_DEV = DEV ? ' \'unsafe-eval\'' : '';
 
 var MYSTATS = {
 
@@ -79,9 +80,6 @@ var MYSTATS = {
 
     // Add the hash of the compilation
     hash: true,
-
-    // Set the maximum number of modules to be shown
-    maxModules: 0,
 
     // Add built modules information
     modules: false,
@@ -135,9 +133,8 @@ if (DEV) {
 var config = {
     entry: ['./root.jsx', 'root.html'],
     output: {
-        path: path.join(__dirname, 'dist'),
         publicPath,
-        filename: '[name].[hash].js',
+        filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].js',
     },
     module: {
@@ -163,7 +160,7 @@ var config = {
                 exclude: [/en\.json$/],
                 use: [
                     {
-                        loader: 'file-loader?name=i18n/[name].[hash].[ext]',
+                        loader: 'file-loader?name=i18n/[name].[contenthash].[ext]',
                     },
                 ],
             },
@@ -199,7 +196,7 @@ var config = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'files/[hash].[ext]',
+                            name: 'files/[contenthash].[ext]',
                         },
                     },
                     {
@@ -214,7 +211,7 @@ var config = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'files/[hash].[ext]',
+                            name: 'files/[contenthash].[ext]',
                         },
                     },
                 ],
@@ -225,15 +222,7 @@ var config = {
                     {
                         loader: 'html-loader',
                         options: {
-                            attributes: {
-                                list: [
-                                    {
-                                        tag: 'link',
-                                        attribute: 'href',
-                                        type: 'src',
-                                    },
-                                ],
-                            },
+                            sources: false,
                         },
                     },
                 ],
@@ -246,10 +235,17 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
+            'mattermost-redux/test': 'packages/mattermost-redux/test',
+            'mattermost-redux': 'packages/mattermost-redux/src',
+            reselect: 'packages/reselect/src',
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        fallback: {
+            crypto: require.resolve('crypto-browserify'),
+            stream: require.resolve('stream-browserify'),
+        },
     },
     performance: {
         hints: 'warning',
@@ -260,13 +256,14 @@ var config = {
             'window.jQuery': 'jquery',
             $: 'jquery',
             jQuery: 'jquery',
+            process: 'process/browser',
         }),
         new webpack.DefinePlugin({
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[contentHash].css',
-            chunkFilename: '[name].[contentHash].css',
+            filename: '[name].[contenthash].css',
+            chunkFilename: '[name].[contenthash].css',
         }),
         new HtmlWebpackPlugin({
             filename: 'root.html',
@@ -290,6 +287,19 @@ var config = {
                 {from: 'images/warning.png', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
+                {from: 'images/cloud', to: 'images'},
+                {from: 'images/welcome_illustration_new.png', to: 'images'},
+                {from: 'images/logo_email_blue.png', to: 'images'},
+                {from: 'images/logo_email_dark.png', to: 'images'},
+                {from: 'images/logo_email_gray.png', to: 'images'},
+                {from: 'images/forgot_password_illustration.png', to: 'images'},
+                {from: 'images/invite_illustration.png', to: 'images'},
+                {from: 'images/channel_icon.png', to: 'images'},
+                {from: 'images/add_payment_method.png', to: 'images'},
+                {from: 'images/add_subscription.png', to: 'images'},
+                {from: 'images/c_avatar.png', to: 'images'},
+                {from: 'images/c_download.png', to: 'images'},
+                {from: 'images/c_socket.png', to: 'images'},
             ],
         }),
 
@@ -366,14 +376,12 @@ if (!targetIsStats) {
     config.stats = MYSTATS;
 }
 
-// Development mode configuration
 if (DEV) {
+    // Development mode configuration
     config.mode = 'development';
-    config.devtool = 'source-map';
-}
-
-// Production mode configuration
-if (!DEV) {
+    config.devtool = 'eval-cheap-module-source-map';
+} else {
+    // Production mode configuration
     config.mode = 'production';
     config.devtool = 'source-map';
 }
@@ -406,7 +414,7 @@ if (targetIsTest) {
 if (targetIsDevServer) {
     config = {
         ...config,
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
             injectHot: true,

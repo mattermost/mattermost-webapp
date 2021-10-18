@@ -50,6 +50,6 @@ describe('Messaging', () => {
         cy.findByText(label).should('be.visible');
 
         cy.get(targetElement).trigger('mouseout', {force: true});
-        cy.findByText(label).should('not.be.visible');
+        cy.findByText(label).should('not.exist');
     }
 });

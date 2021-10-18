@@ -88,6 +88,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                 id='linkModalTextArea'
                 className='form-control no-resize min-height'
                 ref={this.textAreaRef}
+                dir='auto'
                 value={this.props.link}
                 onClick={this.copyLink}
                 readOnly={true}

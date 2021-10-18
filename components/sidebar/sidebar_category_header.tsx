@@ -19,31 +19,37 @@ export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps,
                 ref={ref}
                 className='SidebarChannelGroupHeader_groupButton'
             >
-                {wrapEmojis(props.displayName)}
+                <div className='SidebarChannelGroupHeader_text'>
+                    {wrapEmojis(props.displayName)}
+                </div>
+                {props.children}
             </div>
-            {props.children}
         </div>
     );
 });
 SidebarCategoryHeaderStatic.displayName = 'SidebarCategoryHeaderStatic';
 
 type Props = StaticProps & {
-    dragHandleProps?: DraggableProvidedDragHandleProps
-    isCollapsed: boolean,
-    isCollapsible: boolean,
+    dragHandleProps?: DraggableProvidedDragHandleProps;
+    isCollapsed: boolean;
+    isCollapsible: boolean;
     isDragging?: boolean;
     isDraggingOver?: boolean;
+    muted: boolean;
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLButtonElement>) => {
     return (
-        <div className='SidebarChannelGroupHeader'>
+        <div
+            className={classNames('SidebarChannelGroupHeader', {
+                muted: props.muted,
+                dragging: props.isDragging,
+            })}
+        >
             <button
                 ref={ref}
-                className={classNames('SidebarChannelGroupHeader_groupButton', {
-                    dragging: props.isDragging,
-                })}
+                className={classNames('SidebarChannelGroupHeader_groupButton')}
                 aria-label={props.displayName}
                 onClick={props.onClick}
             >
@@ -53,7 +59,10 @@ export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React
                         'hide-arrow': !props.isCollapsible,
                     })}
                 />
-                <div {...props.dragHandleProps}>
+                <div
+                    className='SidebarChannelGroupHeader_text'
+                    {...props.dragHandleProps}
+                >
                     {wrapEmojis(props.displayName)}
                 </div>
             </button>

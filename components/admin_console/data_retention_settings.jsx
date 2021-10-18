@@ -14,7 +14,7 @@ import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
 
-export default class DataRetentionSettings extends AdminSettings {
+export default class DataRetentionSettingsOld extends AdminSettings {
     getConfigFromState = (config) => {
         config.DataRetentionSettings.EnableMessageDeletion = this.state.enableMessageDeletion === 'true';
         config.DataRetentionSettings.EnableFileDeletion = this.state.enableFileDeletion === 'true';
@@ -302,7 +302,7 @@ export default class DataRetentionSettings extends AdminSettings {
                 />
                 <JobsTable
                     jobType={JobTypes.DATA_RETENTION}
-                    disabled={this.state.enableMessageDeletion !== 'true' && this.state.enableFileDeletion !== 'true'}
+                    disabled={(this.state.enableMessageDeletion !== 'true' && this.state.enableFileDeletion !== 'true') || this.props.isDisabled}
                     createJobButtonText={
                         <FormattedMessage
                             id='admin.data_retention.createJob.title'

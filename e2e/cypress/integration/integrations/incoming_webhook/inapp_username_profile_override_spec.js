@@ -64,7 +64,7 @@ describe('Incoming webhook', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Click test channel on sidebar
-        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').click();
+        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').click({force: true});
 
         // # Wait for the webhook message to get posted
         cy.waitUntil(() => cy.getLastPost().then((el) => {
@@ -82,7 +82,7 @@ describe('Incoming webhook', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Click test channel on sidebar
-        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').click();
+        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').click({force: true});
 
         // # Wait for the webhook message to get posted
         cy.waitUntil(() => cy.getLastPost().then((el) => {

@@ -7,6 +7,7 @@ import React from 'react';
 import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
 import {format} from 'utils/markdown';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
@@ -15,6 +16,12 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import Markdown from 'components/markdown/markdown';
+
+import RenewLinkCard from './renew_license_card/renew_license_card';
+import TrialLicenseCard from './trial_license_card/trial_license_card';
+
+import './license_settings.scss';
 
 export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
@@ -24,10 +31,12 @@ export default class LicenseSettings extends React.PureComponent {
         stats: PropTypes.object,
         config: PropTypes.object,
         isDisabled: PropTypes.bool,
+        prevTrialLicense: PropTypes.object,
         actions: PropTypes.shape({
             getLicenseConfig: PropTypes.func.isRequired,
             uploadLicense: PropTypes.func.isRequired,
             removeLicense: PropTypes.func.isRequired,
+            getPrevTrialLicense: PropTypes.func.isRequired,
             upgradeToE0: PropTypes.func.isRequired,
             restartServer: PropTypes.func.isRequired,
             ping: PropTypes.func.isRequired,
@@ -53,10 +62,14 @@ export default class LicenseSettings extends React.PureComponent {
             restarting: false,
             restartError: null,
         };
+
+        this.fileInputRef = React.createRef();
     }
 
     componentDidMount() {
-        if (!this.props.enterpriseReady) {
+        if (this.props.enterpriseReady) {
+            this.props.actions.getPrevTrialLicense();
+        } else {
             this.reloadPercentage();
         }
         this.props.actions.getLicenseConfig();
@@ -88,7 +101,7 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     handleChange = () => {
-        const element = this.refs.fileInput;
+        const element = this.fileInputRef.current;
         if (element && element.files.length > 0) {
             this.setState({fileSelected: true, fileName: element.files[0].name});
         }
@@ -97,7 +110,7 @@ export default class LicenseSettings extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        const element = this.refs.fileInput;
+        const element = this.fileInputRef.current;
         if (!element || element.files.length === 0) {
             return;
         }
@@ -127,6 +140,7 @@ export default class LicenseSettings extends React.PureComponent {
             return;
         }
 
+        this.props.actions.getPrevTrialLicense();
         await this.props.actions.getLicenseConfig();
         this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
     }
@@ -180,6 +194,38 @@ export default class LicenseSettings extends React.PureComponent {
         setTimeout(this.checkRestarted, 1000);
     }
 
+    renderStartTrial = (isDisabled, gettingTrialError) => {
+        return (
+            <React.Fragment>
+                <p className='trial'>
+                    <button
+                        type='button'
+                        className='btn btn-primary'
+                        onClick={this.requestLicense}
+                        disabled={isDisabled}
+                    >
+                        <LoadingWrapper
+                            loading={this.state.gettingTrial}
+                            text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
+                        >
+                            <FormattedMessage
+                                id='admin.license.trial-request.submit'
+                                defaultMessage='Start trial'
+                            />
+                        </LoadingWrapper>
+                    </button>
+                </p>
+                {gettingTrialError}
+                <p className='trial-legal-terms'>
+                    <FormattedMarkdownMessage
+                        id='admin.license.trial-request.accept-terms'
+                        defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
+                    />
+                </p>
+            </React.Fragment>
+        );
+    }
+
     render() {
         let gettingTrialError = '';
         if (this.state.gettingTrialError) {
@@ -215,11 +261,12 @@ export default class LicenseSettings extends React.PureComponent {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <div>
-                    <p>{'Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.'}</p>
+                    <p>{'Mattermost Starter Edition. A license is required to unlock enterprise features.'}</p>
                     {this.state.upgradingPercentage !== 100 &&
                         <div>
                             <p>
                                 <button
+                                    type='button'
                                     onClick={this.handleUpgrade}
                                     className='btn btn-primary'
                                 >
@@ -265,6 +312,7 @@ export default class LicenseSettings extends React.PureComponent {
                             </p>
                             <p>
                                 <button
+                                    type='button'
                                     onClick={this.handleRestart}
                                     className='btn btn-primary'
                                 >
@@ -300,8 +348,16 @@ export default class LicenseSettings extends React.PureComponent {
             eelicense = this.renderEELicenseText();
         } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${license.SkuShortName}`}<br/></React.Fragment> : null;
-            edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
+            let skuShortName = license.SkuShortName;
+            if (isTrialLicense(license)) {
+                skuShortName = `${license.SkuShortName} Trial`;
+            }
+            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${skuShortName}`}<br/></React.Fragment> : null;
+            if (license.SkuShortName === 'E20') {
+                edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.';
+            } else {
+                edition = 'Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.';
+            }
             if (upgradedFromTE) {
                 eelicense = this.renderEELicenseText();
             }
@@ -345,30 +401,7 @@ export default class LicenseSettings extends React.PureComponent {
             edition = (
                 <div>
                     {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
-                    <p className='trial'>
-                        <button
-                            className='btn btn-primary'
-                            onClick={this.requestLicense}
-                            disabled={isDisabled}
-                        >
-                            <LoadingWrapper
-                                loading={this.state.gettingTrial}
-                                text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                            >
-                                <FormattedMessage
-                                    id='admin.license.trial-request.submit'
-                                    defaultMessage='Start trial'
-                                />
-                            </LoadingWrapper>
-                        </button>
-                    </p>
-                    {gettingTrialError}
-                    <p className='trial-legal-terms'>
-                        <FormattedMarkdownMessage
-                            id='admin.license.trial-request.accept-terms'
-                            defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
-                        />
-                    </p>
+                    {this.props.prevTrialLicense?.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(isDisabled, gettingTrialError)}
                 </div>
             );
 
@@ -400,6 +433,7 @@ export default class LicenseSettings extends React.PureComponent {
                             className='form-horizontal'
                             role='form'
                         >
+                            {this.renewLicenseCard()}
                             <div className='form-group'>
                                 <label
                                     className='control-label col-sm-4'
@@ -445,7 +479,7 @@ export default class LicenseSettings extends React.PureComponent {
         let removeButtonText = (
             <FormattedMessage
                 id='admin.license.keyRemove'
-                defaultMessage='Remove Enterprise License and Downgrade Server'
+                defaultMessage='Remove License and Downgrade Server'
             />
         );
         if (this.state.removing) {
@@ -469,10 +503,12 @@ export default class LicenseSettings extends React.PureComponent {
                 </label>
                 <div className='col-sm-8'>
                     <button
+                        type='button'
                         className='btn btn-danger'
                         onClick={this.handleRemove}
                         disabled={this.props.isDisabled}
                         id='remove-button'
+                        data-testid='remove-button'
                     >
                         {removeButtonText}
                     </button>
@@ -489,7 +525,12 @@ export default class LicenseSettings extends React.PureComponent {
     renderE0Content = () => {
         let serverError = '';
         if (this.state.serverError) {
-            serverError = <div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div></div>;
+            serverError = (<div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>
+                <Markdown
+                    enableFormatting={true}
+                    message={this.state.serverError}
+                />
+            </label></div></div>);
         }
 
         var btnClass = 'btn';
@@ -535,14 +576,17 @@ export default class LicenseSettings extends React.PureComponent {
                 </label>
                 <div className='col-sm-8'>
                     <div className='file__upload'>
-                        <button className='btn btn-primary'>
+                        <button
+                            type='button'
+                            className='btn btn-primary'
+                        >
                             <FormattedMessage
                                 id='admin.license.choose'
                                 defaultMessage='Choose File'
                             />
                         </button>
                         <input
-                            ref='fileInput'
+                            ref={this.fileInputRef}
                             type='file'
                             accept='.mattermost-license'
                             onChange={this.handleChange}
@@ -594,6 +638,28 @@ export default class LicenseSettings extends React.PureComponent {
                 </div>
             </>
         );
+    }
+
+    renewLicenseCard = () => {
+        const {isDisabled} = this.props;
+        if (isTrialLicense(this.props.license)) {
+            return (
+                <TrialLicenseCard
+                    license={this.props.license}
+                />
+            );
+        }
+        if (isLicenseExpired(this.props.license) || isLicenseExpiring(this.props.license)) {
+            return (
+                <RenewLinkCard
+                    license={this.props.license}
+                    isLicenseExpired={isLicenseExpired(this.props.license)}
+                    totalUsers={this.props.stats.TOTAL_USERS}
+                    isDisabled={isDisabled}
+                />
+            );
+        }
+        return null;
     }
 }
 /* eslint-enable react/no-string-refs */

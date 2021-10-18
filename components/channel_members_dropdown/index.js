@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getChannelStats, updateChannelMemberSchemeRoles, removeChannelMember, getChannelMember} from 'mattermost-redux/actions/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -17,12 +18,10 @@ function mapStateToProps(state, ownProps) {
     const {channel} = ownProps;
     const canChangeMemberRoles = haveIChannelPermission(
         state,
-        {
-            channel: channel.id,
-            team: channel.team_id,
-            permission: Permissions.MANAGE_CHANNEL_ROLES,
-        },
-    );
+        channel.team_id,
+        channel.id,
+        Permissions.MANAGE_CHANNEL_ROLES,
+    ) && canManageMembers(state, channel);
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
     const canRemoveMember = canManageMembers(state, channel);

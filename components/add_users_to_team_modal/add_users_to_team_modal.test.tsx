@@ -23,7 +23,7 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
     const user1 = createUser('userid1', 'user-1', false);
     const user2 = createUser('userid2', 'user-2', false);
     const removedUser = createUser('userid-not-removed', 'user-not-removed', false);
-    const team: Team = {
+    const team: Team = TestHelper.getTeamMock({
         id: 'team-1',
         create_at: 1589222794545,
         update_at: 1589222794545,
@@ -39,7 +39,7 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
         allow_open_invite: true,
         scheme_id: '',
         group_constrained: false,
-    };
+    });
 
     const baseProps = {
         team,
@@ -53,7 +53,7 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
 
         actions: {
             getProfilesNotInTeam: jest.fn(),
-            searchProfiles: jest.fn(),
+            searchProfiles: jest.fn().mockResolvedValue({data: []}),
         },
     };
 
@@ -88,27 +88,21 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
     });
 
     test('should search', () => {
-        const getProfilesNotInTeam = jest.fn();
-        const searchProfiles = jest.fn();
         const wrapper = shallow(
             <AddUsersToTeamModal
                 {...baseProps}
-                actions={{
-                    searchProfiles,
-                    getProfilesNotInTeam,
-                }}
             />,
         );
         const addUsers = wrapper.instance() as AddUsersToTeamModal;
 
         // search profiles when search term given
         addUsers.search('foo');
-        expect(searchProfiles).toHaveBeenCalledTimes(1);
-        expect(getProfilesNotInTeam).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.searchProfiles).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.getProfilesNotInTeam).toHaveBeenCalledTimes(1);
 
         // get profiles when no search term
         addUsers.search('');
-        expect(searchProfiles).toHaveBeenCalledTimes(1);
-        expect(getProfilesNotInTeam).toHaveBeenCalledTimes(2);
+        expect(baseProps.actions.searchProfiles).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.getProfilesNotInTeam).toHaveBeenCalledTimes(2);
     });
 });

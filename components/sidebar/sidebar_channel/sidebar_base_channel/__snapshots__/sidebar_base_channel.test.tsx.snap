@@ -9,16 +9,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "creator_id": "",
       "delete_at": 0,
       "display_name": "channel_display_name",
-      "extra_update_at": 0,
       "group_constrained": false,
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
       "type": "O",
       "update_at": 0,
     }
@@ -44,16 +43,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "creator_id": "",
       "delete_at": 0,
       "display_name": "channel_display_name",
-      "extra_update_at": 0,
       "group_constrained": false,
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
       "type": "P",
       "update_at": 0,
     }
@@ -62,6 +60,80 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
   icon={
     <i
       className="icon icon-lock-outline"
+    />
+  }
+  isCollapsed={false}
+  label="channel_display_name"
+  link="/team_name/channels/"
+/>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match snapshot when shared channel 1`] = `
+<Connect(SidebarChannelLink)
+  ariaLabelPrefix="public channel"
+  channel={
+    Object {
+      "create_at": 0,
+      "creator_id": "",
+      "delete_at": 0,
+      "display_name": "channel_display_name",
+      "group_constrained": false,
+      "header": "",
+      "id": "channel_id",
+      "last_post_at": 0,
+      "last_root_post_at": 0,
+      "name": "",
+      "purpose": "",
+      "scheme_id": "",
+      "shared": true,
+      "team_id": "",
+      "type": "O",
+      "update_at": 0,
+    }
+  }
+  closeHandler={[Function]}
+  icon={
+    <SharedChannelIndicator
+      channelType="O"
+      className="icon"
+      withTooltip={true}
+    />
+  }
+  isCollapsed={false}
+  label="channel_display_name"
+  link="/team_name/channels/"
+/>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match snapshot when shared private channel 1`] = `
+<Connect(SidebarChannelLink)
+  ariaLabelPrefix="private channel"
+  channel={
+    Object {
+      "create_at": 0,
+      "creator_id": "",
+      "delete_at": 0,
+      "display_name": "channel_display_name",
+      "group_constrained": false,
+      "header": "",
+      "id": "channel_id",
+      "last_post_at": 0,
+      "last_root_post_at": 0,
+      "name": "",
+      "purpose": "",
+      "scheme_id": "",
+      "shared": true,
+      "team_id": "",
+      "type": "P",
+      "update_at": 0,
+    }
+  }
+  closeHandler={[Function]}
+  icon={
+    <SharedChannelIndicator
+      channelType="P"
+      className="icon"
+      withTooltip={true}
     />
   }
   isCollapsed={false}

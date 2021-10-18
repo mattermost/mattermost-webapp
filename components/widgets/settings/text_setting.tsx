@@ -5,7 +5,7 @@ import React from 'react';
 
 import Setting from './setting';
 
-type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
+export type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
 
 export type WidgetTextSettingProps = {
     id: string;
@@ -62,6 +62,7 @@ export default class TextSetting extends React.PureComponent<WidgetTextSettingPr
                     autoFocus={this.props.autoFocus}
                     data-testid={this.props.id + 'input'}
                     id={this.props.id}
+                    dir='auto'
                     style={style}
                     className='form-control'
                     rows={5}

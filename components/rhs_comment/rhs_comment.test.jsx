@@ -1,25 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
 import EmojiMap from 'utils/emoji_map';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import {Locations} from 'utils/constants';
+import {isSystemMessage} from 'utils/post_utils';
 
-jest.mock('utils/post_utils.jsx', () => ({
+jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),
 }));
 
 import {isMobile} from 'utils/utils';
+import UserProfile from '../user_profile';
+
 jest.mock('utils/utils', () => ({
     isMobile: jest.fn(),
 }));
@@ -34,7 +36,6 @@ describe('components/RhsComment', () => {
         is_pinned: false,
         message: 'post message',
         original_id: '',
-        parent_id: '',
         pending_post_id: '',
         props: {},
         root_id: '',
@@ -51,6 +52,7 @@ describe('components/RhsComment', () => {
         reactions: {},
         isFlagged: true,
         isBusy: false,
+        shouldHighlight: false,
         removePost: jest.fn(),
         previewCollapsed: '',
         previewEnabled: false,
@@ -67,10 +69,13 @@ describe('components/RhsComment', () => {
             markPostAsUnread: jest.fn(),
         },
         emojiMap: new EmojiMap(new Map()),
+        isBot: false,
+        collapsedThreadsEnabled: false,
+        isInViewport: jest.fn(),
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -78,7 +83,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should match snapshot hovered', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -89,7 +94,7 @@ describe('components/RhsComment', () => {
 
     test('should match snapshot mobile', () => {
         isMobile.mockImplementation(() => true);
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -104,7 +109,7 @@ describe('components/RhsComment', () => {
                 state: Posts.POST_DELETED,
             },
         };
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...props}/>,
         );
         wrapper.setState({hover: true});
@@ -112,8 +117,30 @@ describe('components/RhsComment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot on CRT enabled', () => {
+        const wrapper = shallow(
+            <RhsComment
+                {...baseProps}
+                collapsedThreadsEnabled={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when highlighted', () => {
+        const wrapper = shallow(
+            <RhsComment
+                {...baseProps}
+                shouldHighlight={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should show pointer when alt is held down', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -130,7 +157,7 @@ describe('components/RhsComment', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...props}/>,
         );
 
@@ -142,7 +169,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should call markPostAsUnread when post is alt+clicked on', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -152,7 +179,7 @@ describe('components/RhsComment', () => {
 
         wrapper.simulate('click', {altKey: true});
 
-        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post);
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post, 'RHS_COMMENT');
     });
 
     test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {
@@ -161,7 +188,7 @@ describe('components/RhsComment', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...props}/>,
         );
 
@@ -177,7 +204,7 @@ describe('components/RhsComment', () => {
     test('should pass props correctly to PostFlagIcon', () => {
         isMobile.mockImplementationOnce(() => false);
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -189,7 +216,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should pass props correctly to PostPreHeader', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -198,5 +225,29 @@ describe('components/RhsComment', () => {
         expect(postPreHeader.prop('isFlagged')).toEqual(baseProps.isFlagged);
         expect(postPreHeader.prop('isPinned')).toEqual(baseProps.post.is_pinned);
         expect(postPreHeader.prop('channelId')).toEqual(baseProps.post.channel_id);
+    });
+
+    test('should pass props correctly to UserProfile when sender is Bot', () => {
+        isSystemMessage.mockImplementationOnce(() => true);
+
+        const props = {
+            ...baseProps,
+            isBot: true,
+        };
+
+        const wrapper = shallow(
+            <RhsComment {...props}/>,
+        );
+
+        const userProfile = wrapper.find(UserProfile);
+        expect(userProfile).toHaveLength(1);
+        expect(userProfile.prop('overwriteName')).toBeUndefined();
+        expect(userProfile.prop('userId')).toEqual(props.post.user_id);
+
+        const visibleMessage = wrapper.find('span[className="post__visibility"]');
+        expect(visibleMessage).toHaveLength(1);
+        expect(visibleMessage.prop('children')).toBeTruthy();
+        expect(visibleMessage.prop('children').props).toBeTruthy();
+        expect(visibleMessage.prop('children').props.id).toEqual('post_info.message.visible');
     });
 });

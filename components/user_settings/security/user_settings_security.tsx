@@ -5,15 +5,18 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {OAuthApp} from 'mattermost-redux/types/integrations';
 
 import Constants from 'utils/constants';
+import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
+import LocalizedIcon from 'components/localized_icon';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
@@ -50,11 +53,12 @@ type Props = {
     enableSignUpWithEmail: boolean;
     enableSignUpWithGitLab: boolean;
     enableSignUpWithGoogle: boolean;
+    enableSignUpWithOpenId: boolean;
     enableLdap: boolean;
     enableSaml: boolean;
     enableSignUpWithOffice365: boolean;
     experimentalEnableAuthenticationTransfer: boolean;
-    passwordConfig: Record<string, unknown>;
+    passwordConfig: Utils.PasswordConfig;
     militaryTime: boolean;
     actions: Actions;
 };
@@ -508,6 +512,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             let gitlabOption;
             let googleOption;
             let office365Option;
+            let openidOption;
             let ldapOption;
             let samlOption;
 
@@ -577,6 +582,30 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 <FormattedMessage
                                     id='user.settings.security.switchOffice365'
                                     defaultMessage='Switch to Using Office 365 SSO'
+                                />
+                            </Link>
+                            <br/>
+                        </div>
+                    );
+                }
+
+                if (this.props.enableSignUpWithOpenId) {
+                    openidOption = (
+                        <div className='pb-3'>
+                            <Link
+                                className='btn btn-primary'
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.OPENID_SERVICE
+                                }
+                            >
+                                <FormattedMessage
+                                    id='user.settings.security.switchOpenId'
+                                    defaultMessage='Switch to Using OpenID SSO'
                                 />
                             </Link>
                             <br/>
@@ -664,6 +693,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     {gitlabOption}
                     {googleOption}
                     {office365Option}
+                    {openidOption}
                     {ldapOption}
                     {samlOption}
                 </div>,
@@ -719,6 +749,15 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 <FormattedMessage
                     id='user.settings.security.office365'
                     defaultMessage='Office 365'
+                />
+            );
+        } else if (
+            this.props.user.auth_service === Constants.OPENID_SERVICE
+        ) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.security.openid'
+                    defaultMessage='OpenID'
                 />
             );
         } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
@@ -898,6 +937,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         numMethods = this.props.enableSignUpWithGitLab ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithGoogle ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithOffice365 ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableSignUpWithOpenId ? numMethods + 1 : numMethods;
         numMethods = this.props.enableLdap ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSaml ? numMethods + 1 : numMethods;
 
@@ -931,39 +971,25 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         return (
             <div>
                 <div className='modal-header'>
-                    <FormattedMessage
-                        id='user.settings.security.close'
-                        defaultMessage='Close'
+                    <button
+                        type='button'
+                        className='close'
+                        data-dismiss='modal'
+                        aria-label={Utils.localizeMessage('user.settings.security.close', 'Close')}
+                        onClick={this.props.closeModal}
                     >
-                        {(ariaLabel: string) => (
-                            <button
-                                type='button'
-                                className='close'
-                                data-dismiss='modal'
-                                aria-label={ariaLabel}
-                                onClick={this.props.closeModal}
-                            >
-                                <span aria-hidden='true'>{'×'}</span>
-                            </button>
-                        )}
-                    </FormattedMessage>
+                        <span aria-hidden='true'>{'×'}</span>
+                    </button>
                     <h4
                         className='modal-title'
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <FormattedMessage
-                                id='generic_icons.collapse'
-                                defaultMessage='Collapse Icon'
-                            >
-                                {(title: string) => (
-                                    <i
-                                        className='fa fa-angle-left'
-                                        title={title}
-                                        onClick={this.props.collapseModal}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='fa fa-angle-left'
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
+                                onClick={this.props.collapseModal}
+                            />
                         </div>
                         <FormattedMessage
                             id='user.settings.security.title'
@@ -998,17 +1024,10 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                         dialogType={AccessHistoryModal}
                         id='viewAccessHistory'
                     >
-                        <FormattedMessage
-                            id='user.settings.security.viewHistory.icon'
-                            defaultMessage='Access History Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='fa fa-clock-o'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-clock-o'
+                            title={{id: t('user.settings.security.viewHistory.icon'), defaultMessage: 'Access History Icon'}}
+                        />
                         <FormattedMessage
                             id='user.settings.security.viewHistory'
                             defaultMessage='View Access History'
@@ -1017,18 +1036,12 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     <ToggleModalButton
                         className='security-links color--link mt-2'
                         dialogType={ActivityLogModal}
+                        id='viewAndLogOutOfActiveSessions'
                     >
-                        <FormattedMessage
-                            id='user.settings.security.logoutActiveSessions.icon'
-                            defaultMessage='Active Sessions Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='fa fa-clock-o'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-clock-o'
+                            title={{id: t('user.settings.security.logoutActiveSessions.icon'), defaultMessage: 'Active Sessions Icon'}}
+                        />
                         <FormattedMessage
                             id='user.settings.security.logoutActiveSessions'
                             defaultMessage='View and Log Out of Active Sessions'

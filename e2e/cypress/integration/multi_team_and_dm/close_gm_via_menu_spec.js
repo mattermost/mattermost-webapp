@@ -7,10 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @multi_team_and_dm
-
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Multi-user group messages', () => {
     let testUser;
@@ -34,7 +31,7 @@ describe('Multi-user group messages', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the 'Direct messages' dialog to create a new direct message
-        cy.get('#addDirectChannel', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+        cy.uiAddDirectMessage().should('be.visible').click();
 
         // # Add 3 users to a group message
         addUsersToGMViaModal(3);

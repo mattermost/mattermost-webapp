@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import {batchActions} from 'redux-batched-actions';
+
 import {
     ChannelTypes,
     EmojiTypes,
@@ -26,12 +28,27 @@ import {
     markChannelAsRead,
     getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
+import {
+    getThread as fetchThread,
+    getThreads as fetchThreads,
+    handleAllMarkedRead,
+    handleReadChanged,
+    handleFollowChanged,
+    handleThreadArrived,
+    handleAllThreadsInChannelMarkedRead,
+    updateThreadRead,
+} from 'mattermost-redux/actions/threads';
+
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
+    getPostThread,
     getProfilesAndStatusesForPosts,
     getThreadsForPosts,
     postDeleted,
@@ -56,18 +73,24 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {getSelectedChannelId} from 'selectors/rhs';
+import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
+
+import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
+import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
+import {updateThreadLastOpened} from 'actions/views/threads';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
@@ -174,10 +197,14 @@ export function reconnect(includeWebSocket = true) {
     const state = getState();
     const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
+        const currentUserId = getCurrentUserId(state);
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
+
         dispatch(loadChannelsForCurrentUser());
+        dispatch(handleRefreshAppsBindings());
+
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
@@ -186,7 +213,12 @@ export function reconnect(includeWebSocket = true) {
             dispatch(getPosts(currentChannelId));
         }
         StatusActions.loadStatusesForChannelAndSidebar();
-        dispatch(TeamActions.getMyTeamUnreads());
+
+        const crtEnabled = isCollapsedThreadsEnabled(state);
+        dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
+        if (crtEnabled) {
+            dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        }
     }
 
     if (state.websocket.lastDisconnectAt) {
@@ -479,7 +511,23 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
+    case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
+        handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
+        break;
+    case SocketEvents.THREAD_FOLLOW_CHANGED:
+        dispatch(handleThreadFollowChanged(msg));
+        break;
+    case SocketEvents.THREAD_READ_CHANGED:
+        dispatch(handleThreadReadChanged(msg));
+        break;
+    case SocketEvents.THREAD_UPDATED:
+        dispatch(handleThreadUpdated(msg));
+        break;
 
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
+        dispatch(handleRefreshAppsBindings(msg));
+        break;
+    }
     default:
     }
 
@@ -598,7 +646,8 @@ export function handleNewPostEvents(queue) {
         const posts = queue.map((msg) => JSON.parse(msg.data.post));
 
         // Receive the posts as one continuous block since they were received within a short period
-        const actions = posts.map(receivedNewPost);
+        const crtEnabled = isCollapsedThreadsEnabled(myGetState());
+        const actions = posts.map((post) => receivedNewPost(post, crtEnabled));
         myDispatch(batchActions(actions));
 
         // Load the posts' threads
@@ -612,7 +661,8 @@ export function handleNewPostEvents(queue) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch(receivedPost(post));
+    const crtEnabled = isCollapsedThreadsEnabled(getState());
+    dispatch(receivedPost(post, crtEnabled));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
@@ -626,9 +676,26 @@ export function handlePostEditEvent(msg) {
     }
 }
 
-function handlePostDeleteEvent(msg) {
+async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(postDeleted(post));
+
+    // update thread when a comment is deleted and CRT is on
+    const state = getState();
+    if (post.root_id && isCollapsedThreadsEnabled(state)) {
+        const thread = getThread(state, post.root_id);
+        if (thread) {
+            const userId = getCurrentUserId(state);
+            const teamId = getCurrentTeamId(state);
+            dispatch(fetchThread(userId, teamId, post.root_id, true));
+        } else {
+            const res = await dispatch(getPostThread(post.id));
+            const {order, posts} = res.data;
+            const rootPost = posts[order[0]];
+            dispatch(receivedPost(rootPost));
+        }
+    }
+
     if (post.is_pinned) {
         dispatch(getChannelStats(post.channel_id));
     }
@@ -642,7 +709,9 @@ export function handlePostUnreadEvent(msg) {
                 lastViewedAt: msg.data.last_viewed_at,
                 channelId: msg.broadcast.channel_id,
                 msgCount: msg.data.msg_count,
+                msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
+                mentionCountRoot: msg.data.mention_count_root,
             },
         },
     );
@@ -651,7 +720,8 @@ export function handlePostUnreadEvent(msg) {
 async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getTeam(msg.data.team_id));
     await dispatch(TeamActions.getMyTeamMembers());
-    await dispatch(TeamActions.getMyTeamUnreads());
+    const state = getState();
+    await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
 }
 
 export function handleLeaveTeamEvent(msg) {
@@ -764,6 +834,10 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.RECEIVED_TEAM_DELETED, data: {id: deletedTeam.id}},
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
+
+        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
+            return;
+        }
 
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
@@ -922,7 +996,7 @@ export async function handleUserRemovedEvent(msg) {
     const channelId = msg.broadcast.channel_id || msg.data.channel_id;
     const userId = msg.broadcast.user_id || msg.data.user_id;
     const channel = getChannel(state, channelId);
-    if (channel && !haveISystemPermission(state, {permission: Permissions.VIEW_MEMBERS}) && !haveITeamPermission(state, {permission: Permissions.VIEW_MEMBERS, team: channel.team_id})) {
+    if (channel && !haveISystemPermission(state, {permission: Permissions.VIEW_MEMBERS}) && !haveITeamPermission(state, channel.team_id, Permissions.VIEW_MEMBERS)) {
         dispatch(batchActions([
             {
                 type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
@@ -940,6 +1014,10 @@ export async function handleUserUpdatedEvent(msg) {
     const state = getState();
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
+    if (user && user.props) {
+        const customStatus = user.props.customStatus ? JSON.parse(user.props.customStatus) : undefined;
+        dispatch(loadCustomEmojisIfNeeded([customStatus?.emoji]));
+    }
 
     const config = getConfig(state);
     const license = getLicense(state);
@@ -1339,19 +1417,152 @@ function handleSidebarCategoryOrderUpdated(msg) {
     return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
 }
 
-function handleUserActivationStatusChange() {
+export function handleUserActivationStatusChange() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
         const license = getLicense(state);
 
         // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
-        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(state)
-        ) {
-            doDispatch(getStandardAnalytics());
+        if (license.Cloud === 'true') {
+            if (isCurrentUserSystemAdmin(state)) {
+                doDispatch(getStandardAnalytics());
+            }
+            doDispatch(getSubscriptionStats());
         }
     };
 }
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+function handleRefreshAppsBindings() {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        if (!appsEnabled(state)) {
+            return {data: true};
+        }
+
+        doDispatch(fetchAppBindings(getCurrentChannelId(state)));
+
+        const siteURL = state.entities.general.config.SiteURL;
+        const currentURL = window.location.href;
+        let threadIdentifier;
+        if (currentURL.startsWith(siteURL)) {
+            const parts = currentURL.substr(siteURL.length + (siteURL.endsWith('/') ? 0 : 1)).split('/');
+            if (parts.length === 3 && parts[1] === 'threads') {
+                threadIdentifier = parts[2];
+            }
+        }
+        const rhsPost = getSelectedPost(state);
+        let selectedThread;
+        if (threadIdentifier) {
+            selectedThread = getThread(state, threadIdentifier);
+        }
+        const rootID = threadIdentifier || rhsPost?.id;
+        const channelID = selectedThread?.post?.channel_id || rhsPost?.channel_id;
+        if (!rootID) {
+            return {data: true};
+        }
+
+        doDispatch(fetchRHSAppsBindings(channelID));
+        return {data: true};
+    };
+}
+
+function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
+    const receivedData = JSON.parse(msg.data.firstAdminVisitMarketplaceStatus);
+    store.dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data: receivedData});
+}
+
+function handleThreadReadChanged(msg) {
+    return (doDispatch, doGetState) => {
+        if (msg.data.thread_id) {
+            const state = doGetState();
+            const thread = getThreads(state)?.[msg.data.thread_id];
+            if (thread) {
+                // skip marking the thread as read (when the user is viewing the thread)
+                if (!isThreadOpen(state, thread.id)) {
+                    doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
+                }
+
+                handleReadChanged(
+                    doDispatch,
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread.unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread.unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                );
+            }
+        } else if (msg.broadcast.channel_id) {
+            handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
+        } else {
+            handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
+        }
+    };
+}
+
+function handleThreadUpdated(msg) {
+    return (doDispatch, doGetState) => {
+        let threadData;
+        try {
+            threadData = JSON.parse(msg.data.thread);
+        } catch {
+            // invalid JSON
+            return;
+        }
+
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
+
+        let lastViewedAt;
+
+        // if current user has replied to the thread
+        // make sure to set following as true
+        if (currentUserId === threadData.post.user_id) {
+            threadData.is_following = true;
+        }
+
+        if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
+            lastViewedAt = Date.now();
+
+            // Sometimes `Date.now()` was generating a timestamp before the
+            // last_reply_at of the thread, thus marking the thread as unread
+            // instead of read. Here we set the timestamp to after the
+            // last_reply_at if this happens.
+            if (lastViewedAt < threadData.last_reply_at) {
+                lastViewedAt = threadData.last_reply_at + 1;
+            }
+
+            // prematurely update thread data as read
+            // so we won't flash the indicators when
+            // we mark the thread as read on the server
+            threadData.last_viewed_at = lastViewedAt;
+            threadData.unread_mentions = 0;
+            threadData.unread_replies = 0;
+
+            // mark thread as read on the server
+            dispatch(updateThreadRead(currentUserId, currentTeamId, threadData.id, lastViewedAt));
+        }
+
+        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+    };
+}
+
+function handleThreadFollowChanged(msg) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const thread = getThread(state, msg.data.thread_id);
+        if (!thread && msg.data.state && msg.data.reply_count) {
+            await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
+        }
+        handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
+    };
 }

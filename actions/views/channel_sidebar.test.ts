@@ -2,39 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import configureStore from 'store';
 
-import {isCategoryCollapsed} from 'selectors/views/channel_sidebar';
-
 import * as Actions from './channel_sidebar';
-
-describe('setCategoryCollapsed', () => {
-    test('should save category expanded and category collapsed', () => {
-        const category1 = 'category1';
-        const initialState = {
-            entities: {
-                users: {
-                    currentUserId: 'user1',
-                    profiles: {
-                        user1: {},
-                    },
-                },
-            },
-        };
-
-        const store = configureStore(initialState);
-
-        store.dispatch(Actions.setCategoryCollapsed(category1, true));
-
-        expect(isCategoryCollapsed(store.getState(), category1)).toBe(true);
-
-        store.dispatch(Actions.setCategoryCollapsed(category1, false));
-
-        expect(isCategoryCollapsed(store.getState(), category1)).toBe(false);
-    });
-});
 
 describe('adjustTargetIndexForMove', () => {
     const channelIds = ['one', 'twoDeleted', 'three', 'four', 'fiveDeleted', 'six', 'seven'];
@@ -101,7 +74,7 @@ describe('adjustTargetIndexForMove', () => {
 
                 const targetIndex = testCase.inChannelIds.indexOf('new');
 
-                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', 'new', targetIndex);
+                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', ['new'], targetIndex, 'new');
 
                 const actualChannelIds = insertWithoutDuplicates(channelIds, 'new', newIndex);
                 expect(actualChannelIds).toEqual(testCase.expectedChannelIds);
@@ -141,7 +114,7 @@ describe('adjustTargetIndexForMove', () => {
 
                 const targetIndex = testCase.inChannelIds.indexOf('one');
 
-                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', 'one', targetIndex);
+                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', ['one'], targetIndex, 'one');
 
                 const actualChannelIds = insertWithoutDuplicates(channelIds, 'one', newIndex);
                 expect(actualChannelIds).toEqual(testCase.expectedChannelIds);
@@ -181,11 +154,163 @@ describe('adjustTargetIndexForMove', () => {
 
                 const targetIndex = testCase.inChannelIds.indexOf('seven');
 
-                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', 'seven', targetIndex);
+                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', ['seven'], targetIndex, 'seven');
 
                 const actualChannelIds = insertWithoutDuplicates(channelIds, 'seven', newIndex);
                 expect(actualChannelIds).toEqual(testCase.expectedChannelIds);
             });
         }
+    });
+});
+
+describe('multiSelectChannelTo', () => {
+    const channelIds = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
+
+    const initialState = {
+        entities: {
+            users: {
+                currentUserId: 'user',
+            },
+            channelCategories: {
+                byId: {
+                    category1: {
+                        id: 'category1',
+                        channel_ids: channelIds.map((id) => `category1_${id}`),
+                        sorting: CategorySorting.Manual,
+                    },
+                    category2: {
+                        id: 'category2',
+                        channel_ids: channelIds.map((id) => `category2_${id}`),
+                        sorting: CategorySorting.Manual,
+                    },
+                },
+                orderByTeam: {
+                    team1: ['category1', 'category2'],
+                },
+            },
+            channels: {
+                currentChannelId: 'category1_one',
+                channels: {
+                    ...channelIds.reduce((init: {[key: string]: Partial<Channel>}, val) => {
+                        init[`category1_${val}`] = {id: `category1_${val}`, delete_at: 0};
+                        return init;
+                    }, {}),
+                    ...channelIds.reduce((init: {[key: string]: Partial<Channel>}, val) => {
+                        init[`category2_${val}`] = {id: `category2_${val}`, delete_at: 0};
+                        return init;
+                    }, {}),
+                },
+                myMembers: {
+                    ...channelIds.reduce((init: {[key: string]: Partial<ChannelMembership>}, val) => {
+                        init[`category1_${val}`] = {channel_id: `category1_${val}`, user_id: 'user'};
+                        return init;
+                    }, {}),
+                    ...channelIds.reduce((init: {[key: string]: Partial<ChannelMembership>}, val) => {
+                        init[`category2_${val}`] = {channel_id: `category2_${val}`, user_id: 'user'};
+                        return init;
+                    }, {}),
+                },
+                channelsInTeam: {
+                    team1: channelIds.map((id) => `category1_${id}`).concat(channelIds.map((id) => `category2_${id}`)),
+                },
+            },
+            teams: {
+                currentTeamId: 'team1',
+            },
+        },
+        views: {
+            channelSidebar: {
+                multiSelectedChannelIds: [],
+                lastSelectedChannel: '',
+            },
+        },
+    };
+
+    test('should only select current channel if is selected ID and none other are selected', () => {
+        const store = configureStore(initialState);
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
+
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one']);
+    });
+
+    test('should select group of channels in ascending order', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    multiSelectedChannelIds: ['category1_two'],
+                    lastSelectedChannel: 'category1_two',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_seven'));
+
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_two', 'category1_three', 'category1_four', 'category1_five', 'category1_six', 'category1_seven']);
+    });
+
+    test('should select group of channels in descending order and sort by ascending', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    multiSelectedChannelIds: ['category1_five'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
+
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
+    });
+
+    test('should select group of channels where some other channels were already selected', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    multiSelectedChannelIds: ['category1_five', 'category2_six', 'category2_three'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
+
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
+    });
+
+    test('should select group of channels where some other channels were already selected but in new selection', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    multiSelectedChannelIds: ['category1_five', 'category1_three', 'category1_one'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
+
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
+    });
+
+    test('should select group of channels across categories', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    multiSelectedChannelIds: ['category1_five'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category2_two'));
+
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_five', 'category1_six', 'category1_seven', 'category2_one', 'category2_two']);
     });
 });

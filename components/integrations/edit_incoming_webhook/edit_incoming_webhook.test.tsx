@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -81,7 +81,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
         const asyncHook = {...hook};
         const props = {...requiredProps, actions: newActions, hook};
-        const wrapper: ShallowWrapper<any, any, EditIncomingWebhook> = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow<EditIncomingWebhook>(<EditIncomingWebhook {...props}/>);
 
         const instance = wrapper.instance();
         await instance.editIncomingHook(asyncHook);
@@ -96,7 +96,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
         const asyncHook = {...hook};
         const props = {...requiredProps, actions: newActions, hook};
-        const wrapper: ShallowWrapper<any, any, EditIncomingWebhook> = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow<EditIncomingWebhook>(<EditIncomingWebhook {...props}/>);
 
         const instance = wrapper.instance();
         await instance.editIncomingHook(asyncHook);
@@ -112,7 +112,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
         browserHistory.push = jest.fn();
         const asyncHook = {...hook};
         const props = {...requiredProps, actions: newActions, hook};
-        const wrapper: ShallowWrapper<any, any, EditIncomingWebhook> = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow<EditIncomingWebhook>(<EditIncomingWebhook {...props}/>);
 
         const instance = wrapper.instance();
         await instance.editIncomingHook(asyncHook);

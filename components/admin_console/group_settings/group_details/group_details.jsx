@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+
 import {Groups} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
@@ -492,6 +493,7 @@ export default class GroupDetails extends React.PureComponent {
                                         isDisabled={isDisabled}
                                     >
                                         <button
+                                            type='button'
                                             id='add_team_or_channel'
                                             className='btn btn-primary'
                                         >

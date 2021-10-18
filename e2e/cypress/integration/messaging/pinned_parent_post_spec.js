@@ -50,7 +50,7 @@ describe('Messaging', () => {
             cy.get(`#post_${postId}`).trigger('mouseover');
             cy.get(`#CENTER_commentIcon_${postId}`).click({force: true});
             for (let i = 0; i < 5; i++) {
-                cy.get('#reply_textbox').should('be.visible').type(`Hello to you too ${i}`);
+                cy.get('#reply_textbox').click().should('be.visible').type(`Hello to you too ${i}`);
                 cy.get('#addCommentButton').should('be.enabled').click();
             }
             cy.get('#rhsCloseButton').click();

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
+
 import {TeamTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes} from 'utils/constants';

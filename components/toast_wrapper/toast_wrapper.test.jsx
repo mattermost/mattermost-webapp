@@ -88,27 +88,15 @@ describe('components/ToastWrapper', () => {
     });
 
     describe('toasts state', () => {
-        test('Should have unread toast if unreadCount > 0  and initScrollOffsetFromBottom is greater than 1000', () => {
+        test('Should have unread toast if unreadCount > 0', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
-                initScrollOffsetFromBottom: 1100,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
-        });
-        test('Should have not have unread toast if initScrollOffsetFromBottom is less than 1000', () => {
-            const props = {
-                ...baseProps,
-                unreadCountInChannel: 10,
-                newRecentMessagesCount: 5,
-                initScrollOffsetFromBottom: 850,
-            };
-
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
         test('Should set state of have unread toast when atBottom changes from undefined', () => {
@@ -117,7 +105,6 @@ describe('components/ToastWrapper', () => {
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
                 atBottom: null,
-                initScrollOffsetFromBottom: 1100,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -145,7 +132,7 @@ describe('components/ToastWrapper', () => {
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
-            expect(wrapper.state('showUnreadToast')).toBe(false);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
         test('Should have unread toast channel is marked as unread again', () => {
@@ -170,12 +157,12 @@ describe('components/ToastWrapper', () => {
                 ],
             });
 
-            expect(wrapper.state('showUnreadToast')).toBe(false);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({atBottom: false});
             wrapper.setProps({lastViewedAt: 12342});
-            expect(wrapper.state('showUnreadToast')).toBe(false);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
         test('Should have archive toast if channel is not atLatestPost and focusedPostId exists', () => {
@@ -254,7 +241,6 @@ describe('components/ToastWrapper', () => {
                     'post4',
                     'post5',
                 ],
-                initScrollOffsetFromBottom: 1220,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -312,7 +298,6 @@ describe('components/ToastWrapper', () => {
                     'post4',
                     'post5',
                 ],
-                initScrollOffsetFromBottom: 1005,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -360,7 +345,6 @@ describe('components/ToastWrapper', () => {
                     'post4',
                     'post5',
                 ],
-                initScrollOffsetFromBottom: 1500,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -421,7 +405,6 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
-                initScrollOffsetFromBottom: 1008,
             };
             const updateToastStatus = baseProps.actions.updateToastStatus;
 
@@ -483,7 +466,7 @@ describe('components/ToastWrapper', () => {
         });
     });
 
-    describe('Histroy toast', () => {
+    describe('History toast', () => {
         test('Replace browser history when not at latest posts and in permalink view with call to scrollToLatestMessages', () => {
             const props = {
                 ...baseProps,
@@ -514,6 +497,61 @@ describe('components/ToastWrapper', () => {
             browserHistory.replace = jest.fn();
             instance.scrollToNewMessage();
             expect(browserHistory.replace).toHaveBeenCalledWith('/team');
+        });
+    });
+
+    describe('Search hint toast', () => {
+        test('should should not be shown when unread toast should be shown', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+                showSearchHintToast: true,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.find('.toast__hint')).toEqual({});
+        });
+
+        test('should not be shown when history toast should be shown', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: 'asdasd',
+                atLatestPost: false,
+                atBottom: false,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.find('.toast__hint')).toEqual({});
+        });
+
+        test('should be shown when no other toasts are shown', () => {
+            const props = {
+                ...baseProps,
+                showSearchHintToast: true,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.find('.toast__hint')).toBeDefined();
+        });
+
+        test('should call the dismiss callback', () => {
+            const dismissHandler = jest.fn();
+            const props = {
+                ...baseProps,
+                showSearchHintToast: true,
+                onSearchHintDismiss: dismissHandler,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const instance = wrapper.instance();
+
+            instance.hideSearchHintToast();
+
+            expect(dismissHandler).toHaveBeenCalled();
         });
     });
 });

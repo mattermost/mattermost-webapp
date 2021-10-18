@@ -3,6 +3,7 @@
 
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {patchChannel} from 'mattermost-redux/actions/channels';
@@ -16,10 +17,11 @@ import {getSiteURL} from 'utils/url';
 import RenameChannelModal from './rename_channel_modal';
 
 type Actions = {
-    patchChannel(channelId: string, patch: Channel): Promise<{ data: Channel, error: Error }>;
+    patchChannel(channelId: string, patch: Channel): Promise<{ data: Channel; error: Error }>;
 };
 
-const mapStateToProps = createSelector(
+const mapStateToPropsRenameChannel = createSelector(
+    'mapStateToPropsRenameChannel',
     (state: GlobalState) => {
         const currentTeamId = state.entities.teams.currentTeamId;
         const team = getTeam(state, currentTeamId);
@@ -40,4 +42,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RenameChannelModal);
+export default connect(mapStateToPropsRenameChannel, mapDispatchToProps)(RenameChannelModal);

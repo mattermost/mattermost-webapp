@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+
 import {PostType, PostMetadata} from 'mattermost-redux/types/posts';
 
 import {browserHistory} from 'utils/browser_history';
@@ -29,7 +30,6 @@ describe('components/delete_post_modal', () => {
         delete_at: 0,
         is_pinned: false,
         user_id: '',
-        parent_id: '',
         original_id: '',
         props: {} as Record<string, any>,
         hashtags: '',

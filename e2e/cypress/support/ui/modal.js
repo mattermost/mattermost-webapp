@@ -7,8 +7,3 @@ Cypress.Commands.add('uiCloseModal', (headerLabel) => {
     // # Close modal with modal label
     cy.get('#genericModalLabel', {timeout: TIMEOUTS.HALF_MIN}).should('have.text', headerLabel).parents().find('.modal-dialog').findByLabelText('Close').click();
 });
-
-Cypress.Commands.add('uiCloseWhatsNewModal', () => {
-    // # Close "What's new" modal
-    cy.uiCloseModal('What\'s new');
-});

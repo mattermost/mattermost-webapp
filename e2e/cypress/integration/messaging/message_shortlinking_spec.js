@@ -15,12 +15,12 @@ describe('Message', () => {
     let testTeam;
 
     before(() => {
-        // # Login as test user and go to town-square
+        // # Login as test user and go to off-topic
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testChannel = channel;
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -29,7 +29,8 @@ describe('Message', () => {
         const shortLink = `(~${testChannel.name})`;
         const longLink = `~${testChannel.display_name}`;
 
-        cy.postMessage(shortLink);
+        cy.postMessage('hello');
+        cy.get('#post_textbox').type(shortLink).type('{enter}');
 
         cy.getLastPostId().then((postId) => {
             // # Grab last message with the long link url and go to the link

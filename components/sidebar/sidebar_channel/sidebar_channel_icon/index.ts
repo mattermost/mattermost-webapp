@@ -15,19 +15,19 @@ import {GlobalState} from 'types/store';
 import SidebarChannelIcon from './sidebar_channel_icon';
 
 type OwnProps = {
-    channel: Channel;
+    channel?: Channel;
 }
 
-function hasDraft(draft: any, currentChannelId: string, channelId: string) {
-    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channelId;
+function hasDraft(draft: any, currentChannelId?: string, channel?: Channel) {
+    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel?.id;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentChannelId = getCurrentChannelId(state);
-    const draft = ownProps.channel.id ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id) : false;
+    const draft = ownProps.channel?.id ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id) : false;
 
     return {
-        hasDraft: hasDraft(draft, currentChannelId, ownProps.channel.id),
+        hasDraft: hasDraft(draft, currentChannelId, ownProps.channel),
     };
 }
 

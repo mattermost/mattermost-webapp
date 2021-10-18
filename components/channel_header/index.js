@@ -4,6 +4,7 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+
 import {
     favoriteChannel,
     unfavoriteChannel,
@@ -16,10 +17,9 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelFavorite,
     isCurrentChannelMuted,
-    isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getTeammateNameDisplaySetting, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
@@ -33,10 +33,11 @@ import {openModal, closeModal} from 'actions/views/modals';
 import {
     showFlaggedPosts,
     showPinnedPosts,
+    showChannelFiles,
     showMentions,
-    openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
@@ -46,6 +47,7 @@ import ChannelHeader from './channel_header';
 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
+    const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
         const channel = getCurrentChannel(state) || {};
@@ -55,9 +57,11 @@ function makeMapStateToProps() {
 
         let dmUser;
         let gmMembers;
+        let customStatus;
         if (channel && channel.type === General.DM_CHANNEL) {
             const dmUserId = getUserIdFromChannelName(user.id, channel.name);
             dmUser = getUser(state, dmUserId);
+            customStatus = dmUser && getCustomStatus(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
@@ -73,7 +77,7 @@ function makeMapStateToProps() {
             rhsState: getRhsState(state),
             rhsOpen: getIsRhsOpen(state),
             isFavorite: isCurrentChannelFavorite(state),
-            isReadOnly: isCurrentChannelReadOnly(state),
+            isReadOnly: false,
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
@@ -81,8 +85,10 @@ function makeMapStateToProps() {
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
-            newSideBarPreference: getNewSidebarPreference(state),
             announcementBarCount: getAnnouncementBarCount(state),
+            customStatus,
+            isCustomStatusEnabled: isCustomStatusEnabled(state),
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         };
     };
 }
@@ -93,8 +99,8 @@ const mapDispatchToProps = (dispatch) => ({
         unfavoriteChannel,
         showFlaggedPosts,
         showPinnedPosts,
+        showChannelFiles,
         showMentions,
-        openRHSSearch,
         closeRightHandSide,
         getCustomEmojisInText,
         updateChannelNotifyProps,

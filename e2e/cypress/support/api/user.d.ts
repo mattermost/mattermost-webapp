@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Login to server via API.
@@ -31,6 +31,19 @@ declare namespace Cypress {
         apiLogin(user: UserProfile): Chainable<UserProfile>;
 
         /**
+         * Login to server via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @param {string} user.username - username of a user
+         * @param {string} user.password - password of  user
+         * @param {string} token - MFA token for the session
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
+         */
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>;
+
+        /**
          * Login as admin via API.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
          * @returns {UserProfile} out.user: `UserProfile` object
@@ -41,9 +54,20 @@ declare namespace Cypress {
         apiAdminLogin(): Chainable<UserProfile>;
 
         /**
+         * Login as admin via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @param {string} token - MFA token for the session
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiAdminLoginWithMFA(token);
+         */
+        apiAdminLoginWithMFA(): Chainable<UserProfile>;
+
+        /**
          * Logout a user's active session from server via API.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1logout/post
-         * Clears all cookies espececially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
+         * Clears all cookies especially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
          *
          * @example
          *   cy.apiLogout();
@@ -160,12 +184,20 @@ declare namespace Cypress {
         apiCreateAdmin(options: Record<string, any>): Chainable<UserProfile>;
 
         /**
+         * Create a randomly named admin account
+         *
+         * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new admin.
+         *
+         * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
+         */
+        apiCreateCustomAdmin(options: {loginAfter: boolean}): Chainable<{sysadmin: UserProfile}>;
+
+        /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.user - predefined `user` object instead on random user
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
-         * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
-         * @param {boolean} options.hideWhatsNewModal - true (default) hide or false to show What's New modal
+         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
          * @returns {UserProfile} `out.user` as `UserProfile` object
          *
          * @example
@@ -176,10 +208,8 @@ declare namespace Cypress {
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
-         * @param {string} options.activate - true (default) to activate guest user
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
-         * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
-         * @param {boolean} options.hideWhatsNewModal - true (default) hide or false to show What's New modal
+         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
          * @returns {UserProfile} `out.guest` as `UserProfile` object
          *
          * @example
@@ -199,8 +229,21 @@ declare namespace Cypress {
         apiRevokeUserSessions(userId: string): Chainable<Record<string, any>>;
 
         /**
+         * Get list of users based on query parameters
+         * See https://api.mattermost.com/#tag/users/paths/~1users/get
+         * @param {String} queryParams - see link on available query parameters
+         * @returns {UserProfile[]} `out.users` as `UserProfile[]` object
+         *
+         * @example
+         *   cy.apiGetUsers().then(({users}) => {
+         *       // do something with users
+         *   });
+         */
+        apiGetUsers(queryParams: Record<string, any>): Chainable<UserProfile[]>;
+
+        /**
          * Get list of users that are not team members.
-         * See https://api.mattermost.com/#tag/users/paths/~1users/post
+         * See https://api.mattermost.com/#tag/users/paths/~1users/get
          * @param {String} queryParams.teamId - Team ID
          * @param {String} queryParams.page - Page to select, 0 (default)
          * @param {String} queryParams.perPage - The number of users per page, 60 (default)
@@ -212,6 +255,16 @@ declare namespace Cypress {
          *   });
          */
         apiGetUsersNotInTeam(queryParams: Record<string, any>): Chainable<UserProfile[]>;
+
+        /**
+         * Reactivate a user account.
+         * @param {string} userId - User ID
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiActivateUser('user-id');
+         */
+        apiActivateUser(userId: string): Chainable<Response>;
 
         /**
          * Deactivate a user account.
@@ -258,5 +311,60 @@ declare namespace Cypress {
         *   });
         */
         apiVerifyUserEmailById(userId: string): Chainable<UserProfile>;
+
+        /**
+         * Update a user MFA.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
+         * @param {String} userId - ID of user to patch
+         * @param {boolean} activate - Whether MFA is going to be enabled or disabled
+         * @param {string} token - MFA token/code
+         * @example
+         *   cy.apiActivateUserMFA('user-id', activate: false);
+         */
+        apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<Response>;
+
+        /**
+         * Create a user access token
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1tokens/post
+         * @param {String} userId - ID of user for whom to generate token
+         * @param {String} description - The description of the token usage
+         * @example
+         *   cy.apiAccessToken('user-id', 'token for cypress tests');
+         */
+        apiAccessToken(userId: string, description: string): Chainable<UserAccessToken>;
+
+        /**
+         * Revoke a user access token
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1tokens~1revoke/post
+         * @param {String} tokenId - The id of the token to revoke
+         * @example
+         *   cy.apiRevokeAccessToken('token-id')
+         */
+        apiRevokeAccessToken(tokenId: string): Chainable<Response>;
+
+        /**
+         * Update a user auth method.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
+         * @param {String} userId - ID of user to patch
+         * @param {String} authData
+         * @param {String} password
+         * @param {String} authService
+         * @example
+         *   cy.apiUpdateUserAuth('user-id', 'auth-data', 'password', 'auth-service');
+         */
+        apiUpdateUserAuth(userId: string, authData: string, password: string, authService: string): Chainable<Response>;
+
+        /**
+         * Get total count of users in the system
+         * See https://api.mattermost.com/#operation/GetTotalUsersStats
+         *
+         * @returns {number} - total count of all users
+         *
+         * @example
+         *   cy.apiGetTotalUsers().then(() => {
+         *      // do something with total users
+         *   });
+         */
+        apiGetTotalUsers(): Chainable<number>;
     }
 }

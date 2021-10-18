@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 import {getRandomId} from '../../../utils';
@@ -16,13 +17,12 @@ import {loginAndVisitChannel} from './helper';
 describe('Integrations', () => {
     let testUser;
     const userGroup = [];
-    let townSquareUrl;
+    let offTopicUrl;
 
     before(() => {
-        cy.apiAdminLogin();
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, offTopicUrl: url}) => {
             testUser = user;
-            townSquareUrl = `/${team.name}/channels/town-square`;
+            offTopicUrl = url;
 
             Cypress._.times(8, () => {
                 cy.apiCreateUser().then(({user: otherUser}) => {
@@ -46,11 +46,11 @@ describe('Integrations', () => {
                 cy.get(`#postMessageText_${postId}`).should('have.text', message);
             });
 
-            // # Go back to town-square channel
-            cy.contains('.sidebar-item', 'Town Square').click();
+            // # Go back to off-topic channel
+            cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         }
 
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         const usernames1 = Cypress._.map(userGroup, 'username').slice(0, 4);
         const usernames1Format = [
@@ -62,13 +62,13 @@ describe('Integrations', () => {
             const message = getRandomId();
 
             // # Use /groupmsg command to send group message - "/groupmsg [usernames] [message]"
-            cy.postMessage(`/groupmsg ${users} ${message}{enter}`);
+            cy.postMessage(`/groupmsg ${users} ${message}`);
 
             // * Verify it redirects into the GM channel with new message posted.
             verifyPostedMessage(message, usernames1);
 
             // # Use /groupmsg command to send message to existing GM - "group msg [usernames]" (note: no message)
-            cy.postMessage(`/groupmsg ${users}{enter}`);
+            cy.postMessage(`/groupmsg ${users} `);
 
             // * Verify it redirects into the GM channel without new message posted.
             verifyPostedMessage(message, usernames1);
@@ -82,7 +82,7 @@ describe('Integrations', () => {
 
         usernames2Format.forEach((users) => {
             // # Use /groupmsg command to create GM - "group msg [usernames]" (note: no message)
-            cy.postMessage(`/groupmsg ${users}{enter}`);
+            cy.postMessage(`/groupmsg ${users} `);
 
             // * Verify that the channel header contains each group member
             usernames2.forEach((username) => {
@@ -92,11 +92,11 @@ describe('Integrations', () => {
     });
 
     it('MM-T665 /groupmsg with users only and without message', () => {
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         // # Use /groupmsg command to open group message - "/groupmsg [usernames]"
         const usernames = Cypress._.map(userGroup, 'username').slice(0, 3);
-        const message = '/groupmsg @' + usernames.join(', @') + '{enter}';
+        const message = '/groupmsg @' + usernames.join(', @') + ' ';
         cy.postMessage(message);
 
         // * Verify that the channel header contains each group member
@@ -106,11 +106,11 @@ describe('Integrations', () => {
     });
 
     it('MM-T666 /groupmsg error if messaging more than 7 users', () => {
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         // # Include more than 7 valid users in the command
         const usernames = Cypress._.map(userGroup, 'username');
-        const message = '/groupmsg @' + usernames.join(', @') + ' hello{enter}';
+        const message = '/groupmsg @' + usernames.join(', @') + ' hello';
         cy.postMessage(message);
 
         // * If adding more than 7 users (excluding current user), system message saying "Group messages are limited to a maximum of 7 users."
@@ -120,7 +120,7 @@ describe('Integrations', () => {
         });
 
         // # Include one invalid user in the command
-        const message2 = '/groupmsg @' + usernames.slice(0, 2).join(', @') + ', @hello again{enter}';
+        const message2 = '/groupmsg @' + usernames.slice(0, 2).join(', @') + ', @hello again';
         cy.postMessage(message2);
 
         // * If users cannot be found, returns error that user could not be found
@@ -130,7 +130,7 @@ describe('Integrations', () => {
         });
 
         // # Include more than one invalid user in the command
-        const message3 = '/groupmsg @' + usernames.slice(0, 2).join(', @') + ', @hello, @world again{enter}';
+        const message3 = '/groupmsg @' + usernames.slice(0, 2).join(', @') + ', @hello, @world again';
         cy.postMessage(message3);
 
         // * If users cannot be found, returns error that user could not be found

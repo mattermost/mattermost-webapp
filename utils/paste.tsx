@@ -1,27 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+import {splitMessageBasedOnCaretPosition} from 'utils/post_utils';
 
 export function parseTable(html: string): HTMLTableElement | null {
-    const el = document.createElement('div');
-    el.innerHTML = html;
-    return el.querySelector('table');
+    return new DOMParser().parseFromString(html, 'text/html').querySelector('table');
 }
 
-export function getTable(clipboardData: DataTransfer): HTMLTableElement | boolean {
+export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {
     if (Array.from(clipboardData.types).indexOf('text/html') === -1) {
-        return false;
+        return null;
     }
 
     const html = clipboardData.getData('text/html');
 
     if (!(/<table/i).test(html)) {
-        return false;
+        return null;
     }
 
     const table = parseTable(html);
     if (!table) {
-        return false;
+        return null;
     }
 
     return table;

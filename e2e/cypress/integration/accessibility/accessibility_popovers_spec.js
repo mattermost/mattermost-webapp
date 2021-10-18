@@ -25,9 +25,9 @@ function verifyArrowKeysEmojiNavigation(arrowKey, count) {
 
 describe('Verify Accessibility Support in Popovers', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/off-topic`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
 
             // # Post a message
             cy.postMessage(`hello from test user: ${Date.now()}`);
@@ -45,20 +45,30 @@ describe('Verify Accessibility Support in Popovers', () => {
             // # Focus on the first emoji Category
             cy.get('#emojiPickerCategories').children().eq(0).focus().tab({shift: true}).tab();
 
+            const categories = [
+                {ariaLabel: 'emoji_picker.smileys-emotion', header: 'Smileys & Emotion'},
+                {ariaLabel: 'emoji_picker.people-body', header: 'People & Body'},
+                {ariaLabel: 'emoji_picker.animals-nature', header: 'Animals & Nature'},
+                {ariaLabel: 'emoji_picker.food-drink', header: 'Food & Drink'},
+                {ariaLabel: 'emoji_picker.travel-places', header: 'Travel Places'},
+                {ariaLabel: 'emoji_picker.activities', header: 'Activities'},
+                {ariaLabel: 'emoji_picker.objects', header: 'Objects'},
+                {ariaLabel: 'emoji_picker.symbols', header: 'Symbols'},
+                {ariaLabel: 'emoji_picker.flags', header: 'Flags'},
+            ];
+
             // * Verify if emoji Categories gets the focus when tab is pressed
             cy.get('#emojiPickerCategories').children('.emoji-picker__category').each(($el, index) => {
-                // * Verify for first 3 categories
-                if (index < 3) {
+                // * Verify each category
+                if (index < categories.length) {
                     // * Verify accessibility support in emoji category
-                    cy.get($el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
+                    cy.get($el).should('have.class', 'a11y--active a11y--focused').should('have.attr', 'aria-label', categories[index].ariaLabel);
 
                     // * Verify if corresponding section is displayed when emoji category has focus and clicked
-                    cy.get($el).children('i').invoke('attr', 'title').then((title) => {
-                        cy.get($el).trigger('click');
+                    cy.get($el).trigger('click');
 
-                        // * Verify if corresponding section is displayed
-                        cy.findByText(title).should('be.visible');
-                    });
+                    // * Verify if corresponding section is displayed
+                    cy.findByText(categories[index].header).should('be.visible');
 
                     // * Verify emoji navigation using arrow keys
                     verifyArrowKeysEmojiNavigation('{rightarrow}', 3);

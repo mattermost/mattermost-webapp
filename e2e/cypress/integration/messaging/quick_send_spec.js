@@ -10,23 +10,21 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square
+        // # Login as test user and visit Off-Topic
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
+            cy.postMessage('hello');
         });
     });
 
     it('MM-T3309 Posts do not change order when being sent quickly', () => {
         // # Build a message and send
-        let message = '';
         for (let i = 9; i >= 0; i--) {
-            message += i + '{enter}';
+            const message = i + '{enter}';
+            cy.get('#post_textbox').type(message, {delay: 0});
         }
-        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).clear().type(message, {delay: 0});
 
         for (let i = 10; i > 0; i--) {
             cy.getNthPostId(-i).then((postId) => {

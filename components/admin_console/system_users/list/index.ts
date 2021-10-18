@@ -13,7 +13,7 @@ import SystemUsersList from './system_users_list';
 import {getNonBotUsers} from './selectors';
 
 type Actions = {
-    getUser: (id: string) => UserProfile
+    getUser: (id: string) => UserProfile;
 };
 
 type Props = {

@@ -38,7 +38,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       bsClass="modal-title"
       componentClass="h1"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Add New Members to {teamName} Team"
         id="add_users_to_team.title"
         values={
@@ -71,7 +71,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
         <div
           id="numPeopleRemaining"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
             id="multiselect.numPeopleRemaining"
             values={
@@ -179,6 +179,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       }
       perPage={50}
       placeholderText="Search and add members"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -186,6 +187,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
@@ -230,7 +232,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       bsClass="modal-title"
       componentClass="h1"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Add New Members to {teamName} Team"
         id="add_users_to_team.title"
         values={
@@ -263,7 +265,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
         <div
           id="numPeopleRemaining"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
             id="multiselect.numPeopleRemaining"
             values={
@@ -371,6 +373,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       }
       perPage={50}
       placeholderText="Search and add members"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -378,6 +381,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>

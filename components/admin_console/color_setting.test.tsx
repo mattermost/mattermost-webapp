@@ -66,7 +66,7 @@ describe('components/ColorSetting', () => {
                 disabled={false}
             />,
         );
-        wrapper.find('.picker-id').first().simulate('click');
+
         expect(wrapper).toMatchSnapshot();
     });
 });

@@ -2,17 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 import AboutBuildModal from 'components/about_build_modal';
+import CommercialSupportModal from 'components/commercial_support_modal';
+import LocalizedIcon from 'components/localized_icon';
 
 import Menu from 'components/widgets/menu/menu';
 
@@ -27,6 +30,8 @@ type Props = {
     actions: {
         deferNavigation: (onNavigationConfirmed: any) => any;
     };
+    isLicensed: boolean;
+    isCloud: boolean;
 };
 
 class AdminNavbarDropdown extends React.PureComponent<Props> {
@@ -40,11 +45,10 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
     };
 
     render(): JSX.Element {
-        const {locale, teams, siteName} = this.props;
+        const {locale, teams, siteName, isLicensed, isCloud} = this.props;
         const {formatMessage} = this.props.intl;
         const teamToRender = []; // Array of team components
         let switchTeams;
-
         if (teams && teams.length > 0) {
             const teamsArray = filterAndSortTeamsByDisplayName(teams, locale);
 
@@ -62,26 +66,37 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                 <MenuItemBlockableLink
                     to={'/select_team'}
                     icon={
-                        <FormattedMessage
-                            id='select_team.icon'
-                            defaultMessage='Select Team Icon'
-                        >
-                            {(title) => {
-                                if (typeof title === 'string') {
-                                    return (
-                                        <i
-                                            className='fa fa-exchange'
-                                            title={title}
-                                        />
-                                    );
-                                }
-                                return title;
-                            }}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-exchange'
+                            title={{id: t('select_team.icon'), defaultMessage: 'Select Team Icon'}}
+                        />
                     }
                     text={formatMessage({id: 'admin.nav.switch', defaultMessage: 'Team Selection'})}
                 />
             );
+        }
+
+        let commercialSupport = (
+            <Menu.ItemExternalLink
+                onClick={() => trackEvent('admin', 'click_administrators_support')}
+                url='https://about.mattermost.com/commercial-support/'
+                text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
+            />
+        );
+
+        if (isLicensed) {
+            commercialSupport = (
+                <Menu.ItemToggleModalRedux
+                    modalId={ModalIdentifiers.COMMERCIAL_SUPPORT}
+                    dialogType={CommercialSupportModal}
+                    text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
+                />
+            );
+        }
+
+        let adminGuideLink = 'https://about.mattermost.com/administrators-guide/';
+        if (isCloud) {
+            adminGuideLink = 'https://docs.mattermost.com/guides/cloud-admin-guide.html';
         }
 
         return (
@@ -93,19 +108,15 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                 <Menu.Group>
                     <Menu.ItemExternalLink
                         onClick={() => trackEvent('admin', 'click_administrators_guide')}
-                        url='https://about.mattermost.com/administrators-guide/'
+                        url={adminGuideLink}
                         text={formatMessage({id: 'admin.nav.administratorsGuide', defaultMessage: 'Administrator Guide'})}
                     />
                     <Menu.ItemExternalLink
                         onClick={() => trackEvent('admin', 'click_administrators_forum')}
-                        url='https://about.mattermost.com/troubleshooting-forum/'
+                        url={'https://about.mattermost.com/troubleshooting-forum/'}
                         text={formatMessage({id: 'admin.nav.troubleshootingForum', defaultMessage: 'Troubleshooting Forum'})}
                     />
-                    <Menu.ItemExternalLink
-                        onClick={() => trackEvent('admin', 'click_administrators_support')}
-                        url='https://about.mattermost.com/commercial-support/'
-                        text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
-                    />
+                    {commercialSupport}
                     <Menu.ItemToggleModalRedux
                         onClick={() => trackEvent('admin', 'click_administrators_about')}
                         modalId={ModalIdentifiers.ABOUT}

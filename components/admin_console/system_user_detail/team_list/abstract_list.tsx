@@ -4,10 +4,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+
+import {TeamWithMembership} from './types';
 
 import './abstract_list.scss';
 
@@ -15,15 +17,15 @@ const PAGE_SIZE = 10;
 
 type Props = {
     userId: string;
-    headerLabels: Record<string, any>[];
-    data: Record<string, any>[];
+    headerLabels: Array<Record<string, any>>;
+    data: TeamWithMembership[];
     onPageChangedCallback?: (paging: Paging) => void;
     total: number;
-    renderRow: (item: {[x: string]: string}) => JSX.Element;
+    renderRow: (item: TeamWithMembership) => JSX.Element;
     emptyListTextId: string;
     emptyListTextDefaultMessage: string;
     actions: {
-        getTeamsData: (userId: string) => ActionFunc & Partial<{then: (func: () => void) => void}> | Promise<Record<string, any>>;
+        getTeamsData: (userId: string) => Promise<{data: Team[]}>;
         removeGroup?: () => void;
     };
 }
@@ -71,12 +73,9 @@ export default class AbstractList extends React.PureComponent<Props, State> {
     }
 
     private performSearch = (): void => {
-        const newState = {...this.state};
         const userId = this.props.userId;
-        delete newState.page;
 
-        newState.loading = true;
-        this.setState(newState);
+        this.setState({loading: true});
 
         this.props.actions.getTeamsData(userId).then!(() => {
             if (this.props.onPageChangedCallback) {
@@ -161,6 +160,7 @@ export default class AbstractList extends React.PureComponent<Props, State> {
                             />
                         </div>
                         <button
+                            type='button'
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
                             onClick={firstPage ? () => null : this.previousPage}
                             disabled={firstPage}
@@ -168,6 +168,7 @@ export default class AbstractList extends React.PureComponent<Props, State> {
                             <PreviousIcon/>
                         </button>
                         <button
+                            type='button'
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
                             onClick={lastPage ? () => null : this.nextPage}
                             disabled={lastPage}

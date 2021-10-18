@@ -4,16 +4,17 @@
 import Adapter from 'enzyme-adapter-react-16';
 import {configure} from 'enzyme';
 import $ from 'jquery';
+
 import '@testing-library/jest-dom';
+
+import './redux-persist_mock';
 
 global.$ = $;
 global.jQuery = $;
 global.performance = {};
-global.fetch = jest.fn().mockResolvedValue({status: 200});
+require('isomorphic-fetch');
 
 configure({adapter: new Adapter()});
-
-jest.useFakeTimers();
 
 global.window = Object.create(window);
 Object.defineProperty(window, 'location', {
@@ -36,18 +37,38 @@ Object.defineProperty(document, 'execCommand', {
     value: (cmd) => supportedCommands.includes(cmd),
 });
 
-let logs;
+document.documentElement.style.fontSize = '12px';
+
+// isDependencyWarning returns true when the given console.warn message is coming from a dependency using deprecated
+// React lifecycle methods.
+function isDependencyWarning(params) {
+    function paramsHasComponent(name) {
+        return params.some((param) => param.includes(name));
+    }
+
+    return params[0].includes('Please update the following components:') && (
+
+        // React Bootstrap
+        paramsHasComponent('Modal') ||
+        paramsHasComponent('Portal') ||
+        paramsHasComponent('Overlay') ||
+        paramsHasComponent('Position') ||
+
+        // React-Select
+        paramsHasComponent('Select')
+    );
+}
+
 let warns;
 let errors;
 beforeAll(() => {
-    console.originalLog = console.log;
-    console.log = jest.fn((...params) => {
-        console.originalLog(...params);
-        logs.push(params);
-    });
-
     console.originalWarn = console.warn;
     console.warn = jest.fn((...params) => {
+        // Ignore any deprecation warnings coming from dependencies
+        if (isDependencyWarning(params)) {
+            return;
+        }
+
         console.originalWarn(...params);
         warns.push(params);
     });
@@ -60,17 +81,13 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-    logs = [];
     warns = [];
     errors = [];
 });
 
 afterEach(() => {
-    if (logs.length > 0 || warns.length > 0 || errors.length > 0) {
-        const message = 'Unexpected console logs' + logs + warns + errors;
-        if (message.includes('componentWillReceiveProps')) {
-            return;
-        }
+    if (warns.length > 0 || errors.length > 0) {
+        const message = 'Unexpected console logs' + warns + errors;
         throw new Error(message);
     }
 });

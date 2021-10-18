@@ -50,9 +50,42 @@ export function runSlashCommandWillBePostedHooks(originalMessage, originalArgs) 
 
                 message = result.message;
                 args = result.args;
+
+                // The first plugin to consume the slash command by returning an empty object
+                // should terminate the processing by subsequent plugins.
+                if (Object.keys(result).length === 0) {
+                    break;
+                }
             }
         }
 
         return {data: {message, args}};
+    };
+}
+
+export function runMessageWillBeUpdatedHooks(newPost, oldPost) {
+    return async (dispatch, getState) => {
+        const hooks = getState().plugins.components.MessageWillBeUpdated;
+        if (!hooks || hooks.length === 0) {
+            return {data: newPost};
+        }
+
+        let post = newPost;
+
+        for (const hook of hooks) {
+            const result = await hook.hook(post, oldPost); // eslint-disable-line no-await-in-loop
+
+            if (result) {
+                if (result.error) {
+                    return {
+                        error: result.error,
+                    };
+                }
+
+                post = result.post;
+            }
+        }
+
+        return {data: post};
     };
 }

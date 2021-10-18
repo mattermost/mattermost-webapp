@@ -6,6 +6,7 @@ import {FormattedMessage, defineMessages} from 'react-intl';
 
 import {isNil} from 'lodash';
 import classNames from 'classnames';
+
 import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
 import {Permissions, Roles} from 'mattermost-redux/constants';
 import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
@@ -15,7 +16,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 
 const PERIOD_TO_SLASH_REGEX = /\./g;
 
@@ -150,7 +151,7 @@ const formattedMessages: any = defineMessages({
 
     title: {
         id: t('admin.channel_settings.channel_moderation.title'),
-        defaultMessage: 'Channel Moderation (Beta)',
+        defaultMessage: 'Channel Moderation',
     },
     subtitle: {
         id: t('admin.channel_settings.channel_moderation.subtitle'),
@@ -175,7 +176,7 @@ const formattedMessages: any = defineMessages({
 });
 
 interface Props {
-    channelPermissions?: Array<ChannelPermissions>;
+    channelPermissions?: ChannelPermissions[];
     onChannelPermissionsChanged: (name: string, channelRole: ChannelModerationRoles) => void;
     teamSchemeID?: string;
     teamSchemeDisplayName?: string;
@@ -228,6 +229,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                 <td>
                     {!isNil(props.guests) &&
                         <button
+                            type='button'
                             data-testid={`${props.name}-${Roles.GUESTS}`}
                             className={classNames(
                                 'checkbox',
@@ -247,6 +249,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
             <td>
                 {!isNil(props.members) &&
                     <button
+                        type='button'
                         data-testid={`${props.name}-${Roles.MEMBERS}`}
                         className={classNames(
                             'checkbox',
@@ -267,8 +270,8 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
 };
 
 export default class ChannelModeration extends React.PureComponent<Props> {
-    private errorMessagesToDisplay = (entry: ChannelPermissions): Array<JSX.Element> => {
-        const errorMessages: Array<JSX.Element> = [];
+    private errorMessagesToDisplay = (entry: ChannelPermissions): JSX.Element[] => {
+        const errorMessages: JSX.Element[] = [];
         const isGuestsDisabled = !isNil(entry.roles.guests?.enabled) && !entry.roles.guests?.enabled && this.props.guestAccountsEnabled;
         const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';

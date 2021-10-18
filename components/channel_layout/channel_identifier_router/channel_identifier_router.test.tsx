@@ -8,6 +8,8 @@ import {browserHistory} from 'utils/browser_history.jsx';
 
 import ChannelIdentifierRouter from './channel_identifier_router';
 
+jest.useFakeTimers('legacy');
+
 describe('components/channel_layout/CenterChannel', () => {
     const baseProps = {
 
@@ -69,7 +71,6 @@ describe('components/channel_layout/CenterChannel', () => {
                 url: '/team/channel/identifier/abcd',
             },
         };
-        jest.useFakeTimers();
         browserHistory.replace = jest.fn();
         shallow(<ChannelIdentifierRouter {...props}/>);
         jest.runOnlyPendingTimers();
@@ -90,7 +91,6 @@ describe('components/channel_layout/CenterChannel', () => {
             },
         };
 
-        jest.useFakeTimers();
         browserHistory.replace = jest.fn();
         const wrapper = shallow(<ChannelIdentifierRouter {...baseProps}/>);
         wrapper.setProps(props);

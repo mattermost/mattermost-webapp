@@ -48,16 +48,18 @@ exports[`components/submenu_modal should match snapshot 1`] = `
           direction="left"
           id="A"
           key="A"
+          renderSelected={true}
           root={false}
           show={true}
+          subMenuClass="pl-4"
           text="Text A"
-          xOffset={0}
         />
         <SubMenuItem
           action={[MockFunction]}
           direction="left"
           id="B"
           key="B"
+          renderSelected={true}
           root={false}
           show={true}
           subMenu={
@@ -70,8 +72,8 @@ exports[`components/submenu_modal should match snapshot 1`] = `
               },
             ]
           }
+          subMenuClass="pl-4"
           text="Text B"
-          xOffset={0}
         />
       </Menu>
       <div />

@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-console */
+
 // See reference: https://support.smartbear.com/tm4j-cloud/api-docs/
 
 const axios = require('axios');
+const chalk = require('chalk');
 
 const {getAllTests} = require('./report');
 
@@ -52,7 +55,8 @@ function getTM4JTestCases(report) {
             };
         }).
         reduce((acc, item) => {
-            const key = item.title.split(' ')[0].split('_')[0];
+            // Extract the key to exactly match with "MM-T[0-9]+"
+            const key = item.title.match(/(MM-T\d+)/)[0];
 
             if (acc[key]) {
                 acc[key].push(item);
@@ -74,7 +78,7 @@ function saveToEndpoint(url, data) {
         },
         data,
     }).catch((error) => {
-        console.log('Something went wrong:', error.response.data.message); // eslint-disable-line no-console
+        console.log('Something went wrong:', error.response.data.message);
         return error.response.data;
     });
 }
@@ -84,12 +88,13 @@ async function createTestCycle(startDate, endDate) {
         BRANCH,
         BUILD_ID,
         JIRA_PROJECT_KEY,
+        TM4J_CYCLE_NAME,
         TM4J_FOLDER_ID,
     } = process.env;
 
     const testCycle = {
         projectKey: JIRA_PROJECT_KEY,
-        name: `${BUILD_ID}-${BRANCH}`,
+        name: TM4J_CYCLE_NAME ? `${TM4J_CYCLE_NAME} (${BUILD_ID}-${BRANCH})` : `${BUILD_ID}-${BRANCH}`,
         description: `Cypress automated test with ${BRANCH}`,
         plannedStartDate: startDate,
         plannedEndDate: endDate,
@@ -97,7 +102,7 @@ async function createTestCycle(startDate, endDate) {
         folderId: TM4J_FOLDER_ID,
     };
 
-    const response = await saveToEndpoint('https://api.adaptavist.io/tm4j/v2/testcycles', testCycle);
+    const response = await saveToEndpoint('https://api.zephyrscale.smartbear.com/v2/testcycles', testCycle);
     return response.data;
 }
 
@@ -105,6 +110,7 @@ async function createTestExecutions(report, testCycle) {
     const {
         BROWSER,
         JIRA_PROJECT_KEY,
+        TM4J_ENVIRONMENT_NAME,
     } = process.env;
 
     const testCases = getTM4JTestCases(report);
@@ -131,7 +137,7 @@ async function createTestExecutions(report, testCycle) {
             testCycleKey: testCycle.key,
             statusName: stateResult.passed && stateResult.passed === steps.length ? 'Pass' : 'Fail',
             testScriptResults,
-            environmentName: environment[BROWSER] || 'Chrome',
+            environmentName: TM4J_ENVIRONMENT_NAME || environment[BROWSER] || 'Chrome',
             actualEndDate: testScriptResults[testScriptResults.length - 1].actualEndDate,
             executionTime: steps.reduce((acc, prev) => {
                 acc += prev.duration; // eslint-disable-line no-param-reassign
@@ -143,11 +149,11 @@ async function createTestExecutions(report, testCycle) {
         // Temporarily log to verify cases that were being saved.
         console.log(index, key); // eslint-disable-line no-console
 
-        promises.push(saveToEndpoint('https://api.adaptavist.io/tm4j/v2/testexecutions', testExecution));
+        promises.push(saveTestExecution(testExecution, index));
     });
 
     await Promise.all(promises);
-    console.log('Successfully saved test cases into the Test Management System'); // eslint-disable-line no-console
+    console.log('Successfully saved test cases into the Test Management System');
 }
 
 const saveTestCases = async (allReport) => {
@@ -158,6 +164,38 @@ const saveTestCases = async (allReport) => {
     await createTestExecutions(allReport, testCycle);
 };
 
+const RETRY = [];
+
+async function saveTestExecution(testExecution, index) {
+    await axios({
+        method: 'POST',
+        url: 'https://api.zephyrscale.smartbear.com/v2/testexecutions',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            Authorization: process.env.TM4J_API_KEY,
+        },
+        data: testExecution,
+    }).then(() => {
+        console.log(chalk.green('Success:', index, testExecution.testCaseKey));
+    }).catch((error) => {
+        // Retry on 500 error code / internal server error
+        if (!error.response || error.response.data.errorCode === 500) {
+            if (RETRY[testExecution.testCaseKey]) {
+                RETRY[testExecution.testCaseKey] += 1;
+            } else {
+                RETRY[testExecution.testCaseKey] = 1;
+            }
+
+            saveTestExecution(testExecution, index);
+            console.log(chalk.magenta('Retry:', index, testExecution.testCaseKey, `(${RETRY[testExecution.testCaseKey]}x)`));
+        } else {
+            console.log(chalk.red('Error:', index, testExecution.testCaseKey, error.response.data.message));
+        }
+    });
+}
+
 module.exports = {
+    createTestCycle,
     saveTestCases,
+    createTestExecutions,
 };

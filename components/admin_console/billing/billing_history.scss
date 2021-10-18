@@ -1,23 +1,23 @@
 .BillingHistory__card {
-    background-color: var(--sys-center-channel-bg);
-    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
-    color: var(--sys-center-channel-color);
     width: 100%;
     height: '463px';
+    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    background-color: var(--sys-center-channel-bg);
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+    color: var(--sys-center-channel-color);
 }
 
 .BillingHistory__cardHeader {
-    padding: 28px 32px 24px 32px;
-    border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
     display: flex;
     align-items: center;
+    padding: 28px 32px 24px 32px;
+    border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
 }
 
 .BillingHistory__cardHeaderText-top {
-    font-weight: 600;
     font-size: 16px;
+    font-weight: 600;
     line-height: 24px;
 }
 
@@ -38,18 +38,18 @@
 
 .BillingHistory__noHistory-message {
     margin-top: 24px;
+    color: var(--sys-center-channel-color);
     font-size: 14px;
     line-height: 20px;
-    color: var(--sys-center-channel-color);
 }
 
 .BillingHistory__noHistory-link {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 14px;
-    color: var(--sys-button-bg);
     margin-top: 20px;
     margin-bottom: 40px;
+    color: var(--sys-button-bg);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
 }
 
 .BillingHistory__noHistory-graphic {
@@ -59,16 +59,17 @@
 .BillingHistory__table {
     width: 100%;
 
-    th, td {
+    th,
+    td {
         padding: 8px 12px;
     }
 }
 
 .BillingHistory__table-header {
-    background: rgba(var(--sys-center-channel-color-rgb), 0.08);
-    line-height: 16px;
-    font-weight: 600;
     border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+    background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+    font-weight: 600;
+    line-height: 16px;
 
     &:last-child {
         border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
@@ -99,6 +100,11 @@
     text-align: right;
 }
 
+.BillingHistory__spinner {
+    margin: auto;
+    text-align: center;
+}
+
 .BillingHistory__paymentStatus {
     color: var(--sys-online-indicator);
 
@@ -112,8 +118,8 @@
     }
 
     span {
-        font-weight: 600;
         margin-left: 4px;
+        font-weight: 600;
     }
 
     &.failed {
@@ -126,15 +132,20 @@
 }
 
 .BillingHistory__table-invoice a {
-    &, &:link, &:visited, &:hover, &:focus, &:active {
+    &,
+    &:link,
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active {
         text-decoration: none;
     }
 }
 
 .BillingHistory__paging {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
     margin-top: 4px;
 
     > span {
@@ -142,12 +153,12 @@
     }
 
     button {
-        background: none;
-        border: none;
-        border-radius: 4px;
-        padding: 7px;
         height: 32px;
+        padding: 7px;
+        border: none;
         margin-left: 4px;
+        background: none;
+        border-radius: 4px;
 
         > i {
             font-size: 18px;

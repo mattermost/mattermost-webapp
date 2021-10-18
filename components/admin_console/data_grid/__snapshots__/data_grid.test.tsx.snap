@@ -22,7 +22,7 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot while
       <LoadingSpinner
         text={null}
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Loading"
         id="admin.data_grid.loading"
       />
@@ -143,6 +143,106 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
 </div>
 `;
 
+exports[`components/admin_console/data_grid/DataGrid should match snapshot with custom classes 1`] = `
+<div
+  className="DataGrid customTable"
+>
+  <DataGridSearch
+    onSearch={[Function]}
+    placeholder=""
+    term=""
+  />
+  <DataGridHeader
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "name": "Name",
+        },
+        Object {
+          "field": "team",
+          "name": "Team",
+        },
+      ]
+    }
+  />
+  <div
+    className="DataGrid_rows"
+    style={Object {}}
+  >
+    <DataGridRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+          },
+        ]
+      }
+      key="0"
+      row={
+        Object {
+          "cells": Object {
+            "name": "Joe Schmoe",
+            "team": "Admin Team",
+          },
+        }
+      }
+    />
+    <DataGridRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+          },
+        ]
+      }
+      key="1"
+      row={
+        Object {
+          "cells": Object {
+            "name": "Foo Bar",
+            "team": "Admin Team",
+          },
+        }
+      }
+    />
+    <DataGridRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+          },
+        ]
+      }
+      key="2"
+      row={
+        Object {
+          "cells": Object {
+            "name": "Some Guy",
+            "team": "Admin Team",
+          },
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
 exports[`components/admin_console/data_grid/DataGrid should match snapshot with no items found 1`] = `
 <div
   className="DataGrid"
@@ -162,7 +262,7 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
     <div
       className="DataGrid_empty"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No items found"
         id="admin.data_grid.empty"
       />

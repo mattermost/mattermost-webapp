@@ -16,41 +16,42 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 import EmojiMap from 'utils/emoji_map';
 
 export interface AddEmojiProps {
     actions: {
         createCustomEmoji: (term: CustomEmoji, imageData: File) => Promise<ActionResult>;
-    },
-    emojiMap: EmojiMap,
-    user: UserProfile,
-    team: Team
+    };
+    emojiMap: EmojiMap;
+    user: UserProfile;
+    team: Team;
 }
 
 type EmojiCreateArgs = {
-    creator_id: string,
-    name: string
+    creator_id: string;
+    name: string;
 };
 
 type AddEmojiState = {
-    name: string,
-    image: File | null,
-    imageUrl: string | ArrayBuffer | null,
-    saving: boolean,
-    error: React.ReactNode,
+    name: string;
+    image: File | null;
+    imageUrl: string | ArrayBuffer | null;
+    saving: boolean;
+    error: React.ReactNode;
 };
 
 interface AddErrorResponse {
-    error: Error
+    error: Error;
 }
 
 interface AddEmojiResponse {
-    data: CustomEmoji
+    data: CustomEmoji;
 }
 
 export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmojiState> {
-    constructor(props : AddEmojiProps) {
+    constructor(props: AddEmojiProps) {
         super(props);
 
         this.state = {
@@ -352,7 +353,7 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
                                         <input
                                             id='select-emoji'
                                             type='file'
-                                            accept='.jpg,.png,.gif'
+                                            accept={Constants.ACCEPT_EMOJI_IMAGE}
                                             multiple={false}
                                             onChange={this.updateImage}
                                         />

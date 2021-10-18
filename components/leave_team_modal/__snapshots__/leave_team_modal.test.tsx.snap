@@ -41,7 +41,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       componentClass="h1"
       id="leaveTeamModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Leave the team?"
         id="leave_team_modal.title"
       />
@@ -51,9 +51,15 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
     bsClass="modal-body"
     componentClass="div"
   >
-    <FormattedMessage
-      defaultMessage="You will be removed from all public and private channels.  If the team is private you will not be able to rejoin the team.  Are you sure?"
-      id="leave_team_modal.desc"
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**You will be removed from {num_of_private_channels} private {num_of_private_channels,one {channel} other {channels}} on this team.** If the team is private you won't be able to rejoin it without an invitation from another team member. Are you sure?"
+      id="leave_team_modal_private.desc"
+      values={
+        Object {
+          "num_of_private_channels": 0,
+          "num_of_public_channels": 0,
+        }
+      }
     />
   </ModalBody>
   <ModalFooter
@@ -66,7 +72,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       onClick={[MockFunction]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No"
         id="leave_team_modal.no"
       />
@@ -77,7 +83,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Yes"
         id="leave_team_modal.yes"
       />

@@ -8,11 +8,11 @@ import iNoBounce from 'inobounce';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
-import {UserStatus} from 'mattermost-redux/types/users';
+import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -22,6 +22,9 @@ import {makeAsyncComponent} from 'components/async_load';
 const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
 import Pluggable from 'plugins/pluggable';
+
+import LocalStorageStore from 'stores/local_storage_store';
+import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -39,15 +42,12 @@ declare global {
 
 type Props = {
     license: Record<string, any>;
-    currentUser?: {
-        id: string;
-    };
+    currentUser?: UserProfile;
     currentChannelId?: string;
     currentTeamId?: string;
-    useLegacyLHS: boolean;
     actions: {
-        fetchMyChannelsAndMembers: (teamId: string) => Promise<{data: {channels: Channel[]; members: ChannelMembership[]}}>;
-        getMyTeamUnreads: () => Promise<{data: any; error?: any}>;
+        fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
+        getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
         getTeamByName: (teamName: string) => Promise<{data: Team}>;
@@ -55,7 +55,6 @@ type Props = {
         selectTeam: (team: Team) => Promise<{data: boolean}>;
         setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
         loadStatusesForChannelAndSidebar: () => Promise<{data: UserStatus[]}>;
-        loadProfilesForDirect: () => Promise<{data: boolean}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getGroupsByUserId: (userID: string) => Promise<{data: Group[]}>;
@@ -72,8 +71,9 @@ type Props = {
         push(path: string): void;
     };
     teamsList: Team[];
-    theme: any;
+    collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
+    selectedThreadId: string | null;
 }
 
 type State = {
@@ -114,16 +114,17 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             teamsList: this.props.teamsList,
         };
 
+        LocalStorageStore.setTeamIdJoinedOnLoad(null);
+
         if (!team) {
-            this.joinTeam(this.props);
+            this.joinTeam(this.props, true);
         }
     }
 
     static getDerivedStateFromProps(nextProps: Props, state: State) {
         if (state.prevTeam !== nextProps.match.params.team) {
-            const team = nextProps.teamsList ?
-                nextProps.teamsList.find((teamObj: Team) =>
-                    teamObj.name === nextProps.match.params.team) : null;
+            const team = nextProps.teamsList ? nextProps.teamsList.find((teamObj: Team) =>
+                teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
                 team: (team || null),
@@ -138,7 +139,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         // Set up tracking for whether the window is active
         window.isActive = true;
-        Utils.applyTheme(this.props.theme);
 
         if (UserAgent.isIosSafari()) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
@@ -151,10 +151,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const {theme} = this.props;
-        if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
-            Utils.applyTheme(theme);
-        }
         if (this.props.match.params.team !== prevProps.match.params.team) {
             if (this.state.team) {
                 this.initTeam(this.state.team);
@@ -188,23 +184,33 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     handleFocus = () => {
+        if (this.props.selectedThreadId) {
+            window.isActive = true;
+        }
         if (this.props.currentChannelId) {
             this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
             window.isActive = true;
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
             this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
-            this.props.actions.loadProfilesForDirect();
         }
     }
 
-    joinTeam = async (props: Props) => {
+    joinTeam = async (props: Props, firstLoad = false) => {
+        // skip reserved teams
+        if (Constants.RESERVED_TEAM_NAMES.includes(props.match.params.team)) {
+            return;
+        }
+
         const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
         if (team && team.delete_at === 0) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
             if (error) {
                 props.history.push('/error?type=team_not_found');
             } else {
+                if (firstLoad) {
+                    LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
+                }
                 this.setState({team});
                 this.initTeam(team);
             }
@@ -220,11 +226,11 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
-        this.props.actions.getMyTeamUnreads();
+        this.props.actions.getMyTeamUnreads(this.props.collapsedThreads);
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
 
-        if (Utils.isGuest(this.props.currentUser)) {
+        if (this.props.currentUser && Utils.isGuest(this.props.currentUser)) {
             this.setState({finishedFetchingChannels: false});
         }
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
@@ -234,9 +240,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 });
             },
         );
-
         this.props.actions.loadStatusesForChannelAndSidebar();
-        this.props.actions.loadProfilesForDirect();
 
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
@@ -290,7 +294,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         if (this.state.team === null) {
             return <div/>;
         }
-        const teamType = this.state.team ? this.state.team.type : '';
 
         return (
             <Switch>
@@ -315,12 +318,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     />
                 ))}
                 <Route
-                    render={(renderProps) => (
+                    render={() => (
                         <ChannelController
-                            pathName={renderProps.location.pathname}
-                            teamType={teamType}
                             fetchingChannels={!this.state.finishedFetchingChannels}
-                            useLegacyLHS={this.props.useLegacyLHS}
                         />
                     )}
                 />

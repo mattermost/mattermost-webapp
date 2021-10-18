@@ -12,9 +12,9 @@
 
 describe('Message Reply too long', () => {
     before(() => {
-        // # Login as test user and visit town-square channel
+        // # Login as test user and visit off-topic channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # Post a new message to ensure there will be a post to click on
             cy.postMessage('Hello ' + Date.now());
@@ -29,7 +29,7 @@ describe('Message Reply too long', () => {
 
         // # Enter valid text into RHS
         const replyValid = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
-        cy.get('#reply_textbox').clear().should('be.visible').type(replyValid).type('{enter}');
+        cy.postMessageReplyInRHS(replyValid);
 
         // * Check no warning
         cy.get('.post-error').should('not.exist');
@@ -47,7 +47,7 @@ describe('Message Reply too long', () => {
         cy.get('#reply_textbox').type('{enter}');
 
         // * Check warning
-        cy.get('.post-error').should('be.visible').and('have.class', 'animation--highlight').and('have.text', `Your message is too long. Character count: ${replyTooLong.length}/${maxReplyLength}`);
+        cy.get('.post-error').should('be.visible').and('have.text', `Your message is too long. Character count: ${replyTooLong.length}/${maxReplyLength}`);
         cy.get('#reply_textbox').should('be.visible');
 
         // * Check last reply is the last valid one

@@ -21,7 +21,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 type State = {
     isLoading: boolean;
     nameError: string | JSX.Element;
-    teamURL: string
+    teamURL?: string;
 }
 
 type Props = {
@@ -29,7 +29,7 @@ type Props = {
     /*
      * Object containing team's display_name and name
      */
-    state: {team: any; wizard: string};
+    state: {team?: Partial<Team>; wizard: string};
 
     /*
      * Function that updates parent component with state props
@@ -63,7 +63,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         this.state = {
             nameError: '',
             isLoading: false,
-            teamURL: props.state.team.name,
+            teamURL: props.state.team?.name,
         };
     }
 
@@ -83,7 +83,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         e.preventDefault();
         trackEvent('signup', 'click_finish');
 
-        const name = this.state.teamURL.trim();
+        const name = this.state.teamURL!.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
         const {actions: {checkIfTeamExists, createTeam}} = this.props;
@@ -212,12 +212,13 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
                         className='signup-team-logo'
                         src={logoImage}
                     />
-                    <h2>
+                    <h5>
                         <FormattedMessage
                             id='create_team.team_url.teamUrl'
+                            tagName='strong'
                             defaultMessage='Team URL'
                         />
-                    </h2>
+                    </h5>
                     <div className={nameDivClass}>
                         <div className='row'>
                             <div className='col-sm-11'>

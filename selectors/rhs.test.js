@@ -41,4 +41,14 @@ describe('Selectors.Rhs', () => {
             });
         });
     });
+
+    describe('should return the highlighted reply\'s id', () => {
+        test.each(['42', ''])('when id is %s', (expected) => {
+            const state = {views: {rhs: {
+                highlightedPostId: expected,
+            }}};
+
+            assert.deepEqual(expected, Selectors.getHighlightedPostId(state));
+        });
+    });
 });

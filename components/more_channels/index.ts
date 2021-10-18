@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {createSelector} from 'reselect';
 
 import {RequestStatus} from 'mattermost-redux/constants';
@@ -22,11 +23,13 @@ import {GlobalState} from '../../types/store';
 import MoreChannels from './more_channels';
 
 const getNotArchivedOtherChannels = createSelector(
+    'getNotArchivedOtherChannels',
     getOtherChannels,
     (channels: Channel[]) => channels && channels.filter((c) => c.delete_at === 0),
 );
 
 const getArchivedOtherChannels = createSelector(
+    'getArchivedOtherChannels',
     getChannelsInCurrentTeam,
     (channels: Channel[]) => channels && channels.filter((c) => c.delete_at !== 0),
 );
@@ -35,7 +38,7 @@ function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state) || {};
 
     return {
-        channels: getNotArchivedOtherChannels(state, null) || [],
+        channels: getNotArchivedOtherChannels(state) || [],
         archivedChannels: getArchivedOtherChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,

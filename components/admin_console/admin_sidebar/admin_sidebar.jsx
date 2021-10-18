@@ -17,7 +17,7 @@ import AdminSidebarCategory from 'components/admin_console/admin_sidebar_categor
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import Highlight from 'components/admin_console/highlight';
-import SearchIcon from 'components/widgets/icons/search_icon.jsx';
+import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickInput from 'components/quick_input';
 
 const renderScrollView = (props) => (
@@ -205,11 +205,16 @@ class AdminSidebar extends React.PureComponent {
                         }
                     }
                     const subDefinitionKey = `${key}.${subKey}`;
+                    let tag = '';
+                    if (item.tag?.shouldDisplay(license)) {
+                        tag = item.tag.value;
+                    }
                     sidebarItems.push((
                         <AdminSidebarSection
                             key={subDefinitionKey}
                             definitionKey={subDefinitionKey}
                             name={item.url}
+                            tag={tag}
                             title={
                                 <FormattedMessage
                                     id={item.title}

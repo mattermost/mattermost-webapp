@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -11,12 +12,11 @@
 import ldapUsers from '../../../fixtures/ldap_users.json';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-// assumes the CYPRESS_* variables are set
-// assumes that E20 license is uploaded
-// for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
+import {enableGroupMention} from './helpers';
 
 describe('Group Mentions', () => {
-    let groupID;
+    let groupID1;
+    let groupID2;
     let boardUser;
     let regularUser;
     let testTeam;
@@ -53,15 +53,34 @@ describe('Group Mentions', () => {
             }
         });
 
+        // # Link the LDAP Group - developers
+        cy.visit('/admin_console/user_management/groups');
+        cy.get('#developers_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
+            if (!el.text().includes('Edit')) {
+                // # Link the Group if its not linked before
+                if (el.find('.icon.fa-unlink').length > 0) {
+                    el.find('.icon.fa-unlink').click();
+                }
+            }
+        });
+
         // # Get board group id
         cy.apiGetGroups().then((res) => {
             res.body.forEach((group) => {
                 if (group.display_name === 'board') {
-                    // # Set groupID to navigate to group page directly
-                    groupID = group.id;
+                    // # Set groupID1 to navigate to group page directly
+                    groupID1 = group.id;
 
                     // # Set allow reference false to ensure correct data for test cases
-                    cy.apiPatchGroup(groupID, {allow_reference: false});
+                    cy.apiPatchGroup(group.id, {allow_reference: false});
+                }
+
+                if (group.display_name === 'developers') {
+                    // # Set groupID1 to navigate to group page directly
+                    groupID2 = group.id;
+
+                    // # Set allow reference false to ensure correct data for test cases
+                    cy.apiPatchGroup(group.id, {allow_reference: false});
                 }
             });
         });
@@ -106,7 +125,7 @@ describe('Group Mentions', () => {
 
         // # Login as sysadmin and enable group mention with the group name
         cy.apiAdminLogin();
-        enableGroupMention(groupName);
+        enableGroupMention(groupName, groupID1);
 
         // # Unlink the group
         cy.visit('/admin_console/user_management/groups');
@@ -127,10 +146,10 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if autocomplete dropdown is not displayed
-            cy.get('#suggestionList').should('not.be.visible');
+            cy.get('#suggestionList').should('not.exist');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} `);
 
             // * Verify if a system message is not displayed
             cy.getLastPostId().then((postId) => {
@@ -147,7 +166,7 @@ describe('Group Mentions', () => {
 
         // # Login as sysadmin and enable group mention with the group name
         cy.apiAdminLogin();
-        enableGroupMention(groupName);
+        enableGroupMention(groupName, groupID1);
 
         // # Login as a regular user
         cy.apiLogin(regularUser);
@@ -155,7 +174,7 @@ describe('Group Mentions', () => {
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with a user
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
         cy.get('#saveItems').click();
 
@@ -169,7 +188,7 @@ describe('Group Mentions', () => {
         });
 
         // # Submit a post containing the group mention
-        cy.postMessage(`@${groupName}`);
+        cy.postMessage(`@${groupName} `);
 
         // * Verify if a system message is not displayed
         cy.getLastPostId().then((postId) => {
@@ -188,7 +207,7 @@ describe('Group Mentions', () => {
 
         // # Login as sysadmin and enable group mention with the group name
         cy.apiAdminLogin();
-        enableGroupMention(groupName);
+        enableGroupMention(groupName, groupID1);
 
         // # Login as a regular user
         cy.apiLogin(regularUser);
@@ -196,9 +215,8 @@ describe('Group Mentions', () => {
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with couple of users
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
-        cy.get('.more-modal__row.clickable').eq(1).click();
         cy.get('#saveItems').click();
 
         // # Type the Group Name to check if Autocomplete dropdown is displayed
@@ -211,7 +229,7 @@ describe('Group Mentions', () => {
         });
 
         // # Submit a post containing the group mention
-        cy.postMessage(`@${groupName}`);
+        cy.postMessage(`@${groupName} `);
 
         // * Verify if a system message is not displayed
         cy.getLastPostId().then((postId) => {
@@ -225,40 +243,46 @@ describe('Group Mentions', () => {
         });
     });
 
-    function enableGroupMention(groupName) {
-        // # Visit Group Configurations page
-        cy.visit(`/admin_console/user_management/groups/${groupID}`);
+    it('MM-T2443 - Group Mentions when Channel is Group Synced', () => {
+        const groupName = `board_test_case_${Date.now()}`;
+        const groupName2 = `developers_test_case_${Date.now()}`;
 
-        // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
-        cy.get('#group_users', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView();
-        cy.findByText(boardUser.email).should('be.visible');
-        cy.get('#group_profile').scrollIntoView().wait(TIMEOUTS.TWO_SEC);
+        // # Login as sysadmin and enable group mention with the group name
+        cy.apiAdminLogin();
+        enableGroupMention(groupName, groupID1);
+        enableGroupMention(groupName2, groupID2);
 
-        // # Click the allow reference button
-        cy.findByTestId('allowReferenceSwitch').then((el) => {
-            const button = el.find('button');
-            const classAttribute = button[0].getAttribute('class');
-            if (!classAttribute.includes('active')) {
-                button[0].click();
-            }
+        // # Create a new channel as a regular user
+        cy.apiCreateChannel(testTeam.id, 'group-mention-2', 'Group Mentions 2').then(({channel}) => {
+            // # Link the group and the channel.
+            cy.apiLinkGroupChannel(groupID1, channel.id);
+
+            cy.apiLogin({username: 'board.one', password: 'Password1'}).then(({user: boardOne}) => {
+                cy.apiAddUserToChannel(channel.id, boardOne.id);
+
+                // # Make the channel private and group-synced.
+                cy.apiPatchChannel(channel.id, {group_constrained: true, type: 'P'});
+
+                // # Login to create the dev user
+                cy.apiLogin({username: 'dev.one', password: 'Password1'}).then(({user: devOne}) => {
+                    cy.apiAdminLogin();
+                    cy.apiSaveOnboardingPreference(boardOne.id, 'hide', 'true');
+                    cy.apiAddUserToTeam(testTeam.id, devOne.id);
+
+                    cy.apiLogin({username: 'board.one', password: 'Password1'});
+
+                    // # Visit the channel
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
+                    cy.postMessage(`@${groupName2} `);
+
+                    // * Verify if a system message is not displayed
+                    cy.getLastPostId().then((postId) => {
+                        cy.get(`#postMessageText_${postId}`).should('include.text', `@${groupName2}`);
+                    });
+                });
+            });
         });
-
-        // # Give the group a custom name different from its DisplayName attribute
-        cy.get('#groupMention').find('input').clear().type(groupName);
-
-        // # Click save button
-        saveConfig();
-    }
-
-    function saveConfig() {
-        cy.get('#saveSetting').then((btn) => {
-            if (btn.is(':enabled')) {
-                btn.click();
-
-                cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-                    return el[0].innerText === 'Save';
-                }));
-            }
-        });
-    }
+    });
 });

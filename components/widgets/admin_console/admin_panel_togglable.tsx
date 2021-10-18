@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import AccordionToggleIcon from 'components/widgets/icons/accordion_toggle_icon.jsx';
+import AccordionToggleIcon from 'components/widgets/icons/accordion_toggle_icon';
 
 import AdminPanel from './admin_panel';
 

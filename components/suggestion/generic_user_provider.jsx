@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
@@ -17,7 +18,7 @@ class UserSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
 
-        let className = 'suggestion-list__item mentions__name';
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
@@ -41,17 +42,19 @@ class UserSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <Avatar
-                    size='xs'
+                    size='xxs'
                     username={username}
                     url={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
                 />
-                <span className='admin-setting-user--align'>
-                    {'@' + username}
-                </span>
-                <span className='admin-setting-user__fullname'>
-                    {' '}
-                    {description}
-                </span>
+                <div className='suggestion-list__ellipsis'>
+                    <span className='suggestion-list__main'>
+                        {'@' + username}
+                    </span>
+                    <span>
+                        {' '}
+                        {description}
+                    </span>
+                </div>
                 <BotBadge show={Boolean(item.is_bot)}/>
                 <GuestBadge show={Utils.isGuest(item)}/>
             </div>

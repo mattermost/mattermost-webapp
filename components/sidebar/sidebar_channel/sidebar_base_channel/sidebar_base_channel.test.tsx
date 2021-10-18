@@ -22,8 +22,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            extra_update_at: 0,
+            last_root_post_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
@@ -38,6 +37,22 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <SidebarBaseChannel {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when shared channel', () => {
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                shared: true,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarBaseChannel {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -59,16 +74,20 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should use correct close handler when experimental setting is enabled', () => {
+    test('should match snapshot when shared private channel', () => {
         const props = {
             ...baseProps,
-            enableXToLeaveChannelsFromLHS: 'true',
+            channel: {
+                ...baseProps.channel,
+                type: 'P' as ChannelType,
+                shared: true,
+            },
         };
 
-        const wrapper = shallow<SidebarBaseChannel>(
+        const wrapper = shallow(
             <SidebarBaseChannel {...props}/>,
         );
 
-        expect(wrapper.instance().getCloseHandler()).toBe(wrapper.instance().handleLeavePublicChannel);
+        expect(wrapper).toMatchSnapshot();
     });
 });

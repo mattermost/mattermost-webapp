@@ -8,30 +8,36 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "creator_id": "",
       "delete_at": 0,
       "display_name": "channel_display_name",
-      "extra_update_at": 0,
       "group_constrained": false,
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
       "type": "O",
       "update_at": 0,
     }
   }
   closeHandler={[Function]}
   icon={
-    <StatusIconNew
-      className=""
-      status=""
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      newStatusIcon={true}
+      size="xs"
+      src="/api/v4/users/user_id/image"
+      statusClass="DirectChannel__status-icon "
+      wrapperClass="DirectChannel__profile-picture"
     />
   }
   isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;
 
@@ -43,34 +49,37 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "creator_id": "",
       "delete_at": 0,
       "display_name": "channel_display_name",
-      "extra_update_at": 0,
       "group_constrained": false,
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
       "type": "O",
       "update_at": 0,
     }
   }
   closeHandler={[Function]}
   icon={
-    <InlineSVG
-      cacheRequests={true}
-      className="icon icon-robot-happy"
-      onError={[Function]}
-      onLoad={[Function]}
-      src="http://a.fake.url"
-      uniquifyIDs={false}
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      newStatusIcon={true}
+      size="xs"
+      src="/api/v4/users/user_id/image"
+      status=""
+      statusClass="DirectChannel__status-icon "
+      wrapperClass="DirectChannel__profile-picture"
     />
   }
   isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;
 
@@ -82,30 +91,36 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "creator_id": "",
       "delete_at": 0,
       "display_name": "channel_display_name",
-      "extra_update_at": 0,
       "group_constrained": false,
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
       "type": "O",
       "update_at": 0,
     }
   }
   closeHandler={[Function]}
   icon={
-    <StatusIconNew
-      className=""
-      status=""
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      newStatusIcon={true}
+      size="xs"
+      src="/api/v4/users/user_id/image"
+      statusClass="DirectChannel__status-icon "
+      wrapperClass="DirectChannel__profile-picture"
     />
   }
   isCollapsed={false}
   label="channel_display_name (you)"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;
 
@@ -117,16 +132,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "creator_id": "",
       "delete_at": 0,
       "display_name": "channel_display_name",
-      "extra_update_at": 0,
       "group_constrained": false,
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
       "type": "O",
       "update_at": 0,
     }
@@ -140,5 +154,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
 import {
@@ -16,20 +17,19 @@ import {
 } from '../../support/assertions';
 import {getAdminAccount} from '../../support/env';
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar unread filter', () => {
+    const randomId = getRandomId();
+
     let testUser;
+    let teamId;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
-        cy.apiInitSetup({loginAfter: true}).then(({user}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({user, team}) => {
             testUser = user;
+            teamId = team.id;
 
             cy.visit('/');
         });
@@ -37,20 +37,29 @@ describe('Channel sidebar unread filter', () => {
 
     it('MM-T3441 should change the filter label when the unread filter changes state', () => {
         // * Verify that the unread filter is in all channels state
-        cy.get('.SidebarFilters:contains(VIEWING:)').should('be.visible');
-        cy.get('.SidebarFilters:contains(All channels)').should('be.visible');
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('not.exist');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('be.visible');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('be.visible');
+        });
 
         enableUnreadFilter();
 
         // * Verify that the unread filter is in filter by unread state
-        cy.get('.SidebarFilters:contains(FILTERED BY:)').should('be.visible');
-        cy.get('.SidebarFilters:contains(Unread)').should('be.visible');
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('be.visible');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('not.exist');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('not.exist');
+        });
 
         disableUnreadFilter();
 
         // * Verify that the unread filter is back in all channels state
-        cy.get('.SidebarFilters:contains(VIEWING:)').should('be.visible');
-        cy.get('.SidebarFilters:contains(All channels)').should('be.visible');
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('not.exist');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('be.visible');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('be.visible');
+        });
     });
 
     it('MM-T3442 should not persist the state of the unread filter on reload', () => {
@@ -73,12 +82,10 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
         // # Create a couple of new channels, one of which is unread and one of which is not
-        const readChannelName = `read${getRandomId()}`;
-        const unreadChannelName = `unread${getRandomId()}`;
-        cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, readChannelName);
-            createChannel(teamId, unreadChannelName, 'test');
-        });
+        const readChannelName = `read${randomId}`;
+        const unreadChannelName = `unread${randomId}`;
+        createChannel(teamId, readChannelName);
+        createChannel(teamId, unreadChannelName, 'test');
 
         // * Verify that the channels are correctly read and unread
         cy.get(`#sidebarItem_${readChannelName}`).should(beRead);
@@ -122,12 +129,10 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
         // # Create a couple of new channels, both of which are unread
-        const channelName1 = `channel${getRandomId()}`;
-        const channelName2 = `channel${getRandomId()}`;
-        cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, channelName1, 'test');
-            createChannel(teamId, channelName2, 'test');
-        });
+        const channelName1 = `channel1${randomId}`;
+        const channelName2 = `channel2${randomId}`;
+        createChannel(teamId, channelName1, 'test');
+        createChannel(teamId, channelName2, 'test');
 
         enableUnreadFilter();
 
@@ -157,19 +162,26 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
         // # Create a couple of new channels
-        const mentionedChannelName = `mentioned${getRandomId()}`;
-        const unreadChannelName = `muted${getRandomId()}`;
-        cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, mentionedChannelName, `@${testUser.username}`);
-            createChannel(teamId, unreadChannelName, 'test');
+        const mentionedChannelName = `mentioned${randomId}`;
+        const unreadChannelName = `muted${randomId}`;
+
+        [mentionedChannelName, unreadChannelName].forEach((channelName, index) => {
+            createChannel(teamId, channelName).then(({channel}) => {
+                // # Open and mute a channel
+                cy.get(`#sidebarItem_${channelName} .SidebarMenu_menuButton`).click({force: true});
+                cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
+
+                // # Go to other channel
+                cy.get('#sidebarItem_town-square').click({force: true});
+
+                // # Post a message from other user
+                cy.postMessageAs({
+                    sender: getAdminAccount(),
+                    message: index === 0 ? `@${testUser.username}` : 'test',
+                    channelId: channel.id,
+                });
+            });
         });
-
-        // # Open the channel menu and mute both of them
-        cy.get(`#sidebarItem_${mentionedChannelName} .SidebarMenu_menuButton`).click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
-
-        cy.get(`#sidebarItem_${unreadChannelName} .SidebarMenu_menuButton`).click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
 
         // * Verify that the first channel has a mention and is muted
         cy.get(`#sidebarItem_${mentionedChannelName}`).should(beUnread).should(beMuted);
@@ -199,7 +211,7 @@ function enableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is enabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('be.visible');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('be.visible');
 }
 
 function disableUnreadFilter() {
@@ -207,13 +219,16 @@ function disableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is disabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('not.exist');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
 }
 
 function createChannel(teamId, channelName, message) {
-    cy.apiCreateChannel(teamId, channelName, channelName, 'O', '', '', false).then(({channel}) => {
+    return cy.apiCreateChannel(teamId, channelName, channelName, 'O', '', '', false).then(({channel}) => {
         if (message) {
+            cy.wait(TIMEOUTS.THREE_SEC);
             cy.postMessageAs({sender: getAdminAccount(), message, channelId: channel.id});
         }
+
+        return cy.wrap({channel});
     });
 }

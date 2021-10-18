@@ -29,7 +29,7 @@ type Props = {
     channel: Channel;
     intl: IntlShape;
     actions: {
-        getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, DEFAULT_NUM_PER_PAGE: number) => any;
+        getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, perPage: number) => any;
         unlinkGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string) => any;
         patchGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string, params: {scheme_admin: boolean}) => any;
         getMyChannelMember: (channelId: string) => any;

@@ -10,12 +10,14 @@ import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 import {TeamType} from 'mattermost-redux/types/teams';
 
+import {TestHelper} from 'utils/test_helper';
+
 import {DraggingStates, DraggingStateTypes} from 'utils/constants';
 
 import SidebarChannelList from './sidebar_channel_list';
 
 describe('SidebarChannelList', () => {
-    const currentChannel = {
+    const currentChannel = TestHelper.getChannelMock({
         id: 'channel_id',
         display_name: 'channel_display_name',
         create_at: 0,
@@ -27,12 +29,11 @@ describe('SidebarChannelList', () => {
         header: '',
         purpose: '',
         last_post_at: 0,
-        total_msg_count: 0,
-        extra_update_at: 0,
+        last_root_post_at: 0,
         creator_id: '',
         scheme_id: '',
         group_constrained: false,
-    };
+    });
 
     const unreadChannel = {
         id: 'channel_id_2',
@@ -46,15 +47,14 @@ describe('SidebarChannelList', () => {
         header: '',
         purpose: '',
         last_post_at: 0,
-        total_msg_count: 0,
-        extra_update_at: 0,
+        last_root_post_at: 0,
         creator_id: '',
         scheme_id: '',
         group_constrained: false,
     };
 
     const baseProps = {
-        currentTeam: {
+        currentTeam: TestHelper.getTeamMock({
             id: 'kemjcpu9bi877yegqjs18ndp4r',
             invite_id: 'ojsnudhqzbfzpk6e4n6ip1hwae',
             name: 'test',
@@ -70,8 +70,8 @@ describe('SidebarChannelList', () => {
             allow_open_invite: false,
             scheme_id: 'test',
             group_constrained: false,
-        },
-        currentChannel,
+        }),
+        currentChannelId: currentChannel.id,
         categories: [
             {
                 id: 'category1',
@@ -81,26 +81,34 @@ describe('SidebarChannelList', () => {
                 display_name: 'custom_category_1',
                 sorting: CategorySorting.Alphabetical,
                 channel_ids: ['channel_id', 'channel_id_2'],
+                muted: false,
+                collapsed: false,
             },
         ],
         unreadChannelIds: ['channel_id_2'],
         displayedChannels: [currentChannel, unreadChannel],
         newCategoryIds: [],
+        multiSelectedChannelIds: [],
         isUnreadFilterEnabled: false,
         draggingState: {},
         categoryCollapsedState: {},
         handleOpenMoreDirectChannelsModal: jest.fn(),
         onDragStart: jest.fn(),
         onDragEnd: jest.fn(),
+        showUnreadsCategory: false,
+        collapsedThreads: true,
+        hasUnreadThreads: false,
         actions: {
             switchToChannelById: jest.fn(),
+            switchToGlobalThreads: jest.fn(),
             close: jest.fn(),
-            moveChannelInSidebar: jest.fn(),
+            moveChannelsInSidebar: jest.fn(),
             moveCategory: jest.fn(),
             removeFromCategory: jest.fn(),
             setDraggingState: jest.fn(),
             stopDragging: jest.fn(),
-            expandCategory: jest.fn(),
+            clearChannelSelection: jest.fn(),
+            multiSelectChannelAdd: jest.fn(),
         },
     };
 
@@ -124,12 +132,7 @@ describe('SidebarChannelList', () => {
             <SidebarChannelList {...baseProps}/>,
         );
 
-        const newCurrentChannel = {
-            ...currentChannel,
-            id: 'new_channel_id',
-        };
-
-        wrapper.setProps({currentChannel: newCurrentChannel});
+        wrapper.setProps({currentChannelId: 'new_channel_id'});
         expect(baseProps.actions.close).toHaveBeenCalled();
     });
 
@@ -283,6 +286,6 @@ describe('SidebarChannelList', () => {
         };
 
         wrapper.instance().onDragEnd(channelResult);
-        expect(baseProps.actions.moveChannelInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.draggableId, channelResult.destination!.index);
+        expect(baseProps.actions.moveChannelsInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.destination!.index, channelResult.draggableId);
     });
 });

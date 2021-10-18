@@ -121,8 +121,8 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
                 </Modal.Body>
                 <Modal.Footer>
                     <button
-                        autoFocus={true}
                         type='button'
+                        autoFocus={true}
                         className='btn btn-primary'
                         onClick={this.handleHide}
                         id='closeModalButton'

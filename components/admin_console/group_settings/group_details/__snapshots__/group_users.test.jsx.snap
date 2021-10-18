@@ -194,7 +194,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -210,6 +210,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -219,6 +220,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -422,7 +424,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -438,6 +440,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -447,6 +450,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -650,7 +654,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -666,6 +670,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -675,6 +680,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -838,7 +844,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -854,6 +860,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -863,6 +870,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -1066,7 +1074,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -1082,6 +1090,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -1091,6 +1100,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -1130,7 +1140,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="group-users-empty"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No users found"
         id="admin.group_settings.group_details.group_users.no-users-found"
       />
@@ -1336,7 +1346,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -1352,6 +1362,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -1361,6 +1372,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -1400,7 +1412,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
     <div
       className="group-users-empty"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No users found"
         id="admin.group_settings.group_details.group_users.no-users-found"
       />

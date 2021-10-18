@@ -5,7 +5,7 @@ import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
     if (settings.user.userType === 'Guest' || settings.user.isGuest) {
-        cy.findByText('Create a team').scrollIntoView().should('not.be.visible');
+        cy.findByText('Create a team').scrollIntoView().should('not.exist');
     } else {
         cy.findByText('Create a team').scrollIntoView().should('be.visible');
     }
@@ -18,34 +18,32 @@ Cypress.Commands.add('doSamlLogin', (settings = {}) => {
     cy.checkLoginPage(settings);
 
     //click the login button
-    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
 });
 
 Cypress.Commands.add('doSamlLogout', (settings = {}) => {
     cy.checkLeftSideBar(settings);
 
-    // # Click hamburger main menu button
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-        cy.findByText('Log Out').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-            cy.checkLoginPage(settings);
-        });
-    });
+    // # Logout then check login page
+    cy.uiLogout();
+    cy.checkLoginPage(settings);
 });
 
 Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
     cy.checkLeftSideBar(settings);
 
-    // # Click hamburger main menu button
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-        cy.findByText('Invite People').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-            cy.checkInvitePeoplePage();
-            cy.findByTestId('shareLinkInput').should('be.visible').invoke('val').then((text) => {
-                //close the invitepeople modal
-                cy.get('.close-x').should('be.visible').click();
-                return cy.wrap(text);
-            });
+    // # Open team menu and click 'Invite People'
+    cy.uiOpenTeamMenu('Invite People');
+
+    cy.checkInvitePeoplePage();
+    cy.findByTestId('shareLinkInput').
+        should('be.visible').
+        invoke('val').
+        then((text) => {
+            // # Close Invite People modal
+            cy.uiClose();
+            return cy.wrap(text);
         });
-    });
 });
 
 Cypress.Commands.add('setTestSettings', (loginButtonText, config) => {

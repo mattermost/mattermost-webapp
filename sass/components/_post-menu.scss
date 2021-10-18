@@ -2,35 +2,36 @@
 
 .post-menu {
     @include border-radius(4px);
-    border: 1px solid transparent;
+
+    position: absolute;
+    z-index: 6;
+    top: -8px;
+    right: 0;
     display: flex;
     justify-content: flex-end;
     padding: 4px;
-    position: absolute;
-    right: 0;
-    top: -8px;
+    border: 1px solid transparent;
     white-space: normal;
-    z-index: 6;
 }
 
 .post-menu__item {
     display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
     border: none;
     background: transparent;
     border-radius: 4px;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    fill: rgba(v(center-channel-color-rgb), 0.4);
     color: rgba(v(center-channel-color-rgb), 0.4);
+    fill: rgba(v(center-channel-color-rgb), 0.4);
 
     &:active,
     &--active,
     &--active:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
-        fill: v(button-bg);
         color: v(button-bg);
+        fill: v(button-bg);
     }
 
     span {
@@ -48,8 +49,8 @@
 }
 
 .post-menu__item--selected { // Used for the flag icon when it is in the flagged state
-    fill: var(--link-color);
     color: var(--link-color);
+    fill: var(--link-color);
 }
 
 .post-menu__comment-count {
@@ -76,7 +77,9 @@
         &.a11y--active {
             .post-menu {
                 border-color: rgba(v(center-channel-color-rgb), 0.08);
+
                 @include box-shadow($elevation-1);
+
                 background-color: v(center-channel-bg);
             }
 
@@ -90,21 +93,21 @@
 
             .post-menu__item {
                 display: inline-flex;
-                fill: rgba(v(center-channel-color-rgb), 0.56);
                 color: rgba(v(center-channel-color-rgb), 0.56);
+                fill: rgba(v(center-channel-color-rgb), 0.56);
 
                 &:hover {
                     background: rgba(v(center-channel-color-rgb), 0.08);
-                    fill: rgba(v(center-channel-color-rgb), 0.72);
                     color: rgba(v(center-channel-color-rgb), 0.72);
+                    fill: rgba(v(center-channel-color-rgb), 0.72);
                 }
 
                 &:active,
                 &--active,
                 &--active:hover {
-                    background: rgba(var(--button-bg-rgb), 0.08);;
-                    fill: v(button-bg);
+                    background: rgba(var(--button-bg-rgb), 0.08);
                     color: v(button-bg);
+                    fill: v(button-bg);
                 }
             }
         }

@@ -8,11 +8,12 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @guest_account
+// Group: @enterprise @guest_account @mfa
 
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Verify Guest Access UI', () => {
@@ -91,37 +92,21 @@ describe('Guest Account - Verify Guest Access UI', () => {
         cy.get('#confirmModal').should('not.exist');
         cy.get('.error-message').should('be.visible');
 
-        // # Click on the Save Settings and confirm
+        // # Click on the Save Settings, confirm and wait for some time to complete successful save
         cy.get('#saveSetting').should('be.visible').click();
-        cy.get('#confirmModalButton').should('be.visible').click();
+        cy.get('#confirmModalButton').should('be.visible').click().wait(TIMEOUTS.TWO_SEC);
 
         // # Visit the chat facing application
-        cy.visit('/');
+        cy.get('.header__info').should('be.visible').click();
+        cy.findByLabelText('Admin Console Menu').should('exist').within(() => {
+            cy.findByText('Switch to eligendi').click();
+        });
 
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // * Verify that an option to Invite via Guest should not be available
         cy.findByTestId('inviteGuestLink').should('not.exist');
         cy.findByTestId('inputPlaceholder').should('be.visible');
-    });
-
-    it('MM-T1411 Update Guest Users in User Management when Guest feature is disabled', () => {
-        cy.apiCreateGuestUser().then(({guest}) => {
-            // # Disable Guest Access and save
-            cy.findByTestId('GuestAccountsSettings.Enablefalse').click();
-            cy.get('#saveSetting').should('be.visible').click();
-            cy.get('#confirmModalButton').should('be.visible').click().wait(TIMEOUTS.THREE_SEC);
-
-            // # Visit the User Management Users page
-            cy.visit('/admin_console/user_management/users');
-
-            // # Search for the guest user
-            cy.get('#searchUsers').should('be.visible').type(guest.username);
-            cy.findByTestId('userListRow').within(() => {
-                cy.findByText('Inactive').should('be.visible');
-            });
-        });
     });
 });

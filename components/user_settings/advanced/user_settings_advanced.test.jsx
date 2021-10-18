@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import AdvancedSettingsDisplay from 'components/user_settings/advanced/user_settings_advanced.jsx';
 import * as Utils from 'utils/utils';
 
-jest.mock('actions/global_actions.jsx');
+jest.mock('actions/global_actions');
 jest.mock('utils/utils');
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {

@@ -29,8 +29,8 @@ describe('Channel', () => {
         cy.reload();
 
         cy.get('@channel').then((channel) => {
-            // * Verify new public or private channel cannot be created with existing public channel name
-            channelNameTest('PUBLIC CHANNELS', channel);
+            // * Verify new public channel cannot be created with existing public channel name
+            verifyChannel(channel);
         });
     });
 
@@ -40,22 +40,20 @@ describe('Channel', () => {
         cy.reload();
 
         cy.get('@channel').then((channel) => {
-            // * Verify new public or private channel cannot be created with existing private channel name
-            channelNameTest('PRIVATE CHANNELS', channel);
+            // * Verify new private channel cannot be created with existing private channel name
+            verifyChannel(channel);
         });
     });
 });
 
 /**
 * Creates a channel with existing name and verify that error is shown
-* @param {String} channelTypeID - ID of public or private channel to create
 * @param {String} newChannelName - New channel name to assign
+* @param {boolean} makePrivate - Set to false to make public channel (default), otherwise true as private channel
 */
 function verifyExistingChannelError(newChannelName, makePrivate = false) {
-    const channelTypeID = makePrivate ? '#createPrivateChannel' : '#createPublicChannel';
-
     // Click on '+' button for Public or Private Channel
-    cy.get(channelTypeID).click({force: true});
+    cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
     if (makePrivate) {
         cy.get('#private').check({force: true}).as('channelType');
@@ -66,7 +64,7 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     cy.get('@channelType').should('be.checked');
 
     // Type `newChannelName` in the input field for new channel
-    cy.get('#newChannelName').click().type(newChannelName);
+    cy.get('#newChannelName').should('be.visible').click().type(newChannelName);
     cy.wait(TIMEOUTS.HALF_SEC);
 
     // Click 'Create New Channel' button
@@ -78,34 +76,30 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
 
 /**
 * Attempts to create public and private channels with existing `channelName` and verifies error
-* @param {String} channelTypeHeading - PUBLIC CHANNELS or PRIVATE CHANNELS
 * @param {String} channelName - Existing channel name that is also being tested for error
-* var - origChannelLength:    The original number of channels in PUBLIC CHANNELS or PRIVATE CHANNELS
 */
-function channelNameTest(channelTypeHeading, channel) {
-    const listSelector = channelTypeHeading === 'PUBLIC CHANNELS' ? '#publicChannelList' : '#privateChannelList';
-
-    // # Find how many public channels there are and store as origChannelLength
-    cy.get(`${listSelector} a.sidebar-item`).its('length').as('origChannelLength');
+function verifyChannel(channel) {
+    // # Find current number of channels
+    cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').its('length').as('origChannelLength');
 
     // * Verify channel `channelName` exists
-    cy.get('#sidebarChannelContainer').should('contain', channel.display_name);
+    cy.uiGetLhsSection('CHANNELS').should('contain', channel.display_name);
 
-    // * Verify new public channel cannot be created with existing public channel name; see verifyExistingChannelError function
+    // * Verify new public channel cannot be created with existing public channel name
     verifyExistingChannelError(channel.name);
 
     // # Click on Cancel button to move out of New Channel Modal
     cy.get('#cancelNewChannel').contains('Cancel').click();
 
-    // * Verify new private channel cannot be created with existing public channel name:
+    // * Verify new private channel cannot be created with existing public channel name
     verifyExistingChannelError(channel.name, true);
 
     // # Click on Cancel button to move out of New Channel Modal
     cy.get('#cancelNewChannel').contains('Cancel').click();
 
-    // * Verify the number of channels is still the same as before (by comparing it to origChannelLenth)
+    // * Verify the number of channels is still the same as before
     cy.get('@origChannelLength').then((origChannelLength) => {
-        cy.get(`${listSelector} a.sidebar-item`).its('length').should('equal', origChannelLength);
+        cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').its('length').should('equal', origChannelLength);
     });
 }
 

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
+import classNames from 'classnames';
 
 import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
@@ -30,20 +31,24 @@ import Constants from 'utils/constants';
 // }
 // Submenus can contain Submenus as well
 
-type Props = {
+export type Props = {
     id?: string;
     postId?: string;
     text: React.ReactNode;
+    selectedValueText?: React.ReactNode;
+    renderSelected?: boolean;
     subMenu?: Props[];
+    subMenuClass?: string;
     icon?: React.ReactNode;
     action?: (id?: string) => void;
     filter?: (id?: string) => boolean;
-    xOffset?: number;
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
     direction?: 'left' | 'right';
     openUp?: boolean;
+    styleSelectableItem?: boolean;
+    extraText?: string;
 }
 
 type State = {
@@ -56,6 +61,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     public static defaultProps = {
         show: true,
         direction: 'left',
+        subMenuClass: 'pl-4',
+        renderSelected: true,
     };
 
     public constructor(props: Props) {
@@ -141,33 +148,32 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
             return ('');
         }
 
+        const selectedValueElement = typeof selectedValueText === 'string' ? <span className='selected'>{selectedValueText}</span> : selectedValueText;
+
         let textProp = text;
         if (icon) {
             textProp = (
                 <React.Fragment>
-                    <span className='icon'>{icon}</span>
-                    {text}
+                    <span className={classNames(['icon', {'sorting-menu-icon': styleSelectableItem}])}>{icon}</span>
+                    {textProp}
                 </React.Fragment>
             );
         }
 
         const hasSubmenu = subMenu && subMenu.length;
-        const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width : 0;
-        const childOffset = (React.isValidElement(text)) ? 20 : 0;
-        const offset = (root ? 2 : childOffset);
         const subMenuStyle: CSSProperties = {
             visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
             top: this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset',
         };
 
-        const menuOffset = (parseInt(String(xOffset), 10) - offset) + 'px';
+        const menuOffset = '100%';
         if (direction === 'left') {
             subMenuStyle.right = menuOffset;
         } else {
@@ -179,25 +185,33 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         if (!isMobile) {
             subMenuContent = (
                 <ul
-                    className={'a11y__popup Menu dropdown-menu SubMenu'}
+                    className={classNames(['a11y__popup Menu dropdown-menu SubMenu', {styleSelectableItem}])}
                     style={subMenuStyle}
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
+                        const hasDivider = s.id === 'ChannelMenu-moveToDivider';
                         return (
-                            <SubMenuItem
+                            <span
+                                className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
-                                id={s.id}
-                                postId={postId}
-                                text={s.text}
-                                icon={s.icon}
-                                subMenu={s.subMenu}
-                                action={s.action}
-                                filter={s.filter}
-                                xOffset={parentWidth}
-                                ariaLabel={ariaLabel}
-                                root={false}
-                                direction={s.direction}
-                            />
+                            >
+                                <SubMenuItem
+                                    id={s.id}
+                                    postId={postId}
+                                    text={s.text}
+                                    selectedValueText={s.selectedValueText}
+                                    icon={s.icon}
+                                    subMenu={s.subMenu}
+                                    action={s.action}
+                                    filter={s.filter}
+                                    ariaLabel={ariaLabel}
+                                    root={false}
+                                    direction={s.direction}
+                                />
+                                {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
+                                    <i className='icon-check'/>
+                                </span>}
+                            </span>
                         );
                     }) : ''}
                 </ul>
@@ -206,12 +220,13 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
 
         return (
             <li
-                className={'SubMenuItem MenuItem'}
+                className={classNames(['SubMenuItem MenuItem', {styleSelectableItem}])}
                 role='menuitem'
                 id={id + '_menuitem'}
                 ref={this.node}
             >
                 <div
+                    className={classNames([{styleSelectableItemDiv: styleSelectableItem}])}
                     id={id}
                     aria-label={ariaLabel}
                     onMouseEnter={this.show}
@@ -220,17 +235,18 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     onKeyDown={this.handleKeyDown}
                 >
-                    <span
-                        id={'channelHeaderDropdownIconLeft_' + id}
-                        className={'fa fa-angle-left SubMenu__icon-left' + (hasSubmenu && !isMobile && (direction === 'left') ? '' : '-empty' + (isMobile ? ' mobile' : ''))}
-                        aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
-                    />
-                    {textProp}
-                    <span
-                        id={'channelHeaderDropdownIconRight_' + id}
-                        className={'fa fa-angle-right SubMenu__icon-right' + (hasSubmenu && (isMobile || direction === 'right') ? '' : '-empty')}
-                        aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
-                    />
+                    <span className='MenuItem__primary-text'>
+                        {textProp}
+                        {renderSelected && selectedValueElement}
+                        {id !== 'ChannelMenu-moveToDivider' &&
+                            <span
+                                id={'channelHeaderDropdownIconRight_' + id}
+                                className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu ? '' : '-empty'}`, {mobile: isMobile}])}
+                                aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
+                            />
+                        }
+                    </span>
+                    {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
                     {subMenuContent}
                 </div>
             </li>

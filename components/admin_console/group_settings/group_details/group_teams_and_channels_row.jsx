@@ -220,6 +220,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                 </td>
                 <td className='text-right'>
                     <button
+                        type='button'
                         className='btn btn-link'
                         onClick={() => this.setState({showConfirmationModal: true})}
                         data-testid={`${this.props.name}_groupsyncable_remove`}

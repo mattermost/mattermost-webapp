@@ -24,6 +24,7 @@ type Props = {
     onToggleMenu: (open: boolean) => void;
     draggingState: DraggingState;
     tabIndex?: number;
+    additionalClass?: string;
 };
 
 type State = {
@@ -56,22 +57,6 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         if (this.props.isMenuOpen && !prevProps.isMenuOpen) {
             this.setMenuPosition();
             this.disableScrollbar();
-        }
-    }
-
-    // TODO: Temporary code to keep the menu in place while scrolling
-    // This shouldn't be necessary once the menus are fixed up
-    componentDidMount() {
-        const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
-        if (scrollbars && scrollbars[0]) {
-            scrollbars[0].addEventListener('scroll', this.closeMenu);
-        }
-    }
-
-    componentWillUnmount() {
-        const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
-        if (scrollbars && scrollbars[0]) {
-            scrollbars[0].removeEventListener('scroll', this.closeMenu);
         }
     }
 
@@ -131,6 +116,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             isMenuOpen,
             tooltipText,
             id,
+            additionalClass,
         } = this.props;
 
         const tooltip = (
@@ -159,7 +145,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                 >
                     <button
                         ref={this.menuButtonRef}
-                        className='SidebarMenu_menuButton'
+                        className={classNames(['SidebarMenu_menuButton', {additionalClass}])}
                         aria-label={buttonAriaLabel}
                         tabIndex={this.props.tabIndex}
                     >

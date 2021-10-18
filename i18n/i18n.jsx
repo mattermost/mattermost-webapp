@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable import/order */
+import bg from './bg.json';
 import de from './de.json';
+import enAU from './en_AU.json';
 import es from './es.json';
 import fr from './fr.json';
+import hu from './hu.json';
 import it from './it.json';
 import ja from './ja.json';
 import ko from './ko.json';
@@ -13,6 +16,7 @@ import pl from './pl.json';
 import ptBR from './pt-BR.json';
 import ro from './ro.json';
 import ru from './ru.json';
+import sv from './sv.json';
 import tr from './tr.json';
 import uk from './uk.json';
 import zhTW from './zh-TW.json';
@@ -32,93 +36,117 @@ const languages = {
     },
     en: {
         value: 'en',
-        name: 'English',
+        name: 'English (US)',
         order: 1,
         url: '',
+    },
+    'en-AU': {
+        value: 'en-AU',
+        name: 'English (Australia)',
+        order: 2,
+        url: enAU,
     },
     es: {
         value: 'es',
         name: 'Español',
-        order: 2,
+        order: 3,
         url: es,
     },
     fr: {
         value: 'fr',
         name: 'Français',
-        order: 3,
+        order: 4,
         url: fr,
     },
     it: {
         value: 'it',
-        name: 'Italiano',
-        order: 4,
+        name: 'Italiano (Alpha)',
+        order: 5,
         url: it,
     },
-    ja: {
-        value: 'ja',
-        name: '日本語',
-        order: 15,
-        url: ja,
-    },
-    ko: {
-        value: 'ko',
-        name: '한국어 (Alpha)',
-        order: 12,
-        url: ko,
+    hu: {
+        value: 'hu',
+        name: 'Magyar',
+        order: 6,
+        url: hu,
     },
     nl: {
         value: 'nl',
         name: 'Nederlands',
-        order: 5,
+        order: 7,
         url: nl,
     },
     pl: {
         value: 'pl',
-        name: 'Polski',
-        order: 6,
+        name: 'Polski (Alpha)',
+        order: 8,
         url: pl,
     },
     'pt-BR': {
         value: 'pt-BR',
         name: 'Português (Brasil)',
-        order: 7,
+        order: 9,
         url: ptBR,
     },
     ro: {
         value: 'ro',
         name: 'Română',
-        order: 8,
+        order: 10,
         url: ro,
     },
-    ru: {
-        value: 'ru',
-        name: 'Pусский',
-        order: 10,
-        url: ru,
+    sv: {
+        value: 'sv',
+        name: 'Svenska',
+        order: 11,
+        url: sv,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
-        order: 9,
+        order: 12,
         url: tr,
+    },
+    bg: {
+        value: 'bg',
+        name: 'Български',
+        order: 13,
+        url: bg,
+    },
+    ru: {
+        value: 'ru',
+        name: 'Pусский',
+        order: 14,
+        url: ru,
     },
     uk: {
         value: 'uk',
         name: 'Yкраїнська (Alpha)',
-        order: 11,
+        order: 15,
         url: uk,
     },
-    'zh-TW': {
-        value: 'zh-TW',
-        name: '中文 (繁體)',
-        order: 14,
-        url: zhTW,
+    ko: {
+        value: 'ko',
+        name: '한국어 (Alpha)',
+        order: 16,
+        url: ko,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 13,
+        order: 17,
         url: zhCN,
+    },
+    'zh-TW': {
+        value: 'zh-TW',
+        name: '中文 (繁體)',
+        order: 18,
+        url: zhTW,
+    },
+    ja: {
+        value: 'ja',
+        name: '日本語',
+        order: 19,
+        url: ja,
     },
 };
 

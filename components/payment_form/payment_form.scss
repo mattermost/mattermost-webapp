@@ -1,61 +1,78 @@
 .PaymentForm {
-    margin: 0 auto;
-    padding-left: 96px;
     padding-right: 96px;
+    padding-left: 96px;
+    margin: 0 auto;
 
     .form-row {
+        display: flex;
         width: 100%;
         margin-bottom: 24px;
-        display: flex;
     }
 
     .form-row-third-1 {
         .DropdownInput {
-            margin-top: 0px;
             z-index: 99999;
+            margin-top: 0;
         }
-        max-width: 288px;
+
         width: 66%;
+        max-width: 288px;
         margin-right: 16px;
     }
 
     .form-row-third-2 {
-        max-width: 144px;
         width: 34%;
+        max-width: 144px;
     }
 
-    .section-title{
-        font-weight: 600;
-        font-size: 16px;
-        color: var(--center-channel-text);
-        text-align: left;
+    .section-title {
         margin-bottom: 24px;
+        color: var(--center-channel-text);
+        font-size: 16px;
+        font-weight: 600;
+        text-align: left;
     }
 
     .DropdownInput {
-        margin-bottom: 24px;
-        height: 36px;
         position: relative;
-
         z-index: 999999;
+        height: 36px;
+        margin-bottom: 24px;
 
         .DropDown__control {
-            min-height: 0px;
+            min-height: 0;
+            background-color: var(--center-channel-bg) !important;
+
+            .DropDown__value-container > div {
+                color: var(--center-channel-color) !important;
+            }
+        }
+
+        .DropDown__menu {
+            background-color: var(--center-channel-bg) !important;
+            box-shadow: 0 0 0 1px var(--center-channel-color), 0 4px 11px var(--center-channel-color) !important;
         }
     }
 
     .full-width {
-        width: 100%
+        width: 100%;
     }
 
-    Input{
+    input {
         font-size: 14px;
     }
 
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px var(--center-channel-bg) inset !important;
+    }
+
     .Input_fieldset {
-        background: var(--center-channel-bg);
         height: 40px;
         padding: 2px 1px;
+        background: var(--center-channel-bg);
 
         .Input_wrapper {
             margin: 0;
@@ -68,87 +85,80 @@
         }
 
         &.Input_fieldset:focus-within {
+            padding-top: 2px;
             box-shadow: inset 0 0 0 2px var(--button-bg);
             color: var(--button-bg);
-            padding-top: 2px
         }
 
-
         &.Input_fieldset___error {
-            color: var(--error-text);
-            box-shadow: inset 0 0 0 1px var(--error-text);
             padding-top: 1px;
             padding-bottom: 1px;
+            box-shadow: inset 0 0 0 1px var(--error-text);
+            color: var(--error-text);
         }
 
         &.Input_fieldset___error:focus-within {
-            color: var(--error-text);
             box-shadow: inset 0 0 0 2px var(--error-text);
+            color: var(--error-text);
         }
 
         .Input {
             height: 32px;
-            &::placeholder{
+            background: inherit;
+
+            &::placeholder {
                 color: var(--center-channel-color);
                 opacity: 0.64;
             }
         }
     }
 
-
     .PaymentForm-saved {
         width: 442px;
         height: fit-content;
-        background: #FFFFFF;
-        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
         box-sizing: border-box;
-        border-radius: 4px;
         padding: 24px;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
         margin-bottom: 16px;
+        background: #fff;
+        border-radius: 4px;
     }
 
     .PaymentForm-saved-title {
-        font-family: Metropolis;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 18px;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: #22406D;
-        opacity: 0.4;
         margin-bottom: 16px;
+        color: #22406d;
+        font-family: Metropolis;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        line-height: 18px;
+        opacity: 0.4;
+        text-transform: uppercase;
     }
 
     .PaymentForm-saved-card {
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        color: #22406d;
         font-family: Source Sans Pro;
         font-size: 16px;
         line-height: 24px;
-        color: #22406D;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-        padding-bottom: 16px;
     }
 
     .PaymentForm-saved-address {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        color: #22406d;
         font-family: Source Sans Pro;
         font-size: 16px;
         line-height: 24px;
-        color: #22406D;
-        margin-top: 16px;
-        margin-bottom: 16px;
     }
 
     .PaymentForm-change {
+        color: #0058cc;
         font-family: Source Sans Pro;
-        font-weight: 600;
         font-size: 16px;
+        font-weight: 600;
         line-height: 20px;
-        color: #0058CC;
     }
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px var(--center-channel-bg) inset !important;
 }

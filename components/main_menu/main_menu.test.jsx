@@ -2,14 +2,27 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
+
+import {Permissions} from 'mattermost-redux/constants';
 
 import MainMenu from './main_menu.jsx';
 
 describe('components/Menu', () => {
+    // Neccessary for components enhanced by HOCs due to issue with enzyme.
+    // See https://github.com/enzymejs/enzyme/issues/539
+    const getMainMenuWrapper = (props) => {
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        return wrapper.find('MainMenu').shallow();
+    };
+
+    const mockStore = configureStore();
+
     const defaultProps = {
         mobile: false,
         teamId: 'team-id',
@@ -42,8 +55,49 @@ describe('components/Menu', () => {
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
             unhideNextSteps: jest.fn(),
+            getSubscriptionStats: jest.fn(),
         },
         teamIsGroupConstrained: false,
+        isCloud: false,
+        subscription: {},
+        userIsAdmin: true,
+    };
+
+    const defaultState = {
+        entities: {
+            channels: {
+                myMembers: [],
+            },
+            teams: {
+                currentTeamId: 'team-id',
+                myMembers: {
+                    'team-id': {
+                        team_id: 'team-id',
+                        user_id: 'test-user-id',
+                        roles: 'team_user',
+                        scheme_user: 'true',
+                    },
+                },
+            },
+            users: {
+                currentUserId: 'test-user-id',
+                profiles: {
+                    'test-user-id': {
+                        id: 'test-user-id',
+                        roles: 'system_user system_manager',
+                    },
+                },
+            },
+            roles: {
+                roles: {
+                    system_manager: {
+                        permissions: [
+                            Permissions.SYSCONSOLE_WRITE_PLUGINS,
+                        ],
+                    },
+                },
+            },
+        },
     };
 
     test('should match snapshot with id', () => {
@@ -135,7 +189,7 @@ describe('components/Menu', () => {
 
     test('should show leave team option when primary team is set', () => {
         const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = getMainMenuWrapper(props);
 
         // show leave team option when experimentalPrimaryTeam is not set
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);
@@ -152,54 +206,29 @@ describe('components/Menu', () => {
         expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
     });
 
-    describe('should show integrations', () => {
-        it('when incoming webhooks enabled', () => {
-            const props = {...defaultProps, enableIncomingWebhooks: true};
-            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+    test('mobile view should hide the subscribe now button when does not have permissions', () => {
+        const noPermissionsState = {...defaultState};
+        noPermissionsState.entities.roles.roles.system_manager.permissions = [];
+        const store = mockStore(noPermissionsState);
 
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...defaultProps}/>
+            </Provider>,
+        );
 
-        it('when outgoing webhooks enabled', () => {
-            const props = {...defaultProps, enableOutgoingWebhooks: true};
-            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
+    });
 
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
+    test('mobile view should hide start trial menu item because user state does not have permission to write license', () => {
+        const store = mockStore(defaultState);
 
-        it('when slash commands enabled', () => {
-            const props = {...defaultProps, enableCommands: true};
-            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...defaultProps}/>
+            </Provider>,
+        );
 
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when oauth providers enabled', () => {
-            const props = {...defaultProps, enableOAuthServiceProvider: true};
-            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when can manage system bots', () => {
-            const props = {...defaultProps, canManageSystemBots: true};
-            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('unless mobile', () => {
-            const props = {...defaultProps, mobile: true, canManageSystemBots: true};
-            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(false);
-        });
-
-        it('unless cannot manage integrations', () => {
-            const props = {...defaultProps, canManageIntegrations: false, enableCommands: true};
-            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(false);
-        });
+        expect(wrapper.find('#startTrial')).toHaveLength(0);
     });
 });

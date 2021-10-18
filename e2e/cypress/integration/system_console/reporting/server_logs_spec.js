@@ -7,12 +7,14 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @system_console @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('System Console > Server Logs', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Visit the system console.
         cy.visit('/admin_console');
 
@@ -20,7 +22,7 @@ describe('System Console > Server Logs', () => {
         cy.get('#reporting\\/server_logs').click().wait(TIMEOUTS.TWO_SEC);
     });
 
-    it('MM-T906 Logs - Verify content categories', () => {
+    it('MM-T908 Logs - Verify content categories', () => {
         // * Verify the banner is showed.
         cy.get('.banner__content span').should('not.empty');
 

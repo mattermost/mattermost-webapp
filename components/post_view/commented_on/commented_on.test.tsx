@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Post} from 'mattermost-redux/src/types/posts';
+import {Post} from 'mattermost-redux/types/posts';
 
 import CommentedOn from 'components/post_view/commented_on/commented_on';
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
@@ -29,7 +29,6 @@ describe('components/post_view/CommentedOn', () => {
             user_id: 'user_id',
             channel_id: 'channel_id',
             root_id: 'root_id',
-            parent_id: 'parent_id',
             original_id: 'original_id',
             type: 'system_add_remove',
             hashtags: 'hashtags',

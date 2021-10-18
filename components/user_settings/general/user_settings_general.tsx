@@ -12,11 +12,12 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
+import LocalizedIcon from 'components/localized_icon';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants} from 'utils/constants';
+import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -45,7 +46,7 @@ const holders = defineMessages({
     },
     validImage: {
         id: t('user.settings.general.validImage'),
-        defaultMessage: 'Only BMP, JPG or PNG images may be used for profile pictures',
+        defaultMessage: 'Only BMP, JPG, JPEG, or PNG images may be used for profile pictures',
     },
     imageTooLarge: {
         id: t('user.settings.general.imageTooLarge'),
@@ -204,11 +205,14 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
         const {formatMessage} = this.props.intl;
         const usernameError = Utils.isValidUsername(username);
-        if (usernameError === 'Cannot use a reserved word as a username.') {
-            this.setState({clientError: formatMessage(holders.usernameReserved), serverError: ''});
-            return;
-        } else if (usernameError) {
-            this.setState({clientError: formatMessage(holders.usernameRestrictions, {min: Constants.MIN_USERNAME_LENGTH, max: Constants.MAX_USERNAME_LENGTH}), serverError: ''});
+        if (usernameError) {
+            let errObj;
+            if (usernameError.id === ValidationErrors.RESERVED_NAME) {
+                errObj = {clientError: formatMessage(holders.usernameReserved), serverError: ''};
+            } else {
+                errObj = {clientError: formatMessage(holders.usernameRestrictions, {min: Constants.MIN_USERNAME_LENGTH, max: Constants.MAX_USERNAME_LENGTH}), serverError: ''};
+            }
+            this.setState(errObj);
             return;
         }
 
@@ -626,6 +630,24 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                             <FormattedMessage
                                 id='user.settings.general.emailOffice365CantUpdate'
                                 defaultMessage='Login occurs through Office 365. Email cannot be updated. Email address used for notifications is {email}.'
+                                values={{
+                                    email: this.state.originalEmail,
+                                }}
+                            />
+                        </div>
+                        {helpText}
+                    </div>,
+                );
+            } else if (this.props.user.auth_service === Constants.OPENID_SERVICE) {
+                inputs.push(
+                    <div
+                        key='oauthEmailInfo'
+                        className='form-group'
+                    >
+                        <div className='setting-list__hint pb-3'>
+                            <FormattedMessage
+                                id='user.settings.general.emailOpenIdCantUpdate'
+                                defaultMessage='Login occurs through OpenID Connect. Email cannot be updated. Email address used for notifications is {email}.'
                                 values={{
                                     email: this.state.originalEmail,
                                 }}
@@ -1239,7 +1261,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 helpText = (
                     <FormattedMessage
                         id={'setting_picture.help.profile'}
-                        defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
+                        defaultMessage='Upload a picture in BMP, JPG, JPEG, or PNG format. Maximum file size: {max}'
                         values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
                     />
                 );
@@ -1317,22 +1339,15 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <FormattedMessage
-                                id='generic_icons.collapse'
-                                defaultMessage='Collapse Icon'
-                            >
-                                {(title?: string) => (
-                                    <i
-                                        className='fa fa-angle-left'
-                                        title={title}
-                                        onClick={this.props.collapseModal}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='fa fa-angle-left'
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
+                                onClick={this.props.collapseModal}
+                            />
                         </div>
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h4>
                 </div>
@@ -1342,8 +1357,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         className='tab-header'
                     >
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h3>
                     <div className='divider-dark first'/>

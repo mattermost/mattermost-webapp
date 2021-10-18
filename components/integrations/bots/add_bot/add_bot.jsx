@@ -18,7 +18,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import SpinnerButton from 'components/spinner_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormError from 'components/form_error';
-import {AcceptedProfileImageTypes, Constants} from 'utils/constants';
+import {AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';
 
@@ -285,10 +285,29 @@ export default class AddBot extends React.PureComponent {
         } else {
             const usernameError = Utils.isValidBotUsername(bot.username);
             if (usernameError) {
-                this.setState({
-                    adding: false,
-                    error: usernameError,
-                });
+                let errObj;
+                if (usernameError.id === ValidationErrors.INVALID_LAST_CHARACTER) {
+                    errObj = {
+                        adding: false,
+                        error: (
+                            <FormattedMessage
+                                id='bots.manage.add.invalid_last_char'
+                                defaultMessage='Bot usernames cannot have a period as the last character'
+                            />
+                        ),
+                    };
+                } else {
+                    errObj = {
+                        adding: false,
+                        error: (
+                            <FormattedMessage
+                                id='bots.manage.add.invalid_username'
+                                defaultMessage='Usernames must begin with a lowercase letter and be 3-22 characters long. You can use lowercase letters, numbers, periods, dashes, and underscores.'
+                            />
+                        ),
+                    };
+                }
+                this.setState(errObj);
                 return;
             }
 
@@ -491,7 +510,7 @@ export default class AddBot extends React.PureComponent {
                                         defaultMessage='Upload Image'
                                     />
                                     <input
-                                        accept='.jpg,.png,.bmp'
+                                        accept={Constants.ACCEPT_STATIC_IMAGE}
                                         type='file'
                                         onChange={this.updatePicture}
                                     />

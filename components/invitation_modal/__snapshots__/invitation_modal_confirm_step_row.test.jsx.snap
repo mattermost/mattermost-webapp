@@ -31,7 +31,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="username-or-icon"
   >
-    <Avatar
+    <Memo(Avatar)
       size="lg"
       url="/api/v4/users/test-id/image?_=0"
       username="test"
@@ -45,7 +45,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="some message"
       id="some-id"
       values={
@@ -89,7 +89,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="username-or-icon"
   >
-    <Avatar
+    <Memo(Avatar)
       size="lg"
       url="/api/v4/users/test-id/image?_=0"
       username="test"

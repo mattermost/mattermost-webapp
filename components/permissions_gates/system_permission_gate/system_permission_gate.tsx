@@ -4,7 +4,7 @@
 import React from 'react';
 
 type Props = {
-    permissions: Array<string>;
+    permissions: string[];
 
     /**
      * Has permission

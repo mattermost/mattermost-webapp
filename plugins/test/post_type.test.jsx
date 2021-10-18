@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import PostMessageView from 'components/post_view/post_message_view/post_message_view.jsx';
+import PostMessageView from 'components/post_view/post_message_view/post_message_view';
 
 class PostTypePlugin extends React.PureComponent {
     render() {

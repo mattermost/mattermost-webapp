@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -21,12 +20,12 @@ describe('Post Header', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
     });
 
     it('should render permalink view on click of post timestamp at center view', () => {
@@ -43,10 +42,10 @@ describe('Post Header', () => {
             cy.clickPostTime(postId);
 
             // * Check if url include the permalink
-            cy.url().should('include', `/${testTeam.name}/channels/town-square/${postId}`);
+            cy.url().should('include', `/${testTeam.name}/channels/off-topic/${postId}`);
 
             // * Check if url redirects back to parent path eventually
-            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', `/${postId}`);
+            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/off-topic`).and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
             cy.get(divPostId).should('be.visible').and('have.class', 'post--highlight');
@@ -66,8 +65,8 @@ describe('Post Header', () => {
         cy.getLastPostId().then((postId) => {
             // * Check that the center dot menu' button and dropdown are hidden
             cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-                cy.get('.dropdown-menu').should('not.be.visible');
+                cy.get(`#CENTER_button_${postId}`).should('not.exist');
+                cy.get('.dropdown-menu').should('not.exist');
             });
 
             // # Click dot menu of a post
@@ -84,8 +83,8 @@ describe('Post Header', () => {
 
             // * Check that the center dot menu and dropdown are hidden
             cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-                cy.get('.dropdown-menu').should('not.be.visible');
+                cy.get(`#CENTER_button_${postId}`).should('not.exist');
+                cy.get('.dropdown-menu').should('not.exist');
             });
         });
     });
@@ -131,10 +130,10 @@ describe('Post Header', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Close RHS on click of close button
-        cy.closeRHS();
+        cy.uiCloseRHS();
 
         // * Check that the RHS is close
-        cy.get('#rhsContainer').should('not.be.visible');
+        cy.get('#rhsContainer').should('not.exist');
     });
 
     it('MM-T122 Visual verification of "Searching" animation for Saved and Pinned posts', () => {
@@ -152,7 +151,7 @@ describe('Post Header', () => {
         });
 
         // # Click on the "Pinned Posts" icon to the left of the "Search" box
-        cy.get('#channelHeaderPinButton').click();
+        cy.uiGetChannelPinButton().click();
 
         // * Verify that the RHS for pinned posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
@@ -165,7 +164,7 @@ describe('Post Header', () => {
         });
 
         // # Click on the "Saved Posts" icon to the right of the "Search" box
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
 
         // * Verify that the RHS for saved posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {

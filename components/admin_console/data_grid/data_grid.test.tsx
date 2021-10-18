@@ -16,7 +16,7 @@ describe('components/admin_console/data_grid/DataGrid', () => {
 
         nextPage: jest.fn(),
         previousPage: jest.fn(),
-        search: jest.fn(),
+        onSearch: jest.fn(),
 
         rows: [],
         columns: [],
@@ -55,6 +55,25 @@ describe('components/admin_console/data_grid/DataGrid', () => {
                     {name: 'Name', field: 'name', width: 3, overflow: 'hidden'},
                     {name: 'Team', field: 'team', textAlign: 'center'},
                 ]}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom classes', () => {
+        const wrapper = shallow(
+            <DataGrid
+                {...baseProps}
+                rows={[
+                    {cells: {name: 'Joe Schmoe', team: 'Admin Team'}},
+                    {cells: {name: 'Foo Bar', team: 'Admin Team'}},
+                    {cells: {name: 'Some Guy', team: 'Admin Team'}},
+                ]}
+                columns={[
+                    {name: 'Name', field: 'name'},
+                    {name: 'Team', field: 'team'},
+                ]}
+                className={'customTable'}
             />,
         );
         expect(wrapper).toMatchSnapshot();

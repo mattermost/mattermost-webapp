@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @guest_account
 
 /**
@@ -57,23 +56,32 @@ describe('Guest Account - Guest User Experience', () => {
         });
     });
 
-    it('MM-18043 Verify Guest User Restrictions', () => {
-        // * Verify Reduced Options in Main Menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        const missingMainOptions = ['#invitePeople', '#teamSettings', '#manageMembers', '#createTeam', '#joinTeam', '#integrations', '#systemConsole'];
-        const includeMainOptions = ['#accountSettings', '#viewMembers', '#leaveTeam'];
+    it('MM-T1354 Verify Guest User Restrictions', () => {
+        // # Open team menu
+        cy.uiOpenTeamMenu();
+
+        // * Verify reduced options in Team Menu
+        const missingMainOptions = [
+            'Invite People',
+            'Team Settings',
+            'Manage Members',
+            'Join Another Team',
+            'Create a Team',
+        ];
         missingMainOptions.forEach((missingOption) => {
-            cy.get(missingOption).should('not.exist');
+            cy.uiGetLHSTeamMenu().should('not.contain', missingOption);
         });
+
+        const includeMainOptions = [
+            'View Members',
+            'Leave Team',
+        ];
         includeMainOptions.forEach((includeOption) => {
-            cy.get(includeOption).should('be.visible');
+            cy.uiGetLHSTeamMenu().findByText(includeOption);
         });
 
         // * Verify Reduced Options in LHS
-        const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
-        missingLHSOptions.forEach((missingOption) => {
-            cy.get(missingOption).should('not.exist');
-        });
+        cy.uiGetLHSAddChannelButton().should('not.exist');
 
         // * Verify Guest Badge in Channel Header
         cy.get('#channelHeaderDescription').within(($el) => {
@@ -96,12 +104,12 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#member_popover').click();
 
         // * Verify list of Users in Direct Messages Dialog
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
             // * Verify only 2 users - Guest and sysadmin are listed
             cy.wrap($el).children().should('have.length', 2);
         });
-        cy.get('.modal-header .close').click();
+        cy.uiClose();
 
         // * Verify Guest Badge when guest user posts a message
         cy.postMessage('testing');
@@ -120,12 +128,11 @@ describe('Guest Account - Guest User Experience', () => {
         // # Close the profile popover
         cy.get('#channel-header').click();
 
-        // * Verify Guest User can see only 1 additional channel in LHS plus town-square and off-topic
-        cy.get('#publicChannelList').find('a').should('have.length', 3);
+        // * Verify Guest User can see only 1 additional channel in LHS plus off-topic and off-topic
+        cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').should('have.length', 3);
 
         // * Verify list of Users a Guest User can see in Team Members dialog
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#viewMembers').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiOpenTeamMenu('View Members');
         cy.get('#searchableUserListTotal').should('be.visible').and('have.text', '1 - 2 members of 2 total');
     });
 
@@ -138,24 +145,26 @@ describe('Guest Account - Guest User Experience', () => {
         cy.apiLogin(guestUser);
         cy.reload();
 
-        // * Verify Options in Main Menu are changed
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        const includeMainOptions = ['#accountSettings', '#viewMembers', '#leaveTeam', '#invitePeople', '#createTeam'];
-        includeMainOptions.forEach((includeOption) => {
-            cy.get(includeOption).should('be.visible');
+        // * Verify options in team menu are changed
+        cy.uiOpenTeamMenu();
+        const includeOptions = [
+            'Invite People',
+            'View Members',
+            'Leave Team',
+            'Create a Team',
+        ];
+        includeOptions.forEach((option) => {
+            cy.uiGetLHSTeamMenu().findByText(option);
         });
 
         // # Close the main menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.uiGetLHSHeader().click();
 
         // * Verify Options in LHS are changed
-        const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
-        missingLHSOptions.forEach((missingOption) => {
-            cy.get(missingOption).should('be.visible');
-        });
+        cy.uiGetLHSAddChannelButton();
 
         // * Verify Guest Badge in Channel Header is removed
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_off-topic').click();
         cy.get('#channelIntro').should('be.visible');
         cy.get('#channelHeaderDescription').within(($el) => {
             cy.wrap($el).find('.has-guest-header').should('not.exist');
@@ -177,7 +186,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#member_popover').click();
 
         // * Verify Guest Badge is removed when user posts a message
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_off-topic').click({force: true});
         cy.postMessage('testing');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
@@ -199,7 +208,7 @@ describe('Guest Account - Guest User Experience', () => {
         // # Demote Guest user if applicable
         demoteGuestUser(guestUser);
 
-        // # Ceate a new team
+        // # Create a new team
         cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
             // # Add the guest user to this team
             cy.apiAddUserToTeam(teamTwo.id, guestUser.id).then(() => {

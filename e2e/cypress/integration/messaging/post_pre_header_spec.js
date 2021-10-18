@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -15,11 +14,11 @@ describe('Post PreHeader', () => {
     let testTeam;
 
     before(() => {
-        // # Login as test user and visit town-square channel
+        // # Login as test user and visit off-topic channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -29,7 +28,7 @@ describe('Post PreHeader', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check that the post pre-header is not visible
-            cy.get('div.post-pre-header').should('not.be.visible');
+            cy.get('div.post-pre-header').should('not.exist');
 
             // # Click the center save icon of the post
             cy.clickPostSaveIcon(postId);
@@ -62,7 +61,7 @@ describe('Post PreHeader', () => {
                 });
 
             // * Check that the saved posts list is not open in RHS before clicking the link in the post pre-header
-            cy.get('#searchContainer').should('not.be.visible');
+            cy.get('#searchContainer').should('not.exist');
 
             // # Click the link
             cy.get('@savedLink').click();
@@ -77,7 +76,7 @@ describe('Post PreHeader', () => {
                 cy.findByTestId('search-item-container').within(() => {
                     cy.get('div.post__content').should('be.visible');
                     cy.get(`#rhsPostMessageText_${postId}`).contains('test for saved post');
-                    cy.get('div.post-pre-header').should('not.be.visible');
+                    cy.get('div.post-pre-header').should('not.exist');
                 });
             });
 
@@ -88,7 +87,7 @@ describe('Post PreHeader', () => {
             cy.clickPostSaveIcon(postId);
 
             // * Check that the post pre-header is not visible
-            cy.get('div.post-pre-header').should('not.be.visible');
+            cy.get('div.post-pre-header').should('not.exist');
 
             // * Check that the post is not highlighted
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned-or-flagged');
@@ -101,7 +100,7 @@ describe('Post PreHeader', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check that the post pre-header is not visible
-            cy.get('div.post-pre-header').should('not.be.visible');
+            cy.get('div.post-pre-header').should('not.exist');
 
             // # Pin the post.
             cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
@@ -126,7 +125,7 @@ describe('Post PreHeader', () => {
                 });
 
             // * Check that the pinned posts list is not open in RHS before clicking the link in the post pre-header
-            cy.get('#searchContainer').should('not.be.visible');
+            cy.get('#searchContainer').should('not.exist');
 
             // # Click the link
             cy.get('@pinnedLink').click();
@@ -135,13 +134,14 @@ describe('Post PreHeader', () => {
             cy.get('#searchContainer').should('be.visible').within(() => {
                 cy.get('.sidebar--right__title').
                     should('be.visible').
-                    and('have.text', 'Pinned postsTown Square');
+                    and('contain', 'Pinned Posts').
+                    and('contain', 'Off-Topic');
 
                 // * Check that the post pre-header is not shown for the pinned message in RHS
                 cy.findByTestId('search-item-container').within(() => {
                     cy.get('div.post__content').should('be.visible');
                     cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
-                    cy.get('div.post-pre-header').should('not.be.visible');
+                    cy.get('div.post-pre-header').should('not.exist');
                 });
             });
 
@@ -152,7 +152,7 @@ describe('Post PreHeader', () => {
             cy.uiClickPostDropdownMenu(postId, 'Unpin from Channel');
 
             // * Check that the post pre-header is not visible
-            cy.get('div.post-pre-header').should('not.be.visible');
+            cy.get('div.post-pre-header').should('not.exist');
 
             // * Check that the post is not highlighted
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned-or-flagged');

@@ -3,55 +3,92 @@
 
 import merge from 'deepmerge';
 
-import partialDefaultConfig from '../../fixtures/partial_default_config.json';
+import {Constants} from '../../utils';
+
+import onPremDefaultConfig from './on_prem_default_config.json';
+import cloudDefaultConfig from './cloud_default_config.json';
 
 // *****************************************************************************
 // System
 // https://api.mattermost.com/#tag/system
 // *****************************************************************************
 
+function hasLicenseForFeature(license, key) {
+    let hasLicense = false;
+
+    for (const [k, v] of Object.entries(license)) {
+        if (k === key && v === 'true') {
+            hasLicense = true;
+            break;
+        }
+    }
+
+    return hasLicense;
+}
+
 Cypress.Commands.add('apiGetClientLicense', () => {
     return cy.request('/api/v4/license/client?format=old').then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({license: response.body});
+
+        const license = response.body;
+        const isLicensed = license.IsLicensed === 'true';
+        const isCloudLicensed = hasLicenseForFeature(license, 'Cloud');
+
+        return cy.wrap({
+            license: response.body,
+            isLicensed,
+            isCloudLicensed,
+        });
     });
 });
 
-Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
-    Cypress.log({name: 'EE License', message: `Checking if server has license for feature: __${key}__.`});
+Cypress.Commands.add('apiRequireLicenseForFeature', (...keys) => {
+    Cypress.log({name: 'EE License', message: `Checking if server has license for feature: __${Object.values(keys).join(', ')}__.`});
 
-    return uploadLicenseIfNotExist().then(({license}) => {
-        const hasLicenseMessage = `Server ${license.IsLicensed === 'true' ? 'has' : 'has no'} EE license.`;
-        expect(license.IsLicensed, hasLicenseMessage).to.equal('true');
+    return uploadLicenseIfNotExist().then((data) => {
+        const {license, isLicensed} = data;
+        const hasLicenseMessage = `Server ${isLicensed ? 'has' : 'has no'} EE license.`;
+        expect(isLicensed, hasLicenseMessage).to.equal(true);
 
-        let hasLicenseKey = false;
-        for (const [k, v] of Object.entries(license)) {
-            if (k === key && v === 'true') {
-                hasLicenseKey = true;
-                break;
-            }
-        }
+        Object.values(keys).forEach((key) => {
+            const hasLicenseKey = hasLicenseForFeature(license, key);
+            const hasLicenseKeyMessage = `Server ${hasLicenseKey ? 'has' : 'has no'} EE license for feature: __${key}__`;
+            expect(hasLicenseKey, hasLicenseKeyMessage).to.equal(true);
+        });
 
-        const hasLicenseKeyMessage = `Server ${hasLicenseKey ? 'has' : 'has no'} EE license for feature: __${key}__`;
-        expect(hasLicenseKey, hasLicenseKeyMessage).to.equal(true);
-
-        return cy.wrap({license});
+        return cy.wrap(data);
     });
 });
 
 Cypress.Commands.add('apiRequireLicense', () => {
     Cypress.log({name: 'EE License', message: 'Checking if server has license.'});
 
-    return uploadLicenseIfNotExist().then(({license}) => {
-        const hasLicenseMessage = `Server ${license.IsLicensed === 'true' ? 'has' : 'has no'} EE license.`;
-        expect(license.IsLicensed, hasLicenseMessage).to.equal('true');
+    return uploadLicenseIfNotExist().then((data) => {
+        const hasLicenseMessage = `Server ${data.isLicensed ? 'has' : 'has no'} EE license.`;
+        expect(data.isLicensed, hasLicenseMessage).to.equal(true);
 
-        return cy.wrap({license});
+        return cy.wrap(data);
     });
 });
 
 Cypress.Commands.add('apiUploadLicense', (filePath) => {
     cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200});
+});
+
+Cypress.Commands.add('apiInstallTrialLicense', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/trial-license',
+        method: 'POST',
+        body: {
+            trialreceive_emails_accepted: true,
+            terms_accepted: true,
+            users: Cypress.env('numberOfTrialUsers'),
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body);
+    });
 });
 
 Cypress.Commands.add('apiDeleteLicense', () => {
@@ -65,24 +102,65 @@ Cypress.Commands.add('apiDeleteLicense', () => {
     });
 });
 
-const getDefaultConfig = () => {
+export const getDefaultConfig = () => {
+    const cypressEnv = Cypress.env();
+
     const fromCypressEnv = {
-        LdapSettings: {
-            LdapServer: Cypress.env('ldapServer'),
-            LdapPort: Cypress.env('ldapPort'),
+        ElasticsearchSettings: {
+            ConnectionURL: cypressEnv.elasticsearchConnectionURL,
         },
-        ServiceSettings: {SiteURL: Cypress.config('baseUrl')},
+        LdapSettings: {
+            LdapServer: cypressEnv.ldapServer,
+            LdapPort: cypressEnv.ldapPort,
+        },
+        ServiceSettings: {
+            AllowedUntrustedInternalConnections: cypressEnv.allowedUntrustedInternalConnections,
+            SiteURL: Cypress.config('baseUrl'),
+        },
     };
 
-    return merge(partialDefaultConfig, fromCypressEnv);
+    const isCloud = cypressEnv.serverEdition === Constants.ServerEdition.CLOUD;
+
+    if (isCloud) {
+        fromCypressEnv.CloudSettings = {
+            CWSURL: cypressEnv.cwsURL,
+            CWSAPIURL: cypressEnv.cwsAPIURL,
+        };
+    }
+
+    const defaultConfig = isCloud ? cloudDefaultConfig : onPremDefaultConfig;
+
+    return merge(defaultConfig, fromCypressEnv);
+};
+
+const expectConfigToBeUpdatable = (currentConfig, newConfig) => {
+    function errorMessage(name) {
+        return `${name} is restricted or not available to update. You may check user/sysadmin access, license requirement, server version or edition (on-prem/cloud) compatibility.`;
+    }
+
+    Object.entries(newConfig).forEach(([newMainKey, newSubSetting]) => {
+        const setting = currentConfig[newMainKey];
+
+        if (setting) {
+            Object.keys(newSubSetting).forEach((newSubKey) => {
+                const isAvailable = setting.hasOwnProperty(newSubKey);
+                const name = `${newMainKey}.${newSubKey}`;
+                expect(isAvailable, isAvailable ? `${name} setting can be updated.` : errorMessage(name)).to.equal(true);
+            });
+        } else {
+            const withSetting = Boolean(setting);
+            expect(withSetting, withSetting ? `${newMainKey} setting can be updated.` : errorMessage(newMainKey)).to.equal(true);
+        }
+    });
 };
 
 Cypress.Commands.add('apiUpdateConfig', (newConfig = {}) => {
-    // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
-        const oldConfig = response.body;
+    // # Get current config
+    return cy.apiGetConfig().then(({config: currentConfig}) => {
+        // * Check if config can be updated
+        expectConfigToBeUpdatable(currentConfig, newConfig);
 
-        const config = merge.all([oldConfig, getDefaultConfig(), newConfig]);
+        const config = merge.all([currentConfig, getDefaultConfig(), newConfig]);
 
         // # Set the modified config
         return cy.request({
@@ -109,9 +187,9 @@ Cypress.Commands.add('apiReloadConfig', () => {
     });
 });
 
-Cypress.Commands.add('apiGetConfig', () => {
+Cypress.Commands.add('apiGetConfig', (old = false) => {
     // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
+    return cy.request(`/api/v4/config${old ? '/client?format=old' : ''}`).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({config: response.body});
     });
@@ -137,25 +215,93 @@ Cypress.Commands.add('apiInvalidateCache', () => {
     });
 });
 
+function isCloudEdition() {
+    return cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+        return cy.wrap(isCloudLicensed);
+    });
+}
+
+Cypress.Commands.add('shouldNotRunOnCloudEdition', () => {
+    isCloudEdition().then((isCloud) => {
+        expect(isCloud, isCloud ? 'Should not run on Cloud server' : '').to.equal(false);
+    });
+});
+
+function isTeamEdition() {
+    return cy.apiGetClientLicense().then(({isLicensed}) => {
+        return cy.wrap(!isLicensed);
+    });
+}
+
+Cypress.Commands.add('shouldRunOnTeamEdition', () => {
+    isTeamEdition().then((isTeam) => {
+        expect(isTeam, isTeam ? '' : 'Should run on Team edition only').to.equal(true);
+    });
+});
+
+function isElasticsearchEnabled() {
+    return cy.apiGetConfig().then(({config}) => {
+        let isEnabled = false;
+
+        if (config.ElasticsearchSettings) {
+            const {EnableAutocomplete, EnableIndexing, EnableSearching} = config.ElasticsearchSettings;
+
+            isEnabled = EnableAutocomplete && EnableIndexing && EnableSearching;
+        }
+
+        return cy.wrap(isEnabled);
+    });
+}
+
+Cypress.Commands.add('shouldHaveElasticsearchDisabled', () => {
+    isElasticsearchEnabled().then((data) => {
+        expect(data, data ? 'Should have Elasticsearch disabled' : '').to.equal(false);
+    });
+});
+
+Cypress.Commands.add('shouldHavePluginUploadEnabled', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        const isUploadEnabled = config.PluginSettings.EnableUploads;
+        expect(isUploadEnabled, isUploadEnabled ? '' : 'Should have Plugin upload enabled').to.equal(true);
+    });
+});
+
+Cypress.Commands.add('shouldRunWithSubpath', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        const isSubpath = Boolean(config.ServiceSettings.SiteURL.replace(/^https?:\/\//, '').split('/')[1]);
+        expect(isSubpath, isSubpath ? '' : 'Should run on server running with subpath only').to.equal(true);
+    });
+});
+
+Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
+    return cy.apiGetConfig().then(({config}) => {
+        const actualValue = config.FeatureFlags[key];
+        const message = actualValue === expectedValue ?
+            `Matches feature flag - "${key}: ${expectedValue}"` :
+            `Expected feature flag "${key}" to be "${expectedValue}", but was "${actualValue}"`;
+        expect(actualValue, message).to.equal(expectedValue);
+    });
+});
+
+Cypress.Commands.add('shouldHaveEmailEnabled', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        if (!config.ExperimentalSettings.RestrictSystemAdmin) {
+            cy.apiEmailTest();
+        }
+    });
+});
+
 /**
  * Upload a license if it does not exist.
  */
 function uploadLicenseIfNotExist() {
-    return cy.apiGetClientLicense().then(({license}) => {
-        if (license.IsLicensed === 'true') {
-            return cy.wrap({license});
+    return cy.apiGetClientLicense().then((data) => {
+        if (data.isLicensed) {
+            return cy.wrap(data);
         }
 
-        const filename = 'mattermost-license.txt';
-
-        return cy.task('fileExist', filename).then((exist) => {
-            if (!exist) {
-                return cy.wrap({license});
-            }
-
-            return cy.apiUploadLicense(filename).then(() => {
-                return cy.apiGetClientLicense();
-            });
+        return cy.apiInstallTrialLicense().then(() => {
+            return cy.apiGetClientLicense();
         });
     });
 }

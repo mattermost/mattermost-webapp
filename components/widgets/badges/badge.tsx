@@ -1,32 +1,37 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {memo, ReactNode, HTMLAttributes} from 'react';
+import classNames from 'classnames';
 
 import './badge.scss';
 
 type Props = {
-    show: boolean;
-    children: React.ReactNode;
-    className: string;
+    show?: boolean;
+    children: ReactNode;
 };
 
-export default class Badge extends React.PureComponent<Props> {
-    public static defaultProps = {
-        show: true,
-        className: '',
-    };
+type Attrs = HTMLAttributes<HTMLElement>
 
-    public render() {
-        if (!this.props.show) {
-            return null;
-        }
-        return (
-            <div className='Badge'>
-                <div className={'Badge__box ' + this.props.className}>
-                    {this.props.children}
-                </div>
-            </div>
-        );
+const Badge = ({
+    show = true,
+    children,
+    ...attrs
+}: Props & Attrs) => {
+    if (!show) {
+        return null;
     }
-}
+    const ButtonOrDiv: keyof JSX.IntrinsicElements = attrs.onClick ? 'button' : 'div';
+    return (
+        <div className='Badge'>
+            <ButtonOrDiv
+                {...attrs}
+                className={classNames('Badge__box', attrs.className)}
+            >
+                {children}
+            </ButtonOrDiv>
+        </div>
+    );
+};
+
+export default memo(Badge);

@@ -1,51 +1,54 @@
-# Mattermost
+# Mattermost Web App
+# [![Mattermost](https://user-images.githubusercontent.com/7205829/137170381-fe86eef0-bccc-4fdd-8e92-b258884ebdd7.png)](https://mattermost.com)
 
-Mattermost is an open source, self-hosted Slack-alternative from [https://mattermost.org](https://mattermost.org).
+[Mattermost](https://mattermost.com) is an open source platform for secure collaboration across the entire software development lifecycle. This repo is the primary source for core development on the Mattermost platform; it's written in Golang and React, and runs as a single Linux binary with MySQL or PostgreSQL. A new compiled version is released under an MIT license every month on the 16th.
 
-It's written in Golang and React and runs as a single Linux binary with MySQL or Postgres. Every month on the 16th [a new compiled version is released under an MIT license](https://www.mattermost.org/download/).
+<img width="1006" alt="mattermost-hero" src="https://user-images.githubusercontent.com/7205829/136107976-7a894c9e-290a-490d-8501-e5fdbfc3785a.png">
 
-This project hosts the webapp client code. Please file issues at [/mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code.
+This repo hosts the webapp client code. If you'd like to report an issue with Mattermost, please create an issue on [mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code. You can also look at the [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html) guide to find the resources available to our community.  
 
-- [Review product documentation](http://docs.mattermost.com/).
-- [Review developer documentation](https://developers.mattermost.com/).
-- [Download compiled version](https://mattermost.org/download).
+- [Product documentation](http://docs.mattermost.com/)
+- [Developer documentation](https://developers.mattermost.com/)
+- [Download compiled version](https://mattermost.com/download)
 
-Try out Mattermost: 
+## Try out Mattermost
 
-- [Join the Mattermost Contributor's server](https://pre-release.mattermost.com/) (latest nightly builds, unstable)
-- [Join the Mattermost Demo server](https://demo.mattermost.com) (latest stable version)
-
-Deploy on Heroku 
+- [Join the Mattermost Contributor's server](https://community.mattermost.com/signup_user_complete/?id=codoy5s743rq5mk18i7u5ksz7e) to join community discussions about contributions, development and more
+- [Get started with Mattermost Cloud](https://customers.mattermost.com/cloud/signup) to try out Mattermost
 
 [![Deploy a Preview](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mattermost/mattermost-heroku)
 
-_Note: Heroku preview does not include email or persistent storage_
+_Note: Heroku preview does not include email or persistent storage._
 
-Install on your own machine: 
+## Install Mattermost
 
-- [One-line Docker Preview](http://docs.mattermost.com/install/docker-local-machine.html#one-line-docker-install) 
-- [Developer Machine Setup](https://docs.mattermost.com/developer/dev-setup.html)
-- [Production Install Guides using Linux Binary](http://www.mattermost.org/installation/)
-- [Production Docker Install](https://docs.mattermost.com/install/prod-docker.html) 
+- [Quick Install Guide](https://docs.mattermost.com/getting-started/light-install.html) - Deploy in minutes via Mattermost Omnibus on Ubuntu
+- [Run Mattermost via Docker](https://docs.mattermost.com/install/setting-up-local-machine-using-docker.html) - Launch a Mattermost server instantly to test functionality and build integrations
+- [Developer Machine Setup](https://developers.mattermost.com/contribute/server/developer-setup) - Follow this guide if you want to write code for Mattermost
 
-Get Involved:
+Other Install Guides:
+- [Ubuntu 20.04 LTS](https://docs.mattermost.com/install/installing-ubuntu-2004-LTS.html)
+- [Kubernetes](https://docs.mattermost.com/install/install-kubernetes.html)
+- [Helm](https://docs.mattermost.com/install/install-kubernetes.html#installing-the-operators-via-helm)
+- [Debian Buster](https://docs.mattermost.com/install/install-debian.html)
+- [RHEL 8](https://docs.mattermost.com/install/install-rhel-8.html)
+- [More server install guides](https://docs.mattermost.com/guides/deployment.html)
 
-- [Contribute Code](http://docs.mattermost.com/developer/contribution-guide.html)
-- [Find "Help Wanted" projects](https://mattermost.atlassian.net/issues/?filter=10101)
-- [Join Developer Discussion on a Mattermost Server for contributors](https://pre-release.mattermost.com/signup_user_complete/?id=f1924a8db44ff3bb41c96424cdc20676)
-- [File Bugs](http://www.mattermost.org/filing-issues/)
-- [Share Feature Ideas](http://www.mattermost.org/feature-requests/)
-- [Get Troubleshooting Help](https://forum.mattermost.org/t/how-to-use-the-troubleshooting-forum/150)
+## Get Involved
 
-Learn More:
+- [Contribute to Mattermost](https://handbook.mattermost.com/contributors/contributors/ways-to-contribute)
+- [Find "Help Wanted" projects](https://github.com/mattermost/mattermost-server/issues?page=1&q=is%3Aissue+is%3Aopen+%22Help+Wanted%22&utf8=%E2%9C%93)
+- [Join Developer Discussion on a Mattermost Server for contributors](https://docs.mattermost.com/guides/community-chat.html)
+- [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html)
 
-- [API Options - webhooks, slash commands, drivers and web service](http://docs.mattermost.com/developer/api.html)
-- [Localization Guide](http://docs.mattermost.com/developer/localization.html#translation-process)
+## Learn More
 
-Get the Latest News:
+- [API Options - webhooks, slash commands, drivers and web service](https://api.mattermost.com/)
+- [Localization Guide](https://handbook.mattermost.com/contributors/contributors/localization)
+
+## Get the Latest News
 
 - **Twitter** - Follow [Mattermost](https://twitter.com/Mattermost)
-- **Email** - Subscribe to our [newsletter](http://mattermost.us11.list-manage.com/subscribe?u=6cdba22349ae374e188e7ab8e&id=2add1c8034) (1 or 2 per month)
-- **IRC** - Join the #matterbridge channel on [Freenode](https://freenode.net/) (thanks to [matterircd](https://github.com/42wim/matterircd))
+- **Email** - Subscribe to our [newsletter](https://mattermost.com/community-newsletter/)
 
-Any other questions, mail us at info@mattermost.com. We'd love to meet you!
+Any other questions, mail us at [info@mattermost.com](mailto:info@mattermost.com). We'd love to meet you!

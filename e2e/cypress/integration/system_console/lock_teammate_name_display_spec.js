@@ -11,12 +11,12 @@
 // Group: @system_console
 
 describe('System Console', () => {
-    let townsquareUrl;
+    let townSquareUrl;
 
     before(() => {
         // # Initialize setup and visit town-square
-        cy.apiInitSetup().then(({team}) => {
-            townsquareUrl = `/${team.name}/channels/town-square`;
+        cy.apiInitSetup().then((out) => {
+            townSquareUrl = out.townSquareUrl;
         });
     });
 
@@ -24,33 +24,30 @@ describe('System Console', () => {
         // # Go to system admin page
         cy.visit('/admin_console/site_config/users_and_teams');
 
-        // # Set Temmate Name Display dropdown to 'Show nickname if one exists, otherwise show first and last name' and set Lock Teammate Name Display to false
+        // # Set Teammate Name Display dropdown to 'Show nickname if one exists, otherwise show first and last name' and set Lock Teammate Name Display to false
         cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select('nickname_full_name');
         cy.findByTestId('TeamSettings.LockTeammateNameDisplayfalse').click();
 
         // * Assert that there exists a description underneath the Teammate Name Display lock setting with the following text
-        cy.findByTestId('TeamSettings.LockTeammateNameDisplayhelp-text').contains('When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.').should('be.visible');
+        cy.findByTestId('TeamSettings.LockTeammateNameDisplayhelp-text').contains('When true, disables users\' ability to change settings under Account Menu > Account Settings > Display > Teammate Name Display.').should('be.visible');
 
         // # Click save button
         cy.get('#saveSetting').click();
 
         // # Go to main page
-        cy.visit(townsquareUrl);
+        cy.visit(townSquareUrl);
 
-        // # Go to Account settings
-        cy.toAccountSettingsModal();
+        // # Go to Settings > Display
+        cy.uiOpenSettingsModal('Display');
 
-        // # Click Display on the left hand side
-        cy.get('#displayButton').click();
-
-        // # Click Edit button beside Temmate Name Display
+        // # Click Edit button beside Teammate Name Display
         cy.get('#name_formatEdit').click();
 
         // # Choose Show first and last name
         cy.get('#name_formatFormatC').check();
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Assert the description under the Teammate Name Display title has changed to Show first and last name
         cy.get('#name_formatDesc').contains('Show first and last name').should('be.visible');
@@ -58,21 +55,18 @@ describe('System Console', () => {
         // # Go back to System Admin console page
         cy.visit('/admin_console/site_config/users_and_teams');
 
-        // # Set Temmate Name Display dropdown to 'Show by username' and set Lock Teammate Name Display to true
+        // # Set Teammate Name Display dropdown to 'Show by username' and set Lock Teammate Name Display to true
         cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select('username');
         cy.findByTestId('TeamSettings.LockTeammateNameDisplaytrue').click();
 
         // # Click save button
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // # Go to main page
-        cy.visit(townsquareUrl);
+        cy.visit(townSquareUrl);
 
-        // # Go to Account settings
-        cy.toAccountSettingsModal();
-
-        // # Click Display on the left hand side
-        cy.get('#displayButton').click();
+        // # Go to Settings > Display
+        cy.uiOpenSettingsModal('Display');
 
         // * Assert the description under the Teammate Name Display title has changed to Show username
         cy.get('#name_formatDesc').contains('Show username').should('be.visible');

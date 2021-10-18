@@ -16,35 +16,29 @@
 
 const webhookUtils = require('../../../utils/webhook_utils');
 
-let createdCommand;
-let fullDialog;
-const inputTypes = {
-    realname: 'input',
-    someemail: 'email',
-    somenumber: 'number',
-    somepassword: 'password',
-};
-
-const optionsLength = {
-    someuserselector: 25, // default number of users in autocomplete
-    somechannelselector: 2, // town-square and off-topic for new team
-    someoptionselector: 3, // number of defined basic options
-    someradiooptions: 2, // number of defined basic options
-};
-
 describe('Interactive Dialog', () => {
-    let config;
+    const inputTypes = {
+        realname: 'input',
+        someemail: 'email',
+        somenumber: 'number',
+        somepassword: 'password',
+    };
+
+    const optionsLength = {
+        someuserselector: 25, // default number of users in autocomplete
+        somechannelselector: 2, // town-square and off-topic for new team
+        someoptionselector: 3, // number of defined basic options
+        someradiooptions: 2, // number of defined basic options
+    };
+
+    let createdCommand;
+    let fullDialog;
 
     before(() => {
         cy.requireWebhookServer();
 
         // # Ensure that teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
-
-        // # Get config
-        cy.apiGetConfig().then((data) => {
-            ({config} = data);
-        });
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then(({team}) => {
@@ -79,7 +73,7 @@ describe('Interactive Dialog', () => {
     it('MM-T2491 - UI check', () => {
         // # Post a slash command
         cy.get('#postListContent').should('be.visible');
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible').within(() => {
@@ -102,15 +96,9 @@ describe('Interactive Dialog', () => {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
 
                     // * Verify that the suggestion list or autocomplete open up on click of input element
-                    cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
+                    cy.wrap($elForm).find('#suggestionList').should('not.exist');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().then((el) => {
-                        if (element.name === 'someuserselector' && config.ElasticsearchSettings.EnableIndexing) {
-                            return;
-                        }
-
-                        cy.wrap(el).should('have.length', optionsLength[element.name]);
-                    });
+                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible');
 
                     // # Click field label to close any opened drop-downs
                     cy.wrap($elForm).find('label.control-label').scrollIntoView().click();
@@ -156,7 +144,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2492 - Cancel button works', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -165,12 +153,12 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogCancel').click();
 
         // * Verify that the interactive dialog modal is closed
-        cy.get('#interactiveDialogModal').should('not.be.visible');
+        cy.get('#interactiveDialogModal').should('not.exist');
     });
 
     it('MM-T2493 - "X" closes the dialog', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -181,12 +169,12 @@ describe('Interactive Dialog', () => {
         });
 
         // * Verify that the interactive dialog modal is closed
-        cy.get('#interactiveDialogModal').should('not.be.visible');
+        cy.get('#interactiveDialogModal').should('not.exist');
     });
 
     it('MM-T2494 - Correct error messages displayed if empty form is submitted', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -202,9 +190,9 @@ describe('Interactive Dialog', () => {
             const element = fullDialog.dialog.elements[index];
 
             if (!element.optional && !element.default) {
-                cy.wrap($elForm).find('div.error-text').scrollIntoView().should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(253, 89, 96)');
+                cy.wrap($elForm).find('div.error-text').scrollIntoView().should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(210, 75, 78)');
             } else {
-                cy.wrap($elForm).find('div.error-text').should('not.be.visible');
+                cy.wrap($elForm).find('div.error-text').should('not.exist');
             }
         });
 
@@ -213,7 +201,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2495_1 - Email validation for invalid input', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -235,7 +223,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2495_2 - Email validation for valid input', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -253,7 +241,7 @@ describe('Interactive Dialog', () => {
     });
 
     it('MM-T2496_1 - Number validation for invalid input', () => {
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         cy.get('#interactiveDialogModal').should('be.visible');
 
@@ -265,14 +253,14 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogSubmit').click();
 
         cy.get('.modal-body').should('be.visible').children().eq(2).within(($elForm) => {
-            cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(253, 89, 96)');
+            cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(210, 75, 78)');
         });
 
         closeInteractiveDialog();
     });
 
     it('MM-T2496_2 - Number validation for valid input', () => {
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         cy.get('#interactiveDialogModal').should('be.visible');
 
@@ -284,7 +272,7 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogSubmit').click();
 
         cy.get('.modal-body').should('be.visible').children().eq(2).within(($elForm) => {
-            cy.wrap($elForm).find('div.error-text').should('not.be.visible');
+            cy.wrap($elForm).find('div.error-text').should('not.exist');
         });
 
         closeInteractiveDialog();
@@ -292,7 +280,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2501 - Password element check', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -311,5 +299,5 @@ function closeInteractiveDialog() {
     cy.get('.modal-header').should('be.visible').within(($elForm) => {
         cy.wrap($elForm).find('button.close').should('be.visible').click();
     });
-    cy.get('#interactiveDialogModal').should('not.be.visible');
+    cy.get('#interactiveDialogModal').should('not.exist');
 }

@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Delete Parent Message', () => {
     before(() => {
         // # Set view port to mobile
@@ -19,7 +17,7 @@ describe('Delete Parent Message', () => {
 
         // # Login as test user and visit town-square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
         });
     });
 
@@ -37,15 +35,12 @@ describe('Delete Parent Message', () => {
             // * Add 2 replies
             const replyCount = 2;
             for (var i = 0; i < replyCount; i++) {
-                cy.get('#reply_textbox').type('Reply').type('{enter}');
-
-                // add wait time to ensure that a post gets posted and not on pending state
-                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.postMessageReplyInRHS('Reply');
             }
 
             cy.getLastPostId().then((replyPostId) => {
                 // * No delete modal should be visible yet
-                cy.get('#deletePostModal').should('not.be.visible');
+                cy.get('#deletePostModal').should('not.exist');
 
                 // #Close RHS view, open delete confirmation modal for the parent message from the center screen
                 cy.get('#sbrSidebarCollapse').click();
@@ -60,9 +55,9 @@ describe('Delete Parent Message', () => {
                 cy.get('#deletePostModalButton').click({force: true});
 
                 // * Post is deleted from both center and RHS is not visible to the user who deleted it
-                cy.get('#rhsContainer').should('not.be.visible');
-                cy.get(`#post_${postId}`).should('not.be.visible');
-                cy.get(`#post_${replyPostId}`).should('not.be.visible');
+                cy.get('#rhsContainer').should('not.exist');
+                cy.get(`#post_${postId}`).should('not.exist');
+                cy.get(`#post_${replyPostId}`).should('not.exist');
             });
         });
     });

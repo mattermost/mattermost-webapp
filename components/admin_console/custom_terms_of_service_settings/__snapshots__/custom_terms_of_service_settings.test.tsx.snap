@@ -10,8 +10,8 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
-        defaultMessage="Custom Terms of Service (Beta)"
+      <MemoizedFormattedMessage
+        defaultMessage="Custom Terms of Service"
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
@@ -25,7 +25,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -51,6 +51,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -73,8 +74,8 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
-        defaultMessage="Custom Terms of Service (Beta)"
+      <MemoizedFormattedMessage
+        defaultMessage="Custom Terms of Service"
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
@@ -88,7 +89,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -114,6 +115,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -136,8 +138,8 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
-        defaultMessage="Custom Terms of Service (Beta)"
+      <MemoizedFormattedMessage
+        defaultMessage="Custom Terms of Service"
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
@@ -151,7 +153,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -177,6 +179,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -199,8 +202,8 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
-        defaultMessage="Custom Terms of Service (Beta)"
+      <MemoizedFormattedMessage
+        defaultMessage="Custom Terms of Service"
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
@@ -214,7 +217,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -240,6 +243,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"

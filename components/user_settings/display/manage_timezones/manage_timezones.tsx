@@ -2,68 +2,67 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
+import ReactSelect, {ValueType} from 'react-select';
+import {Timezone} from 'timezones.json';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
+import {getTimezoneLabel} from 'mattermost-redux/utils/timezone_utils';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
 }
 
-type Props ={
+type Props = {
     user: UserProfile;
     updateSection: (section: string) => void;
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;
-    timezones: string[];
+    timezones: Timezone[];
+    timezoneLabel: string;
     actions: Actions;
 }
+type SelectedOption = {
+    value: string;
+    label: string;
+}
 
-type State ={
+type State = {
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;
-    manualTimezoneInput: string;
     isSaving: boolean;
     serverError?: string;
+    openMenu: boolean;
+    selectedOption: SelectedOption;
 }
 
 export default class ManageTimezones extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-
         this.state = {
             useAutomaticTimezone: props.useAutomaticTimezone,
             automaticTimezone: props.automaticTimezone,
             manualTimezone: props.manualTimezone,
-            manualTimezoneInput: props.manualTimezone,
             isSaving: false,
+            openMenu: false,
+            selectedOption: {label: props.timezoneLabel, value: props.useAutomaticTimezone ? props.automaticTimezone : props.manualTimezone},
         };
     }
 
-    onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        this.setState({manualTimezoneInput: e.target.value});
-    };
-
-    handleTimezoneSelected = (selected: string) => {
-        if (!selected) {
-            return;
+    onChange = (selectedOption: ValueType<SelectedOption>) => {
+        if (selectedOption && 'value' in selectedOption) {
+            this.setState({
+                manualTimezone: selectedOption.value,
+                selectedOption,
+            });
         }
-
-        this.setState({
-            manualTimezone: selected,
-            manualTimezoneInput: selected,
-        });
-    };
+    }
 
     timezoneNotChanged = () => {
         const {
@@ -96,11 +95,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
 
     submitUser = () => {
         const {user, actions} = this.props;
-        const {
-            useAutomaticTimezone,
-            automaticTimezone,
-            manualTimezone,
-        } = this.state;
+        const {useAutomaticTimezone, automaticTimezone, manualTimezone} = this.state;
 
         const timezone = {
             useAutomaticTimezone: useAutomaticTimezone.toString(),
@@ -133,42 +128,57 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
     handleAutomaticTimezone = (e: React.ChangeEvent<HTMLInputElement>) => {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
+        let timezoneLabel: string;
+        let selectedOptionValue: string;
 
         if (useAutomaticTimezone) {
             automaticTimezone = getBrowserTimezone();
+            timezoneLabel = getTimezoneLabel(this.props.timezones, automaticTimezone);
+            selectedOptionValue = automaticTimezone;
+        } else {
+            timezoneLabel = getTimezoneLabel(this.props.timezones, this.props.manualTimezone || getBrowserTimezone());
+            selectedOptionValue = this.props.manualTimezone || getBrowserTimezone();
+            if (!this.props.manualTimezone) {
+                this.setState({
+                    manualTimezone: getBrowserTimezone(),
+                });
+            }
         }
 
         this.setState({
             useAutomaticTimezone,
             automaticTimezone,
+            selectedOption: {label: timezoneLabel, value: selectedOptionValue},
         });
     };
 
     handleManualTimezone = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({manualTimezone: e.target.value});
     };
-
     render() {
         const {timezones} = this.props;
-        const {
-            useAutomaticTimezone,
-            automaticTimezone,
-        } = this.state;
+        const {useAutomaticTimezone} = this.state;
 
+        const timeOptions = this.props.timezones.map((timeObject) => {
+            return {
+                value: timeObject.utc[0],
+                label: timeObject.text,
+            };
+        });
         let serverError;
         if (this.state.serverError) {
             serverError = <label className='has-error'>{this.state.serverError}</label>;
         }
 
         const inputs = [];
+        const reactStyles = {
 
-        const timezoneRegion = (
-            <div
-                className='section-describe pt-2'
-            >
-                {useAutomaticTimezone && getTimezoneRegion(automaticTimezone)}
-            </div>
-        );
+            menuPortal: (provided: React.CSSProperties) => ({
+                ...provided,
+                zIndex: 9999,
+            }),
+
+        };
 
         const noTimezonesFromServer = timezones.length === 0;
         const automaticTimezoneInput = (
@@ -183,49 +193,37 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     />
                     <FormattedMessage
                         id='user.settings.timezones.automatic'
-                        defaultMessage='Set automatically'
+                        defaultMessage='Automatic'
                     />
-                    {timezoneRegion}
+
                 </label>
             </div>
         );
 
-        const providers = [new TimezoneProvider()];
         const manualTimezoneInput = (
-            <div key='changeTimezone'>
-                <label className='control-label'>
-                    <FormattedMessage
-                        id='user.settings.timezones.change'
-                        defaultMessage='Change timezone'
-                    />
-                </label>
-                <div className='pt-2'>
-                    <SuggestionBox
-                        className='form-control focused'
-                        type='search'
-                        onChange={this.onChange}
-                        value={this.state.manualTimezoneInput}
-                        onItemSelected={this.handleTimezoneSelected}
-                        listComponent={SuggestionList}
-                        maxLength='64'
-                        requiredCharacters={0}
-                        providers={providers}
-                        listStyle='bottom'
-                        completeOnTab={false}
-                        renderDividers={false}
-                        openOnFocus={true}
-                        disabled={noTimezonesFromServer}
-                    />
-                    {serverError}
-                </div>
+            <div
+                className='pt-2'
+            >
+                <ReactSelect
+                    className='react-select react-select-top'
+                    classNamePrefix='react-select'
+                    id='displayTimezone'
+                    menuPortalTarget={document.body}
+                    styles={reactStyles}
+                    options={timeOptions}
+                    clearable={false}
+                    onChange={this.onChange}
+                    value={this.state.selectedOption}
+                    aria-labelledby='changeInterfaceTimezoneLabel'
+                    isDisabled={useAutomaticTimezone}
+                />
+                {serverError}
             </div>
         );
 
         inputs.push(automaticTimezoneInput);
 
-        if (!useAutomaticTimezone) {
-            inputs.push(manualTimezoneInput);
-        }
+        inputs.push(manualTimezoneInput);
 
         inputs.push(
             <div>

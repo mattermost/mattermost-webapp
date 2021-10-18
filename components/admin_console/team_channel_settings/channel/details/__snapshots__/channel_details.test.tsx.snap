@@ -12,7 +12,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         className="fa fa-angle-left back"
         to="/admin_console/user_management/channels"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Configuration"
         id="admin.channel_settings.channel_detail.channel_configuration"
       />
@@ -31,17 +31,16 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "123",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "id_123",
             "team_name": "team",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -58,13 +57,13 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <ConfirmModal
         confirmButtonClass="btn btn-primary"
         confirmButtonText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.button"
           />
         }
         message={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
             id="admin.channel_settings.channel_detail.archive_confirm.message"
           />
@@ -74,7 +73,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onConfirm={[Function]}
         show={false}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.title"
           />
@@ -88,6 +87,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModeration
+        channelPermissions={Array []}
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
@@ -111,6 +111,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModes
+        groupsSupported={true}
         isDefault={false}
         isDisabled={false}
         isPublic={true}
@@ -124,17 +125,16 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "123",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "id_123",
             "team_name": "team",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -200,7 +200,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         className="fa fa-angle-left back"
         to="/admin_console/user_management/channels"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Configuration"
         id="admin.channel_settings.channel_detail.channel_configuration"
       />
@@ -219,17 +219,16 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "123",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "id_123",
             "team_name": "team",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -242,13 +241,13 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <ConfirmModal
         confirmButtonClass="btn btn-primary"
         confirmButtonText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.button"
           />
         }
         message={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
             id="admin.channel_settings.channel_detail.archive_confirm.message"
           />
@@ -258,7 +257,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onConfirm={[Function]}
         show={false}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.title"
           />
@@ -272,6 +271,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModeration
+        channelPermissions={Array []}
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
@@ -295,6 +295,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModes
+        groupsSupported={true}
         isDefault={false}
         isDisabled={false}
         isPublic={true}
@@ -308,17 +309,16 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "123",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "id_123",
             "team_name": "team",
-            "total_msg_count": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -349,6 +349,558 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         setNewGroupRole={[Function]}
         synced={false}
         totalGroups={1}
+      />
+      <Connect(ChannelMembers)
+        channelId="123"
+        isDisabled={false}
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
+      />
+    </div>
+  </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
+</div>
+`;
+
+exports[`admin_console/team_channel_settings/channel/ChannelDetails should match snapshot for Enterprise 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/channels"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Channel Configuration"
+        id="admin.channel_settings.channel_detail.channel_configuration"
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <ChannelProfile
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        isArchived={false}
+        isDisabled={false}
+        onToggleArchive={[Function]}
+        team={
+          Object {
+            "display_name": "test",
+          }
+        }
+      />
+      <ConfirmModal
+        confirmButtonClass="btn btn-primary"
+        confirmButtonText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.button"
+          />
+        }
+        message={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
+            id="admin.channel_settings.channel_detail.archive_confirm.message"
+          />
+        }
+        modalClass=""
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.title"
+          />
+        }
+      />
+      <ConvertConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModeration
+        channelPermissions={Array []}
+        guestAccountsEnabled={true}
+        isPublic={true}
+        onChannelPermissionsChanged={[Function]}
+        readOnly={false}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
+      />
+      <RemoveConfirmModal
+        amount={0}
+        inChannel={true}
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+      />
+      <ConvertAndRemoveConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        removeAmount={0}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModes
+        groupsSupported={false}
+        isDefault={false}
+        isDisabled={false}
+        isPublic={true}
+        isSynced={false}
+        onToggle={[Function]}
+      />
+      <Connect(ChannelMembers)
+        channelId="123"
+        isDisabled={false}
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
+      />
+    </div>
+  </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
+</div>
+`;
+
+exports[`admin_console/team_channel_settings/channel/ChannelDetails should match snapshot for Enterprise 2`] = `
+<div
+  className="wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/channels"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Channel Configuration"
+        id="admin.channel_settings.channel_detail.channel_configuration"
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <ChannelProfile
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        isArchived={false}
+        isDisabled={false}
+        onToggleArchive={[Function]}
+        team={Object {}}
+      />
+      <ConfirmModal
+        confirmButtonClass="btn btn-primary"
+        confirmButtonText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.button"
+          />
+        }
+        message={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
+            id="admin.channel_settings.channel_detail.archive_confirm.message"
+          />
+        }
+        modalClass=""
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.title"
+          />
+        }
+      />
+      <ConvertConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModeration
+        channelPermissions={Array []}
+        guestAccountsEnabled={true}
+        isPublic={true}
+        onChannelPermissionsChanged={[Function]}
+        readOnly={false}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
+      />
+      <RemoveConfirmModal
+        amount={0}
+        inChannel={true}
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+      />
+      <ConvertAndRemoveConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        removeAmount={0}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModes
+        groupsSupported={false}
+        isDefault={false}
+        isDisabled={false}
+        isPublic={true}
+        isSynced={false}
+        onToggle={[Function]}
+      />
+      <Connect(ChannelMembers)
+        channelId="123"
+        isDisabled={false}
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
+      />
+    </div>
+  </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
+</div>
+`;
+
+exports[`admin_console/team_channel_settings/channel/ChannelDetails should match snapshot for Professional 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/channels"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Channel Configuration"
+        id="admin.channel_settings.channel_detail.channel_configuration"
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <ChannelProfile
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        isArchived={false}
+        isDisabled={false}
+        onToggleArchive={[Function]}
+        team={
+          Object {
+            "display_name": "test",
+          }
+        }
+      />
+      <ConfirmModal
+        confirmButtonClass="btn btn-primary"
+        confirmButtonText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.button"
+          />
+        }
+        message={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
+            id="admin.channel_settings.channel_detail.archive_confirm.message"
+          />
+        }
+        modalClass=""
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.title"
+          />
+        }
+      />
+      <ConvertConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModeration
+        channelPermissions={Array []}
+        guestAccountsEnabled={true}
+        isPublic={true}
+        onChannelPermissionsChanged={[Function]}
+        readOnly={false}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
+      />
+      <RemoveConfirmModal
+        amount={0}
+        inChannel={true}
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+      />
+      <ConvertAndRemoveConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        removeAmount={0}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModes
+        groupsSupported={false}
+        isDefault={false}
+        isDisabled={false}
+        isPublic={true}
+        isSynced={false}
+        onToggle={[Function]}
+      />
+      <Connect(ChannelMembers)
+        channelId="123"
+        isDisabled={false}
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
+      />
+    </div>
+  </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/channels"
+    isDisabled={false}
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
+</div>
+`;
+
+exports[`admin_console/team_channel_settings/channel/ChannelDetails should match snapshot for Professional 2`] = `
+<div
+  className="wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/channels"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Channel Configuration"
+        id="admin.channel_settings.channel_detail.channel_configuration"
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <ChannelProfile
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        isArchived={false}
+        isDisabled={false}
+        onToggleArchive={[Function]}
+        team={Object {}}
+      />
+      <ConfirmModal
+        confirmButtonClass="btn btn-primary"
+        confirmButtonText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.button"
+          />
+        }
+        message={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
+            id="admin.channel_settings.channel_detail.archive_confirm.message"
+          />
+        }
+        modalClass=""
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Save and Archive Channel"
+            id="admin.channel_settings.channel_detail.archive_confirm.title"
+          />
+        }
+      />
+      <ConvertConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModeration
+        channelPermissions={Array []}
+        guestAccountsEnabled={true}
+        isPublic={true}
+        onChannelPermissionsChanged={[Function]}
+        readOnly={false}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
+      />
+      <RemoveConfirmModal
+        amount={0}
+        inChannel={true}
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+      />
+      <ConvertAndRemoveConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        removeAmount={0}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModes
+        groupsSupported={false}
+        isDefault={false}
+        isDisabled={false}
+        isPublic={true}
+        isSynced={false}
+        onToggle={[Function]}
       />
       <Connect(ChannelMembers)
         channelId="123"

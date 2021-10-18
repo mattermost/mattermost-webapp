@@ -1,0 +1,40 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.StoryGrid .StoryBox {
+    display: grid;
+    place-items: center;
+}
+
+.StoryBox {
+    position: relative;
+    min-width: 250px;
+    padding: 30px;
+    border: 1px solid #eee;
+    margin: 30px 10px 10px;
+    border-radius: 5px;
+
+    .StoryBox___label {
+        position: absolute;
+        top: -23px;
+        left: 0;
+        padding: 0 5px;
+        background: whitesmoke;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .StoryBox {
+        display: inline-grid;
+        min-width: 200px;
+        padding: 10px;
+        margin: 20px 10px 15px;
+
+        .StoryBox___label {
+            top: -25px;
+            padding: 0 3px 2px;
+            border-radius: 3px;
+            font-weight: normal;
+        }
+    }
+}

@@ -3,10 +3,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
+
+import {Tooltip} from 'react-bootstrap';
+
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
-import {Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -16,6 +18,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
+import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
@@ -26,22 +29,16 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 
 import Constants, {Locations} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 
-class SearchResultsItem extends React.PureComponent {
+export default class SearchResultsItem extends React.PureComponent {
     static propTypes = {
 
         /**
         *  Data used for rendering post
         */
         post: PropTypes.object,
-
-        /**
-         * The function to create an aria-label
-         */
-        createAriaLabel: PropTypes.func,
 
         /**
         * An array of strings in this post that were matched by the search
@@ -78,11 +75,6 @@ class SearchResultsItem extends React.PureComponent {
         currentTeamName: PropTypes.string,
 
         /**
-        *  Data used for delete in DotMenu
-        */
-        commentCountForPost: PropTypes.number,
-
-        /**
          * Whether post username overrides are to be respected.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
@@ -104,11 +96,6 @@ class SearchResultsItem extends React.PureComponent {
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
 
-        /**
-         * react-intl helper object
-         */
-        intl: intlShape.isRequired,
-        directTeammate: PropTypes.string.isRequired,
         displayName: PropTypes.string.isRequired,
 
         /**
@@ -125,6 +112,14 @@ class SearchResultsItem extends React.PureComponent {
          * Is the search results item from the pinned posts list.
          */
         isPinnedPosts: PropTypes.bool,
+
+        channelTeamDisplayName: PropTypes.string,
+        channelTeamName: PropTypes.string,
+
+        /**
+         * Is this a post that we can directly reply to?
+         */
+        canReply: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -137,6 +132,8 @@ class SearchResultsItem extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            fileDropdownOpened: false,
+            showPreview: false,
         };
     }
 
@@ -152,7 +149,8 @@ class SearchResultsItem extends React.PureComponent {
         }
 
         this.props.actions.setRhsExpanded(false);
-        browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
+        const teamToJumpTo = this.props.channelTeamName || this.props.currentTeamName;
+        browserHistory.push(`/${teamToJumpTo}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post) => {
@@ -166,6 +164,12 @@ class SearchResultsItem extends React.PureComponent {
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
+        });
+    };
+
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
         });
     };
 
@@ -192,35 +196,34 @@ class SearchResultsItem extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
             className += ' post--hovered';
         }
 
         return className;
     };
 
-    handleSearchItemFocus = () => {
-        this.setState({currentAriaLabel: `${this.getChannelName()}, ${this.props.createAriaLabel(this.props.intl)}`});
-    }
-
     getChannelName = () => {
         const {channelType} = this.props;
         let {channelName} = this.props;
 
         if (channelType === Constants.DM_CHANNEL) {
-            channelName = this.props.intl.formatMessage({
-                id: 'search_item.direct',
-                defaultMessage: 'Direct Message (with {username})',
-            }, {
-                username: this.props.displayName,
-            });
+            channelName = (
+                <FormattedMessage
+                    id='search_item.direct'
+                    defaultMessage='Direct Message (with {username})'
+                    values={{
+                        username: this.props.displayName,
+                    }}
+                />
+            );
         }
 
         return channelName;
     }
 
     render() {
-        const {post, channelIsArchived} = this.props;
+        const {post, channelIsArchived, channelTeamDisplayName, canReply} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -254,6 +257,7 @@ class SearchResultsItem extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }
@@ -319,19 +323,20 @@ class SearchResultsItem extends React.PureComponent {
                         location={Locations.SEARCH}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
-                        commentCount={this.props.commentCountForPost}
                         isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
                     />
                     {flagContent}
-                    <CommentIcon
-                        location={Locations.SEARCH}
-                        handleCommentClick={this.handleFocusRHSClick}
-                        commentCount={this.props.replyCount}
-                        postId={post.id}
-                        searchStyle={'search-item__comment'}
-                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
-                    />
+                    {canReply &&
+                        <CommentIcon
+                            location={Locations.SEARCH}
+                            handleCommentClick={this.handleFocusRHSClick}
+                            commentCount={this.props.replyCount}
+                            postId={post.id}
+                            searchStyle={'search-item__comment'}
+                            extraClass={this.props.replyCount ? 'icon--visible' : ''}
+                        />
+                    }
                     <a
                         href='#'
                         onClick={this.handleJumpClick}
@@ -374,18 +379,19 @@ class SearchResultsItem extends React.PureComponent {
                 className='search-item__container'
             >
                 <DateSeparator date={currentPostDay}/>
-                <div
+                <PostAriaLabelDiv
                     className={`a11y__section ${this.getClassName()}`}
                     id={'searchResult_' + post.id}
-                    aria-label={this.state.currentAriaLabel}
-                    onFocus={this.handleSearchItemFocus}
+                    post={post}
                     data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
-                        className='search-channel__name'
+                        className='search-channel__name__container'
                         aria-hidden='true'
                     >
-                        {channelName}
+                        <span className='search-channel__name'>
+                            {channelName}
+                        </span>
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
                                 <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color'/>
@@ -393,6 +399,11 @@ class SearchResultsItem extends React.PureComponent {
                                     id='search_item.channelArchived'
                                     defaultMessage='Archived'
                                 />
+                            </span>
+                        }
+                        {Boolean(channelTeamDisplayName) &&
+                            <span className='search-team__name'>
+                                {channelTeamDisplayName}
                             </span>
                         }
                     </div>
@@ -433,10 +444,8 @@ class SearchResultsItem extends React.PureComponent {
                             </div>
                         </div>
                     </div>
-                </div>
+                </PostAriaLabelDiv>
             </div>
         );
     }
 }
-
-export default injectIntl(SearchResultsItem);

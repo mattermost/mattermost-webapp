@@ -17,7 +17,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const teams = getMyTeams(state);
     for (const team of teams) {
         for (const permission of ownProps.permissions) {
-            if (haveITeamPermission(state, {team: team.id, permission})) {
+            if (haveITeamPermission(state, team.id, permission)) {
                 return {hasPermission: true};
             }
         }

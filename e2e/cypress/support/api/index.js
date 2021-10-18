@@ -4,7 +4,9 @@
 import './brand';
 import './bots';
 import './channel';
+import './cloud';
 import './common';
+import './keycloak';
 import './ldap';
 import './preference';
 import './plugin';
@@ -17,3 +19,4 @@ import './system';
 import './team';
 import './user';
 import './webhooks';
+import './data_retention';

@@ -7,24 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import {getRandomId} from '../../utils';
 
+import {createBotInteractive} from './helpers';
+
 describe('Bot accounts - CRUD Testing', () => {
     let newTeam;
-    let botName;
-    let botDescription;
+    let testBot;
+
     before(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
-                DisableBotsWhenOwnerIsDeactivated: true,
-            },
-            PluginSettings: {
-                Enable: true,
-                RequirePluginSignature: false,
             },
         };
         cy.apiUpdateConfig(newSettings);
@@ -37,11 +35,10 @@ describe('Bot accounts - CRUD Testing', () => {
     });
 
     beforeEach(() => {
-        botName = 'bot-' + Date.now();
-        botDescription = 'test-bot-' + Date.now();
-
         // # Create a test bot
-        cy.apiCreateBot(botName, 'Test Bot', botDescription);
+        cy.apiCreateBot().then(({bot}) => {
+            testBot = bot;
+        });
     });
 
     it('MM-T1841 Long description text', () => {
@@ -49,7 +46,7 @@ describe('Bot accounts - CRUD Testing', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
-        cy.findByText(`Test Bot (@${botName})`).then((el) => {
+        cy.findByText(testBot.fullDisplayName).then((el) => {
             // # Make sure it's on the screen
             cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
 
@@ -88,7 +85,7 @@ describe('Bot accounts - CRUD Testing', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
-        cy.findByText(`Test Bot (@${botName})`).then((el) => {
+        cy.findByText(testBot.fullDisplayName).then((el) => {
             // # Make sure it's on the screen
             cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
 
@@ -113,36 +110,9 @@ describe('Bot accounts - CRUD Testing', () => {
         });
     });
 
-    function createBotInteractive(username = `bot-${getRandomId()}`) {
-        // # Visit the integrations
-        cy.visit(`/${newTeam.name}/integrations/bots`);
-
-        // # Click add bot
-        cy.get('#addBotAccount').click();
-
-        // # fill+submit form
-        cy.get('#username').type(username);
-        cy.get('#displayName').type('Test Bot');
-        cy.get('#saveBot').click();
-
-        // * verify confirmation page
-        cy.url().
-            should('include', `/${newTeam.name}/integrations/confirm`).
-            should('match', /token=[a-zA-Z0-9]{26}/);
-
-        // * verify confirmation form/token
-        cy.get('div.backstage-form').
-            should('include.text', 'Setup Successful').
-            should((confirmation) => {
-                expect(confirmation.text()).to.match(/Token: [a-zA-Z0-9]{26}/);
-            });
-
-        return cy.get('div.backstage-form').invoke('text');
-    }
-
     it('MM-T1843 ID along with actual token is created', () => {
         // # Create the bot and validate token is visible
-        createBotInteractive();
+        createBotInteractive(newTeam);
         cy.get('#doneButton').click();
     });
 
@@ -151,7 +121,7 @@ describe('Bot accounts - CRUD Testing', () => {
 
         const botUsername = `bot-${getRandomId()}`;
 
-        createBotInteractive(botUsername).then((text) => {
+        createBotInteractive(newTeam, botUsername).then((text) => {
             // # Close the Add dialog
             cy.get('#doneButton').click();
 
@@ -161,7 +131,7 @@ describe('Bot accounts - CRUD Testing', () => {
 
                 // * Validate that token is NOT visible on the next page
                 const token = text.substr(text.indexOf('Token: ') + 7, 26);
-                cy.findByText(new RegExp(token)).should('not.be.visible');
+                cy.findByText(new RegExp(token)).should('not.exist');
             });
         });
     });
@@ -171,7 +141,7 @@ describe('Bot accounts - CRUD Testing', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
-        cy.findByText(`Test Bot (@${botName})`).then((el) => {
+        cy.findByText(testBot.fullDisplayName).then((el) => {
             // # Make sure it's on the screen
             cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
 
@@ -179,21 +149,21 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.wrap(el[0].parentElement.parentElement).findByText('Create New Token').should('be.visible').click();
 
             // # Try saving without description
-            cy.get('[data-testid=saveSetting]').click();
+            cy.findByTestId('saveSetting').click();
             cy.wrap(el[0].parentElement.parentElement).find('input').scrollIntoView();
 
             // * Check for error message
             cy.get('#clientError').should('be.visible');
 
             // # Add description
-            cy.wrap(el[0].parentElement.parentElement).find('input').click().type(botName + 'description!');
+            cy.wrap(el[0].parentElement.parentElement).find('input').click().type(testBot.username + 'description!');
 
             // # Save and check that no error is visible
-            cy.get('[data-testid=saveSetting]').click();
+            cy.findByTestId('saveSetting').click();
 
-            cy.get('#clientError').should('not.be.visible');
+            cy.get('#clientError').should('not.exist');
 
-            cy.findAllByText(botName + 'description!').should('exist');
+            cy.findAllByText(testBot.username + 'description!').should('exist');
         });
     });
 
@@ -202,7 +172,7 @@ describe('Bot accounts - CRUD Testing', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
-        cy.findByText(`Test Bot (@${botName})`).then((el) => {
+        cy.findByText(testBot.fullDisplayName).then((el) => {
             // # Make sure it's on the screen
             cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
 
@@ -213,7 +183,7 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.wrap(el[0].parentElement.parentElement).find('input').click().type('description!');
 
             // # Save
-            cy.get('[data-testid=saveSetting]').click();
+            cy.findByTestId('saveSetting').click();
 
             // # Click Close button
             cy.wrap(el[0].parentElement.parentElement).findByText('Close').should('be.visible').click();
@@ -230,47 +200,7 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.get('#confirmModalButton').should('be.visible').click();
 
             // * Check that token is not visible
-            cy.wrap(el[0].parentElement.parentElement).findByText(/Token ID:/).should('not.be.visible');
-        });
-    });
-
-    it('MM-T1849 Create a Personal Access Token when email config is invalid', () => {
-        // # Make sure that email is now functioning
-        const newSettings = {
-            EmailSettings: {
-                SMTPServer: '',
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
-        // # Create a test bot and validate that token is created
-        const botUsername = `bot-${getRandomId()}`;
-        createBotInteractive(botUsername);
-        cy.get('#doneButton').click();
-
-        // # Add a new token to the bot
-
-        // * Check that the previously created bot is listed
-        cy.findByText(`Test Bot (@${botUsername})`).then((el) => {
-            // # Make sure it's on the screen
-            cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
-
-            // # Click the 'Create token' button
-            cy.wrap(el[0].parentElement.parentElement).findByText('Create New Token').should('be.visible').click();
-
-            // # Add description
-            cy.wrap(el[0].parentElement.parentElement).find('input').click().type('description!');
-
-            // # Save
-            cy.get('[data-testid=saveSetting]').click();
-
-            // # Click Close button
-            cy.wrap(el[0].parentElement.parentElement).findByText('Close').should('be.visible').click();
-
-            cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
-
-            // * Check that token is visible
-            cy.wrap(el[0].parentElement.parentElement).findAllByText(/Token ID:/).should('have.length', 2);
+            cy.wrap(el[0].parentElement.parentElement).findByText(/Token ID:/).should('not.exist');
         });
     });
 });

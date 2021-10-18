@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {isEqual} from 'lodash';
-
 import {StepType} from './steps';
 
 export function getAnalyticsCategory(isAdmin: boolean) {
@@ -13,7 +11,7 @@ export function getAnalyticsCategory(isAdmin: boolean) {
 export function isStepForUser(step: StepType, roles: string): boolean {
     const userRoles = roles.split(' ');
     return (
-        isEqual(userRoles.sort(), step.roles.sort()) ||
+        userRoles.some((role) => step.roles.includes(role)) ||
           step.roles.length === 0
     );
 }

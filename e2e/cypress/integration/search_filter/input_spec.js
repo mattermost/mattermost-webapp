@@ -19,7 +19,7 @@ import {
     setupTestData,
 } from './helpers';
 
-describe('SF15699 Search Date Filter - input', () => {
+describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const {
         commonText,
@@ -31,23 +31,26 @@ describe('SF15699 Search Date Filter - input', () => {
     let anotherAdmin;
 
     before(() => {
-        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
+        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, channel, channelUrl, user}) => {
             anotherAdmin = user;
 
-            setupTestData(testData, {team, admin, anotherAdmin});
+            // # Visit test channel
+            cy.visit(channelUrl);
+
+            setupTestData(testData, {team, channel, admin, anotherAdmin});
         });
     });
 
-    it('can search for single post without adding a date filter', () => {
-        searchAndValidate(todayMessage, [todayMessage]);
-    });
-
-    it('can search for posts sharing text', () => {
+    it('MM-T585_1 Unfiltered search for all posts is not affected', () => {
         searchAndValidate(commonText, allMessagesInOrder);
     });
 
-    it('with calendar picker to set date', () => {
-        const today = Cypress.moment().format('YYYY-MM-DD');
+    it('MM-T585_2 Unfiltered search for recent post is not affected', () => {
+        searchAndValidate(todayMessage, [todayMessage]);
+    });
+
+    it('MM-T596 Use calendar picker to set date', () => {
+        const today = Cypress.dayjs().format('YYYY-MM-DD');
 
         // # Type before: in search field
         cy.get('#searchBox').clear().type('before:');
@@ -65,15 +68,21 @@ describe('SF15699 Search Date Filter - input', () => {
 
         // * Verify date picker output gets put into field as expected date
         cy.get('#searchBox').should('have.value', `before:${today} `);
+
+        // # Click "x" to the right of the search term
+        cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
+
+        // * The "x" to clear the search query has disappeared
+        cy.get('#searchBox').should('have.value', '');
     });
 
-    it('backspace after last character of filter makes calendar reappear', () => {
-        const today = Cypress.moment().format('YYYY-MM-DD');
+    it('MM-T3997 Backspace after last character of filter makes calendar reappear', () => {
+        const today = Cypress.dayjs().format('YYYY-MM-DD');
 
         // # Type before: in search field
         cy.get('#searchBox').clear().type('before:');
 
-        // * Day picker should be visible
+        // * Date picker should be visible
         cy.get('.DayPicker').
             as('dayPicker').
             should('be.visible');
@@ -82,7 +91,7 @@ describe('SF15699 Search Date Filter - input', () => {
         cy.get('@dayPicker').
             find('.DayPicker-Day--today').click();
 
-        // * Day picker should disappear
+        // * Date picker should disappear
         cy.get('@dayPicker').should('not.exist');
 
         // # Hit backspace with focus right after the date
@@ -95,41 +104,36 @@ describe('SF15699 Search Date Filter - input', () => {
         cy.get('@dayPicker').should('be.visible');
     });
 
-    describe('works without leading 0 in', () => {
+    it('MM-T598 Dates work without leading 0 for date and month', () => {
         // These must match the date of the firstMessage, only altering leading zeroes
-        const tests = [
+        const testCases = [
             {name: 'day', date: '2018-06-5'},
             {name: 'month', date: '2018-6-05'},
             {name: 'month and date', date: '2018-6-5'},
         ];
 
-        before(() => {
+        testCases.forEach((test) => {
             cy.reload();
-        });
-
-        tests.forEach((test) => {
-            it(test.name, () => {
-                searchAndValidate(`on:${test.date} "${firstMessage}"`, [firstMessage]);
-            });
+            searchAndValidate(`on:${test.date} "${firstMessage}"`, [firstMessage]);
         });
     });
 
-    describe('query string can be removed with', () => {
-        const queryString = `on:${Cypress.moment().format('YYYY-MM-DD')} ${commonText}`;
+    it('MM-T601 Remove date filter with keyboard', () => {
+        const queryString = `on:${Cypress.dayjs().format('YYYY-MM-DD')} ${commonText}`;
 
-        it('with keyboard', () => {
-            cy.get('#searchBox').
-                clear().
-                wait(TIMEOUTS.HALF_SEC).
-                type(queryString).
-                type('{backspace}'.repeat(queryString.length)).
-                should('have.value', '');
-        });
+        // * Filter can be removed with keyboard
+        cy.get('#searchBox').
+            clear().
+            wait(TIMEOUTS.HALF_SEC).
+            type(queryString).
+            type('{backspace}'.repeat(queryString.length)).
+            should('have.value', '');
 
-        it('with "x"', () => {
-            cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(queryString);
-            cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
-            cy.get('#searchBox').should('have.value', '');
-        });
+        // # Enter query to search box and then click "x" to the right of the search term
+        cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(queryString);
+        cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
+
+        // * The "x" to clear the search query has disappeared
+        cy.get('#searchBox').should('have.value', '');
     });
 });

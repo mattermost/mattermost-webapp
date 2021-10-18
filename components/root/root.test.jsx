@@ -1,18 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 
 import Root from 'components/root/root';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils';
 import Constants, {StoragePrefixes} from 'utils/constants';
 
 jest.mock('fastclick', () => ({
     attach: () => {}, // eslint-disable-line no-empty-function
+}));
+
+jest.mock('rudder-sdk-js', () => ({
+    identify: jest.fn(),
+    load: jest.fn(),
+    page: jest.fn(),
+    track: jest.fn(),
 }));
 
 jest.mock('actions/telemetry_actions', () => ({
@@ -27,23 +34,13 @@ jest.mock('utils/utils', () => ({
     localizeMessage: () => {},
     isDevMode: jest.fn(),
     enableDevModeFeatures: jest.fn(),
+    applyTheme: jest.fn(),
+    makeIsEligibleForClick: jest.fn(),
 }));
 
 jest.mock('mattermost-redux/actions/general', () => ({
     setUrl: () => {},
 }));
-jest.mock('mattermost-redux/client', () => {
-    const original = jest.requireActual('mattermost-redux/client');
-
-    return {
-        ...original,
-        Client4: {
-            ...original.Client4,
-            setUrl: jest.fn(),
-            enableRudderEvents: jest.fn(),
-        },
-    };
-});
 
 describe('components/Root', () => {
     const baseProps = {
@@ -51,8 +48,10 @@ describe('components/Root', () => {
         telemetryId: '1234ab',
         noAccounts: false,
         showTermsOfService: false,
+        theme: {},
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            emitBrowserWindowResized: () => {},
         },
         location: {
             pathname: '/',
@@ -193,21 +192,42 @@ describe('components/Root', () => {
         wrapper.unmount();
     });
 
-    test('should not call enableRudderEvents on call of onConfigLoaded if url and key for rudder is not set', () => {
-        const wrapper = shallow(<Root {...baseProps}/>);
-        wrapper.instance().onConfigLoaded();
-        expect(Client4.enableRudderEvents).not.toHaveBeenCalled();
-        wrapper.unmount();
-    });
+    describe('onConfigLoaded', () => {
+        // Replace loadMeAndConfig with an action that never resolves so we can control exactly when onConfigLoaded is called
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                loadMeAndConfig: () => new Promise(() => {}),
+            },
+        };
 
-    test('should call for enableRudderEvents on call of onConfigLoaded if url and key for rudder is set', () => {
-        Constants.TELEMETRY_RUDDER_KEY = 'testKey';
-        Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'url';
+        test('should not set a TelemetryHandler when onConfigLoaded is called if Rudder is not configured', () => {
+            const wrapper = shallow(<Root {...props}/>);
 
-        const wrapper = shallow(<Root {...baseProps}/>);
-        wrapper.instance().onConfigLoaded();
-        expect(Client4.enableRudderEvents).toHaveBeenCalled();
-        wrapper.unmount();
+            wrapper.instance().onConfigLoaded();
+
+            Client4.trackEvent('category', 'event');
+
+            expect(Client4.telemetryHandler).not.toBeDefined();
+
+            wrapper.unmount();
+        });
+
+        test('should set a TelemetryHandler when onConfigLoaded is called if Rudder is configured', () => {
+            Constants.TELEMETRY_RUDDER_KEY = 'testKey';
+            Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'url';
+
+            const wrapper = shallow(<Root {...props}/>);
+
+            wrapper.instance().onConfigLoaded();
+
+            Client4.trackEvent('category', 'event');
+
+            expect(Client4.telemetryHandler).toBeDefined();
+
+            wrapper.unmount();
+        });
     });
 
     test('should reload on focus after getting signal login event from another tab', () => {
@@ -226,6 +246,24 @@ describe('components/Root', () => {
         window.dispatchEvent(loginSignal);
         document.dispatchEvent(new Event('visibilitychange'));
         expect(window.location.reload).toBeCalledTimes(1);
+        wrapper.unmount();
+    });
+
+    test('should update redux when the browser window is resized', () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                emitBrowserWindowResized: jest.fn(),
+            },
+        };
+
+        const wrapper = shallow(<Root {...props}/>);
+
+        window.dispatchEvent(new UIEvent('resize'));
+
+        expect(props.actions.emitBrowserWindowResized).toBeCalledTimes(2); // called once in constructor
+
         wrapper.unmount();
     });
 });

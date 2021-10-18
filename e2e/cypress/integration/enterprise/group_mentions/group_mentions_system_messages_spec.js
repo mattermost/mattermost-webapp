@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -19,9 +20,7 @@ import {
 } from '../system_console/channel_moderation/helpers';
 import {checkboxesTitleToIdMap} from '../system_console/channel_moderation/constants';
 
-// assumes the CYPRESS_* variables are set
-// assumes that E20 license is uploaded
-// for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
+import {enableGroupMention} from './helpers';
 
 describe('Group Mentions', () => {
     let groupID;
@@ -98,7 +97,7 @@ describe('Group Mentions', () => {
 
         // # Login as sysadmin and enable group mention with the group name
         cy.apiAdminLogin();
-        enableGroupMention(groupName);
+        enableGroupMention(groupName, groupID, boardUser.email);
 
         // # Login as a regular user
         cy.apiLogin(regularUser);
@@ -110,7 +109,7 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} `);
 
             // * Verify if a system message is displayed indicating that list of members were not notified
             cy.getLastPostId().then((postId) => {
@@ -127,7 +126,7 @@ describe('Group Mentions', () => {
 
         // # Login as sysadmin and enable group mention with the group name
         cy.apiAdminLogin();
-        enableGroupMention(groupName);
+        enableGroupMention(groupName, groupID, boardUser.email);
 
         // # Create a new team and channel as a sysadmin
         cy.apiCreateTeam('team', 'Test NoMember').then(({team}) => {
@@ -146,7 +145,7 @@ describe('Group Mentions', () => {
                     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                     // # Submit a post containing the group mention
-                    cy.postMessage(`@${groupName}`);
+                    cy.postMessage(`@${groupName} `);
 
                     // * Verify if a system message is displayed indicating that there are no members in this team
                     cy.getLastPostId().then((postId) => {
@@ -166,13 +165,13 @@ describe('Group Mentions', () => {
 
         // # Login as sysadmin and enable group mention with the group name
         cy.apiAdminLogin();
-        enableGroupMention(groupName);
+        enableGroupMention(groupName, groupID, boardUser.email);
 
         // # Enable Group Mentions for Guest Users
         cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
         enablePermission('guests-guest_use_group_mentions-checkbox');
-        saveConfig();
+        cy.uiSaveConfig();
 
         // # Create a new channel as a sysadmin
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
@@ -193,7 +192,7 @@ describe('Group Mentions', () => {
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} `);
 
                 // * Verify if a system message is displayed indicating that list of members were not notified
                 cy.getLastPostId().then((postId) => {
@@ -212,7 +211,7 @@ describe('Group Mentions', () => {
 
         // # Login as sysadmin and enable group mention with the group name
         cy.apiAdminLogin();
-        enableGroupMention(groupName);
+        enableGroupMention(groupName, groupID, boardUser.email);
 
         // # Create a new channel as a sysadmin
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
@@ -232,7 +231,7 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} `);
 
             // * Verify if a system message is displayed indicating that list of members were not notified
             cy.getLastPostId().then((postId) => {
@@ -244,41 +243,4 @@ describe('Group Mentions', () => {
             });
         });
     });
-
-    function enableGroupMention(groupName) {
-        // # Visit Group Configurations page
-        cy.visit(`/admin_console/user_management/groups/${groupID}`);
-
-        // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
-        cy.get('#group_users', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView();
-        cy.findByText(boardUser.email).should('be.visible');
-        cy.get('#group_profile').scrollIntoView().wait(TIMEOUTS.TWO_SEC);
-
-        // # Click the allow reference button
-        cy.findByTestId('allowReferenceSwitch').then((el) => {
-            const button = el.find('button');
-            const classAttribute = button[0].getAttribute('class');
-            if (!classAttribute.includes('active')) {
-                button[0].click();
-            }
-        });
-
-        // # Give the group a custom name different from its DisplayName attribute
-        cy.get('#groupMention').find('input').clear().type(groupName);
-
-        // # Click save button
-        saveConfig();
-    }
-
-    function saveConfig() {
-        cy.get('#saveSetting').then((btn) => {
-            if (btn.is(':enabled')) {
-                btn.click();
-
-                cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-                    return el[0].innerText === 'Save';
-                }));
-            }
-        });
-    }
 });

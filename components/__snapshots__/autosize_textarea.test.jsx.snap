@@ -19,6 +19,7 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
   />
   <textarea
     aria-label=""
+    dir="auto"
     height={0}
     onChange={[Function]}
     role="textbox"
@@ -34,6 +35,7 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
   >
     <textarea
       aria-hidden={true}
+      dir="auto"
       disabled={true}
       id="undefined-reference"
       rows={1}

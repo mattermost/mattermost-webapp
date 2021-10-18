@@ -33,7 +33,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -46,7 +46,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -58,7 +58,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -72,14 +72,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -92,9 +92,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -109,7 +124,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -124,9 +139,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -146,7 +176,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               <legend
                 className="form-legend hidden-label"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Channel Display"
                   id="user.settings.display.channelDisplayTitle"
                 />
@@ -162,7 +192,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Full width"
                     id="user.settings.display.fullScreen"
                   />
@@ -180,7 +210,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Fixed width, centered"
                     id="user.settings.display.fixedWidthCentered"
                   />
@@ -189,7 +219,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <FormattedMessage
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Select the width of the center channel."
                   id="user.settings.display.channeldisplaymode"
                 />
@@ -201,7 +231,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section=""
         submit={[Function]}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -214,10 +244,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -265,7 +310,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -278,7 +323,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -297,7 +342,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               <legend
                 className="form-legend hidden-label"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Clock Display"
                   id="user.settings.display.clockDisplay"
                 />
@@ -313,7 +358,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="12-hour clock (example: 4:00 PM)"
                     id="user.settings.display.normalClock"
                   />
@@ -331,7 +376,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="24-hour clock (example: 16:00)"
                     id="user.settings.display.militaryClock"
                   />
@@ -340,7 +385,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <FormattedMessage
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Select how you prefer time displayed."
                   id="user.settings.display.preferTime"
                 />
@@ -352,7 +397,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section=""
         submit={[Function]}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -366,14 +411,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -386,9 +431,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -403,7 +463,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -418,7 +478,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -431,9 +491,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -446,10 +521,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -497,7 +587,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -510,7 +600,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -522,7 +612,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -536,14 +626,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -556,9 +646,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -580,7 +685,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               <legend
                 className="form-legend hidden-label"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Default Appearance of Image Previews"
                   id="user.settings.display.collapseDisplay"
                 />
@@ -596,7 +701,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="On"
                     id="user.settings.display.collapseOn"
                   />
@@ -614,7 +719,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Off"
                     id="user.settings.display.collapseOff"
                   />
@@ -623,7 +728,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <FormattedMessage
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Set whether previews of image links and image attachment thumbnails show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse."
                   id="user.settings.display.collapseDesc"
                 />
@@ -635,7 +740,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section=""
         submit={[Function]}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -650,7 +755,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -663,9 +768,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -678,10 +798,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -729,7 +864,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -742,7 +877,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -754,7 +889,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -768,14 +903,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -788,9 +923,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -805,7 +955,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -820,7 +970,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -833,11 +983,41 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -904,7 +1084,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -917,7 +1097,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -929,7 +1109,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -943,14 +1123,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -963,9 +1143,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -980,7 +1175,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -993,9 +1188,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -1008,10 +1218,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -1059,7 +1284,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1072,7 +1297,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1084,7 +1309,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -1098,16 +1323,31 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -1127,7 +1367,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               <legend
                 className="form-legend hidden-label"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Website Link Previews"
                   id="user.settings.display.linkPreviewDisplay"
                 />
@@ -1143,7 +1383,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="On"
                     id="user.settings.display.linkPreviewOn"
                   />
@@ -1161,7 +1401,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Off"
                     id="user.settings.display.linkPreviewOff"
                   />
@@ -1170,7 +1410,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <FormattedMessage
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="When available, the first web link in a message will show a preview of the website content below the message."
                   id="user.settings.display.linkPreviewDesc"
                 />
@@ -1182,7 +1422,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section=""
         submit={[Function]}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -1197,7 +1437,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -1212,7 +1452,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -1225,9 +1465,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -1240,10 +1495,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -1291,7 +1561,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1304,7 +1574,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1316,7 +1586,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -1330,14 +1600,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -1350,9 +1620,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -1367,7 +1652,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -1389,7 +1674,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               <legend
                 className="form-legend hidden-label"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Message Display"
                   id="user.settings.display.messageDisplayTitle"
                 />
@@ -1405,7 +1690,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Standard"
                     id="user.settings.display.messageDisplayClean"
                   />
@@ -1413,7 +1698,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <span
                     className="font-weight--normal"
                   >
-                    <FormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="Easy to scan and read."
                       id="user.settings.display.messageDisplayCleanDes"
                     />
@@ -1432,7 +1717,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                     onChange={[Function]}
                     type="radio"
                   />
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Compact"
                     id="user.settings.display.messageDisplayCompact"
                   />
@@ -1440,7 +1725,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   <span
                     className="font-weight--normal"
                   >
-                    <FormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="Fit as many messages on the screen as we can."
                       id="user.settings.display.messageDisplayCompactDes"
                     />
@@ -1450,7 +1735,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <FormattedMessage
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Select how messages in a channel should be displayed."
                   id="user.settings.display.messageDisplayDescription"
                 />
@@ -1462,7 +1747,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section=""
         submit={[Function]}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -1475,9 +1760,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -1490,10 +1790,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -1541,7 +1856,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1554,7 +1869,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1566,7 +1881,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -1580,14 +1895,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -1600,9 +1915,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -1617,7 +1947,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -1632,7 +1962,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -1645,9 +1975,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -1660,10 +2005,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -1711,7 +2071,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1724,7 +2084,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1736,7 +2096,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -1750,14 +2110,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -1770,9 +2130,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -1787,7 +2162,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -1802,7 +2177,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -1815,9 +2190,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -1830,10 +2220,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -1881,7 +2286,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1894,7 +2299,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -1906,7 +2311,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -1920,14 +2325,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -1940,9 +2345,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -1957,7 +2377,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -1972,7 +2392,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -1985,9 +2405,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -2000,10 +2435,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -2051,7 +2501,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -2064,7 +2514,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -2088,7 +2538,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -2102,14 +2552,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -2122,9 +2572,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -2139,7 +2604,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -2154,7 +2619,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -2167,9 +2632,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -2182,10 +2662,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />
@@ -2233,7 +2728,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -2246,7 +2741,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="tab-header"
       id="displaySettingsTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Display Settings"
         id="user.settings.display.title"
       />
@@ -2258,7 +2753,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="clock"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clock Display"
             id="user.settings.display.clockDisplay"
           />
@@ -2272,14 +2767,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMin
         describe={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
             id="user.settings.display.teammateNameDisplayFullname"
           />
         }
         section="name_format"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
           />
@@ -2292,9 +2787,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
           />
@@ -2309,7 +2819,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="collapse"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
           />
@@ -2324,7 +2834,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="message_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
           />
@@ -2337,9 +2847,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
           />
@@ -2352,10 +2877,25 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English (US)"
         section="languages"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
           />

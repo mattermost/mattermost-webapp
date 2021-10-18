@@ -33,10 +33,8 @@ describe('components/admin_console/system_users/list/selectors', () => {
                 const term = 'term';
 
                 const expectedUsers = [{id: 'id1'}, {id: 'id2'}];
-                (users.searchProfiles as jest.Mock).mockReturnValue(expectedUsers);
-
+                (users.makeSearchProfilesStartingWithTerm as jest.Mock).mockImplementation(() => jest.fn().mockReturnValue(expectedUsers));
                 expect(getUsers(state, loading, teamId, term, filter)).toEqual(expectedUsers);
-                expect(users.searchProfiles).toBeCalledWith(state, term, false, {});
             });
 
             describe('falling back to fetching user by id', () => {
@@ -44,21 +42,20 @@ describe('components/admin_console/system_users/list/selectors', () => {
 
                 it('and the user is found', () => {
                     const expectedUsers = [{id: 'id1'}];
-                    (users.searchProfiles as jest.Mock).mockReturnValue([]);
+                    (users.makeSearchProfilesStartingWithTerm as jest.Mock).mockImplementation(() => jest.fn().mockReturnValue([]));
+
                     (users.getUser as jest.Mock).mockReturnValue(expectedUsers[0]);
 
                     expect(getUsers(state, loading, teamId, term, filter)).toEqual(expectedUsers);
-                    expect(users.searchProfiles).toBeCalledWith(state, term, false, {});
                     expect(users.getUser).toBeCalledWith(state, term);
                 });
 
                 it('and the user is not found', () => {
                     const expectedUsers = [] as UserProfile[];
-                    (users.searchProfiles as jest.Mock).mockReturnValue([]);
+                    (users.makeSearchProfilesStartingWithTerm as jest.Mock).mockImplementation(() => jest.fn().mockReturnValue([]));
                     (users.getUser as jest.Mock).mockReturnValue(null);
 
                     expect(getUsers(state, loading, teamId, term, filter)).toEqual(expectedUsers);
-                    expect(users.searchProfiles).toBeCalledWith(state, term, false, {});
                     expect(users.getUser).toBeCalledWith(state, term);
                 });
             });

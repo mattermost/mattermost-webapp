@@ -11,7 +11,7 @@ charset = utf-8
 [*.go]
 indent_style = tab
 
-[*.{js,jsx,json,html}]
+[*.{js,jsx,json,html,ts,tsx}]
 indent_style = space
 indent_size = 4
 
@@ -27,3 +27,6 @@ indent_style = tab
 [*.scss]
 indent_style = space
 indent_size = 4
+
+[.npm-upgrade.json]
+insert_final_newline = false

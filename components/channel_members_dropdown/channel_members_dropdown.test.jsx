@@ -16,14 +16,12 @@ describe('components/channel_members_dropdown', () => {
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         delete_at: 0,
         display_name: 'testing',
-        extra_update_at: 1508265709628,
         header: 'test',
         id: 'owsyt8n43jfxjpzh9np93mx1wa',
         last_post_at: 1508265709635,
         name: 'testing',
         purpose: 'test',
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
-        total_msg_count: 0,
         type: 'O',
         update_at: 1508265709607,
     };
@@ -66,6 +64,21 @@ describe('components/channel_members_dropdown', () => {
                 roles: 'channel_guest',
             },
             canChangeMemberRoles: true,
+        };
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for dropdown with shared user', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                ...baseProps.user,
+                roles: 'system_user',
+                remote_id: 'fakeid',
+            },
         };
         const wrapper = shallow(
             <ChannelMembersDropdown {...props}/>,

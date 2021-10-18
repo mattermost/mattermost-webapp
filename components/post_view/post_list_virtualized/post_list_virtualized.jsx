@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'dynamic-virtualized-list';
-import {injectIntl} from 'react-intl';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
@@ -13,14 +12,17 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
-import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
+import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import ToastWrapper from 'components/toast_wrapper';
+
+import Pluggable from 'plugins/pluggable';
+
+import LatestPostReader from './latest_post_reader';
 
 const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
@@ -44,7 +46,7 @@ const virtListStyles = {
 
 const OFFSET_TO_SHOW_TOAST = -50;
 
-class PostList extends React.PureComponent {
+export default class PostList extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -84,11 +86,7 @@ class PostList extends React.PureComponent {
         loadingNewerPosts: PropTypes.bool,
         loadingOlderPosts: PropTypes.bool,
 
-        intl: intlShape.isRequired,
-
         latestPostTimeStamp: PropTypes.number,
-
-        latestAriaLabelFunc: PropTypes.func,
 
         lastViewedAt: PropTypes.string,
 
@@ -143,6 +141,9 @@ class PostList extends React.PureComponent {
             },
             initScrollCompleted: false,
             initScrollOffsetFromBottom: 0,
+
+            showSearchHint: false,
+            isSearchHintDismissed: false,
         };
 
         this.listRef = React.createRef();
@@ -165,6 +166,8 @@ class PostList extends React.PureComponent {
             Math.max(postIndex - 30, 0),
             Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
         ];
+
+        this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
     componentDidMount() {
@@ -270,6 +273,8 @@ class PostList extends React.PureComponent {
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
+
+        this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
     togglePostMenu = (opened) => {
@@ -342,11 +347,12 @@ class PostList extends React.PureComponent {
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
+        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset;
+        const shouldLoadNewPosts = offsetFromBottom < HEIGHT_TRIGGER_FOR_MORE_POSTS;
 
         if (didUserScrollBackwards && isOffsetWithInRange && !this.props.atOldestPost) {
             this.props.actions.loadOlderPosts();
-        } else if (didUserScrollForwards && offsetFromBottom && !this.props.atLatestPost) {
+        } else if (didUserScrollForwards && shouldLoadNewPosts && !this.props.atLatestPost) {
             this.props.actions.loadNewerPosts();
         }
 
@@ -374,12 +380,27 @@ class PostList extends React.PureComponent {
             }
 
             if (!this.state.atBottom && scrollHeight) {
-                const initScrollOffsetFromBottom = scrollHeight - clientHeight - scrollOffset;
                 this.setState({
-                    initScrollOffsetFromBottom,
+                    initScrollOffsetFromBottom: offsetFromBottom,
                 });
             }
         }
+
+        if (this.state.isMobile && this.state.showSearchHint) {
+            this.setState({
+                showSearchHint: false,
+            });
+        }
+
+        if (!this.state.isMobile && !this.state.isSearchHintDismissed) {
+            this.setState({
+                showSearchHint: offsetFromBottom > this.showSearchHintThreshold,
+            });
+        }
+    }
+
+    getShowSearchHintThreshold = () => {
+        return window.screen.height * 3;
     }
 
     checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
@@ -421,6 +442,13 @@ class PostList extends React.PureComponent {
                 isScrolling: false,
             });
         }
+    }
+
+    handleSearchHintDismiss = () => {
+        this.setState({
+            showSearchHint: false,
+            isSearchHintDismissed: true,
+        });
     }
 
     updateFloatingTimestamp = (visibleTopItem) => {
@@ -513,16 +541,14 @@ class PostList extends React.PureComponent {
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
+                onSearchHintDismiss={this.handleSearchHintDismiss}
+                showSearchHintToast={this.state.showSearchHint}
             />
         );
     }
 
     render() {
-        const channelId = this.props.channelId;
-        let ariaLabel;
-        if (this.props.latestAriaLabelFunc && this.props.postListIds.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) >= 0) {
-            ariaLabel = this.props.latestAriaLabelFunc(this.props.intl);
-        }
+        const {channelId} = this.props;
         const {dynamicListStyle} = this.state;
 
         return (
@@ -562,16 +588,18 @@ class PostList extends React.PureComponent {
                             id='postListContent'
                             className='post-list__content'
                         >
-                            <span
-                                className='sr-only'
-                                aria-live='polite'
-                            >
-                                {ariaLabel}
-                            </span>
+                            <LatestPostReader postIds={this.props.postListIds}/>
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.renderToasts(width)}</div>
+                                        <div>
+                                            <Pluggable
+                                                pluggableName='ChannelToast'
+                                            />
+
+                                            {this.renderToasts(width)}
+                                        </div>
+
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}
@@ -604,5 +632,3 @@ class PostList extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(PostList);

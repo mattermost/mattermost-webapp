@@ -187,7 +187,7 @@ describe('handleEvent', () => {
 describe('handlePostEditEvent', () => {
     test('post edited', async () => {
         const post = '{"id":"test","create_at":123,"update_at":123,"user_id":"user","channel_id":"12345","root_id":"","message":"asd","pending_post_id":"2345","metadata":{}}';
-        const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post)};
+        const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post), features: {crtEnabled: false}};
         const msg = {
             data: {
                 post,
@@ -539,8 +539,17 @@ describe('handleNewPostEvent', () => {
 });
 
 describe('handleNewPostEvents', () => {
+    const initialState = {
+        entities: {
+            general: {},
+            preferences: {
+                myPreferences: {},
+            },
+        },
+    };
+
     test('should receive multiple posts correctly', () => {
-        const testStore = configureStore();
+        const testStore = configureStore(initialState);
 
         const posts = [
             {id: 'post1', channel_id: 'channel1'},
@@ -561,7 +570,7 @@ describe('handleNewPostEvents', () => {
         expect(testStore.getActions()).toEqual([
             {
                 meta: {batch: true},
-                payload: posts.map(receivedNewPost),
+                payload: posts.map((post) => receivedNewPost(post, false)),
                 type: 'BATCHING_REDUCER.BATCH',
             },
             {

@@ -30,7 +30,7 @@ describe('Leave Channel Command', () => {
         cy.findAllByTestId('postView').should('be.visible');
 
         // # Post /leave command in center channel
-        cy.postMessage('/leave');
+        cy.postMessage('/leave ');
         cy.wait(TIMEOUTS.TWO_SEC); // eslint-disable-line cypress/no-unnecessary-waiting
 
         // * Assert that user is redirected to townsquare

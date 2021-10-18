@@ -7,13 +7,15 @@ import {FormattedMessage} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ManageRolesModal from 'components/admin_console/manage_roles_modal';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal';
 import ManageTokensModal from 'components/admin_console/manage_tokens_modal';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
-import ResetEmailModal from 'components/admin_console/reset_email_modal/reset_email_modal.jsx';
+import ResetEmailModal from 'components/admin_console/reset_email_modal';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
 import UserListRowWithError from 'components/user_list_row_with_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -21,38 +23,39 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import SystemUsersDropdown from '../system_users_dropdown';
 
 type Props = {
-    users: UserProfile[],
-    usersPerPage: number,
-    total: number,
-    nextPage: (page: number) => void,
-    search: (term: string) => void,
-    focusOnMount: boolean,
-    renderFilterRow: () => void,
+    users: UserProfile[];
+    teams?: Team[];
+    usersPerPage: number;
+    total: number;
+    nextPage: (page: number) => void;
+    search: (term: string) => void;
+    focusOnMount?: boolean;
+    renderFilterRow: (doSearch: ((event: React.FormEvent<HTMLInputElement>) => void) | undefined) => JSX.Element;
 
-    teamId: string,
-    filter: string,
-    term: string,
-    onTermChange: () => void,
-    isDisabled?: boolean,
+    teamId: string;
+    filter: string;
+    term: string;
+    onTermChange: (term: string) => void;
+    isDisabled?: boolean;
 
     /**
      * Whether MFA is licensed and enabled.
      */
-    mfaEnabled: boolean,
+    mfaEnabled: boolean;
 
     /**
      * Whether or not user access tokens are enabled.
      */
-    enableUserAccessTokens: boolean,
+    enableUserAccessTokens: boolean;
 
     /**
      * Whether or not the experimental authentication transfer is enabled.
      */
-    experimentalEnableAuthenticationTransfer: boolean,
+    experimentalEnableAuthenticationTransfer: boolean;
 
     actions: {
         getUser: (id: string) => UserProfile;
-    }
+    };
 };
 
 type State = {
@@ -85,7 +88,7 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
         };
     }
 
-    static getDerivedStateFromProps(nextProps: Props, prevState: State): { page: number, teamId: string, filter: string } | null {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State): { page: number; teamId: string; filter: string } | null {
         if (prevState.teamId !== nextProps.teamId || prevState.filter !== nextProps.filter) {
             return {
                 page: 0,
@@ -195,8 +198,10 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
         });
     }
 
-    doEmailResetSubmit = (user: UserProfile) => {
-        this.props.actions.getUser(user.id);
+    doEmailResetSubmit = (user?: UserProfile) => {
+        if (user) {
+            this.props.actions.getUser(user.id);
+        }
 
         this.setState({
             showEmailModal: false,
@@ -316,7 +321,7 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const extraInfo: {[key: string]: (string | JSX.Element)[]} = {};
+        const extraInfo: {[key: string]: Array<string | JSX.Element>} = {};
         if (this.props.users) {
             for (const user of this.props.users) {
                 extraInfo[user.id] = this.getInfoForUser(user);

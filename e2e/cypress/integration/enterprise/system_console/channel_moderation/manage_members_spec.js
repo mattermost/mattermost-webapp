@@ -57,7 +57,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         });
     });
 
-    it('No option to Manage Members for Guests', () => {
+    it('MM-T1547 No option to Manage Members for Guests', () => {
         visitChannelConfigPage(testChannel);
 
         // * Assert that Manage Members for Guests does not exist (checkbox is not there)
@@ -72,7 +72,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.get('#showInviteModal').should('not.exist');
     });
 
-    it('Manage Members option for Members', () => {
+    it('MM-T1548 Manage Members option for Members', () => {
         // # Visit test channel page and turn off the Manage members for Members and then save
         visitChannelConfigPage(testChannel);
         disablePermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
@@ -96,7 +96,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.get('#showInviteModal').should('exist');
     });
 
-    it('Manage Members option removed for Members in System Scheme', () => {
+    it('MM-T1549 Manage Members option removed for Members in System Scheme', () => {
         // Edit the System Scheme and disable the Manage Members option for Members & Save.
         goToSystemScheme();
         disablePermission(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS);
@@ -139,7 +139,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.get('#showInviteModal').should('exist');
     });
 
-    it('Manage Members option removed for Members in Team Override Scheme', () => {
+    it('MM-T1550 Manage Members option removed for Members in Team Override Scheme', () => {
         const teamOverrideSchemeName = `manage_members_${getRandomId()}`;
 
         // # Create a new team override scheme and remove manage members option for members

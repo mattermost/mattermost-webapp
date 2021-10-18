@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`at mention suggestion Should display nick name of non signed in user 1`] = `
+<AtMentionSuggestion
+  item={
+    Object {
+      "first_name": "a",
+      "id": "userid2",
+      "last_name": "b",
+      "nickname": "c",
+      "username": "user2",
+    }
+  }
+  matchedPretext="@"
+  term="@user"
+>
+  <div
+    className="suggestion-list__item"
+    data-testid="mentionSuggestion_user2"
+    onClick={[Function]}
+    onMouseMove={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <Memo(Avatar)
+      size="sm"
+      url="/api/v4/users/userid2/image?_=0"
+      username="user2"
+    >
+      <img
+        alt="user2 profile image"
+        className="Avatar Avatar-sm"
+        src="/api/v4/users/userid2/image?_=0"
+      />
+    </Memo(Avatar)>
+    <span
+      className="suggestion-list__ellipsis"
+    >
+      <span
+        className="suggestion-list__main"
+      >
+        @user2
+      </span>
+      <BotBadge
+        className="badge-autocomplete"
+        show={false}
+      >
+        <Memo(Badge)
+          className="BotBadge badge-autocomplete"
+          show={false}
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="BOT"
+            id="post_info.bot"
+          />
+        </Memo(Badge)>
+      </BotBadge>
+      <Component
+        emojiSize={15}
+        emojiStyle={
+          Object {
+            "margin": "0 4px 4px",
+          }
+        }
+        showTooltip={true}
+        userID="userid2"
+      >
+        <div />
+      </Component>
+      <span
+        className="ml-2"
+      >
+        a b (c)
+      </span>
+      <GuestBadge
+        className="badge-autocomplete"
+        show={false}
+      >
+        <Memo(Badge)
+          className="GuestBadge badge-autocomplete"
+          show={false}
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="GUEST"
+            id="post_info.guest"
+          />
+        </Memo(Badge)>
+      </GuestBadge>
+    </span>
+  </div>
+</AtMentionSuggestion>
+`;
+
+exports[`at mention suggestion Should not display nick name of the signed in user 1`] = `
+<AtMentionSuggestion
+  item={
+    Object {
+      "first_name": "a",
+      "id": "userid1",
+      "isCurrentUser": true,
+      "last_name": "b",
+      "nickname": "c",
+      "username": "user",
+    }
+  }
+  matchedPretext="@"
+  term="@user"
+>
+  <div
+    className="suggestion-list__item"
+    data-testid="mentionSuggestion_user"
+    onClick={[Function]}
+    onMouseMove={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <Memo(Avatar)
+      size="sm"
+      url="/api/v4/users/userid1/image?_=0"
+      username="user"
+    >
+      <img
+        alt="user profile image"
+        className="Avatar Avatar-sm"
+        src="/api/v4/users/userid1/image?_=0"
+      />
+    </Memo(Avatar)>
+    <span
+      className="suggestion-list__ellipsis"
+    >
+      <span
+        className="suggestion-list__main"
+      >
+        @user
+      </span>
+      <BotBadge
+        className="badge-autocomplete"
+        show={false}
+      >
+        <Memo(Badge)
+          className="BotBadge badge-autocomplete"
+          show={false}
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="BOT"
+            id="post_info.bot"
+          />
+        </Memo(Badge)>
+      </BotBadge>
+      <Component
+        emojiSize={15}
+        emojiStyle={
+          Object {
+            "margin": "0 4px 4px",
+          }
+        }
+        showTooltip={true}
+        userID="userid1"
+      >
+        <div />
+      </Component>
+      <span
+        className="ml-2"
+      >
+        a b
+      </span>
+      <span
+        className="ml-1"
+      >
+        <FormattedMessage
+          defaultMessage="(you)"
+          id="suggestion.user.isCurrent"
+        >
+          <span>
+            (you)
+          </span>
+        </FormattedMessage>
+      </span>
+      <GuestBadge
+        className="badge-autocomplete"
+        show={false}
+      >
+        <Memo(Badge)
+          className="GuestBadge badge-autocomplete"
+          show={false}
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="GUEST"
+            id="post_info.guest"
+          />
+        </Memo(Badge)>
+      </GuestBadge>
+    </span>
+  </div>
+</AtMentionSuggestion>
+`;

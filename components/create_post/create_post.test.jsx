@@ -2,22 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
+import CreatePost from 'components/create_post/create_post';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import EmojiMap from 'utils/emoji_map';
 
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import CreatePost from 'components/create_post/create_post.jsx';
 import FileUpload from 'components/file_upload';
 import Textbox from 'components/textbox';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
@@ -55,8 +57,6 @@ const ctrlSendProp = false;
 
 const currentUsersLatestPostProp = {id: 'b', root_id: 'a', channel_id: currentChannelProp.id};
 
-const commentCountForPostProp = 10;
-
 const actionsProp = {
     addMessageIntoHistory: jest.fn(),
     moveHistoryIndexBack: jest.fn(),
@@ -69,6 +69,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
+    closeModal: jest.fn(),
     setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
@@ -82,6 +83,7 @@ const actionsProp = {
     },
     scrollPostListToBottom: jest.fn(),
     getChannelMemberCountsByGroup: jest.fn(),
+    emitShortcutReactToLastPostFrom: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -89,6 +91,7 @@ function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
+    tutorialStep = Constants.TutorialSteps.POST_POPOVER + 1,
     showTutorialTip = showTutorialTipProp,
     currentChannelMembersCount = currentChannelMembersCountProp,
     fullWidthTextBox = fullWidthTextBoxProp,
@@ -99,8 +102,6 @@ function createPost({
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
-    commentCountForPost = commentCountForPostProp,
-    readOnlyChannel = false,
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
@@ -120,9 +121,7 @@ function createPost({
             locale={locale}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
-            commentCountForPost={commentCountForPost}
             actions={actions}
-            readOnlyChannel={readOnlyChannel}
             canUploadFiles={canUploadFiles}
             enableTutorial={true}
             enableConfirmNotificationsToChannel={true}
@@ -138,13 +137,15 @@ function createPost({
             canPost={true}
             useChannelMentions={true}
             useGroupMentions={useGroupMentions}
+            tutorialStep={tutorialStep}
         />
     );
 }
 /* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
+
     beforeEach(() => {
         jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
     });
@@ -307,6 +308,25 @@ describe('components/create_post', () => {
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
+    it('onSubmit test for @here', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        wrapper.setState({
+            message: 'test @here',
+        });
+
+        const form = wrapper.find('#create_post');
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
+
+        wrapper.setProps({
+            currentChannelMembersCount: 2,
+        });
+
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
+    });
+
     it('onSubmit test for @all', () => {
         const wrapper = shallowWithIntl(createPost());
 
@@ -316,16 +336,14 @@ describe('components/create_post', () => {
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(true);
-        wrapper.instance().hideNotifyAllModal();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
 
         wrapper.setProps({
             currentChannelMembersCount: 2,
         });
 
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
     });
 
     it('onSubmit test for @groups', () => {
@@ -349,14 +367,13 @@ describe('components/create_post', () => {
             message: '@developers',
         });
 
+        const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+        wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(true);
-        expect(wrapper.state('memberNotifyCount')).toBe(10);
-        expect(wrapper.state('channelTimezoneCount')).toBe(0);
-        expect(wrapper.state('mentions')).toMatchObject(['@developers']);
-        wrapper.instance().hideNotifyAllModal();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
     });
 
     it('onSubmit test for several @groups', () => {
@@ -412,14 +429,13 @@ describe('components/create_post', () => {
             message: '@developers @boss @love @you @software-developers',
         });
 
+        const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+        wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(true);
-        expect(wrapper.state('memberNotifyCount')).toBe(40);
-        expect(wrapper.state('channelTimezoneCount')).toBe(0);
-        expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you', '@software-developers']);
-        wrapper.instance().hideNotifyAllModal();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
     });
 
     it('onSubmit test for several @groups with timezone', () => {
@@ -467,14 +483,13 @@ describe('components/create_post', () => {
             message: '@developers @boss @love @you',
         });
 
+        const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+        wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(true);
-        expect(wrapper.state('memberNotifyCount')).toBe(40);
-        expect(wrapper.state('channelTimezoneCount')).toBe(5);
-        expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you']);
-        wrapper.instance().hideNotifyAllModal();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you'], 5, 40);
     });
 
     it('Should set mentionHighlightDisabled prop when useChannelMentions disabled before calling actions.onSubmitPost', async () => {
@@ -537,7 +552,7 @@ describe('components/create_post', () => {
         expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
     });
 
-    it('onSubmit test for @all with timezones', () => {
+    it('onSubmit test for @all with timezones', async () => {
         const wrapper = shallowWithIntl(
             createPost({
                 actions: {
@@ -551,25 +566,23 @@ describe('components/create_post', () => {
 
         wrapper.setState({
             message: 'test @all',
-            channelTimezoneCount: 4,
-            showConfirmModal: true,
-            memberNotifyCount: 8,
         });
 
+        const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+        wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
         const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(true);
-        expect(wrapper.state('channelTimezoneCount')).toBe(4);
-        expect(wrapper.state('memberNotifyCount')).toBe(8);
-        wrapper.instance().hideNotifyAllModal();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        await form.simulate('Submit', {preventDefault: jest.fn()});
+
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@all'], 4, 8);
 
         wrapper.setProps({
             currentChannelMembersCount: 2,
         });
 
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
     });
 
     it('onSubmit test for @all with timezones disabled', () => {
@@ -586,17 +599,14 @@ describe('components/create_post', () => {
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(true);
-        expect(wrapper.state('channelTimezoneCount')).toBe(0);
-        wrapper.instance().hideNotifyAllModal();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
 
         wrapper.setProps({
             currentChannelMembersCount: 2,
         });
 
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
     });
 
     it('onSubmit test for "/header" message', () => {
@@ -839,7 +849,7 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost({}));
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
 
-        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
     });
 
     it('Remove preview from fileInfos', () => {
@@ -916,7 +926,7 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
     it('Should call edit action as post for arrow up', () => {
@@ -935,7 +945,7 @@ describe('components/create_post', () => {
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
     it('Should call moveHistoryIndexForward as ctrlKey and down arrow', () => {
@@ -1032,11 +1042,6 @@ describe('components/create_post', () => {
         expect(selectPostFromRightHandSideSearchByPostId.mock.calls[0][0]).toEqual(latestReplyablePostId);
     });
 
-    it('should match snapshot for read only channel', () => {
-        const wrapper = shallowWithIntl(createPost({readOnlyChannel: true}));
-        expect(wrapper).toMatchSnapshot();
-    });
-
     it('should match snapshot when cannot post', () => {
         const wrapper = shallowWithIntl(createPost({canPost: false}));
         expect(wrapper).toMatchSnapshot();
@@ -1068,15 +1073,12 @@ describe('components/create_post', () => {
         wrapper.setState({
             message: '/fakecommand some text',
         });
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         expect(onSubmitPost).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -1107,17 +1109,14 @@ describe('components/create_post', () => {
         wrapper.setState({
             message: '/fakecommand some text',
         });
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
         });
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 

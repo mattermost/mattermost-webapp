@@ -9,6 +9,7 @@ import {trackEvent, pageVisited} from 'actions/telemetry_actions.jsx';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
+import UserLimitModal from 'components/user_limit_modal/user_limit_modal';
 
 import {InviteTypes} from 'utils/constants';
 
@@ -33,6 +34,9 @@ export default class InvitationModal extends React.PureComponent {
         canAddUsers: PropTypes.bool.isRequired,
         emailInvitationsEnabled: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
+        isFreeTierWithNoFreeSeats: PropTypes.bool.isRequired,
+        userIsAdmin: PropTypes.bool.isRequired,
+        cloudUserLimit: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             sendGuestsInvites: PropTypes.func.isRequired,
@@ -40,6 +44,7 @@ export default class InvitationModal extends React.PureComponent {
             searchProfiles: PropTypes.func.isRequired,
             searchChannels: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
+            openModal: PropTypes.func,
         }).isRequired,
     }
 
@@ -231,90 +236,106 @@ export default class InvitationModal extends React.PureComponent {
     }
 
     render() {
-        return (
-            <RootPortal>
-                <FullScreenModal
-                    show={Boolean(this.props.show)}
-                    onClose={this.close}
-                    onGoBack={this.getBackFunction()}
-                    ref={this.modal}
-                    ariaLabelledBy='invitation_modal_title'
+        const invitationModal = (<RootPortal>
+            <FullScreenModal
+                show={Boolean(this.props.show)}
+                onClose={this.close}
+                onGoBack={this.getBackFunction()}
+                ref={this.modal}
+                ariaLabelledBy='invitation_modal_title'
+            >
+                <div
+                    data-testid='invitationModal'
+                    className='InvitationModal'
                 >
-                    <div
-                        data-testid='invitationModal'
-                        className='InvitationModal'
-                    >
-                        <ConfirmModal
-                            show={this.state.confirmModal || this.state.confirmBack}
-                            title={
-                                <FormattedMessage
-                                    id='invitation-modal.discard-changes.title'
-                                    defaultMessage='Discard Changes'
-                                />
-                            }
-                            message={
-                                <FormattedMessage
-                                    id='invitation-modal.discard-changes.message'
-                                    defaultMessage='You have unsent invitations, are you sure you want to discard them?'
-                                />
-                            }
-                            confirmButtonText={
-                                <FormattedMessage
-                                    id='invitation-modal.discard-changes.button'
-                                    defaultMessage='Yes, Discard'
-                                />
-                            }
-                            modalClass='invitation-modal-confirm'
-                            onConfirm={this.state.confirmModal ? this.confirmClose : this.confirmBack}
-                            onCancel={this.state.confirmModal ? this.cancelClose : this.cancelBack}
-                        />
-                        {this.state.step === STEPS_INITIAL &&
-                            <InvitationModalInitialStep
-                                teamName={this.props.currentTeam.display_name}
-                                goToMembers={this.goToMembers}
-                                goToGuests={this.goToGuests}
-                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
+                    <ConfirmModal
+                        show={this.state.confirmModal || this.state.confirmBack}
+                        title={
+                            <FormattedMessage
+                                id='invitation-modal.discard-changes.title'
+                                defaultMessage='Discard Changes'
                             />
                         }
-                        {this.state.step === STEPS_INVITE_MEMBERS &&
-                            <InvitationModalMembersStep
-                                teamName={this.props.currentTeam.display_name}
-                                currentTeamId={this.props.currentTeam.id}
-                                inviteId={this.props.currentTeam.invite_id}
-                                searchProfiles={this.props.actions.searchProfiles}
-                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
-                                onSubmit={this.onMembersSubmit}
-                                onEdit={this.onEdit}
+                        message={
+                            <FormattedMessage
+                                id='invitation-modal.discard-changes.message'
+                                defaultMessage='You have unsent invitations, are you sure you want to discard them?'
                             />
                         }
-                        {this.state.step === STEPS_INVITE_GUESTS &&
-                            <InvitationModalGuestsStep
-                                teamName={this.props.currentTeam.display_name}
-                                currentTeamId={this.props.currentTeam.id}
-                                myInvitableChannels={this.props.invitableChannels}
-                                searchProfiles={this.props.actions.searchProfiles}
-                                searchChannels={this.props.actions.searchChannels}
-                                defaultChannels={this.state.lastInviteChannels}
-                                defaultMessage={this.state.lastInviteMessage}
-                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
-                                onSubmit={this.onGuestsSubmit}
-                                onEdit={this.onEdit}
+                        confirmButtonText={
+                            <FormattedMessage
+                                id='invitation-modal.discard-changes.button'
+                                defaultMessage='Yes, Discard'
                             />
                         }
-                        {this.state.step === STEPS_INVITE_CONFIRM &&
-                            <InvitationModalConfirmStep
-                                teamName={this.props.currentTeam.display_name}
-                                currentTeamId={this.props.currentTeam.id}
-                                onDone={this.close}
-                                onInviteMore={this.goToFirstStep}
-                                invitesType={this.state.invitesType}
-                                invitesSent={this.state.invitesSent}
-                                invitesNotSent={this.state.invitesNotSent}
-                            />
-                        }
-                    </div>
-                </FullScreenModal>
-            </RootPortal>
+                        modalClass='invitation-modal-confirm'
+                        onConfirm={this.state.confirmModal ? this.confirmClose : this.confirmBack}
+                        onCancel={this.state.confirmModal ? this.cancelClose : this.cancelBack}
+                    />
+                    {this.state.step === STEPS_INITIAL &&
+                    <InvitationModalInitialStep
+                        teamName={this.props.currentTeam.display_name}
+                        goToMembers={this.goToMembers}
+                        goToGuests={this.goToGuests}
+                        emailInvitationsEnabled={this.props.emailInvitationsEnabled}
+                    />
+                    }
+                    {this.state.step === STEPS_INVITE_MEMBERS &&
+                    <InvitationModalMembersStep
+                        teamName={this.props.currentTeam.display_name}
+                        currentTeamId={this.props.currentTeam.id}
+                        inviteId={this.props.currentTeam.invite_id}
+                        searchProfiles={this.props.actions.searchProfiles}
+                        emailInvitationsEnabled={this.props.emailInvitationsEnabled}
+                        onSubmit={this.onMembersSubmit}
+                        onEdit={this.onEdit}
+                    />
+                    }
+                    {this.state.step === STEPS_INVITE_GUESTS &&
+                    <InvitationModalGuestsStep
+                        teamName={this.props.currentTeam.display_name}
+                        currentTeamId={this.props.currentTeam.id}
+                        myInvitableChannels={this.props.invitableChannels}
+                        searchProfiles={this.props.actions.searchProfiles}
+                        searchChannels={this.props.actions.searchChannels}
+                        defaultChannels={this.state.lastInviteChannels}
+                        defaultMessage={this.state.lastInviteMessage}
+                        emailInvitationsEnabled={this.props.emailInvitationsEnabled}
+                        onSubmit={this.onGuestsSubmit}
+                        onEdit={this.onEdit}
+                    />
+                    }
+                    {this.state.step === STEPS_INVITE_CONFIRM &&
+                    <InvitationModalConfirmStep
+                        teamName={this.props.currentTeam.display_name}
+                        currentTeamId={this.props.currentTeam.id}
+                        onDone={this.close}
+                        onInviteMore={this.goToFirstStep}
+                        invitesType={this.state.invitesType}
+                        invitesSent={this.state.invitesSent}
+                        invitesNotSent={this.state.invitesNotSent}
+                    />
+                    }
+                </div>
+            </FullScreenModal>
+        </RootPortal>);
+
+        const actionsUserLimitModal = {
+            closeModal: this.props.actions.closeModal,
+            openModal: this.props.actions.openModal,
+        };
+        const userLimitModal = (
+            <UserLimitModal
+                userIsAdmin={this.props.userIsAdmin}
+                cloudUserLimit={this.props.cloudUserLimit}
+                show={Boolean(this.props.show)}
+                actions={actionsUserLimitModal}
+            />
+        );
+        return (
+            <>
+                {this.props.isFreeTierWithNoFreeSeats ? userLimitModal : invitationModal}
+            </>
         );
     }
 }

@@ -6,11 +6,11 @@ import thunk from 'redux-thunk';
 
 import {General, Posts, RequestStatus} from 'mattermost-redux/constants';
 import {leaveChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
+import * as UserActions from 'mattermost-redux/actions/users';
 import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
-import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {ActionTypes, PostRequestTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
@@ -30,9 +30,7 @@ jest.mock('utils/channel_utils.jsx', () => {
     };
 });
 
-jest.mock('actions/channel_actions.jsx', () => ({
-    openDirectChannelToUserId: jest.fn(() => ({type: ''})),
-}));
+jest.mock('mattermost-redux/actions/users');
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
@@ -44,6 +42,10 @@ jest.mock('mattermost-redux/actions/posts');
 
 jest.mock('selectors/local_storage', () => ({
     getLastViewedChannelName: () => 'channel1',
+}));
+
+jest.mock('mattermost-redux/selectors/entities/utils', () => ({
+    makeAddLastViewAtToProfiles: () => jest.fn().mockReturnValue([]),
 }));
 
 describe('channel view actions', () => {
@@ -92,6 +94,9 @@ describe('channel view actions', () => {
             posts: {
                 postsInChannel: {},
             },
+            channelCategories: {
+                byId: {},
+            },
         },
         views: {
             channel: {
@@ -111,12 +116,6 @@ describe('channel view actions', () => {
         test('switch to public channel', () => {
             store.dispatch(Actions.switchToChannel(channel1));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${channel1.name}`);
-        });
-
-        test('switch to fake direct channel', async () => {
-            await store.dispatch(Actions.switchToChannel({fake: true, userId: 'userid2', name: 'username2'}));
-            expect(openDirectChannelToUserId).toHaveBeenCalledWith('userid2');
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/messages/@username2`);
         });
 
         test('switch to gm channel', async () => {
@@ -758,6 +757,14 @@ describe('channel view actions', () => {
             jest.runOnlyPendingTimers();
             await Promise.resolve();
             expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channelid1');
+        });
+    });
+
+    describe('autocompleteUsersInChannel', () => {
+        test('should return empty arrays if the key is missing in reponse', async () => {
+            UserActions.autocompleteUsers.mockReturnValue(() => ({data: {}}));
+            const response = await store.dispatch(Actions.autocompleteUsersInChannel('test', 'channelid1'));
+            expect(response).toStrictEqual({data: {out_of_channel: [], users: []}});
         });
     });
 });

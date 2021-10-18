@@ -1,13 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/RhsRootPost should match snapshot 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -24,6 +40,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -37,7 +54,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -63,6 +79,19 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             key="user_id"
             userId="user_id"
           />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
+          />
         </div>
         <div
           className="col"
@@ -77,7 +106,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenuClass))
             commentCount={0}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
@@ -96,7 +125,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -141,7 +169,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -166,7 +193,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -179,17 +205,33 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
-exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
-<div
-  aria-label=""
+exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -206,6 +248,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -219,7 +262,215 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
+            "pending_post_id": "",
+            "props": Object {},
+            "root_id": "",
+            "type": "",
+            "update_at": 1502715372443,
+            "user_id": "user_id",
+          }
+        }
+        userId="user_id"
+      />
+    </div>
+    <div>
+      <div
+        className="post__header"
+      >
+        <div
+          className="col__name"
+        >
+          <Connect(UserProfile)
+            hasMention={true}
+            isBusy={false}
+            isRHS={true}
+            key="user_id"
+            userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
+          />
+        </div>
+        <div
+          className="col"
+        >
+          <Connect(PostTime)
+            eventTime={1502715365009}
+            isPermalink={true}
+            location="RHS_ROOT"
+            postId="id"
+          />
+        </div>
+        <div
+          className="col post-menu"
+        >
+          <Connect(PostReaction)
+            channelId="channel_id"
+            getDotMenuRef={[Function]}
+            location="RHS_ROOT"
+            postId="id"
+            showEmojiPicker={false}
+            teamId="team_id"
+            toggleEmojiPicker={[Function]}
+          />
+          <Connect(PostFlagIcon)
+            isFlagged={false}
+            location="RHS_ROOT"
+            postId="id"
+          />
+          <Connect(injectIntl(DotMenuClass))
+            commentCount={0}
+            enableEmojiPicker={true}
+            handleAddReactionClick={[Function]}
+            handleDropdownOpened={[Function]}
+            isFlagged={false}
+            isMenuOpen={false}
+            isReadOnly={false}
+            location="RHS_ROOT"
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="post__body"
+      >
+        <div
+          className=" post--edited"
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
+        <Connect(ReactionList)
+          isReadOnly={false}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "id": "id",
+              "is_pinned": false,
+              "message": "post message",
+              "original_id": "",
+              "pending_post_id": "",
+              "props": Object {},
+              "root_id": "",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</PostAriaLabelDiv>
+`;
+
+exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
+<PostAriaLabelDiv
+  className="thread__root a11y__section post post--root post--thread current--user post--compact"
+  data-a11y-sort-order="0"
+  id="rhsPost_id"
+  onClick={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "state": "DELETED",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
+  role="listitem"
+  tabIndex="-1"
+>
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={false}
+    isPinned={false}
+  />
+  <div
+    className="post__content"
+    role="application"
+  >
+    <div
+      className="post__img"
+    >
+      <Connect(PostProfilePicture)
+        channelId="channel_id"
+        compactDisplay={true}
+        isBusy={false}
+        isRHS={true}
+        post={
+          Object {
+            "channel_id": "channel_id",
+            "create_at": 1502715365009,
+            "delete_at": 0,
+            "edit_at": 1502715372443,
+            "id": "id",
+            "is_pinned": false,
+            "message": "post message",
+            "original_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -245,6 +496,19 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             isRHS={true}
             key="user_id"
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div
@@ -277,7 +541,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -303,7 +566,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -317,17 +579,35 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "isFlagged": true,
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "state": "DELETED",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -344,6 +624,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -358,7 +639,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -384,6 +664,19 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             isRHS={true}
             key="user_id"
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div
@@ -417,7 +710,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -444,7 +736,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -458,17 +749,33 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -485,6 +792,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -498,7 +806,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -524,6 +831,19 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             key="user_id"
             userId="user_id"
           />
+          <CustomStatusEmoji
+            emojiSize={16}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            spanStyle={Object {}}
+            tooltipDirection="top"
+            userID="user_id"
+          />
         </div>
         <div
           className="col"
@@ -538,7 +858,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenuClass))
             commentCount={0}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
@@ -557,7 +877,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -602,7 +921,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -627,7 +945,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -640,5 +957,5 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;

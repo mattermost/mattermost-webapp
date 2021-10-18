@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import ChannelRow from './channel_row';
@@ -20,8 +21,7 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
         header: '123',
         purpose: '123',
         last_post_at: 0,
-        total_msg_count: 0,
-        extra_update_at: 0,
+        last_root_post_at: 0,
         creator_id: '123',
         scheme_id: '123',
         group_constrained: false,

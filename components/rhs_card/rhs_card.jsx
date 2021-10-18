@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
@@ -14,7 +15,7 @@ import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import UserProfile from 'components/user_profile';
 import PostProfilePicture from 'components/post_profile_picture';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 export function renderView(props) {
     return (
@@ -65,7 +66,7 @@ export default class RhsCard extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (!Utils.areObjectsEqual(nextState.selected, this.props.selected)) {
+        if (!deepEqual(nextState.selected, this.props.selected)) {
             return true;
         }
         if (nextState.isScrolling !== this.state.isScrolling) {
