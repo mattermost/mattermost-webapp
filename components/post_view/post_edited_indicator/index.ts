@@ -22,7 +22,7 @@ type OwnProps = {
 
 type StateProps = {
     isMilitaryTime: boolean;
-    timeZone: string;
+    timeZone?: string;
 }
 
 export type Props = OwnProps & StateProps;
