@@ -43,7 +43,7 @@ describe('Main menu', () => {
         cy.apiAdminLogin();
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.uiOpenProductSwitchMenu();
+        cy.uiOpenProductMenu();
 
         cy.findByRole('menu').findByText('Integrations').should('be.visible');
     });
@@ -52,7 +52,7 @@ describe('Main menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.uiOpenProductSwitchMenu();
+        cy.uiOpenProductMenu();
 
         cy.findByRole('menu').findByText('Integrations').should('not.exist');
     });
