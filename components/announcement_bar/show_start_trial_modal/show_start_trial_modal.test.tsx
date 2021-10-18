@@ -245,6 +245,41 @@ describe('components/sidebar/show_start_trial_modal', () => {
         expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
 
+    test('should NOT dispatch the modal when user is not an admin', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_user'},
+            },
+        };
+
+        const moreThan10Users = {
+            analytics: {
+                TOTAL_USERS: 11,
+            },
+            prevTrialLicense: {
+                IsLicensed: 'false',
+            },
+        };
+
+        const moreThan6Hours = {
+            config: {
+
+                // installation date is set to be 10 hours before current time
+                InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
+            },
+            license: {
+                IsLicensed: 'false',
+            },
+        };
+
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10Users, general: moreThan6Hours}};
+
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
     test('should dispatch the modal when there are more than 10 users', () => {
         const isAdminUser = {
             currentUserId: 'current_user_id',
