@@ -4203,7 +4203,7 @@
   "sidebar.tutorialScreen3.body1": "Click **\"More...\"** to create a new channel or join an existing one.",
   "sidebar.tutorialScreen3.body2": "You can also create a new channel by clicking the **\"+\" symbol** next to the public or private channel header.",
   "sidebar.tutorialScreen3.title": "Creating and Joining Channels",
-  "sidebar.tutorialSettings.settings": "Set your availability, add a custom status, and access **Preferences** and **Account Settings** to configure your experience, including notification preferences and custom theme colors.",
+  "sidebar.tutorialSettings.settings": "Set your notifications, custom theme colors, sidebar organization, and more from **Settings**. From your avatar, access your profile and security settings through **Account Settings**, and set your status and availability.",
   "sidebar.tutorialSettings.title": "Customize your experience",
   "sidebar.types.channels": "CHANNELS",
   "sidebar.types.direct_messages": "DIRECT MESSAGES",
