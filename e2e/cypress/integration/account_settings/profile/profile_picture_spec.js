@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-describe('Account Settings -> General -> Profile Picture', () => {
+describe('Account Settings > Profile > Profile Picture', () => {
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             cy.visit(offTopicUrl);

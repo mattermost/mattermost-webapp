@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @account_setting
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-describe('Account Settings', () => {
+describe('Settings > Display > Theme > Custom Theme Colors', () => {
     before(() => {
         // # Login as new user, visit off-topic and post a message
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {

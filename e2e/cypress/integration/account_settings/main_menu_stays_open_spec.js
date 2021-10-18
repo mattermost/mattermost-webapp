@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Account Settings > General', () => {
     let otherUser;
@@ -33,7 +33,7 @@ describe('Account Settings > General', () => {
         });
     });
 
-    it('MM-T285 Main Menu stays open', () => {
+    it('MM-T285 Status Menu stays open', () => {
         // # Click the hamburger button
         cy.uiGetSetStatusButton().click();
 

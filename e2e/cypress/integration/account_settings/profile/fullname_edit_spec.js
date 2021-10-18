@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings -> General -> Full Name', () => {
+describe('Account Settings > Profile > Full Name', () => {
     let testUser;
 
     before(() => {

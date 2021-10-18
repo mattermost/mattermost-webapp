@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings > Display > Channel Display Mode', () => {
+describe('Settings > Display > Channel Display Mode', () => {
     before(() => {
         // # Login as new user, visit off-topic and post a message
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
@@ -75,7 +75,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
             should('be.visible').
             and('contain', 'Full width');
 
-        // # Click "x" button to close Account Settings modal
+        // # Click "x" button to close Settings modal
         cy.uiClose();
 
         // * Validate if the post content in center channel is full width
@@ -115,7 +115,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
             should('be.visible').
             and('contain', 'Fixed width');
 
-        // # Click "x" button to close Account Settings modal
+        // # Click "x" button to close Settings modal
         cy.uiClose();
 
         // # Go to channel which has any posts
