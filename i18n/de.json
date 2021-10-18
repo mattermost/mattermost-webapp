@@ -3487,7 +3487,7 @@
   "invitation_modal.guests.search-and-add.placeholder": "Gäste oder E-Mail-Adressen hinzufügen",
   "invitation_modal.guests.search-and-add.placeholder-email-disabled": "Gäste hinzufügen",
   "invitation_modal.guests.title": "**Gäste** zum {teamName} einladen",
-  "invitation_modal.guests.users_emails_input.no_user_found_matching": "Es wurde niemand gefunden, der mit **{text}** übereinstimmt, E-Mail-Adresse zum Einladen eingeben",
+  "invitation_modal.guests.users_emails_input.no_user_found_matching": "Es wurde niemand gefunden, der **{text}** entspricht. Geben Sie die E-Mail-Adresse ein, um sie einzuladen.",
   "invitation_modal.guests.users_emails_input.no_user_found_matching-email-disabled": "Es wurde kein mit **{text}** übereinstimmender gefunden",
   "invitation_modal.guests.users_emails_input.valid_email": "**{email}** als Gast einladen",
   "invitation_modal.invite.more": "Mehr Leute einladen",
@@ -3511,7 +3511,7 @@
   "invitation_modal.members.share_link.link_copied": "Link kopiert",
   "invitation_modal.members.share_link.title": "Diesen Link teilen",
   "invitation_modal.members.title": "**Mitglieder** zu {teamName} einladen",
-  "invitation_modal.members.users_emails_input.no_user_found_matching": "Es wurde niemand gefunden, der mit **{text}** übereinstimmt, E-Mail-Adresse zum Einladen eingeben",
+  "invitation_modal.members.users_emails_input.no_user_found_matching": "Es wurde niemand gefunden, der **{text}** entspricht. Geben Sie die E-Mail-Adresse ein, um sie einzuladen.",
   "invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled": "Es wurde kein mit **{text}** übereinstimmender gefunden",
   "invitation_modal.members.users_emails_input.valid_email": "**{email}** als Teammitglied einladen",
   "invitation_modal.title": "Personen in **{teamName}** einladen",
@@ -4784,7 +4784,7 @@
   "widgets.channels_input.empty": "Keine Kanäle gefunden",
   "widgets.channels_input.loading": "Laden",
   "widgets.users_emails_input.loading": "Laden",
-  "widgets.users_emails_input.no_user_found_matching": "Es wurde keine mit **{text}** übereinstimmende gefunden, Typ E-Mail-Adresse",
+  "widgets.users_emails_input.no_user_found_matching": "Es wurde niemand gefunden, der **{text}** entspricht. Geben Sie die E-Mail-Adresse ein, um einzuladen.",
   "widgets.users_emails_input.valid_email": "**{email}** hinzufügen",
   "yourcomputer": "Ihr Computer"
 }
