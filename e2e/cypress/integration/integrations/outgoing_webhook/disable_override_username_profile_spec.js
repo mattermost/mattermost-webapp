@@ -297,7 +297,7 @@ function postMessageInChannel(user, channelUrl, message) {
 }
 
 function setOutgoingWebhook(teamName, siteName, {callbackUrl, channelSelect, triggerWord}) {
-    cy.uiOpenProductSwitchMenu('Integrations');
+    cy.uiOpenProductMenu('Integrations');
 
     // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
     cy.url().should('include', `${teamName}/integrations`);
@@ -334,7 +334,7 @@ function setOutgoingWebhook(teamName, siteName, {callbackUrl, channelSelect, tri
 }
 
 function editOutgoingWebhook(teamName, siteName, {username, iconUrl, callbackUrl, channelSelect, withConfirmation}) {
-    cy.uiOpenProductSwitchMenu('Integrations');
+    cy.uiOpenProductMenu('Integrations');
 
     // * click "Outgoing Webhooks"
     cy.get('.backstage-sidebar').should('be.visible').findByText('Outgoing Webhooks').click();
