@@ -13,8 +13,25 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {Preferences} from 'utils/constants';
+import {ProductComponent} from '../../../../../types/store/plugins';
 
-import {ProductMenuTip} from './product_menu_tip';
+import ProductMenuTip from './product_menu_tip';
+
+export type StateProps = {
+    currentUserId: string;
+    products: ProductComponent[];
+    step: number;
+}
+
+export type DispatchProps = {
+    actions: Actions;
+}
+
+type Actions = {
+    savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
+};
+
+export type Props = StateProps & DispatchProps;
 
 function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
@@ -27,10 +44,6 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-type Actions = {
-    savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
-}
-
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
@@ -39,4 +52,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductMenuTip);
+export default connect<StateProps, DispatchProps, Record<string, never>, GlobalState>(mapStateToProps, mapDispatchToProps)(ProductMenuTip);

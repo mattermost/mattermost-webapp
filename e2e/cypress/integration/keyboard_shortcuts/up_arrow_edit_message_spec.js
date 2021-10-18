@@ -31,6 +31,28 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
+    it('MM-T1235 Arrow up key - no Edit modal open up if user has not posted any message yet', () => {
+        const message2 = 'Test message from User 2';
+
+        cy.apiLogin(otherUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post message in the channel from User 2
+        cy.postMessage(message2);
+        cy.apiLogout();
+
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Press UP arrow
+        cy.get('#post_textbox').type('{uparrow}');
+
+        // * Verify that Edit modal should not be visible
+        cy.get('#editPostModal').should('not.exist');
+    });
+
     it('MM-T1236 Arrow up key - Edit modal open up for own message of a user', () => {
         const message1 = 'Test message from User 1';
         const message2 = 'Test message from User 2';
