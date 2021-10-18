@@ -223,13 +223,13 @@ class TestHelper {
             download_url: 'http://github.myplugin.tar.gz',
             download_signature_url: 'http://github.myplugin.tar.gz.asc',
             manifest:
-            {
-                id: 'com.mattermost.fake-plugin',
-                name: 'Fake Plugin',
-                description: 'This plugin is for Redux testing purposes',
-                version: '0.1.0',
-                min_server_version: '5.12.0',
-            },
+                {
+                    id: 'com.mattermost.fake-plugin',
+                    name: 'Fake Plugin',
+                    description: 'This plugin is for Redux testing purposes',
+                    version: '0.1.0',
+                    min_server_version: '5.12.0',
+                },
         };
     }
 
