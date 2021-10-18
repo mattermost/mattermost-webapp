@@ -33,6 +33,12 @@ export default function SettingsTip() {
             step={TutorialSteps.SETTINGS}
             overlayClass='tip-overlay--settings'
             telemetryTag='tutorial_tip_settings'
+            punchOut={{
+                x: '0px',
+                y: '0px',
+                width: '100%',
+                height: '40px',
+            }}
         />
     );
 }

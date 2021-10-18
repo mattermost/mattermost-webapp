@@ -22,6 +22,22 @@ body {
     }
 }
 
+#root {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .GlobalHeader {
+        position: relative;
+        z-index: 2;
+
+        + * {
+            position: relative;
+            z-index: 1;
+        }
+    }
+}
+
 *:focus {
     outline: none;
 }
@@ -82,11 +98,6 @@ body {
 
     position: relative;
     height: 100%;
-
-    #root {
-        display: flex;
-        flex-direction: column;
-    }
 }
 
 #channel_view.channel-view {

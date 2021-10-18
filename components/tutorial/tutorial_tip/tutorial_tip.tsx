@@ -9,6 +9,8 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
+import TutorialTipBackdrop, {TutorialTipPunchout} from './tutorial_tip_backdrop';
+
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 
@@ -37,6 +39,7 @@ type Props = {
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
     };
     autoTour: boolean;
+    punchOut?: TutorialTipPunchout;
 }
 
 type State = {
@@ -252,7 +255,12 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 <Overlay
                     show={this.state.show}
                 >
-                    <div className='tip-backdrop'/>
+                    <TutorialTipBackdrop
+                        x={this.props.punchOut?.x}
+                        y={this.props.punchOut?.y}
+                        width={this.props.punchOut?.width}
+                        height={this.props.punchOut?.height}
+                    />
                 </Overlay>
 
                 <Overlay
