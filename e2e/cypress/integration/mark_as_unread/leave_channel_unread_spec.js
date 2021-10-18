@@ -53,7 +53,6 @@ describe('Leaving channel', () => {
         });
     });
 
-
     it('MM-T2924_1 Channel is marked as read as soon as user leaves', () => {
         switchToChannel(channelA);
 
