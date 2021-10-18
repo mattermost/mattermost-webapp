@@ -32,6 +32,7 @@ describe('components/EditChannelHeaderModal', () => {
         creator_id: 'fake-creator-id',
         scheme_id: 'fake-scheme-id',
         group_constrained: false,
+        last_root_post_at: timestamp,
     };
 
     const serverError = {
