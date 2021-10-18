@@ -9,8 +9,9 @@
 
 // Group: @mark_as_unread
 
-import {markAsUnreadFromPost, switchToChannel} from './helpers';
 import {beRead, beUnread} from '../../support/assertions';
+
+import {markAsUnreadFromPost, switchToChannel} from './helpers';
 
 describe('Leaving channel', () => {
     let testUser;
