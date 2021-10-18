@@ -56,6 +56,7 @@ const ThreadList = ({
     const unread = ThreadFilter.unread === currentFilter;
     const data = unread ? unreadIds : ids;
     const {select} = useThreadRouting();
+    const ref = React.useRef<HTMLDivElement>(null);
 
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
@@ -96,6 +97,9 @@ const ThreadList = ({
             }
         }
         select(data[threadIdToSelect]);
+
+        // hacky way to ensure the thread item loses focus.
+        ref.current?.focus();
     }, [selectedThreadId, data]);
 
     useEffect(() => {
@@ -127,7 +131,11 @@ const ThreadList = ({
     }, [currentTeamId, currentUserId, currentFilter]);
 
     return (
-        <div className={'ThreadList'}>
+        <div
+            tabIndex={0}
+            ref={ref}
+            className={'ThreadList'}
+        >
             <Header
                 heading={(
                     <>

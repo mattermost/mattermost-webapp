@@ -43,7 +43,7 @@ function VirtualizedThreadList({
                 infiniteLoaderRef.current?._listRef.scrollToItem(index);
             }
         }
-    }, [infiniteLoaderRef, ids, selectedThreadId, startIndexRef, stopIndexRef]);
+    }, [infiniteLoaderRef, ids, selectedThreadId]);
 
     const data = useMemo(() => ({ids, selectedThreadId, scrollToItem}), [ids, selectedThreadId, scrollToItem]);
 
