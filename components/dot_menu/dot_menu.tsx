@@ -127,6 +127,7 @@ type Props = {
     threadId: $ID<UserThread>;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
+    isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
 }
 
@@ -268,12 +269,20 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleSetThreadFollow = () => {
-        const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
+        const {actions, currentTeamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
+        let followingThread: boolean;
+        if (isFollowingThread === null && isMentionedInRootPost) {
+            followingThread = false;
+        } else if (isFollowingThread === null) {
+            followingThread = true;
+        } else {
+            followingThread = !isFollowingThread;
+        }
         actions.setThreadFollow(
             userId,
             currentTeamId,
             threadId,
-            !isFollowingThread,
+            followingThread,
         );
     }
 
@@ -446,6 +455,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
+        const isFollowingThread = (this.props.isFollowingThread === null && this.props.isMentionedInRootPost) ? true : this.props.isFollowingThread;
 
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
@@ -504,7 +514,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...this.props.isFollowingThread ? {
+                        {...isFollowingThread ? {
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                             extraText: Utils.localizeMessage('threading.threadMenu.unfollowExtra', 'You won’t be notified about replies'),
                         } : {

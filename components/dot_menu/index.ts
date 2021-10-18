@@ -86,6 +86,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const rootId = post.root_id || post.id;
     let threadId = rootId;
     let isFollowingThread = false;
+    let isMentionedInRootPost = false;
     let threadReplyCount = 0;
 
     if (
@@ -106,8 +107,9 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
             threadReplyCount = thread.reply_count;
             const currentUserMentionKeys = getCurrentUserMentionKeys(state);
             const rootMessageMentionKeys = allAtMentions(root.message);
-            const isMentioned = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
-            isFollowingThread = thread.reply_count === 0 ? isMentioned : thread.is_following;
+            isFollowingThread = thread.is_following;
+            isMentionedInRootPost = thread.reply_count === 0 &&
+                matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
             threadId = thread.id;
         }
     }
@@ -133,6 +135,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         userId,
         threadId,
         isFollowingThread,
+        isMentionedInRootPost,
         isCollapsedThreadsEnabled: collapsedThreads,
         threadReplyCount,
         appBindings,

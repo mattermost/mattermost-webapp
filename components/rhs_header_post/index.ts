@@ -39,9 +39,9 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     const root = getPost(state, rootPostId);
     const currentUserMentionKeys = getCurrentUserMentionKeys(state);
     const rootMessageMentionKeys = allAtMentions(root.message);
-    const isMentioned = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
     const thread = getThreadOrSynthetic(state, root);
-    const isFollowingThread = thread.reply_count === 0 ? isMentioned : thread.is_following;
+    const isMentionedInRootPost = thread.reply_count === 0 &&
+        matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
 
     return {
         isExpanded: getIsRhsExpanded(state),
@@ -49,7 +49,8 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         currentTeamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isFollowingThread: isCollapsedThreadsEnabled(state) && root && isFollowingThread,
+        isFollowingThread: isCollapsedThreadsEnabled(state) && root && thread.is_following,
+        isMentionedInRootPost,
     };
 }
 
