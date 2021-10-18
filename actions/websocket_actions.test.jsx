@@ -187,7 +187,7 @@ describe('handleEvent', () => {
 describe('handlePostEditEvent', () => {
     test('post edited', async () => {
         const post = '{"id":"test","create_at":123,"update_at":123,"user_id":"user","channel_id":"12345","root_id":"","message":"asd","pending_post_id":"2345","metadata":{}}';
-        const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post)};
+        const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post), features: {crtEnabled: false}};
         const msg = {
             data: {
                 post,

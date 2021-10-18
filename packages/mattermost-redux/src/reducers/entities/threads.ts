@@ -243,18 +243,18 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
 };
 
 function getThreadsOfChannel(threads: ThreadsState['threads'], channelId: string) {
-    const threadsToDelete: UserThread[] = [];
+    const channelThreads: UserThread[] = [];
     for (const rootId of Object.keys(threads)) {
         if (
             threads[rootId] &&
             threads[rootId].post &&
             threads[rootId].post.channel_id === channelId
         ) {
-            threadsToDelete.push(threads[rootId]);
+            channelThreads.push(threads[rootId]);
         }
     }
 
-    return threadsToDelete;
+    return channelThreads;
 }
 
 const initialState = {

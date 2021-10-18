@@ -131,7 +131,7 @@ describe('SupportSettings', () => {
         backToTeam();
 
         // # Open about modal
-        cy.uiOpenProductSwitchMenu().within(() => {
+        cy.uiOpenProductMenu().within(() => {
             // * Verify that 'Download Apps' has expected link
             cy.findByText('Download Apps').
                 parent().
@@ -144,7 +144,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.EnableAskCommunityLinktrue').should('be.checked');
 
         // * Verify the help text
-        cy.findByTestId('SupportSettings.EnableAskCommunityLinkhelp-text').should('contain', 'When true, "Ask the community" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.');
+        cy.findByTestId('SupportSettings.EnableAskCommunityLinkhelp-text').should('contain', 'When true, "Ask the community" link appears on the Mattermost user interface and Help Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.');
 
         // # Back to team view
         backToTeam();
