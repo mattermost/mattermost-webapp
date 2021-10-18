@@ -54,7 +54,7 @@ describe('Bot accounts ownership and API', () => {
         cy.visit(`/${newTeam.name}/channels/town-square`);
 
         // # Open product switch menu and click "Integrations"
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
 
         // * Confirm integrations are visible
         cy.url().should('include', `/${newTeam.name}/integrations`);
@@ -66,10 +66,10 @@ describe('Bot accounts ownership and API', () => {
         cy.visit(`/${newTeam.name}/channels/town-square`);
 
         // # Click product switch button
-        cy.uiOpenProductSwitchMenu();
+        cy.uiOpenProductMenu();
 
         // * Confirm "Integrations" is not visible
-        cy.uiGetProductSwitchMenu().should('not.contain', 'Integrations');
+        cy.uiGetProductMenu().should('not.contain', 'Integrations');
     });
 
     it('MM-T1863 Only System Admin are able to create bots (API)', () => {
