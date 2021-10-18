@@ -222,8 +222,8 @@ class TestHelper {
             homepage_url: 'http://myplugin.com',
             download_url: 'http://github.myplugin.tar.gz',
             download_signature_url: 'http://github.myplugin.tar.gz.asc',
-            manifest: 
-			{
+            manifest:
+            {
                 id: 'com.mattermost.fake-plugin',
                 name: 'Fake Plugin',
                 description: 'This plugin is for Redux testing purposes',
