@@ -32,6 +32,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1255 CTRL/CMD+UP or DOWN no action on draft post', () => {
         const message = 'Test message from User 1';
+        const message_length = message.length;
         cy.apiLogin(testUser);
 
         // # Visit the channel using the channel name
@@ -45,7 +46,7 @@ describe('Keyboard Shortcuts', () => {
 
         // * The post should have the same length as the typed text and
         // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.length', length(message)).and('have.text', message).and(($div) => {
+        cy.get('#post_textbox').should('have.length', message_length).and('have.text', message).and(($div) => {
                 const text = $div.text;
                 expect(text).not.to.change();
         });
@@ -55,7 +56,7 @@ describe('Keyboard Shortcuts', () => {
 
         // * The post should have the same length as the typed text and
         // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.length', length(message)).and('have.text', message).and(($div) => {
+        cy.get('#post_textbox').should('have.length', message_length).and('have.text', message).and(($div) => {
                 const text = $div.text;
                 expect(text).not.to.change();
         });
