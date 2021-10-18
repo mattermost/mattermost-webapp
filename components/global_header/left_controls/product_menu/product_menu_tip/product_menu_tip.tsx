@@ -124,6 +124,7 @@ export class ProductMenuTip extends React.PureComponent<Props, State> {
             <TutorialTip
                 placement='right'
                 screens={screens}
+                stopPropagation={true}
                 overlayClass='tip-overlay--product-switcher'
                 telemetryTag='tutorial_tip_product_switcher'
             />

@@ -26,6 +26,8 @@ type Props = {
     placement: string;
     overlayClass: string;
     telemetryTag?: string;
+    stopPropagation?: boolean;
+    preventDefault?: boolean;
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
@@ -55,7 +57,13 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.targetRef = React.createRef();
     }
 
-    private show = (): void => {
+    private show = (e: MouseEvent): void => {
+        if (this.props.preventDefault) {
+            e.preventDefault();
+        }
+        if (this.props.stopPropagation) {
+            e.stopPropagation();
+        }
         this.setState({show: true});
     }
 

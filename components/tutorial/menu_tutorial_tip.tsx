@@ -11,9 +11,10 @@ type Props = {
     toggleFunc?: React.MouseEventHandler<HTMLDivElement>;
     onBottom: boolean;
     inHeading?: boolean;
+    stopPropagation?: boolean;
 }
 
-const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
+const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Props) => {
     const screens = [];
 
     screens.push(
@@ -36,6 +37,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
     let placement = 'right';
     let arrow = 'left';
     let headerClass = '';
+    const overrideClass = '';
 
     if (inHeading && !onBottom) {
         headerClass = ' tip-overlay--header--heading';
@@ -51,9 +53,10 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
             onClick={toggleFunc}
         >
             <TutorialTip
+                stopPropagation={stopPropagation}
                 placement={placement}
                 screens={screens}
-                overlayClass={'tip-overlay--header--' + arrow + headerClass}
+                overlayClass={'tip-overlay--header--' + arrow + headerClass + overrideClass}
                 telemetryTag='tutorial_tip_3_main_menu'
             />
         </div>
