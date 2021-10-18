@@ -18,12 +18,15 @@ export function createTeamPatch(name = 'team', displayName = 'Team', type = 'O',
     };
 }
 
-Cypress.Commands.add('apiCreateTeam', (...args) => {
+Cypress.Commands.add('apiCreateTeam', (name, displayName, type, unique, options) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/teams',
         method: 'POST',
-        body: createTeamPatch(...args),
+        body: {
+            ...createTeamPatch(name, displayName, type, unique),
+            ...options,
+        },
     }).then((response) => {
         expect(response.status).to.equal(201);
         return cy.wrap({team: response.body});

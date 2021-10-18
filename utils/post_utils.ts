@@ -151,6 +151,27 @@ export function containsAtChannel(text: string, options?: {checkAllMentions: boo
     return mentionsRegex.test(mentionableText);
 }
 
+export function specialMentionsInText(text: string): {[key: string]: boolean} {
+    const mentions = {
+        all: false,
+        channel: false,
+        here: false,
+    };
+
+    // Don't warn for slash commands
+    if (!text || text.startsWith('/')) {
+        return mentions;
+    }
+
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+
+    mentions.all = new RegExp(Constants.ALL_MENTION_REGEX).test(mentionableText);
+    mentions.channel = new RegExp(Constants.CHANNEL_MENTION_REGEX).test(mentionableText);
+    mentions.here = new RegExp(Constants.HERE_MENTION_REGEX).test(mentionableText);
+
+    return mentions;
+}
+
 export const groupsMentionedInText = (text: string, groups: Map<string, Group> | null): Group[] => {
     // Don't warn for slash commands
     if (!text || text.startsWith('/')) {

@@ -48,9 +48,9 @@ describe('components/next_steps_view', () => {
         currentUser: TestHelper.getUserMock(),
         preferences: [],
         isFirstAdmin: true,
+        isAdmin: true,
         isCloud: false,
         team: {name: 'TestTeam'} as Team,
-        globalHeaderEnabled: true,
         downloadAppsAsNextStep: false,
         actions: {
             setShowNextStepsView: jest.fn(),

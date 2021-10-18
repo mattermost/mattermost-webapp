@@ -44,6 +44,8 @@ describe('components/post_view/PostInfo', () => {
         shouldShowDotMenu: true,
         isReadOnly: true,
         collapsedThreadsEnabled: false,
+        oneClickReactionsEnabled: false,
+        recentEmojis: [],
     };
 
     test('should match snapshot', () => {

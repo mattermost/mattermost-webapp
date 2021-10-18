@@ -84,6 +84,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',
         globalHeaderAllowed: true,
+        oneClickReactionsOnPosts: '',
+        emojiPickerEnabled: true,
     };
 
     test('should match snapshot, no active section', () => {

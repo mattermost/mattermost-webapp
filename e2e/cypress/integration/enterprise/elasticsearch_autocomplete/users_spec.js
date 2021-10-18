@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
 import {getRandomLetter} from '../../../utils';

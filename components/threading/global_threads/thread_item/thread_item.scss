@@ -105,6 +105,10 @@
         min-width: 0;
         max-width: 30rem;
         margin: 0 10px;
+
+        &__hidden {
+            visibility: hidden;
+        }
     }
 
     .Badge__box {

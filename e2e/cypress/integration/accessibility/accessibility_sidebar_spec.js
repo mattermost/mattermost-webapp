@@ -97,50 +97,6 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         });
     });
 
-    it('MM-T1472 Verify Tab Support in Direct Messages section', () => {
-        const usersPrefixes = ['a', 'c', 'd'];
-        usersPrefixes.forEach((prefix) => {
-            //# Create users with prefixes in alphabetical order
-            cy.apiCreateUser({prefix}).then(({user: newUser}) => {
-                cy.apiCreateDirectChannel([testUser.id, newUser.id]).then(({channel}) => {
-                    // # Post message in The DM channel
-                    cy.postMessageAs({sender: newUser, message: 'test', channelId: channel.id});
-                });
-            });
-        });
-
-        // # Trigger DM with a user
-        cy.uiAddDirectMessage().click();
-        cy.get('.more-modal__row.clickable').first().click();
-        cy.get('#saveItems').click();
-
-        // # Trigger DM with couple of users
-        cy.uiAddDirectMessage().click();
-        cy.get('.more-modal__row.clickable').first().click();
-        cy.get('.more-modal__row.clickable').eq(1).click();
-        cy.get('#saveItems').click();
-
-        cy.wait(TIMEOUTS.TWO_SEC);
-
-        // # Press tab to the Create DM button and verify if the Plus button has focus
-        cy.uiAddDirectMessage().
-            focus().
-            tab({shift: true}).tab().
-            should('be.focused').and('have.css', 'border-radius', '4px').
-            tab({shift: true}).tab({shift: true});
-
-        cy.focused().parent().next().find('.SidebarChannel').each((el, i) => {
-            if (i === 0) {
-                cy.focused().findByText('DIRECT MESSAGES');
-                cy.focused().tab().tab().tab().tab();
-            }
-
-            // * Verify if focus changes to different channels in Direct Messages section
-            cy.wrap(el).find('.SidebarLink').should('be.focused');
-            cy.focused().tab().tab();
-        });
-    });
-
     it('MM-T1473 Verify Tab Support in Unreads section', () => {
         // # Press tab from the Main Menu button
         cy.uiGetLHSAddChannelButton().focus().tab().tab();
