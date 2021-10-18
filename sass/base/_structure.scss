@@ -23,9 +23,9 @@ body {
 }
 
 #root {
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
 
     .GlobalHeader {
         position: relative;
