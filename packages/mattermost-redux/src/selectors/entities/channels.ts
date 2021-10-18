@@ -72,7 +72,7 @@ import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {Constants} from 'utils/constants';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
-import {getThreadCounts} from './threads';
+import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -517,6 +517,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     getTeamMemberships,
     isCollapsedThreadsEnabled,
     getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         channels,
         myMembers,
@@ -528,6 +529,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         myTeamMemberships,
         collapsedThreads,
         threadCounts,
+        threadCountsIncludingDirect,
     ) => {
         const {
             messages: currentTeamUnreadMessages,
@@ -594,9 +596,16 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         // when collapsed threads are enabled, we start with root-post counts from channels, then
         // add the same thread-reply counts from the global threads view
         if (collapsedThreads) {
-            Object.values(threadCounts).forEach((c) => {
-                anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
-                totalUnreadMentions += c.total_unread_mentions;
+            Object.keys(threadCounts).forEach((teamId) => {
+                const c = threadCounts[teamId];
+                if (teamId === currentTeamId) {
+                    const currrentTeamsDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
+                    anyUnreadThreads = Boolean(currrentTeamsDirectCounts.total_unread_threads);
+                    totalUnreadMentions += currrentTeamsDirectCounts.total_unread_mentions;
+                } else {
+                    anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
+                    totalUnreadMentions += c.total_unread_mentions;
+                }
             });
         }
 
@@ -614,7 +623,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
     getCurrentUserId,
     getCurrentTeamId,
     isCollapsedThreadsEnabled,
-    getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         currentChannelId,
         channels,
