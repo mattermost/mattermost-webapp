@@ -10,58 +10,35 @@
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
-    let testTeam;
-    let testChannel;
-    let testUser;
-    let otherUser;
+    let channelUrl;
+
     before(() => {
-        cy.apiInitSetup().then(({ team, channel, user }) => {
-            testTeam = team;
-            testChannel = channel;
-            testUser = user;
-
-            cy.apiCreateUser({ prefix: 'other' }).then(({ user: user1 }) => {
-                otherUser = user1;
-
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-                });
-            });
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            channelUrl = offTopicUrl;
+            cy.visit(channelUrl);
         });
     });
 
-    it('MM-T1255 CTRL/CMD+UP or DOWN no action on draft post', () => {
-        const message = 'Test message from User 1';
-        cy.apiLogin(testUser);
+    it('MM-T1244 CTRL/CMD+K - Esc closes modal', () => {
+        const searchTerm = 'test';
 
-        // # Visit the channel using the channel name
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        // # Open Channel switcher modal by click on the button
+        cy.findByRole('button', {name: 'Channel Switcher'}).click();
 
-        // # Post message in the channel from User 1
-        cy.get('#post_textbox').type(message);
+        // # Type in the quick switch input box
+        cy.get('#quickSwitchInput').type(searchTerm, {force: true});
 
-        // # Press CMD/CTRL+DOWN arrow and click to check cursor position
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{downarrow}');
+        // * Verify that the no search result test is displayed
+        cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + searchTerm + '"');
 
-        // * The post should have the same length as the typed text and
-        // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.length', length(message))
-            .and('have.text', message)
-            .and(($div) => {
-                const text = $div.text;
-                expect(text).not.to.change();
-        });
+        // # Press escape key
+        cy.get('#quickSwitchInput').type('{esc}');
 
-        // # Press CMD/CTRL+UP arrow and click to check cursor position
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
+        // * Verify that the modal is closed
+        cy.get('.modal-content').should('not.exist');
 
-        // * The post should have the same length as the typed text and
-        // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.length', length(message))
-            .and('have.text', message)
-            .and(($div) => {
-                const text = $div.text;
-                expect(text).not.to.change();
-        });
+        // * Verify that the user does not leave the off-topic channel
+        cy.url().should('contain', channelUrl);
     });
 });
+
