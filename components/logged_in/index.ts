@@ -20,7 +20,7 @@ import {checkIfMFARequired} from 'utils/route';
 import {getChannelURL} from 'utils/utils';
 import {isPermalinkURL} from 'utils/url';
 
-import LoggedIn from './logged_in.jsx';
+import LoggedIn from './logged_in';
 
 type Props = {
     match: {
