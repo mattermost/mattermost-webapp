@@ -86,7 +86,7 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
         this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
             if (listModal) {
                 listModal.setState({loading: true});
-                const {items, totalCount} = await listModal.props.loadItems((listModal as any).setState.page, listModal.state.searchTerm);
+                const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
 
                 listModal.setState({loading: false, items, totalCount});
             }
@@ -97,9 +97,9 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
         this.setState({showConfirmModal: true, item, listModal});
     };
 
-    onClickConfirmRemoveGroup = (item: Group, listModal: any) => this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
+    onClickConfirmRemoveGroup = (item: Group, listModal: ListModal) => this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
         listModal.setState({loading: true});
-        const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+        const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
         listModal.setState({loading: false, items, totalCount});
     });
 
@@ -112,10 +112,10 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
         this.props.actions.openModal({modalId: ModalIdentifiers.ADD_GROUPS_TO_TEAM, dialogType: AddGroupsToTeamModal});
     };
 
-    setTeamMemberStatus = async (item: Group, listModal: any, isTeamAdmin: boolean) => {
+    setTeamMemberStatus = async (item: Group, listModal: ListModal, isTeamAdmin: boolean) => {
         this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: isTeamAdmin}).then(async () => {
             listModal.setState({loading: true});
-            const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+            const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
 
             this.props.actions.getMyTeamMembers();
 
