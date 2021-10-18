@@ -1291,7 +1291,8 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
 
         if (this.state.message === '') {
-            this.setState({message: ':' + emojiAlias + ': '});
+            const newMessage = ':' + emojiAlias + ': ';
+            this.setMessageAndCaretPostion(newMessage, newMessage.length);
         } else {
             const {message} = this.state;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);

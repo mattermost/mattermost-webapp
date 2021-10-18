@@ -166,6 +166,10 @@ class SwitchChannelSuggestion extends Suggestion {
                 description = '@' + userItem.username + deactivated;
             } else {
                 name = userItem.username;
+                const currentUserId = getCurrentUserId(getState());
+                if (userItem.id === currentUserId) {
+                    name += (' ' + Utils.localizeMessage('suggestion.user.isCurrent', '(you)'));
+                }
                 description = deactivated;
             }
         } else if (channel.type === Constants.GM_CHANNEL) {
@@ -450,15 +454,23 @@ export default class SwitchChannelProvider extends Provider {
 
     userWrappedChannel(user, channel) {
         let displayName = '';
+        const currentUserId = getCurrentUserId(getState());
 
         // The naming format is fullname (nickname)
         // username is shown seperately
         if ((user.first_name || user.last_name) && user.nickname) {
-            displayName += `${Utils.getFullName(user)} (${user.nickname})`;
+            displayName += Utils.getFullName(user);
+            if (user.id !== currentUserId) {
+                displayName += ` (${user.nickname})`;
+            }
         } else if (user.nickname && !user.first_name && !user.last_name) {
             displayName += `${user.nickname}`;
         } else if (user.first_name || user.last_name) {
             displayName += `${Utils.getFullName(user)}`;
+        }
+
+        if (user.id === currentUserId && displayName) {
+            displayName += (' ' + Utils.localizeMessage('suggestion.user.isCurrent', '(you)'));
         }
 
         return {

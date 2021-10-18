@@ -6,6 +6,8 @@ import {Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
+import Pluggable from 'plugins/pluggable';
+
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {mark, trackEvent} from 'actions/telemetry_actions';
@@ -242,6 +244,10 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 >
                     {labelElement}
                     {customStatus}
+                    <Pluggable
+                        pluggableName='SidebarChannelLinkLabel'
+                        channel={this.props.channel}
+                    />
                 </div>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}

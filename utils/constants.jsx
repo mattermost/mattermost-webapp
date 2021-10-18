@@ -114,11 +114,19 @@ export const Preferences = {
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
+
+    // Category for actions/interactions that will happen just once
+    UNIQUE: 'unique',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
 export const Touched = {
     INVITE_MEMBERS: 'invite_members',
+};
+
+// Category for actions/interactions that will happen just once
+export const Unique = {
+    HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
 };
 
 export const TrialPeriodDays = {
@@ -997,6 +1005,9 @@ export const Constants = {
         SERVER_ACTION: null,
         VIEW_ACTION: null,
     }),
+
+    // limit of users to show the lhs invite members button highlighted
+    USER_LIMIT: 10,
 
     StatTypes,
     STAT_MAX_ACTIVE_USERS: 20,
