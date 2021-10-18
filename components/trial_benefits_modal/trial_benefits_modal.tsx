@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useHistory} from 'react-router-dom';
 
@@ -21,12 +20,12 @@ import {closeModal} from 'actions/views/modals';
 
 import Carousel from 'components/common/carousel/carousel';
 import GenericModal from 'components/generic_modal';
-import HandsSvg from 'components/common/svg_images_components/hands.svg';
-import LdapSvg from 'components/common/svg_images_components/ldap.svg';
-import PersonWithBoxSvg from 'components/common/svg_images_components/person_with_box.svg';
-import PersonMacSvg from 'components/common/svg_images_components/person_mac.svg';
-import PersonWithServersSvg from 'components/common/svg_images_components/person_with_servers.svg';
-import PersonWithSheetSvg from 'components/common/svg_images_components/person_with_sheet.svg';
+import HandsSvg from 'components/common/svg_images_components/hands_svg';
+import LdapSvg from 'components/common/svg_images_components/ldap_svg';
+import PersonWithBoxSvg from 'components/common/svg_images_components/person_with_box_svg';
+import PersonMacSvg from 'components/common/svg_images_components/person_mac_svg';
+import PersonWithServersSvg from 'components/common/svg_images_components/person_with_servers_svg';
+import PersonWithSheetSvg from 'components/common/svg_images_components/person_with_sheet_svg';
 
 import './trial_benefits_modal.scss';
 
@@ -39,11 +38,11 @@ const ConsolePages = {
     LDAP: '/admin_console/authentication/ldap',
     DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
     COMPLIANCE_EXPORT: '/admin_console/compliance/export',
-    SYSTEM_ROLES: '/admin_console/user_management/system_roles',
+    SAML: '/admin_console/authentication/saml',
     CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
 };
 
-function TrialBenefitsModal(props: Props): JSX.Element | null {
+const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null => {
     const dispatch = useDispatch<DispatchFunc>();
     const steps = [];
     const license = useSelector((state: GlobalState) => getLicense(state));
@@ -52,10 +51,16 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
 
     const history = useHistory();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
-
     if (!show) {
         return null;
     }
+
+    const handleOnClose = () => {
+        if (props.onClose) {
+            props.onClose();
+        }
+        dispatch(closeModal(ModalIdentifiers.TRIAL_BENEFITS_MODAL));
+    };
 
     const redirectToConsolePage = (route: string) => {
         history.push(route);
@@ -115,7 +120,7 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     const ldapSlide = (
         <div className='slide-container'>
             <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.ldapTitle', defaultMessage: 'Synchronize your Active Directory/LDAP groups with Mattermost Enterprise'})}
+                {formatMessage({id: 'trial_benefits.modal.ldapTitle', defaultMessage: 'Synchronize your Active Directory/LDAP groups'})}
             </div>
             <div className='description'>
                 {formatMessage({id: 'trial_benefits.modal.ldapDescription', defaultMessage: 'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions, and more.'})}
@@ -139,7 +144,7 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     const dataRetentionSlide = (
         <div className='slide-container'>
             <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.dataRetentionTitle', defaultMessage: 'Create data retention schedules with Mattermost Enterprise'})}
+                {formatMessage({id: 'trial_benefits.modal.dataRetentionTitle', defaultMessage: 'Create data retention schedules'})}
             </div>
             <div className='description'>
                 {formatMessage({id: 'trial_benefits.modal.dataRetentionDescription', defaultMessage: 'Hold on to your data only as long as you need to. Create data retention jobs for select channels and teams to automatically delete disposable data.'})}
@@ -161,7 +166,7 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     const complianceExportSlide = (
         <div className='slide-container'>
             <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.complianceExportTitle', defaultMessage: 'Run compliance exports with Mattermost Enterprise'})}
+                {formatMessage({id: 'trial_benefits.modal.complianceExportTitle', defaultMessage: 'Run compliance exports'})}
             </div>
             <div className='description'>
                 {formatMessage({id: 'trial_benefits.modal.complianceExportDescription', defaultMessage: 'Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).'})}
@@ -183,14 +188,14 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     const controlledAccessSlide = (
         <div className='slide-container'>
             <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.controlledAccessTitle', defaultMessage: 'Provide controlled access to the System Console with Mattermost Enterprise'})}
+                {formatMessage({id: 'trial_benefits.modal.controlledAccessTitle', defaultMessage: 'Control access via single sign-on (SSO)'})}
             </div>
             <div className='description'>
-                {formatMessage({id: 'trial_benefits.modal.controlledAccesssubitle', defaultMessage: 'Use System Roles to give designated users read and/or write access to select sections of System Console.'})}
+                {formatMessage({id: 'trial_benefits.modal.controlledAccesssubitle', defaultMessage: 'Use SSO with SAML, AD/LDAP, Google, O365 or OpenID Connect to centralize identity management and automate account provisioning.'})}
             </div>
             <a
                 className='learnMoreButton'
-                onClick={() => redirectToConsolePage(ConsolePages.SYSTEM_ROLES)}
+                onClick={() => redirectToConsolePage(ConsolePages.SAML)}
             >{learnMoreText}</a>
             <div className='personServerSvg svg-wrapper'>
                 <PersonWithServersSvg
@@ -205,7 +210,7 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     const customTermsSlide = (
         <div className='slide-container'>
             <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.customTermsTitle', defaultMessage: 'Create custom terms of service with Mattermost Enterprise'})}
+                {formatMessage({id: 'trial_benefits.modal.customTermsTitle', defaultMessage: 'Create custom terms of service'})}
             </div>
             <div className='description'>
                 {formatMessage({id: 'trial_benefits.modal.customTermsDescription', defaultMessage: 'Create your own terms of service that new users must accept before accessing your Mattermost instance on desktop, web, or mobile.'})}
@@ -224,13 +229,6 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     );
     steps.push(customTermsSlide);
 
-    const handleOnClose = () => {
-        if (props.onClose) {
-            props.onClose();
-        }
-        dispatch(closeModal(ModalIdentifiers.TRIAL_BENEFITS_MODAL));
-    };
-
     return (
         <GenericModal
             className={'TrialBenefitsModal'}
@@ -238,15 +236,13 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
             id='trialBenefitsModal'
             onHide={handleOnClose}
         >
-            <Modal.Body>
-                <Carousel
-                    dataSlides={steps}
-                    id={'trialBenefitsModalCarousel'}
-                    infiniteSlide={false}
-                />
-            </Modal.Body>
+            <Carousel
+                dataSlides={steps}
+                id={'trialBenefitsModalCarousel'}
+                infiniteSlide={false}
+            />
         </GenericModal>
     );
-}
+};
 
 export default TrialBenefitsModal;

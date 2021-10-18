@@ -11,7 +11,7 @@ import {isTrialLicense} from 'utils/license_utils';
 import {openModal} from 'actions/views/modals';
 
 import StartTrialModal from 'components/start_trial_modal';
-import TrialBenefitsModal from 'components/trial_benefits_modal';
+import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';

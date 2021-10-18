@@ -10,7 +10,7 @@ type Props = {
     id: string;
     infiniteSlide: boolean;
 }
-export default function Carousel({dataSlides, id, infiniteSlide}: Props) {
+const Carousel: React.FC<Props> = ({dataSlides, id, infiniteSlide}: Props): JSX.Element | null => {
     const [slideIndex, setSlideIndex] = useState(1);
     const [prevButtonDisabled, setPrevButtonDisabled] = useState(!infiniteSlide);
     const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
@@ -61,7 +61,7 @@ export default function Carousel({dataSlides, id, infiniteSlide}: Props) {
             {dataSlides.map((obj: any, index: number) => {
                 return (
                     <div
-                        key={obj.id}
+                        key={`${index}`}
                         className={slideIndex === index + 1 ? 'slide active-anim' : 'slide'}
                     >
                         {obj}
@@ -94,4 +94,6 @@ export default function Carousel({dataSlides, id, infiniteSlide}: Props) {
             </div>
         </div>
     );
-}
+};
+
+export default Carousel;

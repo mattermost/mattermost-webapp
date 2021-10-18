@@ -16,7 +16,7 @@ enum Destination {
     NEXT = 'next',
     PREV = 'prev',
 }
-export default function CarouselButton({direction, moveSlide, disabled}: Props) {
+const CarouselButton: React.FC<Props> = ({direction, moveSlide, disabled}: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
     const handleMoveSlide = () => {
@@ -41,4 +41,6 @@ export default function CarouselButton({direction, moveSlide, disabled}: Props) 
             {direction === Destination.NEXT ? <i className='icon-arrow-forward-ios'/> : null}
         </a>
     );
-}
+};
+
+export default CarouselButton;

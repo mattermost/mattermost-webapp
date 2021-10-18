@@ -11,7 +11,7 @@ import './generic_modal.scss';
 type Props = {
     className?: string;
     onHide: () => void;
-    modalHeaderText: React.ReactNode;
+    modalHeaderText?: React.ReactNode;
     show?: boolean;
     handleCancel?: () => void;
     handleConfirm?: () => void;
