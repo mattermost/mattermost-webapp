@@ -37,7 +37,6 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
     let placement = 'right';
     let arrow = 'left';
     let headerClass = '';
-    const overrideClass = '';
 
     if (inHeading && !onBottom) {
         headerClass = ' tip-overlay--header--heading';
@@ -56,7 +55,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
                 stopPropagation={stopPropagation}
                 placement={placement}
                 screens={screens}
-                overlayClass={'tip-overlay--header--' + arrow + headerClass + overrideClass}
+                overlayClass={'tip-overlay--header--' + arrow + headerClass}
                 telemetryTag='tutorial_tip_3_main_menu'
             />
         </div>
