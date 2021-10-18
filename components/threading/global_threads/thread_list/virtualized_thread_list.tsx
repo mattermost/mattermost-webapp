@@ -24,29 +24,26 @@ const style = {
     willChange: 'auto',
 };
 
-let startIndex = 0;
-let stopIndex = 0;
-
 function VirtualizedThreadList({
     ids,
     selectedThreadId,
     loadMoreItems,
     total,
 }: Props) {
-    const infiniteLoaderRef = React.useRef<InfiniteLoader>();
+    const infiniteLoaderRef = React.useRef<any>();
+    const startIndexRef = React.useRef<number>(0);
+    const stopIndexRef = React.useRef<number>(0);
 
     const itemKey = useCallback((index) => ids[index], [ids]);
 
     const scrollToItem = useCallback((index: number) => {
         if (ids.length > 0 && selectedThreadId) {
-            if (startIndex >= index || index > stopIndex) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
+            if (startIndexRef.current >= index || index > stopIndexRef.current) {
                 // eslint-disable-next-line no-underscore-dangle
                 infiniteLoaderRef.current?._listRef.scrollToItem(index);
             }
         }
-    }, [infiniteLoaderRef, ids, selectedThreadId, startIndex, stopIndex]);
+    }, [infiniteLoaderRef, ids, selectedThreadId, startIndexRef, stopIndexRef]);
 
     const data = useMemo(() => ({ids, selectedThreadId, scrollToItem}), [ids, selectedThreadId, scrollToItem]);
 
@@ -58,8 +55,6 @@ function VirtualizedThreadList({
         <AutoSizer>
             {({height, width}) => (
                 <InfiniteLoader
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     ref={infiniteLoaderRef}
                     itemCount={total}
                     loadMoreItems={loadMoreItems}
@@ -81,8 +76,8 @@ function VirtualizedThreadList({
                                         visibleStartIndex,
                                         visibleStopIndex,
                                     });
-                                    startIndex = visibleStartIndex;
-                                    stopIndex = visibleStopIndex;
+                                    startIndexRef.current = visibleStartIndex;
+                                    stopIndexRef.current = visibleStopIndex;
                                 }}
                                 ref={ref}
                                 height={height}
