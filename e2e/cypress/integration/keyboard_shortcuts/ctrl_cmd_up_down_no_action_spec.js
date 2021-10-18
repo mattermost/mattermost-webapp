@@ -19,14 +19,6 @@ describe('Keyboard Shortcuts', () => {
             testTeam = team;
             testChannel = channel;
             testUser = user;
-
-            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
-                otherUser = user1;
-
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-                });
-            });
         });
     });
 
