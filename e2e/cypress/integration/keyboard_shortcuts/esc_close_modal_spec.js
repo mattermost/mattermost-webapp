@@ -9,35 +9,37 @@
 
 // Group: @keyboard_shortcuts
 
-describe('Keyboard Shortcuts', () => {
+describe("Keyboard Shortcuts", () => {
     let channelUrl;
 
     before(() => {
-        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+        cy.apiInitSetup({ loginAfter: true }).then(({ offTopicUrl }) => {
             channelUrl = offTopicUrl;
             cy.visit(channelUrl);
         });
     });
 
-    it('MM-T1244 CTRL/CMD+K - Esc closes modal', () => {
-        const searchTerm = 'test';
+    it("MM-T1244 CTRL/CMD+K - Esc closes modal", () => {
+        const searchTerm = "test";
 
         // # Open Channel switcher modal by click on the button
-        cy.findByRole('button', {name: 'Channel Switcher'}).click();
+        cy.findByRole("button", { name: "Channel Switcher" }).click();
 
         // # Type in the quick switch input box
-        cy.get('#quickSwitchInput').type(searchTerm, {force: true});
+        cy.get("#quickSwitchInput").type(searchTerm, { force: true });
 
         // * Verify that the no search result test is displayed
-        cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + searchTerm + '"');
+        cy.get(".no-results__title")
+            .should("be.visible")
+            .and("have.text", 'No results for "' + searchTerm + '"');
 
         // # Press escape key
-        cy.get('#quickSwitchInput').type('{esc}');
+        cy.get("#quickSwitchInput").type("{esc}");
 
         // * Verify that the modal is closed
-        cy.get('.modal-content').should('not.exist');
+        cy.get(".modal-content").should("not.exist");
 
         // * Verify that the user does not leave the off-topic channel
-        cy.url().should('contain', channelUrl);
+        cy.url().should("contain", channelUrl);
     });
 });

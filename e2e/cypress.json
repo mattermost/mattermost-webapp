@@ -9,9 +9,9 @@
     "video": false,
     "viewportWidth": 1300,
     "env": {
-        "adminEmail": "sysadmin@sample.mattermost.com",
-        "adminUsername": "sysadmin",
-        "adminPassword": "Sys@dmin-sample1",
+        "adminEmail": "zeeshan04956@gmail.com",
+        "adminUsername": "Zeeshan_Amjad",
+        "adminPassword": "Zee@03406003774",
         "allowedUntrustedInternalConnections": "localhost",
         "cwsURL": "http://localhost:8076",
         "cwsAPIURL": "http://localhost:8076",
