@@ -7,8 +7,9 @@ import {ProductComponent} from 'types/store/plugins';
 import {TopLevelProducts} from 'utils/constants';
 import * as hooks from '../../hooks';
 
-import ProductSwitcher, {SwitcherNavEntry, ProductSwitcherButton, ProductSwitcherContainer} from './product_switcher';
-import ProductSwitcherMenu from './product_switcher_menu';
+import ProductMenu, {ProductMenuButton, ProductMenuContainer} from './product_menu';
+import ProductMenuItem from './product_menu_item';
+import ProductMenuList from './product_menu_list';
 
 function makeProduct(name: string): ProductComponent {
     return {
@@ -38,23 +39,23 @@ describe('components/global/product_switcher', () => {
     });
 
     it('should match snapshot', () => {
-        const wrapper = shallow(<ProductSwitcher/>);
+        const wrapper = shallow(<ProductMenu/>);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should render once when there are no top level products available', () => {
-        const wrapper = shallow(<ProductSwitcher/>);
+        const wrapper = shallow(<ProductMenu/>);
 
         const spyProducts = jest.spyOn(hooks, 'useProducts');
 
         spyProducts.mockReturnValue([]);
-        expect(wrapper.find(SwitcherNavEntry).at(0)).toHaveLength(1);
+        expect(wrapper.find(ProductMenuItem).at(0)).toHaveLength(1);
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should render the correct amount of times when there are products available', () => {
-        const wrapper = shallow(<ProductSwitcher/>);
+        const wrapper = shallow(<ProductMenu/>);
         const products = [
             makeProduct(TopLevelProducts.BOARDS),
             makeProduct(TopLevelProducts.PLAYBOOKS),
@@ -63,26 +64,26 @@ describe('components/global/product_switcher', () => {
         const spyProducts = jest.spyOn(hooks, 'useProducts');
         spyProducts.mockReturnValue(products);
 
-        expect(wrapper.find(SwitcherNavEntry)).toHaveLength(3);
+        expect(wrapper.find(ProductMenuItem)).toHaveLength(3);
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should have an active button state when the switcher menu is open', () => {
-        const wrapper = shallow(<ProductSwitcher/>);
+        const wrapper = shallow(<ProductMenu/>);
         const setState = jest.fn();
 
         const useStateSpy = jest.spyOn(React, 'useState');
         useStateSpy.mockImplementation(() => [false, setState]);
 
-        wrapper.find(ProductSwitcherContainer).simulate('click');
-        expect(wrapper.find(ProductSwitcherButton).props().active).toEqual(true);
+        wrapper.find(ProductMenuContainer).simulate('click');
+        expect(wrapper.find(ProductMenuButton).props().active).toEqual(true);
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot with product switcher menu', () => {
-        const wrapper = shallow(<ProductSwitcher/>);
+        const wrapper = shallow(<ProductMenu/>);
 
-        expect(wrapper.find(ProductSwitcherMenu)).toHaveLength(1);
+        expect(wrapper.find(ProductMenuList)).toHaveLength(1);
         expect(wrapper).toMatchSnapshot();
     });
 });
