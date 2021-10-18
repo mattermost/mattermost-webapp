@@ -77,6 +77,8 @@ describe('Keyboard Shortcuts', () => {
         // # Post code block message from User 1
         cy.get('#post_textbox').type(messageWithCodeblock1).type('{enter}');
 
+        cy.uiWaitUntilMessagePostedIncludes('codeblock1');
+
         // # Press UP arrow
         cy.get('#post_textbox').type('{uparrow}');
 
@@ -84,8 +86,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#edit_textbox').clear().type(messageWithCodeblock2).type('{enter}');
 
         // * Verify that the message was edited
-        cy.getLastPostId().then((postID) => {
-            cy.get(`#postMessageText_${postID}`).should('contain', 'codeblock2');
-        });
+        cy.uiWaitUntilMessagePostedIncludes('codeblock2');
     });
 });
