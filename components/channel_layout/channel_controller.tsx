@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 
 import AnnouncementBarController from 'components/announcement_bar';
@@ -24,13 +23,13 @@ import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
-import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal.tsx';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
-export default class ChannelController extends React.PureComponent {
-    static propTypes = {
-        fetchingChannels: PropTypes.bool.isRequired,
-    };
+interface Props {
+    fetchingChannels: boolean;
+}
 
+export default class ChannelController extends React.PureComponent<Props> {
     componentDidMount() {
         const platform = window.navigator.platform;
 

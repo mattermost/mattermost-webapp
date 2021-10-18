@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelController from './channel_controller.jsx';
+import ChannelController from './channel_controller';
 
 describe('components/channel_layout/ChannelController', () => {
     const props = {
