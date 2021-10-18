@@ -44,12 +44,6 @@ class TestHelper {
         return generateId();
     };
 
-    generateStatus = () => {
-        const statuses = Object.values(UserStatuses);
-        const statusIndex = Math.floor(Math.random() * statuses.length);
-        return statuses[statusIndex];
-    }
-
     createClient4 = () => {
         const client = new Client4();
 
@@ -87,11 +81,11 @@ class TestHelper {
         };
     };
 
-    fakeUserWithStatus = (id = this.generateId()) => {
+    fakeUserWithStatus = (status = UserStatuses.ONLINE, id = this.generateId()) => {
         return {
             ...this.fakeUser(),
             id,
-            status: this.generateStatus(),
+            status,
             create_at: 1507840900004,
             update_at: 1507840900004,
             delete_at: 0,
@@ -228,7 +222,8 @@ class TestHelper {
             homepage_url: 'http://myplugin.com',
             download_url: 'http://github.myplugin.tar.gz',
             download_signature_url: 'http://github.myplugin.tar.gz.asc',
-            manifest: {
+            manifest: 
+			{
                 id: 'com.mattermost.fake-plugin',
                 name: 'Fake Plugin',
                 description: 'This plugin is for Redux testing purposes',
