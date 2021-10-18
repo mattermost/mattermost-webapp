@@ -29,7 +29,7 @@ describe('System Console', () => {
         cy.findByTestId('TeamSettings.LockTeammateNameDisplayfalse').click();
 
         // * Assert that there exists a description underneath the Teammate Name Display lock setting with the following text
-        cy.findByTestId('TeamSettings.LockTeammateNameDisplayhelp-text').contains('When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.').should('be.visible');
+        cy.findByTestId('TeamSettings.LockTeammateNameDisplayhelp-text').contains('When true, disables users\' ability to change settings under Account Menu > Account Settings > Display > Teammate Name Display.').should('be.visible');
 
         // # Click save button
         cy.get('#saveSetting').click();
@@ -37,7 +37,7 @@ describe('System Console', () => {
         // # Go to main page
         cy.visit(townSquareUrl);
 
-        // # Go to Account Settings - Display
+        // # Go to Settings > Display
         cy.uiOpenSettingsModal('Display');
 
         // # Click Edit button beside Teammate Name Display
@@ -65,7 +65,7 @@ describe('System Console', () => {
         // # Go to main page
         cy.visit(townSquareUrl);
 
-        // # Go to Account Settings - Display
+        // # Go to Settings > Display
         cy.uiOpenSettingsModal('Display');
 
         // * Assert the description under the Teammate Name Display title has changed to Show username
