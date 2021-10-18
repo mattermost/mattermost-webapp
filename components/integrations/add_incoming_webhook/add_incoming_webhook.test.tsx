@@ -6,16 +6,15 @@ import {shallow} from 'enzyme';
 
 import AddIncomingWebhook from 'components/integrations/add_incoming_webhook/add_incoming_webhook';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/AddIncomingWebhook', () => {
     const createIncomingHook = jest.fn().mockResolvedValue({data: true});
     const props = {
-        team: {
+        team: TestHelper.getTeamMock({
             id: 'testteamid',
             name: 'test',
-        } as Team,
+        }),
         enablePostUsernameOverride: true,
         enablePostIconOverride: true,
         actions: {createIncomingHook},
@@ -27,16 +26,15 @@ describe('components/integrations/AddIncomingWebhook', () => {
     });
 
     test('should have called createIncomingHook', () => {
-        const hook = {
+        const hook = TestHelper.getIncomingWebhookMock({
             channel_id: 'channel_id',
             display_name: 'display_name',
             description: 'description',
             username: 'username',
             icon_url: 'icon_url',
-        } as IncomingWebhook;
-        const wrapper = shallow(<AddIncomingWebhook {...props}/>);
-        const instance = wrapper.instance() as AddIncomingWebhook;
-        instance.addIncomingHook(hook);
+        });
+        const wrapper = shallow<AddIncomingWebhook>(<AddIncomingWebhook {...props}/>);
+        wrapper.instance().addIncomingHook(hook);
         expect(createIncomingHook).toHaveBeenCalledTimes(1);
         expect(createIncomingHook).toBeCalledWith(hook);
     });
