@@ -57,7 +57,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.targetRef = React.createRef();
     }
 
-    private show = (e: MouseEvent): void => {
+    private show = (e: React.MouseEvent): void => {
         if (this.props.preventDefault) {
             e.preventDefault();
         }
