@@ -24,7 +24,6 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1255 CTRL/CMD+UP or DOWN no action on draft post', () => {
         const message = 'Test message from User 1';
-        const messageLength = message.length;
         cy.apiLogin(testUser);
 
         // # Visit the channel using the channel name
