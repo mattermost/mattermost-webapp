@@ -184,7 +184,7 @@ describe('Verify Accessibility Support in Post', () => {
                 } else {
                     for (let i = 0; i < 3; i++) {
                         // * Verify focus is on the reactions button
-                        cy.get(`#recent_reaction_${i}`).should('have.class', 'Reaction__emoji--post-menu emoticon');
+                        cy.get(`#recent_reaction_${i}`).should('have.class', 'emoticon--post-menu');
                         cy.focused().tab();
                     }
                 }
@@ -261,7 +261,7 @@ describe('Verify Accessibility Support in Post', () => {
                     cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
                     cy.focused().tab({shift: true});
                 } else {
-                    cy.get('#recent_reaction_0').should('have.class', 'Reaction__emoji--post-menu emoticon');
+                    cy.get('#recent_reaction_0').should('have.class', 'emoticon--post-menu');
                     cy.focused().tab({shift: true});
                 }
 
