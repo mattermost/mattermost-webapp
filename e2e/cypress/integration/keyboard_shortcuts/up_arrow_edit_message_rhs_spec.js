@@ -26,16 +26,16 @@ describe('Keyboard Shortcuts', () => {
             cy.findByText('Reply').click();
             const replyMessage = 'Well, hello there.';
             cy.get('#reply_textbox').type(replyMessage);
-            cy.get('#reply_textbox').type('{enter}');
+            cy.get('#reply_textbox').type('{enter}').then(() => {
+                // * Press up arrow key
+                cy.get('body').type('{uparrow}');
 
-            // * Press up arrow key
-            cy.get('body').type('{uparrow}');
+                // * Verify that the Edit Post Modal is visible
+                cy.get('#editPostModal').should('be.visible');
 
-            // * Verify that the Edit Post Modal is visible
-            cy.get('#editPostModal').should('be.visible');
-
-            // * Verify that edit box have value of edited message
-            cy.get('#edit_textbox').should('have.value', replyMessage);
+                // * Verify that edit box have value of edited message
+                cy.get('#edit_textbox').should('have.value', replyMessage);
+            });
         });
     });
 });
