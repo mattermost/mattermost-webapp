@@ -15,12 +15,12 @@ describe('Keyboard Shortcuts', () => {
     let testUser;
     let otherUser;
     before(() => {
-        cy.apiInitSetup().then(({ team, channel, user }) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
             testUser = user;
 
-            cy.apiCreateUser({ prefix: 'other' }).then(({ user: user1 }) => {
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
@@ -45,9 +45,7 @@ describe('Keyboard Shortcuts', () => {
 
         // * The post should have the same length as the typed text and
         // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.length', length(message))
-            .and('have.text', message)
-            .and(($div) => {
+        cy.get('#post_textbox').should('have.length', length(message)).and('have.text', message).and(($div) => {
                 const text = $div.text;
                 expect(text).not.to.change();
         });
@@ -57,9 +55,7 @@ describe('Keyboard Shortcuts', () => {
 
         // * The post should have the same length as the typed text and
         // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.length', length(message))
-            .and('have.text', message)
-            .and(($div) => {
+        cy.get('#post_textbox').should('have.length', length(message)).and('have.text', message).and(($div) => {
                 const text = $div.text;
                 expect(text).not.to.change();
         });
