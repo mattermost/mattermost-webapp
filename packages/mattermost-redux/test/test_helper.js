@@ -9,6 +9,8 @@ import Client4 from 'mattermost-redux/client/client4';
 import {DEFAULT_LOCALE} from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';
 
+import {UserStatuses} from 'utils/constants';
+
 export const DEFAULT_SERVER = 'http://localhost:8065';
 const PASSWORD = 'password1';
 
@@ -41,6 +43,12 @@ class TestHelper {
     generateId = () => {
         return generateId();
     };
+
+    generateStatus = () => {
+        const statuses = Object.values(UserStatuses);
+        const statusIndex = Math.floor(Math.random() * statuses.length);
+        return statuses[statusIndex];
+    }
 
     createClient4 = () => {
         const client = new Client4();
@@ -83,7 +91,7 @@ class TestHelper {
         return {
             ...this.fakeUser(),
             id,
-            status: undefined,
+            status: this.generateStatus(),
             create_at: 1507840900004,
             update_at: 1507840900004,
             delete_at: 0,

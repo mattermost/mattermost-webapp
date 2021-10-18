@@ -22,6 +22,13 @@ describe('utils.makeAddLastViewAtToProfiles', () => {
             [user4.id]: user4,
         };
 
+        const statuses = {
+            [user1.id]: user1.status,
+            [user2.id]: user2.status,
+            [user3.id]: user3.status,
+            [user4.id]: user4.status,
+        };
+
         const channel1 = TestHelper.fakeDmChannel(currentUser.id, user1.id);
         const channel2 = TestHelper.fakeDmChannel(currentUser.id, user2.id);
         const channel3 = TestHelper.fakeDmChannel(currentUser.id, user3.id);
@@ -51,7 +58,7 @@ describe('utils.makeAddLastViewAtToProfiles', () => {
                 users: {
                     currentUserId: currentUser.id,
                     profiles,
-                    statuses: {},
+                    statuses,
                 },
                 teams: {
                     currentTeamId: 'currentTeam',

@@ -131,7 +131,8 @@ export default class AtMentionSuggestion extends Suggestion {
             } else if (item.first_name || item.last_name || item.nickname) {
                 description = (
                     <span className='ml-2'>
-                        {`${Utils.getFullName(item)} ${item.nickname ? `(${item.nickname})` : ''
+                        {`${Utils.getFullName(item)} ${
+                            item.nickname ? `(${item.nickname})` : ''
                         }`.trim()}
                     </span>
                 );
@@ -165,12 +166,12 @@ export default class AtMentionSuggestion extends Suggestion {
         let youElement = null;
         if (item.isCurrentUser) {
             youElement =
-                (<span className='ml-1'>
-                    <FormattedMessage
-                        id='suggestion.user.isCurrent'
-                        defaultMessage='(you)'
-                    />
-                </span>);
+            (<span className='ml-1'>
+                <FormattedMessage
+                    id='suggestion.user.isCurrent'
+                    defaultMessage='(you)'
+                />
+            </span>);
         }
 
         let className = 'suggestion-list__item';

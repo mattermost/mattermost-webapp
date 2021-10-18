@@ -44,7 +44,6 @@ export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: Us
                 const channelName = getDirectChannelName(currentUserId, profile.id);
                 const channel = DMchannels[channelName];
                 const membership = channel ? memberships[channel.id] : null;
-
                 return {
                     ...profile,
                     last_viewed_at: channel && membership ? membership.last_viewed_at : 0,
