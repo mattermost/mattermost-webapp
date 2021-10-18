@@ -27,11 +27,9 @@ exports[`components/widgets/menu/menu_items/submenu_item empty subMenu should ma
       tabIndex={0}
     >
       <div
-        className="grid"
+        className="flex"
       >
         test
-      </div>
-      <div>
         <span
           className="selected"
         />
@@ -96,11 +94,9 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
       tabIndex={0}
     >
       <div
-        className="grid"
+        className="flex"
       >
         test
-      </div>
-      <div>
         <span
           className="selected"
         />
@@ -148,11 +144,9 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
                 tabIndex={0}
               >
                 <div
-                  className="grid"
+                  className="flex"
                 >
                   Test A
-                </div>
-                <div>
                   <span
                     className="selected"
                   />
@@ -204,11 +198,9 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
                 tabIndex={0}
               >
                 <div
-                  className="grid"
+                  className="flex"
                 >
                   Test B
-                </div>
-                <div>
                   <span
                     className="selected"
                   />

@@ -137,6 +137,16 @@
             margin: 0;
         }
 
+        .grid {
+            display: grid;
+            width: 100%;
+            grid-template-columns: auto 1fr auto auto;
+        }
+
+        .flex {
+            width: 100%;
+        }
+
         .sorting-menu-checkbox {
             width: 0;
             padding-right: 30px;

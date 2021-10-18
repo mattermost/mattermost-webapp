@@ -234,10 +234,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     onKeyDown={this.handleKeyDown}
                 >
-                    <div className={'grid'}>
+                    <div className={icon ? 'grid' : 'flex'}>
                         {textProp}{rightDecorator}
-                    </div>
-                    <div>
                         {renderSelected && <span className='selected'>{selectedValueText}</span>}
                         {id !== 'ChannelMenu-moveToDivider' &&
                             <span
