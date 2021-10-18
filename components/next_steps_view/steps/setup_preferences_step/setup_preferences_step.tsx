@@ -33,8 +33,8 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
             dialogProps: {
+                isContentProductSettings: true,
                 onExit: onFinish,
-                dialogProps: {isContentProductSettings: true},
             },
         }));
     };

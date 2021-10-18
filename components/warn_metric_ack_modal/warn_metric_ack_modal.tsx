@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {getSiteURL} from 'utils/url';
@@ -33,9 +33,9 @@ type Props = {
     stats?: Dictionary<number | AnalyticsRow[]>;
     warnMetricStatus: WarnMetricStatus;
     actions: {
-        closeModal: (arg: string) => void;
-        getStandardAnalytics: () => any;
-        sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error?: string}>;
+        closeModal: (modalId: string) => void;
+        getStandardAnalytics: () => void;
+        sendWarnMetricAck: (warnMetricId: string, forceAck: boolean) => Promise<ActionResult>;
     };
 }
 

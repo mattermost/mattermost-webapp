@@ -10,7 +10,7 @@ import {Post} from 'mattermost-redux/types/posts.js';
 
 import {FileInfo} from 'mattermost-redux/types/files.js';
 
-import {ActionResult, GenericAction} from 'mattermost-redux/types/actions.js';
+import {ActionResult} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from 'mattermost-redux/types/integrations.js';
 
@@ -133,7 +133,7 @@ function makeMapStateToProps() {
 }
 
 function onSubmitPost(post: Post, fileInfos: FileInfo[]) {
-    return (dispatch: Dispatch<GenericAction>) => {
+    return (dispatch: Dispatch) => {
         dispatch(createPost(post, fileInfos) as any);
     };
 }
@@ -152,7 +152,7 @@ type Actions = {
     setDraft: (name: string, value: PostDraft | null) => void;
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
-    openModal: (modalData: ModalData) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
     executeCommand: (message: string, args: CommandArgs) => ActionResult;
     getChannelTimezones: (channelId: string) => ActionResult;
@@ -183,7 +183,7 @@ function clearDraftUploads() {
     });
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             addMessageIntoHistory,

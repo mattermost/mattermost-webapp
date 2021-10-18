@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -47,9 +46,9 @@ export type Props = {
     actions: {
         addUsersToChannel: any;
         getProfilesNotInChannel: any;
-        getTeamStats: (teamId: string) => ActionFunc;
-        loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{data: boolean}>;
-        searchProfiles: (term: string, options: any) => ActionFunc;
+        getTeamStats: (teamId: string) => void;
+        loadStatusesForProfilesList: (users: UserProfile[]) => void;
+        searchProfiles: (term: string, options: any) => void;
     };
 }
 
