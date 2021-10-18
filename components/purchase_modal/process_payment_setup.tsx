@@ -163,7 +163,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             );
             const formattedSubtitle = (
                 <FormattedMessage
-                    defaultMessage={'Thank you for upgrading to {selectedProductName}. Check your workspace in a few minutes to access all the plan's features. You'll be charged a prorated amount for your {currentProductName} plan and {selectedProductName} plan based on the number of days left in the billing cycle and number of users you have.'}
+                    defaultMessage={"Thank you for upgrading to {selectedProductName}. Check your workspace in a few minutes to access all the plan's features. You'll be charged a prorated amount for your {currentProductName} plan and {selectedProductName} plan based on the number of days left in the billing cycle and number of users you have."}
                     id={'admin.billing.subscription.proratedPayment.substitle'}
                     values={{selectedProductName: this.props.selectedProduct?.name, currentProductName: this.props.currentProduct?.name}}
                 />
