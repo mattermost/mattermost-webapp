@@ -52,9 +52,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18041 Verify UI Elements of Guest User Invitation Flow', () => {
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // * Verify Invite Guest link
         cy.findByTestId('inviteGuestLink').should('be.visible').within(() => {
@@ -151,9 +150,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # reload current page
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
         cy.findByTestId('invitationModal').find('h1').should('have.text', `Invite Members to ${testTeam.display_name}`);
@@ -200,9 +198,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Demote the user from member to guest
         cy.apiDemoteUserToGuest(newUser.id);
 
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Click on the next icon to invite members
         cy.findByTestId('inviteMembersLink').find('.arrow').click();

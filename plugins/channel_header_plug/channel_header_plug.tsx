@@ -10,7 +10,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
@@ -105,6 +105,7 @@ type ChannelHeaderPlugProps = {
     actions: {
         doAppCall: DoAppCall;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 }
 
@@ -155,7 +156,8 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     onBindingClick = async (binding: AppBinding) => {
         const {channel, intl} = this.props;
 
-        if (!binding.call) {
+        const call = binding.form?.call || binding.call;
+        if (!call) {
             return;
         }
 
@@ -165,8 +167,14 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             this.props.channel.id,
             this.props.channel.team_id,
         );
-        const call = createCallRequest(binding.call, context);
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        const callRequest = createCallRequest(call, context);
+
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
 
         if (res.error) {
             const errorResponse = res.error;

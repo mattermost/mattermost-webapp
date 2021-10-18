@@ -6,6 +6,8 @@ import {Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
+import Pluggable from 'plugins/pluggable';
+
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {mark, trackEvent} from 'actions/telemetry_actions';
@@ -38,14 +40,9 @@ type Props = {
     unreadMentions: number;
 
     /**
-     * Number of unread messages in this channel
+     * Whether or not the channel is shown as unread
      */
-    unreadMsgs: number;
-
-    /**
-     * User preference of whether the channel can be marked unread
-     */
-    showUnreadForMsgs: boolean;
+    isUnread: boolean;
 
     /**
      * Checks if the current channel is muted
@@ -127,7 +124,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             ariaLabel += ` ${unreadMentions} ${localizeMessage('accessibility.sidebar.types.mentions', 'mentions')}`;
         }
 
-        if (this.showChannelAsUnread() && unreadMentions === 0) {
+        if (this.props.isUnread && unreadMentions === 0) {
             ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.unread', 'unread')}`;
         }
 
@@ -162,14 +159,19 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     handleMenuToggle = (isMenuOpen: boolean): void => this.setState({isMenuOpen});
 
-    /**
-     * Show as unread if you have unread mentions
-     * OR if you have unread messages and the channel can be marked unread by preferences
-     */
-    showChannelAsUnread = (): boolean => this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
-
     render(): JSX.Element {
-        const {link, label, channel, unreadMentions, icon, isMuted, isChannelSelected, showTutorialTip, actions} = this.props;
+        const {
+            actions,
+            channel,
+            icon,
+            isChannelSelected,
+            isMuted,
+            isUnread,
+            label,
+            link,
+            showTutorialTip,
+            unreadMentions,
+        } = this.props;
 
         let tutorialTip: JSX.Element | null = null;
         if (showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
@@ -179,7 +181,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     offTopicDisplayName={this.props.offTopicDisplayName}
                     openLhs={actions.openLhs}
                 />
-
             );
         }
 
@@ -243,13 +244,17 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 >
                     {labelElement}
                     {customStatus}
+                    <Pluggable
+                        pluggableName='SidebarChannelLinkLabel'
+                        channel={this.props.channel}
+                    />
                 </div>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
                 />
                 <SidebarChannelMenu
                     channel={channel}
-                    isUnread={this.showChannelAsUnread()}
+                    isUnread={isUnread}
                     isCollapsed={this.props.isCollapsed}
                     closeHandler={this.props.closeHandler}
                     channelLink={link}
@@ -265,7 +270,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             {
                 menuOpen: this.state.isMenuOpen,
                 muted: isMuted,
-                'unread-title': this.showChannelAsUnread(),
+                'unread-title': this.props.isUnread,
                 selected: isChannelSelected,
             },
         ]);

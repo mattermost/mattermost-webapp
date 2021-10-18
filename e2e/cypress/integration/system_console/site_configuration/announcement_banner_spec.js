@@ -7,10 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @enterprise @system_console @announcement_banner
+
 import {hexToRgbArray, rgbArrayToString} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-
-// Group: @enterprise @system_console @announcement_banner
 
 describe('Announcement Banner', () => {
     before(() => {

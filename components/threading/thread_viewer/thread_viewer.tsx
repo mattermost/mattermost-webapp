@@ -14,6 +14,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import deferComponentRender from 'components/deferComponentRender';
+import FileUploadOverlay from 'components/file_upload_overlay';
 import LoadingScreen from 'components/loading_screen';
 import {FakePost} from 'types/store/rhs';
 import ThreadViewerVirtualized from '../virtualized_thread_viewer';
@@ -40,10 +41,12 @@ type Props = Attrs & {
         getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<any>|ActionFunc;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
         updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
+        fetchRHSAppsBindings: (channelId: string, rootID: string) => unknown;
     };
     useRelativeTimestamp?: boolean;
     postIds: string[];
     highlightedPostId?: $ID<Post>;
+    isThreadView?: boolean;
 };
 
 type State = {
@@ -65,6 +68,8 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         }
 
         this.onInit();
+
+        this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -80,6 +85,11 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             this.props.userThread?.id !== prevProps.userThread?.id
         ) {
             this.markThreadRead();
+        }
+
+        if (this.props.channel?.id !== prevProps.channel?.id ||
+            this.props.selected.id !== prevProps.selected.id) {
+            this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
         }
     }
 
@@ -196,19 +206,23 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             <>
                 <div className={classNames('ThreadViewer', this.props.className)}>
                     <div className='post-right-comments-container'>
-                        {this.props.selected && (
-                            <DeferredThreadViewerVirt
-                                key={this.props.selected.id}
-                                channel={this.props.channel}
-                                onCardClick={this.handleCardClick}
-                                onCardClickPost={this.handleCardClickPost}
-                                postIds={this.props.postIds}
-                                removePost={this.props.actions.removePost}
-                                selected={this.props.selected}
-                                useRelativeTimestamp={this.props.useRelativeTimestamp || false}
-                                highlightedPostId={this.props.highlightedPostId}
-                            />
-                        )}
+                        <>
+                            <FileUploadOverlay overlayType='right'/>
+                            {this.props.selected && (
+                                <DeferredThreadViewerVirt
+                                    key={this.props.selected.id}
+                                    channel={this.props.channel}
+                                    onCardClick={this.handleCardClick}
+                                    onCardClickPost={this.handleCardClickPost}
+                                    postIds={this.props.postIds}
+                                    removePost={this.props.actions.removePost}
+                                    selected={this.props.selected}
+                                    useRelativeTimestamp={this.props.useRelativeTimestamp || false}
+                                    highlightedPostId={this.props.highlightedPostId}
+                                    isThreadView={this.props.isCollapsedThreadsEnabled && this.props.isThreadView}
+                                />
+                            )}
+                        </>
                     </div>
                 </div>
             </>

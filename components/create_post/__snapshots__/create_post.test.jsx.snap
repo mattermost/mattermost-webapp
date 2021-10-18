@@ -102,34 +102,15 @@ exports[`components/create_post Show tutorial 1`] = `
           </a>
         </span>
       </div>
-      <Connect(TutorialTip)
-        overlayClass="tip-overlay--chat"
-        placement="top"
-        screens={
-          Array [
-            <div>
-              <h4>
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Send a message"
-                  id="create_post.tutorialTip.title"
-                />
-              </h4>
-              <p>
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Type your first message and select **Enter** to send it."
-                  id="create_post.tutorialTip1"
-                />
-              </p>
-              <p>
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages."
-                  id="create_post.tutorialTip2"
-                />
-              </p>
-            </div>,
-          ]
+      <CreatePostTip
+        currentChannel={
+          Object {
+            "id": "owsyt8n43jfxjpzh9np93mx1wa",
+            "type": "O",
+          }
         }
-        telemetryTag="tutorial_tip_1_sending_messages"
+        currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+        prefillMessage={[Function]}
       />
     </div>
     <div
@@ -157,21 +138,6 @@ exports[`components/create_post Show tutorial 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -305,131 +271,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
-</form>
-`;
-
-exports[`components/create_post should match snapshot for read only channel 1`] = `
-<form
-  className=""
-  id="create_post"
-  onSubmit={[Function]}
->
-  <div
-    className="post-create"
-  >
-    <div
-      className="post-create-body"
-    >
-      <div
-        aria-label="message input complimentary region"
-        className="post-body__cell a11y__region"
-        data-a11y-sort-order="2"
-        id="centerChannelFooter"
-        role="application"
-        tabIndex={-1}
-      >
-        <Connect(Textbox)
-          badConnection={false}
-          channelId="owsyt8n43jfxjpzh9np93mx1wa"
-          characterLimit={4000}
-          createMessage="This channel is read-only. Only members with permission can post here."
-          disabled={true}
-          emojiEnabled={true}
-          handlePostError={[Function]}
-          id="post_textbox"
-          listenForMentionKeyClick={true}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onComposition={[Function]}
-          onHeightChange={[Function]}
-          onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onKeyUp={[Function]}
-          onMouseUp={[Function]}
-          onSelect={[Function]}
-          preview={false}
-          useChannelMentions={true}
-          value=""
-        />
-        <span
-          className="post-body__actions"
-        >
-          <a
-            aria-label="Send a message"
-            className="send-button theme disabled"
-            onClick={[Function]}
-            role="button"
-            tabIndex={0}
-          >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
-            />
-          </a>
-        </span>
-      </div>
-    </div>
-    <div
-      className="post-create-footer"
-      id="postCreateFooter"
-      role="form"
-    >
-      <div
-        className="d-flex justify-content-between"
-      >
-        <Connect(MsgTyping)
-          channelId="owsyt8n43jfxjpzh9np93mx1wa"
-          postId=""
-        />
-        <Connect(TextboxLinks)
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
-      </div>
-      <div />
-    </div>
-  </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -561,21 +402,6 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;
@@ -709,21 +535,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
     onHide={[Function]}
     show={false}
   />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
-  />
 </form>
 `;
 
@@ -855,21 +666,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
   <PostDeletedModal
     onHide={[Function]}
     show={false}
-  />
-  <ConfirmModal
-    confirmButtonClass="btn btn-primary"
-    confirmButtonText={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Confirm"
-        id="notify_all.confirm"
-      />
-    }
-    message=""
-    modalClass=""
-    onCancel={[Function]}
-    onConfirm={[Function]}
-    show={false}
-    title=""
   />
 </form>
 `;

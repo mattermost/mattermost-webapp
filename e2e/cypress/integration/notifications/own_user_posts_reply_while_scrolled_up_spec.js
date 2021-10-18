@@ -13,32 +13,26 @@
 import {getRandomId} from '../../utils';
 
 describe('Notifications', () => {
-    let testTeam;
     let otherUser;
-    let townsquareChannelId;
+    let offTopicChannelId;
     const numberOfPosts = 30;
 
     before(() => {
-        cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
+            otherUser = user;
 
-            cy.apiCreateUser().then(({user}) => {
-                otherUser = user;
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
+            cy.apiGetChannelByName(team.name, 'off-topic').then(({channel}) => {
+                offTopicChannelId = channel.id;
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
-                townsquareChannelId = channel.id;
-            });
-
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T564 New message bar - Own user posts a reply while scrolled up in a channel', () => {
-        // # Post 30 random messages from the 'otherUser' account in Town Square
+        // # Post 30 random messages from the 'otherUser' account in off-topic
         Cypress._.times(numberOfPosts, (num) => {
-            cy.postMessageAs({sender: otherUser, message: `${num} ${getRandomId()}`, channelId: townsquareChannelId});
+            cy.postMessageAs({sender: otherUser, message: `${num} ${getRandomId()}`, channelId: offTopicChannelId});
         });
 
         // # Click on the post comment icon of the last message
@@ -54,7 +48,7 @@ describe('Notifications', () => {
         // * 'Jump to New Messages' is not visible
         cy.get('.toast__visible').should('not.exist');
 
-        // * Message gets posted in Town Square
+        // * Message gets posted in off-topic
         cy.uiWaitUntilMessagePostedIncludes(message);
     });
 });

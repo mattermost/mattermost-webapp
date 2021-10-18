@@ -81,4 +81,77 @@
             }
         }
     }
+
+    #ChannelMenu-moveToDivider {
+        height: 1px;
+        padding: 0;
+        margin: 8px 0;
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        pointer-events: none;
+
+        span {
+            display: none;
+        }
+    }
+
+    .SubMenuItemContainer:not(.hasDivider) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .styleSelectableItem {
+        .MenuItem {
+            width: 100%;
+
+            div:hover,
+            div:focus {
+                background: none !important;
+            }
+        }
+
+        .SubMenu__icon-right {
+            padding: 0 9px 0 8px;
+            margin-right: 0;
+
+            &.mobile {
+                padding: 0 4px 0 9px;
+            }
+        }
+
+        .styleSelectableItemDiv {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            margin: 0;
+        }
+
+        .sorting-menu-checkbox {
+            width: 0;
+            padding-right: 30px;
+
+            i {
+                color: var(--button-bg);
+            }
+        }
+    }
+
+    // global header style adjustments
+    > .product-switcher-menu {
+        .MenuItem {
+            .MenuItem__primary-text {
+                line-height: 26px;
+            }
+
+            a,
+            button {
+                padding: 0 20px;
+
+                .icon {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                }
+            }
+        }
+    }
 }

@@ -18,7 +18,6 @@ describe('Channel Settings', () => {
     const usernames = [];
 
     before(() => {
-        // # Login as new user and visit town-square
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             firstUser = user;

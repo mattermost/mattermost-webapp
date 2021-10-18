@@ -22,6 +22,7 @@ e2e/node_modules
 e2e/cypress/screenshots
 e2e/cypress/videos
 e2e/cypress/benchmark/__benchmarks__
+e2e/cypress/fixtures/ldap_tmp
 e2e/results
 storybook-static
 mattermost-license.txt
