@@ -13,7 +13,7 @@ describe('Keyboard Shortcuts', () => {
     let testTeam;
     let testChannel;
     let testUser;
-    let otherUser;
+    
     before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
