@@ -41,3 +41,4 @@ describe('Keyboard Shortcuts', () => {
         cy.url().should('contain', channelUrl);
     });
 });
+
