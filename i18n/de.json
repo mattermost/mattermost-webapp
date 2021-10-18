@@ -3215,7 +3215,7 @@
   "help.attaching.dragdrop.title": "Dateien ziehen und ablegen",
   "help.attaching.icon.description": "Alternativ können Sie Dateien hochladen, indem Sie das Symbol **Anhang** im Eingabefeld der Nachricht auswählen. Navigieren Sie im Dateibetrachter des Systems zu den gewünschten Dateien und wählen Sie dann **Öffnen**, um sie in das Nachrichteneingabefeld hochzuladen. Geben Sie optional eine Nachricht ein, und drücken Sie dann **Eingabe**, um die Nachricht zu senden.",
   "help.attaching.icon.title": "Verwenden Sie das Symbol für Anhänge",
-  "help.attaching.limitations.description": "Mattermost unterstützt bis zu fünf angehängte Dateien pro Beitrag. Die maximale Dateigröße beträgt standardmäßig 100 MB (Megabyte), kann aber von Ihrem Systemadministrator geändert werden. Bilddateien können maximal 6048 Pixel x 4032 Pixel oder 24 MP (Megapixel) gross sein, oder eine Rohbilddateigrösse von etwa 36 MB haben.",
+  "help.attaching.limitations.description": "Mattermost unterstützt bis zu zehn angehängte Dateien pro Beitrag. Die maximale Dateigröße beträgt standardmäßig 100 MB (Megabyte), kann aber von Ihrem Systemadministrator geändert werden. Bilddateien können maximal 7680 Pixel x 4320 Pixel, mit einer maximalen Auflösung von 33 MP (Megapixel) oder 8K Auflösung und einer Rohbilddateigrösse von etwa 253 MB.",
   "help.attaching.limitations.title": "Dateigrößenbeschränkungen",
   "help.attaching.methods.description": "Es gibt drei Möglichkeiten, eine Datei anzuhängen. Sie können Dateien ziehen und ablegen, das Symbol **Anhang** verwenden oder Dateien kopieren und einfügen.",
   "help.attaching.methods.title": "Anhängemethoden",
