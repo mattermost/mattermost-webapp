@@ -24,6 +24,7 @@ describe('components/delete_channel_modal', () => {
         header: 'test',
         purpose: 'test',
         last_post_at: 1508265709635,
+        last_root_post_at: 1508265709635,
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         scheme_id: '',
         group_constrained: false,

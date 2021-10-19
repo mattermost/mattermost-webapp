@@ -14,9 +14,10 @@ type Props = {
     toggleFunc?: React.MouseEventHandler<HTMLDivElement>;
     onBottom: boolean;
     inHeading?: boolean;
+    stopPropagation?: boolean;
 }
 
-const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
+const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Props) => {
     const screens = [];
 
     screens.push(
@@ -55,6 +56,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
         >
             <TutorialTip
                 step={TutorialSteps.MENU_POPOVER}
+                stopPropagation={stopPropagation}
                 placement={placement}
                 screens={screens}
                 overlayClass={'tip-overlay--header--' + arrow + headerClass}

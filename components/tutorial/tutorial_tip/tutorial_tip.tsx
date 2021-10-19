@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
+import {t} from 'utils/i18n';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
 import TutorialTipBackdrop, {TutorialTipPunchout} from './tutorial_tip_backdrop';
@@ -34,6 +35,8 @@ type Props = {
     placement: string;
     overlayClass: string;
     telemetryTag?: string;
+    stopPropagation?: boolean;
+    preventDefault?: boolean;
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
@@ -71,8 +74,14 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.targetRef = React.createRef();
     }
 
-    private show = (): void => {
+    private show = (e?: React.MouseEvent): void => {
         this.setState({show: true, hasShown: true});
+        if (this.props.preventDefault && e) {
+            e.preventDefault();
+        }
+        if (this.props.stopPropagation && e) {
+            e.stopPropagation();
+        }
     }
 
     private hide = (): void => {
@@ -197,6 +206,35 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         return this.targetRef.current;
     }
 
+    private getButtonText(category: string): JSX.Element {
+        let buttonText = (
+            <FormattedMessage
+                id={t('tutorial_tip.ok')}
+                defaultMessage='Next'
+            />
+        );
+
+        if (category === Preferences.TUTORIAL_STEP) {
+            const lastStep = Object.values(TutorialSteps).reduce((maxStep, candidateMaxStep) => {
+                // ignore the "opt out" FINISHED step as the max step.
+                if (candidateMaxStep > maxStep && candidateMaxStep !== TutorialSteps.FINISHED) {
+                    return candidateMaxStep;
+                }
+                return maxStep;
+            }, Number.MIN_SAFE_INTEGER);
+            if (this.props.step === lastStep) {
+                buttonText = (
+                    <FormattedMessage
+                        id={t('tutorial_tip.finish')}
+                        defaultMessage='Finish'
+                    />
+                );
+            }
+        }
+
+        return buttonText;
+    }
+
     public componentDidMount() {
         this.autoShow(true);
     }
@@ -214,13 +252,6 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element {
-        const buttonText = (
-            <FormattedMessage
-                id='tutorial_tip.ok'
-                defaultMessage='Got it'
-            />
-        );
-
         const dots = [];
         if (this.props.screens.length > 1) {
             for (let i = 0; i < this.props.screens.length; i++) {
@@ -281,7 +312,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                                     className='btn btn-primary'
                                     onClick={this.handleNext}
                                 >
-                                    {buttonText}
+                                    {this.getButtonText(Preferences.TUTORIAL_STEP)}
                                 </button>
                                 <div className='tip-opt'>
                                     <FormattedMessage

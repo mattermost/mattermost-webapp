@@ -73,7 +73,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
             onClick={[Function]}
           >
             <MemoizedFormattedMessage
-              defaultMessage="Got it"
+              defaultMessage="Next"
               id="tutorial_tip.ok"
             />
           </button>
