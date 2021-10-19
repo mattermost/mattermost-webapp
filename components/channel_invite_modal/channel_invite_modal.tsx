@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -44,11 +45,11 @@ export type Props = {
     includeUsers?: Dictionary<UserProfileValue>;
 
     actions: {
-        addUsersToChannel: any;
-        getProfilesNotInChannel: any;
+        addUsersToChannel: (channelId: string, userIds: string[]) => Promise<ActionResult>;
+        getProfilesNotInChannel: (teamId: string, channelId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<ActionResult>;
         getTeamStats: (teamId: string) => void;
         loadStatusesForProfilesList: (users: UserProfile[]) => void;
-        searchProfiles: (term: string, options: any) => void;
+        searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     };
 }
 

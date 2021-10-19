@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/users';
 import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserStatuses, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
-import {Action} from 'mattermost-redux/types/actions';
+import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
@@ -52,11 +52,11 @@ function makeMapStateToProps() {
 }
 
 type Actions = {
-    addUsersToChannel: any;
-    getProfilesNotInChannel: any;
+    addUsersToChannel: (channelId: string, userIds: string[]) => Promise<ActionResult>;
+    getProfilesNotInChannel: (teamId: string, channelId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<ActionResult>;
     getTeamStats: (teamId: string) => void;
     loadStatusesForProfilesList: (users: UserProfile[]) => void;
-    searchProfiles: (term: string, options: any) => void;
+    searchProfiles: (term: string, options: any) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
