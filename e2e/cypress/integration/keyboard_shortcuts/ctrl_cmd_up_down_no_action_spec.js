@@ -47,6 +47,10 @@ describe('Keyboard Shortcuts', () => {
 
         // * The post should have the same length as the typed text and
         // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.text', message);
+        cy.get('#post_textbox').
+            should('be.focused').
+            and('have.text', message).
+            and('have.prop', 'selectionStart', 0).
+            and('have.prop', 'selectionEnd', 0);
     });
 });
