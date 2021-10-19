@@ -11,6 +11,7 @@ import PulsatingDot from 'components/widgets/pulsating_dot';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
+import {t} from 'utils/i18n';
 
 type Preference = {
     user_id: string;
@@ -206,7 +207,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     private getButtonText(category: string): JSX.Element {
         let buttonText = (
             <FormattedMessage
-                id='tutorial_tip.ok'
+                id={t('tutorial_tip.ok')}
                 defaultMessage='Next'
             />
         );
@@ -222,7 +223,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             if (this.props.step === lastStep) {
                 buttonText = (
                     <FormattedMessage
-                        id='tutorial_tip.finish'
+                        id={t('tutorial_tip.finish')}
                         defaultMessage='Finish'
                     />
                 );
