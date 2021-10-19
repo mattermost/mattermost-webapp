@@ -373,7 +373,7 @@ export class MainMenu extends React.PureComponent<Props> {
         ) : (
             <Menu
                 id={this.props.id}
-                ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
+                ariaLabel={formatMessage({id: 'sidebar.team_menu.menuAriaLabel', defaultMessage: 'team menu'})}
             >
                 <Menu.Group>
                     <TeamPermissionGate

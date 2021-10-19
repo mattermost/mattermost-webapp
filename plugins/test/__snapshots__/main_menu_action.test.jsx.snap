@@ -418,7 +418,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
 
 exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
 <Menu
-  ariaLabel="main menu"
+  ariaLabel="team menu"
 >
   <MenuGroup>
     <Connect(TeamPermissionGate)

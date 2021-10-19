@@ -1897,7 +1897,7 @@ const AdminDefinition = {
                         label: t('admin.support.enableAskCommunityTitle'),
                         label_default: 'Enable Ask Community Link:',
                         help_text: t('admin.support.enableAskCommunityDesc'),
-                        help_text_default: 'When true, "Ask the community" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.',
+                        help_text_default: 'When true, "Ask the community" link appears on the Mattermost user interface and Help Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -1906,7 +1906,7 @@ const AdminDefinition = {
                         label: t('admin.support.helpTitle'),
                         label_default: 'Help Link:',
                         help_text: t('admin.support.helpDesc'),
-                        help_text_default: 'The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.',
+                        help_text_default: 'The URL for the Help link on the Mattermost login page, sign-up pages, and Help Menu. If this field is empty, the Help link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -1954,7 +1954,7 @@ const AdminDefinition = {
                         label: t('admin.support.problemTitle'),
                         label_default: 'Report a Problem Link:',
                         help_text: t('admin.support.problemDesc'),
-                        help_text_default: 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.',
+                        help_text_default: 'The URL for the Report a Problem link in the Help Menu. If this field is empty, the link is removed from the Help Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
@@ -1964,7 +1964,7 @@ const AdminDefinition = {
                         label: t('admin.customization.appDownloadLinkTitle'),
                         label_default: 'Mattermost Apps Download Page Link:',
                         help_text: t('admin.customization.appDownloadLinkDesc'),
-                        help_text_default: 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.',
+                        help_text_default: 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Product Menu so users can find the download page. Leave this field blank to hide the option from the Product Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
@@ -2026,7 +2026,7 @@ const AdminDefinition = {
                         label_default: 'Available Languages:',
                         help_text: t('admin.general.localization.availableLocalesDescription'),
                         help_text_markdown: true,
-                        help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.',
+                        help_text_default: 'Set which languages are available for users in **Settings > Display > Language** (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.',
                         multiple: true,
                         no_result: t('admin.general.localization.availableLocalesNoResults'),
                         no_result_default: 'No results found',
@@ -2122,7 +2122,7 @@ const AdminDefinition = {
                         label: t('admin.lockTeammateNameDisplay'),
                         label_default: 'Lock Teammate Name Display for all users: ',
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
-                        help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
+                        help_text_default: 'When true, disables users\' ability to change settings under Account Menu > Account Settings > Display > Teammate Name Display.',
                         isHidden: it.not(it.licensedForFeature('LockTeammateNameDisplay')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
@@ -2211,7 +2211,7 @@ const AdminDefinition = {
                         label: t('admin.environment.notifications.enableEmailBatching.label'),
                         label_default: 'Enable Email Batching:',
                         help_text: t('admin.environment.notifications.enableEmailBatching.help'),
-                        help_text_default: 'When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Account Settings > Notifications.',
+                        help_text_default: 'When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Settings > Notifications.',
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
@@ -2502,7 +2502,7 @@ const AdminDefinition = {
                         label: t('admin.customization.enableLinkPreviewsTitle'),
                         label_default: 'Enable website link previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
-                        help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
+                        help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Settings > Display > Website Link Previews.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -3295,7 +3295,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.firstnameAttrEx'),
                                 placeholder_default: 'E.g.: "givenName"',
                                 help_text: t('admin.ldap.firstnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3312,7 +3312,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.lastnameAttrEx'),
                                 placeholder_default: 'E.g.: "sn"',
                                 help_text: t('admin.ldap.lastnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3329,7 +3329,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.nicknameAttrEx'),
                                 placeholder_default: 'E.g.: "nickname"',
                                 help_text: t('admin.ldap.nicknameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3346,7 +3346,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.positionAttrEx'),
                                 placeholder_default: 'E.g.: "title"',
                                 help_text: t('admin.ldap.positionAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -5195,7 +5195,7 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
@@ -5740,7 +5740,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.enableUserDeactivation.title'),
                         label_default: 'Enable Account Deactivation:',
                         help_text: t('admin.experimental.enableUserDeactivation.desc'),
-                        help_text_default: 'When true, users may deactivate their own account from **Account Settings > Advanced**. If a user deactivates their own account, they will get an email notification confirming they were deactivated. When false, users may not deactivate their own account.',
+                        help_text_default: 'When true, users may deactivate their own account from **Settings > Advanced**. If a user deactivates their own account, they will get an email notification confirming they were deactivated. When false, users may not deactivate their own account.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -5750,7 +5750,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalEnableAutomaticReplies.title'),
                         label_default: 'Enable Automatic Replies:',
                         help_text: t('admin.experimental.experimentalEnableAutomaticReplies.desc'),
-                        help_text_default: 'When true, users can enable Automatic Replies in **Account Settings > Notifications**. Users set a custom message that will be automatically sent in response to Direct Messages. When false, disables the Automatic Direct Message Replies feature and hides it from Account Settings.',
+                        help_text_default: 'When true, users can enable Automatic Replies in **Settings > Notifications**. Users set a custom message that will be automatically sent in response to Direct Messages. When false, disables the Automatic Direct Message Replies feature and hides it from Settings.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -5831,7 +5831,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.enablePreviewFeatures.title'),
                         label_default: 'Enable Preview Features:',
                         help_text: t('admin.experimental.enablePreviewFeatures.desc'),
-                        help_text_default: 'When true, preview features can be enabled from **Account Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.',
+                        help_text_default: 'When true, preview features can be enabled from **Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Settings > Advanced > Preview pre-release features**.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -5841,7 +5841,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.enableThemeSelection.title'),
                         label_default: 'Enable Theme Selection:',
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
-                        help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
+                        help_text_default: 'Enables the **Display > Theme** tab in Settings so users can select their theme.',
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.not(it.licensed),
@@ -5855,7 +5855,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.allowCustomThemes.title'),
                         label_default: 'Allow Custom Themes:',
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
-                        help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
+                        help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Settings.',
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.not(it.licensed),
@@ -6014,7 +6014,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.collapsedThreads.title'),
                         label_default: 'Collapsed Reply Threads',
                         help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
                         help_text_markdown: true,
                         options: [
                             {
@@ -6043,7 +6043,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalTimezone.title'),
                         label_default: 'Timezone:',
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
-                        help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
+                        help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone section is visible in the Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Settings.',
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },

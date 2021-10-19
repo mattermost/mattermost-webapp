@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+import deepEqual from 'fast-deep-equal';
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
@@ -14,7 +15,6 @@ import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 
 import * as I18n from 'i18n/i18n.jsx';
@@ -307,7 +307,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     updateState = () => {
         const newState = getDisplayStateFromProps(this.props);
-        if (!Utils.areObjectsEqual(newState, this.state)) {
+        if (!deepEqual(newState, this.state)) {
             this.setState(newState);
         }
 

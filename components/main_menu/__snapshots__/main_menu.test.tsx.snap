@@ -2,7 +2,7 @@
 
 exports[`components/Menu should match snapshot with id 1`] = `
 <Menu
-  ariaLabel="main menu"
+  ariaLabel="team menu"
   id="test-id"
 >
   <MenuGroup>
@@ -205,7 +205,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
 
 exports[`components/Menu should match snapshot with most of the thing disabled 1`] = `
 <Menu
-  ariaLabel="main menu"
+  ariaLabel="team menu"
 >
   <MenuGroup>
     <Connect(TeamPermissionGate)
@@ -815,7 +815,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
 
 exports[`components/Menu should match snapshot with most of the thing enabled 1`] = `
 <Menu
-  ariaLabel="main menu"
+  ariaLabel="team menu"
 >
   <MenuGroup>
     <Connect(TeamPermissionGate)
@@ -1427,7 +1427,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
 
 exports[`components/Menu should match snapshot with plugins 1`] = `
 <Menu
-  ariaLabel="main menu"
+  ariaLabel="team menu"
 >
   <MenuGroup>
     <Connect(TeamPermissionGate)
