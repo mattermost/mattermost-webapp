@@ -57,9 +57,5 @@ describe('Keyboard Shortcuts', () => {
 
         // * Verify that the Edit textbox does not contain the system generated message
         cy.get('#edit_textbox').should('not.contain.text', systemMessage)
-
-        // # Close header edit modal
-        cy.get('.cancel-button').click();
-
     });
 });
