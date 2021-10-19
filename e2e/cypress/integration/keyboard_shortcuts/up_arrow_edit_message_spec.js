@@ -146,4 +146,26 @@ describe('Keyboard Shortcuts', () => {
         // * Verify that the message was edited
         cy.uiWaitUntilMessagePostedIncludes('codeblock2');
     });
+
+    it('MM-T1264 UP - Ephemeral message does not open for edit; opens previous regular message', () => {
+        // # Type user message
+        const message = 'Hello World';
+        cy.postMessage(message);
+
+        // # Type "/code" with no text to receive ephemeral message
+        cy.postMessage('/code ');
+
+        // * Verify if an ephemeral message was received
+        cy.findByText('(Only visible to you)').should('exist');
+        cy.findByText('A message must be provided with the /code command.').should('exist');
+
+        // # Press up arrow key
+        cy.get('body').type('{uparrow}');
+
+        // * Verify that the Edit Post Modal is visible
+        cy.get('#editPostModal').should('be.visible');
+
+        // * Verify that edit box have value of previous regular message
+        cy.get('#edit_textbox').should('have.value', message);
+    });
 });
