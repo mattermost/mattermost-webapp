@@ -36,7 +36,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').should('have.value', origConfig.SupportSettings.ReportAProblemLink);
 
         // * Verify Report a Problem link help text is visible and matches the text
-        cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.');
+        cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Help Menu. If this field is empty, the link is removed from the Help Menu.');
 
         // # Enter a problem link
         const reportAProblemLink = 'https://about.mattermost.com/default-report-a-problem/test';
@@ -138,7 +138,7 @@ describe('Customization', () => {
         cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.AppDownloadLink);
 
         // * Verify the site name's help text is visible and matches the text
-        cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.');
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Product Menu so users can find the download page. Leave this field blank to hide the option from the Product Menu.');
 
         // # Enter new App download link
         const newAppDownloadLink = 'https://example.com/app-download-link/';
@@ -156,7 +156,7 @@ describe('Customization', () => {
 
     it('MM-T1209 - Can change Help Link setting', () => {
         // * Verify that setting is visible and matches text content
-        const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.'];
+        const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Help Menu. If this field is empty, the Help link is hidden from users.'];
         cy.findByTestId('SupportSettings.HelpLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Help Link:');
 
         // * Verify that help setting is visible and matches text content
