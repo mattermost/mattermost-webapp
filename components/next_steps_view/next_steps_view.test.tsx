@@ -23,6 +23,10 @@ describe('components/next_steps_view', () => {
                 },
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_2',
@@ -33,6 +37,10 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_3',
@@ -43,6 +51,10 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
         ],
         currentUser: TestHelper.getUserMock(),
