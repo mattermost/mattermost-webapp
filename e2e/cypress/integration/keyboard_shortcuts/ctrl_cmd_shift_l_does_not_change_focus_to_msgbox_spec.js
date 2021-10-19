@@ -32,7 +32,7 @@ describe('Keyboard Shortcuts', () => {
         // # Press ctrl/cmd+shift+l
         cy.get('body').cmdOrCtrlShortcut('{shift+l}');
         // * check if channel message box is focused
-        cy.get('[data-testid=post_textbox]').should('not.be.focused');
+        cy.get('#post_textbox').should('not.be.focused');
         // # close invite memebers full-page screen
         cy.get('#closeIcon > svg').click();
     });
