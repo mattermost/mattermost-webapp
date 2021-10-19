@@ -290,6 +290,7 @@
 
         .attachment-fields {
             width: 100%;
+            table-layout: fixed;
 
             .attachment-field__caption {
                 font-weight: 600;
