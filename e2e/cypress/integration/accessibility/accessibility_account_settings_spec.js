@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {isMac} from '../../utils';
 
-describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
+describe('Verify Accessibility Support in different sections in Settings and Account Settings Dialog', () => {
     const accountSettings = {
         profile: [
             {key: 'name', label: 'Full Name', type: 'text'},
@@ -47,6 +47,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
             {key: 'collapse', label: 'Default Appearance of Image Previews', type: 'radio'},
             {key: 'message_display', label: 'Message Display', type: 'radio'},
             {key: 'channel_display_mode', label: 'Channel Display', type: 'radio'},
+            {key: 'one_click_reactions_enabled', label: 'One-click reactions on messages', type: 'radio'},
             {key: 'languages', label: 'Language', type: 'dropdown'},
         ],
         sidebar: [
@@ -106,7 +107,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         });
     });
 
-    it('MM-T1465_2 Verify Accessibility Support in each section in Account Settings Dialog', () => {
+    it('MM-T1465_2 Verify Accessibility Support in each section in Settings and Account Settings Dialog', () => {
         // # Open account settings modal
         cy.uiOpenAccountSettingsModal();
 
@@ -149,7 +150,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         verifySettings(settings.advanced);
     });
 
-    it('MM-T1481 Verify Correct Radio button behavior in Account Settings', () => {
+    it('MM-T1481 Verify Correct Radio button behavior in Settings and Account Settings', () => {
         cy.uiOpenSettingsModal();
 
         cy.get('#notificationsButton').click();
@@ -159,7 +160,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#desktopNotificationNever').should('be.checked');
     });
 
-    it('MM-T1482 Input fields in Account Settings should read labels', () => {
+    it('MM-T1482 Input fields in Settings and Account Settings should read labels', () => {
         cy.uiOpenAccountSettingsModal();
 
         accountSettings.profile.forEach((section) => {

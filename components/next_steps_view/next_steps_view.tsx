@@ -33,10 +33,10 @@ type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
     isFirstAdmin: boolean;
+    isAdmin: boolean;
     steps: StepType[];
     team: Team;
     isCloud: boolean;
-    globalHeaderEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
@@ -352,7 +352,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
                         team={this.props.team}
-                        globalHeaderEnabled={this.props.globalHeaderEnabled}
+                        isAdmin={this.props.isAdmin}
                     />
                 </>}
             </section>

@@ -44,7 +44,6 @@ describe('Teams Suite', () => {
 
         // * check url is correct
         cy.url().should('include', teamURL + '/channels/town-square');
-        cy.postMessage('again');
 
         // * Team name should displays correctly at top of LHS
         cy.uiGetLHSHeader().findByText(teamName);

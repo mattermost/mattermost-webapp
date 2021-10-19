@@ -67,6 +67,7 @@ describe('components/CreateComment', () => {
         useChannelMentions: true,
         getChannelMemberCountsByGroup: jest.fn(),
         useGroupMentions: true,
+        openModal: jest.fn(),
     };
 
     test('should match snapshot, empty comment', () => {
@@ -574,7 +575,7 @@ describe('components/CreateComment', () => {
             preventDefault = jest.fn();
         });
 
-        ['channel', 'all'].forEach((mention) => {
+        ['channel', 'all', 'here'].forEach((mention) => {
             describe(`should not show Confirm Modal for @${mention} mentions`, () => {
                 it('when channel member count too low', () => {
                     const props = {
@@ -596,7 +597,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when feature disabled', () => {
@@ -619,7 +620,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when no mention', () => {
@@ -642,7 +643,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when user has insufficient permissions', () => {
@@ -666,7 +667,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
             });
 
@@ -690,7 +691,7 @@ describe('components/CreateComment', () => {
                 wrapper.instance().handleSubmit({preventDefault});
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
 
             it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, async () => {
@@ -718,7 +719,7 @@ describe('components/CreateComment', () => {
                 expect(preventDefault).toHaveBeenCalled();
                 expect(wrapper.state('channelTimezoneCount')).toBe(4);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
 
             it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, async () => {
@@ -746,7 +747,7 @@ describe('components/CreateComment', () => {
                 expect(preventDefault).toHaveBeenCalled();
                 expect(wrapper.state('channelTimezoneCount')).toBe(0);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
         });
 
@@ -779,16 +780,16 @@ describe('components/CreateComment', () => {
             const wrapper = shallowWithIntl(
                 <CreateComment {...props}/>,
             );
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(10);
-            expect(wrapper.state('channelTimezoneCount')).toBe(0);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should show Confirm Modal for @group mentions when needed and no timezone notification', async () => {
@@ -853,15 +854,16 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(40);
-            expect(wrapper.state('channelTimezoneCount')).toBe(0);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you', '@software-developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should show Confirm Modal for @group mention with timezone enabled', async () => {
@@ -894,15 +896,16 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(10);
-            expect(wrapper.state('channelTimezoneCount')).toBe(5);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 5, 10);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should allow to force send invalid slash command as a message', async () => {

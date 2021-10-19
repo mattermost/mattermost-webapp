@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .dropdown-menu {
     @include border-radius(4px);
@@ -73,5 +73,13 @@
             margin-left: -5px;
             text-align: center;
         }
+    }
+}
+
+@media screen and (min-width: 769px) {
+    // global header style adjustments
+    .dropdown-menu {
+        top: calc(100% + 4px);
+        min-width: 245px;
     }
 }

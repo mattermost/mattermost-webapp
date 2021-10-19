@@ -358,7 +358,6 @@
   "admin.billing.subscription.proratedPaymentBegins": "按比例付款开始日期：{beginDate}。 ",
   "admin.billing.subscription.providePaymentDetails": "提供您的付款明细",
   "admin.billing.subscription.purchaseModal.currentPlan": "当前套餐",
-  "admin.billing.subscription.questions": "有什么疑问吗？",
   "admin.billing.subscription.stateprovince": "州/省",
   "admin.billing.subscription.title": "订阅",
   "admin.billing.subscription.unlimitedUsers": "无限用户",
