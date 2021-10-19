@@ -35,6 +35,7 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
         dispatch(openModal({
             modalId: ModalIdentifiers.START_TRIAL_MODAL,
             dialogType: StartTrialModal,
+            dialogProps: {onClose: null},
         }));
     };
 
@@ -53,7 +54,7 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
     const isCurrentLicenseTrial = isTrialLicense(license);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const show = (isCurrentLicensed === 'false' || (isCurrentLicensed === 'true' && isCurrentLicenseTrial)) && (isPrevLicensed === 'false');
+    const show = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') || isCurrentLicenseTrial;
 
     if (!show) {
         return null;
@@ -67,12 +68,14 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
         >
             {isCurrentLicenseTrial ?
                 <>
-                    <span>
-                        {formatMessage({id: 'navbar_dropdown.reviewTrialBenefits', defaultMessage: 'Review the features you get with Enterprise. Learn more'})}
-                    </span>
-                    <button onClick={openTrialBenefitsModal}>
-                        {formatMessage({id: 'navbar_dropdown.learnMoreTrialBenefits', defaultMessage: 'Learn More'})}
-                    </button>
+                    <div style={{display: 'inline'}}>
+                        <span>
+                            {formatMessage({id: 'navbar_dropdown.reviewTrialBenefits', defaultMessage: 'Review the features you get with Enterprise. '})}
+                        </span>
+                        <button onClick={openTrialBenefitsModal}>
+                            {formatMessage({id: 'navbar_dropdown.learnMoreTrialBenefits', defaultMessage: 'Learn More'})}
+                        </button>
+                    </div>
                 </> :
                 <>
                     <span>
