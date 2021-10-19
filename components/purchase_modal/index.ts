@@ -6,9 +6,9 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig} from 'mattermost-redux/actions/general';
+import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';

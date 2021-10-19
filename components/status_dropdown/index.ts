@@ -8,7 +8,7 @@ import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 
-import {get, isTimedDNDEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
@@ -42,7 +42,6 @@ function makeMapStateToProps() {
             isStatusDropdownOpen: isStatusDropdownOpen(state),
             showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
             timezone: getCurrentUserTimezone(state),
-            isTimedDNDEnabled: isTimedDNDEnabled(state),
         };
     };
 }
