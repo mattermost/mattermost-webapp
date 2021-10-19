@@ -67,7 +67,7 @@ export const Steps: StepType[] = [
         roles: [],
         visible: true,
         finishButtonText: {
-            id: 'next_steps_view.complete_profile_step.saveProfile',
+            id: ('next_steps_view.complete_profile_step.saveProfile'),
             defaultMessage: 'Save profile',
         },
     },
@@ -81,7 +81,7 @@ export const Steps: StepType[] = [
         component: TeamProfileStep,
         visible: true,
         finishButtonText: {
-            id: 'next_steps_view.team_profile_step.saveTeam',
+            id: ('next_steps_view.team_profile_step.saveTeam'),
             defaultMessage: 'Save team',
         },
     },
@@ -95,7 +95,7 @@ export const Steps: StepType[] = [
         component: EnableNotificationsStep,
         visible: true,
         finishButtonText: {
-            id: 'next_steps_view.notificationSetup.setNotifications',
+            id: ('next_steps_view.notificationSetup.setNotifications'),
             defaultMessage: 'Set up notifications',
         },
     },
@@ -109,7 +109,7 @@ export const Steps: StepType[] = [
         component: SetupPreferencesStep,
         visible: false,
         finishButtonText: {
-            id: 'next_steps_view.preferenceSetup.setPreferences',
+            id: ('next_steps_view.preferenceSetup.setPreferences'),
             defaultMessage: 'Set Preferences',
         },
     },
@@ -123,7 +123,7 @@ export const Steps: StepType[] = [
         component: InviteMembersStep,
         visible: true,
         finishButtonText: {
-            id: 'next_steps_view.invite_members_step.next_step',
+            id: ('next_steps_view.invite_members_step.next_step'),
             defaultMessage: 'Next Step',
         },
     },
@@ -137,7 +137,7 @@ export const Steps: StepType[] = [
         component: DownloadAppsStep,
         visible: true,
         finishButtonText: {
-            id: 'next_steps_view.invite_members_step.next_step',
+            id: ('next_steps_view.invite_members_step.next_step'),
             defaultMessage: 'Next Step',
         },
     },

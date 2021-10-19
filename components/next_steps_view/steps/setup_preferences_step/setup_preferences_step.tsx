@@ -43,7 +43,7 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
     let buttonDefaultMessage = props.finishButtonText.defaultMessage;
 
     if (props.isLastStep) {
-        buttonMessageId = 'next_steps_view.invite_members_step.finish';
+        buttonMessageId = t('next_steps_view.invite_members_step.finish');
         buttonDefaultMessage = 'Finish';
     }
 
@@ -52,7 +52,7 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
             <TextCardWithAction
                 cardBodyMessageId={t('next_steps_view.preferenceSetup')}
                 cardBodyDefaultMessage={'You can update your profile and manage security settings from Account Settings by selecting your Avatar. Select Settings to change how you receive notifications, customize your display settings, and more.'}
-                buttonMessageId={t(buttonMessageId)}
+                buttonMessageId={buttonMessageId}
                 buttonDefaultMessage={buttonDefaultMessage}
                 onClick={onClick}
             />

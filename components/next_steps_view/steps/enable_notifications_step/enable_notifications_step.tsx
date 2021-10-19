@@ -77,7 +77,7 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
     let buttonDefaultMessage = props.finishButtonText.defaultMessage;
 
     if (props.isLastStep) {
-        buttonMessageId = 'next_steps_view.invite_members_step.finish';
+        buttonMessageId = t('next_steps_view.invite_members_step.finish');
         buttonDefaultMessage = 'Finish';
     }
     return (
@@ -86,7 +86,7 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
             cardBodyDefaultMessage={
                 'We recommend enabling desktop notifications so you don’t miss any important communications.'
             }
-            buttonMessageId={t(buttonMessageId)}
+            buttonMessageId={buttonMessageId}
             buttonDefaultMessage={buttonDefaultMessage}
             onClick={onFinish}
         />
