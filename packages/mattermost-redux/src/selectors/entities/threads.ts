@@ -89,7 +89,6 @@ export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserTh
     if (thread?.id) {
         return thread;
     }
-    console.log('thread', thread, rootPost);
 
     return {
         id: rootPost.id,

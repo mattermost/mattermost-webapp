@@ -85,8 +85,6 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
     render() {
         let back;
         const {isMentionedInRootPost, isFollowingThread} = this.props;
-
-        console.log('isMentionedInRootPost', isMentionedInRootPost, isFollowingThread);
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
