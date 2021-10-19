@@ -35,7 +35,7 @@ type Props = {
         /**
         * The function to call to add a new incoming webhook
         */
-        createIncomingHook: (hook: IncomingWebhook) => Promise<{ data: IncomingWebhook; error: Error }>;
+        createIncomingHook: (hook: IncomingWebhook) => Promise<{ data?: IncomingWebhook; error?: Error }>;
     };
 };
 
