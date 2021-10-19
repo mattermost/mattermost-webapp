@@ -23,11 +23,7 @@ describe('Messaging', () => {
         cy.postMessage(emojis);
 
         cy.get('.emoticon').then((allEmoticons) => {
-            for (let index = 0; index < allEmoticons.length; index++) {
-                if (index === allEmoticons.length - 1) {
-                    break;
-                }
-
+            for (let index = 0; index < allEmoticons.length - 1; index++) {
                 const emoticon = allEmoticons[index];
                 const emoticonToCompare = allEmoticons[index + 1];
 
