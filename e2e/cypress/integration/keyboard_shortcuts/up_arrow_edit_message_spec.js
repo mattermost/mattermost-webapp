@@ -151,39 +151,39 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1270 UP - Edit message with attachment but no text', () => {
         cy.apiLogin(testUser);
-    
+
         // # Visit the channel using the channel name
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-    
+
         // # Upload file
         cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
-    
+
         // # Wait for file to upload
         cy.wait(TIMEOUTS.TWO_SEC);
-    
+
         cy.get('#post_textbox').type('{enter}');
-    
+
         cy.getLastPost().within(() => {
             // * Attachment should exist
             cy.get('.file-view--single').should('exist');
-    
+
             // * Edited indicator should not exist
             cy.get('.post-edited__indicator').should('not.exist');
         });
-    
+
         // # Press UP arrow
         cy.get('#post_textbox').type('{uparrow}');
-    
+
         // # Add some text to the previous message and save
         cy.get('#edit_textbox').type('Test{enter}');
-    
+
         cy.getLastPost().within(() => {
             // * Posted message should be correct
             cy.get('.post-message__text').should('contain.text', 'Test');
-    
+
             // * Attachment should exist
             cy.get('.file-view--single').should('exist');
-    
+
             // * Edited indicator should not exist
             cy.get('.post-edited__indicator').should('exist');
         });
