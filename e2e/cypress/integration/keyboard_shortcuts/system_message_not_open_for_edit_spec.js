@@ -14,7 +14,7 @@ describe('Keyboard Shortcuts', () => {
     let testChannel;
     let testUser;
     before(() => {
-        cy.apiInitSetup().then(({ team, channel, user }) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
             testUser = user;
@@ -23,7 +23,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1265 UP - System message does not open for edit; opens previous regular message', () => {
         const message = 'Test message';
-        const newHeader = 'New Header'
+        const newHeader = 'New Header';
         cy.apiLogin(testUser);
 
         // # Visit the channel using the channel name
@@ -56,6 +56,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#edit_textbox').should('have.text', message);
 
         // * Verify that the Edit textbox does not contain the system generated message
-        cy.get('#edit_textbox').should('not.contain.text', systemMessage)
+        cy.get('#edit_textbox').should('not.contain.text', systemMessage);
     });
 });
