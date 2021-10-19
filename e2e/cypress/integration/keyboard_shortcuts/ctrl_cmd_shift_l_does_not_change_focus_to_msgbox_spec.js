@@ -26,7 +26,7 @@ describe('Keyboard Shortcuts', () => {
         // * check if channel message box is focused
         cy.get('#post_textbox').should('not.be.focused');
         // # close account settings modal
-        cy.get('#accountSettingsHeader > .close > [aria-hidden="true"]').click();
+       cy.uiClose();
         // # open invite members full-page screen
         cy.get('#introTextInvite').click();
         // # Press ctrl/cmd+shift+l
