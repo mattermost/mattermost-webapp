@@ -46,6 +46,7 @@ type Props = Attrs & {
     useRelativeTimestamp?: boolean;
     postIds: string[];
     highlightedPostId?: $ID<Post>;
+    selectedPostFocusedAt?: number;
     isThreadView?: boolean;
 };
 
@@ -219,6 +220,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                                     selected={this.props.selected}
                                     useRelativeTimestamp={this.props.useRelativeTimestamp || false}
                                     highlightedPostId={this.props.highlightedPostId}
+                                    selectedPostFocusedAt={this.props.selectedPostFocusedAt}
                                     isThreadView={this.props.isCollapsedThreadsEnabled && this.props.isThreadView}
                                 />
                             )}
