@@ -195,7 +195,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderStep = (step: StepType, index: number) => {
-        const {id, title} = step;
+        const {id, title, finishButtonText} = step;
 
         let icon = (
             <div className='NextStepsView__cardHeaderBadge'>
@@ -208,7 +208,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             );
         }
 
-        return (setExpanded: (expandedKey: string) => void, expandedKey: string) => (
+        return (setExpanded: (expandedKey: string) => void, expandedKey: string, isLastStep: boolean) => (
             <Card
                 className={classNames({complete: this.isStepComplete(id)})}
                 expanded={expandedKey === id}
@@ -234,6 +234,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
+                        isLastStep={isLastStep}
+                        finishButtonText={finishButtonText}
                     />
                 </Card.Body>
             </Card>
@@ -306,7 +308,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             {(setExpanded, expandedKey) => {
                                 return (
                                     <>
-                                        {renderedSteps.map((step) => step(setExpanded, expandedKey))}
+                                        {renderedSteps.map((step, i) => step(setExpanded, expandedKey, i === renderedSteps.length - 1))}
                                     </>
                                 );
                             }}
