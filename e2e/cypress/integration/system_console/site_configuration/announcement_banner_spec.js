@@ -118,7 +118,7 @@ describe('Announcement Banner', () => {
 
         // * Verify popover is visible
         cy.get('#announcement-bar__tooltip').
-            as('announcmentBannerTooptip').
+            as('announcementBannerTooltip').
             should('be.visible').
             within(() => {
                 // * Verify complete banner is present in the popover
@@ -134,7 +134,7 @@ describe('Announcement Banner', () => {
         cy.get('@announcementBanner').trigger('mouseout');
 
         // * Verify the popover is no more visible
-        cy.get('@announcmentBannerTooptip').should('not.be.visible');
+        cy.get('@announcementBannerTooltip').should('not.exist');
 
         // # Close the banner
         cy.get('.announcement-bar__close').should('be.visible').click();

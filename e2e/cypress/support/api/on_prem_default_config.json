@@ -231,14 +231,13 @@
         "ShowFullName": true
     },
     "SupportSettings": {
-        "TermsOfServiceLink": "https://about.mattermost.com/default-terms/",
-        "PrivacyPolicyLink": "https://about.mattermost.com/default-privacy-policy/",
+        "TermsOfServiceLink": "https://mattermost.com/terms-of-service/",
+        "PrivacyPolicyLink": "https://mattermost.com/privacy-policy/",
         "AboutLink": "https://about.mattermost.com/default-about/",
         "HelpLink": "https://about.mattermost.com/default-help/",
         "ReportAProblemLink": "https://about.mattermost.com/default-report-a-problem/",
         "SupportEmail": "",
         "CustomTermsOfServiceEnabled": false,
-        "CustomTermsOfServiceText": "",
         "CustomTermsOfServiceReAcceptancePeriod": 365,
         "EnableAskCommunityLink": true
     },
