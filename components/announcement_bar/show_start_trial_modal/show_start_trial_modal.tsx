@@ -88,7 +88,7 @@ const ShowStartTrialModal = () => {
                 dialogProps: {onClose: handleOnClose},
             }));
         }
-    }, []);
+    }, [stats?.TOTAL_USERS]);
 
     return null;
 };

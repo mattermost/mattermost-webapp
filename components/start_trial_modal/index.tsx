@@ -138,7 +138,7 @@ function StartTrialModal(props: Props): JSX.Element | null {
                     <span>
                         <FormattedMarkdownMessage
                             id='start_trial.modal.disclaimer'
-                            defaultMessage='By clicking “Start 30-day trial”, I agree to the [Mattermost Software Evaluation Agreement, Privacy Policy,](!https://mattermost.com/software-evaluation-agreement) and receiving product emails.'
+                            defaultMessage='By clicking “Start 30-day trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://about.mattermost.com/default-privacy-policy/) and receiving product emails.'
                         />
                     </span>
                 </div>
