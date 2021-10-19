@@ -11,7 +11,8 @@ let requestedNotificationPermission = false;
 // showNotification displays a platform notification with the configured parameters.
 //
 // If successful in showing a notification, it resolves with a callback to manually close the
-// notification. Notifications that do not require interaction will be closed automatically after
+// notification. If no error occurred but the user did not grant permission to show notifications, it
+// resolves with a no-op callback. Notifications that do not require interaction will be closed automatically after
 // the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
 // choose different semantics for the notifications.
 
