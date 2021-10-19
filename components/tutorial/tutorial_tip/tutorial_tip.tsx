@@ -194,6 +194,35 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         return this.targetRef.current;
     }
 
+    private getButtonText(category: string): JSX.Element {
+        let buttonText = (
+            <FormattedMessage
+                id='tutorial_tip.ok'
+                defaultMessage='Next'
+            />
+        );
+
+        if (category === Preferences.TUTORIAL_STEP) {
+            const lastStep = Object.values(TutorialSteps).reduce((maxStep, candidateMaxStep) => {
+                // ignore the "opt out" FINISHED step as the max step.
+                if (candidateMaxStep > maxStep && candidateMaxStep !== TutorialSteps.FINISHED) {
+                    return candidateMaxStep
+                }
+                return maxStep
+            }, Number.MIN_SAFE_INTEGER)
+            if (this.props.step === lastStep) {
+                buttonText = (
+                    <FormattedMessage
+                        id='tutorial_tip.finish'
+                        defaultMessage='Finish'
+                    />
+                );
+            }
+        }
+
+        return buttonText
+    }
+
     public componentDidMount() {
         this.autoShow(true);
     }
@@ -211,13 +240,6 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element {
-        const buttonText = (
-            <FormattedMessage
-                id='tutorial_tip.ok'
-                defaultMessage='Got it'
-            />
-        );
-
         const dots = [];
         if (this.props.screens.length > 1) {
             for (let i = 0; i < this.props.screens.length; i++) {
@@ -273,7 +295,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                                     className='btn btn-primary'
                                     onClick={this.handleNext}
                                 >
-                                    {buttonText}
+                                    {this.getButtonText(Preferences.TUTORIAL_STEP)}
                                 </button>
                                 <div className='tip-opt'>
                                     <FormattedMessage
