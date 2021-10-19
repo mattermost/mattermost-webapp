@@ -3186,7 +3186,7 @@
   "get_app.ifNothingPromptsMobile": "You can view {siteName} in the mobile app or continue in your web browser.",
   "get_app.launching": "Where would you like to view this?",
   "get_app.openingLink": "Opening link in Mattermost...",
-  "get_app.openingLinkWhiteLabel": "Opening link in the Desktop App...",
+  "get_app.openingLinkWhiteLabel": "Opening link in {appName}...",
   "get_app.openLinkInBrowser": "Or, [open this link in your browser.](!{link})",
   "get_app.redirectedInMoments": "You will be redirected in a few moments.",
   "get_app.rememberMyPreference": "Remember my preference",
