@@ -17,7 +17,7 @@ import {
     makeGetChannelIdsForCategory,
 } from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
-import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
@@ -147,7 +147,8 @@ export const getUnreadChannels = (() => {
         getMyChannelMemberships,
         getLastPostPerChannel,
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
-        (channels, myMembers, lastPosts, lastUnreadChannel) => {
+        isCollapsedThreadsEnabled,
+        (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
             function isMuted(channel: Channel) {
                 return isChannelMuted(myMembers[channel.id]);
             }
@@ -177,11 +178,23 @@ export const getUnreadChannels = (() => {
                     return 1;
                 }
 
+                let lastPostAt = {
+                    a: a.last_post_at,
+                    b: b.last_post_at,
+                };
+
+                if (crtEnabled) {
+                    lastPostAt = {
+                        a: a.last_root_post_at,
+                        b: b.last_root_post_at,
+                    };
+                }
+
                 // If available, get the last post time from the loaded posts for the channel, but fall back to the
                 // channel's last_post_at if that's not available. The last post time from the loaded posts is more
                 // accurate because channel.last_post_at is not updated on the client as new messages come in.
-                const aLastPostAt = maxDefined(a.last_post_at, lastPosts[a.id]?.create_at);
-                const bLastPostAt = maxDefined(b.last_post_at, lastPosts[b.id]?.create_at);
+                const aLastPostAt = maxDefined(lastPostAt.a, lastPosts[a.id]?.create_at);
+                const bLastPostAt = maxDefined(lastPostAt.b, lastPosts[b.id]?.create_at);
 
                 return bLastPostAt - aLastPostAt;
             });

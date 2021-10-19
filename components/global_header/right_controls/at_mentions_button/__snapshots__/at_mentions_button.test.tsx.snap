@@ -4,7 +4,34 @@ exports[`components/global/AtMentionsButton should match snapshot 1`] = `
 <OverlayTrigger
   defaultOverlayShown={false}
   delayShow={400}
-  overlay={<React.Fragment />}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="recentMentions"
+      placement="right"
+    >
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Recent mentions"
+        id="channel_header.recentMentions"
+      />
+      <Memo(KeyboardShortcutSequence)
+        hideDescription={true}
+        isInsideTooltip={true}
+        shortcut={
+          Object {
+            "default": Object {
+              "defaultMessage": "Recent mentions:	Ctrl|Shift|M",
+              "id": "shortcuts.nav.recent_mentions",
+            },
+            "mac": Object {
+              "defaultMessage": "Recent mentions:	⌘|Shift|M",
+              "id": "shortcuts.nav.recent_mentions.mac",
+            },
+          }
+        }
+      />
+    </Tooltip>
+  }
   placement="bottom"
   trigger={
     Array [

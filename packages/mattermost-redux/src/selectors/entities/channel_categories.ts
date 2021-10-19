@@ -336,18 +336,19 @@ export function makeSortChannelsByRecency(): (state: GlobalState, channels: Chan
         'makeSortChannelsByRecency',
         (state: GlobalState, channels: Channel[]) => channels,
         getLastPostPerChannel,
-        (channels, lastPosts) => {
+        isCollapsedThreadsEnabled,
+        (channels, lastPosts, crtEnabled) => {
             return [...channels].sort((a, b) => {
                 // If available, get the last post time from the loaded posts for the channel, but fall back to the
                 // channel's last_post_at if that's not available. The last post time from the loaded posts is more
                 // accurate because channel.last_post_at is not updated on the client as new messages come in.
 
-                let aLastPostAt = a.last_post_at;
+                let aLastPostAt = crtEnabled ? a.last_root_post_at : a.last_post_at;
                 if (lastPosts[a.id] && lastPosts[a.id].create_at > a.last_post_at) {
                     aLastPostAt = lastPosts[a.id].create_at;
                 }
 
-                let bLastPostAt = b.last_post_at;
+                let bLastPostAt = crtEnabled ? b.last_root_post_at : b.last_post_at;
                 if (lastPosts[b.id] && lastPosts[b.id].create_at > b.last_post_at) {
                     bLastPostAt = lastPosts[b.id].create_at;
                 }

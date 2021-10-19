@@ -12,11 +12,16 @@ import {Tooltip} from 'react-bootstrap';
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
-
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {
+    Constants,
+    TELEMETRY_CATEGORIES,
+    CloudLinks,
+    CloudProducts,
+    BillingSchemes,
+} from 'utils/constants';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
@@ -79,6 +84,7 @@ type State = {
     editPaymentInfo: boolean;
     currentProduct: Product | null | undefined;
     selectedProduct: Product | null | undefined;
+    isUpgradeFromTrial: boolean;
 }
 
 /**
@@ -136,6 +142,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
             selectedProduct: getSelectedProduct(props.products, props.productId),
+            isUpgradeFromTrial: props.isFreeTrial,
         };
     }
 
@@ -171,6 +178,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     handleSubmitClick = async () => {
         this.setState({processing: true, paymentInfoIsValid: false});
+    }
+
+    setIsUpgradeFromTrialToFalse = () => {
+        this.setState({isUpgradeFromTrial: false});
     }
 
     comparePlan = (
@@ -696,7 +707,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
-                                            this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
+                                        this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
+                                        setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
+                                        isUpgradeFromTrial={this.state.isUpgradeFromTrial}
                                     />
                                 </div>
                             ) : null}

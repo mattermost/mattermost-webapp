@@ -94,20 +94,6 @@ export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, 
         return handlePostRemoved(state, action);
     case ThreadTypes.RECEIVED_THREADS:
         return handleReceiveThreads(state, action);
-    case ThreadTypes.RECEIVED_THREAD: {
-        if (state[action.data.team_id]?.includes(action.data.thread.id)) {
-            return state;
-        }
-
-        const nextSet = new Set(state[action.data.team_id]);
-
-        nextSet.add(action.data.thread.id);
-
-        return {
-            ...state,
-            [action.data.team_id]: [...nextSet],
-        };
-    }
     case TeamTypes.LEAVE_TEAM:
         return handleLeaveTeam(state, action);
     case UserTypes.LOGOUT_SUCCESS:
@@ -130,23 +116,14 @@ export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInT
         } = action.data;
         const team = state[teamId] || [];
 
-        // if the thread is unread keep it or add it
-        if (newUnreadReplies || newUnreadMentions) {
-            const newSet = new Set(team);
-            newSet.add(id);
-
-            return {
-                ...state,
-                [teamId]: [...newSet],
-            };
-        }
-
-        // if the thread is read remove it
+        // do nothing when thread is not in the list
+        // or the thread is unread
         const index = team.indexOf(id);
-        if (index === -1) {
+        if (index === -1 || newUnreadReplies || newUnreadMentions) {
             return state;
         }
 
+        // if the thread is read remove it
         return {
             ...state,
             [teamId]: [

@@ -2151,7 +2151,7 @@
   "admin.team.brandImageTitle": "Nouvelle image personnalisée :",
   "admin.team.brandTextDescription": "Le texte apparaissant en-dessous de votre image personnalisée sur l'écran de connexion. Supporte le formatage de texte Markdown. 500 caractères maximum autorisés.",
   "admin.team.brandTextTitle": "Nouveau texte personnalisé :",
-  "admin.team.brandTitle": "activer une image personnalisée : ",
+  "admin.team.brandTitle": "Activer la personnalisation de la marque : ",
   "admin.team.chooseImage": "Sélectionner une image",
   "admin.team.customUserStatusesDescription": "Quand activé, les utilisateurs peuvent choisir un message et une émoticône de statut personnalisé, visible à tous les utilisateurs.",
   "admin.team.customUserStatusesTitle": "Activer les statuts personnalisés : ",
