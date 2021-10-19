@@ -26,6 +26,13 @@
                 font-size: 14px;
             }
 
+            .contact-sales-text {
+                margin-top: 24px;
+                margin-bottom: 24px;
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+                font-size: 14px;
+            }
+
             .prorrated-payment-text {
                 div {
                     display: inline-block;
@@ -53,7 +60,7 @@
 
         .normal-text {
             font-weight: normal;
-        }
+    
 
         .LHS {
             width: 25%;
