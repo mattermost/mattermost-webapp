@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
+
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -12,9 +14,17 @@ import {Constants} from 'utils/constants';
 type Props = {
     townSquareDisplayName?: string;
     offTopicDisplayName?: string;
+    addChannelButton?: AddChannelButtonTreatments;
 }
 
 export default class ChannelTutorialTip extends React.PureComponent<Props> {
+    getOverlayClass(): string {
+        let className = 'tip-overlay--add-channels';
+        if (this.props.addChannelButton === AddChannelButtonTreatments.BY_TEAM_NAME || this.props.addChannelButton === AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR) {
+            className += ' tip-overlay--top-row-placement';
+        }
+        return className;
+    }
     render = () => {
         let townSquareDisplayName = Constants.DEFAULT_CHANNEL_UI_NAME;
         if (this.props.townSquareDisplayName) {
@@ -71,7 +81,8 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
             <TutorialTip
                 placement='right'
                 screens={screens}
-                overlayClass='tip-overlay--add-channels'
+                stopPropagation={true}
+                overlayClass={this.getOverlayClass()}
                 telemetryTag='tutorial_tip_add_channels'
             />
         );
