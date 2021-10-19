@@ -17,14 +17,20 @@ import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
 
 const BACKSPACE_CHAR = 8;
+
+declare global {
+    interface Window {
+        desktop: {
+            version?: string | null;
+        };
+    }
+}
 
 export type Props = {
     currentUser?: UserProfile;
@@ -33,8 +39,8 @@ export type Props = {
     mfaRequired: boolean;
     enableTimezone: boolean;
     actions: {
-        autoUpdateTimezone: (deviceTimezone: string) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<void>;
-        getChannelURLAction: (channel: Channel, teamId: string, url: string) => (dispatch: DispatchFunc, getState: () => GlobalState) => void;
+        autoUpdateTimezone: (deviceTimezone: string) => void;
+        getChannelURLAction: (channel: Channel, teamId: string, url: string) => void;
     };
     showTermsOfService: boolean;
     location: {
@@ -162,20 +168,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
     }
 
     // listen for messages from the desktop app
-    onDesktopMessageListener = (desktopMessage: DesktopMessage = {
-        origin: '',
-        data: {
-            type: '',
-            message: {
-                version: '',
-                userIsActive: false,
-                manual: false,
-                channel: {} as Channel,
-                teamId: '',
-                url: '',
-            },
-        },
-    }) => {
+    private onDesktopMessageListener = (desktopMessage: DesktopMessage) => {
         if (!this.props.currentUser) {
             return;
         }
@@ -186,10 +179,10 @@ export default class LoggedIn extends React.PureComponent<Props> {
         switch (desktopMessage.data.type) {
         case 'register-desktop': {
             const {version} = desktopMessage.data.message;
-            if (!(window as any).desktop) {
-                (window as any).desktop = {};
+            if (!window.desktop) {
+                window.desktop = {};
             }
-            (window as any).desktop.version = semver.valid(semver.coerce(version));
+            window.desktop.version = semver.valid(semver.coerce(version));
             break;
         }
         case 'user-activity-update': {
