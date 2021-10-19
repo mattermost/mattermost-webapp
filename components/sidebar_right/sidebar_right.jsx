@@ -216,10 +216,6 @@ export default class SidebarRight extends React.PureComponent {
                 role='complementary'
                 ref={this.sidebarRight}
             >
-                <div
-                    onClick={this.onShrink}
-                    className='sidebar--right__bg'
-                />
                 <div className='sidebar-right-container'>
                     <Search
                         isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles && !isSuppressed}
