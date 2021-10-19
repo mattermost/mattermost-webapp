@@ -36,7 +36,11 @@ describe('Keyboard Shortcuts', () => {
 
         // * The post should have the same length as the typed text and
         // * it should have the same text, and the text should not change
-        cy.get('#post_textbox').should('have.text', message);
+        cy.get('#post_textbox').
+            should('be.focused').
+            and('have.text', message).
+            and('have.prop', 'selectionStart', message.length).
+            and('have.prop', 'selectionEnd', message.length);
 
         // # Press CMD/CTRL+UP arrow and click to check cursor position
         cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
