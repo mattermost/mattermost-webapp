@@ -11,8 +11,6 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-import {gotoGlobalPolicy, editGlobalPolicyMessageRetention, editGlobalPolicyFileRetention} from './helpers';
-
 describe('Data Retention', () => {
     let testTeam;
     let testChannel;
@@ -115,6 +113,24 @@ describe('Data Retention', () => {
                 // * Assert the total policy count is 3
                 expect(result.body.total_count).to.equal(3);
             });
+        });
+
+        it('MM-T4007 - show policy', () => {
+            // # Go to create custom data retention page
+            cy.uiClickCreatePolicy();
+
+            // # Fill out policy details
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'days', '60');
+
+            // # Add team to the policy
+            cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
+
+            // # Add 1 channel to the policy from the modal
+            cy.uiAddRandomChannelToCustomPolicy(1);
+
+            // # Save policy
+            cy.uiGetButton('Save').click();
+            cy.get('#custom_policy_table .DataGrid .DataGrid_footer .DataGrid_cell').scrollIntoView().should('be.visible').invoke('text').should('include', '1 - 1 of 1');
         });
 
         it('MM-T4008 - Update custom policy', () => {
@@ -355,6 +371,26 @@ describe('Data Retention', () => {
                 });
             });
         });
+
+        it('MM-T4011 - Add team in policy', () => {
+            // # Go to create custom data retention page
+            cy.uiClickCreatePolicy();
+
+            // # Fill out policy details
+            cy.uiFillOutCustomPolicyFields('MyPolicy', 'days', '60');
+
+            // # Add team to the policy
+            cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
+
+            // # Save policy
+            cy.uiGetButton('Save').click();
+
+            // * Verify team table pagination
+            cy.get('#custom_policy_table .DataGrid').within(() => {
+                cy.get('.DataGrid_rows .DataGrid_cell').first().should('contain.text', 'MyPolicy').click();
+            });
+            cy.get('.DataGrid_row .DataGrid_cell').first().should('contain', testTeam.display_name);
+        });
     });
 
     describe('Channels in a custom Policy', () => {
@@ -524,30 +560,6 @@ describe('Data Retention', () => {
                     expect(result.body[0].id).to.equal(testChannel.id);
                 });
             });
-        });
-    });
-
-    describe('Global Policy', () => {
-        it('MM-T4019 - Global Data Retention policy', () => {
-            gotoGlobalPolicy();
-
-            // # Edit global policy message retention
-            editGlobalPolicyMessageRetention('365', '1 year');
-
-            gotoGlobalPolicy();
-
-            // # Edit global policy message retention
-            editGlobalPolicyMessageRetention('700', '700 days');
-
-            gotoGlobalPolicy();
-
-            // # Edit global policy file retention
-            editGlobalPolicyFileRetention('365', '1 year');
-
-            gotoGlobalPolicy();
-
-            // # Edit global policy file retention
-            editGlobalPolicyFileRetention('600', '600 days');
         });
     });
 });
