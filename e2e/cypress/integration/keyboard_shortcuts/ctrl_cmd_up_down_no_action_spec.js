@@ -44,7 +44,7 @@ describe('Keyboard Shortcuts', () => {
         // # Press CMD/CTRL+UP arrow
         cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
 
-        // * Check the focus after pressing CTRL/CMD + DOWN then check match the text and the cursor position respectively
+        // * Check the focus after pressing CTRL/CMD + UP then check match the text and the cursor position respectively
         cy.get('#post_textbox').
             should('be.focused').
             and('have.text', message).
