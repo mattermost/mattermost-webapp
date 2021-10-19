@@ -28,7 +28,7 @@ describe('Keyboard Shortcuts', () => {
         // # Visit the channel using the channel name
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-        // # Post message in the channel from User 1
+        // # Type a message in the input box but do not post it
         cy.get('#post_textbox').type(message);
 
         // # Press CMD/CTRL+DOWN arrow and click to check cursor position
