@@ -184,7 +184,7 @@ describe('Keyboard Shortcuts', () => {
             // * Attachment should exist
             cy.get('.file-view--single').should('exist');
 
-            // * Edited indicator should not exist
+            // * Edited indicator should exist
             cy.get('.post-edited__indicator').should('exist');
         });
     });
