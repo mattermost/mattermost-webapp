@@ -16,3 +16,34 @@ export function scrollCurrentChannelFromTop(listPercentageRatio) {
         scrollTo(0, listPercentageRatio, {duration: TIMEOUTS.ONE_SEC}).
         wait(TIMEOUTS.ONE_SEC);
 }
+
+export function deletePostAndVerifyScroll(postId, options) {
+    let firstPostBeforeScroll;
+    let lastPostBeforeScroll;
+
+    // # Get the text of the first visible post
+    cy.get('.post-message__text:visible').first().then((postMessage) => {
+        firstPostBeforeScroll = postMessage.text();
+    });
+
+    // # Get the text of the last visible post
+    cy.get('.post-message__text:visible').last().then((postMessage) => {
+        lastPostBeforeScroll = postMessage.text();
+    });
+
+    // # Remove the message
+    cy.externalRequest({...options, method: 'DELETE', path: `posts/${postId}`});
+
+    // # Wait for the message to be deleted
+    cy.wait(TIMEOUTS.ONE_SEC);
+
+    // * Verify the first post is the same after the deleting
+    cy.get('.post-message__text:visible').first().then((firstPostAfterScroll) => {
+        expect(firstPostAfterScroll.text()).equal(firstPostBeforeScroll);
+    });
+
+    // * Verify the last post is the same after the deleting
+    cy.get('.post-message__text:visible').last().then((lastPostAfterScroll) => {
+        expect(lastPostAfterScroll.text()).equal(lastPostBeforeScroll);
+    });
+}
