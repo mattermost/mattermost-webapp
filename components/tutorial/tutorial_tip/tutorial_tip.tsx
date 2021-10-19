@@ -32,6 +32,8 @@ type Props = {
     placement: string;
     overlayClass: string;
     telemetryTag?: string;
+    stopPropagation?: boolean;
+    preventDefault?: boolean;
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
@@ -68,8 +70,15 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.targetRef = React.createRef();
     }
 
-    private show = (): void => {
+    private show = (e?: React.MouseEvent): void => {
         this.setState({show: true, hasShown: true});
+        if (this.props.preventDefault && e) {
+            e.preventDefault();
+        }
+        if (this.props.stopPropagation && e) {
+            e.stopPropagation();
+        }
+        this.setState({show: true});
     }
 
     private hide = (): void => {
@@ -206,10 +215,10 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             const lastStep = Object.values(TutorialSteps).reduce((maxStep, candidateMaxStep) => {
                 // ignore the "opt out" FINISHED step as the max step.
                 if (candidateMaxStep > maxStep && candidateMaxStep !== TutorialSteps.FINISHED) {
-                    return candidateMaxStep
+                    return candidateMaxStep;
                 }
-                return maxStep
-            }, Number.MIN_SAFE_INTEGER)
+                return maxStep;
+            }, Number.MIN_SAFE_INTEGER);
             if (this.props.step === lastStep) {
                 buttonText = (
                     <FormattedMessage
@@ -220,7 +229,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             }
         }
 
-        return buttonText
+        return buttonText;
     }
 
     public componentDidMount() {

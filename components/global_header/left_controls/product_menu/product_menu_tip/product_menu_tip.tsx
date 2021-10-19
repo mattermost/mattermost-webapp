@@ -94,6 +94,7 @@ const ProductMenuTip = ({
             placement='right'
             screens={screens}
             step={TutorialSteps.PRODUCT_SWITCHER}
+            stopPropagation={true}
             overlayClass='tip-overlay--product-switcher'
             telemetryTag='tutorial_tip_product_switcher'
         />
