@@ -165,20 +165,6 @@ export const planDetailsTopElements = (
                     defaultMessage='Mattermost Cloud'
                 />
             );
-            userCountDisplay = (
-                <div
-                    className={classNames('PlanDetails__userCount', {
-                        withinLimit: (userLimit - userCount) <= 5,
-                        overLimit: userCount > userLimit,
-                    })}
-                >
-                    <FormattedMarkdownMessage
-                        id='admin.billing.subscription.planDetails.userCountWithLimit'
-                        defaultMessage='{userCount} / {userLimit} users'
-                        values={{userCount, userLimit}}
-                    />
-                </div>
-            );
             break;
         }
     } else {

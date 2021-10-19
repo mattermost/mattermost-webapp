@@ -421,6 +421,7 @@ export default class Root extends React.PureComponent {
                             />
                             <RootRedirect/>
                         </Switch>
+                        <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
             </IntlProvider>
