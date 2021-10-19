@@ -290,7 +290,7 @@
   "admin.billing.subscription.letsGo": "Lets go!",
   "admin.billing.subscription.lookingToSelfHost": "Looking to self-host?",
   "admin.billing.subscription.mostRecentPaymentFailed": "Your most recent payment failed",
-  "admin.billing.subscription.nextBillingDate": "Starting from {date} you'll be charged based on the number of enabled users. Check your workspace in a few minutes to access all the plan's features.",
+  "admin.billing.subscription.nextBillingDate": "Check your workspace in a few minutes to access all the plan's features. Starting from {date} you'll be charged based on the number of enabled users.",
   "admin.billing.subscription.otherBillingOption": "Need other billing options?",
   "admin.billing.subscription.paymentBegins": "Payment begins: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Payment failed. Please try again or contact support.",
