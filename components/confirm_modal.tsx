@@ -55,12 +55,12 @@ type Props = {
     /*
      * Function called when the confirm button or ENTER is pressed. Passes `true` if the checkbox is checked
      */
-    onConfirm: (checked: boolean) => void;
+    onConfirm?: (checked: boolean) => void;
 
     /*
      * Function called when the cancel button is pressed or the modal is hidden. Passes `true` if the checkbox is checked
      */
-    onCancel: (checked: boolean) => void;
+    onCancel?: (checked: boolean) => void;
 
     /**
      * Function called when modal is dismissed
@@ -106,11 +106,11 @@ export default class ConfirmModal extends React.Component<Props, State> {
     }
 
     handleConfirm = () => {
-        this.props.onConfirm(this.state.checked);
+        this.props.onConfirm?.(this.state.checked);
     }
 
     handleCancel = () => {
-        this.props.onCancel(this.state.checked);
+        this.props.onCancel?.(this.state.checked);
     }
 
     render() {
@@ -161,7 +161,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
                 className={'modal-confirm ' + this.props.modalClass}
                 dialogClassName='a11y__modal'
                 show={this.props.show}
-                onHide={this.props.onCancel}
+                onHide={this.handleCancel}
                 onExited={this.props.onExited}
                 id='confirmModal'
                 role='dialog'
