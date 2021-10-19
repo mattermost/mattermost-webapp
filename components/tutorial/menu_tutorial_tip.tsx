@@ -4,8 +4,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import Constants from 'utils/constants';
 
 import TutorialTip from './tutorial_tip';
+
+const TutorialSteps = Constants.TutorialSteps;
 
 type Props = {
     toggleFunc?: React.MouseEventHandler<HTMLDivElement>;
@@ -52,6 +55,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
             onClick={toggleFunc}
         >
             <TutorialTip
+                step={TutorialSteps.MENU_POPOVER}
                 stopPropagation={stopPropagation}
                 placement={placement}
                 screens={screens}
