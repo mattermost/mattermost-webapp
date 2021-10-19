@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {Action, GenericAction, DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {Constants, ActionTypes, WindowSizes} from 'utils/constants';
+import {Constants, ActionTypes, WindowSizes, StoragePrefixes} from 'utils/constants';
+import {getNotificationsPermission} from 'utils/notifications';
+import * as StorageActions from 'actions/storage';
 
 export function emitBrowserWindowResized(): GenericAction {
     const width = window.innerWidth;
@@ -30,5 +32,24 @@ export function emitBrowserWindowResized(): GenericAction {
     return {
         type: ActionTypes.BROWSER_WINDOW_RESIZED,
         data: windowSize,
+    };
+}
+
+export const setBrowserNotificationsPermission = (permission?: NotificationPermission) => {
+    return (dispatch: any) => {
+        if (permission == null) {
+            permission = getNotificationsPermission();
+        }
+        const isPermissionGranted = permission === 'granted';
+
+        if (isPermissionGranted) {
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0));
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, null));
+        }
+
+        dispatch({
+            type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
+            data: isPermissionGranted
+        });
     };
 }

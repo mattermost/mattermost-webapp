@@ -13,12 +13,13 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import * as StorageActions from 'actions/storage';
+import {setBrowserNotificationsPermission} from 'actions/views/browser';
 
 import {isThreadOpen} from 'selectors/views/threads';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {ActionTypes, NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
-import {showNotification, requestNotificationsPermission, getNotificationsPermission} from 'utils/notifications';
+import Constants, {NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
+import {showNotification, requestNotificationsPermission} from 'utils/notifications';
 import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -284,22 +285,3 @@ export const trackEnableNotificationsBarDisplay = () => {
         dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, enableDesktopNotificationsBarShownTimes + 1));
     };
 };
-
-export const setBrowserNotificationsPermission = (permission) => {
-    return (dispatch) => {
-        if (permission == null) {
-            permission = getNotificationsPermission();
-        }
-        const isPermissionGranted = permission === 'granted';
-
-        if (isPermissionGranted) {
-            dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0));
-            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, null));
-        }
-
-        dispatch({
-            type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
-            data: isPermissionGranted
-        });
-    };
-}

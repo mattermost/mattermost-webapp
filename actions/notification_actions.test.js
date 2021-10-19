@@ -4,10 +4,21 @@
 import testConfigureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {ActionTypes, NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
+import Constants, {NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 
-import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest, setBrowserNotificationsPermission} from './notification_actions';
+import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest } from './notification_actions';
+
+const MOCK_BROWSER_NOTIFICATIONS_RECEIVED_ACTION_TYPE = 'MOCK_BROWSER_NOTIFICATIONS_RECEIVED';
+
+jest.mock('actions/views/browser', () => {
+    const originalModule = jest.requireActual('actions/views/browser');
+
+    return {
+        ...originalModule,
+        setBrowserNotificationsPermission: (permission) => ({type: MOCK_BROWSER_NOTIFICATIONS_RECEIVED_ACTION_TYPE, data: permission}),
+    };
+});
 
 describe('notification_actions', () => {
     describe('sendDesktopNotification', () => {
@@ -403,16 +414,11 @@ describe('notification_actions', () => {
         });
     });
 
-    describe('setBrowserNotificationsPermission', () => {
-        
-    });
-
     describe('enableBrowserNotifications', () => {
-        it('should track successful permission grant', async () => {
+        it('should forward retrieved permission status to setBrowserNotificationsPermission', async () => {
+            const expectedPermissionStatus = 'granted';
             const requestNotificationsPermissionSpy = jest.spyOn(utils, 'requestNotificationsPermission');
-            const setBrowserNotificationsPermissionSpy = jest.spyOn(setBrowserNotificationsPermission);
-            requestNotificationsPermissionSpy.mockImplementationOnce(() => Promise.resolve('granted'));
-            setBrowserNotificationsPermissionSpy.mockImplementationOnce((permission) => ({type: 'MOCK_ACTION', data: permission}));
+            requestNotificationsPermissionSpy.mockResolvedValueOnce(expectedPermissionStatus);
 
             const store = testConfigureStore();
 
@@ -420,24 +426,8 @@ describe('notification_actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
-                    data: true
-                }
-            ]);
-        });
-
-        it('should track permission request rejection', async () => {
-            const requestNotificationsPermissionSpy = jest.spyOn(utils, 'requestNotificationsPermission');
-            requestNotificationsPermissionSpy.mockImplementationOnce(() => Promise.resolve('rejected'));
-
-            const store = testConfigureStore();
-
-            await store.dispatch(enableBrowserNotifications());
-
-            expect(store.getActions()).toEqual([
-                {
-                    type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
-                    data: false
+                    type: MOCK_BROWSER_NOTIFICATIONS_RECEIVED_ACTION_TYPE,
+                    data: expectedPermissionStatus
                 }
             ]);
         });
