@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {
     getConfig,
@@ -29,9 +31,11 @@ import {
     showNextSteps,
 } from 'components/next_steps_view/steps';
 
-import MainMenu from './main_menu.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import MainMenu from './main_menu';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
@@ -81,7 +85,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             openModal,
