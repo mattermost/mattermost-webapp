@@ -35,6 +35,7 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
         dispatch(openModal({
             modalId: ModalIdentifiers.START_TRIAL_MODAL,
             dialogType: StartTrialModal,
+            dialogProps: {onClose: null},
         }));
     };
 
@@ -53,7 +54,7 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
     const isCurrentLicenseTrial = isTrialLicense(license);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const show = (isCurrentLicensed === 'false' || (isCurrentLicensed === 'true' && isCurrentLicenseTrial)) && (isPrevLicensed === 'false');
+    const show = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') || isCurrentLicenseTrial;
 
     if (!show) {
         return null;

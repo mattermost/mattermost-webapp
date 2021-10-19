@@ -70,12 +70,13 @@ const ShowStartTrialModal = () => {
     };
 
     useEffect(() => {
-        if (!analytics) {
+        if (!analytics?.TOTAL_USERS) {
             dispatch(getStandardAnalytics());
         }
     }, []);
 
     useEffect(() => {
+        // * IMPORTANT: temporarily commented code to be able to test without waiting 6 hours after server creation
         // const installationDatePlus6Hours = (6 * 60 * 60 * 1000) + Number(installationDate);
         // const now = new Date().getTime();
         const hasEnvMoreThan6Hours = true; // now > installationDatePlus6Hours;
