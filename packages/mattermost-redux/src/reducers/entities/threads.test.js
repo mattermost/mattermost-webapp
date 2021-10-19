@@ -146,7 +146,7 @@ describe('threads', () => {
 
         expect(nextState3).not.toBe(nextState2);
         expect(nextState3.threadsInTeam.a).toEqual(['id']);
-        expect(nextState3.unreadThreadsInTeam.a).toEqual(['a', 'c', 'id']);
+        expect(nextState3.unreadThreadsInTeam.a).toEqual(['a', 'c']);
         expect(nextState3.counts.a).toEqual({
             total: 3,
             total_unread_threads: 1,
