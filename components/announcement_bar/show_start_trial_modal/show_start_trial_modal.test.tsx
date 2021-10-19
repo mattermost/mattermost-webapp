@@ -85,118 +85,117 @@ describe('components/sidebar/show_start_trial_modal', () => {
         expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
 
-    // Temporal comments for not checking the previous licence existence
-    // test('should NOT dispatch the modal when there are less than 10 users', () => {
-    //     const isAdminUser = {
-    //         currentUserId: 'current_user_id',
-    //         profiles: {
-    //             current_user_id: {roles: 'system_admin system_user'},
-    //         },
-    //     };
+    test('should NOT dispatch the modal when there are less than 10 users', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_admin system_user'},
+            },
+        };
 
-    //     const moreThan6Hours = {
-    //         config: {
+        const moreThan6Hours = {
+            config: {
 
-    //             // installation date is set to be 10 hours before current time
-    //             InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
-    //         },
-    //     };
+                // installation date is set to be 10 hours before current time
+                InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
+            },
+        };
 
-    //     mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, general: moreThan6Hours}};
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, general: moreThan6Hours}};
 
-    //     mount(
-    //         <ShowStartTrialModal/>,
-    //     );
-    //     expect(mockDispatch).toHaveBeenCalledWith(openModal);
-    // });
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
 
-    // test('should NOT dispatch the modal when the env has less than 6 hours of creation', () => {
-    //     const isAdminUser = {
-    //         currentUserId: 'current_user_id',
-    //         profiles: {
-    //             current_user_id: {roles: 'system_admin system_user'},
-    //         },
-    //     };
+    test('should NOT dispatch the modal when the env has less than 6 hours of creation', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_admin system_user'},
+            },
+        };
 
-    //     const moreThan10Users = {
-    //         analytics: {
-    //             TOTAL_USERS: 11,
-    //         },
-    //     };
+        const moreThan10Users = {
+            analytics: {
+                TOTAL_USERS: 11,
+            },
+        };
 
-    //     const moreThan6Hours = {
-    //         config: {
+        const moreThan6Hours = {
+            config: {
 
-    //             // installation date is set to be 5 hours before current time
-    //             InstallationDate: new Date().getTime() - ((5 * 60 * 60) * 1000),
-    //         },
-    //     };
+                // installation date is set to be 5 hours before current time
+                InstallationDate: new Date().getTime() - ((5 * 60 * 60) * 1000),
+            },
+        };
 
-    //     mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10Users, general: moreThan6Hours}};
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10Users, general: moreThan6Hours}};
 
-    //     mount(
-    //         <ShowStartTrialModal/>,
-    //     );
-    //     expect(mockDispatch).toHaveBeenCalledTimes(0);
-    // });
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
 
-    // test('should NOT dispatch the modal when the env has previous license', () => {
-    //     const isAdminUser = {
-    //         currentUserId: 'current_user_id',
-    //         profiles: {
-    //             current_user_id: {roles: 'system_admin system_user'},
-    //         },
-    //     };
+    test('should NOT dispatch the modal when the env has previous license', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_admin system_user'},
+            },
+        };
 
-    //     const moreThan10UsersAndPrevLicensed = {
-    //         analytics: {
-    //             TOTAL_USERS: 11,
-    //         },
-    //         prevTrialLicense: {
-    //             IsLicensed: 'true',
-    //         },
-    //     };
+        const moreThan10UsersAndPrevLicensed = {
+            analytics: {
+                TOTAL_USERS: 11,
+            },
+            prevTrialLicense: {
+                IsLicensed: 'true',
+            },
+        };
 
-    //     mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10UsersAndPrevLicensed}};
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10UsersAndPrevLicensed}};
 
-    //     mount(
-    //         <ShowStartTrialModal/>,
-    //     );
-    //     expect(mockDispatch).toHaveBeenCalledTimes(0);
-    // });
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
 
-    // test('should NOT dispatch the modal when the env is currently licensed', () => {
-    //     const isAdminUser = {
-    //         currentUserId: 'current_user_id',
-    //         profiles: {
-    //             current_user_id: {roles: 'system_admin system_user'},
-    //         },
-    //     };
+    test('should NOT dispatch the modal when the env is currently licensed', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_admin system_user'},
+            },
+        };
 
-    //     const moreThan10UsersAndLicensed = {
-    //         analytics: {
-    //             TOTAL_USERS: 11,
-    //         },
-    //     };
+        const moreThan10UsersAndLicensed = {
+            analytics: {
+                TOTAL_USERS: 11,
+            },
+        };
 
-    //     const moreThan6HoursAndLicensed = {
-    //         config: {
+        const moreThan6HoursAndLicensed = {
+            config: {
 
-    //             // installation date is set to be 10 hours before current time
-    //             InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
-    //         },
-    //         license: {
-    //             IsLicensed: 'true',
-    //         },
-    //     };
+                // installation date is set to be 10 hours before current time
+                InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
+            },
+            license: {
+                IsLicensed: 'true',
+            },
+        };
 
-    //     mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10UsersAndLicensed, general: moreThan6HoursAndLicensed}};
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: moreThan10UsersAndLicensed, general: moreThan6HoursAndLicensed}};
 
-    //     mount(
-    //         <ShowStartTrialModal/>,
-    //     );
-    //     expect(mockDispatch).toHaveBeenCalledTimes(0);
-    // });
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
 
     test('should NOT dispatch the modal when the modal has been already dismissed', () => {
         const isAdminUser = {
