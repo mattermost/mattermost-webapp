@@ -19,7 +19,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1251 CTRL/CMD+SHIFT+L - When not to set focus to center channel message box', () => {
 
-        // # Open account settings modal
+        // # Open settings modal
         cy.get('[aria-label="Select to open the settings modal."]').click();
         // # Press ctrl/cmd+shift+l
         cy.get('body').cmdOrCtrlShortcut('{shift+l}');
