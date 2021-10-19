@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
@@ -10,7 +10,6 @@ import {useHistory} from 'react-router-dom';
 import moment from 'moment';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 
@@ -49,10 +48,6 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     const steps = [];
     const license = useSelector((state: GlobalState) => getLicense(state));
 
-    useEffect(() => {
-        dispatch(getStandardAnalytics());
-    }, []);
-
     const {formatMessage} = useIntl();
 
     const history = useHistory();
@@ -68,6 +63,8 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
     };
 
     const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});
+
+    // by default all licence last 30 days plus 8 hours. We use this value as a fallback for the trial license duration information shown in the modal
     const trialLicenseDuration = (1000 * 60 * 60 * 24 * 30) + (1000 * 60 * 60 * 8);
     const trialEndDate = moment.unix((Number(license?.ExpiresAt) || new Date(Date.now()).getTime() + trialLicenseDuration) / 1000).format('DD/MM/YYYY');
 
@@ -87,7 +84,7 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
                     {formatMessage(
                         {
                             id: 'trial_benefits.modal.trialStartDescription',
-                            defaultMessage: 'Welcome to your Mattermost E20 trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                            defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
                         },
                         {trialExpirationDate: trialEndDate},
                     )}
@@ -245,6 +242,7 @@ function TrialBenefitsModal(props: Props): JSX.Element | null {
                 <Carousel
                     dataSlides={steps}
                     id={'trialBenefitsModalCarousel'}
+                    infiniteSlide={false}
                 />
             </Modal.Body>
         </GenericModal>

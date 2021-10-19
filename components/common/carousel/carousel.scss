@@ -54,6 +54,11 @@
                 font-weight: 600;
             }
 
+            .disabled {
+                opacity: 0.5;
+                text-decoration: none;
+            }
+
             .prev,
             .next {
                 left: 20px;

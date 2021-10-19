@@ -4386,7 +4386,7 @@
   "trial_benefits.modal.onlyVisibleToAdmins": "Only visible to admins",
   "trial_benefits.modal.postTrialStartDescription": "Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:",
   "trial_benefits.modal.postTrialStarttitle": "You are on the Enterprise plan! Explore the benefits of Enterprise",
-  "trial_benefits.modal.trialStartDescription": "Welcome to your Mattermost E20 trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:",
+  "trial_benefits.modal.trialStartDescription": "Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:",
   "trial_benefits.modal.trialStarttitle": "Your trial has started! Explore the benefits of Enterprise",
   "tutorial_tip.ok": "Got it",
   "tutorial_tip.out": "Opt out of these tips.",

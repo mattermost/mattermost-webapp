@@ -1,32 +1,53 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
-import BtnCarousel from './btn_carousel';
+import CarouselButton from './carousel_button';
 import './carousel.scss';
 
 type Props = {
     dataSlides: React.ReactNode[];
     id: string;
+    infiniteSlide: boolean;
 }
-export default function Carousel({dataSlides, id}: Props) {
+export default function Carousel({dataSlides, id, infiniteSlide}: Props) {
     const [slideIndex, setSlideIndex] = useState(1);
+    const [prevButtonDisabled, setPrevButtonDisabled] = useState(!infiniteSlide);
+    const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
     const nextSlide = () => {
+        setPrevButtonDisabled(false);
         if (slideIndex !== dataSlides.length) {
             setSlideIndex(slideIndex + 1);
         } else if (slideIndex === dataSlides.length) {
-            setSlideIndex(1);
+            if (infiniteSlide) {
+                setSlideIndex(1);
+            }
         }
     };
 
     const prevSlide = () => {
+        setNextButtonDisabled(false);
         if (slideIndex !== 1) {
             setSlideIndex(slideIndex - 1);
         } else if (slideIndex === 1) {
-            setSlideIndex(dataSlides.length);
+            if (infiniteSlide) {
+                setSlideIndex(dataSlides.length);
+            }
         }
     };
+
+    useEffect(() => {
+        if (slideIndex === dataSlides.length) {
+            if (!infiniteSlide) {
+                setNextButtonDisabled(true);
+            }
+        } else if (slideIndex === 1) {
+            if (!infiniteSlide) {
+                setPrevButtonDisabled(true);
+            }
+        }
+    }, [slideIndex]);
 
     const moveDot = (index: number) => {
         setSlideIndex(index);
@@ -59,13 +80,15 @@ export default function Carousel({dataSlides, id}: Props) {
                     ))}
                 </div>
                 <div className=' buttons container-buttons'>
-                    <BtnCarousel
+                    <CarouselButton
                         moveSlide={prevSlide}
                         direction={'prev'}
+                        disabled={prevButtonDisabled}
                     />
-                    <BtnCarousel
+                    <CarouselButton
                         moveSlide={nextSlide}
                         direction={'next'}
+                        disabled={nextButtonDisabled}
                     />
                 </div>
             </div>
