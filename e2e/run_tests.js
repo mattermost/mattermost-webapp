@@ -116,8 +116,8 @@ async function runTests() {
             },
             reporter: 'cypress-multi-reporters',
             reporterOptions: {
-                reporterEnabled: 'mocha-junit-reporters, mochawesome',
-                mochaJunitReportersReporterOptions: {
+                reporterEnabled: 'mocha-junit-reporter, mochawesome',
+                mochaJunitReporterReporterOptions: {
                     mochaFile: 'results/junit/test_results[hash].xml',
                     toConsole: false,
                 },

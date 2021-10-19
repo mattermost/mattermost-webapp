@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -10,7 +11,6 @@ import {FormattedMessage} from 'react-intl';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
 
@@ -71,7 +71,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         const prevChannelNotifyProps = prevProps.channelMember && prevProps.channelMember.notify_props;
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
 
-        if (!Utils.areObjectsEqual(channelNotifyProps, prevChannelNotifyProps)) {
+        if (!deepEqual(channelNotifyProps, prevChannelNotifyProps)) {
             this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
         }
     }
