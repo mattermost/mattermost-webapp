@@ -31,22 +31,20 @@ describe('Keyboard Shortcuts', () => {
         // # Type a message in the input box but do not post it
         cy.get('#post_textbox').type(message);
 
-        // # Press CMD/CTRL+DOWN arrow and click to check cursor position
+        // # Press CMD/CTRL+DOWN arrow
         cy.get('#post_textbox').cmdOrCtrlShortcut('{downarrow}');
 
-        // * The post should have the same length as the typed text and
-        // * it should have the same text, and the text should not change
+        // * Check the focus after pressing CTRL/CMD + DOWN then check match the text and the cursor position respectively
         cy.get('#post_textbox').
             should('be.focused').
             and('have.text', message).
             and('have.prop', 'selectionStart', message.length).
             and('have.prop', 'selectionEnd', message.length);
 
-        // # Press CMD/CTRL+UP arrow and click to check cursor position
+        // # Press CMD/CTRL+UP arrow
         cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
 
-        // * The post should have the same length as the typed text and
-        // * it should have the same text, and the text should not change
+        // * Check the focus after pressing CTRL/CMD + DOWN then check match the text and the cursor position respectively
         cy.get('#post_textbox').
             should('be.focused').
             and('have.text', message).
