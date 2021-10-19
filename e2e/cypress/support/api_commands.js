@@ -65,7 +65,7 @@ Cypress.Commands.add('apiEmailTest', () => {
 * @param {Object} props - Post props
 * @param {String} token - Optional token to use for auth. If not provided - posts as current user
 */
-Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token = '', failOnStatusCode = true) => {
+Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token = '', failOnStatusCode = true, createat = '') => {
     const headers = {'X-Requested-With': 'XMLHttpRequest'};
     if (token !== '') {
         headers.Authorization = `Bearer ${token}`;
@@ -78,6 +78,7 @@ Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token 
         body: {
             channel_id: channelId,
             root_id: rootId,
+            create_at: createat,
             message,
             props,
         },
