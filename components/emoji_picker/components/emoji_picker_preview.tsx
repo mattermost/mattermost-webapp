@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -11,14 +10,15 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import imgTrans from 'images/img_trans.gif';
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
-export default class EmojiPickerPreview extends React.PureComponent {
-    static propTypes = {
-        emoji: PropTypes.object,
-        customEmojisEnabled: PropTypes.bool,
-        currentTeamName: PropTypes.string.isRequired,
-    }
+type Props = {
+    emoji?: Emoji;
+    customEmojisEnabled?: boolean;
+    currentTeamName: string;
+}
 
+export default class EmojiPickerPreview extends React.PureComponent<Props> {
     customEmojis = () => {
         if (!this.props.customEmojisEnabled) {
             return null;
@@ -43,7 +43,11 @@ export default class EmojiPickerPreview extends React.PureComponent {
         );
     }
 
-    render() {
+    isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
+        return (emoji as SystemEmoji).short_names && (emoji as SystemEmoji).image !== 'mattermost';
+    }
+
+    render(): React.ReactNode {
         const emoji = this.props.emoji;
 
         if (emoji) {
@@ -51,9 +55,8 @@ export default class EmojiPickerPreview extends React.PureComponent {
             let aliases;
             let previewImage;
 
-            if (emoji.short_names && emoji.image !== 'mattermost') {
+            if (this.isSystemEmoji(emoji)) {
                 // This is a system emoji which only has a list of aliases
-                name = emoji.short_names[0];
                 aliases = emoji.short_names;
 
                 previewImage = (
