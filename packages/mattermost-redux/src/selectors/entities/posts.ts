@@ -200,10 +200,10 @@ function formatPostInChannel(post: Post, previousPost: Post | undefined | null, 
     const prevPostFromWebhook = Boolean(previousPost && previousPost.props && previousPost.props.from_webhook);
     let consecutivePostByUser = false;
     if (previousPost &&
-        previousPost.user_id === post.user_id &&
-        post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT &&
-        !postFromWebhook && !prevPostFromWebhook &&
-        !isSystemMessage(post) && !isSystemMessage(previousPost)) {
+            previousPost.user_id === post.user_id &&
+            post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT &&
+            !postFromWebhook && !prevPostFromWebhook &&
+            !isSystemMessage(post) && !isSystemMessage(previousPost)) {
         // The last post and this post were made by the same user within some time
         consecutivePostByUser = true;
     }
