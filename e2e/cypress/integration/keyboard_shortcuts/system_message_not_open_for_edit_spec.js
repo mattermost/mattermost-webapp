@@ -10,7 +10,6 @@
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
-    
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             // # Visit off-topic channel
