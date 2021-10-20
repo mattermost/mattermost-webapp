@@ -53,10 +53,14 @@
     }
 }
 
-.custom_status__row {
+button.custom_status__row {
     position: relative;
     height: auto;
     font-size: inherit;
+
+    &.flex {
+        display: flex;
+    }
 
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -91,8 +95,14 @@
         white-space: nowrap;
     }
 
-    &__expiry.MenuItem__help-text {
-        padding-left: 28px;
+    &__expiry {
+        font-size: 12px;
+        line-height: 16px;
+        opacity: 0.7;
+
+        &.padded {
+            padding-left: 28px;
+        }
     }
 }
 

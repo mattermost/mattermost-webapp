@@ -4257,6 +4257,7 @@
   "status_dropdown.menuAriaLabel": "set status",
   "status_dropdown.set_away": "Away",
   "status_dropdown.set_custom": "Set a Custom Status",
+  "status_dropdown.set_custom_text": "Set Custom Status Text...",
   "status_dropdown.set_dnd": "Do Not Disturb",
   "status_dropdown.set_dnd.extra": "Disables all notifications",
   "status_dropdown.set_offline": "Offline",

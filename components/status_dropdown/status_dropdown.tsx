@@ -5,7 +5,6 @@ import {TUserStatus} from '@mattermost/compass-components/shared';
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Tooltip} from 'react-bootstrap';
 import StatusIcon from '@mattermost/compass-components/components/status-icon';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import Text from '@mattermost/compass-components/components/text';
@@ -13,7 +12,7 @@ import Text from '@mattermost/compass-components/components/text';
 import classNames from 'classnames';
 
 import * as GlobalActions from 'actions/global_actions';
-import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
+import {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import LocalizedIcon from 'components/localized_icon';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -25,7 +24,6 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
-import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 import UserSettingsModal from 'components/user_settings/modal';
@@ -212,7 +210,23 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             return null;
         }
         const {customStatus} = this.props;
-        const customStatusText = isStatusSet ? customStatus?.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
+
+        let customStatusText;
+        let customStatusHelpText;
+        switch (true) {
+        case isStatusSet && customStatus?.text && customStatus.text.length > 0:
+            customStatusText = customStatus?.text;
+            break;
+        case isStatusSet && !customStatus?.text && customStatus?.duration === CustomStatusDuration.DONT_CLEAR:
+            customStatusHelpText = localizeMessage('status_dropdown.set_custom_text', 'Set Custom Status Text...');
+            break;
+        case isStatusSet && !customStatus?.text && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR:
+            customStatusText = '';
+            break;
+        case !isStatusSet:
+            customStatusHelpText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
+        }
+
         const customStatusEmoji = isStatusSet ? (
             <span className='d-flex'>
                 <CustomStatusEmoji
@@ -224,30 +238,6 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             <EmojiIcon className={'custom-status-emoji'}/>
         );
 
-        const clearButton = isStatusSet &&
-            (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={
-                        <Tooltip id='clear-custom-status'>
-                            <FormattedMessage
-                                id='status_dropdown.custom_status.tooltip_clear'
-                                defaultMessage='Clear'
-                            />
-                        </Tooltip>
-                    }
-                >
-                    <button
-                        className='style--none input-clear-x'
-                        id='custom_status__clear'
-                        onClick={this.handleClearStatus}
-                    >
-                        <i className='icon icon-close-circle'/>
-                    </button>
-                </OverlayTrigger>
-            );
-
         const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
             <PulsatingDot/>
         );
@@ -257,7 +247,9 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 <ExpiryTime
                     time={customStatus.expires_at}
                     timezone={this.props.timezone}
-                    className={'custom_status__expiry MenuItem__help-text'}
+                    className={classNames('custom_status__expiry', {
+                        padded: customStatus?.text.length > 0,
+                    })}
                     withinBrackets={true}
                 />
             );
@@ -268,7 +260,9 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     ariaLabel='Custom Status'
                     modalId={ModalIdentifiers.CUSTOM_STATUS}
                     dialogType={CustomStatusModal}
-                    className='MenuItem__primary-text custom_status__row'
+                    className={classNames('MenuItem__primary-text custom_status__row', {
+                        flex: customStatus?.text.length === 0,
+                    })}
                     id={'status-menu-custom-status'}
                 >
                     <span className='custom_status__container'>
@@ -279,10 +273,15 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             text={customStatusText}
                             className='custom_status__text'
                         />
+                        <Text
+                            margin='none'
+                            color='disabled'
+                        >
+                            {customStatusHelpText}
+                        </Text>
                         {pulsatingDot}
                     </span>
                     {expiryTime}
-                    {clearButton}
                 </Menu.ItemToggleModalRedux>
             </Menu.Group>
         );
