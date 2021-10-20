@@ -50,12 +50,6 @@ describe('Keyboard Shortcuts', () => {
         // * Verify that the Edit Post Modal is visible
         cy.get('#editPostModal').should('be.visible');
 
-        const systemMessage = ` updated the channel header to: ${newHeader}`;
-
-        // * Verify that the Edit textbox contains previously sent message by user
-        cy.get('#edit_textbox').should('have.text', message);
-
-        // * Verify that the Edit textbox does not contain the system generated message
-        cy.get('#edit_textbox').should('not.contain.text', systemMessage);
+        cy.findByRole('textbox', {name: 'edit the post...'}).should('have.text', message);
     });
 });
