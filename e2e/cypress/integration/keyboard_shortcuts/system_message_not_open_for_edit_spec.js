@@ -32,7 +32,7 @@ describe('Keyboard Shortcuts', () => {
         // # Post message in the channel from User
         cy.postMessage(message);
 
-        // # Change the header of the group to generate a system message
+        // # Change the header of the channel to generate a system message
         cy.get('.setHeaderButton').click();
 
         // * Verify that the Edit Post Modal is visible
