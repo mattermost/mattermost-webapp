@@ -9,7 +9,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getUsers, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {
@@ -200,10 +200,10 @@ function formatPostInChannel(post: Post, previousPost: Post | undefined | null, 
     const prevPostFromWebhook = Boolean(previousPost && previousPost.props && previousPost.props.from_webhook);
     let consecutivePostByUser = false;
     if (previousPost &&
-            previousPost.user_id === post.user_id &&
-            post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT &&
-            !postFromWebhook && !prevPostFromWebhook &&
-            !isSystemMessage(post) && !isSystemMessage(previousPost)) {
+        previousPost.user_id === post.user_id &&
+        post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT &&
+        !postFromWebhook && !prevPostFromWebhook &&
+        !isSystemMessage(post) && !isSystemMessage(previousPost)) {
         // The last post and this post were made by the same user within some time
         consecutivePostByUser = true;
     }
@@ -370,14 +370,16 @@ export function makeGetProfilesForThread(): (state: GlobalState, rootId: string)
         getUsers,
         getCurrentUserId,
         getPostsForThread,
-        (allUsers, currentUserId, posts) => {
+        getUserStatuses,
+        (allUsers, currentUserId, posts, userStatuses) => {
             const profileIds = posts.map((post) => post.user_id);
             const uniqueIds = [...new Set(profileIds)];
             return uniqueIds.reduce((acc: UserProfile[], id: string) => {
-                if (allUsers[id] && currentUserId !== id) {
+                const profile = {...allUsers[id], status: userStatuses[id]};
+                if (profile && currentUserId !== id) {
                     return [
                         ...acc,
-                        allUsers[id],
+                        profile,
                     ];
                 }
                 return acc;
