@@ -191,7 +191,7 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
                 {formatMessage({id: 'trial_benefits.modal.controlledAccessTitle', defaultMessage: 'Control access via single sign-on (SSO)'})}
             </div>
             <div className='description'>
-                {formatMessage({id: 'trial_benefits.modal.controlledAccesssubitle', defaultMessage: 'Use SSO with SAML, AD/LDAP, Google, O365 or OpenID Connect to centralize identity management and automate account provisioning.'})}
+                {formatMessage({id: 'trial_benefits.modal.controlledAccessDescription', defaultMessage: 'Use SSO with SAML, AD/LDAP, Google, O365 or OpenID Connect to centralize identity management and automate account provisioning.'})}
             </div>
             <a
                 className='learnMoreButton'

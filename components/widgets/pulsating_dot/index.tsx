@@ -7,7 +7,7 @@ import './pulsating_dot.scss';
 type Props = {
     targetRef?: React.RefObject<HTMLImageElement>;
     className?: string;
-    onClick?: () => void;
+    onClick?: (e: React.MouseEvent) => void;
 }
 
 export class PulsatingDot extends React.PureComponent<Props> {

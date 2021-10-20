@@ -785,6 +785,7 @@ export const CloudLinks = {
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
     PER_SEAT: 'per_seat',
+    SALES_SERVE: 'sales_serve',
 };
 
 export const RecurringIntervals = {
