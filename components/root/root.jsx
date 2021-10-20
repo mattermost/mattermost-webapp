@@ -138,8 +138,10 @@ export default class Root extends React.PureComponent {
         });
 
         document.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            if (!document.body.classList.contains('focalboard-body')) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         });
 
         // Fastclick
@@ -426,6 +428,7 @@ export default class Root extends React.PureComponent {
                             />
                             <RootRedirect/>
                         </Switch>
+                        <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
             </IntlProvider>

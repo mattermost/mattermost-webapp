@@ -55,7 +55,7 @@ describe('SupportSettings', () => {
         backToTeam();
 
         // # Open about modal
-        cy.uiOpenProductSwitchMenu(`About ${siteName}`);
+        cy.uiOpenProductMenu(`About ${siteName}`);
 
         // * Verify that links do not change and they open to default pages
         cy.get('#tosLink').should('contain', 'Terms of Service').and('have.attr', 'href').and('equal', defaultTosLink);
@@ -71,7 +71,7 @@ describe('SupportSettings', () => {
         backToTeam();
 
         // # Open about modal
-        cy.uiOpenProductSwitchMenu(`About ${siteName}`);
+        cy.uiOpenProductMenu(`About ${siteName}`);
 
         // * Verify that tos link is set to default
         cy.get('#tosLink').should('contain', 'Terms of Service').and('have.attr', 'href').and('equal', defaultTosLink);
@@ -85,7 +85,7 @@ describe('SupportSettings', () => {
         backToTeam();
 
         // # Open about modal
-        cy.uiOpenProductSwitchMenu(`About ${siteName}`);
+        cy.uiOpenProductMenu(`About ${siteName}`);
 
         // * Verify that tos link is there
         cy.get('#tosLink').should('be.visible').and('contain', 'Terms of Service');
@@ -123,7 +123,7 @@ describe('SupportSettings', () => {
         backToTeam();
 
         // # Open about modal
-        cy.uiOpenProductSwitchMenu().within(() => {
+        cy.uiOpenProductMenu().within(() => {
             // * Verify that 'Download Apps' does not exist
             cy.findByText('Download Apps').should('not.exist');
         });

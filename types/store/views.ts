@@ -67,10 +67,12 @@ export type ViewsState = {
     };
 
     modals: {
-        [modalId: string]: {
-            open: boolean;
-            dialogProps: Dictionary<any>;
-            dialogType: React.Component;
+        modalState: {
+            [modalId: string]: {
+                open: boolean;
+                dialogProps: Dictionary<any>;
+                dialogType: React.ComponentType;
+            };
         };
     };
 
