@@ -89,7 +89,7 @@ describe('Messaging', () => {
     });
 
     it('MM-T712 Editing a post with Ctrl+Enter on for all messages configured', () => {
-        // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Account Settings > Advanced
+        // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Settings > Advanced
         setSendMessagesOnCtrlEnter('On for all messages');
 
         // # [1] Post message
@@ -236,7 +236,7 @@ describe('Messaging', () => {
     });
 
     it('MM-T3448 Editing a post with Ctrl+Enter only for code blocks starting with ``` configured', () => {
-        // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Account Settings > Advanced
+        // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Settings > Advanced
         setSendMessagesOnCtrlEnter('On only for code blocks starting with ```');
 
         // # [17] Post message
@@ -374,7 +374,7 @@ describe('Messaging', () => {
     });
 
     it('MM-T3449 Editing a post with Ctrl+Enter off for code blocks configured', () => {
-        // # Enable 'Send Messages on CTRL+ENTER > Off in Account Settings > Advanced
+        // # Enable 'Send Messages on CTRL+ENTER > Off in Settings > Advanced
         setSendMessagesOnCtrlEnter('Off');
 
         // # [29] Post message
