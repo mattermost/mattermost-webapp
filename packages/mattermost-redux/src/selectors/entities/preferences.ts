@@ -7,7 +7,7 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {AddChannelButtonTreatments, DownloadAppsCTATreatments, PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
+import {AddChannelButtonTreatments, DownloadAppsCTATreatments, PrewrittenMessagesTreatments, AutoTourTreatments} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
@@ -213,4 +213,8 @@ export function getDownloadAppsCTATreatment(state: GlobalState): DownloadAppsCTA
 
 export function getPrewrittenMessagesTreatment(state: GlobalState): PrewrittenMessagesTreatments | undefined {
     return getFeatureFlagValue(state, 'PrewrittenMessages') as PrewrittenMessagesTreatments | undefined;
+}
+
+export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | undefined {
+    return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
 }

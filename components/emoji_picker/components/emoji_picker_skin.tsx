@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
 import {Constants} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 
 import * as Emoji from 'utils/emoji.jsx';
 
@@ -23,24 +21,28 @@ const skinsList = [['raised_hand_with_fingers_splayed', 'default'],
     ['raised_hand_with_fingers_splayed_medium_dark_skin_tone', '1F3FE'],
     ['raised_hand_with_fingers_splayed_dark_skin_tone', '1F3FF']];
 
-const skinToneEmojis = new Map(skinsList.map((pair) => [pair[1], Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(pair[0])]]));
+const skinToneEmojis = new Map(skinsList.map((pair) => [pair[1], Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(pair[0])!]]));
 
-export class EmojiPickerSkin extends React.PureComponent {
-    static propTypes = {
-        userSkinTone: PropTypes.string.isRequired,
-        onSkinSelected: PropTypes.func.isRequired,
-        intl: intlShape.isRequired,
-    };
+type Props = {
+    userSkinTone: string;
+    onSkinSelected: (skin: string) => void;
+    intl: IntlShape;
+};
 
-    constructor() {
-        super();
+type State = {
+    pickerExtended: boolean;
+}
+
+export class EmojiPickerSkin extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
 
         this.state = {
             pickerExtended: false,
         };
     }
 
-    ariaLabel = (skin) => {
+    ariaLabel = (skin: string) => {
         return this.props.intl.formatMessage({
             id: 'emoji_skin_item.emoji_aria_label',
             defaultMessage: '{skinName} emoji',
@@ -50,7 +52,7 @@ export class EmojiPickerSkin extends React.PureComponent {
         });
     }
 
-    hideSkinTonePicker = (skin) => {
+    hideSkinTonePicker = (skin: string) => {
         this.setState({pickerExtended: false});
         if (skin !== this.props.userSkinTone) {
             this.props.onSkinSelected(skin);

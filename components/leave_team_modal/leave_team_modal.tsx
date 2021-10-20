@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import * as Utils from 'utils/utils.jsx';
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import Constants from 'utils/constants';
@@ -63,7 +63,7 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
             numOfPublicChannels,
         } = this.props;
 
-        const isGuest = Utils.isGuest(currentUser);
+        const isGuest = UserUtils.isGuest(currentUser.roles);
 
         let modalMessage;
         if (isGuest) {

@@ -163,6 +163,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 <AddChannelTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
+                    addChannelButton={this.props.addChannelButton}
                 />
             );
         }

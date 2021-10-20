@@ -4,16 +4,20 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import Constants from 'utils/constants';
 
 import TutorialTip from './tutorial_tip';
+
+const TutorialSteps = Constants.TutorialSteps;
 
 type Props = {
     toggleFunc?: React.MouseEventHandler<HTMLDivElement>;
     onBottom: boolean;
     inHeading?: boolean;
+    stopPropagation?: boolean;
 }
 
-const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
+const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Props) => {
     const screens = [];
 
     screens.push(
@@ -51,6 +55,8 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
             onClick={toggleFunc}
         >
             <TutorialTip
+                step={TutorialSteps.MENU_POPOVER}
+                stopPropagation={stopPropagation}
                 placement={placement}
                 screens={screens}
                 overlayClass={'tip-overlay--header--' + arrow + headerClass}

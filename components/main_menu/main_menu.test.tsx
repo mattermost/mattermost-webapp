@@ -5,31 +5,40 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {createIntl} from 'react-intl';
+
+import {shallow} from 'enzyme';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import MainMenu from './main_menu.jsx';
+import Menu from 'components/widgets/menu/menu';
+
+import {TestHelper} from 'utils/test_helper';
+
+import {MainMenu, Props} from './main_menu';
 
 describe('components/Menu', () => {
     // Neccessary for components enhanced by HOCs due to issue with enzyme.
     // See https://github.com/enzymejs/enzyme/issues/539
-    const getMainMenuWrapper = (props) => {
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
-        return wrapper.find('MainMenu').shallow();
+    const getMainMenuWrapper = (props: Props) => {
+        return shallow(<MainMenu {...props}/>);
+
+        // const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        // return wrapper.find('MainMenu').shallow();
     };
 
     const mockStore = configureStore();
-
     const defaultProps = {
         mobile: false,
         teamId: 'team-id',
         teamType: Constants.OPEN_TEAM,
         teamName: 'team_name',
-        currentUser: {id: 'test-user-id'},
-        appDownloadLink: null,
+        currentUser: TestHelper.getUserMock(),
+        appDownloadLink: undefined,
         enableCommands: false,
         enableCustomEmoji: false,
         enableIncomingWebhooks: false,
@@ -41,13 +50,14 @@ describe('components/Menu', () => {
         enableUserCreation: false,
         enableEmailInvitations: false,
         enablePluginMarketplace: false,
-        experimentalPrimaryTeam: null,
-        helpLink: null,
-        reportAProblemLink: null,
+        experimentalPrimaryTeam: undefined,
+        helpLink: undefined,
+        reportAProblemLink: undefined,
         moreTeamsToJoin: false,
         pluginMenuItems: [],
         isMentionSearch: false,
         showGettingStarted: false,
+        intl: createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
@@ -102,18 +112,18 @@ describe('components/Menu', () => {
 
     test('should match snapshot with id', () => {
         const props = {...defaultProps, id: 'test-id'};
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled', () => {
-        const wrapper = shallowWithIntl(<MainMenu {...defaultProps}/>);
+        const wrapper = getMainMenuWrapper(defaultProps);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled in mobile', () => {
         const props = {...defaultProps, mobile: true};
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -135,7 +145,7 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -158,19 +168,32 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with plugins', () => {
         const props = {
             ...defaultProps,
-            pluginMenuItems: [
-                {id: 'plugin-1', action: jest.fn(), text: 'plugin-1-text', mobileIcon: 'plugin-1-mobile-icon'},
-                {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
+            pluginMenuItems: [{
+                id: 'plugin-id-1',
+                pluginId: 'plugin-1',
+                mobileIcon: <i className='fa fa-anchor'/>,
+                action: jest.fn,
+                dropdownText: 'some dropdown text',
+                tooltipText: 'some tooltip text',
+            },
+            {
+                id: 'plugind-id-2',
+                pluginId: 'plugin-2',
+                mobileIcon: <i className='fa fa-anchor'/>,
+                action: jest.fn,
+                dropdownText: 'some dropdown text',
+                tooltipText: 'some tooltip text',
+            },
             ],
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -178,32 +201,49 @@ describe('components/Menu', () => {
         const props = {
             ...defaultProps,
             mobile: true,
-            pluginMenuItems: [
-                {id: 'plugin-1', action: jest.fn(), text: 'plugin-1-text', mobileIcon: 'plugin-1-mobile-icon'},
-                {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
+            pluginMenuItems: [{
+                id: 'plugin-id-1',
+                pluginId: 'plugin-1',
+                icon: <i className='fa fa-anchor'/>,
+                action: jest.fn,
+                dropdownText: 'some dropdown text',
+                tooltipText: 'some tooltip text',
+            },
+            {
+                id: 'plugind-id-2',
+                pluginId: 'plugin-2',
+                icon: <i className='fa fa-anchor'/>,
+                action: jest.fn,
+                dropdownText: 'some dropdown text',
+                tooltipText: 'some tooltip text',
+            },
             ],
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show leave team option when primary team is set', () => {
-        const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
+    test('should show leave team option when primary team is not set', () => {
+        const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: undefined};
         const wrapper = getMainMenuWrapper(props);
 
         // show leave team option when experimentalPrimaryTeam is not set
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);
-        expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
+        expect(wrapper.find('#leaveTeam').find(Menu.ItemToggleModalRedux).props().show).toEqual(true);
+    });
 
-        // hide leave team option when experimentalPrimaryTeam is same as current team
-        wrapper.setProps({experimentalPrimaryTeam: defaultProps.teamName});
+    test('should hide leave team option when experimentalPrimaryTeam is same as current team', () => {
+        const props = {...defaultProps, teamIsGroupConstrained: false};
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);
-        expect(wrapper.find('#leaveTeam').props().show).toEqual(false);
+        expect(wrapper.find('#leaveTeam').find(Menu.ItemToggleModalRedux).props().show).toEqual(true);
+    });
 
-        // show leave team option when experimentalPrimaryTeam is set to other team
-        wrapper.setProps({experimentalPrimaryTeam: 'other_name'});
+    test('should hide leave team option when experimentalPrimaryTeam is same as current team', () => {
+        const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: 'other-team'};
+        const wrapper = getMainMenuWrapper(props);
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);
-        expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
+        expect(wrapper.find('#leaveTeam').find(Menu.ItemToggleModalRedux).props().show).toEqual(true);
     });
 
     test('mobile view should hide the subscribe now button when does not have permissions', () => {

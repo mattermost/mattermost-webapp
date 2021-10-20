@@ -100,15 +100,25 @@
     }
 
     &.tip-overlay--add-channels {
+        margin-left: 10px;
+
         .arrow {
-            top: 97px;
+            top: 87px;
             left: -10px;
             border-right-color: $white;
             border-left-width: 0;
         }
+
+        &.tip-overlay--top-row-placement {
+            .arrow {
+                top: 41px;
+            }
+        }
     }
 
     &.tip-overlay--product-switcher {
+        margin-left: 10px;
+
         .arrow {
             top: 10px;
             left: 0;
@@ -119,6 +129,8 @@
     }
 
     &.tip-overlay--settings {
+        margin-top: 10px;
+
         .arrow {
             top: -10px;
             right: 44px;
@@ -214,7 +226,7 @@
 
         &.tip-overlay--header--heading {
             top: 0;
-            right: -4px;
+            right: -6px;
             padding: 0 0 12px 12px;
         }
     }
@@ -241,6 +253,8 @@
     }
 
     &.tip-overlay--settings {
+        // needs to be over the highest .channel-header setting
+        z-index: 16;
         top: 23px;
         right: 38px;
         padding: 10px;
