@@ -4,6 +4,7 @@ exports[`components/product_switcher/product_switcher_tip matches snapshot with 
 <Connect(TutorialTip)
   overlayClass="tip-overlay--product-switcher"
   placement="right"
+  punchOut={null}
   screens={
     Array [
       <div>

@@ -42,7 +42,7 @@ type Props = {
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
     };
     autoTour: boolean;
-    punchOut?: TutorialTipPunchout;
+    punchOut?: TutorialTipPunchout | null;
 }
 
 type State = {

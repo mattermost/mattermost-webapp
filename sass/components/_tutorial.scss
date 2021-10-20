@@ -1,8 +1,11 @@
 @charset 'UTF-8';
 
+$backdrop-index: 999;
+$tip-index: 1000;
+
 .tip-backdrop {
     position: absolute;
-    z-index: 999;
+    z-index: $backdrop-index;
     top: 0;
     left: 0;
     width: 100%;
@@ -14,7 +17,7 @@
     @include border-radius(3px);
 
     position: absolute;
-    z-index: 1000;
+    z-index: $tip-index;
     width: 350px;
     max-width: 90%;
     padding: 20px;
@@ -62,7 +65,7 @@
         margin: 10px 0 0 10px;
 
         .arrow {
-            top: 15px;
+            top: 34px;
             left: -10px;
             border-right-color: $white;
             border-left-width: 0;
@@ -70,7 +73,7 @@
 
         &.tip-overlay--header--heading {
             .arrow {
-                top: 45px;
+                top: 40px;
             }
         }
     }
@@ -103,7 +106,7 @@
         margin-left: 10px;
 
         .arrow {
-            top: 87px;
+            top: 82px;
             left: -10px;
             border-right-color: $white;
             border-left-width: 0;
@@ -129,7 +132,7 @@
     }
 
     &.tip-overlay--settings {
-        margin-top: 10px;
+        margin: 10px 10px 0 0;
 
         .arrow {
             top: -10px;
@@ -253,8 +256,11 @@
     }
 
     &.tip-overlay--settings {
-        // needs to be over the highest .channel-header setting
-        z-index: 16;
+        // needs to be over:
+        // the highest .channel-header setting
+        // the tip backdrop because it spills over the highlighted punchout
+        // needs to be underneath the tip.
+        z-index: $backdrop-index + 1;
         top: 23px;
         right: 38px;
         padding: 10px;
@@ -331,4 +337,20 @@
 
 .tutorial__app-icons {
     margin: 2em 0;
+}
+
+body.announcement-bar--fixed {
+    .tip-overlay {
+        &.tip-overlay--add-channels {
+            margin-top: $announcement-bar-height;
+        }
+
+        &.tip-overlay--header--left {
+            margin-top: 10px + $announcement-bar-height;
+        }
+
+        &.tip-overlay--product-switcher {
+            margin-top: $announcement-bar-height;
+        }
+    }
 }

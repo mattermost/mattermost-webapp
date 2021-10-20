@@ -9,6 +9,7 @@ import {ProductComponent} from 'types/store/plugins';
 import {Preferences, TutorialSteps, TopLevelProducts} from 'utils/constants';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
+import {measurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Props} from './index';
@@ -53,6 +54,7 @@ const ProductMenuTip = ({
     const [skippedBecauseIrrelevant, setSkippedBecauseIrrelevant] = useState(false);
     const tipIsRelevant = (step === TutorialSteps.PRODUCT_SWITCHER) && !skippedBecauseIrrelevant && products && checkHasPlaybooks(products) && checkHasBoards(products);
 
+    const punchOut = measurePunchouts(['global-header'], []);
     useEffect(() => {
         // We check this at the component level because we want to wait until
         // global header is visible to the user.
@@ -97,6 +99,7 @@ const ProductMenuTip = ({
             stopPropagation={true}
             overlayClass='tip-overlay--product-switcher'
             telemetryTag='tutorial_tip_product_switcher'
+            punchOut={punchOut}
         />
     );
 };
