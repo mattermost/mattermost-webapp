@@ -4,10 +4,25 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionSystemSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings.jsx';
+import {Role} from 'mattermost-redux/types/roles';
+
+import PermissionSystemSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings';
+
 import {DefaultRolePermissions} from 'utils/constants';
 
 describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
+    const defaultRole: Role = {
+        id: '',
+        display_name: '',
+        name: '',
+        description: '',
+        create_at: 0,
+        delete_at: 0,
+        built_in: false,
+        scheme_managed: false,
+        update_at: 0,
+        permissions: [],
+    };
     const defaultProps = {
         config: {
             EnableGuestAccounts: 'true',
@@ -17,35 +32,17 @@ describe('components/admin_console/permission_schemes_settings/permission_system
             CustomPermissionsSchemes: 'true',
             GuestAccountsPermissions: 'true',
         },
-        location: {},
+        location: {} as Location,
         roles: {
-            system_guest: {
-                permissions: [],
-            },
-            team_guest: {
-                permissions: [],
-            },
-            channel_guest: {
-                permissions: [],
-            },
-            system_user: {
-                permissions: [],
-            },
-            team_user: {
-                permissions: [],
-            },
-            channel_user: {
-                permissions: [],
-            },
-            system_admin: {
-                permissions: [],
-            },
-            team_admin: {
-                permissions: [],
-            },
-            channel_admin: {
-                permissions: [],
-            },
+            system_guest: defaultRole,
+            team_guest: defaultRole,
+            channel_guest: defaultRole,
+            system_user: defaultRole,
+            team_user: defaultRole,
+            channel_user: defaultRole,
+            system_admin: defaultRole,
+            team_admin: defaultRole,
+            channel_admin: defaultRole,
         },
         actions: {
             loadRolesIfNeeded: jest.fn().mockReturnValue(Promise.resolve()),
@@ -82,32 +79,41 @@ describe('components/admin_console/permission_schemes_settings/permission_system
     });
 
     test('should match snapshot on roles with permissions', (done) => {
-        const roles = {
+        const roles: Record<string, Role> = {
             system_guest: {
+                ...defaultRole,
                 permissions: ['create_post'],
             },
             team_guest: {
+                ...defaultRole,
                 permissions: ['invite_user'],
             },
             channel_guest: {
+                ...defaultRole,
                 permissions: ['add_reaction'],
             },
             system_user: {
+                ...defaultRole,
                 permissions: ['create_post'],
             },
             team_user: {
+                ...defaultRole,
                 permissions: ['invite_user'],
             },
             channel_user: {
+                ...defaultRole,
                 permissions: ['add_reaction'],
             },
             system_admin: {
+                ...defaultRole,
                 permissions: ['manage_system'],
             },
             team_admin: {
+                ...defaultRole,
                 permissions: ['add_user_to_team'],
             },
             channel_admin: {
+                ...defaultRole,
                 permissions: ['delete_post'],
             },
         };
@@ -127,7 +133,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
 
     test('should save each role on handleSubmit except system_admin role', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionSystemSchemeSettings>(
             <PermissionSystemSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole}}
@@ -147,7 +153,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
             GuestAccountsPermissions: 'false',
         };
         let editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionSystemSchemeSettings>(
             <PermissionSystemSchemeSettings
                 {...defaultProps}
                 license={license}
@@ -161,7 +167,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(editRole).toHaveBeenCalledTimes(5);
         license.GuestAccountsPermissions = 'true';
         editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
-        const wrapper2 = shallow(
+        const wrapper2 = shallow<PermissionSystemSchemeSettings>(
             <PermissionSystemSchemeSettings
                 {...defaultProps}
                 license={license}
@@ -177,7 +183,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
 
     test('should show error if editRole fails', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionSystemSchemeSettings>(
             <PermissionSystemSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole}}
@@ -189,7 +195,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
     });
 
     test('should open and close correctly roles blocks', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionSystemSchemeSettings>(
             <PermissionSystemSchemeSettings {...defaultProps}/>,
         );
         const instance = wrapper.instance();
@@ -219,7 +225,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
     });
 
     test('should open modal on click reset defaults', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionSystemSchemeSettings>(
             <PermissionSystemSchemeSettings {...defaultProps}/>,
         );
         expect(wrapper.state().showResetDefaultModal).toBe(false);
@@ -228,16 +234,16 @@ describe('components/admin_console/permission_schemes_settings/permission_system
     });
 
     test('should have default permissions that match the defaults constant', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionSystemSchemeSettings>(
             <PermissionSystemSchemeSettings {...defaultProps}/>,
         );
-        expect(wrapper.state().roles.all_users.permissions.length).toBe(0);
-        expect(wrapper.state().roles.channel_admin.permissions.length).toBe(0);
-        expect(wrapper.state().roles.team_admin.permissions.length).toBe(0);
+        expect(wrapper.state().roles.all_users.permissions?.length).toBe(0);
+        expect(wrapper.state().roles.channel_admin.permissions?.length).toBe(0);
+        expect(wrapper.state().roles.team_admin.permissions?.length).toBe(0);
         wrapper.instance().resetDefaults();
         expect(wrapper.state().roles.all_users.permissions).toBe(DefaultRolePermissions.all_users);
         expect(wrapper.state().roles.channel_admin.permissions).toBe(DefaultRolePermissions.channel_admin);
         expect(wrapper.state().roles.team_admin.permissions).toBe(DefaultRolePermissions.team_admin);
-        expect(wrapper.state().roles.system_admin.permissions.length).toBe(defaultProps.roles.system_admin.permissions.length);
+        expect(wrapper.state().roles.system_admin.permissions?.length).toBe(defaultProps.roles.system_admin.permissions.length);
     });
 });

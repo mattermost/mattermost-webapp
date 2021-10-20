@@ -53,7 +53,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={false}
           role={
             Object {
-              "displayName": "Guests",
+              "display_name": "Guests",
               "name": "guests",
               "permissions": Array [
                 "create_post",
@@ -64,7 +64,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -81,7 +80,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           role={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [
                 "create_post",
@@ -92,7 +91,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -108,7 +106,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [
                 "create_post",
@@ -119,9 +117,18 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [
                 "delete_post",
               ],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="channel_scope"
@@ -141,7 +148,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [
                 "create_post",
@@ -152,9 +159,18 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [
                 "add_user_to_team",
               ],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="team_scope"
@@ -175,9 +191,18 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={true}
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [
                 "manage_system",
               ],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="system_scope"
@@ -271,7 +296,7 @@ Object {
   },
   "roles": Object {
     "all_users": Object {
-      "displayName": "All members",
+      "display_name": "All members",
       "name": "all_users",
       "permissions": Array [
         "create_post",
@@ -280,12 +305,21 @@ Object {
       ],
     },
     "channel_admin": Object {
+      "built_in": false,
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "",
+      "id": "",
+      "name": "",
       "permissions": Array [
         "delete_post",
       ],
+      "scheme_managed": false,
+      "update_at": 0,
     },
     "guests": Object {
-      "displayName": "Guests",
+      "display_name": "Guests",
       "name": "guests",
       "permissions": Array [
         "create_post",
@@ -294,19 +328,36 @@ Object {
       ],
     },
     "system_admin": Object {
+      "built_in": false,
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "",
+      "id": "",
+      "name": "",
       "permissions": Array [
         "manage_system",
       ],
+      "scheme_managed": false,
+      "update_at": 0,
     },
     "team_admin": Object {
+      "built_in": false,
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "",
+      "id": "",
+      "name": "",
       "permissions": Array [
         "add_user_to_team",
       ],
+      "scheme_managed": false,
+      "update_at": 0,
     },
   },
   "saveNeeded": false,
   "saving": false,
-  "selectedPermission": null,
   "serverError": null,
   "showResetDefaultModal": false,
   "urlParams": URLSearchParams {},
@@ -325,28 +376,54 @@ Object {
   },
   "roles": Object {
     "all_users": Object {
-      "displayName": "All members",
+      "display_name": "All members",
       "name": "all_users",
       "permissions": Array [],
     },
     "channel_admin": Object {
+      "built_in": false,
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "",
+      "id": "",
+      "name": "",
       "permissions": Array [],
+      "scheme_managed": false,
+      "update_at": 0,
     },
     "guests": Object {
-      "displayName": "Guests",
+      "display_name": "Guests",
       "name": "guests",
       "permissions": Array [],
     },
     "system_admin": Object {
+      "built_in": false,
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "",
+      "id": "",
+      "name": "",
       "permissions": Array [],
+      "scheme_managed": false,
+      "update_at": 0,
     },
     "team_admin": Object {
+      "built_in": false,
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "",
+      "id": "",
+      "name": "",
       "permissions": Array [],
+      "scheme_managed": false,
+      "update_at": 0,
     },
   },
   "saveNeeded": false,
   "saving": false,
-  "selectedPermission": null,
   "serverError": null,
   "showResetDefaultModal": false,
   "urlParams": URLSearchParams {},
@@ -406,14 +483,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={true}
           role={
             Object {
-              "displayName": "Guests",
+              "display_name": "Guests",
               "name": "guests",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -430,14 +506,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           role={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -453,14 +528,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="channel_scope"
@@ -480,14 +564,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="team_scope"
@@ -508,7 +601,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={true}
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="system_scope"
@@ -643,14 +745,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={false}
           role={
             Object {
-              "displayName": "Guests",
+              "display_name": "Guests",
               "name": "guests",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -667,14 +768,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           role={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -690,14 +790,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="channel_scope"
@@ -717,14 +826,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="team_scope"
@@ -745,7 +863,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={true}
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="system_scope"
@@ -880,14 +1007,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={true}
           role={
             Object {
-              "displayName": "Guests",
+              "display_name": "Guests",
               "name": "guests",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -904,14 +1030,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           role={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -927,14 +1052,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="channel_scope"
@@ -954,14 +1088,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="team_scope"
@@ -982,7 +1125,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={true}
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="system_scope"
@@ -1117,14 +1269,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={false}
           role={
             Object {
-              "displayName": "Guests",
+              "display_name": "Guests",
               "name": "guests",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1141,14 +1292,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           role={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           scope="system_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1164,14 +1314,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="channel_scope"
@@ -1191,14 +1350,23 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           onToggle={[Function]}
           parentRole={
             Object {
-              "displayName": "All members",
+              "display_name": "All members",
               "name": "all_users",
               "permissions": Array [],
             }
           }
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="team_scope"
@@ -1219,7 +1387,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           readOnly={true}
           role={
             Object {
+              "built_in": false,
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "",
+              "display_name": "",
+              "id": "",
+              "name": "",
               "permissions": Array [],
+              "scheme_managed": false,
+              "update_at": 0,
             }
           }
           scope="system_scope"

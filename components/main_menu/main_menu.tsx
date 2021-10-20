@@ -1,15 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -31,81 +29,84 @@ import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
+import {SubscriptionStats} from 'mattermost-redux/types/cloud';
+import {PluginComponent} from 'types/store/plugins';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-class MainMenu extends React.PureComponent {
-    static propTypes = {
-        mobile: PropTypes.bool.isRequired,
-        id: PropTypes.string,
-        teamId: PropTypes.string,
-        teamName: PropTypes.string,
-        siteName: PropTypes.string,
-        currentUser: PropTypes.object,
-        appDownloadLink: PropTypes.string,
-        enableCommands: PropTypes.bool.isRequired,
-        enableIncomingWebhooks: PropTypes.bool.isRequired,
-        enableOAuthServiceProvider: PropTypes.bool.isRequired,
-        enableOutgoingWebhooks: PropTypes.bool.isRequired,
-        canManageSystemBots: PropTypes.bool.isRequired,
-        canManageIntegrations: PropTypes.bool.isRequired,
-        experimentalPrimaryTeam: PropTypes.string,
-        helpLink: PropTypes.string,
-        reportAProblemLink: PropTypes.string,
-        moreTeamsToJoin: PropTypes.bool.isRequired,
-        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        isMentionSearch: PropTypes.bool,
-        teamIsGroupConstrained: PropTypes.bool.isRequired,
-        isLicensedForLDAPGroups: PropTypes.bool,
-        showGettingStarted: PropTypes.bool.isRequired,
-        intl: intlShape.isRequired,
-        showNextStepsTips: PropTypes.bool,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequred,
-            showMentions: PropTypes.func,
-            showFlaggedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func.isRequired,
-            closeRhsMenu: PropTypes.func.isRequired,
-            unhideNextSteps: PropTypes.func.isRequired,
-            getSubscriptionStats: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    mobile: boolean;
+    id?: string;
+    teamId?: string;
+    teamName?: string;
+    siteName?: string;
+    currentUser?: UserProfile;
+    appDownloadLink?: string;
+    enableCommands: boolean;
+    enableIncomingWebhooks: boolean;
+    enableOAuthServiceProvider: boolean;
+    enableOutgoingWebhooks: boolean;
+    canManageSystemBots: boolean;
+    canManageIntegrations: boolean;
+    experimentalPrimaryTeam?: string;
+    helpLink?: string;
+    reportAProblemLink?: string;
+    moreTeamsToJoin: boolean;
+    pluginMenuItems?: PluginComponent[];
+    isMentionSearch?: boolean;
+    teamIsGroupConstrained: boolean;
+    isLicensedForLDAPGroups?: boolean;
+    showGettingStarted: boolean;
+    intl: IntlShape;
+    showNextStepsTips?: boolean;
+    actions: {
+        openModal: (params: {modalId: string; dialogType: any; dialogProps: any}) => void;
+        showMentions: () => void;
+        showFlaggedPosts: () => void;
+        closeRightHandSide: () => void;
+        closeRhsMenu: () => void;
+        unhideNextSteps: () => void;
+        getSubscriptionStats: () => SubscriptionStats;
     };
 
+};
+export class MainMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
         mobile: false,
         pluginMenuItems: [],
     };
 
-    toggleShortcutsModal = (e) => {
+    toggleShortcutsModal = (e: Event): void => {
         e.preventDefault();
         GlobalActions.toggleShortcutsModal();
     }
 
-    async componentDidMount() {
+    async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: KeyboardEvent): void => {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             e.preventDefault();
-            this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
+            this.props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
         }
     }
 
-    handleEmitUserLoggedOutEvent = () => {
+    handleEmitUserLoggedOutEvent = (): void => {
         GlobalActions.emitUserLoggedOutEvent();
     }
 
-    getFlagged = (e) => {
+    getFlagged = (e: Event): void => {
         e.preventDefault();
         this.props.actions.showFlaggedPosts();
         this.props.actions.closeRhsMenu();
     }
 
-    searchMentions = (e) => {
+    searchMentions = (e: Event): void => {
         e.preventDefault();
 
         if (this.props.isMentionSearch) {
@@ -121,28 +122,26 @@ class MainMenu extends React.PureComponent {
             currentUser,
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
-            teamId,
+            teamId = '',
         } = this.props;
 
         if (!currentUser) {
             return null;
         }
 
-        const pluginItems = this.props.pluginMenuItems.map((item) => {
-            return (
-                <Menu.ItemAction
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={() => {
-                        if (item.action) {
-                            item.action();
-                        }
-                    }}
-                    text={item.text}
-                    icon={this.props.mobile && item.mobileIcon}
-                />
-            );
-        });
+        const pluginItems = this.props.pluginMenuItems?.map((item) => (
+            <Menu.ItemAction
+                id={item.id + '_pluginmenuitem'}
+                key={item.id + '_pluginmenuitem'}
+                onClick={() => {
+                    if (item.action) {
+                        item.action();
+                    }
+                }}
+                text={item.text}
+                icon={this.props.mobile && item.mobileIcon}
+            />
+        ));
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
@@ -168,7 +167,6 @@ class MainMenu extends React.PureComponent {
 
         return this.props.mobile ? (
             <Menu
-                mobile={this.props.mobile}
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
@@ -351,7 +349,7 @@ class MainMenu extends React.PureComponent {
                     <Menu.ItemExternalLink
                         id='nativeAppLink'
                         show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink)}
+                        url={useSafeUrl(this.props.appDownloadLink || '')}
                         text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                         icon={<i className='fa fa-mobile'/>}
                     />
@@ -374,7 +372,6 @@ class MainMenu extends React.PureComponent {
             </Menu>
         ) : (
             <Menu
-                mobile={this.props.mobile}
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'sidebar.team_menu.menuAriaLabel', defaultMessage: 'team menu'})}
             >

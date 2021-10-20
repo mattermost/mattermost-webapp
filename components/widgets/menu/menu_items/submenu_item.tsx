@@ -49,6 +49,7 @@ export type Props = {
     openUp?: boolean;
     styleSelectableItem?: boolean;
     extraText?: string;
+    rightDecorator?: React.ReactNode;
 }
 
 type State = {
@@ -148,14 +149,12 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
             return ('');
         }
-
-        const selectedValueElement = typeof selectedValueText === 'string' ? <span className='selected'>{selectedValueText}</span> : selectedValueText;
 
         let textProp = text;
         if (icon) {
@@ -235,9 +234,9 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     onKeyDown={this.handleKeyDown}
                 >
-                    <span className='MenuItem__primary-text'>
-                        {textProp}
-                        {renderSelected && selectedValueElement}
+                    <div className={icon ? 'grid' : 'flex'}>
+                        {textProp}{rightDecorator}
+                        {renderSelected && <span className='selected'>{selectedValueText}</span>}
                         {id !== 'ChannelMenu-moveToDivider' &&
                             <span
                                 id={'channelHeaderDropdownIconRight_' + id}
@@ -245,7 +244,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                             />
                         }
-                    </span>
+                    </div>
                     {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
                     {subMenuContent}
                 </div>
