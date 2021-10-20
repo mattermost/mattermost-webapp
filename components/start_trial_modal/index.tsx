@@ -28,7 +28,11 @@ enum TrialLoadStatus {
     Failed = 'FAILED'
 }
 
-function StartTrialModal(): JSX.Element | null {
+type Props = {
+    onClose?: () => void;
+}
+
+function StartTrialModal(props: Props): JSX.Element | null {
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
     const dispatch = useDispatch<DispatchFunc>();
 
@@ -76,13 +80,20 @@ function StartTrialModal(): JSX.Element | null {
         return null;
     }
 
+    const handleOnClose = () => {
+        if (props.onClose) {
+            props.onClose();
+        }
+        dispatch(closeModal(ModalIdentifiers.START_TRIAL_MODAL));
+    };
+
     return (
         <Modal
             className={'StartTrialModal'}
             show={show}
             id='startTrialModal'
             role='dialog'
-            onHide={() => dispatch(closeModal(ModalIdentifiers.START_TRIAL_MODAL))}
+            onHide={handleOnClose}
         >
             <Modal.Header closeButton={true}/>
             <Modal.Body>

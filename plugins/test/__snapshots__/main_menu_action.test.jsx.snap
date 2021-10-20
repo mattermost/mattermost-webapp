@@ -3,7 +3,6 @@
 exports[`plugins/MainMenuActions should match snapshot in mobile view with some plugin and ability to click plugin 1`] = `
 <Menu
   ariaLabel="main menu"
-  mobile={true}
 >
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -378,6 +377,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
       id="nativeAppLink"
       show={true}
       text="Download Apps"
+      url=""
     />
     <MenuItemToggleModalRedux
       dialogType={
@@ -418,8 +418,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
 
 exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
 <Menu
-  ariaLabel="main menu"
-  mobile={false}
+  ariaLabel="team menu"
 >
   <MenuGroup>
     <Connect(TeamPermissionGate)

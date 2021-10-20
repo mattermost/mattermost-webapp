@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@testing-library/cypress": "8.0.1",
+    "@testing-library/cypress": "7.0.6",
     "@types/lodash": "4.14.175",
     "async": "3.2.1",
     "authenticator": "1.1.5",
@@ -11,7 +11,7 @@
     "chalk": "4.1.2",
     "client-oauth2": "github:larkox/js-client-oauth2#e24e2eb5dfcbbbb3a59d095e831dbe0012b0ac49",
     "cross-env": "7.0.3",
-    "cypress": "8.5.0",
+    "cypress": "7.7.0",
     "cypress-file-upload": "5.0.8",
     "cypress-multi-reporters": "1.5.0",
     "cypress-plugin-tab": "1.0.5",
@@ -30,7 +30,7 @@
     "mime": "2.5.2",
     "mime-types": "2.1.33",
     "mocha": "9.1.2",
-    "mocha-junit-reporters": "1.23.6",
+    "mocha-junit-reporter": "2.0.2",
     "mocha-multi-reporters": "1.5.1",
     "mochawesome": "6.3.1",
     "mochawesome-merge": "4.2.0",
