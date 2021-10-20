@@ -425,7 +425,7 @@ describe('Keyboard Shortcuts', () => {
         // # Type CTRL/CMD+SHIFT+A to open 'Account Settings' modal
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
         cy.uiOpenAccountSettingsModal();
-        
+
         // # Type CTRL/CMD+SHIFT+A to close 'Account Settings' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}A');
         cy.get('#accountSettingsHeader').should('not.exist');
