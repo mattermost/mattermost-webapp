@@ -10,24 +10,16 @@
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
-    let testTeam;
-    let testChannel;
-    let testUser;
     before(() => {
-        cy.apiInitSetup().then(({team, channel, user}) => {
-            testTeam = team;
-            testChannel = channel;
-            testUser = user;
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            // # Visit off-topic channel
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T1265 UP - System message does not open for edit; opens previous regular message', () => {
         const message = 'Test message';
         const newHeader = 'New Header';
-        cy.apiLogin(testUser);
-
-        // # Visit the channel using the channel name
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Post message in the channel from User
         cy.postMessage(message);
