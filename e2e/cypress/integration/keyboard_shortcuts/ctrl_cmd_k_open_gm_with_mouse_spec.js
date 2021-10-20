@@ -10,24 +10,44 @@
 // Group: @messaging
 
 describe('Keyboard Shortcuts', () => {
+    let testTeam;
+    let firstUser;
+    let secondUser;
+    let thirdUser;
+
     before(() => {
-        // # Login as test user and visit off-topic
-        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+        // # Login as test user
+        cy.apiInitSetup().then(({offTopicUrl, team, user: user1}) => {
+            firstUser = user1;
+            testTeam = team;
+
+            // # Create two more users
+            cy.apiCreateUser().then(({user: user2}) => {
+                secondUser = user2;
+                cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+            });
+
+            cy.apiCreateUser().then(({user: user3}) => {
+                thirdUser = user3;
+                cy.apiAddUserToTeam(testTeam.id, thirdUser.id);
+            });
+
+            cy.apiLogin(firstUser);
             cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T1245 CTRL/CMD+K - Open GM using mouse', () => {
-        // # create a GM channel
-        cy.apiCreateGroupChannel(['cg5tancpjfdgt8kpmbewgeqrmo', 'wf79bueqg3fnfp37rsadyja94e']).then(({channel}) => {
-            // press Cmd/Ctrl-K to open "Switch Channels" modal
+        // # Create a GM channel
+        cy.apiCreateGroupChannel([firstUser.id, secondUser.id, thirdUser.id]).then(({channel}) => {
+            // # Press Cmd/Ctrl-K to open "Switch Channels" modal
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
-            // # click on the GM link to go to channel
+            // # Click on the GM link to go to channel
             cy.get('.status--group').click();
 
-            // * check if channel intro message with usernames is visible
-            cy.findByText(/This is the start/).should('be.visible').contains('johnny.hansen, juan.adams');
+            // * Check if channel intro message with usernames is visible
+            cy.findByText(/This is the start/).should('be.visible').contains(secondUser.username).contains(thirdUser.username);
         });
     });
 });
