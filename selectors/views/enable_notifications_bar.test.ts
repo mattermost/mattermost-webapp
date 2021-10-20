@@ -1,6 +1,6 @@
 import {GlobalState} from 'types/store';
 import { shouldShowEnableNotificationsBar } from 'selectors/views/enable_notifications_bar';
-import { StoragePrefixes } from 'utils/constants';
+import Constants, { StoragePrefixes } from 'utils/constants';
 
 describe('Selectors.EnableNotificationsBar', () => {
   describe('shouldShowEnableNotificationsBar', () => {
@@ -17,11 +17,18 @@ describe('Selectors.EnableNotificationsBar', () => {
       jest.useRealTimers();
     });
 
-    it('should return false if there is no timestamp in store for next permission request', () => {
+    it('should return false if maximum number of requests has already been made', () => {
       const state = {
         views: {
           browser: {
             isNotificationsPermissionGranted: false,
+          }
+        },
+        storage: {
+          storage: {
+            [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
+              value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1
+            }
           }
         }
       } as unknown as GlobalState;
