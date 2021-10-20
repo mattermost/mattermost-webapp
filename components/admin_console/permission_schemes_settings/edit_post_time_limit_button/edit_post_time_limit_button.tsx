@@ -2,19 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-export default class EditPostTimeLimitButton extends React.PureComponent {
-    static propTypes = {
-        timeLimit: PropTypes.number.isRequired,
-        onClick: PropTypes.func,
-        isDisabled: PropTypes.bool,
-    };
+type Props = {
+    timeLimit: number;
+    onClick: (event: React.MouseEvent) => void;
+    isDisabled: boolean;
+}
 
+export default class EditPostTimeLimitButton extends React.PureComponent<Props> {
     render = () => {
         let messageID;
         if (this.props.timeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT) {
