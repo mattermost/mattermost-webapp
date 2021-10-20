@@ -2,6 +2,7 @@
     position: fixed;
     z-index: 17;
     left: 0;
+    bottom: 0;
     display: flex;
     width: 65px;
     height: 100%;
@@ -167,4 +168,10 @@
         height: calc(100% - 40px);
         border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
     }
+}
+
+.pluggable-wrapper {
+    height: 100%;
+    width: calc(100% - 65px);
+    margin-left: auto;
 }

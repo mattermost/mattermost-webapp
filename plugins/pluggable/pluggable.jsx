@@ -85,7 +85,9 @@ export default class Pluggable extends React.PureComponent {
 
             return (
                 <React.Fragment>
-                    {content}
+                    <div className='pluggable-wrapper'>
+                        {content}
+                    </div>
                 </React.Fragment>
             );
         }

@@ -63,6 +63,7 @@ import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
 
 import RootRedirect from './root_redirect';
+import TeamSidebar from 'components/team_sidebar';
 
 const CreateTeam = makeAsyncComponent(LazyCreateTeam);
 const ErrorPage = makeAsyncComponent(LazyErrorPage);
@@ -386,6 +387,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
+                        <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route

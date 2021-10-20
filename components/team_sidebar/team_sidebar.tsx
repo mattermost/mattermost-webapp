@@ -28,6 +28,7 @@ import Pluggable from 'plugins/pluggable';
 import {ThreadsState} from 'mattermost-redux/types/threads';
 
 import TeamButton from './components/team_button';
+import {useCurrentProductId, useProducts} from '../global_header/hooks';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
@@ -222,6 +223,10 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
+        const products = useProducts();
+        const currentProductID = useCurrentProductId(products);
+        const currentProduct = products?.find((product) => product.id === currentProductID);
+
         const teams = sortedTeams.map((team: Team, index: number) => {
             const member = this.props.myTeamMembers[team.id];
             return (
@@ -240,6 +245,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}
+                    teamSwitchCallback={currentProduct?.teamSwitchCallback}
                 />
             );
         });
