@@ -33,8 +33,8 @@ describe('Keyboard Shortcuts', () => {
         // * Type new header
         cy.get('[data-testid=edit_textbox]').type(newHeader);
 
-        // * Click save button to change header this generates a system message
-        cy.get('.save-button').click();
+        // * Click save button to change header
+        cy.uiSave();
 
         // # Press UP arrow
         cy.get('#post_textbox').type('{uparrow}');
