@@ -95,6 +95,22 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
         return handleAllTeamThreadsRead(state, action);
     case ThreadTypes.READ_CHANGED_THREAD:
         return handleReadChangedThread(state, action);
+    case ThreadTypes.FOLLOW_CHANGED_THREAD: {
+        const {team_id: teamId, following} = action.data;
+        const counts = state[teamId];
+
+        if (counts?.total == null) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [teamId]: {
+                ...counts,
+                total: following ? counts.total + 1 : counts.total - 1,
+            },
+        };
+    }
     case TeamTypes.LEAVE_TEAM:
         return handleLeaveTeam(state, action);
     case ChannelTypes.LEAVE_CHANNEL:

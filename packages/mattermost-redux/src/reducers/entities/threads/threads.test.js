@@ -70,7 +70,7 @@ describe('threads', () => {
         expect(nextState.threadsInTeam).toBe(state.threadsInTeam);
     });
 
-    test('ALL_TEAM_THREADS_READ should clear the counts', () => {
+    test('FOLLOW_CHANGED_THREAD should increment/decrement the total by 1', () => {
         const state = deepFreeze({
             threadsInTeam: {},
             unreadThreadsInTeam: {},
@@ -91,23 +91,33 @@ describe('threads', () => {
             },
         });
         const nextState2 = threadsReducer(state, {
-            type: ThreadTypes.ALL_TEAM_THREADS_READ,
+            type: ThreadTypes.FOLLOW_CHANGED_THREAD,
             data: {
                 team_id: 'a',
+                following: true,
             },
         });
 
         expect(nextState2).not.toBe(state);
-        expect(nextState2.counts.a).toEqual({
-            total: 3,
+        expect(nextState2.countsIncludingDirect.a).toEqual({
+            total: 4,
             total_unread_threads: 0,
-            total_unread_mentions: 0,
+            total_unread_mentions: 2,
         });
 
-        expect(nextState2.countsIncludingDirect.a).toEqual({
-            total: 3,
+        const nextState3 = threadsReducer(state, {
+            type: ThreadTypes.FOLLOW_CHANGED_THREAD,
+            data: {
+                team_id: 'a',
+                following: false,
+            },
+        });
+
+        expect(nextState3).not.toBe(state);
+        expect(nextState3.countsIncludingDirect.a).toEqual({
+            total: 2,
             total_unread_threads: 0,
-            total_unread_mentions: 0,
+            total_unread_mentions: 2,
         });
     });
 

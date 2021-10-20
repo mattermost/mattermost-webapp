@@ -599,9 +599,9 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
             Object.keys(threadCounts).forEach((teamId) => {
                 const c = threadCounts[teamId];
                 if (teamId === currentTeamId) {
-                    const currrentTeamsDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
-                    anyUnreadThreads = Boolean(currrentTeamsDirectCounts.total_unread_threads);
-                    totalUnreadMentions += currrentTeamsDirectCounts.total_unread_mentions;
+                    const currentTeamDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
+                    anyUnreadThreads = Boolean(currentTeamDirectCounts.total_unread_threads);
+                    totalUnreadMentions += currentTeamDirectCounts.total_unread_mentions;
                 } else {
                     anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
                     totalUnreadMentions += c.total_unread_mentions;

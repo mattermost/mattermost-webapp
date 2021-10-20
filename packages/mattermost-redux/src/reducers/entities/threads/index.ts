@@ -168,6 +168,10 @@ function reducer(state: ThreadsState = initialState, action: GenericAction): Thr
         }
     }
 
+    if (action.type === ThreadTypes.FOLLOW_CHANGED_THREAD) {
+        extra.threads = state.threads;
+    }
+
     const nextState = {
 
         // Object mapping thread ids to thread objects
