@@ -69,7 +69,6 @@ import {
     calculateUnreadCount,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {Constants} from 'utils/constants';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 import {getThreadCounts} from './threads';
@@ -213,13 +212,13 @@ export const getCurrentChannelNameForSearchShortcut: (state: GlobalState) => str
         const channel = allChannels[currentChannelId];
 
         // Only get the extra info from users if we need it
-        if (channel?.type === Constants.DM_CHANNEL) {
+        if (channel?.type === General.DM_CHANNEL) {
             const dmChannelWithInfo = completeDirectChannelInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel);
             return `@${dmChannelWithInfo.display_name}`;
         }
 
         // Replace spaces in GM channel names
-        if (channel?.type === Constants.GM_CHANNEL) {
+        if (channel?.type === General.GM_CHANNEL) {
             const gmChannelWithInfo = completeDirectGroupInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel, false);
             return `@${gmChannelWithInfo.display_name.replace(/\s/g, '')}`;
         }
@@ -979,13 +978,13 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
     const channelType: string[] = [];
     const channels = channelList;
     if (filters.public) {
-        channelType.push(Constants.OPEN_CHANNEL);
+        channelType.push(General.OPEN_CHANNEL);
     }
     if (filters.private) {
-        channelType.push(Constants.PRIVATE_CHANNEL);
+        channelType.push(General.PRIVATE_CHANNEL);
     }
     if (filters.deleted) {
-        channelType.push(Constants.ARCHIVED_CHANNEL);
+        channelType.push(General.ARCHIVED_CHANNEL);
     }
     channelType.forEach((type) => {
         result = result.concat(channels.filter((channel) => channel.type === type));
