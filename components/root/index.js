@@ -10,8 +10,8 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadMeAndConfig} from 'actions/views/root';
-import {setBrowserNotificationsPermission, scheduleNextNotificationsPermissionRequest} from 'actions/notification_actions';
-import {emitBrowserWindowResized} from 'actions/views/browser';
+import {scheduleNextNotificationsPermissionRequest} from 'actions/notification_actions';
+import {emitBrowserWindowResized, setBrowserNotificationsPermission} from 'actions/views/browser';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import Root from './root.jsx';
