@@ -1,6 +1,6 @@
 import { ActionTypes, StoragePrefixes } from 'utils/constants';
 import { setBrowserNotificationsPermission } from 'actions/views/browser';
-import testConfigureStore from 'tests/test_store_ts';
+import testConfigureStore from 'tests/test_configure_store';
 import * as utils from 'utils/notifications';
 
 describe('actions/views/browser', () => {
