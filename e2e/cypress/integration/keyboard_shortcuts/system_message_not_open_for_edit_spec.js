@@ -25,7 +25,7 @@ describe('Keyboard Shortcuts', () => {
         cy.postMessage(message);
 
         // # Change the header of the channel to generate a system message
-        cy.get('.setHeaderButton').click();
+        cy.findByRole('button', {name: 'Set a Header dialog'}).click();
 
         // * Verify that the Edit Post Modal is visible
         cy.get('.modal-content').should('be.visible');
