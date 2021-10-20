@@ -25,6 +25,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
 import { getGlobalItem } from 'selectors/storage';
+import { isNotificationsPermissionGranted } from 'selectors/browser';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
@@ -257,10 +258,14 @@ const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
 export const scheduleNextNotificationsPermissionRequest = () => {
     return (dispatch, getState) => {
         const state = getState();
+        const isPermissionGranted = isNotificationsPermissionGranted(state);
+
+        if (isPermissionGranted) {
+            return;
+        }
 
         const currentShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0);
         if (currentShownTimes > Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS) {
-            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, null));
             return;
         }
 

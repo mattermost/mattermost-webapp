@@ -445,7 +445,7 @@ describe('notification_actions', () => {
             jest.useRealTimers();
         });
 
-        it(`should disable scheduling forever if there were already more than ${Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS} requests`, async () => {
+        it(`should not schedule next request if there were already more than ${Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS} requests`, async () => {
             const initialState = {
                 storage: {
                     storage: {
@@ -453,22 +453,40 @@ describe('notification_actions', () => {
                             value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1
                         }
                     }
+                },
+                views: {
+                    browser: {
+                        isNotificationsPermissionGranted: false
+                    }
                 }
             };
             const store = testConfigureStore(initialState);
 
             await store.dispatch(scheduleNextNotificationsPermissionRequest());
 
-            expect(store.getActions()).toEqual([
-                {
-                    type: "SET_GLOBAL_ITEM",
-                    data: {
-                        name: StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT,
-                        value: null,
-                        timestamp: currentDate
+            expect(store.getActions()).toEqual([]);
+        });
+
+        it(`should not schedule next request if notifications permission has already been granted`, async () => {
+            const initialState = {
+                storage: {
+                    storage: {
+                        [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
+                            value: 0
+                        }
+                    }
+                },
+                views: {
+                    browser: {
+                        isNotificationsPermissionGranted: true
                     }
                 }
-            ]);
+            };
+            const store = testConfigureStore(initialState);
+
+            await store.dispatch(scheduleNextNotificationsPermissionRequest());
+
+            expect(store.getActions()).toEqual([]);
         });
 
         it('should not schedule next request if request has already been scheduled', async () => {
@@ -481,6 +499,11 @@ describe('notification_actions', () => {
                         [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
                             value: 1
                         }
+                    }
+                },
+                views: {
+                    browser: {
+                        isNotificationsPermissionGranted: false
                     }
                 }
             };
@@ -501,6 +524,11 @@ describe('notification_actions', () => {
                         [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
                             value: null
                         }
+                    }
+                },
+                views: {
+                    browser: {
+                        isNotificationsPermissionGranted: false
                     }
                 }
             };
@@ -530,6 +558,11 @@ describe('notification_actions', () => {
                         [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
                             value: null
                         }
+                    }
+                },
+                views: {
+                    browser: {
+                        isNotificationsPermissionGranted: false
                     }
                 }
             };

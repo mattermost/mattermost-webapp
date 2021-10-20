@@ -1,6 +1,6 @@
 import { ActionTypes, StoragePrefixes } from 'utils/constants';
 import { setBrowserNotificationsPermission } from 'actions/views/browser';
-import testConfigureStore from 'tests/test_store';
+import testConfigureStore from 'tests/test_store_ts';
 import * as utils from 'utils/notifications';
 
 describe('actions/views/browser', () => {
@@ -53,7 +53,7 @@ describe('actions/views/browser', () => {
       ]);
     });
 
-    it('should set \"Enable notifications\" bar display count high enough in case of permission grant', async () => {
+    it('should clear enable notifications bar display count and permission request timestamp on permission grant', async () => {
       const store = testConfigureStore();
 
       await store.dispatch(setBrowserNotificationsPermission('granted'));
