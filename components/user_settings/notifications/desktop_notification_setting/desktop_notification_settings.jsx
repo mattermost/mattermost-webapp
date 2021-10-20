@@ -393,4 +393,7 @@ DesktopNotificationSettings.propTypes = {
     focused: PropTypes.bool,
     selectedSound: PropTypes.string,
     isCollapsedThreadsEnabled: PropTypes.bool.isRequired,
+    actions: PropTypes.shape({
+        enableBrowserNotifications: PropTypes.func.isRequired,
+    }).isRequired,
 };

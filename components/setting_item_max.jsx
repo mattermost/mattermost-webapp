@@ -113,7 +113,7 @@ export default class SettingItemMax extends React.PureComponent {
         saveButtonText: PropTypes.string,
 
         /**
-         * A flag for rendering this settings item as unavailable due to 
+         * A flag for rendering this settings item as unavailable due to
          * lacking access to some underlying API (e.g. browser notifications) or any other condition
          */
         disabled: PropTypes.bool,
@@ -129,7 +129,7 @@ export default class SettingItemMax extends React.PureComponent {
         enableButtonText: PropTypes.string,
 
         /**
-         * A callback which handles click on "Enable" button 
+         * A callback which handles click on "Enable" button
          * inside "disabled" settings item
          */
         onEnableButtonClick: PropTypes.func,
@@ -289,7 +289,7 @@ export default class SettingItemMax extends React.PureComponent {
             );
         }
 
-        const { disabled, disabledMessage, onEnableButtonClick, enableButtonText } = this.props;
+        const {disabled, disabledMessage, onEnableButtonClick, enableButtonText} = this.props;
 
         return (
             <section
@@ -303,20 +303,23 @@ export default class SettingItemMax extends React.PureComponent {
                         className='setting-list'
                     >
                         {
-                            disabled 
-                                ? (
+                            disabled ?
+                                (
                                     <div>
                                         <p>
                                             {disabledMessage}
                                         </p>
 
-                                        <button className="btn btn-sm btn-secondary" onClick={onEnableButtonClick}>
+                                        <button
+                                            className='btn btn-sm btn-secondary'
+                                            onClick={onEnableButtonClick}
+                                        >
                                             {enableButtonText}
                                         </button>
                                     </div>
-                                )
-                                : (
-                                    <> 
+                                ) :
+                                (
+                                    <>
                                         {listContent}
                                         <div className='setting-list-item'>
                                             <hr/>

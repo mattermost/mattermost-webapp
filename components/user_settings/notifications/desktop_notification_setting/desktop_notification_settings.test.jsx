@@ -36,7 +36,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         threads: NotificationLevels.ALL,
         actions: {
             enableBrowserNotifications: emptyFunction,
-        }
+        },
     };
 
     test('should match snapshot, on max setting', () => {

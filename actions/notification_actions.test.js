@@ -7,7 +7,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 
-import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest } from './notification_actions';
+import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest} from './notification_actions';
 
 const MOCK_BROWSER_NOTIFICATIONS_RECEIVED_ACTION_TYPE = 'MOCK_BROWSER_NOTIFICATIONS_RECEIVED';
 
@@ -375,7 +375,7 @@ describe('notification_actions', () => {
     });
 
     describe('trackEnableNotificationsBarDisplay', () => {
-        let currentDate = new Date();
+        const currentDate = new Date();
 
         beforeAll(() => {
             jest.useFakeTimers('modern');
@@ -394,22 +394,22 @@ describe('notification_actions', () => {
                         [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
                             value: initialShownCount,
                         },
-                    }
-                }
+                    },
+                },
             };
-            
+
             const store = testConfigureStore(initialState);
             await store.dispatch(trackEnableNotificationsBarDisplay());
 
             expect(store.getActions()).toEqual([
                 {
-                    type: "SET_GLOBAL_ITEM",
+                    type: 'SET_GLOBAL_ITEM',
                     data: {
                         name: StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES,
                         value: initialShownCount + 1,
-                        timestamp: currentDate
-                    }
-                }
+                        timestamp: currentDate,
+                    },
+                },
             ]);
         });
     });
@@ -427,14 +427,14 @@ describe('notification_actions', () => {
             expect(store.getActions()).toEqual([
                 {
                     type: MOCK_BROWSER_NOTIFICATIONS_RECEIVED_ACTION_TYPE,
-                    data: expectedPermissionStatus
-                }
+                    data: expectedPermissionStatus,
+                },
             ]);
         });
     });
 
     describe('scheduleNextNotificationsPermissionRequest', () => {
-        let currentDate = new Date();
+        const currentDate = new Date();
 
         beforeAll(() => {
             jest.useFakeTimers('modern');
@@ -450,15 +450,15 @@ describe('notification_actions', () => {
                 storage: {
                     storage: {
                         [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
-                            value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1
-                        }
-                    }
+                            value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1,
+                        },
+                    },
                 },
                 views: {
                     browser: {
-                        isNotificationsPermissionGranted: false
-                    }
-                }
+                        isNotificationsPermissionGranted: false,
+                    },
+                },
             };
             const store = testConfigureStore(initialState);
 
@@ -467,20 +467,20 @@ describe('notification_actions', () => {
             expect(store.getActions()).toEqual([]);
         });
 
-        it(`should not schedule next request if notifications permission has already been granted`, async () => {
+        it('should not schedule next request if notifications permission has already been granted', async () => {
             const initialState = {
                 storage: {
                     storage: {
                         [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
-                            value: 0
-                        }
-                    }
+                            value: 0,
+                        },
+                    },
                 },
                 views: {
                     browser: {
-                        isNotificationsPermissionGranted: true
-                    }
-                }
+                        isNotificationsPermissionGranted: true,
+                    },
+                },
             };
             const store = testConfigureStore(initialState);
 
@@ -494,18 +494,18 @@ describe('notification_actions', () => {
                 storage: {
                     storage: {
                         [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
-                            value: 0
+                            value: 0,
                         },
                         [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
-                            value: 1
-                        }
-                    }
+                            value: 1,
+                        },
+                    },
                 },
                 views: {
                     browser: {
-                        isNotificationsPermissionGranted: false
-                    }
-                }
+                        isNotificationsPermissionGranted: false,
+                    },
+                },
             };
             const store = testConfigureStore(initialState);
 
@@ -519,18 +519,18 @@ describe('notification_actions', () => {
                 storage: {
                     storage: {
                         [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
-                            value: 1
+                            value: 1,
                         },
                         [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
-                            value: null
-                        }
-                    }
+                            value: null,
+                        },
+                    },
                 },
                 views: {
                     browser: {
-                        isNotificationsPermissionGranted: false
-                    }
-                }
+                        isNotificationsPermissionGranted: false,
+                    },
+                },
             };
             const store = testConfigureStore(initialState);
 
@@ -538,13 +538,13 @@ describe('notification_actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: "SET_GLOBAL_ITEM",
+                    type: 'SET_GLOBAL_ITEM',
                     data: {
                         name: StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT,
                         value: 0,
-                        timestamp: currentDate
-                    }
-                }
+                        timestamp: currentDate,
+                    },
+                },
             ]);
         });
 
@@ -553,18 +553,18 @@ describe('notification_actions', () => {
                 storage: {
                     storage: {
                         [StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES]: {
-                            value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS
+                            value: Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS,
                         },
                         [StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT]: {
-                            value: null
-                        }
-                    }
+                            value: null,
+                        },
+                    },
                 },
                 views: {
                     browser: {
-                        isNotificationsPermissionGranted: false
-                    }
-                }
+                        isNotificationsPermissionGranted: false,
+                    },
+                },
             };
             const store = testConfigureStore(initialState);
 
@@ -574,13 +574,13 @@ describe('notification_actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: "SET_GLOBAL_ITEM",
+                    type: 'SET_GLOBAL_ITEM',
                     data: {
                         name: StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT,
                         value: currentDate.getTime() + SEVEN_DAYS_IN_MS,
-                        timestamp: currentDate
-                    }
-                }
+                        timestamp: currentDate,
+                    },
+                },
             ]);
         });
     });

@@ -112,8 +112,15 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         let dontAskAgainButton;
         if (this.props.showDontAskAgainButton) {
             dontAskAgainButton = (
-                <button onClick={this.props.onDontAskAgainButtonClick} className='announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again' type="button">
-                    <FormattedMessage id={"announcement_bar.dont_ask_again_button_text"} defaultMessage={"Don't ask again"} />
+                <button
+                    onClick={this.props.onDontAskAgainButtonClick}
+                    className='announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again'
+                    type='button'
+                >
+                    <FormattedMessage
+                        id={'announcement_bar.dont_ask_again_button_text'}
+                        defaultMessage={"Don't ask again"}
+                    />
                 </button>
             );
         }

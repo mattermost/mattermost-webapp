@@ -85,7 +85,7 @@ export default class AnnouncementBarController extends React.PureComponent<Props
                     canViewSystemErrors={this.props.canViewSystemErrors}
                     warnMetricsStatus={this.props.warnMetricsStatus}
                 />
-                <EnableNotificationsBar />
+                <EnableNotificationsBar/>
             </>
         );
     }

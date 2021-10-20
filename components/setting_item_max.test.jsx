@@ -137,7 +137,7 @@ describe('components/SettingItemMax', () => {
             disabled: true,
             disabledMessage: 'This content is disabled',
             enableButtonText: 'Enable',
-            onEnableButtonClick: () => {} 
+            onEnableButtonClick: () => {},
         };
         const wrapper = shallow(
             <SettingItemMax {...props}/>,

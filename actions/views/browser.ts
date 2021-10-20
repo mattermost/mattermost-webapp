@@ -37,10 +37,8 @@ export function emitBrowserWindowResized(): GenericAction {
 
 export const setBrowserNotificationsPermission = (permission?: NotificationPermission) => {
     return (dispatch: DispatchFunc) => {
-        if (permission == null) {
-            permission = getNotificationsPermission();
-        }
-        const isPermissionGranted = permission === 'granted';
+        const permissionStatus = permission ?? getNotificationsPermission();
+        const isPermissionGranted = permissionStatus === 'granted';
 
         if (isPermissionGranted) {
             dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0));
@@ -49,7 +47,7 @@ export const setBrowserNotificationsPermission = (permission?: NotificationPermi
 
         dispatch({
             type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
-            data: isPermissionGranted
+            data: isPermissionGranted,
         });
     };
-}
+};

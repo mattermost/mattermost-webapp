@@ -57,8 +57,8 @@
         }
 
         &.announcement-bar__close {
-            margin-left: auto;
             padding: 0 10px;
+            margin-left: auto;
             color: $white;
             font-family: 'Open Sans', sans-serif;
             font-size: 20px;
@@ -111,18 +111,16 @@
         }
 
         &.announcement-bar__button--text {
-            padding-left: 0;
             padding-right: 0;
-
+            padding-left: 0;
             color: var(--sidebar-text);
             font-size: 12px;
         }
     }
 
     .announcement-bar__dont-ask-again {
-        margin-left: auto;
         margin-right: 27px;
-    
+        margin-left: auto;
         visibility: hidden;
     }
 

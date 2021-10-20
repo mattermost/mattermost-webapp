@@ -24,8 +24,8 @@ import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agen
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
-import { getGlobalItem } from 'selectors/storage';
-import { isNotificationsPermissionGranted } from 'selectors/browser';
+import {getGlobalItem} from 'selectors/storage';
+import {isNotificationsPermissionGranted} from 'selectors/browser';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
@@ -274,9 +274,9 @@ export const scheduleNextNotificationsPermissionRequest = () => {
             return;
         }
 
-        const requestNotificationsPermissionAt = currentShownTimes === Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS 
-            ? Date.now() + SEVEN_DAYS_IN_MS
-            : 0;
+        const requestNotificationsPermissionAt = currentShownTimes === Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS ?
+            Date.now() + SEVEN_DAYS_IN_MS :
+            0;
 
         dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, requestNotificationsPermissionAt));
     };

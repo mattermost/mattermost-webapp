@@ -27,10 +27,10 @@ function windowSize(state = WindowSizes.DESKTOP_VIEW, action: GenericAction) {
 
 function isNotificationsPermissionGranted(state = false, action: GenericAction) {
     switch (action.type) {
-        case ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED:
-            return action.data;
-        default:
-            return state;
+    case ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED:
+        return action.data;
+    default:
+        return state;
     }
 }
 
