@@ -36,6 +36,9 @@ describe('Keyboard Shortcuts', () => {
         // * Click save button to change header
         cy.uiSave();
 
+        // * Wait for the system message to be posted
+        cy.uiWaitUntilMessagePostedIncludes(newHeader);
+
         // # Press UP arrow
         cy.get('#post_textbox').type('{uparrow}');
 
