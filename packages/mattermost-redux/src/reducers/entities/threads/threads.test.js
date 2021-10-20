@@ -70,6 +70,34 @@ describe('threads', () => {
         expect(nextState.threadsInTeam).toBe(state.threadsInTeam);
     });
 
+    test('ALL_TEAM_THREADS_READ should clear the counts', () => {
+        const state = deepFreeze({
+            threadsInTeam: {},
+            unreadThreadsInTeam: {},
+            threads: {},
+            counts: {
+                a: {
+                    total: 3,
+                    total_unread_threads: 0,
+                    total_unread_mentions: 2,
+                },
+            },
+        });
+        const nextState2 = threadsReducer(state, {
+            type: ThreadTypes.ALL_TEAM_THREADS_READ,
+            data: {
+                team_id: 'a',
+            },
+        });
+
+        expect(nextState2).not.toBe(state);
+        expect(nextState2.counts.a).toEqual({
+            total: 3,
+            total_unread_threads: 0,
+            total_unread_mentions: 0,
+        });
+    });
+
     test('FOLLOW_CHANGED_THREAD should increment/decrement the total by 1', () => {
         const state = deepFreeze({
             threadsInTeam: {},
