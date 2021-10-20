@@ -3,14 +3,6 @@
 
 import moment from 'moment-timezone';
 import {Unit} from '@formatjs/intl-relativetimeformat';
-import {Settings} from 'luxon';
-
-import store from 'stores/redux_store';
-import {getCurrentLocale} from 'selectors/i18n';
-import {areTimezonesEnabledAndSupported} from 'selectors/general';
-import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
 const shouldTruncate = new Map<Unit, boolean>([
     ['year', true],
@@ -97,22 +89,3 @@ export function toUTCUnix(date: Date): number {
     return Math.round(new Date(date.toISOString()).getTime() / 1000);
 }
 
-let prevTimezone: string | undefined;
-let prevLocale: string | undefined;
-store.subscribe(() => {
-    const state = store.getState();
-
-    const locale = getCurrentLocale(state);
-    if (locale !== prevLocale) {
-        prevLocale = locale;
-        Settings.defaultLocale = locale;
-    }
-
-    if (areTimezonesEnabledAndSupported(state)) {
-        const tz = getUserCurrentTimezone(getUserTimezone(state, getCurrentUserId(state))) ?? undefined;
-        if (tz !== prevTimezone) {
-            prevTimezone = tz;
-            Settings.defaultZone = tz ?? 'system';
-        }
-    }
-});
