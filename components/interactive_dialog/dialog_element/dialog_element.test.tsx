@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import TextSetting from 'components/widgets/settings/text_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 
-import DialogElement from './dialog_element.jsx';
+import DialogElement from './dialog_element';
 
 describe('components/interactive_dialog/DialogElement', () => {
     const baseDialogProps = {
@@ -35,6 +35,7 @@ describe('components/interactive_dialog/DialogElement', () => {
     it('subtype blank', () => {
         const wrapper = shallow(
             <DialogElement
+                onChange={undefined}
                 {...baseDialogProps}
                 subtype=''
             />,
@@ -116,7 +117,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                 <DialogElement
                     {...baseDialogProps}
                     type='radio'
-                    options={null}
+                    options={undefined}
                     onChange={jest.fn()}
                 />,
             );
@@ -129,8 +130,8 @@ describe('components/interactive_dialog/DialogElement', () => {
                 <DialogElement
                     {...baseDialogProps}
                     type='radio'
-                    options={null}
-                    value={null}
+                    options={undefined}
+                    value={undefined}
                     onChange={jest.fn()}
                 />,
             );
@@ -143,7 +144,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                 <DialogElement
                     {...baseDialogProps}
                     type='radio'
-                    options={null}
+                    options={undefined}
                     value={'a'}
                     onChange={jest.fn()}
                 />,
@@ -175,7 +176,8 @@ describe('components/interactive_dialog/DialogElement', () => {
                     onChange={jest.fn()}
                 />,
             );
-            expect(wrapper.find({options: radioOptions}).props.value).toBeUndefined();
+            const instance = wrapper.instance() as DialogElement;
+            expect(instance.props.value).toBeUndefined();
         });
 
         test('The default value can be specified from the list', () => {

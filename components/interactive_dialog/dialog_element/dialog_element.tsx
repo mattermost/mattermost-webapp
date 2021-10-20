@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -10,38 +9,58 @@ import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
-import TextSetting from 'components/widgets/settings/text_setting';
+import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from 'mattermost-redux/types/channels';
+import Provider from 'components/suggestion/provider';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
 
-export default class DialogElement extends React.PureComponent {
-    static propTypes = {
-        displayName: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        subtype: PropTypes.string,
-        placeholder: PropTypes.string,
-        helpText: PropTypes.string,
-        errorText: PropTypes.node,
-        maxLength: PropTypes.number,
-        dataSource: PropTypes.string,
-        optional: PropTypes.bool,
-        options: PropTypes.arrayOf(PropTypes.object),
-        value: PropTypes.any,
-        onChange: PropTypes.func,
-        autoFocus: PropTypes.bool,
-        actions: PropTypes.shape({
-            autocompleteChannels: PropTypes.func.isRequired,
-            autocompleteUsers: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    displayName: string;
+    name: string;
+    type: string;
+    subtype?: string;
+    placeholder?: string;
+    helpText?: string;
+    errorText?: React.ReactNode;
+    maxLength?: number;
+    dataSource?: string;
+    optional?: boolean;
+    options?: Array<{
+        text: string;
+        value: string;
+    }>;
+    value?: string | boolean;
+    onChange?: (name: string, selected: string) => void;
+    autoFocus?: boolean;
+    actions: {
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+        autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+    };
+}
 
-    constructor(props) {
+type State = {
+    value: string;
+}
+
+type Selected = {
+    id: string;
+    username: string;
+    display_name: string;
+    value: string;
+    text: string;
+}
+
+export default class DialogElement extends React.PureComponent<Props, State> {
+    private providers: Provider[];
+
+    constructor(props: Props) {
         super(props);
 
         let defaultText = '';
@@ -68,22 +87,22 @@ export default class DialogElement extends React.PureComponent {
         };
     }
 
-    handleSelected = (selected) => {
-        const {name, dataSource, onChange} = this.props;
+    private handleSelected = (selected: Selected) => {
+        const {name, dataSource} = this.props;
 
         if (dataSource === 'users') {
-            onChange(name, selected.id);
+            this.props.onChange!(name, selected.id);
             this.setState({value: selected.username});
         } else if (dataSource === 'channels') {
-            onChange(name, selected.id);
+            this.props.onChange!(name, selected.id);
             this.setState({value: selected.display_name});
         } else {
-            onChange(name, selected.value);
+            this.props.onChange!(name, selected.value);
             this.setState({value: selected.text});
         }
     }
 
-    render() {
+    public render(): JSX.Element | null {
         const {
             name,
             subtype,
@@ -99,7 +118,7 @@ export default class DialogElement extends React.PureComponent {
 
         let {type, maxLength} = this.props;
 
-        let displayNameContent = displayName;
+        let displayNameContent: React.ReactNode = displayName;
         if (optional) {
             displayNameContent = (
                 <React.Fragment>
@@ -121,7 +140,7 @@ export default class DialogElement extends React.PureComponent {
             );
         }
 
-        let helpTextContent = helpText;
+        let helpTextContent: React.ReactNode = helpText;
         if (errorText) {
             helpTextContent = (
                 <React.Fragment>
@@ -146,14 +165,15 @@ export default class DialogElement extends React.PureComponent {
                 maxLength = maxLength || TEXTAREA_DEFAULT_MAX_LENGTH;
             }
 
+            const textValue = value as string;
             return (
                 <TextSetting
                     autoFocus={this.props.autoFocus}
                     id={name}
-                    type={type}
+                    type={type as InputTypes}
                     label={displayNameContent}
                     maxLength={maxLength}
-                    value={value || ''}
+                    value={textValue || ''}
                     placeholder={placeholder}
                     helpText={helpTextContent}
                     onChange={onChange}
@@ -175,25 +195,27 @@ export default class DialogElement extends React.PureComponent {
                 />
             );
         } else if (type === 'bool') {
+            const boolValue = value as boolean;
             return (
                 <BoolSetting
                     autoFocus={this.props.autoFocus}
                     id={name}
                     label={displayNameContent}
-                    value={value || false}
+                    value={boolValue || false}
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     onChange={onChange}
                 />
             );
         } else if (type === 'radio') {
+            const textValue = value as string;
             return (
                 <RadioSetting
                     id={name}
                     label={displayNameContent}
                     helpText={helpTextContent}
                     options={options}
-                    value={value}
+                    value={textValue}
                     onChange={onChange}
                 />
             );
