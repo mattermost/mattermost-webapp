@@ -73,10 +73,12 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      * Returns state of modals in redux for determing which need to be closed
      */
     modals?: {
-        [modalId: string]: {
-            open: boolean;
-            dialogProps: Dictionary<any>;
-            dialogType: React.Component;
+        modalState: {
+            [modalId: string]: {
+                open: boolean;
+                dialogProps: Dictionary<any>;
+                dialogType: React.ComponentType;
+            };
         };
     };
     currentTeamId: string;
@@ -250,11 +252,11 @@ ProfilePopoverState
     };
     handleCloseModals = () => {
         const {modals} = this.props;
-        for (const modal in modals) {
+        for (const modal in modals?.modalState) {
             if (!Object.prototype.hasOwnProperty.call(modals, modal)) {
                 continue;
             }
-            if (modals[modal].open) {
+            if (modals?.modalState[modal].open) {
                 this.props.actions.closeModal(modal);
             }
         }
