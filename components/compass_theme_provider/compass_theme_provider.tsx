@@ -45,7 +45,6 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
                 online: theme.onlineIndicator,
                 away: theme.awayIndicator,
                 dnd: theme.dndIndicator,
-                offline: theme.centerChannelColor,
             },
             text: {
                 ...compassTheme.text,
