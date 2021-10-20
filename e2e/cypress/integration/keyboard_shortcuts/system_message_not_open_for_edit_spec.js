@@ -10,6 +10,7 @@
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
+    
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             // # Visit off-topic channel
@@ -24,14 +25,15 @@ describe('Keyboard Shortcuts', () => {
         // # Post message in the channel from User
         cy.postMessage(message);
 
-        // # Change the header of the channel to generate a system message
+        // # Open the edit the channel header modal
         cy.findByRole('button', {name: 'Set a Header dialog'}).click();
 
-        // * Verify that the Edit Post Modal is visible
-        cy.get('.modal-content').should('be.visible');
-
-        // * Type new header
-        cy.get('[data-testid=edit_textbox]').type(newHeader);
+        // #
+        cy.get('.modal').
+            should('be.visible').within(() => {
+                cy.findByRole('textbox', {name: 'edit the channel header...'}).
+                    type(newHeader);
+            });
 
         // * Click save button to change header
         cy.uiSave();
@@ -40,11 +42,13 @@ describe('Keyboard Shortcuts', () => {
         cy.uiWaitUntilMessagePostedIncludes(newHeader);
 
         // # Press UP arrow
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.findByTestId('post_textbox').
+            type('{uparrow}');
 
         // * Verify that the Edit Post Modal is visible
-        cy.get('#editPostModal').should('be.visible');
-
-        cy.findByRole('textbox', {name: 'edit the post...'}).should('have.text', message);
+        cy.get('#editPostModal').
+            should('be.visible').
+            findByRole('textbox', {name: 'edit the post...'}).
+            should('have.text', message);
     });
 });
