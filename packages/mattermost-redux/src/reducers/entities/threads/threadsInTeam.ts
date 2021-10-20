@@ -37,7 +37,7 @@ function handlePostRemoved(state: State, action: GenericAction) {
 // add the thread only if it's 'newer' than other threads
 // older threads will be added by scrolling so no need to manually add.
 // furthermore manually adding older thread will BREAK pagination
-export function handleReceiveThread(state: State, action: GenericAction, extra: ExtraData) {
+export function handleFollowChanged(state: State, action: GenericAction, extra: ExtraData) {
     const {id, team_id: teamId, following} = action.data;
     const nextSet = new Set(state[teamId] || []);
 
@@ -187,7 +187,7 @@ export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInT
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
     case ThreadTypes.FOLLOW_CHANGED_THREAD:
-        return handleReceiveThread(state, action, extra);
+        return handleFollowChanged(state, action, extra);
     }
     return state;
 };
