@@ -18,22 +18,28 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1251 CTRL/CMD+SHIFT+L - When not to set focus to center channel message box', () => {
-
         // # Open settings modal
         cy.uiOpenSettingsModal();
+
         // # Press ctrl/cmd+shift+l
         cy.get('body').cmdOrCtrlShortcut('{shift+l}');
-        // * check if channel message box is focused
+
+        // * Verify channel message box is not focused
         cy.get('#post_textbox').should('not.be.focused');
-        // # close account settings modal
-       cy.uiClose();
-        // # open invite members full-page screen
+
+        // # Close settings modal
+        cy.uiClose();
+
+        // # Open invite members full-page screen
         cy.get('#introTextInvite').click();
+
         // # Press ctrl/cmd+shift+l
         cy.get('body').cmdOrCtrlShortcut('{shift+l}');
-        // * check if channel message box is focused
+
+        // * Verify channel message box is not focused
         cy.get('#post_textbox').should('not.be.focused');
-        // # close invite memebers full-page screen
+
+        // # Close invite members full-page screen
         cy.get('#closeIcon > svg').click();
     });
 });
