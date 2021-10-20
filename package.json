@@ -124,7 +124,7 @@
     "@types/jquery": "3.5.5",
     "@types/katex": "0.11.0",
     "@types/lodash": "4.14.170",
-    "@types/luxon":"2.0.2",
+    "@types/luxon": "2.0.2",
     "@types/mark.js": "8.11.5",
     "@types/marked": "0.7.4",
     "@types/moment-timezone": "0.5.30",

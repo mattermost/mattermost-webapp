@@ -5,8 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {TutorialSteps} from 'utils/constants';
 
 type Props = {
     townSquareDisplayName?: string;
@@ -60,6 +60,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
         return (
             <TutorialTip
                 placement='right'
+                step={TutorialSteps.CHANNEL_POPOVER}
                 screens={screens}
                 overlayClass='tip-overlay--sidebar'
                 telemetryTag='tutorial_tip_2_channels'
