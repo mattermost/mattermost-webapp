@@ -39,7 +39,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1245 CTRL/CMD+K - Open GM using mouse', () => {
         // # Create a GM channel
-        cy.apiCreateGroupChannel([firstUser.id, secondUser.id, thirdUser.id]).then(({channel}) => {
+        cy.apiCreateGroupChannel([firstUser.id, secondUser.id, thirdUser.id]).then(() => {
             // # Press Cmd/Ctrl-K to open "Switch Channels" modal
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
