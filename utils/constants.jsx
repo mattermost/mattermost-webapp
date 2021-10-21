@@ -106,6 +106,7 @@ export const Preferences = {
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
+    START_TRIAL_MODAL: 'start_trial_modal',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
@@ -114,11 +115,19 @@ export const Preferences = {
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
+
+    // Category for actions/interactions that will happen just once
+    UNIQUE: 'unique',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
 export const Touched = {
     INVITE_MEMBERS: 'invite_members',
+};
+
+// Category for actions/interactions that will happen just once
+export const Unique = {
+    HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
 };
 
 export const TrialPeriodDays = {
@@ -490,6 +499,7 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
 };
 
 export const PostTypes = {
@@ -775,6 +785,7 @@ export const CloudLinks = {
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
     PER_SEAT: 'per_seat',
+    SALES_SERVE: 'sales_serve',
 };
 
 export const RecurringIntervals = {
@@ -998,6 +1009,9 @@ export const Constants = {
         SERVER_ACTION: null,
         VIEW_ACTION: null,
     }),
+
+    // limit of users to show the lhs invite members button highlighted
+    USER_LIMIT: 10,
 
     StatTypes,
     STAT_MAX_ACTIVE_USERS: 20,
@@ -1584,6 +1598,7 @@ export const Constants = {
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
+    TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
 };
 
 export const ValidationErrors = {

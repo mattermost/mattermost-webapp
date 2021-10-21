@@ -31,6 +31,7 @@ type Props = {
     currentUserId: string;
     directTeammate: UserProfile | undefined;
     highlightedPostId?: $ID<Post>;
+    selectedPostFocusedAt?: number;
     lastPost: Post;
     onCardClick: (post: Post) => void;
     onCardClickPost: (post: Post) => void;
@@ -136,9 +137,10 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const {highlightedPostId, lastPost, currentUserId} = this.props;
+        const {highlightedPostId, selectedPostFocusedAt, lastPost, currentUserId} = this.props;
 
-        if (highlightedPostId && prevProps.highlightedPostId !== highlightedPostId) {
+        if ((highlightedPostId && prevProps.highlightedPostId !== highlightedPostId) ||
+            prevProps.selectedPostFocusedAt !== selectedPostFocusedAt) {
             this.scrollToHighlightedPost();
         } else if (
             prevProps.lastPost.id !== lastPost.id &&
@@ -317,7 +319,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         const {highlightedPostId, replyListIds} = this.props;
 
         if (highlightedPostId) {
-            this.scrollToItem(replyListIds.indexOf(highlightedPostId), 'center');
+            this.setState({userScrolledToBottom: false}, () => {
+                this.scrollToItem(replyListIds.indexOf(highlightedPostId), 'center');
+            });
         }
     }
 
