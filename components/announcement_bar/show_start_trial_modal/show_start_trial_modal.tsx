@@ -48,17 +48,22 @@ const ShowStartTrialModal = () => {
 
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
     const currentLicense = useSelector(getLicense);
-    const isPrevLicensed = prevTrialLicense?.IsLicensed;
-    const isCurrentLicensed = currentLicense?.IsLicensed;
+    const isLicensed = (license: any) => {
+        if (!license.IsLicensed) {
+            return false;
+        }
+        return license.IsLicensed === 'true';
+    };
+    const isPrevLicensed = isLicensed(prevTrialLicense);
+    const isCurrentLicensed = isLicensed(currentLicense);
 
     // Show this modal if the instance is currently not licensed and has never had a trial license loaded before
-    const isNotLicensedNorPreviousLicensed = (isCurrentLicensed === 'false') && (isPrevLicensed === 'false');
-
+    const isLicensedOrPreviousLicensed = (isCurrentLicensed || isPrevLicensed);
     useEffect(() => {
         if (!stats?.TOTAL_USERS) {
             dispatch(getStandardAnalytics());
         }
-    }, []);
+    }, [!stats?.TOTAL_USERS]);
 
     const handleOnClose = () => {
         trackEvent(
@@ -81,7 +86,7 @@ const ShowStartTrialModal = () => {
         // const now = new Date().getTime();
         const hasEnvMoreThan6Hours = true; // now > installationDatePlus6Hours;
         const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === 'true');
-        if (!isBenefitsModalOpened && Number(stats?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal && isNotLicensedNorPreviousLicensed) {
+        if (!isBenefitsModalOpened && Number(stats?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal && !isLicensedOrPreviousLicensed) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.START_TRIAL_MODAL,
                 dialogType: StartTrialModal,
