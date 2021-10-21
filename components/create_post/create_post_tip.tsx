@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
+import {TutorialSteps} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
@@ -60,6 +61,7 @@ class CreatePostTip extends React.PureComponent<Props> {
 
         return (
             <TutorialTip
+                step={TutorialSteps.POST_POPOVER}
                 placement='top'
                 screens={screens}
                 overlayClass='tip-overlay--chat'
