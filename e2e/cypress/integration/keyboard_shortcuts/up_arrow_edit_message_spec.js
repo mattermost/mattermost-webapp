@@ -60,6 +60,11 @@ describe('Keyboard Shortcuts', () => {
         const message1 = 'Test message from User 1';
         const message2 = 'Test message from User 2';
 
+        cy.apiLogin(testUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
         // # Post message in the channel from User 1
         cy.postMessage(message1);
         cy.apiLogout();
