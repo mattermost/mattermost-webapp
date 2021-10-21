@@ -2,17 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import CheckboxPartialIcon from 'components/widgets/icons/checkbox_partial_icon';
 
-export default class PermissionCheckbox extends React.PureComponent {
-    static propTypes = {
-        value: PropTypes.string.isRequired,
-        id: PropTypes.string,
-    };
-
+type Props = {
+    value: string;
+    id: string;
+};
+export default class PermissionCheckbox extends React.PureComponent<Props> {
     static defaultProps = {
         value: '',
         id: '',
