@@ -19,7 +19,7 @@ export default function SettingsTip() {
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar.tutorialSettings.settings'
-                    defaultMessage={'Set your notifications, custom theme colors, sidebar organization, and more from **Settings**. From your avatar, access your profile and security settings through **Account Settings**, and set your status and availability.'}
+                    defaultMessage={'From your Avatar, set your availability, add a custom status, and manage your profile. Access customize notification preferences, custom theme colors, and more in **Settings**.'}
                 />
             </p>
         </div>,
