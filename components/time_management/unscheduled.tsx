@@ -3,6 +3,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import {useSelector} from 'react-redux';
+
+import {TimeState} from 'types/time_management';
+
+import Task from './task';
 
 const Container = styled.div`
     flex: 1;
@@ -16,7 +21,7 @@ const Container = styled.div`
 const Title = styled.div`
     font-family: Metropolis;
     font-size: 18px;
-    line-height: 24px
+    line-height: 24px;
     margin-bottom: 20px;
     font-weight: 600;
 `;
@@ -25,13 +30,23 @@ const Body = styled.div`
 `;
 
 const Unscheduled = () => {
+    const tasks = useSelector((state: TimeState) => state.time.unscheduledWorkItems) || [];
+
     return (
         <Container>
             <Title>
                 {'Unscheduled'}
             </Title>
             <Body>
-                {'stuff'}
+                {tasks.map((task) => {
+                    return (
+                        <Task
+                            key={task.id}
+                            renderContainer={true}
+                            task={task}
+                        />
+                    );
+                })}
             </Body>
         </Container>
     );

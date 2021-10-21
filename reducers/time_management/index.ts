@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 
 import TimeManagementTypes from 'utils/time_management/action_types';
-import {dateToWorkDateString, findAvailableSlot} from 'utils/time_management/utils';
+import {addBlockAndResolveTimeOverlaps, dateToWorkDateString, findAndRemoveTaskFromBlock, findAvailableSlot} from 'utils/time_management/utils';
 import {WorkItem, WorkBlock} from 'types/time_management';
 
 import {generateId} from 'utils/utils';
@@ -99,7 +99,7 @@ const testUnscheduledWorkItems = [
     {
         id: '9',
         title: 'Call home base at Houston',
-        time: 60,
+        time: 30,
         complete: false,
     },
 ];
@@ -114,16 +114,20 @@ export function workBlocksByDay(state: Dictionary<WorkBlock[]> = testWorkItemsBy
         const stringDate = dateToWorkDateString(date);
         const task = action.task as WorkItem;
 
-        const day = [...state[stringDate]] || [];
+        const newBlocks = [...state[stringDate]] || [];
         const block = {
             id: generateId(),
             start: date,
             tasks: [task],
         };
-        block.start = findAvailableSlot(block, day);
-        day.push(block);
 
-        return {...state, [stringDate]: day};
+        addBlockAndResolveTimeOverlaps(newBlocks, block);
+
+        if (action.sourceId) {
+            findAndRemoveTaskFromBlock(newBlocks, task.id, action.sourceId);
+        }
+
+        return {...state, [stringDate]: newBlocks};
     }
     case TimeManagementTypes.RECEIVED_WORK_BLOCKS: {
         const date = action.date as Date;
@@ -145,11 +149,38 @@ export function unscheduledWorkItems(state: WorkItem[] = testUnscheduledWorkItem
     switch (action.type) {
     case TimeManagementTypes.RECEIVED_WORK_ITEM: {
         const date = action.date;
-        if (date) {
-            return state;
-        }
         const task = action.task as WorkItem;
+
+        if (date) {
+            const index = state.findIndex((t) => t.id === task.id);
+            if (index === -1) {
+                return state;
+            }
+            const nextState = [...state];
+            nextState.splice(index, 1);
+            return nextState;
+        }
+
         return [...state, task];
+    }
+    case TimeManagementTypes.RECEIVED_WORK_BLOCKS: {
+        const taskIds: string[] = [];
+        action.blocks.forEach((block: WorkBlock) => taskIds.push(...block.tasks.map((t) => t.id)));
+
+        const nextState = [...state];
+        let i = state.length;
+        let removed = false;
+        while (i--) {
+            if (taskIds.includes(state[i].id)) {
+                removed = true;
+                nextState.splice(i, 1);
+            }
+        }
+
+        if (removed) {
+            return nextState;
+        }
+        return state;
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};

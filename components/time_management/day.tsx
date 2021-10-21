@@ -4,8 +4,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
-import {DndProvider} from 'react-dnd';
-import {HTML5Backend} from 'react-dnd-html5-backend';
 
 import {dateToWorkDateString} from 'utils/time_management/utils';
 import {TimeState} from 'types/time_management';
@@ -33,30 +31,22 @@ const Title = styled.div`
 const Body = styled.div`
 `;
 
-const min = new Date();
-min.setHours(8, 0, 0, 0);
-
-const max = new Date();
-max.setHours(19, 0, 0, 0);
-
 const Day = () => {
     const todayKey = dateToWorkDateString(new Date());
     const blocks = useSelector((state: TimeState) => state.time.workBlocksByDay[todayKey]) || [];
 
     return (
-        <DndProvider backend={HTML5Backend}>
-            <Container>
-                <Title>
-                    {'Your Day'}
-                </Title>
-                <Body>
-                    <Calendar
-                        date={new Date()}
-                        blocks={blocks}
-                    />
-                </Body>
-            </Container>
-        </DndProvider>
+        <Container>
+            <Title>
+                {'Your Day'}
+            </Title>
+            <Body>
+                <Calendar
+                    date={new Date()}
+                    blocks={blocks}
+                />
+            </Body>
+        </Container>
     );
 };
 

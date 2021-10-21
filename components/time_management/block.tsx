@@ -4,14 +4,16 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-import {useDrag} from 'react-dnd';
+import {useDrag, useDrop} from 'react-dnd';
+
+import {findIndex} from 'lodash';
 
 import {PixelPerMinute, DragTypes} from 'utils/time_management/constants';
 import {calculateMinutesInBlock} from 'utils/time_management/utils';
-import {WorkBlock} from 'types/time_management';
+import {WorkBlock, WorkItem} from 'types/time_management';
 
-import ChecklistItemComponent from './checklist_item';
-import {ChecklistItemState, newChecklistItem} from './types';
+import Task from './task';
+import {ChecklistItemState} from './types';
 
 const Container = styled.div`
     background: linear-gradient(0deg, rgba(63, 67, 80, 0.04), rgba(63, 67, 80, 0.04)), #FFFFFF;
@@ -38,14 +40,17 @@ const Container = styled.div`
     left: 65px;
 `;
 
-const Task = styled.div`
-    margin: 15px;
+const Header = styled.div`
+    min-height: 10px;
+    max-height: 10px;
+    background-color: rgba(63, 67, 80, 0.04);
+    flex: 1;
 `;
 
 type Props = {
     block: WorkBlock;
     dayStart: Date;
-    updateBlock: (block: WorkBlock) => void;
+    updateBlock: (block: WorkBlock, extra?: {addedTaskId: string | undefined; sourceId: string | undefined}) => void;
 }
 
 const Block = (props: Props) => {
@@ -62,6 +67,22 @@ const Block = (props: Props) => {
         }),
     });
     const opacity = isDragging ? 0 : 1;
+
+    const [{handlerId}, drop] = useDrop({
+        accept: DragTypes.TASK,
+        collect(monitor) {
+            return {
+                handlerId: monitor.getHandlerId(),
+            };
+        },
+        drop(item: any, monitor) {
+            if (!ref.current) {
+                return;
+            }
+
+            addTaskToBlock(item.task, item.sourceId);
+        },
+    });
 
     const totalMinutes = calculateMinutesInBlock(block);
     const minutesFromDayStart = moment(block.start).diff(dayStart, 'minutes');
@@ -80,10 +101,20 @@ const Block = (props: Props) => {
         updateBlock(newBlock);
     };
 
-    drag(ref);
+    const addTaskToBlock = (task: WorkItem, sourceId: string | undefined) => {
+        if (block.tasks.findIndex((t) => t.id === task.id) !== -1) {
+            return;
+        }
+        const newBlock = {...block};
+        newBlock.tasks = [...block.tasks, task];
+        updateBlock(newBlock, {addedTaskId: task.id, sourceId});
+    };
+
+    drop(drag(ref));
     return (
         <Container
             ref={ref}
+            data-handler-id={handlerId}
             key={`block_${block.start.toDateString()}`}
             style={{
                 top: `${PixelPerMinute * minutesFromDayStart}px`,
@@ -91,17 +122,15 @@ const Block = (props: Props) => {
                 opacity,
             }}
         >
-            {block.tasks.map((task) => {
-                return (
-                    <Task key={task.title}>
-                        <ChecklistItemComponent
-                            checklistItem={newChecklistItem(task.title, undefined, task.complete ? ChecklistItemState.Closed : ChecklistItemState.Open)}
-                            disabled={false}
-                            onChange={(item) => updateTaskCompletion(task.id, item)}
-                        />
-                    </Task>
-                );
-            })}
+            <Header/>
+            {block.tasks.map((task) => (
+                <Task
+                    key={task.id}
+                    task={task}
+                    updateTaskCompletion={updateTaskCompletion}
+                    parentId={block.id}
+                />),
+            )}
         </Container>
     );
 };

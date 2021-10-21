@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import {useIntl} from 'react-intl';
@@ -10,8 +10,8 @@ import {useDispatch} from 'react-redux';
 
 import {WorkBlock} from 'types/time_management';
 import {PixelPerMinute, DragTypes} from 'utils/time_management/constants';
-import {findAvailableSlot} from 'utils/time_management/utils';
-import {updateWorkBlocks} from 'actions/time_management';
+import {addBlockAndResolveTimeOverlaps, findAndRemoveTaskFromBlock} from 'utils/time_management/utils';
+import {updateWorkBlocks, createBlockFromTask} from 'actions/time_management';
 
 import Block from './block';
 import Hour from './hour';
@@ -36,7 +36,7 @@ const CalendarTitle = styled.div`
 const Body = styled.div`
     display: flex;
     width: 900px;
-    height: 1200px;
+    height: 1700px;
     flex-direction: column;
     position: relative;
 `;
@@ -65,7 +65,7 @@ type Props = {
 }
 
 const min = new Date();
-min.setHours(8, 0, 0, 0);
+min.setHours(9, 0, 0, 0);
 
 const max = new Date();
 max.setHours(19, 0, 0, 0);
@@ -96,24 +96,13 @@ const Calendar = (props: Props) => {
         const newBlock = {...block, start: time};
         newBlocks.splice(blockIndex, 1);
 
-        const newBlocksDates = newBlocks.map((block) => block.start);
-        const indexOfBlockAtSameTime = newBlocksDates.findIndex((d) => d.getTime() === time.getTime());
-        if (indexOfBlockAtSameTime >= 0) {
-            const blockAtSameTime = newBlocks[indexOfBlockAtSameTime];
-            newBlocks.splice(indexOfBlockAtSameTime, 1);
-            newBlocks.push(newBlock);
-            const newStart = findAvailableSlot(blockAtSameTime, newBlocks);
-            const newBlockAtSameTime = {...blockAtSameTime, start: newStart};
-            newBlocks.push(newBlockAtSameTime);
-        } else {
-            newBlocks.push(newBlock);
-        }
+        addBlockAndResolveTimeOverlaps(newBlocks, newBlock);
 
         setBlocks(newBlocks);
         dispatch(updateWorkBlocks(newBlocks, date));
     };
 
-    const updateBlock = (block: WorkBlock) => {
+    const updateBlock = (block: WorkBlock, extra?: {addedTaskId: string | undefined; sourceId: string | undefined}) => {
         const index = blocks.findIndex((b) => b.id === block.id);
         if (index < 0) {
             return;
@@ -121,6 +110,12 @@ const Calendar = (props: Props) => {
 
         const newBlocks = [...blocks];
         newBlocks.splice(index, 1, block);
+
+        // Remove task from source block
+        if (extra && extra.addedTaskId && extra.sourceId) {
+            findAndRemoveTaskFromBlock(newBlocks, extra.addedTaskId, extra.sourceId);
+        }
+
         setBlocks(newBlocks);
         dispatch(updateWorkBlocks(newBlocks, date));
     };
@@ -128,7 +123,7 @@ const Calendar = (props: Props) => {
     const ref = useRef(null);
 
     const [{handlerId}, drop] = useDrop({
-        accept: DragTypes.BLOCK,
+        accept: [DragTypes.BLOCK, DragTypes.TASK],
         collect(monitor) {
             return {
                 handlerId: monitor.getHandlerId(),
@@ -160,8 +155,16 @@ const Calendar = (props: Props) => {
             const newDate = new Date(date);
             newDate.setHours(hours, halfHour, 0, 0);
 
-            moveBlock(newDate, item.block);
+            if (monitor.getItemType() === DragTypes.BLOCK) {
+                moveBlock(newDate, item.block);
+            } else if (monitor.getItemType() === DragTypes.TASK) {
+                dispatch(createBlockFromTask(item.task, newDate, item.sourceId));
+            }
         },
+    });
+
+    useEffect(() => {
+        setBlocks(defaultBlocks);
     });
 
     const renderHours = () => {

@@ -5,6 +5,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 import {Switch, Route, useRouteMatch} from 'react-router-dom';
+import {DndProvider} from 'react-dnd';
+import {HTML5Backend} from 'react-dnd-html5-backend';
 
 import Day from './day';
 import Unscheduled from './unscheduled';
@@ -69,10 +71,12 @@ const Root = () => {
                 <Body>
                     <Switch>
                         <Route path={`${match.url}/`}>
-                            <Home>
-                                <Day/>
-                                <Unscheduled/>
-                            </Home>
+                            <DndProvider backend={HTML5Backend}>
+                                <Home>
+                                    <Day/>
+                                    <Unscheduled/>
+                                </Home>
+                            </DndProvider>
                         </Route>
                     </Switch>
                 </Body>

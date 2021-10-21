@@ -17,6 +17,21 @@ export function calculateMinutesInBlock(block: WorkBlock): number {
     return block.tasks.reduce((a, b) => a + b.time, 0);
 }
 
+export function addBlockAndResolveTimeOverlaps(blocks: WorkBlock[], newBlock: WorkBlock) {
+    const newBlocksDates = blocks.map((block) => block.start);
+    const indexOfBlockAtSameTime = newBlocksDates.findIndex((d) => d.getTime() === newBlock.start.getTime());
+    if (indexOfBlockAtSameTime >= 0) {
+        const blockAtSameTime = blocks[indexOfBlockAtSameTime];
+        blocks.splice(indexOfBlockAtSameTime, 1);
+        blocks.push(newBlock);
+        const newStart = findAvailableSlot(blockAtSameTime, blocks);
+        const newBlockAtSameTime = {...blockAtSameTime, start: newStart};
+        blocks.push(newBlockAtSameTime);
+    } else {
+        blocks.push(newBlock);
+    }
+}
+
 const dayStartHour = 9;
 
 export function findAvailableSlot(block: WorkBlock, blocks: WorkBlock[]): Date {
@@ -61,4 +76,21 @@ export function findAvailableSlot(block: WorkBlock, blocks: WorkBlock[]): Date {
     }
 
     return dayStart;
+}
+
+export function findAndRemoveTaskFromBlock(blocks: WorkBlock[], taskId: string, blockId: string) {
+    const sourceIndex = blocks.findIndex((b) => b.id === blockId);
+    const newSourceBlock = {...blocks[sourceIndex]};
+    newSourceBlock.tasks = [...newSourceBlock.tasks];
+
+    const taskIndex = newSourceBlock.tasks.findIndex((t) => t.id === taskId);
+    if (taskIndex >= 0) {
+        newSourceBlock.tasks.splice(taskIndex, 1);
+    }
+
+    if (newSourceBlock.tasks.length === 0) {
+        blocks.splice(sourceIndex, 1);
+    } else {
+        blocks.splice(sourceIndex, 1, newSourceBlock);
+    }
 }

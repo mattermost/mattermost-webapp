@@ -11,7 +11,7 @@ import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import {queueWorkItem} from 'actions/time_management';
+import {createNewTask} from 'actions/time_management';
 
 import 'components/category_modal.scss';
 import './add_task_modal.scss';
@@ -59,7 +59,7 @@ const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
     const [selectedTime, setTime] = useState<MenuTime>(timeMenuList[0]);
 
     const handleAddTask = () => {
-        dispatch(queueWorkItem(text, selectedTime.minutes, selectedDate));
+        dispatch(createNewTask(text, selectedTime.minutes, selectedDate));
     };
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
     const handleClearText = () => setText('');
