@@ -7,11 +7,7 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-<<<<<<< HEAD
-import {AddChannelButtonTreatments, DownloadAppsCTATreatments, PrewrittenMessagesTreatments, InviteToTeamTreatments} from 'mattermost-redux/constants/config';
-=======
-import {AddChannelButtonTreatments, DownloadAppsCTATreatments, PrewrittenMessagesTreatments, AutoTourTreatments} from 'mattermost-redux/constants/config';
->>>>>>> 474cd7eb159ba0210dc4ed2ed6ab29a678eb35ec
+import {AddChannelButtonTreatments, DownloadAppsCTATreatments, PrewrittenMessagesTreatments, AutoTourTreatments, InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
