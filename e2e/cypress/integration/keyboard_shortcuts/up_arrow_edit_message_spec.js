@@ -147,7 +147,7 @@ describe('Keyboard Shortcuts', () => {
         cy.uiWaitUntilMessagePostedIncludes('codeblock2');
     });
 
-    it('MM-T1264 UP - Ephemeral message does not open for edit; opens previous regular message', () => {
+    it('MM-T1264 Arrow up key - Ephemeral message does not open for edit; opens previous regular message', () => {
         // # Type user message
         const message = 'Hello World';
         cy.postMessage(message);
