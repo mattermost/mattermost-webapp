@@ -39,9 +39,9 @@ const openAdminConsole = (isAdmin: boolean) => {
     browserHistory.push('/admin_console/');
 };
 
-const openIncidentsPlugin = (isAdmin: boolean, team: Team) => {
+const openPlaybooks = (isAdmin: boolean, team: Team) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'click_open_incidents');
-    browserHistory.push(`/${team.name}/playbooks/runs`);
+    browserHistory.push(`/${team.name}/playbooks`);
 };
 
 type Props = {
@@ -144,7 +144,7 @@ export default function NextStepsTips(props: Props) {
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openIncidentsPlugin(props.isAdmin, props.team)}
+                            onClick={() => openPlaybooks(props.isAdmin, props.team)}
                         >
                             <FormattedMessage
                                 id='next_steps_view.tips.resolveIncidents.button'
