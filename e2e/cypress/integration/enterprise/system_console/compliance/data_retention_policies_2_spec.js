@@ -114,7 +114,7 @@ describe('Data Retention - Global and Custom Policy Only', () => {
 
             runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
 
-            // # visiting a channel where Globle policy was applied
+            // # visiting a channel where Global policy was applied
             cy.visit(`/${testTeam.name}/channels/${newChannel.name}`);
 
             // * Verifying if post was not deleted
