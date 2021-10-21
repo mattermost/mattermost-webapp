@@ -112,7 +112,7 @@ export default class ResetStatusModal extends React.PureComponent<Props, State> 
         }
     };
 
-    private renderModalMessage = (): JSX.Element => {
+    private renderModalMessage = () => {
         if (this.props.currentUserStatus === UserStatuses.OUT_OF_OFFICE) {
             return (
                 <FormattedMessage
