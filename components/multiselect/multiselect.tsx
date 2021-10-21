@@ -286,18 +286,18 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                 exceedsMaxValues = true;
                 numRemainingText = (
                     <div className='InputErrorBox'>
-                    <FormattedMessage
-                        id='multiselect.numRemaining'
-                        defaultMessage='Up to {max, number} can be added at a time.'
-                        values={{
-                            max: this.props.maxValues,
-                            num: this.props.maxValues - this.props.values.length,
-                        }}
-                    />
+                        <FormattedMessage
+                            id='multiselect.numRemaining'
+                            defaultMessage='Up to {max, number} can be added at a time.'
+                            values={{
+                                max: this.props.maxValues,
+                                num: this.props.maxValues - this.props.values.length,
+                            }}
+                        />
                     </div>
                 );
             } else {
-                numRemainingText = "";
+                numRemainingText = '';
                 exceedsMaxValues = false;
             }
         }
@@ -468,7 +468,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                                 className={classNames(
                                     'MultiSelect',
                                     exceedsMaxValues ? 'error' : '',
-                                    this.state.a11yActive ? 'multi-select__focused' : ""
+                                    this.state.a11yActive ? 'multi-select__focused' : '',
                                 )}
                                 classNamePrefix='react-select-auto react-select'
                             />
@@ -491,7 +491,8 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                         </div>
                     </div>
                     {multiSelectList}
-                    {exceedsMaxValues && <div
+                    {exceedsMaxValues &&
+                    <div
                         id='multselectErrorMessage'
                         className='multi-select__error'
                     >
