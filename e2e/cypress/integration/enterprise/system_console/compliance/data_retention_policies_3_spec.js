@@ -12,7 +12,7 @@
 import {
     runDataRetentionAndVerifyPostDeleted,
     gotoGlobalPolicy,
-    editGlobalPolicyMessageRetention,
+    editGlobalPolicyMessageRetention
 } from './helpers';
 
 describe('Data Retention - Custom Policy Only', () => {

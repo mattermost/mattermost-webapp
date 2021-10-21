@@ -12,7 +12,7 @@
 import {
     gotoGlobalPolicy,
     editGlobalPolicyMessageRetention,
-    runDataRetentionAndVerifyPostDeleted,
+    runDataRetentionAndVerifyPostDeleted
 } from './helpers';
 
 describe('Data Retention - Global and Custom Policy Only', () => {
@@ -92,8 +92,8 @@ describe('Data Retention - Global and Custom Policy Only', () => {
             newChannel = channel;
         });
 
+        // * Verify create policy api response
         cy.wait('@createCustomPolicy').then((interception) => {
-            // * Verify create policy api response
 
             const policyId = interception.response.body.id;
 
