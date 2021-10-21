@@ -1,30 +1,41 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class ModalController extends React.PureComponent {
-    static propTypes = {
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
-        /**
-         * Object that has map of modal's id and element
+type Modal = {
+    open: boolean;
+    dialogProps: Dictionary<any>;
+    dialogType: React.ComponentType;
+}
+
+type Props = {
+
+    /*
+     * Object that has map of modal's id and element
+     */
+    modals: {
+        modalState: {
+            [modalId: string]: Modal;
+        };
+    };
+
+    /*
+     * Object with action creators
+     */
+    actions: {
+
+        /*
+         * Action creator to close modal
          */
-        modals: PropTypes.object.isRequired,
+        closeModal: (modalId: string) => {data: boolean};
+    };
+}
 
-        /**
-         * Object with action creators
-         */
-        actions: PropTypes.shape({
-
-            /**
-             * Action creator to close modal
-             */
-            closeModal: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    render() {
+export default class ModalController extends React.PureComponent<Props> {
+    public render(): JSX.Element {
         const {modals, ...props} = this.props;
         const {modalState} = modals;
 
