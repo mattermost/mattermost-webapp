@@ -196,8 +196,10 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                         }
                     </div>
                 </OverlayTrigger>
-                {dontAskAgainButton}
-                {closeButton}
+                <div className='announcement-bar__overlay'>
+                    {dontAskAgainButton}
+                    {closeButton}
+                </div>
             </div>
         );
     }

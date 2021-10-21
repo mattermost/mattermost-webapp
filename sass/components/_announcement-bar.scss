@@ -58,7 +58,6 @@
 
         &.announcement-bar__close {
             padding: 0 10px;
-            margin-left: auto;
             color: $white;
             font-family: 'Open Sans', sans-serif;
             font-size: 20px;
@@ -113,13 +112,13 @@
         &.announcement-bar__button--text {
             padding-right: 0;
             padding-left: 0;
-            color: var(--sidebar-text);
+            color: rgba(var(--sidebar-text-rgb), 0.56);
             font-size: 12px;
         }
     }
 
     .announcement-bar__dont-ask-again {
-        margin-right: 27px;
+        margin-right: 20px;
         margin-left: auto;
         visibility: hidden;
     }
@@ -128,6 +127,13 @@
         .announcement-bar__dont-ask-again {
             visibility: visible;
         }
+    }
+
+    .announcement-bar__overlay {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
     }
 }
 
