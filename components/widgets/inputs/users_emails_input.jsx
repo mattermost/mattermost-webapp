@@ -21,7 +21,7 @@ import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
-import {isGuest} from 'utils/utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import './users_emails_input.scss';
 
@@ -50,7 +50,7 @@ export default class UsersEmailsInput extends React.PureComponent {
 
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
-        noMatchMessageDefault: 'No one found matching **{text}**, type email address',
+        noMatchMessageDefault: 'No one found matching **{text}**. Enter their email to invite them.',
         validAddressMessageId: t('widgets.users_emails_input.valid_email'),
         validAddressMessageDefault: 'Add **{email}**',
         loadingMessageId: t('widgets.users_emails_input.loading'),
@@ -110,7 +110,7 @@ export default class UsersEmailsInput extends React.PureComponent {
             botBadge = <BotBadge/>;
         }
 
-        if (!isEmail(user.value) && isGuest(user)) {
+        if (!isEmail(user.value) && isGuest(user.roles)) {
             guestBadge = <GuestBadge/>;
         }
 
