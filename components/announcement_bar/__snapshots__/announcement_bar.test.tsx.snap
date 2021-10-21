@@ -43,15 +43,19 @@ exports[`components/AnnouncementBar should match snapshot, "Don't ask again" but
       />
     </div>
   </OverlayTrigger>
-  <button
-    className="announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again"
-    type="button"
+  <div
+    className="announcement-bar__overlay"
   >
-    <MemoizedFormattedMessage
-      defaultMessage="Don't ask again"
-      id="announcement_bar.dont_ask_again_button_text"
-    />
-  </button>
+    <button
+      className="announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again"
+      type="button"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Don't ask again"
+        id="announcement_bar.dont_ask_again_button_text"
+      />
+    </button>
+  </div>
 </div>
 `;
 
@@ -98,6 +102,9 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -144,6 +151,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -190,6 +200,9 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -236,6 +249,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -282,6 +298,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -328,6 +347,9 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -374,6 +396,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -420,6 +445,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -466,6 +494,9 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
 
@@ -512,5 +543,8 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
       />
     </div>
   </OverlayTrigger>
+  <div
+    className="announcement-bar__overlay"
+  />
 </div>
 `;
