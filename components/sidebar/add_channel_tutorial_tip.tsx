@@ -9,7 +9,7 @@ import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {measurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {Constants} from 'utils/constants';
@@ -86,7 +86,7 @@ export default function ChannelTutorialTip(props: Props) {
             screens={screens}
             stopPropagation={true}
             overlayClass={overlayClass}
-            punchOut={measurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}
+            punchOut={useMeasurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}
             telemetryTag='tutorial_tip_add_channels'
         />
     );

@@ -10,7 +10,7 @@ import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import TutorialTip from './tutorial_tip';
-import {measurePunchouts} from './tutorial_tip/hooks';
+import {useMeasurePunchouts} from './tutorial_tip/hooks';
 
 const TutorialSteps = Constants.TutorialSteps;
 
@@ -65,7 +65,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
                 screens={screens}
                 overlayClass={'tip-overlay--header--' + arrow + headerClass}
                 telemetryTag='tutorial_tip_3_main_menu'
-                punchOut={measurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}
+                punchOut={useMeasurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}
             />
         </div>
     );

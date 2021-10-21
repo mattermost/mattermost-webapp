@@ -1,37 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {useEffect, useRef, useState, useMemo} from 'react';
+import {useMemo} from 'react';
+
+import useElementAvailable from 'components/common/hooks/useElementAvailable';
 
 import {TutorialTipPunchout} from './tutorial_tip_backdrop';
-
-export function notifyElementAvailability(
-    elementIds: string[],
-): boolean {
-    const checkAvailableInterval = useRef<NodeJS.Timeout | null>(null);
-    const [available, setAvailable] = useState(false);
-    useEffect(() => {
-        if (available) {
-            if (checkAvailableInterval.current) {
-                clearInterval(checkAvailableInterval.current);
-                checkAvailableInterval.current = null;
-            }
-            return;
-        } else if (checkAvailableInterval.current) {
-            return;
-        }
-        checkAvailableInterval.current = setInterval(() => {
-            if (elementIds.every((x) => document.getElementById(x))) {
-                setAvailable(true);
-                if (checkAvailableInterval.current) {
-                    clearInterval(checkAvailableInterval.current);
-                    checkAvailableInterval.current = null;
-                }
-            }
-        }, 500);
-    }, []);
-
-    return useMemo(() => available, [available]);
-}
 
 type PunchoutOffset = {
     x: number;
@@ -40,8 +13,8 @@ type PunchoutOffset = {
     height: number;
 }
 
-export function measurePunchouts(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
-    const elementsAvailable = notifyElementAvailability(elementIds);
+export function useMeasurePunchouts(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
+    const elementsAvailable = useElementAvailable(elementIds);
     const channelPunchout = useMemo(() => {
         let minX = Number.MAX_SAFE_INTEGER;
         let minY = Number.MAX_SAFE_INTEGER;
