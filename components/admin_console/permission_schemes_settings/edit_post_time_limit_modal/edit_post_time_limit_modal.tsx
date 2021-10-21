@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
@@ -10,24 +9,36 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import {AdminConfig} from 'mattermost-redux/types/config';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 const INT32_MAX = 2147483647;
 
-export default class EditPostTimeLimitModal extends React.PureComponent {
-    static propTypes = {
-        config: PropTypes.object.isRequired,
-        show: PropTypes.bool,
-        onClose: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            updateConfig: PropTypes.func.isRequired,
-            getConfig: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    config: DeepPartial<AdminConfig>;
+    show: boolean;
+    onClose: () => void;
+    actions: {
+        updateConfig: (config: string) => Promise<{error: ServerError}>;
+        getConfig: () => ActionFunc;
     };
+};
 
-    constructor(props) {
+type State = {
+    postEditTimeLimit: string | number;
+    saving: boolean;
+    errorMessage: string;
+}
+
+export default class EditPostTimeLimitModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
+
+        const postEditTimeLimit = props.config && props.config.ServiceSettings && props.config.ServiceSettings.PostEditTimeLimit ? props.config.ServiceSettings.PostEditTimeLimit : 0;
+
         this.state = {
-            postEditTimeLimit: parseInt(props.config.ServiceSettings.PostEditTimeLimit, 10),
+            postEditTimeLimit,
             saving: false,
             errorMessage: '',
         };
@@ -40,7 +51,7 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
     save = async () => {
         this.setState({saving: true, errorMessage: ''});
 
-        const val = parseInt(this.state.postEditTimeLimit, 10);
+        const val = this.state.postEditTimeLimit;
         if (val !== Constants.UNSET_POST_EDIT_TIME_LIMIT) {
             if (val.toString() === 'NaN' || val <= 0 || val > INT32_MAX) {
                 this.setState({errorMessage: localizeMessage('edit_post.time_limit_modal.invalid_time_limit', 'Invalid time limit'), saving: false});
@@ -53,7 +64,7 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
 
         const {error: err} = await this.props.actions.updateConfig(newConfig);
         if (err) {
-            this.setState({errorMessage: err, saving: false});
+            this.setState({errorMessage: err.message, saving: false});
         } else {
             this.setState({saving: false});
             this.props.onClose();
@@ -62,7 +73,7 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
         return true;
     }
 
-    handleOptionChange = (e) => {
+    handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = e.target;
         if (value === Constants.ALLOW_EDIT_POST_ALWAYS) {
             this.setState({postEditTimeLimit: Constants.UNSET_POST_EDIT_TIME_LIMIT});
@@ -71,7 +82,7 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
         }
     }
 
-    handleSecondsChange = (e) => {
+    handleSecondsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = e.target;
         this.setState({postEditTimeLimit: value});
     }
@@ -83,6 +94,7 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
                 show={this.props.show}
                 role='dialog'
                 aria-labelledby='editPostTimeModalLabel'
+                onHide={() => {}}
             >
                 <Modal.Header
                     closeButton={true}

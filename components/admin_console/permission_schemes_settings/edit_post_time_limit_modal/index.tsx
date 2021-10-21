@@ -2,22 +2,26 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getConfig, updateConfig} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
-import EditPostTimeLimitModal from './edit_post_time_limit_modal';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-function mapStateToProps(state) {
+import EditPostTimeLimitModal, {Props} from './edit_post_time_limit_modal';
+
+function mapStateToProps(state: GlobalState) {
     return {
         config: Selectors.getConfig(state),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             updateConfig,
             getConfig,
         }, dispatch),
