@@ -9,15 +9,15 @@ type Props = {
     dataSlides: React.ReactNode[];
     id: string;
     infiniteSlide: boolean;
-    customNextSlideFn?: () => void;
-    customPrevSlideFn?: () => void;
+    onNextSlideClick?: () => void;
+    onPrevSlideClick?: () => void;
 }
 const Carousel: React.FC<Props> = ({
     dataSlides,
     id,
     infiniteSlide,
-    customNextSlideFn,
-    customPrevSlideFn,
+    onNextSlideClick,
+    onPrevSlideClick,
 }: Props): JSX.Element | null => {
     const [slideIndex, setSlideIndex] = useState(1);
     const [prevButtonDisabled, setPrevButtonDisabled] = useState(!infiniteSlide);
@@ -32,8 +32,8 @@ const Carousel: React.FC<Props> = ({
                 setSlideIndex(1);
             }
         }
-        if (customNextSlideFn) {
-            customNextSlideFn();
+        if (onNextSlideClick) {
+            onNextSlideClick();
         }
     };
 
@@ -46,8 +46,8 @@ const Carousel: React.FC<Props> = ({
                 setSlideIndex(dataSlides.length);
             }
         }
-        if (customPrevSlideFn) {
-            customPrevSlideFn();
+        if (onPrevSlideClick) {
+            onPrevSlideClick();
         }
     };
 

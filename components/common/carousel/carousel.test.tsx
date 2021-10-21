@@ -90,12 +90,12 @@ describe('/components/common/Carousel', () => {
     });
 
     test('test carousel executes custom next and prev btn callback functions', () => {
-        const customPrevSlideFn = jest.fn();
-        const customNextSlideFn = jest.fn();
+        const onPrevSlideClick = jest.fn();
+        const onNextSlideClick = jest.fn();
         const props = {
             ...baseProps,
-            customPrevSlideFn,
-            customNextSlideFn};
+            onPrevSlideClick,
+            onNextSlideClick};
 
         const wrapper = mountWithIntl(<Carousel {...props}/>);
         const buttonNext = wrapper.find('CarouselButton').find('a.next');
@@ -104,7 +104,7 @@ describe('/components/common/Carousel', () => {
         buttonNext.simulate('click');
         buttonPrev.simulate('click');
 
-        expect(customNextSlideFn).toHaveBeenCalled();
-        expect(customPrevSlideFn).toHaveBeenCalled();
+        expect(onNextSlideClick).toHaveBeenCalled();
+        expect(onPrevSlideClick).toHaveBeenCalled();
     });
 });
