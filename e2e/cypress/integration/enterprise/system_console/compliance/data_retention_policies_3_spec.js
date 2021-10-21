@@ -7,15 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console @with_feature_flag
-
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
+// Group: @enterprise @system_console
 
 import {
     runDataRetentionAndVerifyPostDeleted,
     gotoGlobalPolicy,
     editGlobalPolicyMessageRetention,
-    editGlobalPolicyFileRetention} from './helpers';
+} from './helpers';
 
 describe('Data Retention - Custom Policy Only', () => {
     let testTeam;
@@ -39,11 +37,7 @@ describe('Data Retention - Custom Policy Only', () => {
     });
 
     beforeEach(() => {
-        cy.apiGetCustomRetentionPolicies().then((result) => {
-            result.body.policies.forEach((policy) => {
-                cy.apiDeleteCustomRetentionPolicy(policy.id);
-            });
-        });
+        cy.apiDeleteAllCustomRetentionPolicies();
         cy.intercept({
             method: 'POST',
             url: '/api/v4/data_retention/policies',
@@ -77,7 +71,7 @@ describe('Data Retention - Custom Policy Only', () => {
         const createDays = new Date().setDate(new Date().getDate() - 12);
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDays);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDays);
         });
 
         runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
@@ -114,7 +108,7 @@ describe('Data Retention - Custom Policy Only', () => {
 
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
         });
 
         runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
@@ -150,10 +144,8 @@ describe('Data Retention - Custom Policy Only', () => {
 
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
         });
-
-        runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
     });
 
     it('MM-T4102 - Assign Global Policy = Forever & Custom Policy = 5 days to Teams', () => {
@@ -171,7 +163,6 @@ describe('Data Retention - Custom Policy Only', () => {
 
         cy.wait('@createCustomPolicy').then((interception) => {
             // * Verify create policy api response
-
             const policyId = interception.response.body.id;
 
             cy.get('#custom_policy_table .DataGrid').within(() => {
@@ -186,7 +177,7 @@ describe('Data Retention - Custom Policy Only', () => {
 
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
         });
 
         runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
@@ -253,8 +244,8 @@ describe('Data Retention - Custom Policy Only', () => {
 
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
-            cy.apiCreatePost(ChannelA.id, postText, '', {}, token, true, createDate);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
+            cy.apiPostWithCreateDate(ChannelA.id, postText, token, createDate);
 
             runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
 
@@ -268,89 +259,17 @@ describe('Data Retention - Custom Policy Only', () => {
     });
 
     it('MM-T4019 - Global Data Retention policy', () => {
-        gotoGlobalPolicy();
+        [
+            {input: '365', result: '1 year'},
+            {input: '700', result: '700 days'},
+            {input: '365', result: '1 year'},
+            {input: '600', result: '600 days'},
 
-        // # Edit global policy message retention
-        editGlobalPolicyMessageRetention('365', '1 year');
-
-        gotoGlobalPolicy();
-
-        // # Edit global policy message retention
-        editGlobalPolicyMessageRetention('700', '700 days');
-
-        gotoGlobalPolicy();
-
-        editGlobalPolicyMessageRetention('700', '700 days');
-
-        gotoGlobalPolicy();
-
-        // # Edit global policy file retention
-        editGlobalPolicyFileRetention('365', '1 year');
-
-        gotoGlobalPolicy();
-
-        // # Edit global policy file retention
-        editGlobalPolicyFileRetention('600', '600 days');
-    });
-
-    describe('Global and Custom Policy', () => {
-        it('MM-T4100 - Assign Global Policy = 5 days & Custom Policy = 10 days to channels', () => {
-            let newChannel;
-            let newTeam;
-
-            // # Edit Global Policy to 5 days
+        ].forEach(({input, result}) => {
             gotoGlobalPolicy();
-            editGlobalPolicyMessageRetention('5', '5 days');
 
-            // # Creating new team for Global Policy
-            cy.apiCreateTeam('team', 'Team1').then(({team}) => {
-                cy.apiCreateChannel(team.id, 'test_channel', 'Channel-A').then(({channel}) => {
-                    newChannel = channel;
-                    newTeam = team;
-                });
-            });
-
-            // # Go to create custom data retention page
-            cy.uiClickCreatePolicy();
-
-            // # Fill out policy details
-            cy.uiFillOutCustomPolicyFields('MyPolicy', 'days', '10');
-
-            // # Add channel to the policy
-            cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
-
-            // # Save policy
-            cy.uiGetButton('Save').click();
-
-            cy.wait('@createCustomPolicy').then((interception) => {
-                // * Verify create policy api response
-                const policyId = interception.response.body.id;
-                cy.get('#custom_policy_table .DataGrid').within(() => {
-                    // * Verify custom policy data table
-                    cy.uiVerifyCustomPolicyRow(policyId, 'MyPolicy', '10 days', '0 teams, 1 channel');
-                });
-            });
-
-            // # Create more than 7 days older post
-            // # Get Epoch value
-            const createDate = new Date().setDate(new Date().getDate() - 7);
-
-            cy.apiCreateToken(users).then(({token}) => {
-                // # Create a post
-                cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
-                cy.apiCreatePost(newChannel.id, postText, '', {}, token, true, createDate);
-
-                runDataRetentionAndVerifyPostDeleted(newTeam, newChannel, postText);
-
-                // # visiting a channel where Custom policy was applied
-                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-                // * Verifying that post should not be deleted
-                cy.wait(TIMEOUTS.TEN_SEC);
-                cy.reload();
-                cy.findAllByTestId('postView').should('have.length', 2);
-                cy.findAllByTestId('postView').should('contain', postText);
-            });
+            // # Edit global policy message retention
+            editGlobalPolicyMessageRetention(input, result);
         });
     });
 });

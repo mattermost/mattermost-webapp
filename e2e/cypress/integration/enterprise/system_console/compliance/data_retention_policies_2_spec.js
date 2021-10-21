@@ -7,11 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console @with_feature_flag
+// Group: @enterprise @system_console
 
-import {gotoGlobalPolicy,
+import {
+    gotoGlobalPolicy,
     editGlobalPolicyMessageRetention,
-    runDataRetentionAndVerifyPostDeleted} from './helpers';
+    runDataRetentionAndVerifyPostDeleted,
+} from './helpers';
 
 describe('Data Retention - Global and Custom Policy Only', () => {
     let testTeam;
@@ -36,12 +38,7 @@ describe('Data Retention - Global and Custom Policy Only', () => {
     });
 
     beforeEach(() => {
-        cy.apiGetCustomRetentionPolicies().then((result) => {
-            result.body.policies.forEach((policy) => {
-                cy.apiDeleteCustomRetentionPolicy(policy.id);
-            });
-        });
-
+        cy.apiDeleteAllCustomRetentionPolicies();
         cy.intercept({
             method: 'POST',
             url: '/api/v4/data_retention/policies',
@@ -67,7 +64,7 @@ describe('Data Retention - Global and Custom Policy Only', () => {
         const createDays = new Date().setDate(new Date().getDate() - 13);
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDays);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDays);
         });
 
         runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
@@ -112,8 +109,8 @@ describe('Data Retention - Global and Custom Policy Only', () => {
 
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
-            cy.apiCreatePost(newChannel.id, postText, '', {}, token, true, createDate);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
+            cy.apiPostWithCreateDate(newChannel.id, postText, token, createDate);
 
             runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
 
@@ -158,9 +155,9 @@ describe('Data Retention - Global and Custom Policy Only', () => {
 
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDays1);
-            cy.apiCreatePost(newChannel.id, postText, '', {}, token, true, createDays1);
-            cy.apiCreatePost(ChannelA.id, postText, '', {}, token, true, createDays2);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDays1);
+            cy.apiPostWithCreateDate(newChannel.id, postText, token, createDays1);
+            cy.apiPostWithCreateDate(ChannelA.id, postText, token, createDays2);
         });
 
         runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);
@@ -193,7 +190,7 @@ describe('Data Retention - Global and Custom Policy Only', () => {
 
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDays1);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDays1);
             cy.apiCreatePost(ChannelA.id, postText, '', {}, token, true, createDays2);
         });
 
@@ -216,7 +213,7 @@ describe('Data Retention - Global and Custom Policy Only', () => {
         const createDate = new Date().setMonth(new Date().getMonth() - 14);
         cy.apiCreateToken(users).then(({token}) => {
             // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
         });
 
         runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText);

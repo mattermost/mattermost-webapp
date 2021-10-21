@@ -25,11 +25,7 @@ describe('Data Retention', () => {
     });
 
     beforeEach(() => {
-        cy.apiGetCustomRetentionPolicies().then((result) => {
-            result.body.policies.forEach((policy) => {
-                cy.apiDeleteCustomRetentionPolicy(policy.id);
-            });
-        });
+        cy.apiDeleteAllCustomRetentionPolicies();
         cy.intercept({
             method: 'POST',
             url: '/api/v4/data_retention/policies',
@@ -107,7 +103,7 @@ describe('Data Retention', () => {
             cy.uiGetButton('Save').click();
 
             // * Assert the pagination is correct
-            cy.get('#custom_policy_table .DataGrid .DataGrid_footer .DataGrid_cell').scrollIntoView().should('be.visible').invoke('text').should('include', '1 - 3 of 3');
+            cy.findByText('1 - 3 of 3').scrollIntoView().should('be.visible');
 
             cy.apiGetCustomRetentionPolicies().then((result) => {
                 // * Assert the total policy count is 3
@@ -130,7 +126,7 @@ describe('Data Retention', () => {
 
             // # Save policy
             cy.uiGetButton('Save').click();
-            cy.get('#custom_policy_table .DataGrid .DataGrid_footer .DataGrid_cell').scrollIntoView().should('be.visible').invoke('text').should('include', '1 - 1 of 1');
+            cy.findByText('1 - 1 of 1').scrollIntoView().should('be.visible');
         });
 
         it('MM-T4008 - Update custom policy', () => {
@@ -362,7 +358,7 @@ describe('Data Retention', () => {
 
                 // * Verify team table pagination
                 cy.get('.PolicyTeamsList .DataGrid').within(() => {
-                    cy.get('.DataGrid_footer .DataGrid_cell').should('exist').invoke('text').should('include', '1 - 3 of 3');
+                    cy.findByText('1 - 3 of 3').scrollIntoView().should('be.visible');
                 });
 
                 // * GET the teams for the policy and verify the count is correct
@@ -427,7 +423,7 @@ describe('Data Retention', () => {
 
                 // * Verify Channel pagination
                 cy.get('.PolicyChannelsList .DataGrid').within(() => {
-                    cy.get('.DataGrid_footer .DataGrid_cell').should('exist').invoke('text').should('include', '1 - 3 of 3');
+                    cy.findByText('1 - 3 of 3').scrollIntoView().should('be.visible');
                 });
 
                 // * GET the channels for the policy and verify the count

@@ -17,7 +17,7 @@ declare namespace Cypress {
     interface Chainable {
 
         /**
-         * Go to Data Retention Page
+         * Go to Data Retention page
          */
         uiGoToDataRetentionPage(): Chainable;
 
@@ -35,13 +35,13 @@ declare namespace Cypress {
         uiFillOutCustomPolicyFields(name: string, durationDropdown: string, durationText?: string): Chainable;
 
         /**
-         * Search and Add teams to custom policy
+         * Search and add teams to custom policy
          * @param {string[]} teamNames - array of team names
          */
         uiAddTeamsToCustomPolicy(teamNames: string[]): Chainable;
 
         /**
-         * Search and Add channels to custom policy
+         * Search and add channels to custom policy
          * @param {string[]} channelNames - array of channel names
          */
         uiAddChannelsToCustomPolicy(channelNames: string[]): Chainable;
@@ -74,7 +74,7 @@ declare namespace Cypress {
         uiClickEditCustomPolicyRow(policyId: string): Chainable;
 
         /**
-         * Verify Custom Create Policy Response
+         * Verify custom create policy response
          * @param body - Response body
          * @param {number} teamCount - Number of teams the policy applies to
          * @param {number} channelCount - Number of channels the policy applies to
@@ -82,5 +82,20 @@ declare namespace Cypress {
          * @param {string} displayName - The name of the policy
          */
         uiVerifyPolicyResponse(body, teamCount: number, channelCount: number, duration: number, displayName: string): Chainable;
+
+        /**
+         * Delete all custom retention policies
+         */
+        apiDeleteAllCustomRetentionPolicies(): Chainable;
+
+        /**
+         * Create a post with create_at prop via API
+         * @param {string} channelId - Channel ID
+         * @param {string} message - Post a message
+         * @param {string} token - token
+         * @param {number} createat -  epoch date
+         */
+        apiPostWithCreateDate(channelId: string, message: string, token: string, createat: number): Chainable;
+
     }
 }
