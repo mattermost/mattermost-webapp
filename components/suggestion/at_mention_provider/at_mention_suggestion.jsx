@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -204,7 +205,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     {youElement}
                     {sharedIcon}
                     <GuestBadge
-                        show={Utils.isGuest(item)}
+                        show={isGuest(item.roles)}
                         className='badge-autocomplete'
                     />
                 </span>

@@ -11,9 +11,8 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
-
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -247,7 +246,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                             className='badge-popoverlist'
                         />
                         <GuestBadge
-                            show={isGuest(option)}
+                            show={isGuest(option.roles)}
                             className='popoverlist'
                         />
                     </div>

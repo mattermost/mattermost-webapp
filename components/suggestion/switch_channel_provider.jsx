@@ -44,6 +44,7 @@ import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -140,7 +141,7 @@ class SwitchChannelSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                     <GuestBadge
-                        show={Boolean(teammate && Utils.isGuest(teammate))}
+                        show={Boolean(teammate && isGuest(teammate.roles))}
                         className='badge-autocomplete'
                     />
                 </React.Fragment>
