@@ -72,12 +72,14 @@ export function handleFollowChanged(state: State, action: GenericAction, extra: 
 
     if (shouldAdd) {
         nextSet.add(thread.id);
+
+        return {
+            ...state,
+            [teamId]: [...nextSet],
+        };
     }
 
-    return {
-        ...state,
-        [teamId]: [...nextSet],
-    };
+    return state;
 }
 
 function handleReceiveThreads(state: State, action: GenericAction) {
