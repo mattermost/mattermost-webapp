@@ -1,11 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
+import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {General} from 'mattermost-redux/constants';
+import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -25,40 +28,49 @@ import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
-export default class TeamAnalytics extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /*
+     * Array of team objects
+     */
+    teams: Team[];
+
+    /*
+     * Initial team to load analytics for
+     */
+    initialTeam?: Team;
+
+    /*
+     * The locale of the current user
+     */
+    locale: string;
+
+    stats: RelationOneToOne<Team, Dictionary<number | AnalyticsRow[]>>;
+
+    actions: {
 
         /*
-         * Array of team objects
+         * Function to get teams
          */
-        teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+        getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean, excludePolicyConstrained?: boolean) => void;
 
         /*
-         * Initial team to load analytics for
+         * Function to get users in a team
          */
-        initialTeam: PropTypes.object,
+        getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => Promise<{
+            data?: UserProfile[];
+        }>;
+    };
+};
 
-        /**
-         * The locale of the current user
-          */
-        locale: PropTypes.string.isRequired,
-        stats: PropTypes.object.isRequired,
+type State = {
+    team?: Team;
+    recentlyActiveUsers?: UserProfile[];
+    newUsers?: UserProfile[];
+};
 
-        actions: PropTypes.shape({
-
-            /*
-             * Function to get teams
-             */
-            getTeams: PropTypes.func.isRequired,
-
-            /*
-             * Function to get users in a team
-             */
-            getProfilesInTeam: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+export default class TeamAnalytics extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -68,7 +80,7 @@ export default class TeamAnalytics extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         if (this.state.team) {
             this.getData(this.state.team.id);
         }
@@ -76,13 +88,23 @@ export default class TeamAnalytics extends React.PureComponent {
         this.props.actions.getTeams(0, 1000);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    public componentDidUpdate(prevProps: Props, prevState: State): void {
         if (this.state.team && prevState.team !== this.state.team) {
             this.getData(this.state.team.id);
         }
     }
 
-    getData = async (id) => {
+    private getStatValue(stat: number | AnalyticsRow[]): number | undefined {
+        if (typeof stat === 'number') {
+            return stat;
+        }
+        if (!stat || stat.length === 0) {
+            return undefined;
+        }
+        return stat[0].value;
+    }
+
+    private getData = async (id: string): Promise<void> => {
         AdminActions.getStandardAnalytics(id);
         AdminActions.getPostsPerDayAnalytics(id);
         AdminActions.getBotPostsPerDayAnalytics(id);
@@ -96,7 +118,7 @@ export default class TeamAnalytics extends React.PureComponent {
         });
     }
 
-    handleTeamChange = (e) => {
+    private handleTeamChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         const teamId = e.target.value;
 
         let team;
@@ -113,7 +135,7 @@ export default class TeamAnalytics extends React.PureComponent {
         BrowserStore.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
     }
 
-    render() {
+    public render(): JSX.Element {
         if (this.props.teams.length === 0 || !this.state.team || !this.props.stats[this.state.team.id]) {
             return <LoadingScreen/>;
         }
@@ -132,8 +154,10 @@ export default class TeamAnalytics extends React.PureComponent {
         }
 
         const stats = this.props.stats[this.state.team.id];
-        const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
-        const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
+
+        // passing the labels as empty arrays
+        const postCountsDay = formatPostsPerDayData([], stats[StatTypes.POST_PER_DAY]);
+        const userCountsWithPostsDay = formatUsersWithPostsPerDayData([], stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
         let banner = (
             <div className='banner'>
@@ -170,7 +194,7 @@ export default class TeamAnalytics extends React.PureComponent {
                         />
                     }
                     icon='fa-comment'
-                    count={stats[StatTypes.TOTAL_POSTS]}
+                    count={this.getStatValue(stats[StatTypes.TOTAL_POSTS])}
                 />
             );
 
@@ -211,8 +235,8 @@ export default class TeamAnalytics extends React.PureComponent {
             );
         }
 
-        const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers, this.props.locale);
-        const newlyCreatedUsers = formatNewUsersData(this.state.newUsers, this.props.locale);
+        const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers!, this.props.locale);
+        const newlyCreatedUsers = formatNewUsersData(this.state.newUsers!, this.props.locale);
 
         const teams = this.props.teams.sort((a, b) => {
             const aName = a.display_name.toUpperCase();
@@ -271,7 +295,7 @@ export default class TeamAnalytics extends React.PureComponent {
                                     />
                                 }
                                 icon='fa-users'
-                                count={stats[StatTypes.TOTAL_USERS]}
+                                count={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
                             />
                             <StatisticCount
                                 title={
@@ -281,7 +305,7 @@ export default class TeamAnalytics extends React.PureComponent {
                                     />
                                 }
                                 icon='fa-globe'
-                                count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS]}
+                                count={this.getStatValue(stats[StatTypes.TOTAL_PUBLIC_CHANNELS])}
                             />
                             <StatisticCount
                                 title={
@@ -291,7 +315,7 @@ export default class TeamAnalytics extends React.PureComponent {
                                     />
                                 }
                                 icon='fa-lock'
-                                count={stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
+                                count={this.getStatValue(stats[StatTypes.TOTAL_PRIVATE_GROUPS])}
                             />
                             {totalPostsCount}
                         </div>
@@ -324,56 +348,50 @@ export default class TeamAnalytics extends React.PureComponent {
     }
 }
 
-export function formatRecentUsersData(data, locale) {
+type Item = {
+    name: string;
+    value: JSX.Element;
+    tip: string;
+};
+
+export function formatRecentUsersData(data: UserProfile[], locale: string): Item[] {
     if (data == null) {
         return [];
     }
 
-    const formattedData = data.map((user) => {
-        const item = {};
-        item.name = user.username;
-        item.value = (
+    return data.map((user: UserProfile) => ({
+        name: user.username,
+        value: (
             <FormattedDate
                 value={user.last_activity_at}
                 day='numeric'
                 month={getMonthLong(locale)}
                 year='numeric'
-                hour12={true}
                 hour='2-digit'
                 minute='2-digit'
             />
-        );
-        item.tip = user.email;
-
-        return item;
-    });
-
-    return formattedData;
+        ),
+        tip: user.email,
+    }));
 }
 
-export function formatNewUsersData(data, locale) {
+export function formatNewUsersData(data: UserProfile[], locale: string): Item[] {
     if (data == null) {
         return [];
     }
 
-    const formattedData = data.map((user) => {
-        const item = {};
-        item.name = user.username;
-        item.value = (
+    return data.map((user: UserProfile) => ({
+        name: user.username,
+        value: (
             <FormattedDate
                 value={user.create_at}
                 day='numeric'
                 month={getMonthLong(locale)}
                 year='numeric'
-                hour12={true}
                 hour='2-digit'
                 minute='2-digit'
             />
-        );
-        item.tip = user.email;
-
-        return item;
-    });
-
-    return formattedData;
+        ),
+        tip: user.email,
+    }));
 }

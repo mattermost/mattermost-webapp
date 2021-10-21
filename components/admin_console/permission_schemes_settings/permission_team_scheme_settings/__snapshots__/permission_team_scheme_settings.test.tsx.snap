@@ -62,6 +62,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <LocalizedInput
               className="form-control"
+              disabled={false}
               id="scheme-name"
               onChange={[Function]}
               placeholder={
@@ -88,10 +89,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <textarea
               className="form-control"
+              disabled={false}
               id="scheme-description"
               onChange={[Function]}
               placeholder="Scheme Description"
-              rows="5"
+              rows={5}
               value="Test scheme description"
             />
           </div>
@@ -101,6 +103,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
+        disabled={false}
         onButtonClick={[Function]}
         subtitleDefault="Select teams where permission exceptions are required."
         subtitleId="admin.permissions.teamScheme.selectTeamsDescription"
@@ -123,6 +126,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block all_users"
         id="all_users"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to all members, including administrators and newly created users."
@@ -132,6 +136,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       >
         <Connect(PermissionsTree)
           onToggle={[Function]}
+          readOnly={false}
           role={
             Object {
               "displayName": "All members",
@@ -149,6 +154,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block channel_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
@@ -168,6 +174,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               ],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [
@@ -181,6 +188,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block team_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
@@ -200,6 +208,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               ],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [
@@ -364,6 +373,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <LocalizedInput
               className="form-control"
+              disabled={false}
               id="scheme-name"
               onChange={[Function]}
               placeholder={
@@ -390,10 +400,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <textarea
               className="form-control"
+              disabled={false}
               id="scheme-description"
               onChange={[Function]}
               placeholder="Scheme Description"
-              rows="5"
+              rows={5}
               value="Test scheme description"
             />
           </div>
@@ -403,6 +414,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
+        disabled={false}
         onButtonClick={[Function]}
         subtitleDefault="Select teams where permission exceptions are required."
         subtitleId="admin.permissions.teamScheme.selectTeamsDescription"
@@ -425,6 +437,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block all_users"
         id="all_users"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to all members, including administrators and newly created users."
@@ -434,6 +447,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       >
         <Connect(PermissionsTree)
           onToggle={[Function]}
+          readOnly={false}
           role={
             Object {
               "displayName": "All members",
@@ -448,6 +462,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block channel_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
@@ -464,6 +479,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],
@@ -475,6 +491,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block team_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
@@ -491,6 +508,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],
@@ -635,6 +653,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <LocalizedInput
               className="form-control"
+              disabled={false}
               id="scheme-name"
               onChange={[Function]}
               placeholder={
@@ -661,10 +680,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <textarea
               className="form-control"
+              disabled={false}
               id="scheme-description"
               onChange={[Function]}
               placeholder="Scheme Description"
-              rows="5"
+              rows={5}
               value="Test scheme description"
             />
           </div>
@@ -674,6 +694,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
+        disabled={false}
         onButtonClick={[Function]}
         subtitleDefault="Select teams where permission exceptions are required."
         subtitleId="admin.permissions.teamScheme.selectTeamsDescription"
@@ -696,6 +717,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block"
         id="guests"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to guest users."
@@ -721,6 +743,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block all_users"
         id="all_users"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to all members, including administrators and newly created users."
@@ -730,6 +753,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       >
         <Connect(PermissionsTree)
           onToggle={[Function]}
+          readOnly={false}
           role={
             Object {
               "displayName": "All members",
@@ -744,6 +768,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block channel_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
@@ -760,6 +785,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],
@@ -771,6 +797,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block team_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
@@ -787,6 +814,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],
@@ -931,6 +959,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <LocalizedInput
               className="form-control"
+              disabled={false}
               id="scheme-name"
               onChange={[Function]}
               placeholder={
@@ -957,10 +986,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <textarea
               className="form-control"
+              disabled={false}
               id="scheme-description"
               onChange={[Function]}
               placeholder="Scheme Description"
-              rows="5"
+              rows={5}
               value="Test scheme description"
             />
           </div>
@@ -970,6 +1000,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
+        disabled={false}
         onButtonClick={[Function]}
         subtitleDefault="Select teams where permission exceptions are required."
         subtitleId="admin.permissions.teamScheme.selectTeamsDescription"
@@ -992,6 +1023,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block"
         id="guests"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to guest users."
@@ -1017,6 +1049,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block all_users"
         id="all_users"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to all members, including administrators and newly created users."
@@ -1026,6 +1059,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       >
         <Connect(PermissionsTree)
           onToggle={[Function]}
+          readOnly={false}
           role={
             Object {
               "displayName": "All members",
@@ -1040,6 +1074,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block channel_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
@@ -1056,6 +1091,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],
@@ -1067,6 +1103,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block team_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
@@ -1083,6 +1120,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],
@@ -1227,6 +1265,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <LocalizedInput
               className="form-control"
+              disabled={false}
               id="scheme-name"
               onChange={[Function]}
               placeholder={
@@ -1253,10 +1292,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <textarea
               className="form-control"
+              disabled={false}
               id="scheme-description"
               onChange={[Function]}
               placeholder="Scheme Description"
-              rows="5"
+              rows={5}
               value=""
             />
           </div>
@@ -1266,6 +1306,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
+        disabled={false}
         onButtonClick={[Function]}
         subtitleDefault="Select teams where permission exceptions are required."
         subtitleId="admin.permissions.teamScheme.selectTeamsDescription"
@@ -1288,6 +1329,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block"
         id="guests"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to guest users."
@@ -1316,6 +1358,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block all_users"
         id="all_users"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to all members, including administrators and newly created users."
@@ -1325,6 +1368,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       >
         <Connect(PermissionsTree)
           onToggle={[Function]}
+          readOnly={false}
           role={
             Object {
               "displayName": "All members",
@@ -1342,6 +1386,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block channel_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
@@ -1361,6 +1406,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               ],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [
@@ -1374,6 +1420,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block team_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
@@ -1393,6 +1440,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               ],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [
@@ -1456,6 +1504,8 @@ Object {
   "roles": null,
   "saveNeeded": false,
   "saving": false,
+  "schemeDescription": undefined,
+  "schemeName": undefined,
   "selectedPermission": null,
   "serverError": null,
   "teams": null,
@@ -1558,6 +1608,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <LocalizedInput
               className="form-control"
+              disabled={false}
               id="scheme-name"
               onChange={[Function]}
               placeholder={
@@ -1584,10 +1635,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
             </label>
             <textarea
               className="form-control"
+              disabled={false}
               id="scheme-description"
               onChange={[Function]}
               placeholder="Scheme Description"
-              rows="5"
+              rows={5}
               value=""
             />
           </div>
@@ -1597,6 +1649,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
+        disabled={false}
         onButtonClick={[Function]}
         subtitleDefault="Select teams where permission exceptions are required."
         subtitleId="admin.permissions.teamScheme.selectTeamsDescription"
@@ -1619,6 +1672,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block"
         id="guests"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to guest users."
@@ -1644,6 +1698,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       <AdminPanelTogglable
         className="permissions-block all_users"
         id="all_users"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to all members, including administrators and newly created users."
@@ -1653,6 +1708,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       >
         <Connect(PermissionsTree)
           onToggle={[Function]}
+          readOnly={false}
           role={
             Object {
               "displayName": "All members",
@@ -1667,6 +1723,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block channel_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to channel creators and any users promoted to Channel Administrator."
@@ -1683,6 +1740,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],
@@ -1694,6 +1752,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       </AdminPanelTogglable>
       <AdminPanelTogglable
         className="permissions-block team_admin"
+        isDisabled={false}
         onToggle={[Function]}
         open={true}
         subtitleDefault="Permissions granted to team creators and any users promoted to Team Administrator."
@@ -1710,6 +1769,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               "permissions": Array [],
             }
           }
+          readOnly={false}
           role={
             Object {
               "permissions": Array [],

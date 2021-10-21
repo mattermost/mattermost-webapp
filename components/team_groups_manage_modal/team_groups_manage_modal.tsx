@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
@@ -12,7 +11,6 @@ import ConfirmModal from 'components/confirm_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
@@ -23,28 +21,53 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Group, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
 
-class TeamGroupsManageModal extends React.PureComponent {
-    static propTypes = {
-        intl: intlShape.isRequired,
-        team: PropTypes.object.isRequired,
-        actions: PropTypes.shape({
-            getGroupsAssociatedToTeam: PropTypes.func.isRequired,
-            unlinkGroupSyncable: PropTypes.func.isRequired,
-            patchGroupSyncable: PropTypes.func.isRequired,
-            getMyTeamMembers: PropTypes.func.isRequired,
-            closeModal: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    intl: IntlShape;
+    team: Team;
+    actions: {
+        getGroupsAssociatedToTeam: (teamID: string, q: string, page: number, perPage: number, filterAllowReference: boolean) => Promise<{
+            data: {
+                groups: Group[];
+                totalGroupCount: number;
+                teamID: string;
+            };
+        }>;
+        closeModal: (modalId: string) => Promise<{
+            data: boolean;
+        }>;
+        openModal: (params: {modalId: any; dialogType: any}) => Promise<{
+            data: boolean;
+        }>;
+        unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => Promise<{
+            data: boolean;
+        }>;
+        patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => Promise<{
+            data: boolean;
+        }>;
+        getMyTeamMembers: () => Promise<{
+            data: TeamMembership[];
+        }>;
     };
+};
 
+type State = {
+    showConfirmModal: boolean;
+    item: Group;
+    listModal?: ListModal;
+}
+
+class TeamGroupsManageModal extends React.PureComponent<Props, State> {
     state = {
         showConfirmModal: false,
-        item: {member_count: 0},
-        listModal: null,
-    };
+        item: {
+            member_count: 0,
+        },
+    } as State;
 
-    loadItems = async (pageNumber, searchTerm) => {
+    loadItems = async (pageNumber: number, searchTerm: string) => {
         const {data} = await this.props.actions.getGroupsAssociatedToTeam(this.props.team.id, searchTerm, pageNumber, DEFAULT_NUM_PER_PAGE, true);
 
         return {
@@ -61,20 +84,22 @@ class TeamGroupsManageModal extends React.PureComponent {
         this.setState({showConfirmModal: false});
         const {item, listModal} = this.state;
         this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
-            listModal.setState({loading: true});
-            const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+            if (listModal) {
+                listModal.setState({loading: true});
+                const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
 
-            listModal.setState({loading: false, items, totalCount});
+                listModal.setState({loading: false, items, totalCount});
+            }
         });
     };
 
-    onClickRemoveGroup = (item, listModal) => {
+    onClickRemoveGroup = (item: Group, listModal: ListModal) => {
         this.setState({showConfirmModal: true, item, listModal});
     };
 
-    onClickConfirmRemoveGroup = (item, listModal) => this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
+    onClickConfirmRemoveGroup = (item: Group, listModal: ListModal) => this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
         listModal.setState({loading: true});
-        const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+        const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
         listModal.setState({loading: false, items, totalCount});
     });
 
@@ -87,10 +112,10 @@ class TeamGroupsManageModal extends React.PureComponent {
         this.props.actions.openModal({modalId: ModalIdentifiers.ADD_GROUPS_TO_TEAM, dialogType: AddGroupsToTeamModal});
     };
 
-    setTeamMemberStatus = async (item, listModal, isTeamAdmin) => {
+    setTeamMemberStatus = async (item: Group, listModal: ListModal, isTeamAdmin: boolean) => {
         this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: isTeamAdmin}).then(async () => {
             listModal.setState({loading: true});
-            const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+            const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
 
             this.props.actions.getMyTeamMembers();
 
@@ -98,7 +123,7 @@ class TeamGroupsManageModal extends React.PureComponent {
         });
     };
 
-    renderRow = (item, listModal) => {
+    renderRow = (item: Group, listModal: ListModal) => {
         let title;
         if (item.scheme_admin) {
             title = Utils.localizeMessage('team_members_dropdown.teamAdmins', 'Team Admins');

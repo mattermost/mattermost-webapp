@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionTeamSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings.jsx';
+import PermissionTeamSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings';
 
 describe('components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings', () => {
     const defaultProps = {
@@ -19,6 +19,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         location: {},
         schemeId: '',
         scheme: null,
+        isDisabled: false,
         roles: {
             system_user: {
                 permissions: [],
@@ -79,10 +80,10 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         history: {
             push: jest.fn(),
         },
-    };
+    } as any;
 
     test('should match snapshot on new with default roles without permissions', (done) => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings {...defaultProps}/>,
         );
         defaultProps.actions.loadRolesIfNeeded().then(() => {
@@ -149,7 +150,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole, createScheme, updateTeamScheme}}
@@ -165,7 +166,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({}));
         const createScheme = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole, createScheme, updateTeamScheme}}
@@ -190,7 +191,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole, createScheme, updateTeamScheme}}
@@ -202,7 +203,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
     });
 
     test('should open and close correctly roles blocks', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings {...defaultProps}/>,
         );
         const instance = wrapper.instance();
@@ -249,7 +250,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -300,7 +301,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -331,7 +332,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -362,7 +363,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionTeamSchemeSettings>(
             <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
