@@ -27,15 +27,12 @@ describe('Keyboard Shortcuts', () => {
         // # Open the edit the channel header modal
         cy.findByRole('button', {name: 'Set a Header dialog'}).click();
 
-        // #
-        cy.get('.modal').
-            should('be.visible').within(() => {
-                cy.findByRole('textbox', {name: 'edit the channel header...'}).
-                    type(newHeader);
-            });
-
-        // * Click save button to change header
-        cy.uiSave();
+        // * Verify modal is open
+        cy.findByRole('dialog', {name: 'Edit Header for Off-Topic'}).within(() => {
+            // # Enter new header and save
+            cy.findByRole('textbox', {name: 'edit the channel header...'}).type(newHeader);
+            cy.uiSave();
+        });
 
         // * Wait for the system message to be posted
         cy.uiWaitUntilMessagePostedIncludes(newHeader);
