@@ -19,6 +19,7 @@ describe('components/interactive_dialog/DialogElement', () => {
             autocompleteChannels: jest.fn(),
             autocompleteUsers: jest.fn(),
         },
+        onChange: jest.fn(),
     };
     const baseTextSettingProps = {
         id: baseDialogProps.name,
@@ -35,7 +36,6 @@ describe('components/interactive_dialog/DialogElement', () => {
     it('subtype blank', () => {
         const wrapper = shallow(
             <DialogElement
-                onChange={undefined}
                 {...baseDialogProps}
                 subtype=''
             />,
@@ -105,7 +105,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -118,7 +117,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     {...baseDialogProps}
                     type='radio'
                     options={undefined}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -132,7 +130,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={undefined}
                     value={undefined}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -146,7 +143,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={undefined}
                     value={'a'}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -160,7 +156,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={radioOptions}
                     value={'a'}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -173,7 +168,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
-                    onChange={jest.fn()}
                 />,
             );
             const instance = wrapper.instance() as DialogElement;
@@ -187,7 +181,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={radioOptions}
                     value={radioOptions[1].value}
-                    onChange={jest.fn()}
                 />,
             );
             expect(wrapper.find({options: radioOptions, value: radioOptions[1].value}).exists()).toBe(true);

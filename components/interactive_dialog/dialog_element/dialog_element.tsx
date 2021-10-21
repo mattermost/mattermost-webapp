@@ -37,10 +37,10 @@ type Props = {
         value: string;
     }>;
     value?: string | boolean;
-    onChange?: (name: string, selected: string) => void;
+    onChange: (name: string, selected: string) => void;
     autoFocus?: boolean;
     actions: {
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;
     };
 }
@@ -91,13 +91,13 @@ export default class DialogElement extends React.PureComponent<Props, State> {
         const {name, dataSource} = this.props;
 
         if (dataSource === 'users') {
-            this.props.onChange!(name, selected.id);
+            this.props.onChange(name, selected.id);
             this.setState({value: selected.username});
         } else if (dataSource === 'channels') {
-            this.props.onChange!(name, selected.id);
+            this.props.onChange(name, selected.id);
             this.setState({value: selected.display_name});
         } else {
-            this.props.onChange!(name, selected.value);
+            this.props.onChange(name, selected.value);
             this.setState({value: selected.text});
         }
     }

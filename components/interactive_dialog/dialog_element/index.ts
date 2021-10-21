@@ -16,7 +16,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import DialogElement from './dialog_element';
 
 type Actions = {
-    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
     autocompleteUsers: (search: string) => Promise<UserProfile[]>;
 };
 
