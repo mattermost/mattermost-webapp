@@ -108,7 +108,7 @@ describe('Data Retention - Global and Custom Policy Only', () => {
         const createDate = new Date().setDate(new Date().getDate() - 7);
 
         cy.apiCreateToken(users).then(({token}) => {
-            // # Create a post
+            // # Create posts
             cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
             cy.apiPostWithCreateDate(newChannel.id, postText, token, createDate);
 
