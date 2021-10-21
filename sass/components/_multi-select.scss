@@ -1,5 +1,30 @@
 @charset 'UTF-8';
 
+.MultiSelect {
+    &.error {
+        .react-select__control {
+            border: none;
+            box-shadow: 0 0 0 2px rgba(var(--error-text-color-rgb)), 0 0 0 1px var(--error-text) !important;
+
+            &--is-focused,
+            &--menu-is-open {
+                &:hover {
+                    border: none;
+                    box-shadow: 0 0 0 2px rgba(var(--error-text-color-rgb)), 0 0 0 1px var(--error-text) !important;
+                }
+
+                border: none;
+                box-shadow: 0 0 0 2px rgba(var(--error-text-color-rgb)), 0 0 0 1px var(--error-text) !important;
+            }
+
+            .a11y--focused {
+                border: none;
+                box-shadow: 0 0 0 2px rgba(var(--error-text-color-rgb)), 0 0 0 1px var(--error-text) !important;
+            }
+        }
+    }
+}
+
 .multi-select__container {
     display: table;
     width: 100%;
@@ -37,6 +62,16 @@
     > div:not(.multi-select__note),
     > span {
         @include opacity(0.6);
+    }
+}
+
+.multi-select__error {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 23px 0;
+
+    &:empty {
+        display: none;
     }
 }
 

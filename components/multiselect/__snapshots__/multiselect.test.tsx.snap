@@ -12,7 +12,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         className="multi-select__container react-select"
       >
         <StateManager
-          className=""
+          className="MultiSelect"
           classNamePrefix="react-select-auto react-select"
           components={
             Object {
@@ -204,7 +204,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         className="multi-select__container react-select"
       >
         <StateManager
-          className=""
+          className="MultiSelect"
           classNamePrefix="react-select-auto react-select"
           components={
             Object {
