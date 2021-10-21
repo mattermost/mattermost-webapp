@@ -105,6 +105,7 @@ button.custom_status__row {
         opacity: 0.7;
 
         &.padded {
+            display: block;
             padding-left: 28px;
         }
     }
