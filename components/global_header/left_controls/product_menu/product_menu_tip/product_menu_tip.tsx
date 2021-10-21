@@ -49,12 +49,13 @@ const ProductMenuTip = ({
     products = [],
     currentUserId,
     step,
+    isAnnouncementBarOpen,
     actions,
 }: Props): JSX.Element | null => {
     const [skippedBecauseIrrelevant, setSkippedBecauseIrrelevant] = useState(false);
     const tipIsRelevant = (step === TutorialSteps.PRODUCT_SWITCHER) && !skippedBecauseIrrelevant && products && checkHasPlaybooks(products) && checkHasBoards(products);
 
-    const punchOut = measurePunchouts(['global-header'], []);
+    const punchOut = measurePunchouts(['global-header'], [isAnnouncementBarOpen]);
     useEffect(() => {
         // We check this at the component level because we want to wait until
         // global header is visible to the user.
