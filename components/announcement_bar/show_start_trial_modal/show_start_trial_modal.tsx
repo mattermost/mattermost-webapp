@@ -9,8 +9,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-// import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -42,7 +41,7 @@ const ShowStartTrialModal = () => {
     const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
     const isBenefitsModalOpened = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
 
-    // const installationDate = useSelector((state: GlobalState) => getConfig(state).InstallationDate);
+    const installationDate = useSelector((state: GlobalState) => getConfig(state).InstallationDate);
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.START_TRIAL_MODAL));
 
@@ -82,9 +81,9 @@ const ShowStartTrialModal = () => {
 
     useEffect(() => {
         // *** IMPORTANT ***: temporarily commented code to be able to test without waiting 6 hours after server creation
-        // const installationDatePlus6Hours = (6 * 60 * 60 * 1000) + Number(installationDate);
-        // const now = new Date().getTime();
-        const hasEnvMoreThan6Hours = true; // now > installationDatePlus6Hours;
+        const installationDatePlus6Hours = (6 * 60 * 60 * 1000) + Number(installationDate);
+        const now = new Date().getTime();
+        const hasEnvMoreThan6Hours = now > installationDatePlus6Hours;
         const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === 'true');
         if (!isBenefitsModalOpened && Number(stats?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal && !isLicensedOrPreviousLicensed) {
             dispatch(openModal({
