@@ -69,6 +69,7 @@ export default class Pluggable extends React.PureComponent {
                     (element) => element.id === this.props.pluggableId);
             }
 
+            console.log(`AAAAAAAAAAAAAAA: ${this.props.subComponentName}`);
             const content = pluginComponents.map((p) => {
                 let PluginComponent = p.component;
                 if (this.props.subComponentName) {
@@ -82,6 +83,8 @@ export default class Pluggable extends React.PureComponent {
                     />
                 );
             });
+
+            console.log(`content is ${content}`);
 
             return (
                 <React.Fragment>

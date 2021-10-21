@@ -30,6 +30,7 @@ export type Props = {
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
+    console.log('AAA');
     const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
 
     return (

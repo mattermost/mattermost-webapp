@@ -29,6 +29,9 @@ import {ThreadsState} from 'mattermost-redux/types/threads';
 
 import TeamButton from './components/team_button';
 import {useCurrentProductId, useProducts} from '../global_header/hooks';
+import {ProductComponent} from '../../types/store/plugins';
+import {RouteComponentProps} from 'react-router-dom';
+import {getCurrentProductId} from '../../utils/products';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
@@ -54,6 +57,8 @@ interface Props {
     actions: Actions;
     userTeamsOrderPreference: string;
     threadCounts: ThreadsState['counts'];
+    products: ProductComponent[];
+    location: RouteComponentProps["location"];
 }
 
 export function renderView(props: Props) {
@@ -223,12 +228,28 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
-        const products = useProducts();
-        const currentProductID = useCurrentProductId(products);
-        const currentProduct = products?.find((product) => product.id === currentProductID);
+        const currentProductID = getCurrentProductId(this.props.products, this.props.location);
+        const currentProduct = this.props.products?.find((product) => product.id === currentProductID);
+
+        if (!currentProduct?.showTeamSidebar) {
+            return null;
+        }
+
+        console.log(`currentProductID: ${currentProductID}`);
+        console.log(currentProduct);
 
         const teams = sortedTeams.map((team: Team, index: number) => {
             const member = this.props.myTeamMembers[team.id];
+            let teamSwitchCallback = currentProduct?.teamSwitchCallback
+            if (!teamSwitchCallback && currentProductID) {
+                console.log(`team callback not found for ${currentProduct?.baseURL} so registering a dummy one`);
+                // Team sidebar shouldn't navigate to teams when a product is being displayed.
+                // We achieve this by making sure a team switch callback is available
+                // even if the product doesn't declare one.
+                teamSwitchCallback = () => {
+                };
+            }
+
             return (
                 <TeamButton
                     key={'switch_team_' + team.name}
@@ -245,7 +266,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}
-                    teamSwitchCallback={currentProduct?.teamSwitchCallback}
+                    teamSwitchCallback={teamSwitchCallback}
                 />
             );
         });

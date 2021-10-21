@@ -15,6 +15,7 @@ import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entit
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {getCurrentProductId} from '../../utils/products';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
@@ -48,15 +49,7 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
         return null;
     }
 
-    const location = useLocation();
-    for (let i = 0; i < products.length; i++) {
-        const product = products[i];
-        if (location.pathname.startsWith(getBasePath() + product.baseURL)) {
-            return product.id;
-        }
-    }
-
-    return null;
+    return getCurrentProductId(products, useLocation())
 };
 
 export const useShowTutorialStep = (stepToShow: number): boolean => {

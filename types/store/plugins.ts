@@ -90,4 +90,5 @@ export type ProductComponent = {
     headerCentreComponent?: React.ReactNode;
     headerRightComponent?: React.ReactNode;
     teamSwitchCallback?: (teamID: string) => void
+    showTeamSidebar: boolean;
 };

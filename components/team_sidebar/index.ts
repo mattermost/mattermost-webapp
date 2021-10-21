@@ -37,6 +37,7 @@ function mapStateToProps(state: GlobalState) {
     const experimentalPrimaryTeam: string | undefined = config.ExperimentalPrimaryTeam;
     const joinableTeams: string[] = getJoinableTeamIds(state);
     const moreTeamsToJoin: boolean = joinableTeams && joinableTeams.length > 0;
+    const products = state.plugins.components.Product;
 
     return {
         currentTeamId: getCurrentTeamId(state),
@@ -49,6 +50,7 @@ function mapStateToProps(state: GlobalState) {
         moreTeamsToJoin,
         userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
         threadCounts: getThreadCounts(state),
+        products,
     };
 }
 
