@@ -190,7 +190,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             'invitation_modal.members.users_emails_input.no_user_found_matching',
         );
         let noMatchMessageDefault =
-            'No one found matching **{text}**, type email to invite';
+            'No one found matching **{text}**. Enter their email to invite them.';
 
         if (!this.props.emailInvitationsEnabled) {
             placeholder = localizeMessage(

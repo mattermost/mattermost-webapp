@@ -22,7 +22,7 @@ import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {closeModal, openModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers, Constants} from 'utils/constants';
-import {isAdmin} from 'utils/utils';
+import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 
 import FullscreenInvitationModal from './fullscreen/invitation_modal.jsx';

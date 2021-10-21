@@ -20,6 +20,8 @@ import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import ToastWrapper from 'components/toast_wrapper';
 
+import Pluggable from 'plugins/pluggable';
+
 import LatestPostReader from './latest_post_reader';
 
 const OVERSCAN_COUNT_BACKWARD = 80;
@@ -590,7 +592,13 @@ export default class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.renderToasts(width)}</div>
+                                        <div>
+                                            <Pluggable
+                                                pluggableName='ChannelToast'
+                                            />
+
+                                            {this.renderToasts(width)}
+                                        </div>
 
                                         <DynamicSizeList
                                             ref={this.listRef}

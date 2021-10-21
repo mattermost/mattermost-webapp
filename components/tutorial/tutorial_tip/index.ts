@@ -4,9 +4,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getAutoTourTreatment, getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {AutoTourTreatments} from 'mattermost-redux/constants/config';
 
 import {closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants';
@@ -18,7 +19,8 @@ function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     return {
         currentUserId,
-        step: getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0),
+        currentStep: getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0),
+        autoTour: getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
     };
 }
 

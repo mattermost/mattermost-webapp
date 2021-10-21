@@ -187,7 +187,7 @@ describe('handleEvent', () => {
 describe('handlePostEditEvent', () => {
     test('post edited', async () => {
         const post = '{"id":"test","create_at":123,"update_at":123,"user_id":"user","channel_id":"12345","root_id":"","message":"asd","pending_post_id":"2345","metadata":{}}';
-        const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post)};
+        const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post), features: {crtEnabled: false}};
         const msg = {
             data: {
                 post,
@@ -271,6 +271,13 @@ describe('handleUserUpdatedEvent', () => {
 });
 
 describe('handleUserRemovedEvent', () => {
+    const currentChannelId = mockState.entities.channels.currentChannelId;
+    const currentUserId = mockState.entities.users.currentUserId;
+
+    const otherChannelId = 'yetAnotherChannel';
+    const otherUserId1 = 'otherUser1';
+    const otherUserId2 = 'otherUser2';
+
     let redirectUserToDefaultTeam;
     beforeEach(async () => {
         const globalActions = require('actions/global_actions'); // eslint-disable-line global-require
@@ -278,21 +285,21 @@ describe('handleUserRemovedEvent', () => {
         redirectUserToDefaultTeam.mockReset();
     });
 
-    test('should close RHS', async () => {
+    test('should close RHS', () => {
         const msg = {
             data: {
-                channel_id: 'otherChannel',
+                channel_id: currentChannelId,
             },
             broadcast: {
-                user_id: 'currentUserId',
+                user_id: currentUserId,
             },
         };
 
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         expect(closeRightHandSide).toHaveBeenCalled();
     });
 
-    test('shouldn\'t remove the team user if the user have view members permissions', async () => {
+    test('shouldn\'t remove the team user if the user have view members permissions', () => {
         const expectedAction = {
             meta: {batch: true},
             payload: [
@@ -303,18 +310,18 @@ describe('handleUserRemovedEvent', () => {
         };
         const msg = {
             data: {
-                channel_id: 'otherChannel',
+                channel_id: currentChannelId,
             },
             broadcast: {
                 user_id: 'guestId',
             },
         };
 
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
     });
 
-    test('should remove the team user if the user doesn\'t have view members permissions', async () => {
+    test('should remove the team user if the user doesn\'t have view members permissions', () => {
         const expectedAction = {
             meta: {batch: true},
             payload: [
@@ -325,7 +332,7 @@ describe('handleUserRemovedEvent', () => {
         };
         const msg = {
             data: {
-                channel_id: 'otherChannel',
+                channel_id: currentChannelId,
             },
             broadcast: {
                 user_id: 'guestId',
@@ -333,93 +340,96 @@ describe('handleUserRemovedEvent', () => {
         };
 
         mockState.entities.roles.roles = {system_guest: {permissions: []}};
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
-    test('should load the remover_id user if is not available in the store', async () => {
+    test('should load the remover_id user if is not available in the store', () => {
         const msg = {
             data: {
-                channel_id: 'otherChannel',
+                channel_id: currentChannelId,
                 remover_id: 'otherUser',
             },
             broadcast: {
-                user_id: 'currentUserId',
+                user_id: currentUserId,
             },
         };
 
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         expect(getUser).toHaveBeenCalledWith('otherUser');
     });
 
-    test('should not load the remover_id user if is available in the store', async () => {
+    test('should not load the remover_id user if is available in the store', () => {
         const msg = {
             data: {
-                channel_id: 'otherChannel',
+                channel_id: currentChannelId,
                 remover_id: 'user',
             },
             broadcast: {
-                user_id: 'currentUserId',
+                user_id: currentUserId,
             },
         };
 
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         expect(getUser).not.toHaveBeenCalled();
     });
 
-    test('should redirect if the user removed is the current user from the current channel', async () => {
+    test('should redirect if the user removed is the current user from the current channel', () => {
         const msg = {
             data: {
-                channel_id: 'otherChannel',
+                channel_id: currentChannelId,
                 remover_id: 'user',
             },
             broadcast: {
-                user_id: 'currentUserId',
+                user_id: currentUserId,
             },
         };
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         expect(redirectUserToDefaultTeam).toHaveBeenCalled();
     });
 
-    test('should not redirect if the user removed is not the current user or the channel is not the current channel, or the remover and the user is equal', async () => {
+    test('should redirect if the user removed themselves from the current channel', () => {
+        const msg = {
+            data: {
+                channel_id: currentChannelId,
+                remover_id: currentUserId,
+            },
+            broadcast: {
+                user_id: currentUserId,
+            },
+        };
+        handleUserRemovedEvent(msg);
+        expect(redirectUserToDefaultTeam).toHaveBeenCalled();
+    });
+
+    test('should not redirect if the user removed is not the current user or the channel is not the current channel', () => {
+        // Same channel, different user removed
         let msg = {
             data: {
-                channel_id: 'otherChannel',
-                remover_id: 'user',
+                channel_id: currentChannelId,
+                remover_id: otherUserId1,
             },
             broadcast: {
-                user_id: 'guestId',
+                user_id: otherUserId2,
             },
         };
 
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
 
+        // Different channel, current user removed
         msg = {
             data: {
-                channel_id: 'channel1',
-                remover_id: 'otherUser',
+                channel_id: otherChannelId,
+                remover_id: otherUserId1,
             },
             broadcast: {
-                user_id: 'currentUserId',
+                user_id: currentUserId,
             },
         };
 
-        await handleUserRemovedEvent(msg);
-        expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
-
-        msg = {
-            data: {
-                channel_id: 'otherChannel',
-                remover_id: 'currentUserId',
-            },
-            broadcast: {
-                user_id: 'currentUserId',
-            },
-        };
-
-        await handleUserRemovedEvent(msg);
+        handleUserRemovedEvent(msg);
         expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
     });
 });

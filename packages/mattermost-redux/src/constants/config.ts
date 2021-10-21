@@ -23,6 +23,11 @@ export enum PrewrittenMessagesTreatments {
     AROUND_INPUT = 'around_input',
 }
 
+export enum AutoTourTreatments {
+    NONE = 'none',
+    AUTO = 'auto',
+}
+
 export enum InviteToTeamTreatments {
     NONE = 'none',
     LIGHTBOX = 'lightbox',
