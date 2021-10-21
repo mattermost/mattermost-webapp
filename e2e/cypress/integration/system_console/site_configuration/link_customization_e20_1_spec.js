@@ -8,7 +8,9 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @system_console @enterprise @e20_only @not_cloud
+
+import {TERMS_OF_SERVICE_LINK} from '../../../utils/constants';
 
 import {backToTeam, saveSetting} from './helper';
 
@@ -18,7 +20,10 @@ describe('SupportSettings', () => {
     const aboutLink = 'http://www.mattermost.org/features/';
     const helpLink = 'https://github.com/mattermost/platform/blob/master/doc/help/README.md';
     const problemLink = 'https://forum.mattermost.org/c/general/trouble-shoot';
-    const defaultTosLink = 'https://mattermost.com/terms-of-service/';
+
+    before(() => {
+        cy.shouldNotRunOnCloudEdition();
+    });
 
     beforeEach(() => {
         // # Login as admin and reset config
@@ -102,7 +107,7 @@ describe('SupportSettings', () => {
         // * Verify that terms of services link is set to default
         cy.findByText('Terms').
             parent().
-            should('have.attr', 'href', defaultTosLink);
+            should('have.attr', 'href', TERMS_OF_SERVICE_LINK);
     });
 
     it('MM-T1036 - Customization: Blank Help and Report a Problem hides options from help menu', () => {

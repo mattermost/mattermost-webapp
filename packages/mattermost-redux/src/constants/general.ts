@@ -51,6 +51,7 @@ export default {
     OPEN_CHANNEL: 'O',
     PRIVATE_CHANNEL: 'P',
     GM_CHANNEL: 'G',
+    ARCHIVED_CHANNEL: 'archive',
     PUSH_NOTIFY_APPLE_REACT_NATIVE: 'apple_rn',
     PUSH_NOTIFY_ANDROID_REACT_NATIVE: 'android_rn',
     STORE_REHYDRATION_COMPLETE: 'store_hydation_complete',
