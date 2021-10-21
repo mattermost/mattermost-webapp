@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/product_switcher/product_switcher_tip matches snapshot with default props 1`] = `
+<Connect(TutorialTip)
+  overlayClass="tip-overlay--product-switcher"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Try Boards and Playbooks"
+            id="sidebar.tutorialProductSwitcher.title"
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Launch other Mattermost products from here, including **Boards** and **Playbooks**."
+            id="sidebar.tutorialProductSwitcher.switchProducts"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="System Admins can also configure and customize Mattermost using the **System Console** and install Mattermost Apps from the **Marketplace**."
+            id="sidebar.tutorialProductSwitcher.admin"
+          />
+        </p>
+      </div>,
+    ]
+  }
+  step={4}
+  stopPropagation={true}
+  telemetryTag="tutorial_tip_product_switcher"
+/>
+`;

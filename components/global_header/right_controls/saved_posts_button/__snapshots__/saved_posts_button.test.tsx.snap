@@ -4,7 +4,18 @@ exports[`components/global/AtMentionsButton should match snapshot 1`] = `
 <OverlayTrigger
   defaultOverlayShown={false}
   delayShow={400}
-  overlay={<React.Fragment />}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="recentMentions"
+      placement="right"
+    >
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Saved posts"
+        id="channel_header.flagged"
+      />
+    </Tooltip>
+  }
   placement="bottom"
   trigger={
     Array [
