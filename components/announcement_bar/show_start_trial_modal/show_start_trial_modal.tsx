@@ -48,7 +48,7 @@ const ShowStartTrialModal = () => {
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
     const currentLicense = useSelector(getLicense);
     const isLicensed = (license: any) => {
-        if (!license.IsLicensed) {
+        if (!license?.IsLicensed) {
             return false;
         }
         return license.IsLicensed === 'true';
