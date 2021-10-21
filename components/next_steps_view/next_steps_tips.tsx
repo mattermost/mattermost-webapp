@@ -41,7 +41,7 @@ const openAdminConsole = (isAdmin: boolean) => {
 
 const openIncidentsPlugin = (isAdmin: boolean, team: Team) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'click_open_incidents');
-    browserHistory.push(`/${team.name}/com.mattermost.plugin-incident-management/playbooks`);
+    browserHistory.push(`/${team.name}/playbooks/runs`);
 };
 
 type Props = {
