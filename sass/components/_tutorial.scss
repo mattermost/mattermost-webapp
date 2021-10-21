@@ -92,6 +92,7 @@ $tip-index: 1000;
 
     &.tip-overlay--chat {
         margin-top: -10px;
+        box-shadow: var(--elevation-2);
 
         .arrow {
             bottom: -10px;
@@ -99,6 +100,12 @@ $tip-index: 1000;
             border-top-color: var(--center-channel-bg);
             border-bottom-width: 0;
             margin-left: -10px;
+            // given the tip can be placed over a which punchout, this provides
+            // the needed shadow. Can't do it with ordinary box-shadow because
+            // we're missing with the box definitions by making a triangle.
+            // Thanks, https://stackoverflow.com/a/39439751 !
+            -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.12));
+            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.12));
         }
     }
 
@@ -120,14 +127,14 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--product-switcher {
+        margin-top: 10px;
         margin-left: 10px;
 
         .arrow {
-            top: 10px;
-            left: 0;
-            border-right-color: $white;
-            border-left-width: 0;
-            margin-left: -10px;
+            top: -10px;
+            left: 18px;
+            border-top-width: 0;
+            border-bottom-color: $white;
         }
     }
 
@@ -249,10 +256,18 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--product-switcher {
+        z-index: $backdrop-index + 1;
         right: unset;
-        padding: 0 4px 16px 16px;
+        padding: 16px 0 0 20px;
         margin: 0;
         cursor: pointer;
+
+        .arrow {
+            top: -10px;
+            right: 44px;
+            border-top-width: 0;
+            border-bottom-color: $white;
+        }
     }
 
     &.tip-overlay--settings {

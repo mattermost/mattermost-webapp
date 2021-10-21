@@ -33,7 +33,14 @@ export function notifyElementAvailability(
     return useMemo(() => available, [available]);
 }
 
-export function measurePunchouts(elementIds: string[], additionalDeps: any[]): TutorialTipPunchout | null | undefined {
+type PunchoutOffset = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
+export function measurePunchouts(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
     const elementsAvailable = notifyElementAvailability(elementIds);
     const channelPunchout = useMemo(() => {
         let minX = Number.MAX_SAFE_INTEGER;
@@ -58,11 +65,12 @@ export function measurePunchouts(elementIds: string[], additionalDeps: any[]): T
                 maxY = rectangle.y + rectangle.height;
             }
         }
+
         return {
-            x: `${minX}px`,
-            y: `${minY}px`,
-            width: `${maxX - minX}px`,
-            height: `${maxY - minY}px`,
+            x: `${minX + (offset ? offset.x : 0)}px`,
+            y: `${minY + (offset ? offset.y : 0)}px`,
+            width: `${(maxX - minX) + (offset ? offset.width : 0)}px`,
+            height: `${(maxY - minY) + (offset ? offset.height : 0)}px`,
         };
     }, [...elementIds, ...additionalDeps, elementsAvailable]);
     return channelPunchout;

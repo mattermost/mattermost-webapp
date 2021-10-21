@@ -93,7 +93,7 @@ const ProductMenuTip = ({
 
     return (
         <TutorialTip
-            placement='right'
+            placement='bottom'
             screens={screens}
             step={TutorialSteps.PRODUCT_SWITCHER}
             stopPropagation={true}

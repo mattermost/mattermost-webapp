@@ -66,7 +66,7 @@ function CreatePostTip(props: Props) {
             screens={screens}
             overlayClass='tip-overlay--chat'
             telemetryTag='tutorial_tip_1_sending_messages'
-            punchOut={measurePunchouts(['post_textbox'], [])}
+            punchOut={measurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0})}
         />
     );
 }
