@@ -28,7 +28,7 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
             modals: {
                 modalState: {
                     trial_benefits_modal: {
-                        open: 'is this working',
+                        open: 'true',
                     },
                 },
             },
