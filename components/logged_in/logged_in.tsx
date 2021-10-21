@@ -172,7 +172,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
         if (!this.props.currentUser) {
             return;
         }
-        if (origin !== window.location.origin) {
+        if (desktopMessage.origin !== window.location.origin) {
             return;
         }
 
