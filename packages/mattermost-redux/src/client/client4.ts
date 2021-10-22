@@ -2066,8 +2066,13 @@ export default class Client4 {
     searchPostsWithParams = (teamId: string, params: any) => {
         this.trackEvent('api', 'api_posts_search', {team_id: teamId});
 
+        let route = `${this.getPostsRoute()}/search`;
+        if (teamId) {
+            route = `${this.getTeamRoute(teamId)}/posts/search`;
+        }
+
         return this.doFetch<PostSearchResults>(
-            `${this.getTeamRoute(teamId)}/posts/search`,
+            route,
             {method: 'post', body: JSON.stringify(params)},
         );
     };

@@ -35,7 +35,7 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, draft: PostDraft) => {
-        if (!draft || draft.uploadsInProgress.length === 0) {
+        if (!draft || !draft.uploadsInProgress || draft.uploadsInProgress.length === 0) {
             return draft;
         }
 

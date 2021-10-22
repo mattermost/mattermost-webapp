@@ -33,7 +33,7 @@ class EmojiItem extends React.Component {
                 <button
                     id={`recent_reaction_${order}`}
                     data-testid={itemClassName + '_emoji'}
-                    className='Reaction__emoji--post-menu emoticon'
+                    className='emoticon--post-menu'
                     style={{backgroundImage: 'url(' + getEmojiImageUrl(emoji) + ')', backgroundColor: 'transparent'}}
                     onClick={this.handleClick}
                 />

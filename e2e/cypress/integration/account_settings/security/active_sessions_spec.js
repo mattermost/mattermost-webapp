@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-describe('Account Settings -> Security -> View and Log Out of Active Sessions', () => {
+describe('Account Settings > Security > View and Log Out of Active Sessions', () => {
     const platforms = [
         'Linux',
         'Macintosh',
