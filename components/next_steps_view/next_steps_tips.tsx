@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {toggleShortcutsModal} from 'actions/global_actions';
