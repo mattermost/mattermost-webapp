@@ -9,6 +9,8 @@
 
 // Group: @keyboard_shortcuts
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Keyboard Shortcuts', () => {
     let testTeam;
     let testChannel;
@@ -145,5 +147,67 @@ describe('Keyboard Shortcuts', () => {
 
         // * Verify that the message was edited
         cy.uiWaitUntilMessagePostedIncludes('codeblock2');
+    });
+
+    it('MM-T1264 Arrow up key - Ephemeral message does not open for edit; opens previous regular message', () => {
+        // # Type user message
+        const message = 'Hello World';
+        cy.postMessage(message);
+
+        // # Type "/code" with no text to receive ephemeral message
+        cy.postMessage('/code ');
+
+        // * Verify if an ephemeral message was received
+        cy.findByText('(Only visible to you)').should('exist');
+        cy.findByText('A message must be provided with the /code command.').should('exist');
+
+        // # Press up arrow key
+        cy.get('body').type('{uparrow}');
+
+        // * Verify that the Edit Post Modal is visible
+        cy.get('#editPostModal').should('be.visible');
+
+        // * Verify that edit box have value of previous regular message
+        cy.get('#edit_textbox').should('have.value', message);
+    });
+
+    it('MM-T1270 UP - Edit message with attachment but no text', () => {
+        cy.apiLogin(testUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Upload file
+        cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
+
+        // # Wait for file to upload
+        cy.wait(TIMEOUTS.TWO_SEC);
+
+        cy.get('#post_textbox').type('{enter}');
+
+        cy.getLastPost().within(() => {
+            // * Attachment should exist
+            cy.get('.file-view--single').should('exist');
+
+            // * Edited indicator should not exist
+            cy.get('.post-edited__indicator').should('not.exist');
+        });
+
+        // # Press UP arrow
+        cy.get('#post_textbox').type('{uparrow}');
+
+        // # Add some text to the previous message and save
+        cy.get('#edit_textbox').type('Test{enter}');
+
+        cy.getLastPost().within(() => {
+            // * Posted message should be correct
+            cy.get('.post-message__text').should('contain.text', 'Test');
+
+            // * Attachment should exist
+            cy.get('.file-view--single').should('exist');
+
+            // * Edited indicator should exist
+            cy.get('.post-edited__indicator').should('exist');
+        });
     });
 });

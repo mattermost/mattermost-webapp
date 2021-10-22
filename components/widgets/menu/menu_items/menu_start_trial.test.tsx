@@ -48,6 +48,7 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
                 general: {
                     license: {
                         IsLicensed: 'false',
+                        IsTrial: 'false',
                     },
                 },
                 admin: {
@@ -70,6 +71,7 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
                 general: {
                     license: {
                         IsLicensed: 'true',
+                        IsTrial: 'false',
                     },
                 },
                 admin: {
@@ -84,5 +86,53 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
         useDispatchMock.mockReturnValue(dummyDispatch);
         const wrapper = mountWithIntl(<reactRedux.Provider store={store}><MenuStartTrial id='startTrial'/></reactRedux.Provider>);
         expect(wrapper.find('button').exists()).toEqual(false);
+    });
+
+    test('should render menu option that open the start trial benefits modal when is current licensed but is trial', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'true',
+                        IsTrial: 'true',
+                    },
+                },
+                admin: {
+                    prevTrialLicense: {
+                        IsLicensed: 'false',
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+        const wrapper = mountWithIntl(<reactRedux.Provider store={store}><MenuStartTrial id='startTrial'/></reactRedux.Provider>);
+        expect(wrapper.find('button').exists()).toEqual(true);
+        expect(wrapper.find('button').text()).toEqual('Learn More');
+    });
+
+    test('should render menu option that open the start trial modal when has no license and no previous license', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'false',
+                        IsTrial: 'false',
+                    },
+                },
+                admin: {
+                    prevTrialLicense: {
+                        IsLicensed: 'false',
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+        const wrapper = mountWithIntl(<reactRedux.Provider store={store}><MenuStartTrial id='startTrial'/></reactRedux.Provider>);
+        expect(wrapper.find('button').exists()).toEqual(true);
+        expect(wrapper.find('button').text()).toEqual('Start Trial');
     });
 });

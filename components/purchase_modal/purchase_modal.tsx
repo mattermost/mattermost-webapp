@@ -120,11 +120,9 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null, isFreeTrial?: boolean | null) {
+function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
-    if (isFreeTrial) {
-        return currentProduct;
-    }
+
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -143,7 +141,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             processing: false,
             editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
-            selectedProduct: getSelectedProduct(props.products, props.productId, props.isFreeTrial),
+            selectedProduct: getSelectedProduct(props.products, props.productId),
             isUpgradeFromTrial: props.isFreeTrial,
         };
     }
@@ -155,7 +153,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isFreeTrial),
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
             });
         }
 
@@ -489,6 +487,51 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             validBillingDetails = areBillingDetailsValid(initialBillingDetails);
         }
 
+        let priceSection =
+           (<>
+               <div className='price-text'>
+                   {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
+                   {this.displayDecimals()}
+                   <span className='monthly-text'>
+                       {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? (
+                           <FormattedMessage
+                               defaultMessage={' /month'}
+                               id={'admin.billing.subscription.perMonth'}
+                           />
+                       ) : (
+                           <FormattedMessage
+                               defaultMessage={' /user/month'}
+                               id={'admin.billing.subscription.perUserPerMonth'}
+                           />)
+                       }
+                   </span>
+               </div>
+               <div className='footer-text'>
+                   {this.paymentFooterText()}
+               </div>
+           </>);
+
+        if (this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE) {
+            priceSection = (<div className='contact-sales-text'>
+                <FormattedMessage
+                    defaultMessage={'Please '}
+                    id={'admin.billing.subscription.price.please'}
+                />
+                {this.contactSalesLink(
+                    <FormattedMessage
+                        defaultMessage={'contact sales'}
+                        id={
+                            'admin.billing.subscription.price.contactSales'
+                        }
+                    />,
+                )}
+                <FormattedMessage
+                    defaultMessage={' for a quote'}
+                    id={'admin.billing.subscription.price.quote'}
+                />
+            </div>);
+        }
+
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
@@ -568,48 +611,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </Badge>
                         }
-                        <div className='price-text'>
-                            {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
-                            {this.displayDecimals()}
-                            <span className='monthly-text'>
-                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? (
-                                    <FormattedMessage
-                                        defaultMessage={' /month'}
-                                        id={'admin.billing.subscription.perMonth'}
-                                    />
-                                ) : (
-                                    <FormattedMessage
-                                        defaultMessage={' /user/month'}
-                                        id={'admin.billing.subscription.perUserPerMonth'}
-                                    />)
-                                }
-                            </span>
-                        </div>
-                        {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
-                            <div className='payment-note'>
-                                <FormattedMessage
-                                    defaultMessage={'If your Mattermost Cloud trial started on or before September 15, please '}
-                                    id={'admin.billing.subscription.paymentNoteStart'}
-                                />
-                                {this.contactSalesLink(
-                                    <FormattedMessage
-                                        defaultMessage={'contact our Sales team'}
-                                        id={
-                                            'admin.billing.subscription.privateCloudCard.contactOurSalesTeam'
-                                        }
-                                    />,
-                                )}
-                                <FormattedMessage
-                                    defaultMessage={' for assistance'}
-                                    id={'admin.billing.subscription.paymentNoteEnd'}
-                                />
-                            </div>
-                        }
-                        <div className='footer-text'>
-                            {this.paymentFooterText()}
-                        </div>
+                        {priceSection}
                         <button
-                            disabled={!this.state.paymentInfoIsValid}
+                            disabled={!this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE}
                             onClick={this.handleSubmitClick}
                         >
                             {buttonTitle}

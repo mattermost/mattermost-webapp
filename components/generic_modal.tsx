@@ -11,7 +11,7 @@ import './generic_modal.scss';
 type Props = {
     className?: string;
     onHide: () => void;
-    modalHeaderText: React.ReactNode;
+    modalHeaderText?: React.ReactNode;
     show?: boolean;
     handleCancel?: () => void;
     handleConfirm?: () => void;
@@ -139,11 +139,11 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 />
                 <form>
                     <Modal.Body>
-                        <div className='GenericModal__header'>
+                        {this.props.modalHeaderText && <div className='GenericModal__header'>
                             <h1 id='genericModalLabel'>
                                 {this.props.modalHeaderText}
                             </h1>
-                        </div>
+                        </div>}
                         <div className='GenericModal__body'>
                             {this.props.children}
                         </div>
