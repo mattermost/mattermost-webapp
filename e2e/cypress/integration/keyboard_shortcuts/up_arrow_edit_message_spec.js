@@ -127,7 +127,7 @@ describe('Keyboard Shortcuts', () => {
             // * Validate that edit box contains just posted message
             cy.get('#edit_textbox').should('have.text', message);
 
-            // # Mark all text, delete and confirm by pressing enter
+            // # Clear all text, delete and confirm by pressing enter
             cy.wait(TIMEOUTS.HALF_SEC);
             cy.get('#edit_textbox').clear().type('{enter}');
 
