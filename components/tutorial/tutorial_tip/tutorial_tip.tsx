@@ -7,11 +7,13 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
+import {t} from 'utils/i18n';
 import PulsatingDot from 'components/widgets/pulsating_dot';
+
+import TutorialTipBackdrop, {TutorialTipPunchout} from './tutorial_tip_backdrop';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
-import {t} from 'utils/i18n';
 
 type Preference = {
     user_id: string;
@@ -40,6 +42,7 @@ type Props = {
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
     };
     autoTour: boolean;
+    punchOut?: TutorialTipPunchout | null;
 }
 
 type State = {
@@ -79,7 +82,6 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         if (this.props.stopPropagation && e) {
             e.stopPropagation();
         }
-        this.setState({show: true});
     }
 
     private hide = (): void => {
@@ -284,7 +286,12 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 <Overlay
                     show={this.state.show}
                 >
-                    <div className='tip-backdrop'/>
+                    <TutorialTipBackdrop
+                        x={this.props.punchOut?.x}
+                        y={this.props.punchOut?.y}
+                        width={this.props.punchOut?.width}
+                        height={this.props.punchOut?.height}
+                    />
                 </Overlay>
 
                 <Overlay

@@ -10,6 +10,7 @@ import {TutorialSteps} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
+import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 
 import PrewrittenChips from './prewritten_chips';
 
@@ -21,53 +22,52 @@ type Props = {
     currentChannelTeammateUsername?: string;
 }
 
-class CreatePostTip extends React.PureComponent<Props> {
-    render() {
-        let chips;
-        if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.TOUR_POINT) {
-            chips = (
-                <PrewrittenChips
-                    prewrittenMessages={this.props.prewrittenMessages}
-                    prefillMessage={this.props.prefillMessage}
-                    currentChannel={this.props.currentChannel}
-                    currentUserId={this.props.currentUserId}
-                    currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
-                />
-            );
-        }
-        const screens = [
-            <div key='screen'>
-                <h4>
-                    <FormattedMessage
-                        id='create_post.tutorialTip.title'
-                        defaultMessage='Send a message'
-                    />
-                </h4>
-                <p>
-                    <FormattedMarkdownMessage
-                        id='create_post.tutorialTip1'
-                        defaultMessage='Select or type your first message and select **Enter** to send it.'
-                    />
-                </p>
-                <p>
-                    <FormattedMarkdownMessage
-                        id='create_post.tutorialTip2'
-                        defaultMessage='Use the **Attachments** and **Emoji** buttons to add to your messages.'
-                    />
-                </p>
-                {chips}
-            </div>,
-        ];
-
-        return (
-            <TutorialTip
-                step={TutorialSteps.POST_POPOVER}
-                placement='top'
-                screens={screens}
-                overlayClass='tip-overlay--chat'
-                telemetryTag='tutorial_tip_1_sending_messages'
+function CreatePostTip(props: Props) {
+    let chips;
+    if (props.prewrittenMessages === PrewrittenMessagesTreatments.TOUR_POINT) {
+        chips = (
+            <PrewrittenChips
+                prewrittenMessages={props.prewrittenMessages}
+                prefillMessage={props.prefillMessage}
+                currentChannel={props.currentChannel}
+                currentUserId={props.currentUserId}
+                currentChannelTeammateUsername={props.currentChannelTeammateUsername}
             />
         );
     }
+    const screens = [
+        <div key='screen'>
+            <h4>
+                <FormattedMessage
+                    id='create_post.tutorialTip.title'
+                    defaultMessage='Send a message'
+                />
+            </h4>
+            <p>
+                <FormattedMarkdownMessage
+                    id='create_post.tutorialTip1'
+                    defaultMessage='Select or type your first message and select **Enter** to send it.'
+                />
+            </p>
+            <p>
+                <FormattedMarkdownMessage
+                    id='create_post.tutorialTip2'
+                    defaultMessage='Use the **Attachments** and **Emoji** buttons to add to your messages.'
+                />
+            </p>
+            {chips}
+        </div>,
+    ];
+
+    return (
+        <TutorialTip
+            step={TutorialSteps.POST_POPOVER}
+            placement='top'
+            screens={screens}
+            overlayClass='tip-overlay--chat'
+            telemetryTag='tutorial_tip_1_sending_messages'
+            punchOut={useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0})}
+        />
+    );
 }
 export default CreatePostTip;

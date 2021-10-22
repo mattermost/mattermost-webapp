@@ -17,6 +17,7 @@ let props: Props = {
     currentUserId: '',
     step: 0,
     products: [],
+    isAnnouncementBarOpen: false,
     actions: {
         savePreferences: jest.fn(),
     },
@@ -34,6 +35,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
                 TestHelper.makeProduct(TopLevelProducts.BOARDS),
                 TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
             ],
+            isAnnouncementBarOpen: false,
             step: TutorialSteps.PRODUCT_SWITCHER,
             actions: {
                 savePreferences: jest.fn(),
