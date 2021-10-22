@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import InfiniteLoader from 'react-window-infinite-loader';
 import {FixedSizeList} from 'react-window';
@@ -36,16 +36,17 @@ function VirtualizedThreadList({
 
     const itemKey = useCallback((index) => ids[index], [ids]);
 
-    const scrollToItem = useCallback((index: number) => {
+    useEffect(() => {
         if (ids.length > 0 && selectedThreadId) {
+            const index = ids.indexOf(selectedThreadId);
             if (startIndexRef.current >= index || index > stopIndexRef.current) {
                 // eslint-disable-next-line no-underscore-dangle
                 infiniteLoaderRef.current?._listRef.scrollToItem(index);
             }
         }
-    }, [infiniteLoaderRef, ids, selectedThreadId]);
+    }, [selectedThreadId, ids]);
 
-    const data = useMemo(() => ({ids, selectedThreadId, scrollToItem}), [ids, selectedThreadId, scrollToItem]);
+    const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
 
     const isItemLoaded = useCallback((index) => {
         return ids.length === total || index < ids.length;

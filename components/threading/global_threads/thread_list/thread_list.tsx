@@ -55,12 +55,11 @@ const ThreadList = ({
 }: PropsWithChildren<Props>) => {
     const unread = ThreadFilter.unread === currentFilter;
     const data = unread ? unreadIds : ids;
-    const {select} = useThreadRouting();
     const ref = React.useRef<HTMLDivElement>(null);
 
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {currentTeamId, currentUserId, clear} = useThreadRouting();
+    const {currentTeamId, currentUserId, clear, select} = useThreadRouting();
 
     const {total = 0, total_unread_threads: totalUnread} = useSelector((state: GlobalState) => getTeamThreadCounts(state, currentTeamId));
 

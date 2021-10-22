@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {areEqual} from 'react-window';
 
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -13,7 +13,6 @@ type Props = {
     data: {
         ids: Array<$ID<UserThread>>;
         selectedThreadId?: $ID<UserThread>;
-        scrollToItem: (index: number) => void;
     };
     index: number;
     style: any;
@@ -22,12 +21,6 @@ type Props = {
 function Row({index, style, data}: Props) {
     const itemId = data.ids[index];
     const isSelected = data.selectedThreadId === itemId;
-
-    useEffect(() => {
-        if (isSelected) {
-            data.scrollToItem(index);
-        }
-    }, [isSelected, index]);
 
     return (
         <ThreadItem
