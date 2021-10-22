@@ -44,7 +44,7 @@ type State = {
     teamsOrder: Team[];
 }
 
-interface Props {
+export interface Props {
     myTeams: Team[];
     collapsedThreads: boolean;
     currentTeamId: string;
@@ -59,6 +59,7 @@ interface Props {
     threadCounts: ThreadsState['counts'];
     products: ProductComponent[];
     location: RouteComponentProps["location"];
+    teamIdByProduct: string | null;
 }
 
 export function renderView(props: Props) {
@@ -231,7 +232,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const currentProductID = getCurrentProductId(this.props.products, this.props.location);
         const currentProduct = this.props.products?.find((product) => product.id === currentProductID);
 
-        if (!currentProduct?.showTeamSidebar) {
+        if (currentProduct && !currentProduct.showTeamSidebar) {
             return null;
         }
 
@@ -255,7 +256,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     key={'switch_team_' + team.name}
                     url={`/${team.name}`}
                     tip={team.display_name}
-                    active={team.id === this.props.currentTeamId}
+                    active={team.id === this.props.currentTeamId || team.id === this.props.teamIdByProduct}
                     displayName={team.display_name}
                     unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
                     order={index + 1}

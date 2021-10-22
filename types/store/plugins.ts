@@ -91,4 +91,5 @@ export type ProductComponent = {
     headerRightComponent?: React.ReactNode;
     teamSwitchCallback?: (teamID: string) => void
     showTeamSidebar: boolean;
+    getCurrentTeam?: () => () => string;
 };

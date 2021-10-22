@@ -171,7 +171,11 @@
 }
 
 .pluggable-wrapper {
-    height: 100%;
-    width: calc(100% - 65px);
+    height: calc(100% - 40px);
     margin-left: auto;
+    width: calc(100% - 65px);
+
+    &.wide {
+        width: 100%;
+    }
 }

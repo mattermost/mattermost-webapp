@@ -3,6 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {getCurrentProductId} from '../../utils/products';
+import classNames from 'classnames';
 
 export default class Pluggable extends React.PureComponent {
     static propTypes = {
@@ -36,6 +38,8 @@ export default class Pluggable extends React.PureComponent {
          * Name of the sub component to use. Defaults to 'component' if unspecified.
          */
         subComponentName: PropTypes.string,
+
+        products: PropTypes.array,
     }
 
     render() {
@@ -84,11 +88,12 @@ export default class Pluggable extends React.PureComponent {
                 );
             });
 
-            console.log(`content is ${content}`);
+            const currentProductID = getCurrentProductId(this.props.products, this.props.location);
+            const currentProduct = this.props.products?.find((product) => product.id === currentProductID);
 
             return (
                 <React.Fragment>
-                    <div className='pluggable-wrapper'>
+                    <div className={classNames(['pluggable-wrapper', {wide: !currentProduct || !currentProduct.showTeamSidebar}])}>
                         {content}
                     </div>
                 </React.Fragment>
