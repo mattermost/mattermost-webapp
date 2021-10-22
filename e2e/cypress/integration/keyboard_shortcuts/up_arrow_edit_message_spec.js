@@ -101,7 +101,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get(`#postMessageText_${postID}`).should('contain', message);
         });
 
-        // # Other usesr deletes post
+        // # Other user deletes post
         cy.getLastPostId().then((postID) => {
             cy.externalRequest({
                 user: otherUser,
