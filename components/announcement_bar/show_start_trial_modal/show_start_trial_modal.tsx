@@ -30,9 +30,6 @@ import {isModalOpen} from 'selectors/views/modals';
 
 const ShowStartTrialModal = () => {
     const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
-    if (!isUserAdmin) {
-        return null;
-    }
 
     const dispatch = useDispatch<DispatchFunc>();
     const getCategory = makeGetCategory();
@@ -67,7 +64,7 @@ const ShowStartTrialModal = () => {
     const handleOnClose = () => {
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_AUTO_MODAL,
-            'click_close_start_trial_auto_modal',
+            'close_start_trial_auto_modal',
         );
         dispatch(savePreferences(currentUser.id, [
             {
@@ -83,13 +80,18 @@ const ShowStartTrialModal = () => {
         const installationDatePlus6Hours = (6 * 60 * 60 * 1000) + Number(installationDate);
         const now = new Date().getTime();
         const hasEnvMoreThan6Hours = now > installationDatePlus6Hours;
+        const hasEnvMoreThan10Users = Number(stats?.TOTAL_USERS) > userThreshold;
         const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === 'true');
-        if (!isBenefitsModalOpened && Number(stats?.TOTAL_USERS) > userThreshold && hasEnvMoreThan6Hours && !hadAdminDismissedModal && !isLicensedOrPreviousLicensed) {
+        if (isUserAdmin && !isBenefitsModalOpened && hasEnvMoreThan10Users && hasEnvMoreThan6Hours && !hadAdminDismissedModal && !isLicensedOrPreviousLicensed) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.START_TRIAL_MODAL,
                 dialogType: StartTrialModal,
                 dialogProps: {onClose: handleOnClose},
             }));
+            trackEvent(
+                TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_AUTO_MODAL,
+                'trigger_start_trial_auto_modal',
+            );
         }
     }, [stats?.TOTAL_USERS]);
 
