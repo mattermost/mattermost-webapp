@@ -11,7 +11,7 @@ type Props = {
     onClick: () => void;
 };
 
-const isEligibleForClick = makeIsEligibleForClick('.file-preview.post-image__column, .hljs, code');
+const isEligibleForClick = makeIsEligibleForClick('.hljs, code');
 
 function Panel({children, onClick}: Props) {
     const [hover, setHover] = useState(false);
