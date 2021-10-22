@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import {InputActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LocalizedIcon from 'components/localized_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import SaveButton from 'components/save_button';
@@ -73,6 +74,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
     private listRef = React.createRef<MultiSelectList<T>>()
     private reactSelectRef = React.createRef<ReactSelect>()
     private selected: T | null = null
+    private canSubmit = true
 
     public static defaultProps = {
         ariaLabelRenderer: defaultAriaLabelRenderer,
@@ -155,6 +157,10 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
     }
 
     private onAdd = (value: T) => {
+        if (this.props.numRemainingText && this.props.maxValues && this.props.values.length >= this.props.maxValues) {
+            return;
+        }
+
         for (let i = 0; i < this.props.values.length; i++) {
             if (this.props.values[i].id === value.id) {
                 return;
@@ -216,7 +222,9 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         switch (e.key) {
         case KeyCodes.ENTER[0]:
             if (this.selected == null) {
-                this.props.handleSubmit();
+                if (this.canSubmit) {
+                    this.props.handleSubmit();
+                }
                 return;
             }
             this.onAdd(this.selected);
@@ -277,29 +285,23 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         const options = Object.assign([...this.props.options]);
         const {totalCount, users, values} = this.props;
 
-        let numRemainingText;
+        let numRemainingText: any = '';
         let exceedsMaxValues = false;
+        this.canSubmit = true;
         if (this.props.numRemainingText) {
             numRemainingText = this.props.numRemainingText;
-        } else if (this.props.maxValues != null) {
-            if (this.props.values.length > this.props.maxValues) {
-                exceedsMaxValues = true;
-                numRemainingText = (
-                    <div className='InputErrorBox'>
-                        <FormattedMessage
-                            id='multiselect.numRemaining'
-                            defaultMessage='Up to {max, number} can be added at a time.'
-                            values={{
-                                max: this.props.maxValues,
-                                num: this.props.maxValues - this.props.values.length,
-                            }}
-                        />
-                    </div>
-                );
-            } else {
-                numRemainingText = '';
-                exceedsMaxValues = false;
-            }
+        } else if (this.props.maxValues && this.props.values.length > this.props.maxValues) {
+            exceedsMaxValues = true;
+            this.canSubmit = false;
+            numRemainingText = (
+                <div className='InputErrorBox'>
+                    <FormattedMarkdownMessage
+                        id='multiselect.numRemaining'
+                        defaultMessage='You can only add **{max} people** at one time.'
+                        values={{max: this.props.maxValues}}
+                    />
+                </div>
+            );
         }
 
         let buttonSubmitText: ReactNode;
@@ -465,11 +467,10 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                                 getOptionValue={(option: Value) => option.id}
                                 getOptionLabel={this.props.ariaLabelRenderer}
                                 aria-label={this.props.placeholderText}
-                                className={classNames(
-                                    'MultiSelect',
-                                    exceedsMaxValues ? 'error' : '',
-                                    this.state.a11yActive ? 'multi-select__focused' : '',
-                                )}
+                                className={classNames('MultiSelect', {
+                                    error: exceedsMaxValues,
+                                    'multi-select__focused': this.state.a11yActive,
+                                })}
                                 classNamePrefix='react-select-auto react-select'
                             />
                             {this.props.saveButtonPosition === 'top' &&
@@ -482,15 +483,16 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                                 savingMessage={this.props.buttonSubmitLoadingText}
                             />}
                         </div>
+                        {multiSelectList}
                         <div
                             id='multiSelectHelpMemberInfo'
                             className='multi-select__help'
                         >
                             {!exceedsMaxValues && numRemainingText}
                             {memberCount}
+                            {!memberCount && !numRemainingText && <div className='multi-select__padding'/>}
                         </div>
                     </div>
-                    {multiSelectList}
                     {exceedsMaxValues &&
                     <div
                         id='multselectErrorMessage'
@@ -512,14 +514,15 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                 </div>
                 {this.props.saveButtonPosition === 'bottom' &&
                 <div className='multi-select__footer'>
+                    {!exceedsMaxValues &&
                     <SaveButton
                         id='saveItems'
                         saving={this.props.saving}
-                        disabled={exceedsMaxValues ? true : this.props.saving}
+                        disabled={exceedsMaxValues || this.props.saving}
                         onClick={this.handleOnClick}
                         defaultMessage={buttonSubmitText}
                         savingMessage={this.props.buttonSubmitLoadingText}
-                    />
+                    />}
                 </div>}
             </React.Fragment>
         );

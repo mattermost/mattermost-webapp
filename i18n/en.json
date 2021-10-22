@@ -3699,7 +3699,7 @@
   "multiselect.numGroupsRemaining": "Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {group} other {groups}}. ",
   "multiselect.numMembers": "{memberOptions, number} of {totalCount, number} members",
   "multiselect.numPeopleRemaining": "Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. ",
-  "multiselect.numRemaining": "Up to {max, number} can be added at a time.",
+  "multiselect.numRemaining": "You can only add **{max} people** at one time.",
   "multiselect.placeholder": "Search for people",
   "multiselect.selectChannels": "Use ↑↓ to browse, ↵ to select.",
   "multiselect.selectTeams": "Use ↑↓ to browse, ↵ to select.",
