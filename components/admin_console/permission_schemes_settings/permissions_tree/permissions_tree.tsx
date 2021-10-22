@@ -14,6 +14,8 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
+import {AdditionalValues, Group} from './types';
+
 type Props = {
     scope: string;
     config: Partial<ClientConfig>;
@@ -37,8 +39,8 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
         },
     };
 
-    private ADDITIONAL_VALUES: any;
-    private groups: any;
+    private ADDITIONAL_VALUES: AdditionalValues;
+    private groups: Group[];
     constructor(props: Props) {
         super(props);
 
