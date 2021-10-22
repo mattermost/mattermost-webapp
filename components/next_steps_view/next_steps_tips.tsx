@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {toggleShortcutsModal} from 'actions/global_actions';
@@ -39,9 +38,9 @@ const openAdminConsole = (isAdmin: boolean) => {
     browserHistory.push('/admin_console/');
 };
 
-const openIncidentsPlugin = (isAdmin: boolean, team: Team) => {
+const openPlaybooks = (isAdmin: boolean) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'click_open_incidents');
-    browserHistory.push(`/${team.name}/com.mattermost.plugin-incident-management/playbooks`);
+    browserHistory.push('/playbooks');
 };
 
 type Props = {
@@ -49,7 +48,6 @@ type Props = {
     animating: boolean;
     currentUserId: string;
     isFirstAdmin: boolean;
-    team: Team;
     isAdmin: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -144,7 +142,7 @@ export default function NextStepsTips(props: Props) {
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openIncidentsPlugin(props.isAdmin, props.team)}
+                            onClick={() => openPlaybooks(props.isAdmin)}
                         >
                             <FormattedMessage
                                 id='next_steps_view.tips.resolveIncidents.button'
