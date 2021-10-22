@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback} from 'react';
+import {useSelector} from 'react-redux';
 
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
 import {PostDraft} from 'types/store/rhs';
@@ -10,7 +12,7 @@ import {PostDraft} from 'types/store/rhs';
 import Markdown from 'components/markdown';
 import FilePreview from 'components/file_preview';
 import ProfilePicture from 'components/profile_picture';
-import {imageURLForUser} from 'utils/utils';
+import {imageURLForUser, handleFormattedTextClick} from 'utils/utils';
 
 import './panel_body.scss';
 
@@ -25,6 +27,11 @@ type Props = {
     username: UserProfile['username'];
 }
 
+const OPTIONS = {
+    disableGroupHighlight: true,
+    mentionHighlight: false,
+};
+
 function Body({
     channelId,
     displayName,
@@ -35,7 +42,14 @@ function Body({
     userId,
     username,
 }: Props) {
+    const currentRelativeTeamUrl = useSelector(getCurrentRelativeTeamUrl);
+
+    const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        handleFormattedTextClick(e, currentRelativeTeamUrl);
+    }, [currentRelativeTeamUrl]);
+
     return (
+
         <div className='DraftPanelBody post'>
             <div className='DraftPanelBody__left post__img'>
                 <ProfilePicture
@@ -47,13 +61,19 @@ function Body({
                     src={imageURLForUser(userId)}
                 />
             </div>
-            <div className='post__content'>
+            <div
+                onClick={handleClick}
+                className='post__content'
+            >
                 <div className='DraftPanelBody__right'>
                     <div className='post__header'>
                         <strong>{displayName}</strong>
                     </div>
                     <div className='post__body'>
-                        <Markdown message={message}/>
+                        <Markdown
+                            options={OPTIONS}
+                            message={message}
+                        />
                     </div>
                     {(fileInfos.length > 0 || uploadsInProgress?.length > 0) && (
                         <FilePreview

@@ -32,7 +32,7 @@ function getMyActiveChannels(state: GlobalState) {
     });
 }
 
-function getInfoFromKey(key: string, prefix: string): Info {
+function getInfoFromKey(key: string, prefix: string): Info|null {
     const keyArr = key.split('_');
     if (prefix === StoragePrefixes.DRAFT) {
         return {
@@ -41,10 +41,14 @@ function getInfoFromKey(key: string, prefix: string): Info {
         };
     }
 
-    return {
-        id: keyArr[2],
-        type: 'thread',
-    };
+    if (prefix === StoragePrefixes.COMMENT_DRAFT) {
+        return {
+            id: keyArr[2],
+            type: 'thread',
+        };
+    }
+
+    return null;
 }
 
 export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
@@ -60,19 +64,21 @@ export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
                 const item = storage[key];
                 if (
                     key.startsWith(prefix) &&
-                    item !== null &&
+                    item != null &&
                     item.value != null &&
-                    (item.value.message || item.value.fileInfos.length > 0)
+                    (item.value.message || item.value.fileInfos?.length > 0)
                 ) {
-                    const {id, type} = getInfoFromKey(key, prefix);
+                    const info = getInfoFromKey(key, prefix);
 
-                    // if channel doesn't belong to my channels
-                    // it's probably a draft from another team
+                    if (info === null) {
+                        return [];
+                    }
+
                     return {
                         ...item,
                         key,
-                        id,
-                        type,
+                        id: info.id,
+                        type: info.type,
                     };
                 }
                 return [];
