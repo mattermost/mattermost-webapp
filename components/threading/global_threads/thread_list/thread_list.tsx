@@ -6,14 +6,13 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
-import {getTeamThreadCounts} from 'mattermost-redux/selectors/entities/threads';
+import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 
-import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
 
 import NoResultsIndicator from 'components/no_results_indicator';
@@ -61,7 +60,7 @@ const ThreadList = ({
     const dispatch = useDispatch();
     const {currentTeamId, currentUserId, clear, select} = useThreadRouting();
 
-    const {total = 0, total_unread_threads: totalUnread} = useSelector((state: GlobalState) => getTeamThreadCounts(state, currentTeamId));
+    const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam);
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         // Ensure that arrow keys navigation is not triggered if the textbox is focused

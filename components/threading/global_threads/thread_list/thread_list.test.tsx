@@ -58,13 +58,16 @@ describe('components/threading/global_threads/thread_list', () => {
         mockState = {
             entities: {
                 threads: {
-                    counts: {
+                    countsIncludingDirect: {
                         tid: {
                             total: 0,
                             total_unread_threads: 0,
                             total_unread_mentions: 0,
                         },
                     },
+                },
+                teams: {
+                    currentTeamId: 'tid',
                 },
             },
         };

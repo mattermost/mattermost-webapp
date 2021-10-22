@@ -244,7 +244,7 @@ type Props = {
     /**
       * Function to open a modal
       */
-    openModal: (modalData: ModalData) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 
     /**
       * Function to close a modal

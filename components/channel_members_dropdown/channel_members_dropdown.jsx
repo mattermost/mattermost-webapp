@@ -8,6 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
@@ -110,12 +111,21 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         );
     }
 
+    isChannelAdminOrLicenced(isLicensed, channelMember) {
+        if (!isLicensed) {
+            return false;
+        }
+        if (UserUtils.isChannelAdmin(channelMember.roles) || channelMember.scheme_admin) {
+            return true;
+        }
+        return false;
+    }
+
     render() {
         const {index, totalUsers, isLicensed, channelMember, user, channel, currentUserId, canChangeMemberRoles, canRemoveMember} = this.props;
         const {serverError} = this.state;
-
-        const isChannelAdmin = Utils.isChannelAdmin(isLicensed, channelMember.roles, channelMember.scheme_admin);
-        const isGuest = Utils.isGuest(user);
+        const isChannelAdmin = this.isChannelAdminOrLicenced(isLicensed, channelMember);
+        const isGuest = UserUtils.isGuest(user.roles);
         const isMember = !isChannelAdmin && !isGuest;
         const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
         const currentRole = this.renderRole(isChannelAdmin, isGuest);
