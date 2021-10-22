@@ -2,27 +2,29 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import React, {LegacyRef} from 'react';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {generateId} from 'utils/utils.jsx';
-import {intlShape} from 'utils/react_intl';
-import Constants from 'utils/constants';
 
-export class PermissionDescription extends React.PureComponent {
-    static propTypes = {
-        intl: intlShape.isRequired,
-        id: PropTypes.string.isRequired,
-        rowType: PropTypes.string.isRequired,
-        inherited: PropTypes.object,
-        selectRow: PropTypes.func.isRequired,
-        additionalValues: PropTypes.object,
-    };
+type Props = {
+    intl: IntlShape;
+    id: string;
+    rowType: string;
+    inherited?: Record<string, string>;
+    selectRow: (id: string) => void;
+    additionalValues?: Record<string, React.ReactNode>;
+};
 
-    constructor(props) {
+type State = {
+    open: boolean;
+}
+export class PermissionDescription extends React.PureComponent<Props, State> {
+    private id: string
+    private contentRef: React.RefObject<HTMLSpanElement>
+    constructor(props: Props) {
         super(props);
         this.id = generateId();
 
@@ -37,15 +39,16 @@ export class PermissionDescription extends React.PureComponent {
         this.setState({open: false});
     }
 
-    openTooltip = (e) => {
+    openTooltip = (e: React.MouseEvent) => {
         const elm = e.currentTarget.querySelector('span');
-        const isElipsis = elm.offsetWidth < elm.scrollWidth;
-        this.setState({open: isElipsis});
+        const isElipsis = elm && elm.offsetWidth < elm.scrollWidth;
+        this.setState({open: isElipsis || false});
     }
 
-    parentPermissionClicked = (e) => {
-        const isInheritLink = e.target.parentElement.parentElement.className === 'inherit-link-wrapper';
-        if (e.target.parentElement.className !== 'permission-description' && !isInheritLink) {
+    parentPermissionClicked = (e: React.MouseEvent) => {
+        const target = e.target as Element;
+        const isInheritLink = target.parentElement && target.parentElement.parentElement && target.parentElement.parentElement.className === 'inherit-link-wrapper';
+        if (target.parentElement && target.parentElement.className !== 'permission-description' && !isInheritLink) {
             e.stopPropagation();
         } else if (isInheritLink) {
             this.props.selectRow(this.props.id);
@@ -56,7 +59,7 @@ export class PermissionDescription extends React.PureComponent {
     render() {
         const {inherited, id, rowType} = this.props;
 
-        let content = '';
+        let content;
         if (inherited) {
             content = (
                 <span className='inherit-link-wrapper'>
@@ -82,9 +85,8 @@ export class PermissionDescription extends React.PureComponent {
         let tooltip = (
             <Overlay
                 show={this.state.open}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
-                target={this.contentRef.current}
+                target={this.contentRef.current as HTMLElement}
             >
                 <Tooltip id={this.id}>
                     {content}
@@ -92,13 +94,13 @@ export class PermissionDescription extends React.PureComponent {
             </Overlay>
         );
         if (content.props.values && Object.keys(content.props.values).length > 0) {
-            tooltip = null;
+            tooltip = <></>;
         }
         content = (
             <span
                 className='permission-description'
                 onClick={this.parentPermissionClicked}
-                ref={this.contentRef}
+                ref={this.contentRef as LegacyRef<HTMLSpanElement>}
                 onMouseOver={this.openTooltip}
                 onMouseOut={this.closeTooltip}
             >
