@@ -90,7 +90,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#edit_textbox').should('have.text', message1);
     });
 
-    it('MM-T1271 UP - Removing all text in edit deletes post', () => {
+    it('MM-T1271_1 UP - Removing all text in edit deletes post if without attachment', () => {
         // # Post message in center from otheruser
         const message = 'Message to be deleted from other user';
         cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
