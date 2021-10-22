@@ -39,9 +39,9 @@ const openAdminConsole = (isAdmin: boolean) => {
     browserHistory.push('/admin_console/');
 };
 
-const openPlaybooks = (isAdmin: boolean, team: Team) => {
+const openPlaybooks = (isAdmin: boolean) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'click_open_incidents');
-    browserHistory.push(`/${team.name}/playbooks`);
+    browserHistory.push('/playbooks');
 };
 
 type Props = {
@@ -49,7 +49,6 @@ type Props = {
     animating: boolean;
     currentUserId: string;
     isFirstAdmin: boolean;
-    team: Team;
     isAdmin: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -144,7 +143,7 @@ export default function NextStepsTips(props: Props) {
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openPlaybooks(props.isAdmin, props.team)}
+                            onClick={() => openPlaybooks(props.isAdmin)}
                         >
                             <FormattedMessage
                                 id='next_steps_view.tips.resolveIncidents.button'
