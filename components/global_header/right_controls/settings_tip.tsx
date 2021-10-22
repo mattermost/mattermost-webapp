@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {TutorialSteps} from 'utils/constants';
 
 export default function SettingsTip() {
     const screens = [
@@ -29,6 +30,7 @@ export default function SettingsTip() {
         <TutorialTip
             placement='bottom'
             screens={screens}
+            step={TutorialSteps.SETTINGS}
             overlayClass='tip-overlay--settings'
             telemetryTag='tutorial_tip_settings'
         />
