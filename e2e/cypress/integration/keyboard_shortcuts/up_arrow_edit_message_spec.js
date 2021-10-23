@@ -91,37 +91,18 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1271_1 UP - Removing all text in edit deletes post if without attachment', () => {
-        // # Post message in center from otheruser
-        const message = 'Message to be deleted from other user';
-        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
-        cy.uiWaitUntilMessagePostedIncludes(message);
-
-        // * Verify that testuser sees post
-        cy.getLastPostId().then((postID) => {
-            cy.get(`#postMessageText_${postID}`).should('contain', message);
-        });
-
-        // # Other user deletes post
-        cy.getLastPostId().then((postID) => {
-            cy.externalRequest({
-                user: otherUser,
-                method: 'DELETE',
-                path: `posts/${postID}`,
-            });
-
-            // * Assert the testuser sees that message is deleted
-            cy.get(`#post_${postID}`).should('contain', '(message deleted)');
-        });
-
-        // # Login with other user
-        cy.apiLogout();
-        cy.apiLogin(otherUser);
+        const message = 'Message to be deleted';
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
+        // # Post message
         cy.postMessage(message);
         cy.uiWaitUntilMessagePostedIncludes(message);
 
         cy.getLastPostId().then((postID) => {
+            // * Verify that testuser sees post
+            cy.get(`#postMessageText_${postID}`).should('contain', message);
+
             cy.get('#post_textbox').type('{uparrow}');
 
             // * Validate that edit box contains just posted message
@@ -140,6 +121,40 @@ describe('Keyboard Shortcuts', () => {
             // * Verify post is deleted
             cy.get(`#postMessageText_${postID}`).should('not.exist');
         });
+
+        // # Login with other user
+        cy.apiLogout();
+        cy.apiLogin(otherUser);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post message as test user
+        cy.postMessageAs({sender: testUser, message, channelId: testChannel.id});
+        cy.getLastPostId().then((postID) => {
+            cy.get(`#postMessageText_${postID}`).should('contain', message);
+
+            // # Delete message as test user
+            cy.externalRequest({user: testUser, method: 'DELETE', path: `posts/${postID}`});
+
+            // * Verify that other user sees that message is deleted
+            cy.get(`#post_${postID} #${postID}_message`).should('have.text', '(message deleted)');
+        });
+    });
+
+    it.only('MM-T1271_2 UP - Removing all text in edit does not delete post if with attachment', () => {
+        const message = 'This is a message';
+        cy.apiLogin(testUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post message with attachment
+        cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
+        cy.postMessage(message);
+
+        // # Press up arrow
+        cy.get('#post_textbox').type('{uparrow}');
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.get('#edit_textbox').clear().type('{enter}');
     });
 
     it('MM-T1272 Arrow up key - Removing all text in edit deletes reply', () => {
