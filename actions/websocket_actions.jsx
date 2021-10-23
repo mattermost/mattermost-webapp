@@ -618,6 +618,13 @@ const handleNewPostEventDebounced = debouncePostEvent(100);
 export function handleNewPostEvent(msg) {
     return (myDispatch, myGetState) => {
         const post = JSON.parse(msg.data.post);
+
+        // When a new post with deleted time was maliciously added
+        // ignoring such kind of posts
+        if (post && post.delete_at > 0) {
+            return;
+        }
+
         myDispatch(handleNewPost(post, msg));
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
@@ -643,7 +650,8 @@ export function handleNewPostEvent(msg) {
 export function handleNewPostEvents(queue) {
     return (myDispatch, myGetState) => {
         // Note that this method doesn't properly update the sidebar state for these posts
-        const posts = queue.map((msg) => JSON.parse(msg.data.post));
+        // also filter out new post created with deleted time
+        const posts = queue.map((msg) => JSON.parse(msg.data.post)).filter((post) => post.delete_at === 0);
 
         // Receive the posts as one continuous block since they were received within a short period
         const crtEnabled = isCollapsedThreadsEnabled(myGetState());
