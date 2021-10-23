@@ -154,7 +154,20 @@ describe('Keyboard Shortcuts', () => {
         // # Press up arrow
         cy.get('#post_textbox').type('{uparrow}');
         cy.wait(TIMEOUTS.HALF_SEC);
+
+        // # Clear all text and confirm
         cy.get('#edit_textbox').clear().type('{enter}');
+
+        // * Delete post confirm modal should not exist
+        cy.get('#deletePostModal').should('not.exist');
+
+        // * Post should contain edited tag
+        cy.getLastPostId().then((postId) => {
+            // * Post should have "Edited"
+            cy.get(`#postEdited_${postId}`).
+                should('be.visible').
+                should('contain', 'Edited');
+        });
     });
 
     it('MM-T1272 Arrow up key - Removing all text in edit deletes reply', () => {
