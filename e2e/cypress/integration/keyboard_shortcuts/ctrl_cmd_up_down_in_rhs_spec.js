@@ -64,7 +64,7 @@ describe('Keyboard Shortcuts', () => {
                 cy.findByTestId('reply_textbox').cmdOrCtrlShortcut('{downarrow}').should('have.text', messages[0]);
 
                 // # Close the rhs
-                cy.uiCloseRHS()
+                cy.uiCloseRHS();
             });
 
             // * Press CTRL/CMD + uparrow in central textbox check if the text is equal to the last message
