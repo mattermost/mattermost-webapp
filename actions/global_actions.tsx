@@ -193,7 +193,7 @@ export function showLeavePrivateChannelModal(channel: Channel) {
 
 export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type
     const submenuModalData = {
-        ModalId: ModalIdentifiers.MOBILE_SUBMENU,
+        modalId: ModalIdentifiers.MOBILE_SUBMENU,
         dialogType: SubMenuModal,
         dialogProps: {
             elements,
