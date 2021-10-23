@@ -140,7 +140,7 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it.only('MM-T1271_2 UP - Removing all text in edit does not delete post if with attachment', () => {
+    it('MM-T1271_2 UP - Removing all text in edit does not delete post if with attachment', () => {
         const message = 'This is a message';
         cy.apiLogin(testUser);
 
