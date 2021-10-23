@@ -651,7 +651,18 @@ export function handleNewPostEvents(queue) {
     return (myDispatch, myGetState) => {
         // Note that this method doesn't properly update the sidebar state for these posts
         // also filter out new post created with deleted time
-        const posts = queue.map((msg) => JSON.parse(msg.data.post)).filter((post) => post.delete_at === 0);
+        // Note that this method doesn't properly update the sidebar state for these posts
+        // also filter out new post created with deleted time
+        const posts = queue.
+            map((msg) => JSON.parse(msg.data.post)).
+            filter((post) => {
+                // if it contains the delete_at property then check for it
+                if (Object.prototype.hasOwnProperty.call(post, 'delete_at')) {
+                    return post.delete_at === 0;
+                }
+
+                return true;
+            });
 
         // Receive the posts as one continuous block since they were received within a short period
         const crtEnabled = isCollapsedThreadsEnabled(myGetState());
