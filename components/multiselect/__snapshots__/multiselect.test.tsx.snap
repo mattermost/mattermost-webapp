@@ -116,6 +116,45 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           }
         />
       </div>
+      <MultiSelectList
+        ariaLabelRenderer={[Function]}
+        onAction={[Function]}
+        onAdd={[Function]}
+        onSelect={[Function]}
+        optionRenderer={[Function]}
+        options={
+          Array [
+            Object {
+              "id": "0",
+              "label": "0",
+              "value": "0",
+            },
+            Object {
+              "id": "1",
+              "label": "1",
+              "value": "1",
+            },
+            Object {
+              "id": "2",
+              "label": "2",
+              "value": "2",
+            },
+            Object {
+              "id": "3",
+              "label": "3",
+              "value": "3",
+            },
+            Object {
+              "id": "4",
+              "label": "4",
+              "value": "4",
+            },
+          ]
+        }
+        page={0}
+        perPage={5}
+        query=""
+      />
       <div
         className="multi-select__help"
         id="multiSelectHelpMemberInfo"
@@ -132,45 +171,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         />
       </div>
     </div>
-    <MultiSelectList
-      ariaLabelRenderer={[Function]}
-      onAction={[Function]}
-      onAdd={[Function]}
-      onSelect={[Function]}
-      optionRenderer={[Function]}
-      options={
-        Array [
-          Object {
-            "id": "0",
-            "label": "0",
-            "value": "0",
-          },
-          Object {
-            "id": "1",
-            "label": "1",
-            "value": "1",
-          },
-          Object {
-            "id": "2",
-            "label": "2",
-            "value": "2",
-          },
-          Object {
-            "id": "3",
-            "label": "3",
-            "value": "3",
-          },
-          Object {
-            "id": "4",
-            "label": "4",
-            "value": "4",
-          },
-        ]
-      }
-      page={0}
-      perPage={5}
-      query=""
-    />
     <div
       className="multi-select__help"
       id="multiSelectMessageNote"
@@ -308,6 +308,35 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
           }
         />
       </div>
+      <MultiSelectList
+        ariaLabelRenderer={[Function]}
+        onAction={[Function]}
+        onAdd={[Function]}
+        onSelect={[Function]}
+        optionRenderer={[Function]}
+        options={
+          Array [
+            Object {
+              "id": "5",
+              "label": "5",
+              "value": "5",
+            },
+            Object {
+              "id": "6",
+              "label": "6",
+              "value": "6",
+            },
+            Object {
+              "id": "7",
+              "label": "7",
+              "value": "7",
+            },
+          ]
+        }
+        page={1}
+        perPage={5}
+        query=""
+      />
       <div
         className="multi-select__help"
         id="multiSelectHelpMemberInfo"
@@ -324,35 +353,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         />
       </div>
     </div>
-    <MultiSelectList
-      ariaLabelRenderer={[Function]}
-      onAction={[Function]}
-      onAdd={[Function]}
-      onSelect={[Function]}
-      optionRenderer={[Function]}
-      options={
-        Array [
-          Object {
-            "id": "5",
-            "label": "5",
-            "value": "5",
-          },
-          Object {
-            "id": "6",
-            "label": "6",
-            "value": "6",
-          },
-          Object {
-            "id": "7",
-            "label": "7",
-            "value": "7",
-          },
-        ]
-      }
-      page={1}
-      perPage={5}
-      query=""
-    />
     <div
       className="multi-select__help"
       id="multiSelectMessageNote"
