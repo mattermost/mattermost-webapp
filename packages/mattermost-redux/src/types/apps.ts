@@ -27,17 +27,30 @@ export enum Locations {
     InPost = '/in_post',
 }
 
+// Some types are commented below as they are not yet being used
+
 export type AppManifest = {
     app_id: string;
-    app_type: AppType;
-    version?: string;
-    homepage_url?: string;
-    icon?: string;
-    display_name: string;
+    app_type: string;
+    version: string;
+    homepage_url: string;
+    display_name?: string;
     description?: string;
-    requested_permissions?: Permission[];
-    requested_locations?: Locations[];
+    icon?: string;
+    bindings?: AppBinding;
+    on_install?: AppBinding;
+    on_version_changed?: AppBinding;
+    on_uninstall?: AppBinding;
+    on_disable?: AppBinding;
+    on_enable?: AppBinding;
+    get_oauth2_connect_url?: AppBinding;
+    on_oauth2_complete?: AppBinding;
+    requested_permissions?: string[];
+    requested_locations?: string[];
     root_url?: string;
+    // aws_lambda?: string;
+    // kubeless_functions?: string;
+    plugin_id?: string;
 }
 
 export type AppModalState = {
