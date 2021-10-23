@@ -4,8 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import Constants from 'utils/constants';
 import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
+
+import * as preferences from 'mattermost-redux/selectors/entities/preferences';
 
 jest.mock('utils/browser_history', () => {
     const original = jest.requireActual('utils/browser_history');
@@ -18,6 +25,20 @@ jest.mock('utils/browser_history', () => {
 });
 
 describe('components/PopoverListMembers', () => {
+    // required state to mount using the provider
+    const state = {
+        entities: {
+            general: {
+                config: {
+                    FeatureFlagAddMembersToChannel: 'top',
+                },
+            },
+        },
+    };
+
+    const mockStore = configureStore();
+    const store = mockStore(state);
+
     const channel = {
         id: 'channel_id',
         name: 'channel-name',
@@ -108,5 +129,20 @@ describe('components/PopoverListMembers', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test.only('should place the Add button at the top when the flag for placement is TOP', () => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        preferences.getAddMembersToChannel = jest.fn().mockReturnValue('top');
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <PopoverListMembers {...baseProps}/>
+            </Provider>,
+        );
+        // wrapper.setState({showPopover: true});
+
+        expect(wrapper.find('i').prop('className')).toBe('icon-account-plus-outline');
     });
 });

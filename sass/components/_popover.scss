@@ -470,6 +470,7 @@
 
     .more-modal__header {
         padding: 14px 20px;
+        display: flex;
 
         .icon {
             @include opacity(0.8);
@@ -481,6 +482,15 @@
 
         span {
             font-weight: 600;
+            align-self: center;
+        }
+
+        button {
+            width: 70px;
+            margin-left: auto;
+            i {
+                margin: 0 5px !important;
+            }
         }
 
         .subhead {
@@ -494,8 +504,12 @@
     }
 
     .more-modal__button {
+        display: flex;
+        align-items: flex-start;
         .btn {
             height: 42px;
+            width: 100px;
+            margin-left: 10px;
         }
     }
 

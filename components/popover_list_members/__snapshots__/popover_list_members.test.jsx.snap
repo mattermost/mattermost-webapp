@@ -2,6 +2,7 @@
 
 exports[`components/PopoverListMembers should match snapshot 1`] = `
 <div
+  className="channel-members-popver"
   id="channelMember"
 >
   <OverlayTrigger
@@ -112,6 +113,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
 
 exports[`components/PopoverListMembers should match snapshot with archived channel 1`] = `
 <div
+  className="channel-members-popver"
   id="channelMember"
 >
   <OverlayTrigger
@@ -222,6 +224,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
 
 exports[`components/PopoverListMembers should match snapshot with group-constrained channel 1`] = `
 <div
+  className="channel-members-popver"
   id="channelMember"
 >
   <OverlayTrigger

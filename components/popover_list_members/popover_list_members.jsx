@@ -10,11 +10,19 @@ import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+
+import store from 'stores/redux_store.jsx';
+
+import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
+
 import ChannelMembersModal from 'components/channel_members_modal';
+import ChannelInviteModal from 'components/channel_invite_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
+
+import {getAddMembersToChannel} from 'mattermost-redux/selectors/entities/preferences';
 
 export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
@@ -86,6 +94,18 @@ export default class PopoverListMembers extends React.PureComponent {
         this.props.actions.openModal(modalData);
     };
 
+    onAddNewMembersButton = () => {
+        const {channel, actions} = this.props;
+
+        actions.openModal({
+            modalId: ModalIdentifiers.CHANNEL_INVITE,
+            dialogType: ChannelInviteModal,
+            dialogProps: {channel},
+        });
+
+        this.closePopover();
+    }
+
     handleGetProfilesInChannel = () => {
         this.setState({showPopover: !this.state.showPopover});
         this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status', {active: true});
@@ -98,7 +118,7 @@ export default class PopoverListMembers extends React.PureComponent {
 
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
-
+        const addMembersABTest = getAddMembersToChannel(store.getState()) || AddMembersToChanneltreatments.TOP;
         const items = this.props.sortedUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
@@ -111,6 +131,8 @@ export default class PopoverListMembers extends React.PureComponent {
 
         const channelIsArchived = this.props.channel.delete_at !== 0;
         let popoverButton;
+        let handleButtonOnClick = this.showMembersModal;
+        let editButton = null;
         if (this.props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
             let membersName = (
                 <FormattedMessage
@@ -130,6 +152,43 @@ export default class PopoverListMembers extends React.PureComponent {
                 );
             }
 
+            if (addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
+                handleButtonOnClick = this.onAddNewMembersButton;
+                membersName = (
+                    <FormattedMessage
+                        id='members_popover.addMembers'
+                        defaultMessage='Add Members'
+                    />
+                );
+                editButton = (
+                    <button
+                        className='btn btn-link'
+                        id='editBtn'
+                        onClick={this.showMembersModal}
+                    >
+                        <i className='icon icon-pencil-outline'/>
+                        <FormattedMessage
+                            id='members_popover.editBtn'
+                            defaultMessage='Edit'
+                        />
+                    </button>
+                );
+            } else if (addMembersABTest === AddMembersToChanneltreatments.TOP) {
+                editButton = (
+                    <button
+                        className='btn btn-link'
+                        id='addBtn'
+                        onClick={this.showMembersModal}
+                    >
+                        <i className='icon icon-account-plus-outline'/>
+                        <FormattedMessage
+                            id='members_popover.add'
+                            defaultMessage='Add'
+                        />
+                    </button>
+                );
+            }
+
             popoverButton = (
                 <div
                     className='more-modal__button'
@@ -138,7 +197,7 @@ export default class PopoverListMembers extends React.PureComponent {
                     <button
                         className='btn btn-link'
                         data-testid='membersModal'
-                        onClick={this.showMembersModal}
+                        onClick={handleButtonOnClick}
                     >
                         {membersName}
                     </button>
@@ -171,7 +230,10 @@ export default class PopoverListMembers extends React.PureComponent {
         const ariaLabel = `${Utils.localizeMessage('channel_header.channelMembers', 'Members')}`.toLowerCase();
 
         return (
-            <div id='channelMember'>
+            <div
+                id='channelMember'
+                className='channel-members-popver'
+            >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
@@ -214,6 +276,7 @@ export default class PopoverListMembers extends React.PureComponent {
                             className='more-modal__header'
                         >
                             {title}
+                            {editButton}
                             {this.props.channel.group_constrained && <div className='subhead'>
                                 <FormattedMessage
                                     id='channel_header.groupConstrained'

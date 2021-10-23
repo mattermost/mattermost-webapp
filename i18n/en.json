@@ -3625,6 +3625,7 @@
   "marketplace_modal.tabs.all_listing": "All",
   "marketplace_modal.tabs.installed_listing": "Installed",
   "marketplace_modal.title": "Marketplace",
+  "members_popover.addMembers": "Add Members",
   "members_popover.button.message": "message",
   "members_popover.manageMembers": "Manage Members",
   "members_popover.title": "Channel Members",
