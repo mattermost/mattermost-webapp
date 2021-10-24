@@ -54,7 +54,6 @@ describe('Keyboard Shortcuts', () => {
 
                     // * Check if the message is equal to the last message
                     cy.findByTestId('reply_textbox').should('have.text', messages[previousMessageIndex]);
-                    
                     if (idx === messages.length + 2) {
                         // * Check if the last message is equal to the first message
                         cy.findByTestId('reply_textbox').should('have.text', firstMessage);
