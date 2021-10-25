@@ -294,8 +294,6 @@
   "admin.billing.subscription.otherBillingOption": "Potrzebujesz innych opcji rozliczeniowych?",
   "admin.billing.subscription.paymentBegins": "Płatność rozpoczyna się: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Płatność nie powiodła się. Prosimy spróbować ponownie lub skontaktować się z obsługą.",
-  "admin.billing.subscription.paymentNoteEnd": " o pomoc",
-  "admin.billing.subscription.paymentNoteStart": "Jeśli testowanie Mattermost Cloud rozpoczęło się 15 września lub wcześniej, proszę ",
   "admin.billing.subscription.paymentVerificationFailed": "Przepraszamy, weryfikacja płatności nie powiodła się",
   "admin.billing.subscription.perMonth": " /miesiąc",
   "admin.billing.subscription.perUserPerMonth": " /użytkownik/miesiąc",
