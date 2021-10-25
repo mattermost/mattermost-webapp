@@ -19,7 +19,7 @@ Cypress.Commands.add('uiSaveAndClose', () => {
 });
 
 Cypress.Commands.add('uiGetButton', (name) => {
-    return cy.findByRole('button', {name}).should('be.visible');
+    return cy.findByRole('button', {name});
 });
 
 Cypress.Commands.add('uiSaveButton', () => {
