@@ -234,7 +234,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
-                        isLastStep={lastNonCompletedStep.id === id}
+                        isLastStep={lastNonCompletedStep?.id === id}
                         finishButtonText={finishButtonText}
                     />
                 </Card.Body>
