@@ -29,7 +29,7 @@ enum TrialLoadStatus {
 }
 
 type Props = {
-    onClose?: () => void | null;
+    onClose?: () => void;
 }
 
 function StartTrialModal(props: Props): JSX.Element | null {

@@ -36,7 +36,7 @@ describe('Account Settings > Profile > Profile Picture', () => {
 
         // # Upload and save profile picture
         cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
-        cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // # Close modal
         cy.get('body').type('{esc}');
@@ -55,7 +55,7 @@ describe('Account Settings > Profile > Profile Picture', () => {
 
         // # Remove profile picture
         cy.findByTestId('removeSettingPicture').click();
-        cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // * Check that we are back in the "General" section of the Account Settings
         cy.get('#pictureEdit').should('be.visible');
