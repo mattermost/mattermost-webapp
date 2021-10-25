@@ -208,7 +208,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             );
         }
 
-        return (setExpanded: (expandedKey: string) => void, expandedKey: string, isLastStep: boolean) => (
+        return (setExpanded: (expandedKey: string) => void, expandedKey: string, lastNonCompletedStep: StepType) => (
             <Card
                 className={classNames({complete: this.isStepComplete(id)})}
                 expanded={expandedKey === id}
@@ -234,7 +234,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
-                        isLastStep={isLastStep}
+                        isLastStep={lastNonCompletedStep.id === id}
                         finishButtonText={finishButtonText}
                     />
                 </Card.Body>
@@ -274,6 +274,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     renderMainBody = () => {
         const renderedSteps = this.props.steps.map(this.renderStep);
+        const nonCompletedSteps = this.props.steps.filter((step) => !this.isStepComplete(step.id));
+        const lastNonCompletedStep = nonCompletedSteps[nonCompletedSteps.length - 1];
+
         const logo = this.props.isCloud ? <CloudLogoSvg/> : <LogoSvg/>;
 
         return (
@@ -308,7 +311,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             {(setExpanded, expandedKey) => {
                                 return (
                                     <>
-                                        {renderedSteps.map((step, i) => step(setExpanded, expandedKey, i === renderedSteps.length - 1))}
+                                        {renderedSteps.map((step) => step(setExpanded, expandedKey, lastNonCompletedStep))}
                                     </>
                                 );
                             }}
