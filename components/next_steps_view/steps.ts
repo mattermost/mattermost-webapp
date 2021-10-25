@@ -96,7 +96,7 @@ export const Steps: StepType[] = [
         visible: true,
         finishButtonText: {
             id: t('next_steps_view.notificationSetup.setNotifications'),
-            defaultMessage: 'Set up notificat',
+            defaultMessage: 'Set up notifications',
         },
     },
     {
