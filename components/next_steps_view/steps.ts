@@ -67,7 +67,7 @@ export const Steps: StepType[] = [
         roles: [],
         visible: true,
         finishButtonText: {
-            id: ('next_steps_view.complete_profile_step.saveProfile'),
+            id: t('next_steps_view.complete_profile_step.saveProfile'),
             defaultMessage: 'Save profile',
         },
     },
@@ -81,7 +81,7 @@ export const Steps: StepType[] = [
         component: TeamProfileStep,
         visible: true,
         finishButtonText: {
-            id: ('next_steps_view.team_profile_step.saveTeam'),
+            id: t('next_steps_view.team_profile_step.saveTeam'),
             defaultMessage: 'Save team',
         },
     },
@@ -95,8 +95,8 @@ export const Steps: StepType[] = [
         component: EnableNotificationsStep,
         visible: true,
         finishButtonText: {
-            id: ('next_steps_view.notificationSetup.setNotifications'),
-            defaultMessage: 'Set up notifications',
+            id: t('next_steps_view.notificationSetup.setNotifications'),
+            defaultMessage: 'Set up notificat',
         },
     },
     {
@@ -109,7 +109,7 @@ export const Steps: StepType[] = [
         component: SetupPreferencesStep,
         visible: false,
         finishButtonText: {
-            id: ('next_steps_view.preferenceSetup.setPreferences'),
+            id: t('next_steps_view.preferenceSetup.setPreferences'),
             defaultMessage: 'Set Preferences',
         },
     },
@@ -123,7 +123,7 @@ export const Steps: StepType[] = [
         component: InviteMembersStep,
         visible: true,
         finishButtonText: {
-            id: ('next_steps_view.invite_members_step.finish_invite_step'),
+            id: t('next_steps_view.invite_members_step.finish_invite_step'),
             defaultMessage: 'Finish Invite step',
         },
     },
@@ -137,7 +137,7 @@ export const Steps: StepType[] = [
         component: DownloadAppsStep,
         visible: true,
         finishButtonText: {
-            id: ('next_steps_view.invite_members_step.finish_download_step'),
+            id: t('next_steps_view.invite_members_step.finish_download_step'),
             defaultMessage: 'Finish download step',
         },
     },
