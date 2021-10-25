@@ -5,7 +5,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
@@ -104,14 +103,12 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         this.props.actions.getTeamStats(this.props.channel.team_id);
         this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
         this.props.actions.loadStatusesForProfilesList(this.props.profilesInCurrentChannel);
-
     }
 
     public onHide = (): void => {
         this.setState({show: false});
         this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
         this.props.actions.loadStatusesForProfilesList(this.props.profilesInCurrentChannel);
-
     };
 
     public handleInviteError = (err: any): void => {
@@ -142,8 +139,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 this.props.channel.group_constrained,
                 page + 1, USERS_PER_PAGE).then(() => this.setUsersLoadingState(false));
 
-            this.props.actions.getProfilesInChannel(this.props.channel.id, page +1, USERS_PER_PAGE, '', true);
-
+            this.props.actions.getProfilesInChannel(this.props.channel.id, page + 1, USERS_PER_PAGE, '', true);
         }
     };
 
@@ -236,12 +232,12 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             rowSelected = 'more-modal__row--selected';
         }
 
-        let ProfilesInGroup = this.props.profilesInCurrentChannel.map(user=> user.id);
+        const ProfilesInGroup = this.props.profilesInCurrentChannel.map((user) => user.id);
 
         const userMapping: Record<string, string> = {};
 
-        for (var i = 0; i < ProfilesInGroup.length; i++) {
-            userMapping[ProfilesInGroup[i]] = 'Already in channel' ;          
+        for (let i = 0; i < ProfilesInGroup.length; i++) {
+            userMapping[ProfilesInGroup[i]] = 'Already in channel';
         }
 
         return (
@@ -256,14 +252,17 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
                     status={this.props.userStatuses[option.id]}
                     size='md'
-                    username={option.username} 
+                    username={option.username}
                 />
-                
+
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         <span>
-                            {getLongDisplayNameParts(option).displayName} 
-                            <span style={{position: 'absolute', right: 20}} className='light'>{userMapping[option.id]}</span>
+                            {getLongDisplayNameParts(option).displayName}
+                            <span
+                                style={{position: 'absolute', right: 20}}
+                                className='light'
+                            >{userMapping[option.id]}</span>
                         </span>
                         <BotBadge
                             show={Boolean(option.is_bot)}
@@ -305,7 +304,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel.concat(this.props.profilesInCurrentChannel) ,  this.state.term).filter((user) => {
+        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel.concat(this.props.profilesInCurrentChannel), this.state.term).filter((user) => {
             return user.delete_at === 0 &&
                 !this.props.profilesNotInCurrentTeam.includes(user as UserProfileValue) &&
                 (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);
