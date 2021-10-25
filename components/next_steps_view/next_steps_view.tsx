@@ -307,14 +307,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </header>
                 <div className='NextStepsView__body'>
                     <div className='NextStepsView__body-main'>
-                        <Accordion
-                            lastNonCompletedStep={lastNonCompletedStep}
-                            defaultExpandedKey={this.getIncompleteStep() === null ? '' : this.getStartingStep()}
-                        >
-                            {(setExpanded, expandedKey, lastStep) => {
+                        <Accordion defaultExpandedKey={this.getIncompleteStep() === null ? '' : this.getStartingStep()}>
+                            {(setExpanded, expandedKey) => {
                                 return (
                                     <>
-                                        {renderedSteps.map((step) => step(setExpanded, expandedKey, lastStep))}
+                                        {renderedSteps.map((step) => step(setExpanded, expandedKey, lastNonCompletedStep))}
                                     </>
                                 );
                             }}
