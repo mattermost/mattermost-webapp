@@ -116,7 +116,7 @@ describe('Keyboard Shortcuts', () => {
             cy.waitUntil(() => cy.get('#deletePostModal').should('be.visible'));
 
             // # Press enter on confirm dialog
-            cy.get('#deletePostModalButton').click();
+            cy.uiGetButton('Delete').click();
 
             // * Verify post is deleted
             cy.get(`#postMessageText_${postID}`).should('not.exist');
