@@ -7,7 +7,7 @@ import {Group} from './groups';
 import {PostType} from './posts';
 import {Session} from './sessions';
 import {Team} from './teams';
-import {$ID, Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
+import {$ID, Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
 
 export type UserNotifyProps = {
     desktop: 'default' | 'all' | 'mention' | 'none';
@@ -70,8 +70,8 @@ export type UsersState = {
     profilesInTeam: RelationOneToMany<Team, UserProfile>;
     profilesNotInTeam: RelationOneToMany<Team, UserProfile>;
     profilesWithoutTeam: Set<string>;
-    profilesInChannel: RelationOneToMany<Channel, UserProfile>;
-    profilesNotInChannel: RelationOneToMany<Channel, UserProfile>;
+    profilesInChannel: RelationOneToManyUnique<Channel, UserProfile>;
+    profilesNotInChannel: RelationOneToManyUnique<Channel, UserProfile>;
     profilesInGroup: RelationOneToMany<Group, UserProfile>;
     statuses: RelationOneToOne<UserProfile, string>;
     stats: RelationOneToOne<UserProfile, UsersStats>;
