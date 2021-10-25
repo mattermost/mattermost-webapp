@@ -3,9 +3,7 @@
 
 import assert from 'assert';
 
-import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import TestHelper from 'mattermost-redux/test/test_helper';
-import {Preferences} from 'mattermost-redux/constants';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import * as Selectors from './threads';
