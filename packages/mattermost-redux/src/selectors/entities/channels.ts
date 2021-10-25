@@ -71,7 +71,7 @@ import {
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
-import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
+import {getThreadCounts, getThreadCountsIncludingDirect} from './common';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 

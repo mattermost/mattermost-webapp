@@ -89,7 +89,7 @@ function ThreadItem({
                 return [];
             }
             return id;
-        }).reverse();
+        }).reverse() || [];
         return [post.user_id, ...ids];
     }, [thread?.participants]);
 

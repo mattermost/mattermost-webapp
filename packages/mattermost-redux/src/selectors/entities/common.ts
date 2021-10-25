@@ -7,6 +7,7 @@ import {ChannelMembership, Channel} from 'mattermost-redux/types/channels';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ThreadsState} from 'mattermost-redux/types/threads';
 import {RelationOneToOne, IDMappedObjects, UserIDMappedObjects} from 'mattermost-redux/types/utilities';
 
 // Channels
@@ -51,3 +52,12 @@ export function getCurrentUserId(state: GlobalState): string {
 export function getUsers(state: GlobalState): IDMappedObjects<UserProfile> {
     return state.entities.users.profiles;
 }
+
+export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
+    return state.entities.threads.counts;
+}
+
+export function getThreadCountsIncludingDirect(state: GlobalState): ThreadsState['counts'] {
+    return state.entities.threads.countsIncludingDirect;
+}
+

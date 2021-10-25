@@ -11,6 +11,10 @@ import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from 'mat
 import {Post} from 'mattermost-redux/types/posts';
 import {$ID, IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
 
+import {getThreadCounts, getThreadCountsIncludingDirect} from './common';
+
+export {getThreadCounts, getThreadCountsIncludingDirect};
+
 export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
     return state.entities.threads.threadsInTeam;
 }
@@ -42,14 +46,6 @@ export const getUnreadThreadsInCurrentTeam: (state: GlobalState) => Array<$ID<Us
         return threadsInTeam?.[currentTeamId] ?? [];
     },
 );
-
-export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
-    return state.entities.threads.counts;
-}
-
-export function getThreadCountsIncludingDirect(state: GlobalState): ThreadsState['counts'] {
-    return state.entities.threads.countsIncludingDirect;
-}
 
 export const getThreadCountsInCurrentTeam: (state: GlobalState) => ThreadsState['counts'][$ID<Team>] = createSelector(
     'getThreadCountsInCurrentTeam',
@@ -109,13 +105,15 @@ export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdI
     getThreadsInCurrentTeam,
     getThreads,
     (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
-
+    getMyChannels,
     (
         threadsInTeam,
         threads,
         selectedThreadIdInTeam,
+        myChannels,
     ) => {
-        const ids = [...threadsInTeam.filter((id) => threads[id].is_following)];
+        const channelIds = myChannels.map((chan) => chan.id);
+        const ids = [...threadsInTeam.filter((id) => threads[id].is_following && channelIds.indexOf(threads[id].post.channel_id) !== -1)];
 
         if (selectedThreadIdInTeam && !ids.includes(selectedThreadIdInTeam)) {
             ids.push(selectedThreadIdInTeam);
@@ -133,14 +131,22 @@ export const getUnreadThreadOrderInCurrentTeam: (
     getUnreadThreadsInCurrentTeam,
     getThreads,
     (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
+    getMyChannels,
     (
         threadsInTeam,
         threads,
         selectedThreadIdInTeam,
+        myChannels,
     ) => {
+        const channelIds = myChannels.map((chan) => chan.id);
+
         const ids = threadsInTeam.filter((id) => {
             const thread = threads[id];
-            return thread.is_following && (thread.unread_replies || thread.unread_mentions);
+            return (
+                thread.is_following &&
+                (thread.unread_replies || thread.unread_mentions) &&
+                channelIds.indexOf(thread.post.channel_id) !== -1
+            );
         });
 
         if (selectedThreadIdInTeam && !ids.includes(selectedThreadIdInTeam)) {
