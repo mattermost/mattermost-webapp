@@ -11,8 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import store from 'stores/redux_store.jsx';
-
 import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
 
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -21,8 +19,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
-
-import {getAddMembersToChannel} from 'mattermost-redux/selectors/entities/preferences';
 
 export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
@@ -39,6 +35,7 @@ export default class PopoverListMembers extends React.PureComponent {
             openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
         sortedUsers: PropTypes.array,
+        addMembersABTest: PropTypes.string,
     };
 
     constructor(props) {
@@ -118,7 +115,6 @@ export default class PopoverListMembers extends React.PureComponent {
 
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
-        const addMembersABTest = getAddMembersToChannel(store.getState()) || AddMembersToChanneltreatments.TOP;
         const items = this.props.sortedUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
@@ -152,7 +148,7 @@ export default class PopoverListMembers extends React.PureComponent {
                 );
             }
 
-            if (addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
+            if (this.props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
                 handleButtonOnClick = this.onAddNewMembersButton;
                 membersName = (
                     <FormattedMessage
@@ -173,12 +169,12 @@ export default class PopoverListMembers extends React.PureComponent {
                         />
                     </button>
                 );
-            } else if (addMembersABTest === AddMembersToChanneltreatments.TOP) {
+            } else if (this.props.addMembersABTest === AddMembersToChanneltreatments.TOP) {
                 editButton = (
                     <button
                         className='btn btn-link'
                         id='addBtn'
-                        onClick={this.showMembersModal}
+                        onClick={this.onAddNewMembersButton}
                     >
                         <i className='icon icon-account-plus-outline'/>
                         <FormattedMessage
