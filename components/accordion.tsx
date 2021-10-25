@@ -3,9 +3,12 @@
 
 import React from 'react';
 
+import {StepType} from './next_steps_view/steps';
+
 type Props = {
     defaultExpandedKey: string;
-    children: (setExpanded: (expandedKey: string) => void, expandedKey: string) => React.ReactNode;
+    lastNonCompletedStep: StepType;
+    children: (setExpanded: (expandedKey: string) => void, expandedKey: string, lastStep: StepType) => React.ReactNode;
 };
 
 type State = {
@@ -30,7 +33,7 @@ export default class Accordion extends React.PureComponent<Props, State> {
             <div
                 className={'Accordion'}
             >
-                {this.props.children(this.setExpanded, this.state.expandedKey)}
+                {this.props.children(this.setExpanded, this.state.expandedKey, this.props.lastNonCompletedStep)}
             </div>
         );
     }
