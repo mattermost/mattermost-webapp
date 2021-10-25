@@ -62,6 +62,8 @@ import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
 
+import {applyLuxonDefaults} from './effects';
+
 import RootRedirect from './root_redirect';
 import TeamSidebar from 'components/team_sidebar';
 
@@ -154,6 +156,8 @@ export default class Root extends React.PureComponent {
 
         // set initial window size state
         this.props.actions.emitBrowserWindowResized();
+
+        store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
 
     onConfigLoaded = () => {

@@ -46,6 +46,7 @@ describe('Verify Accessibility Support in different sections in Settings and Acc
             {key: 'timezone', label: 'Timezone', type: 'none'},
             {key: 'collapse', label: 'Default Appearance of Image Previews', type: 'radio'},
             {key: 'message_display', label: 'Message Display', type: 'radio'},
+            {key: 'click_to_reply', label: 'Click to open threads', type: 'radio'},
             {key: 'channel_display_mode', label: 'Channel Display', type: 'radio'},
             {key: 'one_click_reactions_enabled', label: 'One-click reactions on messages', type: 'radio'},
             {key: 'languages', label: 'Language', type: 'dropdown'},

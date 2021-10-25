@@ -119,7 +119,7 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
-    openModal: (modalData: ModalData) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
 }
 
