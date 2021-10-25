@@ -357,7 +357,7 @@ describe('components/EditPostModal', () => {
 
         expect(actions.hideEditPostModal).toBeCalled();
         expect(actions.openModal).toHaveBeenCalledWith({
-            ModalId: ModalIdentifiers.DELETE_POST,
+            modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
                 post: {

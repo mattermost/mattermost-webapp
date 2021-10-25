@@ -47,14 +47,14 @@ export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
     return state.entities.threads.counts;
 }
 
-export function getTeamThreadCounts(state: GlobalState, teamId: $ID<Team>): ThreadsState['counts'][$ID<Team>] {
-    return getThreadCounts(state)[teamId];
+export function getThreadCountsIncludingDirect(state: GlobalState): ThreadsState['counts'] {
+    return state.entities.threads.countsIncludingDirect;
 }
 
 export const getThreadCountsInCurrentTeam: (state: GlobalState) => ThreadsState['counts'][$ID<Team>] = createSelector(
     'getThreadCountsInCurrentTeam',
     getCurrentTeamId,
-    getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         currentTeamId,
         counts,
