@@ -3187,7 +3187,7 @@
   "get_app.launching": "Wo möchten Sie das ansehen?",
   "get_app.openLinkInBrowser": "Oder, [öffnen Sie diesen Link in Ihrem Browser.](!{link})",
   "get_app.openingLink": "Öffne Link in Mattermost...",
-  "get_app.openingLinkWhiteLabel": "Öffne Link in der Desktop-App...",
+  "get_app.openingLinkWhiteLabel": "Öffne Link in {appName}...",
   "get_app.redirectedInMoments": "Sie werden in ein paar Augenblicken weitergeleitet.",
   "get_app.rememberMyPreference": "Meine Einstellung merken",
   "get_app.systemDialogMessage": "In Desktop-App anzeigen",
