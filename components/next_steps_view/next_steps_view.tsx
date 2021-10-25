@@ -275,7 +275,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     renderMainBody = () => {
         const renderedSteps = this.props.steps.map(this.renderStep);
         const nonCompletedSteps = this.props.steps.filter((step) => !this.isStepComplete(step.id));
-        const lastNonCompletedStep = nonCompletedSteps[nonCompletedSteps.length - 1];
+
+        let lastNonCompletedStep: StepType;
+        if (nonCompletedSteps.length === 1) {
+            lastNonCompletedStep = nonCompletedSteps[0];
+        }
 
         const logo = this.props.isCloud ? <CloudLogoSvg/> : <LogoSvg/>;
 

@@ -123,8 +123,8 @@ export const Steps: StepType[] = [
         component: InviteMembersStep,
         visible: true,
         finishButtonText: {
-            id: ('next_steps_view.invite_members_step.next_step'),
-            defaultMessage: 'Next Step',
+            id: ('next_steps_view.invite_members_step.finish_invite_step'),
+            defaultMessage: 'Finish Invite step',
         },
     },
     {
@@ -137,8 +137,8 @@ export const Steps: StepType[] = [
         component: DownloadAppsStep,
         visible: true,
         finishButtonText: {
-            id: ('next_steps_view.invite_members_step.next_step'),
-            defaultMessage: 'Next Step',
+            id: ('next_steps_view.invite_members_step.finish_download_step'),
+            defaultMessage: 'Finish download step',
         },
     },
 ];
