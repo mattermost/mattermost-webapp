@@ -42,7 +42,7 @@ describe('Account Settings', () => {
 
     it('MM-T2085 Password: Valid values in password change fields allow the form to save successfully', () => {
         // # Enter valid values in password change fields
-        enterPasswords('passwd', 'passwd', 'passwd');
+        enterPasswords(testUser.password, 'passwd', 'passwd');
 
         // # Save the settings
         cy.uiSave();
@@ -54,7 +54,7 @@ describe('Account Settings', () => {
 
     it('MM-T2082 Password: New password confirmation mismatch produces error', () => {
         // # Enter mismatching passwords for new password and confirm fields
-        enterPasswords('passwd', 'newPW', 'NewPW');
+        enterPasswords(testUser.password, 'newPW', 'NewPW');
 
         // # Save
         cy.uiSave();
@@ -65,7 +65,7 @@ describe('Account Settings', () => {
 
     it('MM-T2083 Password: Too few characters in new password produces error', () => {
         // # Enter a New password two letters long
-        enterPasswords('passwd', 'pw', 'pw');
+        enterPasswords(testUser.password, 'pw', 'pw');
 
         // # Save
         cy.uiSave();
@@ -76,7 +76,7 @@ describe('Account Settings', () => {
 
     it('MM-T2084 Password: Cancel out of password changes causes no changes to be made', () => {
         // # Enter new valid passwords
-        enterPasswords('passwd', 'newPasswd', 'newPasswd');
+        enterPasswords(testUser.password, 'newPasswd', 'newPasswd');
 
         // # Click 'Cancel'
         cy.uiCancel();
@@ -91,11 +91,11 @@ describe('Account Settings', () => {
         // * Verify that user cannot login with the cancelled password
         cy.get('#loginId').type(testUser.username);
         cy.get('#loginPassword').type('newPasswd');
-        cy.get('#loginButton').click();
+        cy.findByText('Sign in').click();
         cy.findByText('Enter a valid email or username and/or password.').should('be.visible');
 
         // * Verify that user can successfully login with the old password
-        cy.apiLogin({username: testUser.username, password: 'passwd'});
+        cy.apiLogin(testUser);
         cy.visit(offTopic);
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
     });
