@@ -20,9 +20,7 @@ describe('Keyboard Shortcuts', () => {
         const firstMessage = 'Hello World!';
         const messages = ['This', 'is', 'an', 'e2e test', '/shrug'];
 
-        // # Reload page
-        cy.reload();
-
+        // # Post a message in the central textbox
         cy.postMessage(firstMessage);
 
         cy.getLastPostId().then((postId) => {
