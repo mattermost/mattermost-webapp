@@ -3,12 +3,16 @@
 
 import {IntlShape} from 'react-intl';
 
-import {AppCallRequest, AppCallResponse, AppContext} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppCallResponse, AppContext} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
 
 export type DoAppCallResult<Res=unknown> = {
     data?: AppCallResponse<Res>;
     error?: AppCallResponse<Res>;
+}
+
+export interface HandleBindingClick<Res=unknown> {
+    (binding: AppBinding, context: AppContext, intl: IntlShape): Promise<DoAppCallResult<Res>>;
 }
 
 export interface DoAppSubmit<Res=unknown> {

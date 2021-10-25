@@ -17,15 +17,6 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
     const usedLabels: {[label: string]: boolean} = {};
     binding.bindings?.forEach((b, i) => {
         // Inheritance and defaults
-        if (!b.call) {
-            b.call = binding.call;
-        }
-
-        if (b.form) {
-            cleanForm(b.form);
-        } else {
-            b.form = binding.form;
-        }
 
         if (!b.app_id) {
             b.app_id = binding.app_id;
@@ -38,6 +29,11 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
         b.location = binding.location + '/' + b.location;
 
         // Validation
+        if (!b.app_id) {
+            toRemove.unshift(i);
+            return;
+        }
+
         if (!b.label) {
             toRemove.unshift(i);
             return;
@@ -66,6 +62,12 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
         }
         }
 
+        // Must have only subbindings or a form.
+        if (Boolean(b.bindings?.length) === Boolean(b.form)) {
+            toRemove.unshift(i);
+            return;
+        }
+
         if (b.bindings?.length) {
             cleanBindingRec(b, topLocation, depth + 1);
 
@@ -75,17 +77,12 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
                 return;
             }
         } else {
-            // Remove leaves without a call
-            if (!b.call) {
+            if (!b.form?.submit && !b.form?.source) {
                 toRemove.unshift(i);
                 return;
             }
 
-            // Remove leaves without app id
-            if (!b.app_id) {
-                toRemove.unshift(i);
-                return;
-            }
+            cleanForm(b.form);
         }
 
         usedLabels[b.label] = true;
@@ -142,19 +139,25 @@ export function cleanForm(form?: AppForm) {
             return;
         }
 
-        if (field.type === AppFieldTypes.STATIC_SELECT) {
+        switch (field.type) {
+        case AppFieldTypes.STATIC_SELECT:
             cleanStaticSelect(field);
             if (!field.options?.length) {
                 toRemove.unshift(i);
                 return;
             }
+            break;
+        case AppFieldTypes.DYNAMIC_SELECT:
+            if (!field.lookup) {
+                toRemove.unshift(i);
+                return;
+            }
         }
-
         usedLabels[label] = true;
     });
 
     toRemove.forEach((i) => {
-        form.fields.splice(i, 1);
+        form.fields!.splice(i, 1);
     });
 }
 

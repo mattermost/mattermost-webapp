@@ -278,6 +278,7 @@ describe('executeCommand', () => {
                     location: '/command/appid/custom',
                     root_id: '',
                     team_id: '456',
+                    track_as_submit: true,
                 },
                 raw_command: '/appid custom value1 --key2 value2',
                 path: 'https://someserver.com/command',

@@ -15,15 +15,58 @@ import AppsForm from 'components/apps_form';
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
-import {makeCallErrorResponse} from 'utils/apps';
+import {createCallRequest, makeCallErrorResponse} from 'utils/apps';
 
 import {cleanForm} from 'mattermost-redux/utils/apps';
 
 import {sendEphemeralPost} from './global_actions';
 
-export function doAppSubmit<Res=unknown>(call: AppCallRequest, intl: any): ActionFunc {
+export function handleBindingClick<Res=unknown>(binding: AppBinding, context: AppContext, intl: any): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        const call = binding.form?.submit || binding.form?.source;
+        if (!call) {
+            const errMsg = intl.formatMessage({
+                id: 'apps.error.malformed_binding',
+                defaultMessage: 'This binding is not properly formed. Contact the App developer.',
+            });
+            return {error: makeCallErrorResponse(errMsg)};
+        }
+
+        const callRequest = createCallRequest(
+            call,
+            context,
+        );
+
+        if (binding.form?.fields?.length) {
+            dispatch(openAppsModal(binding.form, callRequest));
+            const res: AppCallResponse = {
+                type: AppCallResponseTypes.FORM,
+                form: binding.form,
+            };
+            return {data: res};
+        }
+
+        let res;
+        if (binding.form?.submit) {
+            res = await dispatch(doAppSubmit<Res>(callRequest, intl));
+        } else {
+            res = await dispatch(doAppFetchForm<Res>(callRequest, intl, true));
+        }
+
+        return {data: res};
+    };
+}
+
+export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
+            const call: AppCallRequest = {
+                ...inCall,
+                context: {
+                    ...inCall.context,
+                    track_as_submit: true,
+                },
+            };
             const res = await Client4.executeAppCall(call, true) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
 
@@ -33,13 +76,14 @@ export function doAppSubmit<Res=unknown>(call: AppCallRequest, intl: any): Actio
             case AppCallResponseTypes.ERROR:
                 return {error: res};
             case AppCallResponseTypes.FORM:
-                if (!res.form) {
+                if (!res.form?.submit) {
                     const errMsg = intl.formatMessage({
                         id: 'apps.error.responses.form.no_form',
-                        defaultMessage: 'Response type is `form`, but no form was included in response.',
+                        defaultMessage: 'Response type is `form`, but no valid form was included in response.',
                     });
                     return {error: makeCallErrorResponse(errMsg)};
                 }
+
                 cleanForm(res.form);
                 dispatch(openAppsModal(res.form, call));
                 return {data: res};
@@ -67,7 +111,7 @@ export function doAppSubmit<Res=unknown>(call: AppCallRequest, intl: any): Actio
                 return {error: makeCallErrorResponse(errMsg)};
             }
             }
-        } catch (error) {
+        } catch (error: any) {
             const errMsg = error.message || intl.formatMessage({
                 id: 'apps.error.responses.unexpected_error',
                 defaultMessage: 'Received an unexpected error.',
@@ -77,8 +121,8 @@ export function doAppSubmit<Res=unknown>(call: AppCallRequest, intl: any): Actio
     };
 }
 
-export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any): ActionFunc {
-    return async () => {
+export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any, openModal = false): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
         try {
             const res = await Client4.executeAppCall(call, false) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
@@ -87,16 +131,18 @@ export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any): Ac
             case AppCallResponseTypes.ERROR:
                 return {error: res};
             case AppCallResponseTypes.FORM:
-                if (!res.form) {
+                if (!res.form?.submit) {
                     const errMsg = intl.formatMessage({
                         id: 'apps.error.responses.form.no_form',
-                        defaultMessage: 'Response type is `form`, but no form was included in response.',
+                        defaultMessage: 'Response type is `form`, but no valid form was included in response.',
                     });
                     return {error: makeCallErrorResponse(errMsg)};
                 }
                 cleanForm(res.form);
+                if (openModal) {
+                    dispatch(openAppsModal(res.form, call));
+                }
                 return {data: res};
-
             default: {
                 const errMsg = intl.formatMessage({
                     id: 'apps.error.responses.unknown_type',
@@ -105,7 +151,7 @@ export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any): Ac
                 return {error: makeCallErrorResponse(errMsg)};
             }
             }
-        } catch (error) {
+        } catch (error: any) {
             const errMsg = error.message || intl.formatMessage({
                 id: 'apps.error.responses.unexpected_error',
                 defaultMessage: 'Received an unexpected error.',
@@ -135,7 +181,7 @@ export function doAppLookup<Res=unknown>(call: AppCallRequest, intl: any): Actio
                 return {error: makeCallErrorResponse(errMsg)};
             }
             }
-        } catch (error) {
+        } catch (error: any) {
             const errMsg = error.message || intl.formatMessage({
                 id: 'apps.error.responses.unexpected_error',
                 defaultMessage: 'Received an unexpected error.',

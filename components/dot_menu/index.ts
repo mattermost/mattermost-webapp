@@ -19,17 +19,17 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DoAppFetchForm, DoAppLookup, DoAppSubmit, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForPost} from 'types/apps';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppSubmit, doAppFetchForm, doAppLookup, openAppsModal, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
+import {makeFetchBindings, postEphemeralCallResponseForPost, handleBindingClick} from 'actions/apps';
 
 import {
     flagPost,
@@ -143,12 +143,9 @@ type Actions = {
     unpinPost: (postId: string) => void;
     openModal: (postId: any) => void;
     markPostAsUnread: (post: Post) => void;
-    doAppSubmit: DoAppSubmit;
-    doAppFetchForm: DoAppFetchForm;
-    doAppLookup: DoAppLookup;
+    handleBindingClick: HandleBindingClick;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
-    openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 }
 
@@ -162,12 +159,9 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             unpinPost,
             openModal,
             markPostAsUnread,
-            doAppSubmit,
-            doAppFetchForm,
-            doAppLookup,
+            handleBindingClick,
             postEphemeralCallResponseForPost,
             setThreadFollow,
-            openAppsModal,
             fetchBindings,
         }, dispatch),
     };

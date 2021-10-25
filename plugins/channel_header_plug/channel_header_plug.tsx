@@ -10,17 +10,17 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppSubmit, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -103,9 +103,8 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppSubmit: DoAppSubmit;
+        handleBindingClick: HandleBindingClick;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 }
 
@@ -156,29 +155,18 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     onBindingClick = async (binding: AppBinding) => {
         const {channel, intl} = this.props;
 
-        const call = binding.form?.submit;
-        if (!call) {
-            return;
-        }
-
         const context = createCallContext(
             binding.app_id,
             binding.location,
             this.props.channel.id,
             this.props.channel.team_id,
         );
-        const callRequest = createCallRequest(call, context);
 
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
-            return;
-        }
-
-        const res = await this.props.actions.doAppSubmit(callRequest, intl);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -189,8 +177,8 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.markdown, channel.id);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.text, channel.id);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:

@@ -5,29 +5,26 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DoAppSubmit, DoAppFetchForm, DoAppLookup, PostEphemeralCallResponseForPost} from 'types/apps';
+import {PostEphemeralCallResponseForPost, HandleBindingClick} from 'types/apps';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 
 type Props = {
     intl: IntlShape;
     binding: AppBinding;
     post: Post;
     actions: {
-        doAppSubmit: DoAppSubmit;
-        doAppFetchForm: DoAppFetchForm;
-        doAppLookup: DoAppLookup;
+        handleBindingClick: HandleBindingClick;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 }
 
@@ -46,12 +43,6 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
     handleClick = async () => {
         const {binding, post, intl} = this.props;
 
-        const call = binding.form?.call || binding.call;
-
-        if (!call) {
-            return;
-        }
-
         let teamID = '';
         const {data} = await this.props.actions.getChannel(post.channel_id) as {data?: any; error?: any};
         if (data) {
@@ -67,25 +58,14 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             post.id,
             post.root_id,
         );
-        const callRequest = createCallRequest(
-            call,
-            context,
-            {post: AppExpandLevels.EXPAND_ALL},
-        );
-
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
-            return;
-        }
 
         this.setState({executing: true});
-        const res = await this.props.actions.doAppSubmit(callRequest, intl);
-
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
         this.setState({executing: false});
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -96,8 +76,8 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.text, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
@@ -119,7 +99,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
         const {binding} = this.props;
         let customButtonStyle;
 
-        if (!binding.call) {
+        if (!binding.form?.submit && !binding.form?.source) {
             return null;
         }
 

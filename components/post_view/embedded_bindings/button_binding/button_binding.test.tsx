@@ -18,29 +18,32 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         root_id: 'some_root_id',
     } as Post;
 
-    const binding = {
+    const binding: AppBinding = {
         app_id: 'some_app_id',
         label: 'some_label',
         location: 'some_location',
-        call: {
-            path: 'some_url',
+        form: {
+            submit: {
+                path: 'some_url',
+            },
         },
-    } as AppBinding;
+    };
 
-    const callResponse = {
+    const callResponse: AppCallResponse = {
         type: 'ok',
-        markdown: 'Nice job!',
+        text: 'Nice job!',
         app_metadata: {
             bot_user_id: 'botuserid',
+            bot_username: 'botusername',
         },
-    } as AppCallResponse;
+    };
 
     const baseProps = {
         post,
         userId: 'user_id',
         binding,
         actions: {
-            doAppSubmit: jest.fn().mockResolvedValue({
+            handleBindingClick: jest.fn().mockResolvedValue({
                 data: callResponse,
             }),
             getChannel: jest.fn().mockResolvedValue({
@@ -50,9 +53,14 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
                 },
             }),
             postEphemeralCallResponseForPost: jest.fn(),
-            openAppsModal: jest.fn(),
         },
     };
+
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(<ButtonBinding {...baseProps}/>);
@@ -62,31 +70,21 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
     test('should call doAppSubmit on click', async () => {
         const props = {
             ...baseProps,
-            intl: {} as any,
+            intl,
         };
 
         const wrapper = shallow<ButtonBindingUnwrapped>(<ButtonBindingUnwrapped {...props}/>);
         await wrapper.instance().handleClick();
 
         expect(baseProps.actions.getChannel).toHaveBeenCalledWith('some_channel_id');
-        expect(baseProps.actions.doAppSubmit).toHaveBeenCalledWith({
-            context: {
-                app_id: 'some_app_id',
-                channel_id: 'some_channel_id',
-                location: '/in_post/some_location',
-                post_id: 'some_post_id',
-                root_id: 'some_root_id',
-                team_id: 'some_team_id',
-            },
-            expand: {
-                post: 'all',
-            },
-            path: 'some_url',
-            query: undefined,
-            raw_command: undefined,
-            selected_field: undefined,
-            values: undefined,
-        }, {});
+        expect(baseProps.actions.handleBindingClick).toHaveBeenCalledWith(binding, {
+            app_id: 'some_app_id',
+            channel_id: 'some_channel_id',
+            location: '/in_post/some_location',
+            post_id: 'some_post_id',
+            root_id: 'some_root_id',
+            team_id: 'some_team_id',
+        }, expect.anything());
 
         expect(baseProps.actions.postEphemeralCallResponseForPost).toHaveBeenCalledWith(callResponse, 'Nice job!', post);
     });
@@ -94,7 +92,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
     test('should handle error call response', async () => {
         const errorCallResponse = {
             type: 'error',
-            error: 'The error',
+            text: 'The error',
             app_metadata: {
                 bot_user_id: 'botuserid',
             },
@@ -103,7 +101,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         const props = {
             ...baseProps,
             actions: {
-                doAppSubmit: jest.fn().mockResolvedValue({
+                handleBindingClick: jest.fn().mockResolvedValue({
                     error: errorCallResponse,
                 }),
                 getChannel: jest.fn().mockResolvedValue({
@@ -113,9 +111,8 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
                     },
                 }),
                 postEphemeralCallResponseForPost: jest.fn(),
-                openAppsModal: jest.fn(),
             },
-            intl: {} as any,
+            intl,
         };
 
         const wrapper = shallow<ButtonBindingUnwrapped>(<ButtonBindingUnwrapped {...props}/>);

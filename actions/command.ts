@@ -130,7 +130,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
                     if (res.error) {
                         const errorResponse = res.error;
-                        return createErrorMessage(errorResponse.error || intlShim.formatMessage({
+                        return createErrorMessage(errorResponse.text || intlShim.formatMessage({
                             id: 'apps.error.unknown',
                             defaultMessage: 'Unknown error.',
                         }));
@@ -139,8 +139,8 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                     const callResp = res.data!;
                     switch (callResp.type) {
                     case AppCallResponseTypes.OK:
-                        if (callResp.markdown) {
-                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.markdown, args));
+                        if (callResp.text) {
+                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.text, args));
                         }
                         return {data: true};
                     case AppCallResponseTypes.FORM:
@@ -153,7 +153,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                             {type: callResp.type},
                         ));
                     }
-                } catch (err) {
+                } catch (err: any) {
                     return createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'));
                 }
             }

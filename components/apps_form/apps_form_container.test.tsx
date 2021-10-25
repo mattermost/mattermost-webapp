@@ -3,13 +3,15 @@
 
 import React from 'react';
 
+import {shallow} from 'enzyme';
+
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import AppsFormContainer from './apps_form_container';
+import AppsFormContainer, {RawAppsFormContainer} from './apps_form_container';
 
 describe('components/apps_form/AppsFormContainer', () => {
     const emojiMap = new EmojiMap(new Map());
@@ -33,22 +35,37 @@ describe('components/apps_form/AppsFormContainer', () => {
                     value: 'initial_value_1',
                 },
                 {
-                    type: 'static_select',
+                    type: 'dynamic_select',
                     name: 'field2',
                     value: 'initial_value_2',
                     refresh: true,
+                    lookup: {
+                        path: '/form_lookup',
+                    },
                 },
             ],
+            submit: {
+                path: '/form_url',
+            },
         },
-        call: {
+        creq: {
+            path: '/form_url_old',
             context,
-            path: '/form_url',
         },
         actions: {
             doAppSubmit: jest.fn().mockResolvedValue({}),
+            doAppFetchForm: jest.fn(),
+            doAppLookup: jest.fn(),
+            postEphemeralCallResponseForContext: jest.fn(),
         },
         onHide: jest.fn(),
     };
+
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
 
     test('should match snapshot', () => {
         const props = baseProps;
@@ -71,9 +88,10 @@ describe('components/apps_form/AppsFormContainer', () => {
                     ...baseProps.actions,
                     doAppSubmit: jest.fn().mockResolvedValue(response),
                 },
+                intl,
             };
 
-            const wrapper = shallowWithIntl(<AppsFormContainer {...props}/>);
+            const wrapper = shallow<RawAppsFormContainer>(<RawAppsFormContainer {...props}/>);
             const result = await wrapper.instance().submitForm({
                 values: {
                     field1: 'value1',
@@ -127,11 +145,12 @@ describe('components/apps_form/AppsFormContainer', () => {
                     ...baseProps.actions,
                     doAppLookup: jest.fn().mockResolvedValue(response),
                 },
+                intl,
             };
 
             const form = props.form;
 
-            const wrapper = shallowWithIntl(<AppsFormContainer {...props}/>);
+            const wrapper = shallow<RawAppsFormContainer>(<RawAppsFormContainer {...props}/>);
             const result = await wrapper.instance().performLookupCall(
                 form.fields[1],
                 {
@@ -148,7 +167,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                     post_id: 'post',
                     team_id: 'team',
                 },
-                path: '/form_url',
+                path: '/form_lookup',
                 expand: {},
                 query: 'My search',
                 selected_field: 'field2',

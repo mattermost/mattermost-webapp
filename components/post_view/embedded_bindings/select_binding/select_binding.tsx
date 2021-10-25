@@ -9,17 +9,17 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppSubmit, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 
 type Option = {
     text: string;
@@ -31,10 +31,9 @@ type Props = {
     post: Post;
     binding: AppBinding;
     actions: {
-        doAppSubmit: DoAppSubmit;
+        handleBindingClick: HandleBindingClick;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 };
 
@@ -42,7 +41,7 @@ type State = {
     selected?: Option;
 };
 
-export class SelectBinding extends React.PureComponent<Props, State> {
+class SelectBinding extends React.PureComponent<Props, State> {
     private providers: MenuActionProvider[];
     private nOptions = 0;
     constructor(props: Props) {
@@ -97,11 +96,6 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             return;
         }
 
-        const call = binding.form?.submit;
-        if (!call) {
-            return;
-        }
-
         const {post, intl} = this.props;
 
         let teamID = '';
@@ -119,22 +113,12 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             post.id,
             post.root_id,
         );
-        const callRequest = createCallRequest(
-            call,
-            context,
-            {post: AppExpandLevels.EXPAND_ALL},
-        );
 
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
-            return;
-        }
-
-        const res = await this.props.actions.doAppSubmit(callRequest, intl);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -145,8 +129,8 @@ export class SelectBinding extends React.PureComponent<Props, State> {
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.text, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
@@ -191,5 +175,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export {SelectBinding as RawSelectBinding};
 
 export default injectIntl(SelectBinding);

@@ -116,6 +116,9 @@ export const viewCommand: AppBinding = {
                 type: AppFieldTypes.DYNAMIC_SELECT,
                 hint: 'The Jira project hint',
                 is_required: true,
+                lookup: {
+                    path: '/view-issue-lookup',
+                },
             },
             {
                 name: 'issue',
@@ -147,6 +150,9 @@ export const createCommand: AppBinding = {
                 description: 'The Jira project description',
                 type: AppFieldTypes.DYNAMIC_SELECT,
                 hint: 'The Jira project hint',
+                lookup: {
+                    path: '/create-issue-lookup',
+                },
             },
             {
                 name: 'summary',
@@ -254,6 +260,9 @@ export const testBindings: AppBinding[] = [
                     label: 'sub1',
                     description: 'Some Description',
                     form: {
+                        submit: {
+                            path: '/submit_other',
+                        },
                         fields: [{
                             name: 'fieldname',
                             label: 'fieldlabel',

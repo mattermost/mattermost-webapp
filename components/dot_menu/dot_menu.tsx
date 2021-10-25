@@ -8,13 +8,13 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
-import {DoAppSubmit, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -27,7 +27,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -97,9 +97,9 @@ type Props = {
         markPostAsUnread: (post: Post, location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string) => void;
 
         /**
-         * Function to perform an app's submit form call
+         * Function to perform an app's binding click
          */
-        doAppSubmit: DoAppSubmit;
+        handleBindingClick: HandleBindingClick;
 
         /**
          * Function to post the ephemeral message for a call response
@@ -110,8 +110,6 @@ type Props = {
          * Function to set the thread as followed/unfollowed
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
-
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
 
         /**
          * Function to get the post menu bindings for this post.
@@ -323,11 +321,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     onClickAppBinding = async (binding: AppBinding) => {
         const {post, intl} = this.props;
 
-        const call = binding.form?.call || binding.call;
-
-        if (!call) {
-            return;
-        }
         const context = createCallContext(
             binding.app_id,
             binding.location,
@@ -336,24 +329,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.post.id,
             this.props.post.root_id,
         );
-        const callRequest = createCallRequest(
-            call,
-            context,
-            {
-                post: AppExpandLevels.ALL,
-            },
-        );
 
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
-            return;
-        }
-
-        const res = await this.props.actions.doAppSubmit(callRequest, intl);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -364,8 +345,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.text, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:

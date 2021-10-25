@@ -83,10 +83,6 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         const content = [] as JSX.Element[];
 
         bindings.forEach((binding: AppBinding) => {
-            if (!binding.call || !binding.location) {
-                return;
-            }
-
             if (binding.bindings && binding.bindings.length > 0) {
                 content.push(
                     <SelectBinding
@@ -95,15 +91,16 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
                         binding={binding}
                     />,
                 );
-            } else {
-                content.push(
-                    <ButtonBinding
-                        key={binding.location}
-                        post={this.props.post}
-                        binding={binding}
-                    />,
-                );
+                return;
             }
+
+            content.push(
+                <ButtonBinding
+                    key={binding.location}
+                    post={this.props.post}
+                    binding={binding}
+                />,
+            );
         });
 
         return (

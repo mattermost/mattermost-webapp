@@ -35,7 +35,7 @@ describe('AppsFormComponent', () => {
             footer: 'Footer',
             header: 'Header',
             icon: 'Icon',
-            call: {
+            submit: {
                 path: '/create',
             },
             fields: [
@@ -138,7 +138,7 @@ describe('AppsFormComponent', () => {
                 actions: {
                     ...baseProps.actions,
                     submit: jest.fn().mockResolvedValue({
-                        error: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
+                        error: {text: 'This is an error.', type: AppCallResponseTypes.ERROR},
                     }),
                 },
             };

@@ -30,7 +30,6 @@ import {
     selectChannel,
     getChannel,
     getCurrentTeamId,
-    doAppSubmit,
     doAppFetchForm,
     doAppLookup,
     getStore,
@@ -894,9 +893,7 @@ export class AppCommandParser {
         if (errorMessage) {
             return {creq: null, errorMessage};
         }
-        if (creq) {
-            creq.context.track_as_submit = true;
-        }
+
         return {creq};
     }
 
@@ -1421,7 +1418,7 @@ export class AppCommandParser {
         const res = await this.store.dispatch(doAppFetchForm(payload, this.intl)) as DoAppCallResult;
         if (res.error) {
             const errorResponse = res.error;
-            return {error: errorResponse.error || this.intl.formatMessage({
+            return {error: errorResponse.text || this.intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error.',
             })};
@@ -1739,7 +1736,7 @@ export class AppCommandParser {
 
         if (res.error) {
             const errorResponse = res.error;
-            return this.makeDynamicSelectSuggestionError(errorResponse.error || this.intl.formatMessage({
+            return this.makeDynamicSelectSuggestionError(errorResponse.text || this.intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error.',
             }));

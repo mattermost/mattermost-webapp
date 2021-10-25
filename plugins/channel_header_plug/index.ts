@@ -9,12 +9,10 @@ import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/e
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {DoAppSubmit, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForChannel} from 'types/apps';
 
-import {doAppSubmit, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
+import {handleBindingClick, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
-
-import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 
 import ChannelHeaderPlug from './channel_header_plug';
 
@@ -31,17 +29,15 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    doAppSubmit: DoAppSubmit;
+    handleBindingClick: HandleBindingClick;
     postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
-    openAppsModal: (form: AppForm, call: AppCallRequest) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            doAppSubmit,
+            handleBindingClick,
             postEphemeralCallResponseForChannel,
-            openAppsModal,
         }, dispatch),
     };
 }

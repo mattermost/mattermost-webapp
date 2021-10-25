@@ -71,10 +71,10 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
+            if (callResp.text) {
                 this.props.actions.postEphemeralCallResponseForContext(
                     callResp,
-                    callResp.markdown,
+                    callResp.text,
                     creq.context,
                 );
             }
@@ -228,5 +228,8 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         );
     }
 }
+
+// Exported for tests
+export {AppsFormContainer as RawAppsFormContainer};
 
 export default injectIntl(AppsFormContainer);

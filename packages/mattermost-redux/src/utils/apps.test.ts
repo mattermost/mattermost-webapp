@@ -1,210 +1,76 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {AppBindingLocations, AppFieldTypes} from 'mattermost-redux/constants/apps';
-import {AppBinding, AppCall, AppField, AppForm, AppSelectOption} from 'mattermost-redux/types/apps';
+import {AppBinding, AppField, AppForm, AppSelectOption} from 'mattermost-redux/types/apps';
 
 import {cleanForm, cleanBinding} from './apps';
 
 describe('Apps Utils', () => {
+    const basicSubmitForm: AppForm = {
+        submit: {
+            path: 'url',
+        },
+    };
+    const basicFetchForm: AppForm = {
+        source: {
+            path: 'url',
+        },
+    };
     describe('fillAndTrimBindingsInformation', () => {
-        test('Apps IDs, and Calls propagate down, and locations get formed', () => {
+        test('Apps IDs propagate down, and locations get formed', () => {
             const inBinding: AppBinding = {
                 app_id: 'id',
                 location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
                 bindings: [
                     {
                         location: 'loc2',
                         bindings: [
                             {
                                 location: 'loc3',
-                            } as AppBinding,
+                                form: basicSubmitForm,
+                            },
                             {
                                 location: 'loc4',
-                            } as AppBinding,
+                                form: basicSubmitForm,
+                            },
                         ],
-                    } as AppBinding,
+                    },
                     {
                         location: 'loc5',
-                    } as AppBinding,
+                        form: basicSubmitForm,
+                    },
                 ],
             } as AppBinding;
 
             const outBinding: AppBinding = {
                 app_id: 'id',
                 location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
                 bindings: [
                     {
                         location: 'loc1/loc2',
                         app_id: 'id',
                         label: 'loc2',
-                        call: {
-                            path: 'url',
-                        } as AppCall,
                         bindings: [
                             {
                                 location: 'loc1/loc2/loc3',
                                 app_id: 'id',
                                 label: 'loc3',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
+                                form: basicSubmitForm,
+                            },
                             {
                                 location: 'loc1/loc2/loc4',
                                 app_id: 'id',
                                 label: 'loc4',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
+                                form: basicSubmitForm,
+                            },
                         ],
-                    } as AppBinding,
+                    },
                     {
                         location: 'loc1/loc5',
                         app_id: 'id',
                         label: 'loc5',
-                        call: {
-                            path: 'url',
-                        } as AppCall,
+                        form: basicSubmitForm,
                     },
-                ],
-            } as AppBinding;
-
-            cleanBinding(inBinding, '');
-            expect(inBinding).toEqual(outBinding);
-        });
-
-        test('Do not overwrite calls nor ids on the way down.', () => {
-            const inBinding: AppBinding = {
-                app_id: 'id',
-                location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
-                bindings: [
-                    {
-                        app_id: 'id2',
-                        location: 'loc2',
-                        bindings: [
-                            {
-                                location: 'loc3',
-                            } as AppBinding,
-                            {
-                                location: 'loc4',
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                    {
-                        call: {
-                            path: 'url2',
-                        } as AppCall,
-                        location: 'loc5',
-                    } as AppBinding,
-                ],
-            } as AppBinding;
-
-            const outBinding: AppBinding = {
-                app_id: 'id',
-                location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
-                bindings: [
-                    {
-                        location: 'loc1/loc2',
-                        app_id: 'id2',
-                        label: 'loc2',
-                        call: {
-                            path: 'url',
-                        } as AppCall,
-                        bindings: [
-                            {
-                                location: 'loc1/loc2/loc3',
-                                app_id: 'id2',
-                                label: 'loc3',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
-                            {
-                                location: 'loc1/loc2/loc4',
-                                app_id: 'id2',
-                                label: 'loc4',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                    {
-                        location: 'loc1/loc5',
-                        app_id: 'id',
-                        label: 'loc5',
-                        call: {
-                            path: 'url2',
-                        } as AppCall,
-                    },
-                ],
-            } as AppBinding;
-
-            cleanBinding(inBinding, '');
-            expect(inBinding).toEqual(outBinding);
-        });
-
-        test('Trim branches without app_id.', () => {
-            const inBinding: AppBinding = {
-                location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
-                bindings: [
-                    {
-                        location: 'loc2',
-                        bindings: [
-                            {
-                                location: 'loc3',
-                            } as AppBinding,
-                            {
-                                app_id: 'id',
-                                location: 'loc4',
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                    {
-                        location: 'loc5',
-                    } as AppBinding,
-                ],
-            } as AppBinding;
-
-            const outBinding: AppBinding = {
-                location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
-                bindings: [
-                    {
-                        location: 'loc1/loc2',
-                        label: 'loc2',
-                        call: {
-                            path: 'url',
-                        } as AppCall,
-                        bindings: [
-                            {
-                                location: 'loc1/loc2/loc4',
-                                app_id: 'id',
-                                label: 'loc4',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
                 ],
             } as AppBinding;
 
@@ -222,18 +88,20 @@ describe('Apps Utils', () => {
                         bindings: [
                             {
                                 location: 'loc3',
-                            } as AppBinding,
+                            },
                             {
                                 location: 'loc4',
-                                call: {
-                                    path: 'url',
-                                },
-                            } as AppBinding,
+                                form: basicSubmitForm,
+                            },
+                            {
+                                location: 'loc5',
+                                form: basicFetchForm,
+                            },
                         ],
-                    } as AppBinding,
+                    },
                     {
-                        location: 'loc5',
-                    } as AppBinding,
+                        location: 'loc6',
+                    },
                 ],
             } as AppBinding;
 
@@ -249,48 +117,18 @@ describe('Apps Utils', () => {
                             {
                                 location: 'loc1/loc2/loc4',
                                 app_id: 'id',
-                                call: {
-                                    path: 'url',
-                                },
+                                form: basicSubmitForm,
                                 label: 'loc4',
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                ],
-            } as AppBinding;
-
-            cleanBinding(inBinding, '');
-            expect(inBinding).toEqual(outBinding);
-        });
-
-        test('Trim mixed invalid branches.', () => {
-            const inBinding: AppBinding = {
-                location: 'loc1',
-                bindings: [
-                    {
-                        location: 'loc2',
-                        bindings: [
+                            },
                             {
-                                location: 'loc3',
-                            } as AppBinding,
-                            {
-                                location: 'loc4',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
+                                location: 'loc1/loc2/loc5',
+                                app_id: 'id',
+                                form: basicFetchForm,
+                                label: 'loc5',
+                            },
                         ],
-                    } as AppBinding,
-                    {
-                        app_id: 'id',
-                        location: 'loc5',
-                    } as AppBinding,
+                    },
                 ],
-            } as AppBinding;
-
-            const outBinding: AppBinding = {
-                location: 'loc1',
-                bindings: [] as AppBinding[],
             } as AppBinding;
 
             cleanBinding(inBinding, '');
@@ -795,16 +633,20 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                             {
                                 app_id: 'app',
                                 location: 'loc12',
                                 label: 'loc12',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -813,8 +655,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -831,16 +675,20 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: '/command/loc1/loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                             {
                                 app_id: 'app',
                                 location: '/command/loc1/loc12',
                                 label: 'loc12',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -849,8 +697,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -872,14 +722,18 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                             {
                                 app_id: 'app',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             } as AppBinding,
                         ],
@@ -888,8 +742,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -906,8 +762,10 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: '/command/loc1/loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -916,8 +774,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -939,15 +799,19 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                             {
                                 app_id: 'app',
                                 location: 'loc1 2',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             } as AppBinding,
                         ],
@@ -956,8 +820,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -974,8 +840,10 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: '/command/loc1/loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -984,8 +852,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1007,16 +877,20 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                             {
                                 app_id: 'app',
                                 location: 'loc12',
                                 label: 'loc1 2',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -1025,8 +899,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1043,8 +919,10 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: '/command/loc1/loc11',
                                 label: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -1053,8 +931,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1076,16 +956,20 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'same',
                                 description: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             } as AppBinding,
                             {
                                 app_id: 'app',
                                 location: 'same',
                                 description: 'loc12',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             } as AppBinding,
                         ],
@@ -1094,8 +978,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1113,8 +999,10 @@ describe('Apps Utils', () => {
                                 location: '/command/loc1/same',
                                 label: 'same',
                                 description: 'loc11',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             } as AppBinding,
                         ],
@@ -1123,8 +1011,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1146,16 +1036,20 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'loc11',
                                 label: 'same',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                             {
                                 app_id: 'app',
                                 location: 'loc12',
                                 label: 'same',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -1164,8 +1058,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1182,8 +1078,10 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: '/command/loc1/loc11',
                                 label: 'same',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -1192,8 +1090,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1215,8 +1115,10 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'loc11',
                                 label: 'loc 1 1',
-                                call: {
-                                    path: '/path',
+                                form: {
+                                    submit: {
+                                        path: '/path',
+                                    },
                                 },
                             },
                         ],
@@ -1225,8 +1127,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],
@@ -1238,8 +1142,10 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        call: {
-                            path: '/path',
+                        form: {
+                            submit: {
+                                path: '/path',
+                            },
                         },
                     },
                 ],

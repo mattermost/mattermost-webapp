@@ -5,15 +5,14 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {sendEphemeralPost} from 'actions/global_actions';
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {AppBinding, AppCallRequest, AppCallResponse, AppCallType, AppForm} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
 
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 type Props = {
 
@@ -37,8 +36,8 @@ type Props = {
     appsEnabled: boolean;
     intl: IntlShape;
     actions: {
-        doAppSubmit: (call: AppCallRequest, intl: IntlShape) => Promise<ActionResult>;
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+        handleBindingClick: HandleBindingClick;
+        postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
     };
 }
 
@@ -129,47 +128,44 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
     }
 
     fireAppAction = async (binding: AppBinding) => {
-        const call = binding.form?.submit;
-        if (!call) {
-            return;
-        }
-
+        const {channel, intl} = this.props;
         const context = createCallContext(
             binding.app_id,
             binding.location,
-            this.props.channel.id,
-            this.props.channel.team_id,
+            channel.id,
+            channel.team_id,
         );
-        const callRequest = createCallRequest(call, context);
 
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
+
+        if (res.error) {
+            const errorResponse = res.error;
+            const errorMessage = errorResponse.text || intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error occurred.',
+            });
+            this.props.actions.postEphemeralCallResponseForChannel(errorResponse, errorMessage, channel.id);
             return;
         }
-        const res = await this.props.actions.doAppSubmit(callRequest, this.props.intl);
 
-        const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id, '', callResp.app_metadata?.bot_user_id);
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                ephemeral(callResp.markdown);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.text, channel.id);
             }
             break;
-        case AppCallResponseTypes.ERROR: {
-            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happened'});
-            ephemeral(errorMessage);
-            break;
-        }
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errorMessage = this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
-            );
-            ephemeral(errorMessage);
+            const errorMessage = this.props.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            });
+            this.props.actions.postEphemeralCallResponseForChannel(callResp, errorMessage, channel.id);
         }
         }
     }
@@ -198,5 +194,8 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
         </>);
     }
 }
+
+// Exported for tests
+export {MobileChannelHeaderPlug as RawMobileChannelHeaderPlug};
 
 export default injectIntl(MobileChannelHeaderPlug);

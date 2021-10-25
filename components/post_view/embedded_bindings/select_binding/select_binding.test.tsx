@@ -9,7 +9,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import SelectBinding, {SelectBinding as SelectBindingUnwrapped} from './select_binding';
+import SelectBinding, {RawSelectBinding} from './select_binding';
 
 describe('components/post_view/embedded_bindings/select_binding', () => {
     const post = {
@@ -45,20 +45,21 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
         ] as AppBinding[],
     } as AppBinding;
 
-    const callResponse = {
+    const callResponse: AppCallResponse = {
         type: 'ok',
-        markdown: 'Nice job!',
+        text: 'Nice job!',
         app_metadata: {
             bot_user_id: 'botuserid',
+            bot_username: 'botusername',
         },
-    } as AppCallResponse;
+    };
 
     const baseProps = {
         post,
         userId: 'user_id',
         binding,
         actions: {
-            doAppSubmit: jest.fn().mockResolvedValue({
+            handleBindingClick: jest.fn().mockResolvedValue({
                 data: callResponse,
             }),
             getChannel: jest.fn().mockResolvedValue({
@@ -68,9 +69,14 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                 },
             }),
             postEphemeralCallResponseForPost: jest.fn(),
-            openAppsModal: jest.fn(),
         },
     };
+
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
 
     test('should start with nothing selected', () => {
         const wrapper = shallowWithIntl(<SelectBinding {...baseProps}/>);
@@ -79,16 +85,17 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
     });
 
     describe('handleSelected', () => {
-        test('should should call doAppSubmit', async () => {
+        test('should call handleBindingClick', async () => {
             const props = {
                 ...baseProps,
                 actions: {
-                    doAppSubmit: jest.fn().mockResolvedValue({
+                    handleBindingClick: jest.fn().mockResolvedValue({
                         data: {
                             type: 'ok',
-                            markdown: 'Nice job!',
+                            text: 'Nice job!',
                             app_metadata: {
                                 bot_user_id: 'botuserid',
+                                bot_username: 'botusername',
                             },
                         },
                     }),
@@ -99,12 +106,11 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                         },
                     }),
                     postEphemeralCallResponseForPost: jest.fn(),
-                    openAppsModal: jest.fn(),
                 },
-                intl: {} as any,
+                intl,
             };
 
-            const wrapper = shallow<SelectBindingUnwrapped>(<SelectBindingUnwrapped {...props}/>);
+            const wrapper = shallow<RawSelectBinding>(<RawSelectBinding {...props}/>);
 
             await wrapper.instance().handleSelected({
                 text: 'Option 1',
@@ -112,42 +118,42 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
             });
 
             expect(props.actions.getChannel).toHaveBeenCalledWith('some_channel_id');
-            expect(props.actions.doAppSubmit).toHaveBeenCalledWith({
-                context: {
-                    app_id: 'some_app_id',
-                    channel_id: 'some_channel_id',
-                    location: '/in_post/option1',
-                    post_id: 'some_post_id',
-                    root_id: 'some_root_id',
-                    team_id: 'some_team_id',
+            expect(props.actions.handleBindingClick).toHaveBeenCalledWith({
+                app_id: 'some_app_id',
+                label: 'Option 1',
+                location: 'option1',
+                form: {
+                    submit: {
+                        path: 'some_url_1',
+                    },
                 },
-                expand: {
-                    post: 'all',
-                },
-                path: 'some_url_1',
-                query: undefined,
-                raw_command: undefined,
-                selected_field: undefined,
-                values: undefined,
-            }, {});
+            }, {
+                app_id: 'some_app_id',
+                channel_id: 'some_channel_id',
+                location: '/in_post/option1',
+                post_id: 'some_post_id',
+                root_id: 'some_root_id',
+                team_id: 'some_team_id',
+            }, expect.anything());
 
             expect(props.actions.postEphemeralCallResponseForPost).toHaveBeenCalledWith(callResponse, 'Nice job!', post);
         });
     });
 
     test('should handle error call response', async () => {
-        const errorResponse = {
+        const errorResponse: AppCallResponse = {
             type: 'error',
-            error: 'The error',
+            text: 'The error',
             app_metadata: {
                 bot_user_id: 'botuserid',
+                bot_username: 'botusername',
             },
         };
 
         const props = {
             ...baseProps,
             actions: {
-                doAppSubmit: jest.fn().mockResolvedValue({
+                handleBindingClick: jest.fn().mockResolvedValue({
                     error: errorResponse,
                 }),
                 getChannel: jest.fn().mockResolvedValue({
@@ -157,12 +163,11 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                     },
                 }),
                 postEphemeralCallResponseForPost: jest.fn(),
-                openAppsModal: jest.fn(),
             },
-            intl: {} as any,
+            intl,
         };
 
-        const wrapper = shallow<SelectBindingUnwrapped>(<SelectBindingUnwrapped {...props}/>);
+        const wrapper = shallow<RawSelectBinding>(<RawSelectBinding {...props}/>);
 
         await wrapper.instance().handleSelected({
             text: 'Option 1',

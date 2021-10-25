@@ -10,9 +10,10 @@ import {getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {GlobalState} from 'types/store';
-import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
-import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {doAppSubmit, openAppsModal} from 'actions/apps';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {handleBindingClick, postEphemeralCallResponseForChannel} from 'actions/apps';
+
+import {HandleBindingClick, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import MobileChannelHeaderPlug from './mobile_channel_header_plug';
 
@@ -30,15 +31,15 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    doAppSubmit: (creq: AppCallRequest) => Promise<ActionResult>;
-    openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+    handleBindingClick: HandleBindingClick;
+    postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            doAppSubmit,
-            openAppsModal,
+            handleBindingClick,
+            postEphemeralCallResponseForChannel,
         }, dispatch),
     };
 }

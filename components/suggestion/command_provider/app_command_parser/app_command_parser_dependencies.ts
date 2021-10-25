@@ -65,7 +65,7 @@ export {getUserByUsername as selectUserByUsername, getUser as selectUser} from '
 export {getUserByUsername, getUser} from 'mattermost-redux/actions/users';
 export {getChannelByNameAndTeamName, getChannel, autocompleteChannels} from 'mattermost-redux/actions/channels';
 
-export {doAppSubmit, doAppFetchForm, doAppLookup} from 'actions/apps';
+export {doAppFetchForm, doAppLookup} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
 export {

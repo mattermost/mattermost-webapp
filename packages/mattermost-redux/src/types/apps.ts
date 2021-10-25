@@ -103,9 +103,8 @@ export type AppCallResponseType = string;
 
 export type AppCallResponse<Res = unknown> = {
     type: AppCallResponseType;
-    markdown?: string;
+    text?: string;
     data?: Res;
-    error?: string;
     navigate_to_url?: string;
     use_external_browser?: boolean;
     call?: AppCall;
@@ -159,7 +158,7 @@ export type AppForm = {
     submit_buttons?: string;
     cancel_button?: boolean;
     submit_on_cancel?: boolean;
-    fields: AppField[];
+    fields?: AppField[];
 
     // source is used in 2 cases:
     //   - if submit is not set, it is used to fetch the submittable form from
