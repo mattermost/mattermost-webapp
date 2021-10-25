@@ -74,24 +74,13 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
             should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
-    it('MM-T3846_5 should show custom status with emoji and clear button in the status dropdown', () => {
+    it('MM-T3846_5 should show custom status with emoji in the status dropdown', () => {
         // # Open user menu
         cy.uiOpenUserMenu();
 
         // * Correct custom status text and emoji should be displayed in the status dropdown
         cy.get('.status-dropdown-menu .custom_status__container').should('have.text', customStatus.text);
         cy.get('.status-dropdown-menu .custom_status__row span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
-
-        // * Clear button should be visible in the status dropdown
-        cy.get('.status-dropdown-menu #custom_status__clear').should('exist');
-    });
-
-    it('MM-T3846_6 should clear the custom status text when clear button is clicked', () => {
-        // # Click on the clear button in the status dropdown
-        cy.get('.status-dropdown-menu #custom_status__clear').click();
-
-        // * Custom status text should be removed and "Set a Custom Status" should be displayed in the status dropdown
-        cy.get('.status-dropdown-menu .custom_status__row').should('have.text', 'Set a Custom Status');
     });
 
     it('MM-T3846_7 should show previosly set status in the first position in Recents list', () => {
