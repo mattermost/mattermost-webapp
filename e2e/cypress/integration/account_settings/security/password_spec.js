@@ -9,7 +9,7 @@
 
 // Group: @account_setting
 
-describe('Account Settings > Security > Password', () => {
+describe('Account Settings', () => {
     let testUser;
     let offTopic;
 
