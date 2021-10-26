@@ -18,7 +18,7 @@ type Props = {
     /**
      * Function injected by ModalController to be called when the modal can be unmounted
      */
-    onHide: () => void;
+    onExited: () => void;
 
     actions: {
         updateChannelPrivacy: (channelId: string, privacy: string) => void;
@@ -54,7 +54,7 @@ export default class ConvertChannelModal extends React.PureComponent<Props, Stat
     render() {
         const {
             channelDisplayName,
-            onHide,
+            onExited,
         } = this.props;
 
         return (
@@ -62,7 +62,7 @@ export default class ConvertChannelModal extends React.PureComponent<Props, Stat
                 dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={onHide}
+                onExited={onExited}
                 role='dialog'
                 aria-labelledby='convertChannelModalLabel'
             >
