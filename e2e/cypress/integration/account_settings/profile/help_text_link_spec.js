@@ -32,6 +32,9 @@ describe('Account Settings', () => {
             cy.findByText('Notifications').click();
         });
 
+        // * Verify that the modal switched to "Settings" modal
+        cy.get('#accountSettingsModalLabel').should('be.visible').and('have.text', 'Settings');
+
         // * Verify that the view switches to notifications tab
         cy.get('#notificationSettingsTitle').should('be.visible').should('contain', 'Notifications');
     });
