@@ -126,16 +126,9 @@
                 color: inherit;
             }
         }
-
-        > div {
-            &:hover,
-            &:focus {
-                background-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
-            }
-        }
     }
 
-    .MenuTopNotification {
+    .MenuCloudTrial {
         padding: 8px;
         margin: 8px;
         margin-top: 0;
@@ -143,16 +136,41 @@
         border-radius: 4px;
 
         .upgradeLink {
-            color: --button-bg;
+            color: var(--button-bg);
             font-style: normal;
             font-weight: 600;
 
             &:hover {
-                color: --button-bg;
+                color: var(--button-bg);
                 font-style: normal;
                 font-weight: 600;
                 text-decoration: none;
             }
+        }
+    }
+
+    .MenuStartTrial {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px;
+        padding-left: 16px;
+        margin: 8px;
+        margin-top: 0;
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+        border-radius: 4px;
+
+        button {
+            padding: 3px 0;
+            border: none;
+            background-color: transparent;
+            color: var(--link-color);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: transparent;
         }
     }
 }

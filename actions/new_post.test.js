@@ -54,6 +54,7 @@ describe('actions/new_post', () => {
             },
             channels: {
                 currentChannelId: 'current_channel_id',
+                messageCounts: {},
                 myMembers: {[latestPost.channel_id]: {channel_id: 'current_channel_id', user_id: 'current_user_id'}},
                 channels: {
                     current_channel_id: {id: 'current_channel_id'},
@@ -121,6 +122,9 @@ describe('actions/new_post', () => {
                     channels: {
                         currentChannelId: channelId,
                         manuallyUnread: {},
+                        messageCounts: {
+                            [channelId]: {total: 0},
+                        },
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: 0, roles: ''},
                         },
@@ -191,6 +195,9 @@ describe('actions/new_post', () => {
                     channels: {
                         currentChannelId: channelId,
                         manuallyUnread: {},
+                        messageCounts: {
+                            [channelId]: {total: 0},
+                        },
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: 0, roles: ''},
                         },
@@ -251,6 +258,10 @@ describe('actions/new_post', () => {
                     channels: {
                         currentChannelId: otherChannelId,
                         manuallyUnread: {},
+                        messageCounts: {
+                            [channelId]: {total: 0},
+                            [otherChannelId]: {total: 0},
+                        },
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
                             [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
@@ -313,6 +324,10 @@ describe('actions/new_post', () => {
                     channels: {
                         currentChannelId: otherChannelId,
                         manuallyUnread: {},
+                        messageCounts: {
+                            [channelId]: {total: 0},
+                            [otherChannelId]: {total: 0},
+                        },
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
                             [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
@@ -381,6 +396,10 @@ describe('actions/new_post', () => {
                     channels: {
                         currentChannelId: otherChannelId,
                         manuallyUnread: {},
+                        messageCounts: {
+                            [channelId]: {total: 0},
+                            [otherChannelId]: {total: 0},
+                        },
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
                             [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
@@ -441,6 +460,9 @@ describe('actions/new_post', () => {
                         currentChannelId: channelId,
                         manuallyUnread: {
                             [channelId]: true,
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 0},
                         },
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: post1.create_at - 1, roles: ''},

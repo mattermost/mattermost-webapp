@@ -67,3 +67,8 @@
         text-decoration: none;
     }
 }
+
+@mixin fit-content {
+    width: fit-content;
+    width: -moz-fit-content;
+}

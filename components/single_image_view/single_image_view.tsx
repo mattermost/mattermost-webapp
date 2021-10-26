@@ -86,7 +86,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         this.setState({showPreviewModal: true});
     }
 
-    showPreviewModal = () => {
+    hidePreviewModal = () => {
         this.setState({showPreviewModal: false});
     }
 
@@ -184,7 +184,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             viewImageModal = (
                 <FilePreviewModal
                     show={this.state.showPreviewModal}
-                    onModalDismissed={this.showPreviewModal}
+                    onModalDismissed={this.hidePreviewModal}
                     fileInfos={[fileInfo]}
                     postId={this.props.postId}
                 />

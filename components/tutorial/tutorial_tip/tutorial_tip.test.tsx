@@ -14,6 +14,8 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
     const requiredProps = {
         currentUserId,
         step: 1,
+        currentStep: 1,
+        autoTour: false,
         actions: {
             closeRhsMenu: jest.fn(),
             savePreferences: jest.fn(),
@@ -62,7 +64,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
             user_id: currentUserId,
             category: Preferences.TUTORIAL_STEP,
             name: currentUserId,
-            value: (requiredProps.step + 1).toString(),
+            value: (requiredProps.currentStep + 1).toString(),
         }];
 
         expect(closeRhsMenu).toHaveBeenCalledTimes(1);

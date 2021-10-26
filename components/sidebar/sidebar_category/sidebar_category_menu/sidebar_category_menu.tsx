@@ -15,6 +15,7 @@ import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
 import {Props as SubmenuItemProps} from 'components/widgets/menu/menu_items/submenu_item';
+import {ModalData} from 'types/actions';
 
 type Props = {
     currentTeamId: string;
@@ -23,10 +24,8 @@ type Props = {
     onToggleMenu: (open: boolean) => void;
     intl: IntlShape;
     actions: {
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-            data: boolean;
-        }>;
-        setCategoryMuted: (categoryId: string, muted: boolean) => Promise<void>;
+        openModal: <P>(modalData: ModalData<P>) => void;
+        setCategoryMuted: (categoryId: string, muted: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
     };
 };

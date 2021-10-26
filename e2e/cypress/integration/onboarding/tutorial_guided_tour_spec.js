@@ -33,7 +33,8 @@ describe('Onboarding', () => {
         cy.get(`#create_post ${selectors.tip}`).click();
 
         // * Observe the help on posting messages is visible
-        cy.get(selectors.tipText).should('be.visible').
+        cy.get(selectors.tipText).
+            should('be.visible').
             and('contain', 'Send a message');
 
         // # Close the posting messages tip
@@ -43,27 +44,38 @@ describe('Onboarding', () => {
         cy.get(`#sidebarItem_town-square ${selectors.tip}`).click();
 
         // * Observe the help on channels is visible
-        cy.get(selectors.tipText).should('be.visible').
+        cy.get(selectors.tipText).
+            should('be.visible').
             and('contain', 'Organize conversations in channels');
 
         // # Close the channels tip
         cy.get(selectors.tipNext).click();
 
         // # Click the tip on creating and joining channels
-        cy.get(`#lhsNavigator ${selectors.tip}`).click();
+        cy.uiGetLHSAddChannelButton().
+            parent().
+            find(selectors.tip).
+            click();
 
         // * Observe the help on creating and joining channels is visible
-        cy.get(selectors.tipText).should('be.visible').
+        cy.get(selectors.tipText).
+            should('be.visible').
             and('contain', 'Create and join channels');
 
         // # Close the creating and joining channels tip
         cy.get(selectors.tipNext).click();
 
+        // # Close the menu
+        cy.uiGetLHSAddChannelButton().click();
+
         // # Click the tip on admin UI and inviting people
-        cy.get(`#sidebarHeaderDropdownButton ${selectors.tip}`).click();
+        cy.uiGetLHS().
+            find(selectors.tip).
+            click();
 
         // * Observe the help on admin UI and inviting people is visible
-        cy.get(selectors.tipText).should('be.visible').
+        cy.get(selectors.tipText).
+            should('be.visible').
             and('contain', 'Invite people');
 
         // # Close the admin UI and inviting people tip

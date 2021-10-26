@@ -25,8 +25,7 @@ describe('components/LeavePrivateChannelModal', () => {
             update_at: 0,
             delete_at: 0,
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
+            last_root_post_at: 0,
         },
         'channel-2': {
             id: 'channel-2',
@@ -43,8 +42,7 @@ describe('components/LeavePrivateChannelModal', () => {
             update_at: 0,
             delete_at: 0,
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
+            last_root_post_at: 0,
         },
         'town-square': {
             id: 'town-square-id',
@@ -61,8 +59,7 @@ describe('components/LeavePrivateChannelModal', () => {
             update_at: 0,
             delete_at: 0,
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
+            last_root_post_at: 0,
         },
     };
 
