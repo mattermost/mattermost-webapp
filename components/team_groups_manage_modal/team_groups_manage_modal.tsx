@@ -20,13 +20,35 @@ import groupsAvatar from 'images/groups-avatar.png';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
+import {ModalData} from 'types/actions';
+
 import * as Utils from 'utils/utils.jsx';
-import {Group} from 'mattermost-redux/types/groups';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Group, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
 
-import type {Props} from './index';
-
-type PropsWithIntl = Props & {
+type Props = {
     intl: IntlShape;
+    team: Team;
+    actions: {
+        getGroupsAssociatedToTeam: (teamID: string, q: string, page: number, perPage: number, filterAllowReference: boolean) => Promise<{
+            data: {
+                groups: Group[];
+                totalGroupCount: number;
+                teamID: string;
+            };
+        }>;
+        closeModal: (modalId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
+        unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => Promise<{
+            data: boolean;
+        }>;
+        patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => Promise<{
+            data: boolean;
+        }>;
+        getMyTeamMembers: () => Promise<{
+            data: TeamMembership[];
+        }>;
+    };
 };
 
 type State = {
@@ -35,7 +57,7 @@ type State = {
     listModal?: ListModal;
 }
 
-class TeamGroupsManageModal extends React.PureComponent<PropsWithIntl, State> {
+class TeamGroupsManageModal extends React.PureComponent<Props, State> {
     state = {
         showConfirmModal: false,
         item: {
