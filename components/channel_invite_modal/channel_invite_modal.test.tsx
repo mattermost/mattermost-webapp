@@ -121,6 +121,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 userStatuses={userStatuses}
             />,
         );
