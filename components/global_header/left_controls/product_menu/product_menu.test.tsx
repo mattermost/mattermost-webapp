@@ -22,6 +22,7 @@ function makeProduct(name: string): ProductComponent {
         mainComponent: null,
         headerCentreComponent: null,
         headerRightComponent: null,
+        showTeamSidebar: false,
     };
 }
 

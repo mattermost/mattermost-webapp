@@ -8,6 +8,8 @@ import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import throttle from 'lodash/throttle';
 
+import classNames from 'classnames';
+
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
@@ -402,12 +404,14 @@ export default class Root extends React.PureComponent {
                                     path={product.baseURL}
                                     render={(props) => (
                                         <LoggedIn {...props}>
-                                            <Pluggable
-                                                pluggableName={'Product'}
-                                                subComponentName={'mainComponent'}
-                                                pluggableId={product.id}
-                                                webSocketClient={webSocketClient}
-                                            />
+                                            <div className={classNames(['pluggable-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                <Pluggable
+                                                    pluggableName={'Product'}
+                                                    subComponentName={'mainComponent'}
+                                                    pluggableId={product.id}
+                                                    webSocketClient={webSocketClient}
+                                                />
+                                            </div>
                                         </LoggedIn>
                                     )}
                                 />

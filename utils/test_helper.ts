@@ -365,6 +365,7 @@ export class TestHelper {
             mainComponent: null,
             headerCentreComponent: null,
             headerRightComponent: null,
+            showTeamSidebar: false,
         };
     }
 }
