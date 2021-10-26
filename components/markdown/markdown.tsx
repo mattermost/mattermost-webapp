@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {isString} from 'lodash';
 import React from 'react';
 
 import {Team} from 'mattermost-redux/types/teams';
@@ -126,11 +127,11 @@ export default class Markdown extends React.PureComponent<Props> {
     }
 
     render() {
-        const {postId, editedAt, message} = this.props;
-        if (!this.props.enableFormatting) {
+        const {postId, editedAt, message, enableFormatting} = this.props;
+        if ((isString(message) && message.length === 0) || !enableFormatting) {
             return (
                 <span>
-                    {this.props.message}
+                    {message}
                     <PostEditedIndicator
                         postId={postId}
                         editedAt={editedAt}
