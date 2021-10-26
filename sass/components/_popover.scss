@@ -476,7 +476,6 @@
             @include opacity(0.8);
 
             position: relative;
-            top: 2px;
             margin: 0 38px 0 24px;
         }
 
@@ -511,6 +510,7 @@
         .btn {
             width: 100px;
             height: 42px;
+            padding: 0;
             margin-left: 10px;
         }
     }
