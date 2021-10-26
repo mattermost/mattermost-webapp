@@ -719,8 +719,6 @@ export default class PluginRegistry {
     // All parameters are required.
     // Returns a unique identifier.
     registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar) {
-        console.log('Registering ' + baseURL);
-
         const id = generateId();
 
         store.dispatch({

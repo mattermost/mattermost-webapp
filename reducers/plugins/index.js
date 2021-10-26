@@ -171,7 +171,6 @@ function components(state = {}, action) {
             const currentArray = nextState[action.name] || [];
             const nextArray = [...currentArray];
             let actionData = action.data;
-            console.log('ZZZZZ');
             if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
                 // Remove the menu from nextArray to rebuild it later.
                 const menu = remove(nextArray, (c) => hasMenuId(c, actionData.parentMenuId) && c.pluginId === actionData.pluginId);

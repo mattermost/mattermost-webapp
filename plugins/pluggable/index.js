@@ -10,7 +10,6 @@ import {withRouter} from 'react-router-dom';
 
 function mapStateToProps(state) {
     const products = state.plugins.components.Product;
-
     return {
         components: state.plugins.components,
         theme: getTheme(state),

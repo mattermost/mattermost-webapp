@@ -236,7 +236,6 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
 
         const teams = sortedTeams.map((team: Team, index: number) => {
             const member = this.props.myTeamMembers[team.id];
-
             return (
                 <TeamButton
                     key={'switch_team_' + team.name}
