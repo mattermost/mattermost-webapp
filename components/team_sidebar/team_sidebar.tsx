@@ -28,7 +28,6 @@ import Pluggable from 'plugins/pluggable';
 import {ThreadsState} from 'mattermost-redux/types/threads';
 
 import TeamButton from './components/team_button';
-import {useCurrentProductId, useProducts} from '../global_header/hooks';
 import {ProductComponent} from '../../types/store/plugins';
 import {RouteComponentProps} from 'react-router-dom';
 import {getCurrentProductId} from '../../utils/products';
@@ -59,7 +58,6 @@ export interface Props {
     threadCounts: ThreadsState['counts'];
     products: ProductComponent[];
     location: RouteComponentProps["location"];
-    teamIdByProduct: string | null;
 }
 
 export function renderView(props: Props) {
@@ -236,27 +234,15 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
             return null;
         }
 
-        console.log(`currentProductID: ${currentProductID}`);
-        console.log(currentProduct);
-
         const teams = sortedTeams.map((team: Team, index: number) => {
             const member = this.props.myTeamMembers[team.id];
-            let teamSwitchCallback = currentProduct?.teamSwitchCallback
-            if (!teamSwitchCallback && currentProductID) {
-                console.log(`team callback not found for ${currentProduct?.baseURL} so registering a dummy one`);
-                // Team sidebar shouldn't navigate to teams when a product is being displayed.
-                // We achieve this by making sure a team switch callback is available
-                // even if the product doesn't declare one.
-                teamSwitchCallback = () => {
-                };
-            }
 
             return (
                 <TeamButton
                     key={'switch_team_' + team.name}
                     url={`/${team.name}`}
                     tip={team.display_name}
-                    active={team.id === this.props.currentTeamId || team.id === this.props.teamIdByProduct}
+                    active={team.id === this.props.currentTeamId}
                     displayName={team.display_name}
                     unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
                     order={index + 1}
@@ -267,7 +253,6 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}
-                    teamSwitchCallback={teamSwitchCallback}
                 />
             );
         });

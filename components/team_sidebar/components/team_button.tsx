@@ -38,7 +38,6 @@ interface Props {
     isDraggable?: boolean;
     teamIndex?: number;
     teamId?: string;
-    teamSwitchCallback?: (teamID: string) => void
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -47,11 +46,7 @@ class TeamButton extends React.PureComponent<Props> {
         e.preventDefault();
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
-        if (this.props.teamSwitchCallback && this.props.teamId) {
-            this.props.teamSwitchCallback(this.props.teamId);
-        } else {
-            this.props.switchTeam(this.props.url);
-        }
+        this.props.switchTeam(this.props.url);
     }
 
     handleDisabled = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {

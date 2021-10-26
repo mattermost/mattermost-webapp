@@ -65,7 +65,6 @@ export default class ChannelController extends React.PureComponent<Props> {
                 <div className='container-fluid'>
                     <SidebarRight/>
                     <SidebarRightMenu/>
-                    {/*<TeamSidebar/>*/}
                     <Sidebar/>
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}

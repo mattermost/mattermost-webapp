@@ -7,7 +7,6 @@ import {useLocation} from 'react-router';
 
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
-import {getBasePath} from 'utils/url';
 import {Preferences} from 'utils/constants';
 
 import {UserProfile} from 'mattermost-redux/types/users';

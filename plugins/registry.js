@@ -718,7 +718,7 @@ export default class PluginRegistry {
     //                     the global header when your route is active.
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null,showTeamSidebar, teamSwitchCallback, getCurrentTeam) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar) {
         console.log('Registering ' + baseURL);
 
         const id = generateId();
@@ -737,8 +737,6 @@ export default class PluginRegistry {
                 headerCentreComponent,
                 headerRightComponent,
                 showTeamSidebar,
-                teamSwitchCallback,
-                getCurrentTeam,
             },
         });
 

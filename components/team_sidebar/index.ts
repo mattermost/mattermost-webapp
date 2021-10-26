@@ -29,29 +29,15 @@ import {GlobalState} from 'types/store';
 
 import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
 
-import TeamSidebar, {Props} from './team_sidebar';
-import {getCurrentProductId} from '../../utils/products';
+import TeamSidebar from './team_sidebar';
 
-function mapStateToProps(state: GlobalState, props: any) {
+function mapStateToProps(state: GlobalState) {
     const config: Partial<ClientConfig> = getConfig(state);
 
     const experimentalPrimaryTeam: string | undefined = config.ExperimentalPrimaryTeam;
     const joinableTeams: string[] = getJoinableTeamIds(state);
     const moreTeamsToJoin: boolean = joinableTeams && joinableTeams.length > 0;
     const products = state.plugins.components.Product;
-
-    console.log(props);
-
-    const currentProductID = getCurrentProductId(products, props.location);
-    const currentProduct = products?.find((product) => product.id === currentProductID);
-
-    console.log(currentProduct);
-    console.log(currentProduct?.getCurrentTeam);
-
-    let teamIdByProduct = null;
-    if (currentProduct && currentProduct.getCurrentTeam && currentProduct.getCurrentTeam()) {
-        teamIdByProduct = currentProduct.getCurrentTeam()();
-    }
 
     return {
         currentTeamId: getCurrentTeamId(state),
@@ -65,7 +51,6 @@ function mapStateToProps(state: GlobalState, props: any) {
         userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
         threadCounts: getThreadCounts(state),
         products,
-        teamIdByProduct,
     };
 }
 
