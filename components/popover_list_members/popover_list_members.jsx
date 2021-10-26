@@ -9,7 +9,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
+
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
 
@@ -91,8 +93,9 @@ export default class PopoverListMembers extends React.PureComponent {
         this.props.actions.openModal(modalData);
     };
 
-    onAddNewMembersButton = () => {
+    onAddNewMembersButton = (placement) => {
         const {channel, actions} = this.props;
+        trackEvent('add_members_from_channel_popover', placement);
 
         actions.openModal({
             modalId: ModalIdentifiers.CHANNEL_INVITE,
@@ -149,7 +152,7 @@ export default class PopoverListMembers extends React.PureComponent {
             }
 
             if (this.props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
-                handleButtonOnClick = this.onAddNewMembersButton;
+                handleButtonOnClick = () => this.onAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM);
                 membersName = (
                     <FormattedMessage
                         id='members_popover.addMembers'
@@ -174,7 +177,7 @@ export default class PopoverListMembers extends React.PureComponent {
                     <button
                         className='btn btn-link'
                         id='addBtn'
-                        onClick={this.onAddNewMembersButton}
+                        onClick={() => this.onAddNewMembersButton(AddMembersToChanneltreatments.TOP)}
                     >
                         <i className='icon icon-account-plus-outline'/>
                         <FormattedMessage
@@ -223,7 +226,7 @@ export default class PopoverListMembers extends React.PureComponent {
             </Tooltip>
         );
 
-        const ariaLabel = `${Utils.localizeMessage('channel_header.channelMembers', 'Members')}`.toLowerCase();
+        const ariaLabel = `${localizeMessage('channel_header.channelMembers', 'Members')}`.toLowerCase();
 
         return (
             <div
