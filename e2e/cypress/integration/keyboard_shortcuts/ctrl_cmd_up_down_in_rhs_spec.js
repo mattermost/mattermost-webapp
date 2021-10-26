@@ -42,7 +42,6 @@ describe('Keyboard Shortcuts', () => {
                 }
 
                 // * Confirm that reply textbox has focus
-
                 cy.get('#reply_textbox').should('be.focused');
 
                 // # Press CTRL/CMD + uparrow repeatedly
