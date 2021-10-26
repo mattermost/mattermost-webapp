@@ -60,7 +60,7 @@ describe('Keyboard Shortcuts', () => {
                 // * Press CTRL/CMD + downarrow check if the current text is equal to the second message
                 cy.findByTestId('reply_textbox').cmdOrCtrlShortcut('{downarrow}').should('have.text', messages[0]);
 
-                // # Close the rhs
+                // # Close the RHS
                 cy.uiCloseRHS();
             });
 
