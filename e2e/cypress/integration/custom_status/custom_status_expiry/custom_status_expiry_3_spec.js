@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @custom_status
 
 describe('MM-T4065 Setting manual status clear time less than 7 days away', () => {
