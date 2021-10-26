@@ -66,34 +66,34 @@ describe('Onboarding', () => {
         cy.get('#tipButton').should('be.visible').click();
         cy.get('.tip-overlay--chat').should('be.visible');
         cy.findByText('Send a message');
-        cy.findByText('Got it').click();
+        cy.findByText('Next').click();
 
         // # Click next tip
         cy.get('#tipButton').should('be.visible').click();
         cy.get('.tip-overlay--sidebar').should('be.visible');
         cy.findByText('Organize conversations in channels');
-        cy.findByText('Got it').click();
+        cy.findByText('Next').click();
 
         // # Click next tip
         cy.get('#tipButton').should('be.visible').click();
         cy.get('.tip-overlay--add-channels').should('be.visible');
         cy.findByText('Create and join channels');
-        cy.findByText('Got it').click();
+        cy.findByText('Next').click();
 
         // # Click next tip
         cy.get('#tipButton').should('be.visible').click();
         cy.get('.tip-overlay--header--left').should('be.visible');
         cy.findByText('Invite people');
-        cy.findByText('Got it').click();
+        cy.findByText('Next').click();
+
+        // # Reload the page without cache
+        cy.reload(true);
 
         // # Click next tip
         cy.get('#tipButton').should('be.visible').click();
         cy.get('.tip-overlay--settings').should('be.visible');
         cy.findByText('Customize your experience');
-        cy.findByText('Got it').click();
-
-        // # Reload the page without cache
-        cy.reload(true);
+        cy.findByText('Finish').click();
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active', {timeout: TIMEOUTS.HALF_MIN}).within(() => {

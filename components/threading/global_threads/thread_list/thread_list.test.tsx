@@ -107,4 +107,3 @@ describe('components/threading/global_threads/thread_list', () => {
         expect(markAllThreadsInTeamRead).toHaveBeenCalledWith('uid', 'tid');
     });
 });
-
