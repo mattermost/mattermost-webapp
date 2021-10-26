@@ -553,8 +553,26 @@ export default class EmojiPicker extends React.PureComponent {
 
             return this.sortEmojis(emojis);
         }
-        return this.state.categories[category.name].emojiIds.map((emojiId) =>
-            this.state.allEmojis[emojiId]);
+
+        return this.state.categories[category.name].emojiIds.map((emojiId) => {
+            const emoji = this.state.allEmojis[emojiId];
+            if(category.name === 'recent' && emoji.skins && emoji.skins.length > 0) {
+                const skinCode = emoji.skins[0].toLowerCase();
+                const userSkinTone = this.props.userSkinTone.toLowerCase();
+                // const defaultEmoji = emojiId.replace(`-${skinCode.toLowerCase()}`, '');
+                const skinnedEmojiCode = userSkinTone === 'default'
+                    ? emojiId.replace(`-${skinCode}`, '')
+                    : emojiId.replace(skinCode, userSkinTone);
+                if(emojiId !== skinnedEmojiCode) {
+                    //retrieve it from the emoji map
+                    const emojiIndex = Emoji.EmojiIndicesByUnicode.get(skinnedEmojiCode);
+                    return Emoji.Emojis[emojiIndex];
+                }
+            }
+            return emoji;
+        });
+        // return this.state.categories[category.name].emojiIds.map((emojiId) =>
+        //     this.state.allEmojis[emojiId]);
     }
 
     getCurrentEmojiName() {
