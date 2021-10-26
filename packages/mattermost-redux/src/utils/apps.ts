@@ -34,7 +34,8 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
             return;
         }
 
-        if (!b.label) {
+        // No empty labels nor "whitespace" labels
+        if (!b.label.trim()) {
             toRemove.unshift(i);
             return;
         }
@@ -62,13 +63,19 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
         }
         }
 
-        // Must have only subbindings or a form.
-        if (Boolean(b.bindings?.length) === Boolean(b.form)) {
+        // Must have only subbindings, a form or a submit call.
+        const hasBindings = Boolean(b.bindings?.length);
+        const hasForm = Boolean(b.form);
+        const hasSubmit = Boolean(b.submit);
+        if ((!hasBindings && !hasForm && !hasSubmit) ||
+            (hasBindings && hasForm) ||
+            (hasBindings && hasSubmit) ||
+            (hasForm && hasSubmit)) {
             toRemove.unshift(i);
             return;
         }
 
-        if (b.bindings?.length) {
+        if (hasBindings) {
             cleanBindingRec(b, topLocation, depth + 1);
 
             // Remove invalid branches
@@ -76,7 +83,7 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
                 toRemove.unshift(i);
                 return;
             }
-        } else {
+        } else if (hasForm) {
             if (!b.form?.submit && !b.form?.source) {
                 toRemove.unshift(i);
                 return;

@@ -23,21 +23,33 @@ import {sendEphemeralPost} from './global_actions';
 
 export function handleBindingClick<Res=unknown>(binding: AppBinding, context: AppContext, intl: any): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        const call = binding.form?.submit || binding.form?.source;
-        if (!call) {
-            const errMsg = intl.formatMessage({
-                id: 'apps.error.malformed_binding',
-                defaultMessage: 'This binding is not properly formed. Contact the App developer.',
-            });
-            return {error: makeCallErrorResponse(errMsg)};
+        // Fetch form
+        if (binding.form?.source) {
+            const callRequest = createCallRequest(
+                binding.form.source,
+                context,
+            );
+
+            const res = await dispatch(doAppFetchForm<Res>(callRequest, intl, true));
+            return {data: res};
         }
 
-        const callRequest = createCallRequest(
-            call,
-            context,
-        );
+        // Open form
+        if (binding.form) {
+            // This should come properly formed, but using preventive checks
+            if (!binding.form?.submit) {
+                const errMsg = intl.formatMessage({
+                    id: 'apps.error.malformed_binding',
+                    defaultMessage: 'This binding is not properly formed. Contact the App developer.',
+                });
+                return {error: makeCallErrorResponse(errMsg)};
+            }
 
-        if (binding.form?.fields?.length) {
+            const callRequest = createCallRequest(
+                binding.form.submit,
+                context,
+            );
+
             dispatch(openAppsModal(binding.form, callRequest));
             const res: AppCallResponse = {
                 type: AppCallResponseTypes.FORM,
@@ -46,12 +58,22 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
             return {data: res};
         }
 
-        let res;
-        if (binding.form?.submit) {
-            res = await dispatch(doAppSubmit<Res>(callRequest, intl));
-        } else {
-            res = await dispatch(doAppFetchForm<Res>(callRequest, intl, true));
+        // Submit binding
+        // This should come properly formed, but using preventive checks
+        if (!binding.submit) {
+            const errMsg = intl.formatMessage({
+                id: 'apps.error.malformed_binding',
+                defaultMessage: 'This binding is not properly formed. Contact the App developer.',
+            });
+            return {error: makeCallErrorResponse(errMsg)};
         }
+
+        const callRequest = createCallRequest(
+            binding.submit,
+            context,
+        );
+
+        const res = await dispatch(doAppSubmit<Res>(callRequest, intl));
 
         return {data: res};
     };

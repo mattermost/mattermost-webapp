@@ -1,21 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {AppBindingLocations, AppFieldTypes} from 'mattermost-redux/constants/apps';
-import {AppBinding, AppField, AppForm, AppSelectOption} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall, AppField, AppForm, AppSelectOption} from 'mattermost-redux/types/apps';
 
 import {cleanForm, cleanBinding} from './apps';
 
 describe('Apps Utils', () => {
+    const basicCall: AppCall = {
+        path: 'url',
+    };
     const basicSubmitForm: AppForm = {
-        submit: {
-            path: 'url',
-        },
+        submit: basicCall,
     };
     const basicFetchForm: AppForm = {
-        source: {
-            path: 'url',
-        },
+        source: basicCall,
     };
+
     describe('fillAndTrimBindingsInformation', () => {
         test('Apps IDs propagate down, and locations get formed', () => {
             const inBinding: AppBinding = {
@@ -27,7 +27,7 @@ describe('Apps Utils', () => {
                         bindings: [
                             {
                                 location: 'loc3',
-                                form: basicSubmitForm,
+                                submit: basicCall,
                             },
                             {
                                 location: 'loc4',
@@ -37,7 +37,7 @@ describe('Apps Utils', () => {
                     },
                     {
                         location: 'loc5',
-                        form: basicSubmitForm,
+                        form: basicFetchForm,
                     },
                 ],
             } as AppBinding;
@@ -55,7 +55,7 @@ describe('Apps Utils', () => {
                                 location: 'loc1/loc2/loc3',
                                 app_id: 'id',
                                 label: 'loc3',
-                                form: basicSubmitForm,
+                                submit: basicCall,
                             },
                             {
                                 location: 'loc1/loc2/loc4',
@@ -69,7 +69,7 @@ describe('Apps Utils', () => {
                         location: 'loc1/loc5',
                         app_id: 'id',
                         label: 'loc5',
-                        form: basicSubmitForm,
+                        form: basicFetchForm,
                     },
                 ],
             } as AppBinding;
@@ -102,6 +102,14 @@ describe('Apps Utils', () => {
                     {
                         location: 'loc6',
                     },
+                    {
+                        location: 'loc7',
+                        submit: basicCall,
+                    },
+                    {
+                        location: 'loc8',
+                        form: {},
+                    },
                 ],
             } as AppBinding;
 
@@ -128,7 +136,129 @@ describe('Apps Utils', () => {
                             },
                         ],
                     },
+                    {
+                        location: 'loc1/loc7',
+                        app_id: 'id',
+                        submit: basicCall,
+                        label: 'loc7',
+                    },
                 ],
+            } as AppBinding;
+
+            cleanBinding(inBinding, '');
+            expect(inBinding).toEqual(outBinding);
+        });
+        test('Trim branches with calls, bindings and forms.', () => {
+            const inBinding: AppBinding = {
+                location: 'loc1',
+                app_id: 'id',
+                bindings: [
+                    {
+                        location: 'loc2',
+                        bindings: [
+                            {
+                                location: 'loc3',
+                                submit: basicCall,
+                                form: basicSubmitForm,
+                            },
+                            {
+                                location: 'loc4',
+                                form: basicSubmitForm,
+                            },
+                            {
+                                location: 'loc5',
+                                form: basicFetchForm,
+                            },
+                        ],
+                    },
+                    {
+                        location: 'loc6',
+                        submit: basicCall,
+                        bindings: [
+                            {
+                                location: 'loc9',
+                                submit: basicCall,
+                            },
+                        ],
+                    },
+                    {
+                        location: 'loc7',
+                        submit: basicCall,
+                    },
+                    {
+                        location: 'loc8',
+                        form: basicFetchForm,
+                        bindings: [
+                            {
+                                location: 'loc10',
+                                submit: basicCall,
+                            },
+                        ],
+                    },
+                ],
+            } as AppBinding;
+
+            const outBinding: AppBinding = {
+                app_id: 'id',
+                location: 'loc1',
+                bindings: [
+                    {
+                        location: 'loc1/loc2',
+                        app_id: 'id',
+                        label: 'loc2',
+                        bindings: [
+                            {
+                                location: 'loc1/loc2/loc4',
+                                app_id: 'id',
+                                form: basicSubmitForm,
+                                label: 'loc4',
+                            },
+                            {
+                                location: 'loc1/loc2/loc5',
+                                app_id: 'id',
+                                form: basicFetchForm,
+                                label: 'loc5',
+                            },
+                        ],
+                    },
+                    {
+                        location: 'loc1/loc7',
+                        app_id: 'id',
+                        submit: basicCall,
+                        label: 'loc7',
+                    },
+                ],
+            } as AppBinding;
+
+            cleanBinding(inBinding, '');
+            expect(inBinding).toEqual(outBinding);
+        });
+        test('Trim branches with whitespace labels.', () => {
+            const inBinding: AppBinding = {
+                location: 'loc1',
+                app_id: 'id',
+                bindings: [
+                    {
+                        location: 'loc2',
+                        label: ' ',
+                        bindings: [
+                            {
+                                location: 'loc4',
+                                form: basicSubmitForm,
+                            },
+                            {
+                                location: 'loc5',
+                                form: basicFetchForm,
+                            },
+                        ],
+                    },
+                ],
+            } as AppBinding;
+
+            const outBinding: AppBinding = {
+                app_id: 'id',
+                location: 'loc1',
+                bindings: [] as AppBinding[],
             } as AppBinding;
 
             cleanBinding(inBinding, '');
@@ -225,7 +355,7 @@ describe('Apps Utils', () => {
             cleanForm(inForm);
             expect(inForm).toEqual(outForm);
         });
-        test('field filter with same label inerred from name', () => {
+        test('field filter with same label inferred from name', () => {
             const inForm: AppForm = {
                 fields: [
                     {
@@ -618,6 +748,58 @@ describe('Apps Utils', () => {
             cleanForm(inForm);
             expect(inForm).toEqual(outForm);
         });
+        test('field filter dynamic with no valid lookup call', () => {
+            const inForm: AppForm = {
+                fields: [
+                    {
+                        name: 'opt1',
+                        type: AppFieldTypes.DYNAMIC_SELECT,
+                        lookup: basicCall,
+                    },
+                    {
+                        name: 'opt2',
+                        type: AppFieldTypes.DYNAMIC_SELECT,
+                    },
+                ],
+            };
+            const outForm: AppForm = {
+                fields: [
+                    {
+                        name: 'opt1',
+                        type: AppFieldTypes.DYNAMIC_SELECT,
+                        lookup: basicCall,
+                    },
+                ],
+            };
+
+            cleanForm(inForm);
+            expect(inForm).toEqual(outForm);
+        });
+        test('invalid dynamic field does not consume namespace', () => {
+            const inForm: AppForm = {
+                fields: [
+                    {
+                        name: 'field1',
+                        type: AppFieldTypes.DYNAMIC_SELECT,
+                    },
+                    {
+                        name: 'field1',
+                        type: AppFieldTypes.TEXT,
+                    },
+                ],
+            };
+            const outForm: AppForm = {
+                fields: [
+                    {
+                        name: 'field1',
+                        type: AppFieldTypes.TEXT,
+                    },
+                ],
+            };
+
+            cleanForm(inForm);
+            expect(inForm).toEqual(outForm);
+        });
     });
     describe('cleanCommands', () => {
         test('happy path', () => {
@@ -633,21 +815,13 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: 'loc11',
                                 label: 'loc11',
-                                form: {
-                                    submit: {
-                                        path: '/path',
-                                    },
-                                },
+                                submit: basicCall,
                             },
                             {
                                 app_id: 'app',
                                 location: 'loc12',
                                 label: 'loc12',
-                                form: {
-                                    submit: {
-                                        path: '/path',
-                                    },
-                                },
+                                form: basicSubmitForm,
                             },
                         ],
                     },
@@ -655,11 +829,7 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: 'loc2',
                         label: 'loc2',
-                        form: {
-                            submit: {
-                                path: '/path',
-                            },
-                        },
+                        form: basicFetchForm,
                     },
                 ],
             } as AppBinding;
@@ -675,21 +845,13 @@ describe('Apps Utils', () => {
                                 app_id: 'app',
                                 location: '/command/loc1/loc11',
                                 label: 'loc11',
-                                form: {
-                                    submit: {
-                                        path: '/path',
-                                    },
-                                },
+                                submit: basicCall,
                             },
                             {
                                 app_id: 'app',
                                 location: '/command/loc1/loc12',
                                 label: 'loc12',
-                                form: {
-                                    submit: {
-                                        path: '/path',
-                                    },
-                                },
+                                form: basicSubmitForm,
                             },
                         ],
                     },
@@ -697,11 +859,7 @@ describe('Apps Utils', () => {
                         app_id: 'app',
                         location: '/command/loc2',
                         label: 'loc2',
-                        form: {
-                            submit: {
-                                path: '/path',
-                            },
-                        },
+                        form: basicFetchForm,
                     },
                 ],
             } as AppBinding;

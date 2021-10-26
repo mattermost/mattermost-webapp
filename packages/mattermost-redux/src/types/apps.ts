@@ -75,10 +75,11 @@ export type AppBinding = {
     depends_on_user?: boolean;
     depends_on_post?: boolean;
 
-    // A Binding is either to a Form, or is a "container" for other locations -
-    // i.e. menu sub-items or subcommands.
+    // A Binding is either an action (makes a call), a Form, or is a
+    // "container" for other locations - i.e. menu sub-items or subcommands.
     bindings?: AppBinding[];
     form?: AppForm;
+    submit?: AppCall;
 };
 
 export type AppCallValues = {
