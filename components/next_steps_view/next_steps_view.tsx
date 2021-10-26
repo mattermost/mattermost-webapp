@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import Accordion from 'components/accordion';
@@ -35,7 +34,6 @@ type Props = {
     isFirstAdmin: boolean;
     isAdmin: boolean;
     steps: StepType[];
-    team: Team;
     isCloud: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -351,7 +349,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         savePreferences={this.props.actions.savePreferences}
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
-                        team={this.props.team}
                         isAdmin={this.props.isAdmin}
                     />
                 </>}

@@ -29,6 +29,7 @@ import ExpiryTime from 'components/custom_status/expiry_time';
 import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
+import {ModalData} from 'types/actions';
 
 import './profile_popover.scss';
 
@@ -73,10 +74,12 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      * Returns state of modals in redux for determing which need to be closed
      */
     modals?: {
-        [modalId: string]: {
-            open: boolean;
-            dialogProps: Dictionary<any>;
-            dialogType: React.Component;
+        modalState: {
+            [modalId: string]: {
+                open: boolean;
+                dialogProps: Dictionary<any>;
+                dialogType: React.ComponentType;
+            };
         };
     };
     currentTeamId: string;
@@ -130,12 +133,8 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      */
     enableTimezone: boolean;
     actions: {
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-            data: boolean;
-        }>;
-        closeModal: (modalId: string) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
+        closeModal: (modalId: string) => void;
         openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
@@ -250,11 +249,11 @@ ProfilePopoverState
     };
     handleCloseModals = () => {
         const {modals} = this.props;
-        for (const modal in modals) {
+        for (const modal in modals?.modalState) {
             if (!Object.prototype.hasOwnProperty.call(modals, modal)) {
                 continue;
             }
-            if (modals[modal].open) {
+            if (modals?.modalState[modal].open) {
                 this.props.actions.closeModal(modal);
             }
         }
