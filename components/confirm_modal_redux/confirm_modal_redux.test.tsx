@@ -10,14 +10,13 @@ import ConfirmModalRedux from './confirm_modal_redux';
 
 describe('ConfirmModalRedux', () => {
     const baseProps = {
-        closeModal: jest.fn(),
-        modalId: 'modalId',
+        onHide: jest.fn(),
     };
 
     // These tests will time out when failing, so we override the timeout period to make them fail faster.
 
     test('should call closeModal after confirming', (done) => {
-        baseProps.closeModal.mockImplementation(() => done());
+        baseProps.onHide.mockImplementation(() => done());
 
         const wrapper = mountWithIntl(
             <ConfirmModalRedux
@@ -26,15 +25,15 @@ describe('ConfirmModalRedux', () => {
         );
 
         expect(wrapper.find(Modal).prop('show')).toBe(true);
-        expect(baseProps.closeModal).not.toHaveBeenCalled();
+        expect(baseProps.onHide).not.toHaveBeenCalled();
 
         wrapper.find('#confirmModalButton').simulate('click');
 
         expect(wrapper.find(Modal).prop('show')).toBe(false);
     }, 1000);
 
-    test('should call closeModal after cancelling', (done) => {
-        baseProps.closeModal.mockImplementation(() => done());
+    test('should call onHide after cancelling', (done) => {
+        baseProps.onHide.mockImplementation(() => done());
 
         const wrapper = mountWithIntl(
             <ConfirmModalRedux
@@ -43,7 +42,7 @@ describe('ConfirmModalRedux', () => {
         );
 
         expect(wrapper.find(Modal).prop('show')).toBe(true);
-        expect(baseProps.closeModal).not.toHaveBeenCalled();
+        expect(baseProps.onHide).not.toHaveBeenCalled();
 
         wrapper.find('#cancelModalButton').simulate('click');
 
