@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect} from 'react-router';
 
@@ -17,27 +16,55 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from 'mattermost-redux/types/channels';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
 
 const BACKSPACE_CHAR = 8;
 
-export default class LoggedIn extends React.PureComponent {
-    static propTypes = {
-        currentUser: PropTypes.object,
-        currentChannelId: PropTypes.string,
-        children: PropTypes.object,
-        mfaRequired: PropTypes.bool.isRequired,
-        enableTimezone: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            autoUpdateTimezone: PropTypes.func.isRequired,
-            getChannelURLAction: PropTypes.func.isRequired,
-        }).isRequired,
-        showTermsOfService: PropTypes.bool.isRequired,
+declare global {
+    interface Window {
+        desktop: {
+            version?: string | null;
+        };
     }
+}
 
-    constructor(props) {
+export type Props = {
+    currentUser?: UserProfile;
+    currentChannelId?: string;
+    children?: React.ReactNode;
+    mfaRequired: boolean;
+    enableTimezone: boolean;
+    actions: {
+        autoUpdateTimezone: (deviceTimezone: string) => void;
+        getChannelURLAction: (channel: Channel, teamId: string, url: string) => void;
+    };
+    showTermsOfService: boolean;
+    location: {
+        pathname: string;
+    };
+}
+
+type DesktopMessage = {
+    origin: string;
+    data: {
+        type: string;
+        message: {
+            version: string;
+            userIsActive: boolean;
+            manual: boolean;
+            channel: Channel;
+            teamId: string;
+            url: string;
+        };
+    };
+}
+
+export default class LoggedIn extends React.PureComponent<Props> {
+    constructor(props: Props) {
         super(props);
 
         const root = document.getElementById('root');
@@ -46,11 +73,11 @@ export default class LoggedIn extends React.PureComponent {
         }
     }
 
-    isValidState() {
+    private isValidState(): boolean {
         return this.props.currentUser != null;
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         // Initialize websocket
         WebSocketActions.initialize();
 
@@ -102,7 +129,7 @@ export default class LoggedIn extends React.PureComponent {
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         WebSocketActions.close();
 
         window.removeEventListener('keydown', this.handleBackSpace);
@@ -112,7 +139,7 @@ export default class LoggedIn extends React.PureComponent {
         window.removeEventListener('message', this.onDesktopMessageListener);
     }
 
-    render() {
+    public render(): React.ReactNode {
         if (!this.isValidState()) {
             return <LoadingScreen/>;
         }
@@ -132,26 +159,26 @@ export default class LoggedIn extends React.PureComponent {
         return this.props.children;
     }
 
-    onFocusListener() {
+    private onFocusListener(): void {
         GlobalActions.emitBrowserFocus(true);
     }
 
-    onBlurListener() {
+    private onBlurListener(): void {
         GlobalActions.emitBrowserFocus(false);
     }
 
     // listen for messages from the desktop app
-    onDesktopMessageListener = ({origin, data: {type, message = {}} = {}} = {}) => {
+    private onDesktopMessageListener = (desktopMessage: DesktopMessage) => {
         if (!this.props.currentUser) {
             return;
         }
-        if (origin !== window.location.origin) {
+        if (desktopMessage.origin !== window.location.origin) {
             return;
         }
 
-        switch (type) {
+        switch (desktopMessage.data.type) {
         case 'register-desktop': {
-            const {version} = message;
+            const {version} = desktopMessage.data.message;
             if (!window.desktop) {
                 window.desktop = {};
             }
@@ -159,7 +186,7 @@ export default class LoggedIn extends React.PureComponent {
             break;
         }
         case 'user-activity-update': {
-            const {userIsActive, manual} = message;
+            const {userIsActive, manual} = desktopMessage.data.message;
 
             // update the server with the users current away status
             if (userIsActive === true || userIsActive === false) {
@@ -168,7 +195,7 @@ export default class LoggedIn extends React.PureComponent {
             break;
         }
         case 'notification-clicked': {
-            const {channel, teamId, url} = message;
+            const {channel, teamId, url} = desktopMessage.data.message;
             window.focus();
 
             // navigate to the appropriate channel
@@ -178,15 +205,15 @@ export default class LoggedIn extends React.PureComponent {
         }
     }
 
-    handleBackSpace = (e) => {
+    private handleBackSpace = (e: KeyboardEvent): void => {
         const excludedElements = ['input', 'textarea'];
 
-        if (e.which === BACKSPACE_CHAR && !(excludedElements.includes(e.target.tagName.toLowerCase()))) {
+        if (e.which === BACKSPACE_CHAR && !(excludedElements.includes((e.target as HTMLElement).tagName.toLowerCase()))) {
             e.preventDefault();
         }
     }
 
-    handleBeforeUnload = () => {
+    private handleBeforeUnload = (): void => {
         // remove the event listener to prevent getting stuck in a loop
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         if (document.cookie.indexOf('MMUSERID=') > -1) {

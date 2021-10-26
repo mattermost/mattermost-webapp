@@ -9,12 +9,6 @@
 
 // Group: @system_console @te_only
 
-// # Go to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
-
 describe('Support Packet Generation', () => {
     it('MM-T3817 - Commercial Support Dialog UI - No License', () => {
         // # Remove license
@@ -22,7 +16,7 @@ describe('Support Packet Generation', () => {
         cy.apiDeleteLicense();
 
         // # Go to System Console
-        goToAdminConsole();
+        cy.visit('/admin_console');
 
         cy.findByRole('button', {name: 'Menu Icon'}).should('exist').click();
 
