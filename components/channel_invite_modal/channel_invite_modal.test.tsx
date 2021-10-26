@@ -51,6 +51,7 @@ describe('components/channel_invite_modal', () => {
     const baseProps = {
         channel,
         profilesNotInCurrentChannel: [],
+        profilesInCurrentChannel: [],
         profilesNotInCurrentTeam: [],
         userStatuses: {},
         actions: {
@@ -62,6 +63,7 @@ describe('components/channel_invite_modal', () => {
                 return Promise.resolve({error});
             }),
             getProfilesNotInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
+            getProfilesInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn(),
             getUserStatuses: jest.fn().mockImplementation(() => Promise.resolve()),
             loadStatusesForProfilesList: jest.fn(),
@@ -75,6 +77,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
             />,
         );
@@ -86,6 +89,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
                 includeUsers={
                     {

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTeamStats} from 'mattermost-redux/actions/teams';
-import {getProfilesNotInChannel, getProfilesInChannel,  searchProfiles} from 'mattermost-redux/actions/users';
+import {getProfilesNotInChannel, getProfilesInChannel, searchProfiles} from 'mattermost-redux/actions/users';
 import {getProfilesNotInCurrentChannel, getProfilesInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserStatuses, makeGetProfilesNotInChannel, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
