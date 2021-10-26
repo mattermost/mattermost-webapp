@@ -59,6 +59,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
             onClick={toggleFunc}
         >
             <TutorialTip
+                showOptOut={true}
                 step={TutorialSteps.MENU_POPOVER}
                 stopPropagation={stopPropagation}
                 placement={placement}

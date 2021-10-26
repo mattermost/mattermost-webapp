@@ -55,6 +55,7 @@ function CreatePostTip(props: Props) {
 
     return (
         <TutorialTip
+            showOptOut={true}
             step={TutorialSteps.POST_POPOVER}
             placement='top'
             screens={screens}

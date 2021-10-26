@@ -94,6 +94,7 @@ const ProductMenuTip = ({
 
     return (
         <TutorialTip
+            showOptOut={true}
             placement='bottom'
             screens={screens}
             step={TutorialSteps.PRODUCT_SWITCHER}

@@ -49,6 +49,7 @@ export default function SettingsTip() {
 
     return (
         <TutorialTip
+            showOptOut={true}
             placement='bottom'
             screens={screens}
             step={TutorialSteps.SETTINGS}

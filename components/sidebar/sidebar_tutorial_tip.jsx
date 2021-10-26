@@ -117,6 +117,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
 
         return (
             <TutorialTip
+                showOptOut={true}
                 placement='right'
                 screens={screens}
                 step={Constants.TutorialSteps.CHANNEL_POPOVER}

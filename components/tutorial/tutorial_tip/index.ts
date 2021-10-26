@@ -15,11 +15,16 @@ import {GlobalState} from 'types/store';
 
 import TutorialTip from './tutorial_tip';
 
-function mapStateToProps(state: GlobalState) {
+type OwnProps = {
+    tutorialCategory?: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUserId = getCurrentUserId(state);
+    const categoryStep = ownProps.tutorialCategory || Preferences.TUTORIAL_STEP;
     return {
         currentUserId,
-        currentStep: getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0),
+        currentStep: getInt(state, categoryStep, currentUserId, 0),
         autoTour: getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
     };
 }

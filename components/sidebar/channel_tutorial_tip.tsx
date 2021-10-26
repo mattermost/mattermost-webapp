@@ -69,6 +69,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
 
         return (
             <TutorialTip
+                showOptOut={true}
                 placement='right'
                 step={TutorialSteps.CHANNEL_POPOVER}
                 screens={screens}

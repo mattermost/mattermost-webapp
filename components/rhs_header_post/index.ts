@@ -4,7 +4,7 @@
 import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
@@ -26,6 +26,7 @@ import {
     toggleRhsExpanded,
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
+import {CrtThreadPaneSteps, Preferences} from 'utils/constants';
 
 import {allAtMentions} from '../../utils/text_formatting';
 
@@ -42,15 +43,18 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     const thread = getThreadOrSynthetic(state, root);
     const isMentionedInRootPost = thread.reply_count === 0 &&
         matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
-
+    const currentUserId = getCurrentUserId(state) as string;
+    const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
+    const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER;
     return {
         isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
         currentTeamId: getCurrentTeamId(state),
-        currentUserId: getCurrentUserId(state),
+        currentUserId,
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         isFollowingThread: isCollapsedThreadsEnabled(state) && root && thread.is_following,
         isMentionedInRootPost,
+        showThreadsTutorialTip,
     };
 }
 

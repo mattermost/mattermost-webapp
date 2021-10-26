@@ -13,8 +13,14 @@
         color: rgba(var(--center-channel-color-rgb), 0.56);
         grid-area: header;
 
-        .Button + .Button {
+        .tab-button-wrapper + .tab-button-wrapper {
             margin-left: 4px;
+        }
+
+        .left {
+            display: flex;
+            height: 100%;
+            align-items: center;
         }
     }
 
@@ -29,5 +35,13 @@
 
     .ThreadItem {
         border-bottom: var(--border);
+    }
+
+    .tab-button-wrapper {
+        position: relative;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        padding: 13px 0;
     }
 }

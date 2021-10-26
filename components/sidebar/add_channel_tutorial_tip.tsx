@@ -81,6 +81,7 @@ export default function ChannelTutorialTip(props: Props) {
 
     return (
         <TutorialTip
+            showOptOut={true}
             placement='right'
             step={Constants.TutorialSteps.ADD_CHANNEL_POPOVER}
             screens={screens}

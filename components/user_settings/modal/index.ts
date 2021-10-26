@@ -11,8 +11,6 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 import {GlobalState} from 'types/store';
 import {Action} from 'mattermost-redux/types/actions';
 
-import {openModal} from 'actions/views/modals';
-
 import UserSettingsModal, {Props} from './user_settings_modal';
 
 function mapStateToProps(state: GlobalState) {
@@ -34,7 +32,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Props['actions']>({
             sendVerificationEmail,
-            openModal,
         }, dispatch),
     };
 }
