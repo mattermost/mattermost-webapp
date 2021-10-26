@@ -50,7 +50,6 @@ export default class ModalController extends React.PureComponent<Props> {
                 const modal = modalState[modalId];
                 if (modal.open) {
                     const modalComponent = React.createElement(modal.dialogType, Object.assign({}, modal.dialogProps, {
-                        modalId,
                         onHide: props.actions.closeModal.bind(this, modalId),
                         key: `${modalId}_modal`,
                     }));
