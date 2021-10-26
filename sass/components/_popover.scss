@@ -505,13 +505,12 @@
 
     .more-modal__button {
         display: flex;
-        align-items: flex-start;
 
         .btn {
             width: 100px;
             height: 42px;
             padding: 0;
-            margin-left: 10px;
+            margin: 0 auto;
         }
     }
 
