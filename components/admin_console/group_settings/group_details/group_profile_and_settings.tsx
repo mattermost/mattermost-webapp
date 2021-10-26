@@ -2,18 +2,29 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
+import LineSwitch from 'components/admin_console/team_channel_settings/line_switch';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 import {t} from 'utils/i18n';
 
-import LineSwitch from 'components/admin_console/team_channel_settings/line_switch.jsx';
+type GroupSettingsToggleProps = {
+    isDefault: boolean;
+    allowReference: boolean;
+    onToggle: (allowReference: boolean) => void;
+    isDisabled?: boolean;
+};
 
-const GroupSettingsToggle = ({isDefault, allowReference, onToggle, isDisabled}) => (
+const GroupSettingsToggle = ({
+    isDefault,
+    allowReference,
+    onToggle,
+    isDisabled,
+}: GroupSettingsToggleProps) => (
     <LineSwitch
         id={'allowReferenceSwitch'}
         disabled={isDisabled || isDefault}
@@ -26,33 +37,45 @@ const GroupSettingsToggle = ({isDefault, allowReference, onToggle, isDisabled}) 
             onToggle(!allowReference);
         }}
         singleLine={false}
-        title={(
+        title={
             <FormattedMessage
                 id='admin.team_settings.team_details.groupDetailsToggle'
                 defaultMessage='Enable Group Mention (Beta)'
             />
-        )}
-        subTitle={(
+        }
+        subTitle={
             <FormattedMarkdownMessage
                 id='admin.team_settings.team_details.groupDetailsToggleDescr'
                 defaultMessage='When enabled, this group can be mentioned in other channels and teams. This may result in the group member list being visible to all users.'
             />
-        )}
-    />);
+        }
+    />
+);
 
-GroupSettingsToggle.propTypes = {
-    isDefault: PropTypes.bool.isRequired,
-    allowReference: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
+type GroupProfileAndSettingsProps = {
+    displayname: string;
+    mentionname?: string;
+    allowReference: boolean;
+    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    onToggle: (allowReference: boolean) => void;
+    readOnly?: boolean;
 };
 
-export const GroupProfileAndSettings = ({displayname, mentionname, allowReference, onToggle, onChange, readOnly}) => (
+export const GroupProfileAndSettings = ({
+    displayname,
+    mentionname,
+    allowReference,
+    onToggle,
+    onChange,
+    readOnly,
+}: GroupProfileAndSettingsProps) => (
     <AdminPanel
         id='group_profile'
         titleId={t('admin.group_settings.group_detail.groupProfileTitle')}
         titleDefault='Group Profile'
-        subtitleId={t('admin.group_settings.group_detail.groupProfileDescription')}
+        subtitleId={t(
+            'admin.group_settings.group_detail.groupProfileDescription',
+        )}
         subtitleDefault='The name for this group.'
     >
         <GroupProfile
@@ -65,7 +88,9 @@ export const GroupProfileAndSettings = ({displayname, mentionname, allowReferenc
         />
         <div className='group-settings'>
             <div className='group-settings--body'>
-                <div className='section-separator'><hr className='separator__hr'/></div>
+                <div className='section-separator'>
+                    <hr className='separator__hr'/>
+                </div>
                 <GroupSettingsToggle
                     isDefault={false}
                     allowReference={allowReference}
@@ -74,24 +99,18 @@ export const GroupProfileAndSettings = ({displayname, mentionname, allowReferenc
                 />
             </div>
         </div>
-        {allowReference &&
+        {allowReference && (
             <GroupProfile
                 name={mentionname}
-                title={t('admin.group_settings.group_details.group_mention.name')}
+                title={t(
+                    'admin.group_settings.group_details.group_mention.name',
+                )}
                 titleDefault={'Group Mention:'}
                 customID={'groupMention'}
                 isDisabled={readOnly}
                 showAtMention={true}
                 onChange={onChange}
             />
-        }
-    </AdminPanel>);
-
-GroupProfileAndSettings.propTypes = {
-    displayname: PropTypes.string.isRequired,
-    mentionname: PropTypes.string,
-    allowReference: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    readOnly: PropTypes.bool,
-};
+        )}
+    </AdminPanel>
+);

@@ -2,53 +2,76 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import {FormattedMessage} from 'react-intl';
 
-import GroupTeamsAndChannelsRow from 'components/admin_console/group_settings/group_details/group_teams_and_channels_row.jsx';
+import GroupTeamsAndChannelsRow from 'components/admin_console/group_settings/group_details/group_teams_and_channels_row';
+import {GroupChannel, GroupTeam} from 'mattermost-redux/types/groups';
 
-export default class GroupTeamsAndChannels extends React.PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        teams: PropTypes.arrayOf(PropTypes.object),
-        channels: PropTypes.arrayOf(PropTypes.object),
-        loading: PropTypes.bool.isRequired,
-        onChangeRoles: PropTypes.func.isRequired,
-        onRemoveItem: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool,
-    }
+export type Props = {
+    id: string;
+    teams?: GroupTeam[];
+    channels?: GroupChannel[];
+    loading: boolean;
+    onChangeRoles: (id: string, type: string, roleToBe: boolean) => void;
+    onRemoveItem: (id: string, type: string) => void;
+    isDisabled?: boolean;
+};
 
-    constructor(props) {
+export type State = {
+    collapsed: Record<string, boolean>;
+};
+
+type TeamType = `${'public' | 'private'}-${'channel' | 'team'}`;
+
+type Team = {
+    type: TeamType;
+    hasChildren?: boolean;
+    name: string;
+    collapsed?: boolean;
+    id: string;
+    schemeAdmin?: boolean;
+};
+export default class GroupTeamsAndChannels extends React.PureComponent<
+Props,
+State
+> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             collapsed: {},
         };
     }
 
-    onToggleCollapse = (id) => {
+    onToggleCollapse = (id: string) => {
         const collapsed = {...this.state.collapsed};
         collapsed[id] = !collapsed[id];
         this.setState({collapsed});
-    }
+    };
 
-    onRemoveItem = (id, type) => {
+    onRemoveItem = (id: string, type: string) => {
         this.props.onRemoveItem(id, type);
-    }
+    };
 
-    onChangeRoles = async (id, type, roleToBe) => {
+    onChangeRoles = async (id: string, type: string, roleToBe: boolean) => {
         this.props.onChangeRoles(id, type, roleToBe);
-    }
+    };
 
-    teamsAndChannelsToEntries = (teams, channels) => {
-        const entries = [];
+    teamsAndChannelsToEntries = (
+        teams?: GroupTeam[],
+        channels?: GroupChannel[],
+    ) => {
+        const entries: Team[] = [];
 
         const existingTeams = new Set();
-        const teamEntries = [];
-        teams.forEach((team) => {
+        const teamEntries: Team[] = [];
+        teams?.forEach((team) => {
             existingTeams.add(team.team_id);
             teamEntries.push({
                 type: team.team_type === 'O' ? 'public-team' : 'private-team',
-                hasChildren: channels.some((channel) => channel.team_id === team.team_id),
+                hasChildren: channels?.some(
+                    (channel) => channel.team_id === team.team_id,
+                ),
                 name: team.team_display_name,
                 collapsed: this.state.collapsed[team.team_id],
                 id: team.team_id,
@@ -56,11 +79,15 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
             });
         });
 
-        const channelEntriesByTeam = {};
-        channels.forEach((channel) => {
-            channelEntriesByTeam[channel.team_id] = channelEntriesByTeam[channel.team_id] || [];
+        const channelEntriesByTeam: Record<string, Team[]> = {};
+        channels?.forEach((channel: GroupChannel) => {
+            channelEntriesByTeam[channel.team_id] =
+                channelEntriesByTeam[channel.team_id] || [];
             channelEntriesByTeam[channel.team_id].push({
-                type: channel.channel_type === 'O' ? 'public-channel' : 'private-channel',
+                type:
+                    channel.channel_type === 'O' ?
+                        'public-channel' :
+                        'private-channel',
                 name: channel.channel_display_name,
                 id: channel.channel_id,
                 schemeAdmin: channel.scheme_admin,
@@ -69,7 +96,10 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
             if (!existingTeams.has(channel.team_id)) {
                 existingTeams.add(channel.team_id);
                 teamEntries.push({
-                    type: channel.team_type === 'O' ? 'public-team' : 'private-team',
+                    type:
+                        channel.team_type === 'O' ?
+                            'public-team' :
+                            'private-team',
                     hasChildren: true,
                     name: channel.team_display_name,
                     collapsed: this.state.collapsed[channel.team_id],
@@ -77,7 +107,9 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 });
             }
         });
-        teamEntries.sort((a, b) => ((a.name && b.name) ? a.name.localeCompare(b.name) : 0));
+        teamEntries.sort((a, b) =>
+            (a.name && b.name ? a.name.localeCompare(b.name) : 0),
+        );
         teamEntries.forEach((team) => {
             entries.push(team);
             if (team.hasChildren && !team.collapsed) {
@@ -88,10 +120,13 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         });
 
         return entries;
-    }
+    };
 
     render = () => {
-        const entries = this.teamsAndChannelsToEntries(this.props.teams, this.props.channels);
+        const entries = this.teamsAndChannelsToEntries(
+            this.props.teams,
+            this.props.channels,
+        );
 
         if (this.props.loading) {
             return (
@@ -124,25 +159,25 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 >
                     <thead className='group-teams-and-channels--header'>
                         <tr>
-                            <th width='30%'>
+                            <th style={{width: '30%'}}>
                                 <FormattedMessage
                                     id='admin.group_settings.group_profile.group_teams_and_channels.name'
                                     defaultMessage='Name'
                                 />
                             </th>
-                            <th width='25%'>
+                            <th style={{width: '25%'}}>
                                 <FormattedMessage
                                     id='admin.group_settings.group_profile.group_teams_and_channels.type'
                                     defaultMessage='Type'
                                 />
                             </th>
-                            <th width='25%'>
+                            <th style={{width: '25%'}}>
                                 <FormattedMessage
                                     id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
                                     defaultMessage='Assigned Roles'
                                 />
                             </th>
-                            <th width='20%'/>
+                            <th style={{width: '20%'}}/>
                         </tr>
                     </thead>
                     <tbody className='group-teams-and-channels--body'>

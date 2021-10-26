@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
 import {range} from 'lodash';
+import React from 'react';
 
-import GroupUsers from 'components/admin_console/group_settings/group_details/group_users.jsx';
+import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 describe('components/admin_console/group_settings/group_details/GroupUsers', () => {
     const members = range(0, 55).map((i) => ({
@@ -15,7 +16,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         last_name: 'Surname' + i,
         email: 'test' + i + '@test.com',
         last_picture_update: i,
-    }));
+    } as UserProfile));
 
     const defaultProps = {
         groupID: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
@@ -86,7 +87,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
 
     test('should get the members on mount', () => {
         const getMembers = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupUsers>(
             <GroupUsers
                 {...defaultProps}
                 getMembers={getMembers}
@@ -97,7 +98,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
     });
 
     test('should change the page and not call get members on previous click', async () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupUsers>(
             <GroupUsers
                 {...defaultProps}
                 members={members.slice(0, 55)}
@@ -106,17 +107,17 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         );
         const instance = wrapper.instance();
         wrapper.setState({page: 2});
-        await instance.previousPage({preventDefault: jest.fn()});
+        await instance.previousPage();
         expect(wrapper.state().page).toBe(1);
-        await instance.previousPage({preventDefault: jest.fn()});
+        await instance.previousPage();
         expect(wrapper.state().page).toBe(0);
-        await instance.previousPage({preventDefault: jest.fn()});
+        await instance.previousPage();
         expect(wrapper.state().page).toBe(0);
     });
 
     test('should change the page and get the members on next click', async () => {
         const getMembers = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupUsers>(
             <GroupUsers
                 {...defaultProps}
                 getMembers={getMembers}
@@ -127,19 +128,19 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         getMembers.mockClear();
         wrapper.setState({page: 0});
 
-        await instance.nextPage({preventDefault: jest.fn()});
+        await instance.nextPage();
         expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 1, 20);
         wrapper.setProps({members: members.slice(0, 40)});
         expect(wrapper.state().page).toBe(1);
         getMembers.mockClear();
 
-        await instance.nextPage({preventDefault: jest.fn()});
+        await instance.nextPage();
         expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 2, 20);
         wrapper.setProps({members: members.slice(0, 55)});
         expect(wrapper.state().page).toBe(2);
         getMembers.mockClear();
 
-        await instance.nextPage({preventDefault: jest.fn()});
+        await instance.nextPage();
         expect(wrapper.state().page).toBe(2);
     });
 });

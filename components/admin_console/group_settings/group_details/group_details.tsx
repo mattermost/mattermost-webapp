@@ -2,59 +2,113 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import {FormattedMessage} from 'react-intl';
 
-import {Groups} from 'mattermost-redux/constants';
-
-import {t} from 'utils/i18n';
-import {localizeMessage} from 'utils/utils.jsx';
-
-import FormError from 'components/form_error';
+import BlockableLink from 'components/admin_console/blockable_link';
 import {GroupProfileAndSettings} from 'components/admin_console/group_settings/group_details/group_profile_and_settings';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
-import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import BlockableLink from 'components/admin_console/blockable_link';
-
 import SaveChangesPanel from 'components/admin_console/team_channel_settings/save_changes_panel';
-
-import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
+import FormError from 'components/form_error';
+import TeamSelectorModal from 'components/team_selector_modal';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import {Groups} from 'mattermost-redux/constants';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {
+    Group,
+    GroupChannel,
+    GroupPatch,
+    GroupTeam,
+    SyncablePatch,
+    SyncableType,
+} from 'mattermost-redux/types/groups';
+import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-export default class GroupDetails extends React.PureComponent {
-    static propTypes = {
-        groupID: PropTypes.string.isRequired,
-        group: PropTypes.object,
-        groupTeams: PropTypes.arrayOf(PropTypes.object),
-        groupChannels: PropTypes.arrayOf(PropTypes.object),
-        members: PropTypes.arrayOf(PropTypes.object),
-        memberCount: PropTypes.number.isRequired,
-        isDisabled: PropTypes.bool,
-        actions: PropTypes.shape({
-            getGroup: PropTypes.func.isRequired,
-            getMembers: PropTypes.func.isRequired,
-            getGroupStats: PropTypes.func.isRequired,
-            getGroupSyncables: PropTypes.func.isRequired,
-            link: PropTypes.func.isRequired,
-            unlink: PropTypes.func.isRequired,
-            patchGroupSyncable: PropTypes.func.isRequired,
-            patchGroup: PropTypes.func.isRequired,
-            setNavigationBlocked: PropTypes.func.isRequired,
-        }).isRequired,
+import {t} from 'utils/i18n';
+import {localizeMessage} from 'utils/utils';
+
+export type Props = {
+    groupID: string;
+    group: Group;
+    groupTeams: GroupTeam[];
+    groupChannels: GroupChannel[];
+    members: UserProfile[];
+    memberCount: number;
+    isDisabled?: boolean;
+    actions: {
+        getGroup: (id: string) => Promise<ActionResult>;
+        getMembers: (
+            id: string,
+            page?: number,
+            perPage?: number
+        ) => Promise<ActionResult>;
+        getGroupStats: (id: string) => Promise<ActionResult>;
+        getGroupSyncables: (
+            id: string,
+            syncableType: SyncableType
+        ) => Promise<ActionResult>;
+        link: (
+            id: string,
+            syncableID: string,
+            syncableType: SyncableType,
+            patch: SyncablePatch
+        ) => Promise<ActionResult>;
+        unlink: (
+            id: string,
+            syncableID: string,
+            syncableType: SyncableType
+        ) => Promise<ActionResult>;
+        patchGroupSyncable: (
+            id: string,
+            syncableID: string,
+            syncableType: SyncableType,
+            patch: SyncablePatch
+        ) => Promise<ActionResult>;
+        patchGroup: (id: string, patch: GroupPatch) => Promise<ActionResult>;
+        setNavigationBlocked: (blocked: boolean) => {
+            type: 'SET_NAVIGATION_BLOCKED';
+            blocked: boolean;
+        };
     };
+};
 
-    static defaultProps = {
+export type State = {
+    loadingTeamsAndChannels: boolean;
+    addTeamOpen: boolean;
+    addChannelOpen: boolean;
+    allowReference: boolean;
+    groupMentionName?: string;
+    saving: boolean;
+    saveNeeded: boolean;
+    serverError: JSX.Element | null;
+    hasAllowReferenceChanged: boolean;
+    hasGroupMentionNameChanged: boolean;
+    teamsToAdd: GroupTeam[];
+    channelsToAdd: GroupChannel[];
+    itemsToRemove: any[];
+    rolesToChange: Record<string, boolean>;
+    groupTeams: GroupTeam[];
+    groupChannels: GroupChannel[];
+};
+
+export default class GroupDetails extends React.PureComponent<Props, State> {
+    static defaultProps: Props = {
+        groupID: '',
         members: [],
         groupTeams: [],
         groupChannels: [],
-        group: {name: '', allow_reference: false},
+        group: {name: '', allow_reference: false} as Group,
         memberCount: 0,
+        actions: {} as Props['actions'],
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loadingTeamsAndChannels: true,
@@ -77,7 +131,7 @@ export default class GroupDetails extends React.PureComponent {
     }
 
     componentDidMount() {
-        const {groupID, actions, group} = this.props;
+        const {groupID, actions} = this.props;
         actions.getGroup(groupID);
 
         Promise.all([
@@ -87,25 +141,31 @@ export default class GroupDetails extends React.PureComponent {
         ]).then(() => {
             this.setState({
                 loadingTeamsAndChannels: false,
-                group,
                 allowReference: Boolean(this.props.group.allow_reference),
                 groupMentionName: this.props.group.name,
             });
         });
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         /* eslint-disable react/no-did-update-set-state */
 
         // groupchannels
-        if (prevState.saveNeeded !== this.state.saveNeeded && !this.state.saveNeeded && prevProps.groupChannels === this.props.groupChannels) {
+        if (
+            prevState.saveNeeded !== this.state.saveNeeded &&
+            !this.state.saveNeeded &&
+            prevProps.groupChannels === this.props.groupChannels
+        ) {
             this.setState({groupChannels: this.props.groupChannels});
         }
         if (prevProps.groupChannels !== this.props.groupChannels) {
             let gcs;
             if (this.state.saveNeeded) {
-                const stateIDs = this.state.groupChannels.map((gc) => gc.channel_id);
-                gcs = this.props.groupChannels.filter((gc) => !stateIDs.includes(gc.channel_id)).concat(this.state.groupChannels);
+                const {groupChannels = []} = this.state;
+                const stateIDs = groupChannels.map((gc) => gc.channel_id);
+                gcs = this.props.groupChannels.
+                    filter((gc) => !stateIDs.includes(gc.channel_id)).
+                    concat(groupChannels);
             } else {
                 gcs = this.props.groupChannels;
             }
@@ -113,14 +173,21 @@ export default class GroupDetails extends React.PureComponent {
         }
 
         // groupteams
-        if (prevState.saveNeeded !== this.state.saveNeeded && !this.state.saveNeeded && prevProps.groupTeams === this.props.groupTeams) {
+        if (
+            prevState.saveNeeded !== this.state.saveNeeded &&
+            !this.state.saveNeeded &&
+            prevProps.groupTeams === this.props.groupTeams
+        ) {
             this.setState({groupTeams: this.props.groupTeams});
         }
         if (prevProps.groupTeams !== this.props.groupTeams) {
             let gcs;
             if (this.state.saveNeeded) {
-                const stateIDs = this.state.groupTeams.map((gc) => gc.team_id);
-                gcs = this.props.groupTeams.filter((gc) => !stateIDs.includes(gc.team_id)).concat(this.state.groupTeams);
+                const {groupTeams = []} = this.state;
+                const stateIDs = groupTeams.map((gc) => gc.team_id);
+                gcs = this.props.groupTeams.
+                    filter((gc) => !stateIDs.includes(gc.team_id)).
+                    concat(groupTeams);
             } else {
                 gcs = this.props.groupTeams;
             }
@@ -130,24 +197,24 @@ export default class GroupDetails extends React.PureComponent {
 
     openAddChannel = () => {
         this.setState({addChannelOpen: true});
-    }
+    };
 
     closeAddChannel = () => {
         this.setState({addChannelOpen: false});
-    }
+    };
 
     openAddTeam = () => {
         this.setState({addTeamOpen: true});
-    }
+    };
 
     closeAddTeam = () => {
         this.setState({addTeamOpen: false});
-    }
+    };
 
-    addTeams = (teams) => {
+    addTeams = (teams: Team[]) => {
         const {groupID} = this.props;
-        const {groupTeams} = this.state;
-        const teamsToAdd = teams.map((team) => ({
+        const {groupTeams = []} = this.state;
+        const teamsToAdd: GroupTeam[] = teams.map((team) => ({
             group_id: groupID,
             scheme_admin: false,
             team_display_name: team.display_name,
@@ -160,12 +227,12 @@ export default class GroupDetails extends React.PureComponent {
             teamsToAdd,
         });
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
-    addChannels = (channels) => {
+    addChannels = (channels: ChannelWithTeamData[]) => {
         const {groupID} = this.props;
-        const {groupChannels} = this.state;
-        const channelsToAdd = channels.map((channel) => ({
+        const {groupChannels = []} = this.state;
+        const channelsToAdd: GroupChannel[] = channels.map((channel) => ({
             channel_display_name: channel.display_name,
             channel_id: channel.id,
             channel_type: channel.type,
@@ -180,21 +247,37 @@ export default class GroupDetails extends React.PureComponent {
             channelsToAdd,
         });
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
-    onRemoveTeamOrChannel = (id, type) => {
-        const {groupTeams, groupChannels, itemsToRemove, channelsToAdd, teamsToAdd} = this.state;
-        const newState = {saveNeeded: true, itemsToRemove, serverError: null};
+    onRemoveTeamOrChannel = (id: string, type: string) => {
+        const {
+            groupTeams,
+            groupChannels,
+            itemsToRemove = [],
+            channelsToAdd,
+            teamsToAdd,
+        } = this.state;
+        const newState: Partial<State> = {
+            saveNeeded: true,
+            itemsToRemove,
+            serverError: null,
+        };
         const syncableType = this.syncableTypeFromEntryType(type);
 
         let makeAPIRequest = true;
         if (syncableType === Groups.SYNCABLE_TYPE_CHANNEL) {
-            newState.channelsToAdd = channelsToAdd.filter((item) => item.channel_id !== id);
-            if (!this.props.groupChannels.some((item) => item.channel_id === id)) {
+            newState.channelsToAdd = channelsToAdd?.filter(
+                (item) => item.channel_id !== id,
+            );
+            if (
+                !this.props.groupChannels.some((item) => item.channel_id === id)
+            ) {
                 makeAPIRequest = false;
             }
         } else if (syncableType === Groups.SYNCABLE_TYPE_TEAM) {
-            newState.teamsToAdd = teamsToAdd.filter((item) => item.team_id !== id);
+            newState.teamsToAdd = teamsToAdd?.filter(
+                (item) => item.team_id !== id,
+            );
             if (!this.props.groupTeams.some((item) => item.team_id === id)) {
                 makeAPIRequest = false;
             }
@@ -203,16 +286,20 @@ export default class GroupDetails extends React.PureComponent {
             itemsToRemove.push({id, type});
         }
 
-        if (this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM) {
-            newState.groupTeams = groupTeams.filter((gt) => gt.team_id !== id);
+        if (
+            this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM
+        ) {
+            newState.groupTeams = groupTeams?.filter((gt) => gt.team_id !== id);
         } else {
-            newState.groupChannels = groupChannels.filter((gc) => gc.channel_id !== id);
+            newState.groupChannels = groupChannels?.filter(
+                (gc) => gc.channel_id !== id,
+            );
         }
-        this.setState(newState);
+        this.setState(newState as any);
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
-    syncableTypeFromEntryType = (entryType) => {
+    syncableTypeFromEntryType = (entryType?: string) => {
         switch (entryType) {
         case 'public-team':
         case 'private-team':
@@ -223,54 +310,70 @@ export default class GroupDetails extends React.PureComponent {
         default:
             return null;
         }
-    }
+    };
 
-    onChangeRoles = (id, type, schemeAdmin) => {
-        const {rolesToChange, groupTeams, groupChannels} = this.state;
+    onChangeRoles = (id: string, type: string, schemeAdmin: boolean) => {
+        const {
+            rolesToChange = {},
+            groupTeams = [],
+            groupChannels = [],
+        } = this.state;
         let listToUpdate;
-        let keyName;
+        let getId: (item: any) => string;
         let stateKey;
 
         const key = `${id}/${type}`;
         rolesToChange[key] = schemeAdmin;
 
-        if (this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM) {
+        if (
+            this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM
+        ) {
             listToUpdate = groupTeams;
-            keyName = 'team_id';
+            getId = (item: GroupTeam) => item.team_id;
             stateKey = 'groupTeams';
         } else {
             listToUpdate = groupChannels;
-            keyName = 'channel_id';
+            getId = (item: GroupChannel) => item.channel_id;
             stateKey = 'groupChannels';
         }
 
-        const updatedItems = listToUpdate.map((item) => ({...item})); // clone list of objects
-        updatedItems.find((item) => item[keyName] === id).scheme_admin = schemeAdmin;
+        const updatedItems = listToUpdate.map(({scheme_admin, ...item}) => {
+            if (getId(item) === id) {
+                scheme_admin = schemeAdmin;
+            }
+            return {...item, scheme_admin};
+        }); // clone list of objects
 
-        this.setState({saveNeeded: true, rolesToChange, [stateKey]: updatedItems});
+        this.setState({
+            saveNeeded: true,
+            rolesToChange,
+            [stateKey]: updatedItems,
+        } as any);
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
-    onMentionToggle = (allowReference) => {
+    onMentionToggle = (allowReference: boolean) => {
         const {group} = this.props;
         const originalAllowReference = group.allow_reference;
         const saveNeeded = true;
         let {groupMentionName} = this.state;
 
         if (!originalAllowReference && allowReference && !groupMentionName) {
-            groupMentionName = group.display_name.toLowerCase().replace(/\s/g, '-');
+            groupMentionName = group.display_name.
+                toLowerCase().
+                replace(/\s/g, '-');
         }
 
         this.setState({
             saveNeeded,
             allowReference,
             groupMentionName,
-            hasAllowReferenceChanged: allowReference !== originalAllowReference},
-        );
+            hasAllowReferenceChanged: allowReference !== originalAllowReference,
+        });
         this.props.actions.setNavigationBlocked(saveNeeded);
-    }
+    };
 
-    onMentionChange = (e) => {
+    onMentionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {group} = this.props;
         const originalGroupMentionName = group.name;
         const groupMentionName = e.target.value;
@@ -279,10 +382,11 @@ export default class GroupDetails extends React.PureComponent {
         this.setState({
             saveNeeded,
             groupMentionName,
-            hasGroupMentionNameChanged: groupMentionName !== originalGroupMentionName,
+            hasGroupMentionNameChanged:
+                groupMentionName !== originalGroupMentionName,
         });
         this.props.actions.setNavigationBlocked(saveNeeded);
-    }
+    };
 
     handleSubmit = async () => {
         this.setState({saving: true});
@@ -293,29 +397,51 @@ export default class GroupDetails extends React.PureComponent {
         const rolesSuccessful = await this.handleRolesToUpdate();
 
         await Promise.all([
-            this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL),
-            this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM),
+            this.props.actions.getGroupSyncables(
+                this.props.groupID,
+                Groups.SYNCABLE_TYPE_CHANNEL,
+            ),
+            this.props.actions.getGroupSyncables(
+                this.props.groupID,
+                Groups.SYNCABLE_TYPE_TEAM,
+            ),
         ]);
 
-        const allSuccuessful = patchGroupSuccessful && addsSuccessful && removesSuccessful && rolesSuccessful;
+        const allSuccuessful =
+            patchGroupSuccessful &&
+            addsSuccessful &&
+            removesSuccessful &&
+            rolesSuccessful;
 
         this.setState({saveNeeded: !allSuccuessful, saving: false});
 
         this.props.actions.setNavigationBlocked(!allSuccuessful);
-    }
+    };
 
-    roleChangeKey = (groupTeamOrChannel) => {
-        let fieldKey;
-        if (this.syncableTypeFromEntryType(groupTeamOrChannel.type) === Groups.SYNCABLE_TYPE_TEAM) {
-            fieldKey = 'team_id';
+    roleChangeKey = (groupTeamOrChannel: {
+        type?: Groups;
+        team_id?: string;
+        channel_id?: string;
+    }) => {
+        let id: string;
+        if (
+            this.syncableTypeFromEntryType(groupTeamOrChannel.type) ===
+            Groups.SYNCABLE_TYPE_TEAM
+        ) {
+            id = groupTeamOrChannel.team_id as string;
         } else {
-            fieldKey = 'channel_id';
+            id = groupTeamOrChannel.channel_id as string;
         }
-        return `${groupTeamOrChannel[fieldKey]}/${groupTeamOrChannel.type}`;
+        return `${id}/${groupTeamOrChannel.type}`;
     };
 
     handlePatchGroup = async () => {
-        const {allowReference, groupMentionName, hasAllowReferenceChanged, hasGroupMentionNameChanged} = this.state;
+        const {
+            allowReference,
+            groupMentionName,
+            hasAllowReferenceChanged,
+            hasGroupMentionNameChanged,
+        } = this.state;
         let serverError = null;
 
         const GroupNameIsTakenError = (
@@ -337,24 +463,41 @@ export default class GroupDetails extends React.PureComponent {
         } else if (hasAllowReferenceChanged || hasGroupMentionNameChanged) {
             let lcGroupMentionName;
             if (allowReference) {
-                lcGroupMentionName = groupMentionName.toLowerCase();
+                lcGroupMentionName = groupMentionName?.toLowerCase();
             }
-            const result = await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference, name: lcGroupMentionName});
+            const result = await this.props.actions.patchGroup(
+                this.props.groupID,
+                {allow_reference: Boolean(allowReference), name: lcGroupMentionName},
+            );
             if (result.error) {
-                if (result.error.server_error_id === 'store.sql_group.unique_constraint') {
+                if (
+                    result.error.server_error_id ===
+                    'store.sql_group.unique_constraint'
+                ) {
                     serverError = GroupNameIsTakenError;
-                } else if (result.error.server_error_id === 'model.group.name.invalid_chars.app_error') {
+                } else if (
+                    result.error.server_error_id ===
+                    'model.group.name.invalid_chars.app_error'
+                ) {
                     serverError = (
                         <FormattedMessage
                             id='admin.group_settings.group_detail.invalidOrReservedMentionNameError'
                             defaultMessage='Only letters (a-z), numbers(0-9), periods, dashes and underscores are allowed.'
                         />
                     );
-                } else if (result.error.server_error_id === 'api.ldap_groups.existing_reserved_name_error' ||
-                    result.error.server_error_id === 'api.ldap_groups.existing_user_name_error' ||
-                    result.error.server_error_id === 'api.ldap_groups.existing_group_name_error') {
+                } else if (
+                    result.error.server_error_id ===
+                        'api.ldap_groups.existing_reserved_name_error' ||
+                    result.error.server_error_id ===
+                        'api.ldap_groups.existing_user_name_error' ||
+                    result.error.server_error_id ===
+                        'api.ldap_groups.existing_group_name_error'
+                ) {
                     serverError = GroupNameIsTakenError;
-                } else if (result.error.server_error_id === 'model.group.name.invalid_length.app_error') {
+                } else if (
+                    result.error.server_error_id ===
+                    'model.group.name.invalid_length.app_error'
+                ) {
                     serverError = (
                         <FormattedMessage
                             id='admin.group_settings.group_detail.invalid_length'
@@ -369,8 +512,12 @@ export default class GroupDetails extends React.PureComponent {
                 allowReference,
                 groupMentionName: lcGroupMentionName,
                 serverError,
-                hasAllowReferenceChanged: result.error ? hasAllowReferenceChanged : false,
-                hasGroupMentionNameChanged: result.error ? hasGroupMentionNameChanged : false,
+                hasAllowReferenceChanged: result.error ?
+                    hasAllowReferenceChanged :
+                    false,
+                hasGroupMentionNameChanged: result.error ?
+                    hasGroupMentionNameChanged :
+                    false,
             });
         }
 
@@ -379,72 +526,127 @@ export default class GroupDetails extends React.PureComponent {
 
     handleRolesToUpdate = async () => {
         const {rolesToChange} = this.state;
-        const promises = Object.entries(rolesToChange).map(([key, value]) => {
-            const [syncableID, type] = key.split('/');
-            return this.props.actions.patchGroupSyncable(this.props.groupID, syncableID, this.syncableTypeFromEntryType(type), {scheme_admin: value});
-        });
+        const promises: Array<Promise<ActionResult>> = [];
+
+        if (rolesToChange) {
+            Object.entries(rolesToChange).forEach(([key, value]) => {
+                const [syncableID, type] = key.split('/');
+                const syncableType = this.syncableTypeFromEntryType(type);
+                if (syncableType) {
+                    promises.push(
+                        this.props.actions.patchGroupSyncable(
+                            this.props.groupID,
+                            syncableID,
+                            syncableType,
+                            {scheme_admin: value, auto_add: false},
+                        ),
+                    );
+                }
+            });
+        }
         const results = await Promise.all(promises);
-        const errors = results.map((r) => r.error?.message).filter((item) => item);
+        const errors = results.
+            map((r) => r.error?.message).
+            filter((item) => item);
         if (errors.length) {
             this.setState({serverError: <>{errors[0]}</>});
             return false;
         }
         this.setState({rolesToChange: {}});
         return true;
-    }
+    };
 
     handleAddedTeamsAndChannels = async () => {
         const {teamsToAdd, channelsToAdd, rolesToChange} = this.state;
-        const promises = [];
-        if (teamsToAdd.length) {
+        const promises: Array<Promise<ActionResult>> = [];
+        if (teamsToAdd?.length) {
             teamsToAdd.forEach((groupTeam) => {
                 const roleChangeKey = this.roleChangeKey(groupTeam);
-                groupTeam.scheme_admin = rolesToChange[roleChangeKey];
-                delete rolesToChange[roleChangeKey]; // delete the key because it won't need a patch, it's being handled by the link request.
-                promises.push(this.props.actions.link(this.props.groupID, groupTeam.team_id, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: groupTeam.scheme_admin}));
+                groupTeam.scheme_admin = rolesToChange?.[roleChangeKey];
+                delete rolesToChange?.[roleChangeKey]; // delete the key because it won't need a patch, it's being handled by the link request.
+                promises.push(
+                    this.props.actions.link(
+                        this.props.groupID,
+                        groupTeam.team_id,
+                        Groups.SYNCABLE_TYPE_TEAM,
+                        {
+                            auto_add: true,
+                            scheme_admin: Boolean(groupTeam.scheme_admin),
+                        },
+                    ),
+                );
             });
         }
-        if (channelsToAdd.length) {
+        if (channelsToAdd?.length) {
             channelsToAdd.forEach((groupChannel) => {
                 const roleChangeKey = this.roleChangeKey(groupChannel);
-                groupChannel.scheme_admin = rolesToChange[roleChangeKey];
-                delete rolesToChange[roleChangeKey]; // delete the key because it won't need a patch, it's being handled by the link request.
-                promises.push(this.props.actions.link(this.props.groupID, groupChannel.channel_id, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: groupChannel.scheme_admin}));
+                groupChannel.scheme_admin = rolesToChange?.[roleChangeKey];
+                delete rolesToChange?.[roleChangeKey]; // delete the key because it won't need a patch, it's being handled by the link request.
+                promises.push(
+                    this.props.actions.link(
+                        this.props.groupID,
+                        groupChannel.channel_id,
+                        Groups.SYNCABLE_TYPE_CHANNEL,
+                        {
+                            auto_add: true,
+                            scheme_admin: groupChannel.scheme_admin,
+                        },
+                    ),
+                );
             });
         }
         const results = await Promise.all(promises);
-        const errors = results.map((r) => r.error?.message).filter((item) => item);
+        const errors = results.
+            map((r) => r.error?.message).
+            filter((item) => item);
         if (errors.length) {
             this.setState({serverError: <>{errors[0]}</>});
             return false;
         }
         this.setState({teamsToAdd: [], channelsToAdd: []});
         return true;
-    }
+    };
 
     handleRemovedTeamsAndChannels = async () => {
         const {itemsToRemove, rolesToChange} = this.state;
-        const promises = [];
+        const promises: Array<Promise<ActionResult>> = [];
         if (itemsToRemove.length) {
             itemsToRemove.forEach((item) => {
                 delete rolesToChange[this.roleChangeKey(item)]; // no need to update the roles of group-teams that were unlinked.
-                promises.push(this.props.actions.unlink(this.props.groupID, item.id, this.syncableTypeFromEntryType(item.type)));
+                const syncableType = this.syncableTypeFromEntryType(item.type);
+                if (syncableType) {
+                    promises.push(
+                        this.props.actions.unlink(
+                            this.props.groupID,
+                            item.id,
+                            syncableType,
+                        ),
+                    );
+                }
             });
         }
         const results = await Promise.all(promises);
-        const errors = results.map((r) => r.error?.message).filter((item) => item);
+        const errors = results.
+            map((r) => r.error?.message).
+            filter((item) => item);
         if (errors.length) {
             this.setState({serverError: <>{errors[0]}</>});
             return false;
         }
         this.setState({itemsToRemove: []});
         return true;
-    }
+    };
 
     render = () => {
         const {group, members, memberCount, isDisabled} = this.props;
         const {groupTeams, groupChannels} = this.state;
-        const {allowReference, groupMentionName, saving, saveNeeded, serverError} = this.state;
+        const {
+            allowReference,
+            groupMentionName,
+            saving,
+            saveNeeded,
+            serverError,
+        } = this.state;
 
         return (
             <div className='wrapper--fixed'>
@@ -483,15 +685,17 @@ export default class GroupDetails extends React.PureComponent {
 
                         <AdminPanel
                             id='group_teams_and_channels'
-                            titleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsTitle')}
+                            titleId={t(
+                                'admin.group_settings.group_detail.groupTeamsAndChannelsTitle',
+                            )}
                             titleDefault='Team and Channel Membership'
-                            subtitleId={t('admin.group_settings.group_detail.groupTeamsAndChannelsDescription')}
+                            subtitleId={t(
+                                'admin.group_settings.group_detail.groupTeamsAndChannelsDescription',
+                            )}
                             subtitleDefault='Set default teams and channels for group members. Teams added will include default channels, town-square, and off-topic. Adding a channel without setting the team will add the implied team to the listing below.'
-                            button={(
+                            button={
                                 <div className='group-profile-add-menu'>
-                                    <MenuWrapper
-                                        isDisabled={isDisabled}
-                                    >
+                                    <MenuWrapper isDisabled={isDisabled}>
                                         <button
                                             type='button'
                                             id='add_team_or_channel'
@@ -503,55 +707,72 @@ export default class GroupDetails extends React.PureComponent {
                                             />
                                             <i className={'fa fa-caret-down'}/>
                                         </button>
-                                        <Menu ariaLabel={localizeMessage('admin.group_settings.group_details.menuAriaLabel', 'Add Team or Channel Menu')}>
+                                        <Menu
+                                            ariaLabel={localizeMessage(
+                                                'admin.group_settings.group_details.menuAriaLabel',
+                                                'Add Team or Channel Menu',
+                                            )}
+                                        >
                                             <Menu.ItemAction
                                                 id='add_team'
                                                 onClick={this.openAddTeam}
-                                                text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
+                                                text={localizeMessage(
+                                                    'admin.group_settings.group_details.add_team',
+                                                    'Add Team',
+                                                )}
                                             />
                                             <Menu.ItemAction
                                                 id='add_channel'
                                                 onClick={this.openAddChannel}
-                                                text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
+                                                text={localizeMessage(
+                                                    'admin.group_settings.group_details.add_channel',
+                                                    'Add Channel',
+                                                )}
                                             />
                                         </Menu>
                                     </MenuWrapper>
                                 </div>
-                            )}
+                            }
                         >
                             <GroupTeamsAndChannels
                                 id={this.props.groupID}
                                 teams={groupTeams}
                                 channels={groupChannels}
                                 loading={this.state.loadingTeamsAndChannels}
-                                getGroupSyncables={this.props.actions.getGroupSyncables}
-                                unlink={this.props.actions.unlink}
                                 onChangeRoles={this.onChangeRoles}
                                 onRemoveItem={this.onRemoveTeamOrChannel}
                                 isDisabled={isDisabled}
                             />
                         </AdminPanel>
-                        {this.state.addTeamOpen &&
+                        {this.state.addTeamOpen && (
                             <TeamSelectorModal
                                 onModalDismissed={this.closeAddTeam}
                                 onTeamsSelected={this.addTeams}
-                                alreadySelected={this.props.groupTeams.map((team) => team.team_id)}
+                                alreadySelected={this.props.groupTeams.map(
+                                    (team) => team.team_id,
+                                )}
                             />
-                        }
-                        {this.state.addChannelOpen &&
+                        )}
+                        {this.state.addChannelOpen && (
                             <ChannelSelectorModal
                                 onModalDismissed={this.closeAddChannel}
                                 onChannelsSelected={this.addChannels}
-                                alreadySelected={this.props.groupChannels.map((channel) => channel.channel_id)}
+                                alreadySelected={this.props.groupChannels.map(
+                                    (channel) => channel.channel_id,
+                                )}
                                 groupID={this.props.groupID}
                             />
-                        }
+                        )}
 
                         <AdminPanel
                             id='group_users'
-                            titleId={t('admin.group_settings.group_detail.groupUsersTitle')}
+                            titleId={t(
+                                'admin.group_settings.group_detail.groupUsersTitle',
+                            )}
                             titleDefault='Users'
-                            subtitleId={t('admin.group_settings.group_detail.groupUsersDescription')}
+                            subtitleId={t(
+                                'admin.group_settings.group_detail.groupUsersDescription',
+                            )}
                             subtitleDefault='Listing of users in Mattermost associated with this group.'
                         >
                             <GroupUsers
@@ -569,12 +790,14 @@ export default class GroupDetails extends React.PureComponent {
                     cancelLink='/admin_console/user_management/groups'
                     saveNeeded={saveNeeded}
                     onClick={this.handleSubmit}
-                    serverError={serverError &&
-                        <FormError
-                            iconClassName={'fa-exclamation-triangle'}
-                            textClassName={'has-error'}
-                            error={serverError}
-                        />
+                    serverError={
+                        serverError && (
+                            <FormError
+                                iconClassName={'fa-exclamation-triangle'}
+                                textClassName={'has-error'}
+                                error={serverError}
+                            />
+                        )
                     }
                 />
             </div>
