@@ -10,7 +10,7 @@ import ChannelNotificationsModal from 'components/channel_notifications_modal/ch
 describe('components/channel_notifications_modal/ChannelNotificationsModal', () => {
     const baseProps = {
         show: true,
-        onHide: () => {}, //eslint-disable-line no-empty-function
+        onExited: jest.fn(),
         channel: {id: 'channel_id', display_name: 'channel_display_name'},
         channelMember: {
             notify_props: {
@@ -156,28 +156,26 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
     });
 
-    test('should call onHide and match state on handleOnHide', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
+    test('should call onExited and match state on handleOnHide', () => {
         const wrapper = shallow(
-            <ChannelNotificationsModal {...props}/>,
+            <ChannelNotificationsModal {...baseProps}/>,
         );
 
         wrapper.setState({activeSection: NotificationSections.DESKTOP, desktopNotifyLevel: NotificationLevels.NONE});
         wrapper.instance().handleExit();
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.ALL);
 
         wrapper.setState({activeSection: NotificationSections.MARK_UNREAD, markUnreadNotifyLevel: NotificationLevels.NONE});
         wrapper.instance().handleExit();
-        expect(onHide).toHaveBeenCalledTimes(2);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(2);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
 
         wrapper.setState({activeSection: NotificationSections.PUSH, pushNotifyLevel: NotificationLevels.NONE});
         wrapper.instance().handleExit();
-        expect(onHide).toHaveBeenCalledTimes(3);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(3);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
     });
