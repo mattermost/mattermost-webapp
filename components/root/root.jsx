@@ -62,10 +62,11 @@ import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
 
+import TeamSidebar from 'components/team_sidebar';
+
 import {applyLuxonDefaults} from './effects';
 
 import RootRedirect from './root_redirect';
-import TeamSidebar from 'components/team_sidebar';
 
 const CreateTeam = makeAsyncComponent(LazyCreateTeam);
 const ErrorPage = makeAsyncComponent(LazyErrorPage);

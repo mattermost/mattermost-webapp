@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {getCurrentProductId} from '../../utils/products';
+
 import classNames from 'classnames';
+
+import {getCurrentProductId} from '../../utils/products';
 
 export default class Pluggable extends React.PureComponent {
     static propTypes = {

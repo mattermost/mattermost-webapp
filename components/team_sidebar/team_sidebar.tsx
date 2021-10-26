@@ -11,6 +11,8 @@ import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-b
 
 import {Dispatch} from 'redux';
 
+import {RouteComponentProps} from 'react-router-dom';
+
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
@@ -27,10 +29,10 @@ import Pluggable from 'plugins/pluggable';
 
 import {ThreadsState} from 'mattermost-redux/types/threads';
 
-import TeamButton from './components/team_button';
 import {ProductComponent} from '../../types/store/plugins';
-import {RouteComponentProps} from 'react-router-dom';
 import {getCurrentProductId} from '../../utils/products';
+
+import TeamButton from './components/team_button';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
@@ -57,7 +59,7 @@ export interface Props {
     userTeamsOrderPreference: string;
     threadCounts: ThreadsState['counts'];
     products: ProductComponent[];
-    location: RouteComponentProps["location"];
+    location: RouteComponentProps['location'];
 }
 
 export function renderView(props: Props) {
