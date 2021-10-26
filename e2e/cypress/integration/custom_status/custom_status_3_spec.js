@@ -83,7 +83,7 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('.status-dropdown-menu .custom_status__row span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
     });
 
-    it('MM-T3846_7 should show previosly set status in the first position in Recents list', () => {
+    it('MM-T3846_6 should show previosly set status in the first position in Recents list', () => {
         // # Click on the "Set a Custom Status" option in the status dropdown
         cy.get('.status-dropdown-menu li#status-menu-custom-status').click();
 
@@ -95,7 +95,7 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('#custom_status_modal .statusSuggestion__row').first().find('span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
     });
 
-    it('MM-T3846_8 should set the same status again when clicked on the Set status', () => {
+    it('MM-T3846_7 should set the same status again when clicked on the Set status', () => {
         // # Select the first suggestion from the list and set the status
         cy.get('#custom_status_modal .statusSuggestion__row').first().click();
         cy.get('#custom_status_modal .GenericModal__button.confirm').click();
@@ -109,7 +109,7 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
             should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
-    it('MM-T3846_9 should clear the status when clicked on Clear status button', () => {
+    it('MM-T3846_8 should clear the status when clicked on Clear status button', () => {
         // # Open user menu then custom status
         cy.uiOpenUserMenu(customStatus.text);
 
