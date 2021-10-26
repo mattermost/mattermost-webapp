@@ -9,15 +9,13 @@
 
 // Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
-
 import {
     runDataRetentionAndVerifyPostDeleted,
     gotoGlobalPolicy,
     editGlobalPolicyMessageRetention,
 } from './helpers';
 
-describe('Data Retention -Global and Custom Policy', () => {
+describe('Data Retention - Global and Custom Policy', () => {
     let testTeam;
     let testChannel;
     let users;
@@ -57,7 +55,7 @@ describe('Data Retention -Global and Custom Policy', () => {
         gotoGlobalPolicy();
         editGlobalPolicyMessageRetention('5', '5 days');
 
-        // # Creating new team for Global Policy
+        // # Create a new team
         cy.apiCreateTeam('team', 'Team1').then(({team}) => {
             cy.apiCreateChannel(team.id, 'test_channel', 'Channel-A').then(({channel}) => {
                 newChannel = channel;
@@ -91,18 +89,15 @@ describe('Data Retention -Global and Custom Policy', () => {
         const createDate = new Date().setDate(new Date().getDate() - 7);
 
         cy.apiCreateToken(users).then(({token}) => {
-            // # Create a post
-            cy.apiCreatePost(testChannel.id, postText, '', {}, token, true, createDate);
-            cy.apiCreatePost(newChannel.id, postText, '', {}, token, true, createDate);
+            // # Create posts
+            cy.apiPostWithCreateDate(newChannel.id, postText, token, createDate);
+            cy.apiPostWithCreateDate(testChannel.id, postText, token, createDate);
 
+            // * Run the job and verify 7 days older post in newChannel has been deleted
             runDataRetentionAndVerifyPostDeleted(newTeam, newChannel, postText);
 
-            // # visiting a channel where Custom policy was applied
+            // * Verify 7 days older post in testChannel was not deleted
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-            // * Verifying that post should not be deleted
-            cy.wait(TIMEOUTS.TEN_SEC);
-            cy.reload();
             cy.findAllByTestId('postView').should('have.length', 2);
             cy.findAllByTestId('postView').should('contain', postText);
         });

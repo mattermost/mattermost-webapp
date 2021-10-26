@@ -169,3 +169,14 @@ export function runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, post
     cy.findAllByTestId('postView').should('have.length', 1);
     cy.findAllByTestId('postView').should('not.contain', postText);
 }
+
+export function verifyPostNotDeleted(testTeam, testChannel, postText, expectedNoOfPosts = 2) {
+    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+    cy.findAllByTestId('postView').should('have.length', expectedNoOfPosts);
+
+    if (expectedNoOfPosts === 2) {
+        cy.findAllByTestId('postView').should('contain', postText);
+    } else {
+        cy.findAllByTestId('postView').should('not.contain', postText);
+    }
+}

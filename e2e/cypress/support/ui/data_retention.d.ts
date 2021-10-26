@@ -82,20 +82,5 @@ declare namespace Cypress {
          * @param {string} displayName - The name of the policy
          */
         uiVerifyPolicyResponse(body, teamCount: number, channelCount: number, duration: number, displayName: string): Chainable;
-
-        /**
-         * Delete all custom retention policies
-         */
-        apiDeleteAllCustomRetentionPolicies(): Chainable;
-
-        /**
-         * Create a post with create_at prop via API
-         * @param {string} channelId - Channel ID
-         * @param {string} message - Post a message
-         * @param {string} token - token
-         * @param {number} createat -  epoch date
-         */
-        apiPostWithCreateDate(channelId: string, message: string, token: string, createat: number): Chainable;
-
     }
 }

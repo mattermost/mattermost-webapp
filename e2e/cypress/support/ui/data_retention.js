@@ -103,28 +103,3 @@ Cypress.Commands.add('uiVerifyPolicyResponse', (body, teamCount, channelCount, d
     // * Assert response body display_name matches supplied value
     expect(body.display_name).to.equal(displayName);
 });
-
-Cypress.Commands.add('apiDeleteAllCustomRetentionPolicies', () => {
-    cy.apiGetCustomRetentionPolicies().then((result) => {
-        result.body.policies.forEach((policy) => {
-            cy.apiDeleteCustomRetentionPolicy(policy.id);
-        });
-    });
-});
-
-Cypress.Commands.add('apiPostWithCreateDate', (channelId, message, token, createAt) => {
-    const headers = {'X-Requested-With': 'XMLHttpRequest'};
-    if (token !== '') {
-        headers.Authorization = `Bearer ${token}`;
-    }
-    return cy.request({
-        headers,
-        url: '/api/v4/posts',
-        method: 'POST',
-        body: {
-            channel_id: channelId,
-            create_at: createAt,
-            message,
-        },
-    });
-});
