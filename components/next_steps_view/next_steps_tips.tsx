@@ -58,20 +58,18 @@ export default function NextStepsTips(props: Props) {
     const dispatch = useDispatch();
     const openPluginMarketplace = () => {
         trackEvent(getAnalyticsCategory(props.isAdmin), 'click_add_plugins');
-        openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal})(dispatch);
+        dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
     };
-    const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
+    const openMoreChannels = () => dispatch(openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels}));
 
-    const openViewMembersModal = openModal({
+    const openViewMembersModal = () => dispatch(openModal({
         modalId: ModalIdentifiers.TEAM_MEMBERS,
         dialogType: TeamMembersModal,
-    });
+    }));
 
-    const closeCloseNextStepsModal = closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL);
+    const onCloseModal = () => dispatch(closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL));
 
-    const onCloseModal = () => closeCloseNextStepsModal(dispatch);
-
-    const closeNextSteps = openModal({
+    const closeNextSteps = () => dispatch(openModal({
         modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
         dialogType: RemoveNextStepsModal,
         dialogProps: {
@@ -93,7 +91,7 @@ export default function NextStepsTips(props: Props) {
             },
             onCancel: onCloseModal,
         },
-    });
+    }));
 
     let nonMobileTips;
     if (!Utils.isMobile() && props.isAdmin) {
@@ -170,7 +168,7 @@ export default function NextStepsTips(props: Props) {
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openViewMembersModal(dispatch)}
+                            onClick={openViewMembersModal}
                         >
                             <FormattedMessage
                                 id='next_steps_view.tips.viewMembers'
@@ -252,7 +250,7 @@ export default function NextStepsTips(props: Props) {
                     />
                     <button
                         className='NextStepsView__button NextStepsView__finishButton primary'
-                        onClick={() => openMoreChannels(dispatch)}
+                        onClick={openMoreChannels}
                     >
                         <FormattedMessage
                             id='next_steps_view.tips.exploreChannels.button'
@@ -293,7 +291,7 @@ export default function NextStepsTips(props: Props) {
                 <CloseIcon
                     id='closeIcon'
                     className='close-icon'
-                    onClick={() => closeNextSteps(dispatch)}
+                    onClick={closeNextSteps}
                 />
             </header>
             <div className='NextStepsView__body'>

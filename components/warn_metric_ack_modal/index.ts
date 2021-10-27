@@ -5,7 +5,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics, sendWarnMetricAck} from 'mattermost-redux/actions/admin';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
@@ -35,14 +35,14 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 }
 
 type Actions = {
-    closeModal: (arg: string) => void;
-    getStandardAnalytics: () => any;
-    sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error?: string}>;
+    closeModal: (modalId: string) => void;
+    getStandardAnalytics: () => void;
+    sendWarnMetricAck: (warnMetricId: string, forceAck: boolean) => Promise<ActionResult>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>(
             {
                 closeModal,
                 getStandardAnalytics,
