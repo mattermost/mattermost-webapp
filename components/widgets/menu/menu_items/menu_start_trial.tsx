@@ -40,7 +40,6 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
         dispatch(openModal({
             modalId: ModalIdentifiers.START_TRIAL_MODAL,
             dialogType: StartTrialModal,
-            dialogProps: {onClose: null},
         }));
     };
 

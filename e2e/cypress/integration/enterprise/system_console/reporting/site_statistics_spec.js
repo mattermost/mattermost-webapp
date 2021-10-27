@@ -12,12 +12,6 @@
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {getAdminAccount} from '../../../../support/env';
 
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
-
 describe('System Console > Site Statistics', () => {
     let testTeam;
 
@@ -91,7 +85,7 @@ describe('System Console > Site Statistics', () => {
 
                 // # Post message as bot to the new channel
                 cy.postBotMessage({token, channelId: newChannel.id, message: 'this is bot message', createAt: yesterday.getTime()}).then(() => {
-                    goToAdminConsole();
+                    cy.visit('/admin_console');
 
                     // * Find site statistics and click it
                     cy.findByTestId('reporting.system_analytics', {timeout: TIMEOUTS.ONE_MIN}).click();

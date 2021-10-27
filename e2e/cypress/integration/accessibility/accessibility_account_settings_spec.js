@@ -226,19 +226,19 @@ describe('Verify Accessibility Support in different sections in Settings and Acc
         cy.get('#generalSettings').then((el) => {
             if (el.find('.profile-img__remove').length > 0) {
                 cy.findByTestId('removeSettingPicture').click();
-                cy.findByTestId('saveSettingPicture').click();
+                cy.uiSave();
                 cy.get('#pictureEdit').click();
             }
         });
 
         // * Check Labels in different buttons
         cy.findByTestId('inputSettingPictureButton').should('have.attr', 'aria-label', 'Select');
-        cy.findByTestId('saveSettingPicture').should('have.attr', 'aria-label', 'Save').and('have.attr', 'disabled');
+        cy.uiSaveButton().should('have.attr', 'disabled');
         cy.findByTestId('cancelSettingPicture').should('have.attr', 'aria-label', 'Cancel');
 
         // # Upload a pic and save
         cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
-        cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
+        cy.uiSave();
 
         // # Click on Edit Profile Picture
         cy.get('#pictureEdit').click();
@@ -261,9 +261,9 @@ describe('Verify Accessibility Support in different sections in Settings and Acc
         cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.HALF_SEC);
         cy.findByTestId('inputSettingPictureButton').focus().tab({shift: true}).tab();
         cy.findByTestId('inputSettingPictureButton').should('have.class', 'a11y--active a11y--focused').tab();
-        cy.findByTestId('saveSettingPicture').should('have.class', 'a11y--active a11y--focused').tab();
+        cy.uiSaveButton().should('be.focused').tab();
         cy.findByTestId('cancelSettingPicture').should('have.class', 'a11y--active a11y--focused');
-        cy.findByTestId('saveSettingPicture').click();
+        cy.uiSave();
     });
 
     it('MM-T1496 Security Settings screen should read labels', () => {
