@@ -33,7 +33,7 @@ describe('Account Settings', () => {
         });
 
         // * Verify that the modal switched to "Settings" modal
-        cy.get('#accountSettingsModalLabel').should('be.visible').and('have.text', 'Settings');
+        cy.findByRole('dialog', {name: 'Settings'}).should('be.visible');
 
         // * Verify that the view switches to notifications tab
         cy.get('#notificationSettingsTitle').should('be.visible').should('contain', 'Notifications');
