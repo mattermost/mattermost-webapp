@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Permissions} from 'mattermost-redux/constants';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {mapStateToProps} from './index';
 
@@ -21,6 +22,7 @@ describe('mapStateToProps', () => {
             },
             teams: {
                 currentTeamId,
+                myMembers: {},
             },
             preferences: {
                 myPreferences: {},
@@ -57,7 +59,10 @@ describe('mapStateToProps', () => {
                 modalState: {},
             },
         },
-    };
+        errors: [],
+        websocket: {},
+        requests: {},
+    } as unknown as GlobalState;
 
     test('canInviteGuests is false when group_constrained is true', () => {
         const testState = {
@@ -74,7 +79,7 @@ describe('mapStateToProps', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const props = mapStateToProps(testState);
         expect(props.canInviteGuests).toBe(false);
@@ -98,7 +103,7 @@ describe('mapStateToProps', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const props = mapStateToProps(testState);
         expect(props.canInviteGuests).toBe(true);

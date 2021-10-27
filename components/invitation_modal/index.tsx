@@ -1,14 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {isEmpty} from 'lodash';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getInviteToTeamTreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
@@ -25,25 +24,28 @@ import {ModalIdentifiers, Constants} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 
-import FullscreenInvitationModal from './fullscreen/invitation_modal.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
+
 import InvitationModal from './invitation_modal';
 
-const searchProfiles = (term, options = {}) => {
+const searchProfiles = (term: string, options = {}) => {
     if (!term) {
         return getProfiles(0, 20, options);
     }
     return reduxSearchProfiles(term, options);
 };
 
-const searchChannels = (teamId, term) => {
+const searchChannels = (teamId: string, term: string) => {
     return reduxSearchChannels(teamId, term);
 };
 
-export function mapStateToProps(state) {
+export function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const license = getLicense(state);
     const channels = getChannelsInCurrentTeam(state);
     const currentTeam = getCurrentTeam(state);
+    const currentChannel = getCurrentChannel(state);
     const subscriptionStats = getSubscriptionStats(state);
     const invitableChannels = channels.filter((channel) => {
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
@@ -63,7 +65,7 @@ export function mapStateToProps(state) {
     const isFreeTierWithNoFreeSeats = isCloud && !isEmpty(subscriptionStats) && subscriptionStats.is_paid_tier === 'false' && subscriptionStats.remaining_seats <= 0;
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
-    const inviteToTeamTreatment = getInviteToTeamTreatment(state);
+    const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.LIGHTBOX;
     return {
         invitableChannels,
         currentTeam,
@@ -75,12 +77,12 @@ export function mapStateToProps(state) {
         isCloud,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
-        asLightbox: inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX || inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX_SLIDER,
         inviteToTeamTreatment,
+        currentChannelName: currentChannel.display_name,
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             closeModal: () => closeModal(ModalIdentifiers.INVITATION),
@@ -94,4 +96,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(({asLightbox, ...props}) => asLightbox ? <InvitationModal {...props}/> : <FullscreenInvitationModal {...props} />);
+export default connect(mapStateToProps, mapDispatchToProps)(InvitationModal);

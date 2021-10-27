@@ -3,47 +3,83 @@
 
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
+import Radio from '@mattermost/compass-components/components/radio';
+
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
 export type As = 'member' | 'guest'
 
 type Props = {
-    setInviteAs: (as: As) => void,
-    as: As
-    inviteToTeamTreatment: InviteToTeamTreatments
+    setInviteAs: (as: As) => void;
+    as: As;
+    inviteToTeamTreatment: InviteToTeamTreatments;
 }
-
 
 export default function InviteAs(props: Props) {
     if (props.inviteToTeamTreatment === InviteToTeamTreatments.NONE) {
-        console.error(`invariant violated. InviteAs should only be used with ${InviteToTeamTreatments.LIGHTBOX} or ${InviteToTeamTreatments.LIGHTBOX_SLIDER} treatments, but received ${props.inviteToTeamTreatment}`)
+        // eslint-disable-next-line no-console
+        console.error(`invariant violated. InviteAs should only be used with ${InviteToTeamTreatments.LIGHTBOX} or ${InviteToTeamTreatments.LIGHTBOX_SLIDER} treatments, but received ${props.inviteToTeamTreatment}`);
         return null;
     }
     let control = (
         <div>
-            <span>This can't be undone.</span>
-            <span>Guests are for temporary accounts that are limited to select channels or teams.</span>
-            <span>{'off <-> on'}</span>
-
+            <FormattedMessage
+                id='invite_modal.permanent'
+                defaultMessage="This can't be undone."
+            />
+            <FormattedMessage
+                id='invite_modal.guest_purpose'
+                defaultMessage='Guests are for temporary accounts that are limited to select channels or teams.'
+            />
+            <span>{'slider: off <-> on'}</span>
         </div>
     );
     if (props.inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX) {
         control = (
             <div>
-                <p>
-                    Member
-                </p>
-                <p>
-                    <span>
-                    Guest
+                <Radio
+                    checked={props.as === 'member'}
+                    onClick={() => {
+                        props.setInviteAs('member');
+                    }}
+                >
+                    <span style={{color: 'black'}}>
+                        <FormattedMessage
+                            id='invite_modal.choose_member'
+                            defaultMessage='Member'
+                        />
                     </span>
-                    -
-                    <span>
-                        limited to select channels and teams
+                </Radio>
+                <Radio
+                    checked={props.as === 'guest'}
+                    onClick={() => {
+                        props.setInviteAs('guest');
+                    }}
+                >
+                    <span style={{color: 'black'}}>
+                        <FormattedMessage
+                            id='invite_modal.choose_guest_a'
+                            defaultMessage='Guest'
+                        />
+                        <span>
+                            {' - '}
+                            <FormattedMessage
+                                id='invite_modal.choose_guest_b'
+                                defaultMessage='limited to select channels and teams'
+                            />
+                        </span>
                     </span>
-                </p>
+                </Radio>
             </div>
         );
     }
-    return control
+    return (<div>
+        <FormattedMessage
+            id='invite_modal.as'
+            defaultMessage='Invite as'
+        />
+        {control}
+    </div>);
 }

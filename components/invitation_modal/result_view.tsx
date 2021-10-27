@@ -2,15 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap'
+import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 export type ResultState = {
-    sent: string[],
-    error: boolean,
-    not_sent: string[],
+    sent: string[];
+    error: boolean;
+    not_sent: string[];
 };
 
 export const defaultResultState = deepFreeze({
@@ -25,11 +25,16 @@ export default function ResultView() {
             <Modal.Header>
                 {'{as} invited to {team_name}'}
             </Modal.Header>
-            <Modal.Body>
-            </Modal.Body>
+            <Modal.Body/>
             <Modal.Footer>
-                <span>invite more people</span>
-                    <span>done</span>
+                <FormattedMessage
+                    id='invitation_modal.invite.more'
+                    defaultMessage='Invite More People'
+                />
+                <FormattedMessage
+                    id='invitation_modal.confirm.done'
+                    defaultMessage='Done'
+                />
             </Modal.Footer>
         </>
     );
