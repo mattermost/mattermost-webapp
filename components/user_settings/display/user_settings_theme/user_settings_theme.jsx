@@ -43,20 +43,9 @@ export default class ThemeSetting extends React.PureComponent {
         this.originalTheme = Object.assign({}, this.state.theme);
     }
 
-    componentDidMount() {
-        if (this.props.selected) {
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
-        }
-    }
-
     componentDidUpdate(prevProps) {
         if (prevProps.selected && !this.props.selected) {
             this.resetFields();
-        }
-
-        if (this.props.selected) {
-            $('.color-btn').removeClass('active-border'); // eslint-disable-line jquery/no-class
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 
