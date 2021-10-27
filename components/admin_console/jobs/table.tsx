@@ -1,82 +1,47 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, IntlShape} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
+import {getJobsByType, createJob, cancelJob} from 'mattermost-redux/actions/jobs';
+import {Job, JobStatus, JobType} from 'mattermost-redux/types/jobs';
 
 import {JobStatuses, exportFormats, JobTypes} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import './table.scss';
 
-class JobTable extends React.PureComponent {
-    static propTypes = {
+type ArgumentTypes<F extends (...args: any) => any> = F extends (...args: infer A) => any ? A : never;
+type FuncFromArgAndReturn<A extends (...args: any) => any> = (...args: ArgumentTypes<A>) => any;
 
-        /**
-         * Used for formatting dates
-         */
-        intl: intlShape.isRequired,
-
-        /**
-         * Array of jobs
-         */
-        jobs: PropTypes.arrayOf(PropTypes.object).isRequired,
-
-        /**
-         * Function called when displaying extra text.
-         */
-        getExtraInfoText: PropTypes.func,
-
-        /**
-         * Grey buttons out when disabled
-         */
-        disabled: PropTypes.bool,
-
-        /**
-         * Help text under the create job button
-         */
-        createJobHelpText: PropTypes.element.isRequired,
-
-        /**
-         * Button text to create a new job
-         */
-        createJobButtonText: PropTypes.element.isRequired,
-
-        /**
-         * The type of jobs to include in this table.
-         */
-        jobType: PropTypes.string.isRequired,
-
-        /**
-         * A variable set in config.json to determine if results can be downloaded or not.
-         * Note that there is NO front-end associated with this setting due to security.
-         * Only the person with access to the config.json file can enable this option.
-         */
-        downloadExportResults: PropTypes.bool,
-
-        actions: PropTypes.shape({
-            getJobsByType: PropTypes.func.isRequired,
-            cancelJob: PropTypes.func.isRequired,
-            createJob: PropTypes.func.isRequired,
-        }).isRequired,
-
-        /**
-         * Allows for custom styles on the job table component
-         */
-        className: PropTypes.string,
-
-        /**
-         * Hide the job creation button. This is useful if you want to place the button elsewhere on your page or hide it.
-         */
-        hideJobCreateButton: PropTypes.bool,
+export type Props = {
+    jobs?: Job[];
+    getExtraInfoText?: (job: Job) => React.ReactElement;
+    disabled?: boolean;
+    createJobHelpText: React.ReactElement;
+    createJobButtonText: React.ReactElement;
+    jobType: JobType;
+    downloadExportResults?: boolean;
+    actions?: {
+        getJobsByType: FuncFromArgAndReturn<typeof getJobsByType>;
+        createJob: FuncFromArgAndReturn<typeof createJob>;
+        cancelJob: FuncFromArgAndReturn<typeof cancelJob>;
     };
+    className?: string;
+    hideJobCreateButton?: boolean;
+}
 
-    constructor(props) {
+export type State = {
+    loading: boolean;
+}
+
+class JobTable extends React.PureComponent<Props & { intl: IntlShape }, State> {
+    private interval: NodeJS.Timer | null;
+
+    constructor(props: Props & {intl: IntlShape}) {
         super(props);
         this.interval = null;
 
@@ -86,7 +51,7 @@ class JobTable extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getJobsByType(this.props.jobType).then(
+        this.props.actions!.getJobsByType(this.props.jobType).then(
             () => this.setState({loading: false}),
         );
 
@@ -99,7 +64,7 @@ class JobTable extends React.PureComponent {
         }
     }
 
-    getDownloadLink = (job) => {
+    getDownloadLink = (job: Job) => {
         if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0 && job.data?.export_type !== exportFormats.EXPORT_FORMAT_GLOBALRELAY) { // eslint-disable-line camelcase
             return (
                 <a
@@ -119,7 +84,7 @@ class JobTable extends React.PureComponent {
         return '--';
     }
 
-    getStatus = (job) => {
+    getStatus = (job: Job) => {
         const formatMessage = this.props.intl.formatMessage;
         if (job.status === JobStatuses.PENDING) {
             return (
@@ -212,7 +177,7 @@ class JobTable extends React.PureComponent {
         );
     }
 
-    getExtraInfoText = (job) => {
+    getExtraInfoText = (job: Job) => {
         if (job.data && job.data.error && job.data.error.length > 0) {
             return <span title={job.data.error}>{job.data.error}</span>;
         }
@@ -224,7 +189,7 @@ class JobTable extends React.PureComponent {
         return <span/>;
     }
 
-    getRunLength = (job) => {
+    getRunLength = (job: Job) => {
         let millis = job.last_activity_at - job.start_at;
         if (job.status === JobStatuses.IN_PROGRESS) {
             const runningMillis = Date.now() - job.start_at;
@@ -249,8 +214,8 @@ class JobTable extends React.PureComponent {
                 });
         }
 
-        var seconds = Math.round(millis / 1000);
-        var minutes = Math.round(millis / (1000 * 60));
+        const seconds = Math.round(millis / 1000);
+        const minutes = Math.round(millis / (1000 * 60));
 
         if (millis <= 0 || job.status === JobStatuses.CANCELED) {
             return (
@@ -279,7 +244,7 @@ class JobTable extends React.PureComponent {
         );
     }
 
-    getFinishAt = (status, millis) => {
+    getFinishAt = (status: JobStatus, millis: number) => {
         if (millis === 0 || status === JobStatuses.PENDING || status === JobStatuses.IN_PROGRESS || status === JobStatuses.CANCEL_REQUESTED) {
             return (
                 <span className='whitespace--nowrap'>{'--'}</span>
@@ -309,7 +274,7 @@ class JobTable extends React.PureComponent {
     reload = () => {
         this.setState({loading: true});
 
-        this.props.actions.getJobsByType(this.props.jobType).then(
+        this.props.actions!.getJobsByType(this.props.jobType).then(
             () => {
                 this.setState({
                     loading: false,
@@ -318,24 +283,24 @@ class JobTable extends React.PureComponent {
         );
     };
 
-    handleCancelJob = async (e) => {
+    handleCancelJob = async (e: React.UIEvent) => {
         e.preventDefault();
         const jobId = e.currentTarget.getAttribute('data-job-id');
-        await this.props.actions.cancelJob(jobId);
+        await this.props.actions!.cancelJob(jobId as string);
         this.reload();
     };
 
-    handleCreateJob = async (e) => {
+    handleCreateJob = async (e: React.UIEvent) => {
         e.preventDefault();
         const job = {
             type: this.props.jobType,
         };
 
-        await this.props.actions.createJob(job);
+        await this.props.actions!.createJob(job as Job);
         this.reload();
     };
 
-    getCancelButton = (job) => {
+    getCancelButton = (job: Job) => {
         const formatMessage = this.props.intl.formatMessage;
         let cancelButton = null;
 
@@ -357,7 +322,7 @@ class JobTable extends React.PureComponent {
 
     render() {
         const showFilesColumn = this.props.jobType === JobTypes.MESSAGE_EXPORT && this.props.downloadExportResults;
-        var items = this.props.jobs.map((job) => {
+        const items = this.props.jobs!.map((job) => {
             return (
                 <tr key={job.id}>
                     <td
@@ -404,7 +369,7 @@ class JobTable extends React.PureComponent {
                     >
                         <thead>
                             <tr>
-                                <th width='30px'/>
+                                <th style={{width: '30px'}}/>
                                 <th>
                                     <FormattedMessage
                                         id='admin.jobTable.headerStatus'
@@ -431,7 +396,7 @@ class JobTable extends React.PureComponent {
                                         defaultMessage='Run Time'
                                     />
                                 </th>
-                                <th colSpan='3'>
+                                <th colSpan={3}>
                                     <FormattedMessage
                                         id='admin.jobTable.headerExtraInfo'
                                         defaultMessage='Details'

@@ -1,5 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+/* eslint-disable max-lines */
 
 import React, {createRef, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -554,7 +558,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 expanded={true}
                             >
                                 <JobsTable
-                                    jobType={JobTypes.DATA_RETENTION}
+                                    jobType={JobTypes.DATA_RETENTION as JobType}
                                     hideJobCreateButton={true}
                                     className={'job-table__data-retention'}
                                     disabled={String(DataRetentionSettings?.EnableMessageDeletion) !== 'true' && String(DataRetentionSettings?.EnableFileDeletion) !== 'true'}
@@ -570,46 +574,44 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                                 id='admin.data_retention.createJob.instructions'
                                                 defaultMessage='Daily time to check policies and run delete job:'
                                             />
-                                            {this.state.showEditJobTime ?
-                                                <ReactSelect
-                                                    id={'JobSelectTime'}
-                                                    className={'JobSelectTime'}
-                                                    components={{
-                                                        DropdownIndicator: () => null,
-                                                        IndicatorSeparator: () => null,
-                                                    }}
-                                                    onChange={(e) => {
-                                                        this.changeJobTimeConfig((e as OptionType).value);
-                                                    }}
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            height: 32,
-                                                            minHeight: 32,
-                                                        }),
-                                                        menu: (base) => ({
-                                                            ...base,
-                                                            width: 210,
-                                                        }),
-                                                    }}
-                                                    onBlur={() => {
-                                                        this.showEditJobTime(false);
-                                                    }}
-                                                    value={{label: this.getJobStartTime(), value: DataRetentionSettings?.DeletionJobStartTime} as OptionType}
-                                                    hideSelectedOptions={true}
-                                                    isSearchable={true}
-                                                    options={this.getJobTimes()}
-                                                    ref={this.inputRef}
-                                                    onFocus={() => {
-                                                        this.showEditJobTime(true);
-                                                    }}
-                                                    menuIsOpen={this.state.showEditJobTime}
-                                                /> :
-                                                <span
-                                                    className='JobSelectedtime'
-                                                >
-                                                    <b>{this.getJobStartTime()}</b>
-                                                </span>
+                                            {this.state.showEditJobTime ? <ReactSelect
+                                                id={'JobSelectTime'}
+                                                className={'JobSelectTime'}
+                                                components={{
+                                                    DropdownIndicator: () => null,
+                                                    IndicatorSeparator: () => null,
+                                                }}
+                                                onChange={(e) => {
+                                                    this.changeJobTimeConfig((e as OptionType).value);
+                                                }}
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        height: 32,
+                                                        minHeight: 32,
+                                                    }),
+                                                    menu: (base) => ({
+                                                        ...base,
+                                                        width: 210,
+                                                    }),
+                                                }}
+                                                onBlur={() => {
+                                                    this.showEditJobTime(false);
+                                                }}
+                                                value={{label: this.getJobStartTime(), value: DataRetentionSettings?.DeletionJobStartTime} as OptionType}
+                                                hideSelectedOptions={true}
+                                                isSearchable={true}
+                                                options={this.getJobTimes()}
+                                                ref={this.inputRef}
+                                                onFocus={() => {
+                                                    this.showEditJobTime(true);
+                                                }}
+                                                menuIsOpen={this.state.showEditJobTime}
+                                            /> : <span
+                                                                              className='JobSelectedtime'
+                                                                               >
+                                                                              <b>{this.getJobStartTime()}</b>
+                                                                          </span>
                                             }
                                             <a
                                                 className='EditJobTime'

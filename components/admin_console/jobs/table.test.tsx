@@ -4,9 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {JobType} from 'mattermost-redux/types/jobs';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import JobTable from './table.jsx';
+import JobTable, {Props} from './table';
 
 describe('components/admin_console/jobs/table', () => {
     const createJobButtonText = (
@@ -27,7 +29,6 @@ describe('components/admin_console/jobs/table', () => {
     const getJobsByType = jest.fn(() => Promise.resolve({}));
 
     const baseProps = {
-        config: {},
         createJobButtonText,
         createJobHelpText,
         disabled: false,
@@ -80,7 +81,7 @@ describe('components/admin_console/jobs/table', () => {
             status: 'warning',
             type: 'data_retention',
         }],
-    };
+    } as unknown as Props;
 
     test('should call create job func', () => {
         const wrapper = shallowWithIntl(
@@ -143,7 +144,7 @@ describe('components/admin_console/jobs/table', () => {
         const wrapper = shallowWithIntl(
             <JobTable
                 {...baseProps}
-                jobType='not a message export'
+                jobType={'not a message export' as JobType}
                 downloadExportResults={false}
             />,
         );
