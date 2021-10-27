@@ -8,10 +8,10 @@ import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import ImportThemeModal, {Props, ImportThemeModalComponent} from './import_theme_modal';
+import ImportThemeModal, {ImportThemeModalComponent} from './import_theme_modal';
 
 describe('components/user_settings/ImportThemeModal', () => {
-    const props: Props = {
+    const props = {
         intl: {} as any,
         onHide: jest.fn(),
         callback: jest.fn(),

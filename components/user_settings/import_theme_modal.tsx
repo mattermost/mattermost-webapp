@@ -8,7 +8,7 @@ import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 import {Theme} from 'mattermost-redux/types/themes';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
-export interface Props extends WrappedComponentProps {
+interface Props extends WrappedComponentProps {
     callback: ((args: Theme) => void) | null;
     onHide: () => void;
 }
