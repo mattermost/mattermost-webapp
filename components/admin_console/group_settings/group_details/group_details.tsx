@@ -337,11 +337,11 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             stateKey = 'groupChannels';
         }
 
-        const updatedItems = listToUpdate.map(({scheme_admin, ...item}) => {
+        const updatedItems = listToUpdate.map((item) => {
             if (getId(item) === id) {
-                scheme_admin = schemeAdmin;
+                item.scheme_admin = schemeAdmin;
             }
-            return {...item, scheme_admin};
+            return item;
         }); // clone list of objects
 
         this.setState({

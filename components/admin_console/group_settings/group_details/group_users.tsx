@@ -113,9 +113,8 @@ export default class GroupUsers extends React.PureComponent<Props, State> {
             return <div className='group-users--footer empty'/>;
         }
 
-        const startCount = this.state.page * GROUP_MEMBERS_PAGE_SIZE + 1;
-        let endCount =
-            this.state.page * GROUP_MEMBERS_PAGE_SIZE + GROUP_MEMBERS_PAGE_SIZE;
+        const startCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + 1;
+        let endCount = (this.state.page * GROUP_MEMBERS_PAGE_SIZE) + GROUP_MEMBERS_PAGE_SIZE;
         const total = this.props.total;
         if (endCount > total) {
             endCount = total;
