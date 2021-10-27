@@ -11,13 +11,11 @@ import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {doAppCall} from 'actions/apps';
 import {fetchListing} from 'actions/marketplace';
 
 import {getPluggableId} from 'selectors/rhs';
 import {getInstalledListing} from 'selectors/views/marketplace';
 
-import {DoAppCall} from 'types/apps';
 import {GlobalState} from 'types/store';
 
 import AppBar from './app_bar';
@@ -52,14 +50,12 @@ const mapStateToProps = (state: GlobalState) => {
 }
 
 type Actions = {
-    doAppCall: DoAppCall;
     fetchListing: () => Promise<{ data?: (MarketplacePlugin | MarketplaceApp)[]}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            doAppCall,
             fetchListing,
         }, dispatch),
     };

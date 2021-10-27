@@ -82,6 +82,25 @@ describe('components/app_bar/app_bar', () => {
         expect(wrapper.find('img[src="the_icon_data"]').exists()).toBe(true);
     });
 
+    test('should show fallback icon when marketplace entry is missing', async () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                fetchListing: jest.fn().mockResolvedValue({data: []}),
+            },
+            marketplaceListing: [],
+        };
+
+        const wrapper = mount<AppBar>(
+            <AppBar {...props}/>
+        );
+
+        await props.actions.fetchListing();
+
+        expect(wrapper.find('img').exists()).toBe(false);
+        expect(wrapper.text()).toContain('fallback_component');
+    });
+
     test('should show fallback icon when marketplace icon is missing', async () => {
         const props = {
             ...baseProps,
