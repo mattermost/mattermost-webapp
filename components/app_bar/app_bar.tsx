@@ -87,11 +87,6 @@ export default class AppBar extends React.PureComponent<Props> {
 
         return (
             <div className='app-bar' style={style}>
-                {!this.props.channelHeaderComponents.length && (
-                    <span>
-                        {'No channel header components found'}
-                    </span>
-                )}
                 {this.props.channelHeaderComponents.map((component) => (
                     <div
                         key={component.id}
