@@ -15,6 +15,7 @@ import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
+import AppBar from 'components/app_bar';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
@@ -62,7 +63,7 @@ export default class ChannelController extends React.PureComponent<Props> {
                 <SystemNotice/>
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
-                <div className='container-fluid'>
+                <div className='container-fluid channel-view-inner'>
                     <SidebarRight/>
                     <SidebarRightMenu/>
                     <TeamSidebar/>
@@ -77,6 +78,7 @@ export default class ChannelController extends React.PureComponent<Props> {
                     <LeavePrivateChannelModal/>
                     <KeyboardShortcutsModal/>
                 </div>
+                <AppBar/>
             </div>
         );
     }

@@ -91,6 +91,12 @@ body {
 
 #channel_view.channel-view {
     background: var(--center-channel-bg);
+
+    .channel-view-inner {
+        @media screen and (min-width: 769px) {
+            padding-right: 80px;
+        }
+    }
 }
 
 img {

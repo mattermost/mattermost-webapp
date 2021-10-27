@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
+<AppBar
+  actions={
+    Object {
+      "fetchListing": [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": Promise {},
+          },
+        ],
+      },
+    }
+  }
+  activePluginId="playbooks"
+  appBarBindings={Array []}
+  channel={Object {}}
+  channelHeaderComponents={
+    Array [
+      Object {
+        "action": [MockFunction],
+        "icon": "fallback_component",
+        "id": "the_component_id",
+        "pluginId": "playbooks",
+      },
+    ]
+  }
+  marketplaceListing={
+    Array [
+      Object {
+        "icon_data": "the_icon_data",
+        "manifest": Object {
+          "id": "playbooks",
+          "version": "1.0.0",
+        },
+      },
+    ]
+  }
+  theme={Object {}}
+>
+  <div
+    className="app-bar"
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  >
+    <div
+      className="app-bar-icon active-rhs-plugin"
+      key="the_component_id"
+      onClick={[Function]}
+    >
+      <img
+        src="the_icon_data"
+      />
+    </div>
+  </div>
+</AppBar>
+`;
+
+exports[`components/app_bar/app_bar should match snapshot on mount 2`] = `
+<AppBar
+  actions={
+    Object {
+      "fetchListing": [MockFunction] {
+        "calls": Array [
+          Array [],
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": Promise {},
+          },
+          Object {
+            "type": "return",
+            "value": Promise {},
+          },
+        ],
+      },
+    }
+  }
+  activePluginId="playbooks"
+  appBarBindings={Array []}
+  channel={Object {}}
+  channelHeaderComponents={
+    Array [
+      Object {
+        "action": [MockFunction],
+        "icon": "fallback_component",
+        "id": "the_component_id",
+        "pluginId": "playbooks",
+      },
+    ]
+  }
+  marketplaceListing={
+    Array [
+      Object {
+        "icon_data": "the_icon_data",
+        "manifest": Object {
+          "id": "playbooks",
+          "version": "1.0.0",
+        },
+      },
+    ]
+  }
+  theme={Object {}}
+>
+  <div
+    className="app-bar"
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  >
+    <div
+      className="app-bar-icon active-rhs-plugin"
+      key="the_component_id"
+      onClick={[Function]}
+    >
+      <img
+        src="the_icon_data"
+      />
+    </div>
+  </div>
+</AppBar>
+`;

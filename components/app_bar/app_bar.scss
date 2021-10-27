@@ -1,0 +1,55 @@
+.app-bar {
+    // Do not show App Bar if on mobile
+    @media (max-width: 768px) {
+        display: none;
+    }
+
+    padding-top: 40px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-left: 'solid 1px';
+    height: 100%;
+    width: 60px;
+    text-align: center;
+
+    .active-rhs-plugin {
+        border-left: 3px solid var(--button-bg) !important;
+    }
+
+    .fa, i {
+        font-size: 30px;
+        display: block;
+    }
+
+    .app-bar-icon {
+        display: inline-block;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: rgba(var(--center-channel-color-rgb), 0.56);
+        background: transparent;
+        border-left: 3px solid transparent;
+        width: 90%;
+
+        img {
+            max-width: 80%;
+        }
+    }
+
+    .app-bar-icon, .app-bar-binding {
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+
+    .app-bar-binding {
+        img {
+            max-width: 60%;
+        }
+        margin-top: 5px;
+    }
+}
+
+.sidebar--right {
+    @media screen and (min-width: 769px) {
+        right: 60px;
+    }
+}
