@@ -29,32 +29,40 @@ describe('Keyboard Shortcuts', () => {
             cy.findByText('Reply').click();
 
             // * Confirm that reply text box has focus
-            cy.get('#reply_textbox').should('be.focused');
+            cy.findByTestId('reply_textbox').should('be.focused');
 
             // * Verify RHS is opened
             cy.uiGetRHS().within(() => {
                 for (let idx = 0; idx < messages.length; idx++) {
                     // # Post each message as a reply
-                    cy.get('#reply_textbox').
+                    cy.findByTestId('reply_textbox').
                         type(messages[idx]).
                         type('{enter}').
                         clear();
                 }
 
                 // * Confirm that reply textbox has focus
-                cy.get('#reply_textbox').should('be.focused');
+                cy.findByTestId('reply_textbox').should('be.focused');
+                cy.findByTestId('reply_textbox').clear();
 
                 // # Press CTRL/CMD + uparrow repeatedly
-                const previousMessageIndex = messages.length - 1;
-                for (let idx = 0; idx < messages.length + 3; idx++) {
+                let previousMessageIndex = messages.length - 1;
+                for (let idx = 0; idx <= messages.length; idx++) {
+                    if (idx === messages.length) {
+                        // * Check if the last message is equal to the first message
+                        cy.findByTestId('reply_textbox').cmdOrCtrlShortcut('{uparrow}');
+                        cy.findByTestId('reply_textbox').should('have.text', firstMessage);
+                        break;
+                    }
+                    if (messages[previousMessageIndex] === '/shrug') {
+                        cy.findByTestId('reply_textbox').click();
+                    }
                     cy.findByTestId('reply_textbox').cmdOrCtrlShortcut('{uparrow}');
 
                     // * Check if the message is equal to the last message
                     cy.findByTestId('reply_textbox').should('have.text', messages[previousMessageIndex]);
-                    if (idx === messages.length + 2) {
-                        // * Check if the last message is equal to the first message
-                        cy.findByTestId('reply_textbox').should('have.text', firstMessage);
-                    }
+
+                    previousMessageIndex--;
                 }
 
                 // * Press CTRL/CMD + downarrow check if the current text is equal to the second message
