@@ -186,7 +186,6 @@
             svg {
                 fill: rgba(var(--center-channel-color-rgb), 0.6);
             }
-
         }
 
         a {
@@ -233,12 +232,12 @@
     .heading {
         overflow: hidden;
         margin: 0 0 0 2px;
+        color: var(--center-channel-color);
         font-family: Metropolis, sans-serif;
         font-size: 16px;
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
-        color: var(--center-channel-color);
 
         .Badge {
             font-family: "Open Sans", sans-serif;
@@ -900,7 +899,7 @@
 
     .channel-header__info {
         .header-dropdown__icon {
-            color: rgba(var(--center-channel-color-rgb),0.8)
+            color: rgba(var(--center-channel-color-rgb), 0.8);
         }
     }
 }

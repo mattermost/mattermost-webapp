@@ -125,6 +125,8 @@
         margin-top: 10px;
 
         > .arrow {
+            border-bottom-color: rgba(var(--center-channel-color-rgb), 0.25);
+
             &::after {
                 border-bottom-color: var(--center-channel-bg);
             }
@@ -133,6 +135,8 @@
 
     &.left {
         > .arrow {
+            border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
+
             &::after {
                 border-left-color: var(--center-channel-bg);
             }
@@ -141,6 +145,8 @@
 
     &.right {
         > .arrow {
+            border-right-color: rgba(var(--center-channel-color-rgb), 0.25);
+
             &::after {
                 border-right-color: var(--center-channel-bg);
             }
@@ -149,27 +155,11 @@
 
     &.top {
         > .arrow {
+            border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
+
             &::after {
                 border-top-color: var(--center-channel-bg);
             }
-        }
-    }
-
-    &.right {
-        > .arrow {
-            border-right-color: rgba(var(--center-channel-color-rgb), 0.25);
-        }
-    }
-
-    &.top {
-        > .arrow {
-            border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
-        }
-    }
-
-    &.left {
-        > .arrow {
-            border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
         }
     }
 
@@ -319,7 +309,7 @@
 .user-popover__role {
     padding: 3px 5px;
     margin-left: 10px;
-    background-color: rgba(var(--center-channel-color-rgb), 0.3);;
+    background-color: rgba(var(--center-channel-color-rgb), 0.3);
     border-radius: 4px;
     color: $white;
     font-size: 0.8em;
