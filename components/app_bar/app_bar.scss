@@ -46,6 +46,12 @@
         }
         margin-top: 5px;
     }
+
+    .app-bar-icon.channel-header__icon--active {
+        background: rgba(var(--button-bg-rgb), 0.08);
+        color: var(--button-bg);
+        fill: var(--button-bg);
+    }
 }
 
 .sidebar--right {
