@@ -36,8 +36,6 @@ import {
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils';
 
-import ChannelHeaderPlug from 'plugins/channel_header_plug';
-
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 
@@ -765,10 +763,6 @@ class ChannelHeader extends React.PureComponent {
                             {headerTextContainer}
                         </div>
                     </div>
-                    <ChannelHeaderPlug
-                        channel={channel}
-                        channelMember={channelMember}
-                    />
                 </div>
             </div>
         );
