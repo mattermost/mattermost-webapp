@@ -2,64 +2,36 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {bindActionCreators, Dispatch} from 'redux';
-import {connect, ConnectedProps} from 'react-redux';
-
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 
+import {Theme} from 'mattermost-redux/types/themes';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {Theme} from 'mattermost-redux/types/themes';
-import {GlobalState} from 'types/store';
-
-import {isModalOpen} from 'selectors/views/modals';
-
-import {closeModal} from 'actions/views/modals';
-
-import {ModalIdentifiers} from 'utils/constants';
-
-function mapStateToProps(state: GlobalState) {
-    return {
-        show: isModalOpen(state, ModalIdentifiers.IMPORT_THEME_MODAL),
-    };
-}
-
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators(
-            {
-                closeModal: () => closeModal(ModalIdentifiers.IMPORT_THEME_MODAL),
-            },
-            dispatch,
-        ),
-    };
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-interface ModalDialogProps {
+export interface Props extends WrappedComponentProps {
     callback: ((args: Theme) => void) | null;
+    onHide: () => void;
 }
-
-type Props = PropsFromRedux & WrappedComponentProps & ModalDialogProps
 
 type State = {
     value: string;
     inputError: React.ReactNode | null;
+    show: boolean;
 }
 
-class ImportThemeModal extends React.PureComponent<Props, State> {
+export class ImportThemeModalComponent extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
         this.state = {
             value: '',
             inputError: null,
+            show: true,
         };
+    }
+
+    private handleOnHide = () => {
+        this.setState({show: false});
     }
 
     private handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
@@ -67,7 +39,7 @@ class ImportThemeModal extends React.PureComponent<Props, State> {
 
         const text = this.state.value;
 
-        if (!ImportThemeModal.isInputValid(text)) {
+        if (!ImportThemeModalComponent.isInputValid(text)) {
             this.setState({
                 inputError: (
                     <FormattedMessage
@@ -126,6 +98,8 @@ class ImportThemeModal extends React.PureComponent<Props, State> {
         });
 
         this.props.callback?.(theme as Theme);
+
+        this.handleOnHide();
     }
 
     private static isInputValid(text: string) {
@@ -166,7 +140,7 @@ class ImportThemeModal extends React.PureComponent<Props, State> {
         const value = e.target.value;
         this.setState({value});
 
-        if (ImportThemeModal.isInputValid(value)) {
+        if (ImportThemeModalComponent.isInputValid(value)) {
             this.setState({inputError: null});
         } else {
             this.setState({
@@ -180,8 +154,8 @@ class ImportThemeModal extends React.PureComponent<Props, State> {
         }
     }
 
-    handleOnHide = () => {
-        this.props.actions.closeModal();
+    handleExit = () => {
+        this.props.onHide();
     }
 
     render() {
@@ -189,8 +163,9 @@ class ImportThemeModal extends React.PureComponent<Props, State> {
             <span>
                 <Modal
                     dialogClassName='a11y__modal'
-                    show={this.props.show}
+                    show={this.state.show}
                     onHide={this.handleOnHide}
+                    onExited={this.handleExit}
                     role='dialog'
                     aria-labelledby='importThemeModalLabel'
                 >
@@ -261,5 +236,4 @@ class ImportThemeModal extends React.PureComponent<Props, State> {
         );
     }
 }
-
-export default injectIntl(connector(ImportThemeModal));
+export default injectIntl(ImportThemeModalComponent);
