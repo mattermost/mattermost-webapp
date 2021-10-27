@@ -547,6 +547,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                             defaultMessage='Run Deletion Job Now'
                                         />
                                     }
+                                    isDisabled={String(DataRetentionSettings?.EnableMessageDeletion) !== 'true' && String(DataRetentionSettings?.EnableFileDeletion) !== 'true'}
                                     onClick={this.handleCreateJob}
                                 />
                             </Card.Header>

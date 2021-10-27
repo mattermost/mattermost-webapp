@@ -7,6 +7,7 @@ type Props = {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
     buttonText?: React.ReactNode;
+    isDisabled?: boolean;
     onClick?: () => void;
 };
 
@@ -28,6 +29,7 @@ const TitleAndButtonCardHeader: React.FC<Props> = (props: Props) => {
             {
                 props.buttonText && props.onClick &&
                     <button
+                        disabled={props.isDisabled}
                         className='content-button primary'
                         onClick={props.onClick}
                     >
