@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplacePlugin, MarketplaceApp} from 'mattermost-redux/types/marketplace';
@@ -30,7 +30,7 @@ describe('components/app_bar/app_bar', () => {
             icon: 'fallback_component' as any,
             action: jest.fn(),
         },
-    ]
+    ];
 
     const baseProps: Props = {
         activePluginId: 'playbooks',
@@ -52,8 +52,8 @@ describe('components/app_bar/app_bar', () => {
             },
         };
 
-        const wrapper = mount<AppBar>(
-            <AppBar {...props}/>
+        const wrapper = shallow<AppBar>(
+            <AppBar {...props}/>,
         );
 
         expect(props.actions.fetchListing).toHaveBeenCalled();
@@ -73,8 +73,8 @@ describe('components/app_bar/app_bar', () => {
             },
         };
 
-        const wrapper = mount<AppBar>(
-            <AppBar {...props}/>
+        const wrapper = shallow<AppBar>(
+            <AppBar {...props}/>,
         );
 
         await props.actions.fetchListing();
@@ -91,8 +91,8 @@ describe('components/app_bar/app_bar', () => {
             marketplaceListing: [],
         };
 
-        const wrapper = mount<AppBar>(
-            <AppBar {...props}/>
+        const wrapper = shallow<AppBar>(
+            <AppBar {...props}/>,
         );
 
         await props.actions.fetchListing();
@@ -115,8 +115,8 @@ describe('components/app_bar/app_bar', () => {
             ],
         };
 
-        const wrapper = mount<AppBar>(
-            <AppBar {...props}/>
+        const wrapper = shallow<AppBar>(
+            <AppBar {...props}/>,
         );
 
         await props.actions.fetchListing();

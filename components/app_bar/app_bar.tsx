@@ -25,7 +25,7 @@ export type Props = {
     activePluginId?: string;
 
     actions: {
-        fetchListing: () => Promise<{ data?: (MarketplacePlugin | MarketplaceApp)[]}>;
+        fetchListing: () => Promise<{ data?: Array<MarketplacePlugin | MarketplaceApp>}>;
     };
 }
 
@@ -80,7 +80,10 @@ export default class AppBar extends React.PureComponent<Props> {
         }
 
         return (
-            <div className='app-bar' style={style}>
+            <div
+                className='app-bar'
+                style={style}
+            >
                 {this.props.channelHeaderComponents.map((component) => (
                     <div
                         key={component.id}

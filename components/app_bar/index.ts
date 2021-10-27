@@ -46,11 +46,11 @@ const mapStateToProps = (state: GlobalState) => {
         channel,
         marketplaceListing,
         activePluginId,
-    }
-}
+    };
+};
 
 type Actions = {
-    fetchListing: () => Promise<{ data?: (MarketplacePlugin | MarketplaceApp)[]}>;
+    fetchListing: () => Promise<{ data?: Array<MarketplacePlugin | MarketplaceApp>}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -60,6 +60,5 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         }, dispatch),
     };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppBar);
