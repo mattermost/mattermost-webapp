@@ -50,19 +50,11 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         wrapper.setState({joinLeaveState: 'true'});
 
         let value = 'false';
-        wrapper.instance().handleOnChange({
-            currentTarget: {
-                value,
-            },
-        } as any);
+        wrapper.instance().handleOnChange({currentTarget: {value}} as any);
         expect(wrapper.state('joinLeaveState')).toEqual('false');
 
         value = 'true';
-        wrapper.instance().handleOnChange({
-            currentTarget: {
-                value,
-            },
-        } as any);
+        wrapper.instance().handleOnChange({currentTarget: {value}} as any);
         expect(wrapper.state('joinLeaveState')).toEqual('true');
     });
 
