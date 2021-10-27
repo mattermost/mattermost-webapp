@@ -2,23 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import semver from 'semver';
 
-import {doAppCall, openAppsModal} from 'actions/apps';
-import {intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
-import {AppCallTypes} from 'mattermost-redux/constants/apps';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {AppBinding, AppCall, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import {Theme} from 'mattermost-redux/types/themes';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
+
+import AppBarBinding from './app_bar_binding';
 
 import './app_bar.scss';
 
@@ -99,61 +93,12 @@ export default class AppBar extends React.PureComponent<Props> {
                     </div>
                 ))}
                 {this.props.appBarBindings.map((binding) => (
-                    <AppBindingComponent
-                        key={binding.app_id + binding.location}
+                    <AppBarBinding
+                        key={binding.app_id}
                         binding={binding}
                     />
                 ))}
             </div>
         );
     }
-}
-
-
-type BindingComponentProps = {
-    binding: AppBinding;
-}
-
-const AppBindingComponent = (props: BindingComponentProps) => {
-    const {binding} = props;
-
-    const channelId = useSelector(getCurrentChannelId);
-    const teamId = useSelector(getCurrentTeamId);
-    const dispatch = useDispatch();
-
-    const submitAppCall = React.useCallback(async () => {
-        const call = binding.form?.call || binding.call;
-
-        if (!call) {
-            return;
-        }
-        const context = createCallContext(
-            binding.app_id,
-            binding.location,
-            channelId,
-            teamId,
-            '',
-            '',
-        );
-        const callRequest = createCallRequest(
-            call,
-            context,
-        );
-
-        if (binding.form) {
-            dispatch(openAppsModal(binding.form, callRequest));
-            return;
-        }
-
-        dispatch(doAppCall(callRequest, AppCallTypes.SUBMIT, intlShim as any));
-    }, [binding, teamId, channelId]);
-
-    return (
-        <div
-            className={'app-bar-binding'}
-            onClick={submitAppCall}
-        >
-            <img src={binding.icon}/>
-        </div>
-    )
 }
