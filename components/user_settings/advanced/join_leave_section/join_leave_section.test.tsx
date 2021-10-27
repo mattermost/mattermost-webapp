@@ -43,16 +43,14 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
     });
 
     test('should match state on handleOnChange', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<JoinLeaveSection>(
             <JoinLeaveSection {...defaultProps}/>,
         );
 
         wrapper.setState({joinLeaveState: 'true'});
 
         let value = 'false';
-        const instance = wrapper.instance() as JoinLeaveSection;
-
-        instance.handleOnChange({
+        wrapper.instance().handleOnChange({
             currentTarget: {
                 value,
             },
@@ -60,7 +58,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         expect(wrapper.state('joinLeaveState')).toEqual('false');
 
         value = 'true';
-        instance.handleOnChange({
+        wrapper.instance().handleOnChange({
             currentTarget: {
                 value,
             },
@@ -73,7 +71,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
             savePreferences: jest.fn().mockImplementation(() => Promise.resolve({data: true})),
         };
         const onUpdateSection = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<JoinLeaveSection>(
             <JoinLeaveSection
                 {...defaultProps}
                 actions={actions}
@@ -88,7 +86,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
             value: 'true',
         };
 
-        const instance = wrapper.instance() as JoinLeaveSection;
+        const instance = wrapper.instance();
         instance.handleSubmit();
         expect(actions.savePreferences).toHaveBeenCalledTimes(1);
         expect(actions.savePreferences).toHaveBeenCalledWith('current_user_id', [joinLeavePreference]);
@@ -103,7 +101,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
 
     test('should match state and call props.onUpdateSection on handleUpdateSection', () => {
         const onUpdateSection = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<JoinLeaveSection>(
             <JoinLeaveSection
                 {...defaultProps}
                 onUpdateSection={onUpdateSection}
@@ -112,7 +110,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
 
         wrapper.setState({joinLeaveState: 'false'});
 
-        const instance = wrapper.instance() as JoinLeaveSection;
+        const instance = wrapper.instance();
         instance.handleUpdateSection();
         expect(wrapper.state('joinLeaveState')).toEqual(defaultProps.joinLeave);
         expect(onUpdateSection).toHaveBeenCalledTimes(1);

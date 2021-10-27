@@ -15,8 +15,8 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 type Props = {
     activeSection?: string;
     currentUserId: string;
-    joinLeave: string;
-    onUpdateSection: (section: string | void) => void;
+    joinLeave?: string;
+    onUpdateSection: (section?: string) => void;
     renderOnOffLabel: (label: string) => string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -24,7 +24,7 @@ type Props = {
 }
 
 type State = {
-    joinLeaveState: string;
+    joinLeaveState?: string;
     isSaving?: boolean;
     serverError?: string;
 }
@@ -44,7 +44,7 @@ export default class JoinLeaveSection extends React.PureComponent<Props, State> 
         this.setState({joinLeaveState: value});
     }
 
-    public handleUpdateSection = (section: string | void): void => {
+    public handleUpdateSection = (section?: string): void => {
         if (!section) {
             this.setState({joinLeaveState: this.props.joinLeave});
         }
@@ -60,7 +60,7 @@ export default class JoinLeaveSection extends React.PureComponent<Props, State> 
         onUpdateSection();
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const {joinLeaveState} = this.state;
         if (this.props.activeSection === AdvancedSections.JOIN_LEAVE) {
             return (
@@ -138,7 +138,7 @@ export default class JoinLeaveSection extends React.PureComponent<Props, State> 
                         defaultMessage='Enable Join/Leave Messages'
                     />
                 }
-                describe={this.props.renderOnOffLabel(joinLeaveState)}
+                describe={this.props.renderOnOffLabel(joinLeaveState!)}
                 section={AdvancedSections.JOIN_LEAVE}
                 updateSection={this.handleUpdateSection}
             />
