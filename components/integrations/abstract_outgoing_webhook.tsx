@@ -245,7 +245,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
 
     updateTriggerWhen = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({
-            triggerWhen: parseInt(e.target.value,10),
+            triggerWhen: parseInt(e.target.value, 10),
         });
     }
 
