@@ -6,20 +6,12 @@ import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import AbstractOAuthApp from 'components/integrations/abstract_oauth_app';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'packages/mattermost-redux/src/types/teams';
+import {Team} from 'packages/mattermost-redux/src/types/teams';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractOAuthApp', () => {
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'eatxocwc3bg9ffo9xyybnj4omr',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
+    const team : Team = TestHelper.getTeamMock();
+
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
     const loading = {id: 'Loading', defaultMessage: 'Loading'};
@@ -96,12 +88,11 @@ describe('components/integrations/AbstractOAuthApp', () => {
         const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
 
-        instance.updateName({target: {value: 'new name'}});
+        wrapper.instance().updateName({target: {value: 'new name'}});
         expect(wrapper.state('name')).toEqual('new name');
 
-        instance.updateName({target: {value: 'other name'}});
+        wrapper.instance().updateName({target: {value: 'other name'}});
         expect(wrapper.state('name')).toEqual('other name');
     });
 
@@ -110,12 +101,11 @@ describe('components/integrations/AbstractOAuthApp', () => {
         const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
 
-        instance.updateTrusted({target: {value: 'false'}});
+        wrapper.instance().updateTrusted({target: {value: 'false'}});
         expect(wrapper.state('is_trusted')).toEqual(false);
 
-        instance.updateTrusted({target: {value: 'true'}});
+        wrapper.instance().updateTrusted({target: {value: 'true'}});
         expect(wrapper.state('is_trusted')).toEqual(true);
     });
 
@@ -124,12 +114,11 @@ describe('components/integrations/AbstractOAuthApp', () => {
         const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
 
-        instance.updateDescription({target: {value: 'new description'}});
+        wrapper.instance().updateDescription({target: {value: 'new description'}});
         expect(wrapper.state('description')).toEqual('new description');
 
-        instance.updateDescription({target: {value: 'another description'}});
+        wrapper.instance().updateDescription({target: {value: 'another description'}});
         expect(wrapper.state('description')).toEqual('another description');
     });
 
@@ -138,12 +127,11 @@ describe('components/integrations/AbstractOAuthApp', () => {
         const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
 
-        instance.updateHomepage({target: {value: 'new homepage'}});
+        wrapper.instance().updateHomepage({target: {value: 'new homepage'}});
         expect(wrapper.state('homepage')).toEqual('new homepage');
 
-        instance.updateHomepage({target: {value: 'another homepage'}});
+        wrapper.instance().updateHomepage({target: {value: 'another homepage'}});
         expect(wrapper.state('homepage')).toEqual('another homepage');
     });
 
@@ -152,15 +140,14 @@ describe('components/integrations/AbstractOAuthApp', () => {
         const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
 
         wrapper.setState({has_icon: true});
-        instance.updateIconUrl({target: {value: 'https://test.com/new_icon_url'}});
+        wrapper.instance().updateIconUrl({target: {value: 'https://test.com/new_icon_url'}});
         expect(wrapper.state('icon_url')).toEqual('https://test.com/new_icon_url');
         expect(wrapper.state('has_icon')).toEqual(false);
 
         wrapper.setState({has_icon: true});
-        instance.updateIconUrl({target: {value: 'https://test.com/another_icon_url'}});
+        wrapper.instance().updateIconUrl({target: {value: 'https://test.com/another_icon_url'}});
         expect(wrapper.state('icon_url')).toEqual('https://test.com/another_icon_url');
         expect(wrapper.state('has_icon')).toEqual(false);
     });
@@ -170,21 +157,20 @@ describe('components/integrations/AbstractOAuthApp', () => {
         const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
 
         const newState = {saving: false, name: 'name', description: 'description', homepage: 'homepage'};
         const evt = {preventDefault: jest.fn()};
         wrapper.setState({saving: true});
-        instance.handleSubmit(evt);
+        wrapper.instance().handleSubmit(evt);
         expect(evt.preventDefault).toHaveBeenCalled();
 
         wrapper.setState(newState);
-        instance.handleSubmit(evt);
+        wrapper.instance().handleSubmit(evt);
         expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.state('clientError')).toEqual('');
 
         wrapper.setState({...newState, name: ''});
-        instance.handleSubmit(evt);
+        wrapper.instance().handleSubmit(evt);
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
@@ -194,7 +180,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
         );
 
         wrapper.setState({...newState, description: ''});
-        instance.handleSubmit(evt);
+        wrapper.instance().handleSubmit(evt);
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage
@@ -204,7 +190,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
         );
 
         wrapper.setState({...newState, homepage: ''});
-        instance.handleSubmit(evt);
+        wrapper.instance().handleSubmit(evt);
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('clientError')).toEqual(
             <FormattedMessage

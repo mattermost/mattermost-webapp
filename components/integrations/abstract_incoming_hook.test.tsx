@@ -5,26 +5,17 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'packages/mattermost-redux/src/types/teams';
+import {Team} from 'packages/mattermost-redux/src/types/teams';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'eatxocwc3bg9ffo9xyybnj4omr',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
+    const team : Team = TestHelper.getTeamMock();
     const header = {id: 'header_id', defaultMessage: 'Header'};
     const footer = {id: 'footer_id', defaultMessage: 'Footer'};
     const loading = {id: 'loading_id', defaultMessage: 'Loading'};
     const serverError = '';
-    const initialHook: IncomingWebhook = {
+    const initialHook : IncomingWebhook = TestHelper.getIncomingWebhookMock({
         display_name: 'testIncomingWebhook',
         channel_id: '88cxd9wpzpbpfp8pad78xj75pr',
         description: 'testing',
@@ -37,7 +28,8 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         username: 'username',
         icon_url: 'http://test/icon.png',
         channel_locked: false,
-    };
+    });
+
     const enablePostUsernameOverride = true;
     const enablePostIconOverride = true;
 

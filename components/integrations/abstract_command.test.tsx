@@ -6,8 +6,8 @@ import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
 import AbstractCommand from 'components/integrations/abstract_command';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'packages/mattermost-redux/src/types/teams';
+import {Team} from 'packages/mattermost-redux/src/types/teams';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractCommand', () => {
     const header = {id: 'Header', defaultMessage: 'Header'};
@@ -31,17 +31,8 @@ describe('components/integrations/AbstractCommand', () => {
         update_at: 1504468859001,
         url: 'https://google.com/command',
         username: 'username',
-    };
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'm5gix3oye3du8ghk4ko6h9cq7y',
-        description: command.description,
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
+    });
+    const team : Team = TestHelper.getTeamMock();
     const action = jest.fn().mockImplementation(
         () => {
             return new Promise<void>((resolve) => {
@@ -94,7 +85,7 @@ describe('components/integrations/AbstractCommand', () => {
     });
 
     test('should match object returned by getStateFromCommand', () => {
-        const wrapper = shallow<typeof AbstractCommand>(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
 
@@ -119,55 +110,53 @@ describe('components/integrations/AbstractCommand', () => {
             update_at: 1504468859001,
         };
 
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractCommand>;
-        expect(instance.getStateFromCommand(command)).toEqual(expectedOutput);
+        expect(wrapper.instance().getStateFromCommand(command)).toEqual(expectedOutput);
     });
 
     test('should match state when method is called', () => {
         const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractCommand>;
 
         const displayName = 'new display_name';
-        instance.updateDisplayName({target: {value: displayName}});
+        wrapper.instance().updateDisplayName({target: {value: displayName}});
         expect(wrapper.state('displayName')).toEqual(displayName);
 
         const description = 'new description';
-        instance.updateDescription({target: {value: description}});
+        wrapper.instance().updateDescription({target: {value: description}});
         expect(wrapper.state('description')).toEqual(description);
 
         const trigger = 'new trigger';
-        instance.updateTrigger({target: {value: trigger}});
+        wrapper.instance().updateTrigger({target: {value: trigger}});
         expect(wrapper.state('trigger')).toEqual(trigger);
 
         const url = 'new url';
-        instance.updateUrl({target: {value: url}});
+        wrapper.instance().updateUrl({target: {value: url}});
         expect(wrapper.state('url')).toEqual(url);
 
         const method = 'new method';
-        instance.updateMethod({target: {value: method}});
+        wrapper.instance().updateMethod({target: {value: method}});
         expect(wrapper.state('method')).toEqual(method);
 
         const username = 'new username';
-        instance.updateUsername({target: {value: username}});
+        wrapper.instance().updateUsername({target: {value: username}});
         expect(wrapper.state('username')).toEqual(username);
 
         const iconUrl = 'new iconUrl';
-        instance.updateIconUrl({target: {value: iconUrl}});
+        wrapper.instance().updateIconUrl({target: {value: iconUrl}});
         expect(wrapper.state('iconUrl')).toEqual(iconUrl);
 
-        instance.updateAutocomplete({target: {checked: true}});
+        wrapper.instance().updateAutocomplete({target: {checked: true}});
         expect(wrapper.state('autocomplete')).toEqual(true);
-        instance.updateAutocomplete({target: {checked: false}});
+        wrapper.instance().updateAutocomplete({target: {checked: false}});
         expect(wrapper.state('autocomplete')).toEqual(false);
 
         const autocompleteHint = 'new autocompleteHint';
-        instance.updateAutocompleteHint({target: {value: autocompleteHint}});
+        wrapper.instance().updateAutocompleteHint({target: {value: autocompleteHint}});
         expect(wrapper.state('autocompleteHint')).toEqual(autocompleteHint);
 
         const autocompleteDescription = 'new autocompleteDescription';
-        instance.updateAutocompleteDescription({target: {value: autocompleteDescription}});
+        wrapper.instance().updateAutocompleteDescription({target: {value: autocompleteDescription}});
         expect(wrapper.state('autocompleteDescription')).toEqual(autocompleteDescription);
     });
 
@@ -186,9 +175,8 @@ describe('components/integrations/AbstractCommand', () => {
         expect(newAction).toHaveBeenCalledTimes(0);
 
         const evt = {preventDefault: jest.fn()};
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractCommand>;
 
-        const handleSubmit = instance.handleSubmit;
+        const handleSubmit = wrapper.instance().handleSubmit;
         handleSubmit(evt);
         expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.state('clientError')).toEqual('');

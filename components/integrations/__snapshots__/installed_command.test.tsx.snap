@@ -98,7 +98,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />
@@ -206,7 +206,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />
@@ -284,7 +284,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />
@@ -360,7 +360,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />

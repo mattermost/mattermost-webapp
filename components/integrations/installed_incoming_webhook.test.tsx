@@ -9,10 +9,10 @@ import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 import DeleteIntegration from 'components/integrations/delete_integration';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook';
-import {Channel, ChannelType} from 'mattermost-redux/types/channels';
-import {TeamType} from 'mattermost-redux/types/teams';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/InstalledIncomingWebhook', () => {
     const incomingWebhook: IncomingWebhook = TestHelper.getIncomingWebhookMock({
@@ -28,53 +28,12 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         username: 'username',
         icon_url: 'http://test/icon.png',
         channel_locked: false,
-    };
+    });
 
-    const fakeChannel = test_helper.fakeChannelWithId();
-    const channel: Channel = {
-        ...fakeChannel,
-        type: 'O' as ChannelType,
-        header: '',
-        purpose: '',
-        last_post_at: 0,
-        last_root_post_at: 0,
-        creator_id: 'b6911d07-dbf3-44f6-b9b5-90475f41933f',
-        group_constrained: false,
-    };
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        id: 'eatxocwc3bg9ffo9xyybnj4omr',
-        name: 'eatxocwc3bg9ffo9xyybnj4omr',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
-    const fakeUser = test_helper.fakeUserWithId();
-    const creator: UserProfile = {
-        ...fakeUser,
-        username: '3dbd736f-30e3-4993-a976-76d475388392',
-        auth_data: '',
-        auth_service: '',
-        email_verified: true,
-        nickname: 'The',
-        position: '',
-        props: {},
-        notify_props: {} as UserNotifyProps,
-        last_password_update: 0,
-        last_picture_update: 0,
-        failed_attempts: 0,
-        mfa_active: false,
-        mfa_secret: '',
-        last_activity_at: 0,
-        is_bot: true,
-        bot_description: 'tester bot',
-        bot_last_icon_update: 0,
-        terms_of_service_id: '',
-        terms_of_service_create_at: 0,
-    };
+    const channel: Channel = TestHelper.getChannelMock();
+    const team : Team = TestHelper.getTeamMock();
+    const creator: UserProfile = TestHelper.getUserMock();
+
     test('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
