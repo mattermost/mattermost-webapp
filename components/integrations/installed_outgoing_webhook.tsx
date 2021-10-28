@@ -14,7 +14,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import DeleteIntegration from './delete_integration';
 
-export function matchesFilter(outgoingWebhook: any, channel: any, filter: string) {
+export function matchesFilter(outgoingWebhook: OutgoingWebhook, channel: Channel, filter: string) {
     if (!filter) {
         return true;
     }
@@ -103,7 +103,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
         this.props.onDelete(this.props.outgoingWebhook);
     }
 
-    makeDisplayName(outgoingWebhook?: any, channel?: any) {
+    makeDisplayName(outgoingWebhook: OutgoingWebhook, channel?: Channel) {
         if (outgoingWebhook.display_name) {
             return outgoingWebhook.display_name;
         } else if (channel) {

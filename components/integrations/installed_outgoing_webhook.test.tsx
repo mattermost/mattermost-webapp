@@ -11,6 +11,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {TestHelper} from '../../utils/test_helper';
+
 import DeleteIntegrationLink from './delete_integration_link';
 
 describe('components/integrations/InstalledOutgoingWebhook', () => {
