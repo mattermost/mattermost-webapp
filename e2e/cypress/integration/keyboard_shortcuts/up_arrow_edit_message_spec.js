@@ -9,6 +9,7 @@
 
 // Group: @keyboard_shortcuts
 
+import { Cipher } from 'crypto';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Keyboard Shortcuts', () => {
@@ -161,6 +162,24 @@ describe('Keyboard Shortcuts', () => {
 
         // * Delete post confirm modal should not exist
         cy.get('#deletePostModal').should('not.exist');
+
+        // * Verify that attachment is still visible
+        cy.uiGetFileThumbnail(filename).should('be.visible');
+
+        // * Post should contain edited tag
+        cy.getLastPostId().then((postId) => {
+            // * Post should have "Edited"
+            cy.get(`#postEdited_${postId}`).
+                should('be.visible').
+                should('contain', 'Edited');
+        });
+
+        // # Login with other user
+        cy.apiLogout();
+        cy.apiLogin(otherUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify that attachment is still visible
         cy.uiGetFileThumbnail(filename).should('be.visible');
