@@ -15,7 +15,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import DeleteIntegration from './delete_integration';
+import DeleteIntegrationLink from './delete_integration_link';
 
 export function matchesFilter(incomingWebhook: IncomingWebhook, channel?: Channel, filter?: string) {
     if (!filter) {
@@ -124,7 +124,13 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                         />
                     </Link>
                     {' - '}
-                    <DeleteIntegration
+                    <DeleteIntegrationLink
+                        modalMessage={
+                            <FormattedMessage
+                                id='installed_incoming_webhooks.delete.confirm'
+                                defaultMessage='This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?'
+                            />
+                        }
                         onDelete={this.handleDelete}
                     />
                 </div>
