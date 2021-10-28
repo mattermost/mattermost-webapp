@@ -29,7 +29,6 @@ class ModalStoreClass extends EventEmitter {
 
         switch (type) {
         case ActionTypes.TOGGLE_SHORTCUTS_MODAL:
-        case ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL:
         case ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL:
         case ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL:
         case ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL:
