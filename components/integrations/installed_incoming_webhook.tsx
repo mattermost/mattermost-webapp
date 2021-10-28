@@ -126,7 +126,6 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId={t('installed_incoming_webhooks.delete.confirm')}
                         onDelete={this.handleDelete}
                     />
                 </div>

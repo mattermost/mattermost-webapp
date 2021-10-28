@@ -132,7 +132,6 @@ export default class InstalledCommand extends React.PureComponent<Props> {
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId={t('installed_commands.delete.confirm')}
                         onDelete={this.handleDelete}
                     />
                 </div>

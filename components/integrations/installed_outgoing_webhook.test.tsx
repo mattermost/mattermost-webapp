@@ -43,7 +43,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         outgoingWebhook,
         onRegenToken: () => {}, //eslint-disable-line no-empty-function
         onDelete: () => {}, //eslint-disable-line no-empty-function
-        filter: undefined,
+        filter: '',
         creator,
         canChange: true,
         team,

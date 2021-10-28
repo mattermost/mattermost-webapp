@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {t} from 'utils/i18n';
 import CopyText from 'components/copy_text';
 
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
@@ -94,7 +93,7 @@ type Props = {
 }
 
 export default class InstalledOutgoingWebhook extends React.PureComponent<Props> {
-    handleRegenToken = (e: { preventDefault: () => void }) => {
+    handleRegenToken = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.outgoingWebhook);
@@ -184,7 +183,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
         } else if (outgoingWebhook.trigger_when === triggerWordsStartsWith) {
             triggerWhen = (
                 <FormattedMessage
-                    id='add_outgoing_webhook.trig gerWordsTriggerWhenStartsWith'
+                    id='add_outgoing_webhook.triggerWordsTriggerWhenStartsWith'
                     defaultMessage='First word starts with a trigger word'
                 />
             );
@@ -212,7 +211,6 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId={t('installed_outgoing_webhooks.delete.confirm')}
                         onDelete={this.handleDelete}
                     />
                 </div>

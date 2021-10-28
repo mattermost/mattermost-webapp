@@ -49,7 +49,6 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         </Link>
          - 
         <DeleteIntegration
-          messageId="installed_outgoing_webhooks.delete.confirm"
           onDelete={[Function]}
         />
       </div>

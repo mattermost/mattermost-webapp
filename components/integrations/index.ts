@@ -11,7 +11,7 @@ import Integrations from './integrations';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const siteName = config.SiteName!;
+    const siteName = config.SiteName ?? '';
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
     const enableCommands = config.EnableCommands === 'true';

@@ -45,7 +45,6 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
         </Link>
          - 
         <DeleteIntegration
-          messageId="installed_commands.delete.confirm"
           onDelete={[Function]}
         />
       </div>
@@ -148,7 +147,6 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
         </Link>
          - 
         <DeleteIntegration
-          messageId="installed_commands.delete.confirm"
           onDelete={[Function]}
         />
       </div>

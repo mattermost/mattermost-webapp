@@ -164,7 +164,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             value="cd462387-9325-417e-9df2-06e9f0a5e7f6"
@@ -200,8 +199,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             maxLength={1000}
             onChange={[Function]}
             rows={3}
-            value="testword
-"
+            value="testword"
           />
           <div
             className="form__help"
