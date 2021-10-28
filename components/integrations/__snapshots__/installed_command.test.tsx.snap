@@ -34,7 +34,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
             id="installed_integrations.regenToken"
           />
         </button>
-         -
+         - 
         <Link
           to="/DN/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
         >
@@ -43,7 +43,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
             id="installed_integrations.edit"
           />
         </Link>
-         -
+         - 
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)
@@ -142,7 +142,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
             id="installed_integrations.regenToken"
           />
         </button>
-         -
+         - 
         <Link
           to="/DN/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
         >
@@ -151,7 +151,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
             id="installed_integrations.edit"
           />
         </Link>
-         -
+         - 
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)

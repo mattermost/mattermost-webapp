@@ -38,7 +38,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
             id="installed_integrations.regenToken"
           />
         </button>
-         -
+         - 
         <Link
           to="/DN/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
         >
@@ -47,7 +47,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
             id="installed_integrations.edit"
           />
         </Link>
-         -
+         - 
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)

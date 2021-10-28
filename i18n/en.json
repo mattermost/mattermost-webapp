@@ -3348,7 +3348,6 @@
   "input.clear": "Clear",
   "installed_command.header": "Slash Commands",
   "installed_commands.add": "Add Slash Command",
-  "installed_commands.delete.confirm": "This action permanently deletes the slash command and breaks any integrations using it. Are you sure you want to delete it?",
   "installed_commands.empty": "No commands found",
   "installed_commands.emptySearch": "No commands match **{searchTerm}**",
   "installed_commands.header": "Slash Commands",

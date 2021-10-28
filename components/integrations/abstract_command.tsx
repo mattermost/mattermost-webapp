@@ -58,7 +58,7 @@ type Props = {
     /**
     * The async function to run when the action button is pressed
     */
-    action: (command: Command) => Promise<any>;
+    action: (command: Command) => Promise<void>;
 
 }
 

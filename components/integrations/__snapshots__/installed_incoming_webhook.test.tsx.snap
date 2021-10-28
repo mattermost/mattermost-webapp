@@ -26,7 +26,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
             id="installed_integrations.edit"
           />
         </Link>
-         -
+         - 
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)
