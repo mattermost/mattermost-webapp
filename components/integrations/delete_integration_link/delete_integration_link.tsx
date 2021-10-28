@@ -12,13 +12,13 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 const ModalId = 'delete_integration_confirm';
 
 type Props = {
-    closeModal: typeof closeModalAction;
+    closeModal?: typeof closeModalAction;
     confirmButtonText?: React.ReactNode;
     linkText?: React.ReactNode;
     modalMessage?: React.ReactNode;
     modalTitle?: React.ReactNode;
     onDelete: () => void;
-    openModal: typeof openModalAction;
+    openModal?: typeof openModalAction;
 };
 
 export default function DeleteIntegrationLink(props: Props) {

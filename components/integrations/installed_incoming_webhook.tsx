@@ -16,7 +16,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 
-export function matchesFilter(incomingWebhook : IncomingWebhook, channel : Channel, filter : string) {
+export function matchesFilter(incomingWebhook : IncomingWebhook, filter : string, channel? : Channel) {
     if (!filter) {
         return true;
     }
@@ -85,7 +85,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
         const channel = this.props.channel;
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';
 
-        if (!matchesFilter(incomingWebhook, channel, filter)) {
+        if (!matchesFilter(incomingWebhook, filter, channel)) {
             return null;
         }
 
