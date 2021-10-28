@@ -30,8 +30,9 @@ import {ThreadsState} from 'mattermost-redux/types/threads';
 
 import {ProductComponent} from '../../types/store/plugins';
 
-import TeamButton from './components/team_button';
 import Pluggable from '../../plugins/pluggable';
+
+import TeamButton from './components/team_button';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
