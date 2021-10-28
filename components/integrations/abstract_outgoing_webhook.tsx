@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {localizeMessage} from 'utils/utils.jsx';
@@ -12,8 +12,6 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-
-import {Header} from './common_types';
 
 type Props = {
 
@@ -25,17 +23,17 @@ type Props = {
     /**
      * The header text to render, has id and defaultMessage
      */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
      * The footer text to render, has id and defaultMessage
      */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render
@@ -79,7 +77,7 @@ type State = {
     triggerWords: string;
     channelId: string;
     callbackUrls: string;
-    triggerWhen: string;
+    triggerWhen: number;
     id: string;
     token: string;
     create_at: number;
@@ -100,7 +98,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         if (hook.trigger_words) {
             let i = 0;
             for (i = 0; i < hook.trigger_words.length; i++) {
-                triggerWords += hook.trigger_words[i] + '\n';
+                triggerWords += hook.trigger_words[i] + ((i < (hook.trigger_words.length - 1)) ? '\n' : '');
             }
         }
 
@@ -118,7 +116,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
             contentType: hook.content_type || 'application/x-www-form-urlencoded',
             channelId: hook.channel_id || '',
             triggerWords,
-            triggerWhen: hook.trigger_when?.toString() || '0',
+            triggerWhen: hook.trigger_when,
             callbackUrls,
             saving: false,
             clientError: null,
@@ -197,7 +195,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
             team_id: this.props.team.id,
             channel_id: this.state.channelId,
             trigger_words: triggerWords,
-            trigger_when: parseInt(this.state.triggerWhen, 10),
+            trigger_when: this.state.triggerWhen,
             callback_urls: callbackUrls,
             display_name: this.state.displayName,
             content_type: this.state.contentType,
@@ -245,9 +243,9 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         });
     }
 
-    updateTriggerWhen = (e: { target: { value: string }}) => {
+    updateTriggerWhen = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({
-            triggerWhen: e.target.value,
+            triggerWhen: parseInt(e.target.value, 10),
         });
     }
 
@@ -600,7 +598,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={localizeMessage(this.props.loading.id!.toString(), this.props.loading.defaultMessage!.toString())}
                                 onClick={this.handleSubmit}
                                 id='saveWebhook'
                             >

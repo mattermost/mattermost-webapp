@@ -93,7 +93,7 @@ type Props = {
 }
 
 export default class InstalledOutgoingWebhook extends React.PureComponent<Props> {
-    handleRegenToken = (e: { preventDefault: () => void }) => {
+    handleRegenToken = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.outgoingWebhook);
@@ -183,7 +183,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
         } else if (outgoingWebhook.trigger_when === triggerWordsStartsWith) {
             triggerWhen = (
                 <FormattedMessage
-                    id='add_outgoing_webhook.trig gerWordsTriggerWhenStartsWith'
+                    id='add_outgoing_webhook.triggerWordsTriggerWhenStartsWith'
                     defaultMessage='First word starts with a trigger word'
                 />
             );

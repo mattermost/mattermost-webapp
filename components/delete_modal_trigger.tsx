@@ -7,7 +7,6 @@ import ConfirmModal from './confirm_modal';
 
 type Props = {
     onDelete: () => void;
-    messageId?: string;
 }
 
 type State = {

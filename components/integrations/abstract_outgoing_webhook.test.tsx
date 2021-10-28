@@ -6,22 +6,22 @@ import {shallow} from 'enzyme';
 
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'packages/mattermost-redux/src/types/teams';
+import {Team} from 'packages/mattermost-redux/src/types/teams';
 import {generateId} from 'mattermost-redux/utils/helpers';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractOutgoingWebhook', () => {
     const emptyFunction = jest.fn();
-
+    const team: Team = TestHelper.getTeamMock();
     const initialHook: OutgoingWebhook = {
         id: generateId(),
         token: generateId(),
         create_at: 1507841118796,
         update_at: 1507841118796,
         delete_at: 0,
-        creator_id: test_helper.fakeUserWithId().id,
+        creator_id: 'cd462387-9325-417e-9df2-06e9f0a5e7f6',
         channel_id: 'cd462387-9325-417e-9df2-06e9f0a5e7f6',
-        team_id: test_helper.fakeTeamWithId().id,
+        team_id: team.id,
         trigger_words: ['testword'],
         trigger_when: 0,
         callback_urls: ['http://localhost/notarealendpoint'],
@@ -31,16 +31,7 @@ describe('components/integrations/AbstractOutgoingWebhook', () => {
         username: 'user_name',
         icon_url: '',
     };
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'team name',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
+
     const props = {
         team,
         action: emptyFunction,

@@ -38,16 +38,16 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
             id="installed_integrations.regenToken"
           />
         </button>
-         - 
+         -
         <Link
-          to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
+          to="/DN/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
         >
           <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
           />
         </Link>
-         - 
+         -
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)
@@ -156,7 +156,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           values={
             Object {
               "createAt": 1508327769020,
-              "creator": "zaktnt8bpbgu8mb6ez9k64r7sa",
+              "creator": "some-user",
             }
           }
         />

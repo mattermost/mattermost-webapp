@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
@@ -15,7 +15,6 @@ import {t} from 'utils/i18n.jsx';
 import {Command} from 'mattermost-redux/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
 
-import {Header} from './common_types';
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
 
@@ -29,17 +28,17 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render
@@ -54,7 +53,7 @@ type Props = {
     /**
     * The Command used to set the initial state
     */
-    initialCommand: Command;
+    initialCommand?: Command;
 
     /**
     * The async function to run when the action button is pressed
@@ -88,7 +87,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        this.state = this.getStateFromCommand(this.props.initialCommand || {});
+        this.state = this.getStateFromCommand(this.props.initialCommand!);
     }
 
     getStateFromCommand = (command: Command) => {
@@ -649,7 +648,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={Utils.localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={Utils.localizeMessage(this.props.loading.id!.toString(), this.props.loading.defaultMessage!.toString())}
                                 onClick={this.handleSubmit}
                                 id='saveCommand'
                             >

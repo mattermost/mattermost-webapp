@@ -8,33 +8,15 @@ import {Link} from 'react-router-dom';
 import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'mattermost-redux/types/teams';
-import {Channel, ChannelType} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {TestHelper} from '../../utils/test_helper';
+import DeleteIntegrationLink from './delete_integration_link';
 
 describe('components/integrations/InstalledOutgoingWebhook', () => {
-    const fakeChannel = test_helper.fakeChannelWithId();
-    const channel: Channel = {
-        ...fakeChannel,
-        type: 'O' as ChannelType,
-        header: '',
-        purpose: '',
-        last_post_at: 0,
-        last_root_post_at: 0,
-        creator_id: '',
-        group_constrained: false,
-    };
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'eatxocwc3bg9ffo9xyybnj4omr',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
+    const channel: Channel = TestHelper.getChannelMock();
+    const team: Team = TestHelper.getTeamMock();
 
     const outgoingWebhook: OutgoingWebhook = {
         callback_urls: ['http://adsfdasd.com'],
@@ -55,35 +37,13 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         icon_url: '',
     };
 
-    const fakeUser = test_helper.fakeUserWithId();
-    const creator: UserProfile = {
-        ...fakeUser,
-        username: 'zaktnt8bpbgu8mb6ez9k64r7sa',
-        auth_data: '',
-        auth_service: '',
-        email_verified: true,
-        nickname: 'The',
-        position: '',
-        props: {},
-        notify_props: {} as UserNotifyProps,
-        last_password_update: 0,
-        last_picture_update: 0,
-        failed_attempts: 0,
-        mfa_active: false,
-        mfa_secret: '',
-        last_activity_at: 0,
-        is_bot: true,
-        bot_description: 'tester bot',
-        bot_last_icon_update: 0,
-        terms_of_service_id: '',
-        terms_of_service_create_at: 0,
-    };
+    const creator: UserProfile = TestHelper.getUserMock();
 
     const baseProps = {
         outgoingWebhook,
         onRegenToken: () => {}, //eslint-disable-line no-empty-function
         onDelete: () => {}, //eslint-disable-line no-empty-function
-        filter: undefined,
+        filter: '',
         creator,
         canChange: true,
         team,
@@ -184,19 +144,18 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
     });
 
     test('Should match snapshot of makeDisplayName', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<InstalledOutgoingWebhook>(
             <InstalledOutgoingWebhook {...baseProps}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof InstalledOutgoingWebhook>;
 
         // displays webhook's display name
-        expect(instance.makeDisplayName({display_name: 'hook display name'}, {})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({display_name: 'hook display name'}, {})).toMatchSnapshot();
 
         // displays channel's display name
-        expect(instance.makeDisplayName({}, {display_name: 'channel display name'})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({}, {display_name: 'channel display name'})).toMatchSnapshot();
 
         // displays a private hook
-        expect(instance.makeDisplayName({})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({})).toMatchSnapshot();
     });
 
     test('Should match result when matchesFilter is called', () => {

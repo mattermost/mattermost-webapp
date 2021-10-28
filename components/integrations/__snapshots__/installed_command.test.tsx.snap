@@ -34,16 +34,16 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
             id="installed_integrations.regenToken"
           />
         </button>
-         - 
+         -
         <Link
-          to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
+          to="/DN/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
         >
           <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
           />
         </Link>
-         - 
+         -
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)
@@ -98,7 +98,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />
@@ -142,16 +142,16 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
             id="installed_integrations.regenToken"
           />
         </button>
-         - 
+         -
         <Link
-          to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
+          to="/DN/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
         >
           <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
           />
         </Link>
-         - 
+         -
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)
@@ -206,7 +206,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />
@@ -284,7 +284,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />
@@ -360,7 +360,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
           values={
             Object {
               "createAt": 1499722850203,
-              "creator": "username",
+              "creator": "some-user",
             }
           }
         />

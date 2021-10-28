@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
@@ -12,8 +12,6 @@ import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Team} from 'mattermost-redux/types/teams';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
-
-import {Header} from './common_types';
 
 type Props = {
 
@@ -25,17 +23,17 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render
@@ -154,7 +152,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         });
     }
 
-    updateChannelId = (e: any) => {
+    updateChannelId = (e: (React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)) => {
         this.setState({
             channelId: e.target.value,
         });
@@ -267,7 +265,6 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
                             </label>
                             <div className='col-md-5 col-sm-8'>
                                 <ChannelSelect
-                                    id='channelId'
                                     value={this.state.channelId}
                                     onChange={this.updateChannelId}
                                     selectOpen={true}
@@ -382,7 +379,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={localizeMessage(this.props.loading.id!.toString(), this.props.loading.defaultMessage!.toString())}
                                 onClick={this.handleSubmit}
                                 id='saveWebhook'
                             >

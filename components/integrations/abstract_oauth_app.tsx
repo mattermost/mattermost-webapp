@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {RefObject} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -16,8 +16,6 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import {OAuthApp} from 'packages/mattermost-redux/src/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
 
-import {Header} from './common_types';
-
 type Props = {
 
     /**
@@ -28,17 +26,17 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render
@@ -488,7 +486,7 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={localizeMessage(this.props.loading.id!.toString() ?? '', this.props.loading.defaultMessage!.toString())}
                                 onClick={this.handleSubmit}
                                 id='saveOauthApp'
                             >

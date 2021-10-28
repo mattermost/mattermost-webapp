@@ -17,7 +17,7 @@ type Props = {
     modalMessage?: React.ReactNode;
     modalTitle?: React.ReactNode;
     onDelete: () => void;
-    openModal?: typeof openModalAction;
+    openModal: typeof openModalAction;
 };
 
 export default function DeleteIntegrationLink(props: Props) {
