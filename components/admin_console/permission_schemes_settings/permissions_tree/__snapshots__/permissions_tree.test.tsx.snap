@@ -1038,7 +1038,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       onChange={[Function]}
       parentRole={
         Object {
-          "permissions": "invite_user",
+          "permissions": Array [
+            "invite_user",
+          ],
         }
       }
       permissions={

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionsTree from 'components/admin_console/permission_schemes_settings/permissions_tree/permissions_tree.jsx';
+import PermissionsTree from 'components/admin_console/permission_schemes_settings/permissions_tree/permissions_tree';
 
 import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 
@@ -83,7 +83,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
         const wrapper = shallow(
             <PermissionsTree
                 {...defaultProps}
-                parentRole={{permissions: 'invite_user'}}
+                parentRole={{permissions: ['invite_user']}}
                 scope={'system_scope'}
             />,
         );
@@ -109,7 +109,6 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
                 config={{
                     EnableIncomingWebhooks: 'false',
                     EnableOutgoingWebhooks: 'false',
-                    EnableOAuthServicePrivder: 'false',
                     EnableCommands: 'false',
                     EnableCustomEmoji: 'false',
                 }}

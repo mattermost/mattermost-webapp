@@ -30,7 +30,7 @@ type Props = {
         /*
          * Action creator to close modal
          */
-        closeModal: (modalId: string) => {data: boolean};
+        closeModal: (modalId: string) => void;
     };
 }
 

@@ -35,7 +35,7 @@ const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
 type OpenModal = {
-    ModalId: string;
+    modalId: string;
     dialogType: typeof React.Component;
     dialogProps: {
         post: Post;
@@ -272,7 +272,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             this.handleHide(false);
 
             const deletePostModalData = {
-                ModalId: ModalIdentifiers.DELETE_POST,
+                modalId: ModalIdentifiers.DELETE_POST,
                 dialogType: DeletePostModal,
                 dialogProps: {
                     post: editingPost.post,
