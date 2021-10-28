@@ -30,7 +30,7 @@ const TitleAndButtonCardHeader: React.FC<Props> = (props: Props) => {
                 props.buttonText && props.onClick &&
                     <button
                         disabled={props.isDisabled}
-                        className='content-button primary'
+                        className='btn btn-primary'
                         onClick={props.onClick}
                     >
                         {props.buttonText}
