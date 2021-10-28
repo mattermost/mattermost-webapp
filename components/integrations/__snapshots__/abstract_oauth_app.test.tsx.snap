@@ -6,7 +6,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+      to="/DN/integrations/oauth2-apps"
     >
       <MemoizedFormattedMessage
         defaultMessage="Installed OAuth2 Apps"
@@ -276,7 +276,7 @@ https://test.com/callback2"
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+          to="/DN/integrations/oauth2-apps"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
@@ -309,7 +309,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
 >
   <BackstageHeader>
     <Link
-      to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+      to="/DN/integrations/oauth2-apps"
     >
       <MemoizedFormattedMessage
         defaultMessage="Installed OAuth2 Apps"
@@ -581,7 +581,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+          to="/DN/integrations/oauth2-apps"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
