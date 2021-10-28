@@ -153,14 +153,6 @@ export function toggleShortcutsModal() {
     });
 }
 
-export function showChannelPurposeUpdateModal(channel: Channel) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL,
-        value: true,
-        channel,
-    });
-}
-
 export function showChannelNameUpdateModal(channel: Channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL,
