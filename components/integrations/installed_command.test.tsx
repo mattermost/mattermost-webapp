@@ -11,7 +11,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/InstalledCommand', () => {
-    const team : Team = TestHelper.getTeamMock();
+    const team: Team = TestHelper.getTeamMock();
 
     const command: Command = TestHelper.getCommandMock({
         id: 'r5tpgt4iepf45jt768jz84djic',

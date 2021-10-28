@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import CopyText from 'components/copy_text';
+import CopyText from '../copy_text';
 
 import {Team} from 'mattermost-redux/types/teams';
 import {Command} from 'mattermost-redux/types/integrations';

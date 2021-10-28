@@ -15,8 +15,7 @@ import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/InstalledOutgoingWebhook', () => {
     const channel: Channel = TestHelper.getChannelMock();
-    const team : Team = TestHelper.getTeamMock();
-
+    const team: Team = TestHelper.getTeamMock();
 
     const outgoingWebhook: OutgoingWebhook = {
         callback_urls: ['http://adsfdasd.com'],

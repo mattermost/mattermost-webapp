@@ -12,7 +12,6 @@ import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Team} from 'mattermost-redux/types/teams';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
-import {MessageDescriptor} from 'react-intl';
 
 type Props = {
 
@@ -153,7 +152,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         });
     }
 
-    updateChannelId = (e: any) => {
+    updateChannelId = (e: (React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)) => {
         this.setState({
             channelId: e.target.value,
         });

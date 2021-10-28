@@ -261,13 +261,7 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
                         />
                     </Link>
                     {' - '}
-                    <DeleteIntegrationLink
-                        modalMessage={
-                            <FormattedMessage
-                                id='installed_oauth_apps.delete.confirm'
-                                defaultMessage='This action permanently deletes the OAuth 2.0 application and breaks any integrations using it. Are you sure you want to delete it?'
-                            />
-                        }
+                    <DeleteIntegration
                         onDelete={this.handleDelete}
                     />
                 </div>
