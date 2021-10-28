@@ -5,14 +5,16 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 type Props = {
-    image: string;
-    title: React.ReactNode;
-    description: React.ReactNode;
-    link: string;
+        image: string,
+        title: React.ReactNode,
+        description: React.ReactNode,
+        link: string,
 }
 export default class IntegrationOption extends React.PureComponent<Props> {
+
+
     render() {
-        const {image, title, description, link} = this.props;
+        const {image, title , description, link} = this.props;
 
         return (
             <Link

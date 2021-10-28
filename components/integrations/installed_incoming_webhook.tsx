@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
@@ -16,8 +17,12 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import DeleteIntegrationLink from './delete_integration_link';
+import { Team } from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-export function matchesFilter(incomingWebhook: IncomingWebhook, channel?: Channel, filter?: string) {
+
+export function matchesFilter(incomingWebhook : IncomingWebhook, channel : Channel, filter : string) {
     if (!filter) {
         return true;
     }
@@ -41,38 +46,41 @@ type Props = {
     /**
     * Data used for showing webhook details
     */
-    incomingWebhook: IncomingWebhook;
+    incomingWebhook: IncomingWebhook,
 
     /**
     * Function to call when webhook delete button is pressed
     */
-    onDelete: (hook: IncomingWebhook) => void;
+    onDelete: (hook : IncomingWebhook) => void,
 
     /**
     * String used for filtering webhook item
     */
-    filter?: string;
+    filter?: string,
 
     /**
     * Data used for showing created by details
     */
-    creator: UserProfile;
+    creator: UserProfile,
 
     /**
     *  Set to show available actions on webhook
     */
-    canChange: boolean;
+    canChange: boolean,
 
     /**
     *  Data used in routing of webhook for modifications
     */
-    team: Team;
+    team: Team,
 
     /**
     *  Data used for filtering of webhook based on filter prop
     */
-    channel?: Channel;
+    channel?: Channel,
 }
+
+export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
+
 
 export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
     handleDelete = () => {

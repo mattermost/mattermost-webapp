@@ -40,7 +40,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         </button>
          - 
         <Link
-          to="/DN/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
+          to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
         >
           <MemoizedFormattedMessage
             defaultMessage="Edit"
@@ -156,7 +156,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           values={
             Object {
               "createAt": 1508327769020,
-              "creator": "some-user",
+              "creator": "zaktnt8bpbgu8mb6ez9k64r7sa",
             }
           }
         />

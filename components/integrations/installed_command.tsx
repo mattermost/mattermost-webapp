@@ -7,51 +7,51 @@ import {Link} from 'react-router-dom';
 
 import CopyText from 'components/copy_text';
 
-import {Team} from 'mattermost-redux/types/teams';
+import { Team } from 'mattermost-redux/types/teams';
 import {Command} from 'mattermost-redux/types/integrations';
 import {UserProfile} from 'mattermost-redux/types/users';
+import DeleteIntegrationLink from './delete_integration_link/delete_integration_link';
 
-import DeleteIntegrationLink from './delete_integration_link';
 
 type Props = {
 
     /**
     * The team data
     */
-    team: Team;
+    team: Team,
 
     /**
     * Installed slash command to display
     */
-    command: Command;
+    command: Command,
 
     /**
     * The function to call when Regenerate Token link is clicked
     */
-    onRegenToken: (command: Command) => void;
+    onRegenToken: (command : Command) => void,
 
     /**
     * The function to call when Delete link is clicked
     */
-    onDelete: (command: Command) => void;
+    onDelete: (command : Command) => void,
 
     /**
     * Set to filter command, comes from BackstageList
     */
-    filter?: string;
+    filter?: string,
 
     /**
     * The creator user data
     */
-    creator: UserProfile;
+    creator: UserProfile,
 
     /**
     * Set to show edit link
     */
-    canChange: boolean;
+    canChange: boolean,
 }
 
-export function matchesFilter(command: Command, filter: string) {
+export function matchesFilter(command : Command, filter : string) {
     if (!filter) {
         return true;
     }
@@ -62,7 +62,9 @@ export function matchesFilter(command: Command, filter: string) {
 }
 
 export default class InstalledCommand extends React.PureComponent<Props> {
-    handleRegenToken = (e: { preventDefault: () => void }) => {
+
+
+    handleRegenToken = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.command);

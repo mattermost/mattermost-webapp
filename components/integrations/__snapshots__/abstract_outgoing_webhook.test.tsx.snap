@@ -6,7 +6,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
 >
   <BackstageHeader>
     <Link
-      to="/DN/integrations/outgoing_webhooks"
+      to="/team name/integrations/outgoing_webhooks"
     >
       <MemoizedFormattedMessage
         defaultMessage="Outgoing Webhooks"
@@ -199,7 +199,8 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             maxLength={1000}
             onChange={[Function]}
             rows={3}
-            value="testword"
+            value="testword
+"
           />
           <div
             className="form__help"
@@ -229,7 +230,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <select
             className="form-control"
             onChange={[Function]}
-            value={0}
+            value="0"
           >
             <option
               value="0"
@@ -315,7 +316,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/DN/integrations/outgoing_webhooks"
+          to="/team name/integrations/outgoing_webhooks"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"

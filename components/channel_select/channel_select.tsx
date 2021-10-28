@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { FormEventHandler } from 'react';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
@@ -9,8 +9,9 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
+    id?: string;
     channels: Channel[];
-    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onChange?: (e: any) => void;
     value?: string;
     selectOpen: boolean;
     selectPrivate?: boolean;

@@ -6,7 +6,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      to="/DN/integrations/commands"
+      to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
     >
       <MemoizedFormattedMessage
         defaultMessage="Slash Commands"
@@ -443,7 +443,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/DN/integrations/commands"
+          to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
@@ -476,7 +476,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 >
   <BackstageHeader>
     <Link
-      to="/DN/integrations/commands"
+      to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
     >
       <MemoizedFormattedMessage
         defaultMessage="Slash Commands"
@@ -916,7 +916,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/DN/integrations/commands"
+          to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
