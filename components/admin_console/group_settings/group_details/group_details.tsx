@@ -98,14 +98,13 @@ export type State = {
 };
 
 export default class GroupDetails extends React.PureComponent<Props, State> {
-    static defaultProps: Props = {
+    static defaultProps: Partial<Props> = {
         groupID: '',
         members: [],
         groupTeams: [],
         groupChannels: [],
         group: {name: '', allow_reference: false} as Group,
         memberCount: 0,
-        actions: {} as Props['actions'],
     };
 
     constructor(props: Props) {
@@ -423,14 +422,14 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         team_id?: string;
         channel_id?: string;
     }) => {
-        let id: string;
+        let id;
         if (
             this.syncableTypeFromEntryType(groupTeamOrChannel.type) ===
             Groups.SYNCABLE_TYPE_TEAM
         ) {
-            id = groupTeamOrChannel.team_id as string;
+            id = groupTeamOrChannel.team_id;
         } else {
-            id = groupTeamOrChannel.channel_id as string;
+            id = groupTeamOrChannel.channel_id;
         }
         return `${id}/${groupTeamOrChannel.type}`;
     };
