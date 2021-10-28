@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
@@ -85,7 +84,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
         const channel = this.props.channel;
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';
 
-        if (!matchesFilter(incomingWebhook, filter, channel)) {
+        if (!matchesFilter(incomingWebhook, channel, filter)) {
             return null;
         }
 

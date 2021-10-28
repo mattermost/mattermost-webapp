@@ -6,7 +6,6 @@ import {shallow} from 'enzyme';
 
 import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
 import InstalledOAuthApp from 'components/integrations/installed_oauth_app/installed_oauth_app';
-import DeleteIntegration from 'components/integrations/delete_integration';
 
 describe('components/integrations/InstalledOAuthApp', () => {
     const FAKE_SECRET = '***************';

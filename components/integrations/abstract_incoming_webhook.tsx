@@ -10,78 +10,6 @@ import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-import { Team } from 'mattermost-redux/types/teams';
-import { IncomingWebhook } from 'mattermost-redux/types/integrations';
-import {Header} from './common_types';
-
-
-type Props = {
-
-    /**
-    * The current team
-    */
-    team: Team;
-
-    /**
-    * The header text to render, has id and defaultMessage
-    */
-    header: Header;
-
-    /**
-    * The footer text to render, has id and defaultMessage
-    */
-    footer: Header;
-
-    /**
-    * The spinner loading text to render, has id and defaultMessage
-    */
-    loading: Header;
-
-    /**
-     * Any extra component/node to render
-     */
-    renderExtra?: React.ReactNode;
-
-    /**
-    * The server error text after a failed action
-    */
-    serverError: string;
-
-    /**
-    * The Hook used to set the initial state
-    */
-    initialHook?: IncomingWebhook;
-
-    /**
-    * The async function to run when the action button is pressed
-    */
-    action: (hook : IncomingWebhook ) => Promise<any>;
-
-    enablePostUsernameOverride?: boolean
-
-    enablePostIconOverride?: boolean
-}
-
-type State = {
-    displayName: string;
-    description: string;
-    username: string;
-    iconURL: string;
-    autocompleteHint?: string
-    autocompleteDescription?: string;
-    saving: boolean;
-    clientError: any;
-    serverError: any;
-    channelId: string;
-    channelLocked: boolean;
-}
-
-export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
-
-
-    constructor(props : Props) {
-=======
 import {Team} from 'mattermost-redux/types/teams';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
@@ -148,17 +76,12 @@ type State = {
 
 export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
     constructor(props: Props) {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         super(props);
 
         this.state = this.getStateFromHook(this.props.initialHook);
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    getStateFromHook = (hook? : IncomingWebhook) => {
-=======
     getStateFromHook = (hook?: IncomingWebhook) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         return {
             displayName: hook?.display_name || '',
             description: hook?.description || '',
@@ -172,11 +95,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         };
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    handleSubmit = (e: { preventDefault: () => void; } ) => {
-=======
     handleSubmit = (e: { preventDefault: () => void }) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         e.preventDefault();
 
         if (this.state.saving) {
@@ -215,71 +134,43 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
             username: this.state.username,
             icon_url: this.state.iconURL,
             user_id: '0',
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-            team_id: '0'
-=======
             team_id: '0',
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    updateDisplayName = (e : React.ChangeEvent<HTMLInputElement>) => {
-=======
     updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             displayName: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    updateDescription = (e : React.ChangeEvent<HTMLInputElement>) => {
-=======
     updateDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             description: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    updateChannelId = (e : any) => {
-=======
     updateChannelId = (e: (React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             channelId: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    updateChannelLocked = (e : React.ChangeEvent<HTMLInputElement>)  => {
-=======
     updateChannelLocked = (e: React.ChangeEvent<HTMLInputElement>) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             channelLocked: e.target.checked,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    updateUsername = (e : React.ChangeEvent<HTMLInputElement>) => {
-=======
     updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             username: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
-    updateIconURL = (e : React.ChangeEvent<HTMLInputElement>) => {
-=======
     updateIconURL = (e: React.ChangeEvent<HTMLInputElement>) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             iconURL: e.target.value,
         });

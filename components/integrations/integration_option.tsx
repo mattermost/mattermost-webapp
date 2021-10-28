@@ -12,7 +12,7 @@ type Props = {
 }
 export default class IntegrationOption extends React.PureComponent<Props> {
     render() {
-        const {image, title , description, link} = this.props;
+        const {image, title, description, link} = this.props;
 
         return (
             <Link

@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
 
-import DeleteIntegration from 'components/integrations/delete_integration';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
 import {UserProfile} from 'mattermost-redux/types/users';
