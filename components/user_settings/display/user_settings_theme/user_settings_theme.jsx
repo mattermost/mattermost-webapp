@@ -1,22 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 import {FormattedMessage} from 'react-intl';
+
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 
 import {ActionTypes, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min';
 
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser';
-
 export default class ThemeSetting extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
