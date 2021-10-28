@@ -25,14 +25,13 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
-import Pluggable from 'plugins/pluggable';
 
 import {ThreadsState} from 'mattermost-redux/types/threads';
 
 import {ProductComponent} from '../../types/store/plugins';
-import {getCurrentProductId} from '../../utils/products';
 
 import TeamButton from './components/team_button';
+import Pluggable from '../../plugins/pluggable';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
@@ -58,7 +57,7 @@ export interface Props {
     actions: Actions;
     userTeamsOrderPreference: string;
     threadCounts: ThreadsState['counts'];
-    products: ProductComponent[];
+    currentProduct: ProductComponent;
     location: RouteComponentProps['location'];
 }
 
@@ -229,10 +228,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
-        const currentProductID = getCurrentProductId(this.props.products, this.props.location);
-        const currentProduct = this.props.products?.find((product) => product.id === currentProductID);
-
-        if (currentProduct && !currentProduct.showTeamSidebar) {
+        if (this.props.currentProduct && !this.props.currentProduct.showTeamSidebar) {
             return null;
         }
 

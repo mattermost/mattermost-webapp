@@ -404,7 +404,7 @@ export default class Root extends React.PureComponent {
                                     path={product.baseURL}
                                     render={(props) => (
                                         <LoggedIn {...props}>
-                                            <div className={classNames(['pluggable-wrapper', {wide: !product.showTeamSidebar}])}>
+                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
                                                 <Pluggable
                                                     pluggableName={'Product'}
                                                     subComponentName={'mainComponent'}
