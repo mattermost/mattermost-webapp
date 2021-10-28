@@ -17,7 +17,7 @@ type State = ThreadsState['threadsInTeam'] | ThreadsState['unreadThreadsInTeam']
 function shouldAddThreadId(ids: Array<$ID<UserThread>>, thread: UserThread, threads: IDMappedObjects<UserThread>) {
     return ids.some((id) => {
         const t = threads![id];
-        return thread.last_reply_at > t.last_reply_at;
+        return new Date(thread.last_reply_at).getTime() > new Date(t.last_reply_at).getTime();
     });
 }
 
