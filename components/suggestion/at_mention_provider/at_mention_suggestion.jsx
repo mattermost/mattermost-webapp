@@ -139,7 +139,7 @@ export default class AtMentionSuggestion extends Suggestion {
             }
 
             icon = (
-                <span className={'status-wrapper style--none'}>
+                <span className='status-wrapper style--none'>
                     <span className='profile-icon'>
                         <Avatar
                             username={item && item.username}

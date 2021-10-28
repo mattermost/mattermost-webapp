@@ -375,8 +375,11 @@ export function makeGetProfilesForThread(): (state: GlobalState, rootId: string)
             const profileIds = posts.map((post) => post.user_id);
             const uniqueIds = [...new Set(profileIds)];
             return uniqueIds.reduce((acc: UserProfile[], id: string) => {
-                const profile = {...allUsers[id], status: userStatuses[id]};
-                if (profile && currentUserId !== id) {
+                const profile: UserProfile = userStatuses ?
+                    {...allUsers[id], status: userStatuses[id]} :
+                    {...allUsers[id]};
+
+                if (profile && Object.keys(profile).length > 0 && currentUserId !== id) {
                     return [
                         ...acc,
                         profile,
