@@ -548,15 +548,24 @@
     z-index: 99999;
 }
 
+$emoji-picker-footer-margin: 12px;
+$emoji-half-height: 33px;
+
 .emoji-picker__footer {
+    $border-width: 1px;
+
     display: flex;
     justify-content: space-between;
-    border-top: solid 1px rgba(61, 60, 64, 0.2);
+    align-items: center;
+    min-height: $border-width + $emoji-half-height + $emoji-picker-footer-margin * 2; // prevents tiny layout shift when emoji replaces placeholder
+    border-top: solid $border-width rgba(61, 60, 64, 0.2);
 }
 
 .emoji-picker__custom {
-    position: relative;
-    margin: 12px;
+    flex-shrink: 0;
+    margin: $emoji-picker-footer-margin {
+        left: 0;
+    }
     text-decoration: none;
 
     a,
@@ -576,85 +585,40 @@
 }
 
 .emoji-picker__preview {
-    position: relative;
-    display: flex;
     overflow: hidden;
-    max-width: 210px;
-    height: 56px;
-    flex-direction: row;
-    flex-grow: 0;
-    flex-shrink: 0;
-    align-items: stretch;
-    justify-content: flex-start;
-    padding: 18px 0 18px 16px;
+    margin: $emoji-picker-footer-margin;
     background: var(--center-channel-bg);
-    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &.emoji-picker__preview-placeholder {
-        padding: 12px;
-
         span {
-            display: flex;
-            align-items: center;
             font-weight: bold;
         }
-    }
-
-    > div {
-        display: table-cell;
-        vertical-align: middle;
     }
 
     .emoji-picker__preview-image-label-box {
+        display: inline;
+
         .emoji-picker__preview-name {
             @include user-select(text);
 
-            display: inline-block;
-            overflow: hidden;
-            max-width: 120px;
-            font-size: 14px;
             font-weight: bold;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .emoji-picker__preview-aliases {
-            display: block;
-            overflow: hidden;
-            font-size: 12px;
-            font-weight: bold;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
     }
 
     .emoji-picker__preview-image-box {
-        position: relative;
-        display: flex;
-        width: 32px;
-        height: 32px;
-        max-height: 36px;
-        align-items: center;
-        justify-content: center;
+        vertical-align: middle;
         margin-right: 12px;
-        text-align: center;
 
+        &,
         .sprite-preview {
             display: inline-block;
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            border: none;
-            margin-top: -20px;
-            vertical-align: middle;
         }
     }
 
     .emoji-picker__preview-image {
-        position: relative;
-        top: -8px;
-        left: 2px;
-        max-width: 36px;
-        max-height: 36px;
+        max-width: $emoji-half-height;
+        max-height: $emoji-half-height;
     }
 }
