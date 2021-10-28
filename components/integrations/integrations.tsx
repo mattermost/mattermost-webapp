@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -18,20 +17,25 @@ import SlashCommandIcon from 'images/slash_command_icon.jpg';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import IntegrationOption from './integration_option.jsx';
+import IntegrationOption from './integration_option';
+import { Team } from 'mattermost-redux/types/teams';
+import { UserProfile } from 'mattermost-redux/types/users';
+ 
 
-export default class Integrations extends React.PureComponent {
-    static get propTypes() {
-        return {
-            team: PropTypes.object,
-            user: PropTypes.object,
-            siteName: PropTypes.string,
-            enableIncomingWebhooks: PropTypes.bool,
-            enableOutgoingWebhooks: PropTypes.bool,
-            enableCommands: PropTypes.bool,
-            enableOAuthServiceProvider: PropTypes.bool,
-        };
-    }
+type Props = {
+        team: Team,
+        user: UserProfile,
+        siteName: string,
+        enableIncomingWebhooks: boolean,
+        enableOutgoingWebhooks: boolean,
+        enableCommands: boolean,
+        enableOAuthServiceProvider: boolean,
+}
+
+type State = {}
+
+export default class Integrations extends React.PureComponent<Props, State> {
+    
 
     componentDidMount() {
         this.updateTitle();

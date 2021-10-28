@@ -6,7 +6,7 @@ import React from 'react';
 
 import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
-import AbstractOAuthApp from '../abstract_oauth_app.jsx';
+import AbstractOAuthApp from '../abstract_oauth_app';
 
 const HEADER = {id: t('add_oauth_app.header'), defaultMessage: 'Add'};
 const FOOTER = {id: t('installed_oauth_apps.save'), defaultMessage: 'Save'};

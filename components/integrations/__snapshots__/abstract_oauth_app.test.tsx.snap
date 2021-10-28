@@ -6,7 +6,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      to="/test/integrations/oauth2-apps"
+      to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
     >
       <MemoizedFormattedMessage
         defaultMessage="Installed OAuth2 Apps"
@@ -113,7 +113,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <input
             className="form-control"
             id="name"
-            maxLength="64"
+            maxLength={64}
             onChange={[Function]}
             type="text"
             value="testApp"
@@ -146,7 +146,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <input
             className="form-control"
             id="description"
-            maxLength="512"
+            maxLength={512}
             onChange={[Function]}
             type="text"
             value="testing"
@@ -179,7 +179,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <input
             className="form-control"
             id="homepage"
-            maxLength="256"
+            maxLength={256}
             onChange={[Function]}
             type="url"
             value="https://test.com"
@@ -212,7 +212,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <input
             className="form-control"
             id="icon_url"
-            maxLength="512"
+            maxLength={512}
             onChange={[Function]}
             type="url"
             value="https://test.com/icon"
@@ -245,9 +245,9 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
           <textarea
             className="form-control"
             id="callbackUrls"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
-            rows="3"
+            rows={3}
             value="https://test.com/callback
 https://test.com/callback2"
           />
@@ -276,7 +276,7 @@ https://test.com/callback2"
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/test/integrations/oauth2-apps"
+          to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
@@ -309,7 +309,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
 >
   <BackstageHeader>
     <Link
-      to="/test/integrations/oauth2-apps"
+      to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
     >
       <MemoizedFormattedMessage
         defaultMessage="Installed OAuth2 Apps"
@@ -416,7 +416,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <input
             className="form-control"
             id="name"
-            maxLength="64"
+            maxLength={64}
             onChange={[Function]}
             type="text"
             value="testApp"
@@ -449,7 +449,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <input
             className="form-control"
             id="description"
-            maxLength="512"
+            maxLength={512}
             onChange={[Function]}
             type="text"
             value="testing"
@@ -482,7 +482,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <input
             className="form-control"
             id="homepage"
-            maxLength="256"
+            maxLength={256}
             onChange={[Function]}
             type="url"
             value="https://test.com"
@@ -515,7 +515,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <input
             className="form-control"
             id="icon_url"
-            maxLength="512"
+            maxLength={512}
             onChange={[Function]}
             type="url"
             value="https://test.com/icon"
@@ -548,9 +548,9 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
           <textarea
             className="form-control"
             id="callbackUrls"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
-            rows="3"
+            rows={3}
             value=""
           />
           <div
@@ -581,7 +581,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/test/integrations/oauth2-apps"
+          to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"

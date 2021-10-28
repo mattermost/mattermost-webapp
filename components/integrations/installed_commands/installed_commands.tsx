@@ -12,7 +12,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledCommand, {matchesFilter} from '../installed_command.jsx';
+import InstalledCommand, {matchesFilter} from '../installed_command';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {

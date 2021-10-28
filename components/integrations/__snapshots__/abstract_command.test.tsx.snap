@@ -6,7 +6,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      to="/test/integrations/commands"
+      to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
     >
       <MemoizedFormattedMessage
         defaultMessage="Slash Commands"
@@ -43,7 +43,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <input
             className="form-control"
             id="displayName"
-            maxLength="64"
+            maxLength={64}
             onChange={[Function]}
             type="text"
             value="display_name"
@@ -76,7 +76,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <input
             className="form-control"
             id="description"
-            maxLength="128"
+            maxLength={128}
             onChange={[Function]}
             type="text"
             value="description"
@@ -178,7 +178,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <LocalizedInput
             className="form-control"
             id="url"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
             placeholder={
               Object {
@@ -259,7 +259,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <LocalizedInput
             className="form-control"
             id="username"
-            maxLength="64"
+            maxLength={64}
             onChange={[Function]}
             placeholder={
               Object {
@@ -298,7 +298,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <LocalizedInput
             className="form-control"
             id="iconUrl"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
             placeholder={
               Object {
@@ -368,7 +368,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <LocalizedInput
             className="form-control"
             id="autocompleteHint"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
             placeholder={
               Object {
@@ -407,7 +407,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           <LocalizedInput
             className="form-control"
             id="description"
-            maxLength="128"
+            maxLength={128}
             onChange={[Function]}
             placeholder={
               Object {
@@ -443,7 +443,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/test/integrations/commands"
+          to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
@@ -476,7 +476,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 >
   <BackstageHeader>
     <Link
-      to="/test/integrations/commands"
+      to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
     >
       <MemoizedFormattedMessage
         defaultMessage="Slash Commands"
@@ -513,7 +513,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <input
             className="form-control"
             id="displayName"
-            maxLength="64"
+            maxLength={64}
             onChange={[Function]}
             type="text"
             value="display_name"
@@ -546,7 +546,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <input
             className="form-control"
             id="description"
-            maxLength="128"
+            maxLength={128}
             onChange={[Function]}
             type="text"
             value="description"
@@ -648,7 +648,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <LocalizedInput
             className="form-control"
             id="url"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
             placeholder={
               Object {
@@ -729,7 +729,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <LocalizedInput
             className="form-control"
             id="username"
-            maxLength="64"
+            maxLength={64}
             onChange={[Function]}
             placeholder={
               Object {
@@ -768,7 +768,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <LocalizedInput
             className="form-control"
             id="iconUrl"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
             placeholder={
               Object {
@@ -838,7 +838,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <LocalizedInput
             className="form-control"
             id="autocompleteHint"
-            maxLength="1024"
+            maxLength={1024}
             onChange={[Function]}
             placeholder={
               Object {
@@ -877,7 +877,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           <LocalizedInput
             className="form-control"
             id="description"
-            maxLength="128"
+            maxLength={128}
             onChange={[Function]}
             placeholder={
               Object {
@@ -916,7 +916,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         />
         <Link
           className="btn btn-link btn-sm"
-          to="/test/integrations/commands"
+          to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"

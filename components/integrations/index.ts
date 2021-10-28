@@ -5,11 +5,12 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import Integrations from './integrations.jsx';
+import Integrations from './integrations';
+import { GlobalState } from 'mattermost-redux/types/store';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const siteName = config.SiteName;
+    const siteName = config.SiteName!;
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
     const enableCommands = config.EnableCommands === 'true';
