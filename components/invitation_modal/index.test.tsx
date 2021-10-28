@@ -9,6 +9,7 @@ import {mapStateToProps} from './index';
 describe('mapStateToProps', () => {
     const currentTeamId = 'team-id';
     const currentUserId = 'user-id';
+    const currentChannelId = 'channel-id';
 
     const initialState = {
         entities: {
@@ -22,13 +23,23 @@ describe('mapStateToProps', () => {
             },
             teams: {
                 currentTeamId,
+                teams: {
+                    [currentTeamId]: {
+                        display_name: 'asdf'
+                    },
+                },
                 myMembers: {},
             },
             preferences: {
                 myPreferences: {},
             },
             channels: {
-                channels: {},
+                channels: {
+                    [currentChannelId]: {
+                        display_name: 'asdf',
+                    },
+                },
+                currentChannelId,
                 channelsInTeam: {
                     [currentTeamId]: new Set(),
                 },
