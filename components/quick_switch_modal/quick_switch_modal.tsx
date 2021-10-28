@@ -151,7 +151,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             <h1>
                 <FormattedMessage
                     id='quick_switch_modal.switchChannels'
-                    defaultMessage='Switch Channels'
+                    defaultMessage='Navigate Channels'
                 />
             </h1>
         );
