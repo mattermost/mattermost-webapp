@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
@@ -27,6 +27,8 @@ import {
     makeGetProfilesInChannel,
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {openModal, closeModal} from 'actions/views/modals';
@@ -49,7 +51,7 @@ function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
 
-    return function mapStateToProps(state) {
+    return function mapStateToProps(state: GlobalState) {
         const channel = getCurrentChannel(state) || {};
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
@@ -63,7 +65,7 @@ function makeMapStateToProps() {
             dmUser = getUser(state, dmUserId);
             customStatus = dmUser && getCustomStatus(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
-            gmMembers = doGetProfilesInChannel(state, channel.id, false);
+            gmMembers = doGetProfilesInChannel(state, channel.id);
         }
         const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
 
@@ -93,7 +95,7 @@ function makeMapStateToProps() {
     };
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     actions: bindActionCreators({
         favoriteChannel,
         unfavoriteChannel,

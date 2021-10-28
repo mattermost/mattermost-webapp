@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import {UserProfile} from 'mattermost-redux/types/users';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
 import Markdown from 'components/markdown';
@@ -60,14 +61,14 @@ describe('components/ChannelHeader', () => {
 
     test('should render properly when empty', () => {
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...baseProps}/>,
+            <ChannelHeader {...baseProps as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should render properly when populated', () => {
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...populatedProps}/>,
+            <ChannelHeader {...populatedProps as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -98,7 +99,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -110,7 +111,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -126,7 +127,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -138,7 +139,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -150,7 +151,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
 
         wrapper.find('.channel-header__mute').simulate('click');
@@ -166,7 +167,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -179,7 +180,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -187,12 +188,12 @@ describe('components/ChannelHeader', () => {
     test('should render not active channel files', () => {
         const props = {
             ...populatedProps,
-            rhsState: RHSStates.CHANNEL_PIN,
+            rhsState: RHSStates.PIN,
             showChannelFilesButton: true,
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -204,7 +205,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -216,7 +217,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -236,11 +237,11 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper.containsMatchingElement(
             <Markdown
-                message={props.currentUser.bot_description}
+                message={(props.currentUser as UserProfile).bot_description}
             />,
         )).toEqual(true);
     });
@@ -251,7 +252,7 @@ describe('components/ChannelHeader', () => {
             pinnedPostsCount: 2,
         };
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -279,7 +280,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper.containsMatchingElement(
             <GuestBadge show={true}/>,
@@ -306,7 +307,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -332,7 +333,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
+            <ChannelHeader {...props as any}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
