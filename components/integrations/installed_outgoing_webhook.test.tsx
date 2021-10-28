@@ -146,16 +146,15 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         const wrapper = shallow<InstalledOutgoingWebhook>(
             <InstalledOutgoingWebhook {...baseProps}/>,
         );
-        const instance = wrapper.instance() as any as InstanceType<typeof InstalledOutgoingWebhook>;
 
         // displays webhook's display name
-        expect(instance.makeDisplayName({display_name: 'hook display name'}, {})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({display_name: 'hook display name'}, {})).toMatchSnapshot();
 
         // displays channel's display name
-        expect(instance.makeDisplayName({}, {display_name: 'channel display name'})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({}, {display_name: 'channel display name'})).toMatchSnapshot();
 
         // displays a private hook
-        expect(instance.makeDisplayName({})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({})).toMatchSnapshot();
     });
 
     test('Should match result when matchesFilter is called', () => {

@@ -90,9 +90,8 @@ describe('components/integrations/InstalledCommand', () => {
 
         const wrapper = shallow<InstalledCommand>(<InstalledCommand {...props}/>);
         expect(wrapper).toMatchSnapshot();
-        const instance = wrapper.instance() as any as InstanceType<typeof InstalledCommand>;
 
-        instance.handleDelete();
+        wrapper.instance().handleDelete();
         expect(onDelete).toHaveBeenCalledTimes(1);
         expect(onDelete).toHaveBeenCalledWith(props.command);
     });
