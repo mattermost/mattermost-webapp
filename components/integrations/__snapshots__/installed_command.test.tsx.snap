@@ -44,17 +44,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
           />
         </Link>
          - 
-<<<<<<< HEAD:components/integrations/__snapshots__/installed_command.test.tsx.snap
-        <Connect(DeleteIntegrationLink)
-          modalMessage={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="This action permanently deletes the slash command and breaks any integrations using it. Are you sure you want to delete it?"
-              id="installed_commands.delete.confirm"
-            />
-          }
-=======
         <DeleteIntegration
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_command.test.jsx.snap
           onDelete={[Function]}
         />
       </div>
@@ -102,11 +92,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
           values={
             Object {
               "createAt": 1499722850203,
-<<<<<<< HEAD:components/integrations/__snapshots__/installed_command.test.tsx.snap
-              "creator": "username",
-=======
               "creator": "some-user",
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_command.test.jsx.snap
             }
           }
         />
@@ -160,17 +146,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
           />
         </Link>
          - 
-<<<<<<< HEAD:components/integrations/__snapshots__/installed_command.test.tsx.snap
-        <Connect(DeleteIntegrationLink)
-          modalMessage={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="This action permanently deletes the slash command and breaks any integrations using it. Are you sure you want to delete it?"
-              id="installed_commands.delete.confirm"
-            />
-          }
-=======
         <DeleteIntegration
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_command.test.jsx.snap
           onDelete={[Function]}
         />
       </div>
@@ -218,11 +194,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
           values={
             Object {
               "createAt": 1499722850203,
-<<<<<<< HEAD:components/integrations/__snapshots__/installed_command.test.tsx.snap
-              "creator": "username",
-=======
               "creator": "some-user",
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_command.test.jsx.snap
             }
           }
         />
@@ -300,11 +272,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
           values={
             Object {
               "createAt": 1499722850203,
-<<<<<<< HEAD:components/integrations/__snapshots__/installed_command.test.tsx.snap
-              "creator": "username",
-=======
               "creator": "some-user",
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_command.test.jsx.snap
             }
           }
         />
@@ -380,11 +348,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
           values={
             Object {
               "createAt": 1499722850203,
-<<<<<<< HEAD:components/integrations/__snapshots__/installed_command.test.tsx.snap
-              "creator": "username",
-=======
               "creator": "some-user",
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_command.test.jsx.snap
             }
           }
         />

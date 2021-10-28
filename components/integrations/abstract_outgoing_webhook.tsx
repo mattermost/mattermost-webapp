@@ -10,133 +10,59 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-import { Team } from 'mattermost-redux/types/teams';
-import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {Header} from './common_types';
-
-=======
 import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
 type Props = {
 
     /**
      * The current team
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    team: Team,
-=======
     team: Team;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * The header text to render, has id and defaultMessage
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    header: Header,
-=======
     header: MessageDescriptor;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * The footer text to render, has id and defaultMessage
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    footer: Header,
-=======
     footer: MessageDescriptor;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    loading: Header,
-=======
     loading: MessageDescriptor;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * Any extra component/node to render
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    renderExtra: React.ReactNode,
-=======
     renderExtra: React.ReactNode;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * The server error text after a failed action
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    serverError: string,
-=======
     serverError: string;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * The hook used to set the initial state
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    initialHook: OutgoingWebhook,
-=======
     initialHook: OutgoingWebhook;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * The async function to run when the action button is pressed
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    action: (hook : OutgoingWebhook ) => Promise<any>,
-=======
     action: (hook: OutgoingWebhook) => Promise<any>;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * Whether to allow configuration of the default post username.
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    enablePostUsernameOverride: boolean,
-=======
     enablePostUsernameOverride: boolean;
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
 
     /**
      * Whether to allow configuration of the default post icon.
      */
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    enablePostIconOverride: boolean,
-}
-
-type State = {
-    displayName: string;
-    contentType: string;
-    username: string;
-    description: string;
-    iconURL: string;
-    saving: boolean;
-    clientError: any;
-    triggerWords: string;
-    channelId : string;
-    callbackUrls : string;
-    triggerWhen: string;
-    id: string;
-    token: string;
-    create_at: number;
-    update_at: number;
-    delete_at: number;
-    creator_id: string;
-}
-
-
-
-export default class AbstractOutgoingWebhook extends React.PureComponent<Props, State> {
-
-
-    constructor(props : Props) {
-=======
     enablePostIconOverride: boolean;
 }
 
@@ -162,17 +88,12 @@ type State = {
 
 export default class AbstractOutgoingWebhook extends React.PureComponent<Props, State> {
     constructor(props: Props) {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         super(props);
 
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    getStateFromHook = (hook : OutgoingWebhook) => {
-=======
     getStateFromHook = (hook: OutgoingWebhook) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         let triggerWords = '';
         if (hook.trigger_words) {
             let i = 0;
@@ -195,11 +116,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
             contentType: hook.content_type || 'application/x-www-form-urlencoded',
             channelId: hook.channel_id || '',
             triggerWords,
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-            triggerWhen: hook.trigger_when?.toString() || "0",
-=======
             triggerWhen: hook.trigger_when,
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
             callbackUrls,
             saving: false,
             clientError: null,
@@ -214,11 +131,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         };
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    handleSubmit = (e: { preventDefault: () => void; }) => {
-=======
     handleSubmit = (e: { preventDefault: () => void }) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         e.preventDefault();
 
         if (this.state.saving) {
@@ -300,91 +213,55 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateDisplayName = (e : { target: { value: string; };}) => {
-=======
     updateDisplayName = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             displayName: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateDescription = (e : { target: { value: string; };}) => {
-=======
     updateDescription = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             description: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateContentType = (e : { target: { value: string; };}) => {
-=======
     updateContentType = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             contentType: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateChannelId = (e : { target: { value: string; };}) => {
-=======
     updateChannelId = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             channelId: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateTriggerWords = (e : { target: { value: string; };}) => {
-=======
     updateTriggerWords = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             triggerWords: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateTriggerWhen = (e : { target: { value: string; };}) => {
-=======
     updateTriggerWhen = (e: React.ChangeEvent<HTMLSelectElement>) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             triggerWhen: parseInt(e.target.value, 10),
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateCallbackUrls = (e : { target: { value: string; };}) => {
-=======
     updateCallbackUrls = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             callbackUrls: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateUsername = (e : { target: { value: string; };}) => {
-=======
     updateUsername = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             username: e.target.value,
         });
     }
 
-<<<<<<< HEAD:components/integrations/abstract_outgoing_webhook.tsx
-    updateIconURL = (e : { target: { value: string; };}) => {
-=======
     updateIconURL = (e: { target: { value: string }}) => {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_outgoing_webhook.jsx
         this.setState({
             iconURL: e.target.value,
         });

@@ -13,11 +13,7 @@ import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import CopyText from 'components/copy_text';
 
-<<<<<<< HEAD
-import DeleteIntegrationLink from '../delete_integration_link';
-=======
 import DeleteIntegration from '../delete_integration';
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
 
 const FAKE_SECRET = '***************';
 
@@ -265,17 +261,7 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
                         />
                     </Link>
                     {' - '}
-<<<<<<< HEAD
-                    <DeleteIntegrationLink
-                        modalMessage={
-                            <FormattedMessage
-                                id='installed_oauth_apps.delete.confirm'
-                                defaultMessage='This action permanently deletes the OAuth 2.0 application and breaks any integrations using it. Are you sure you want to delete it?'
-                            />
-                        }
-=======
                     <DeleteIntegration
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
                         onDelete={this.handleDelete}
                     />
                 </div>

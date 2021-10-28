@@ -5,40 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
 
-<<<<<<< HEAD:components/integrations/installed_outgoing_webhook.test.tsx
-import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
-import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
-import { OutgoingWebhook } from 'mattermost-redux/types/integrations';
-import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import { TeamType } from 'mattermost-redux/types/teams';
-import { Channel, ChannelType } from 'mattermost-redux/types/channels';
-
-describe('components/integrations/InstalledOutgoingWebhook', () => {
-    const fakeChannel = test_helper.fakeChannelWithId();
-    const channel : Channel = {
-        ...fakeChannel,
-        type: 'O' as ChannelType,
-        header: '',
-        purpose: '',
-        last_post_at: 0,
-        last_root_post_at: 0,
-        creator_id: '',
-        group_constrained: false
-    }
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'eatxocwc3bg9ffo9xyybnj4omr',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
-
-    const outgoingWebhook : OutgoingWebhook = {
-=======
 import DeleteIntegration from 'components/integrations/delete_integration';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
@@ -52,7 +18,6 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
     const team: Team = TestHelper.getTeamMock();
 
     const outgoingWebhook: OutgoingWebhook = {
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_outgoing_webhook.test.jsx
         callback_urls: ['http://adsfdasd.com'],
         channel_id: 'mdpzfpfcxi85zkkqkzkch4b85h',
         content_type: 'application/x-www-form-urlencoded',
@@ -68,35 +33,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         trigger_when: 0,
         trigger_words: ['build'],
         update_at: 1508329149618,
-<<<<<<< HEAD:components/integrations/installed_outgoing_webhook.test.tsx
-        icon_url:'',
-    };
-
-    const fakeUser= test_helper.fakeUserWithId();
-    const creator : UserProfile = {
-        ...fakeUser,
-        username: 'zaktnt8bpbgu8mb6ez9k64r7sa',
-        auth_data: '',
-        auth_service: '',
-        email_verified: true,
-        nickname: 'The',
-        position: '',
-        props: {},
-        notify_props: {} as UserNotifyProps,
-        last_password_update: 0,
-        last_picture_update: 0,
-        failed_attempts: 0,
-        mfa_active: false,
-        mfa_secret: '',
-        last_activity_at: 0,
-        is_bot: true,
-        bot_description: 'tester bot',
-        bot_last_icon_update:0,
-        terms_of_service_id: '',
-        terms_of_service_create_at: 0,
-=======
         icon_url: '',
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_outgoing_webhook.test.jsx
     };
 
     const creator: UserProfile = TestHelper.getUserMock();
@@ -105,11 +42,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         outgoingWebhook,
         onRegenToken: () => {}, //eslint-disable-line no-empty-function
         onDelete: () => {}, //eslint-disable-line no-empty-function
-<<<<<<< HEAD:components/integrations/installed_outgoing_webhook.test.tsx
-        filter: undefined,
-=======
         filter: '',
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_outgoing_webhook.test.jsx
         creator,
         canChange: true,
         team,

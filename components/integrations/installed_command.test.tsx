@@ -5,26 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import InstalledCommand from 'components/integrations/installed_command';
-<<<<<<< HEAD:components/integrations/installed_command.test.tsx
-import { Command } from 'mattermost-redux/types/integrations';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'packages/mattermost-redux/src/types/teams';
-import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
-
-describe('components/integrations/InstalledCommand', () => {
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'team_name',
-        teamId : 'testteamid',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
-    const command : Command = {
-=======
 import {Command} from 'mattermost-redux/types/integrations';
 import {Team} from 'packages/mattermost-redux/src/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -34,7 +14,6 @@ describe('components/integrations/InstalledCommand', () => {
     const team: Team = TestHelper.getTeamMock();
 
     const command: Command = TestHelper.getCommandMock({
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_command.test.jsx
         id: 'r5tpgt4iepf45jt768jz84djic',
         display_name: 'display_name',
         description: 'description',
@@ -52,35 +31,8 @@ describe('components/integrations/InstalledCommand', () => {
         update_at: 1504468859001,
         url: 'https://google.com/command',
         username: 'username',
-<<<<<<< HEAD:components/integrations/installed_command.test.tsx
-    };
-    const fakeUser= test_helper.fakeUserWithId();
-    const creator : UserProfile = {
-        ...fakeUser,
-        username: 'username',
-        auth_data: '',
-        auth_service: '',
-        email_verified: true,
-        nickname: 'The',
-        position: '',
-        props: {},
-        notify_props: {} as UserNotifyProps,
-        last_password_update: 0,
-        last_picture_update: 0,
-        failed_attempts: 0,
-        mfa_active: false,
-        mfa_secret: '',
-        last_activity_at: 0,
-        is_bot: true,
-        bot_description: 'tester bot',
-        bot_last_icon_update:0,
-        terms_of_service_id: '',
-        terms_of_service_create_at: 0
-    };
-=======
     });
     const creator: UserProfile = TestHelper.getUserMock();
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_command.test.jsx
     const requiredProps = {
         team,
         command,

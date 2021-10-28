@@ -17,27 +17,6 @@ import SlashCommandIcon from 'images/slash_command_icon.jpg';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-<<<<<<< HEAD:components/integrations/integrations.tsx
-import IntegrationOption from './integration_option';
-import { Team } from 'mattermost-redux/types/teams';
-import { UserProfile } from 'mattermost-redux/types/users';
- 
-
-type Props = {
-        team: Team,
-        user: UserProfile,
-        siteName: string,
-        enableIncomingWebhooks: boolean,
-        enableOutgoingWebhooks: boolean,
-        enableCommands: boolean,
-        enableOAuthServiceProvider: boolean,
-}
-
-type State = {}
-
-export default class Integrations extends React.PureComponent<Props, State> {
-    
-=======
 import {Team} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -52,7 +31,6 @@ type Props = {
     enableCommands: boolean;
     enableOAuthServiceProvider: boolean;
 }
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/integrations.jsx
 
 export default class Integrations extends React.PureComponent<Props> {
     componentDidMount() {

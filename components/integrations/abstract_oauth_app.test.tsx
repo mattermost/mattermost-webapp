@@ -6,29 +6,12 @@ import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import AbstractOAuthApp from 'components/integrations/abstract_oauth_app';
-<<<<<<< HEAD:components/integrations/abstract_oauth_app.test.tsx
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'packages/mattermost-redux/src/types/teams';
-
-describe('components/integrations/AbstractOAuthApp', () => {
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'eatxocwc3bg9ffo9xyybnj4omr',
-        description: 'team description',
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
-=======
 import {Team} from 'packages/mattermost-redux/src/types/teams';
 import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractOAuthApp', () => {
     const team: Team = TestHelper.getTeamMock();
 
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.test.jsx
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
     const loading = {id: 'Loading', defaultMessage: 'Loading'};

@@ -19,11 +19,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
         className="item-actions"
       >
         <Link
-<<<<<<< HEAD
-          to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/incoming_webhooks/edit?id=9w96t4nhbfdiij64wfqors4i1r"
-=======
           to="/DN/integrations/incoming_webhooks/edit?id=9w96t4nhbfdiij64wfqors4i1r"
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
         >
           <MemoizedFormattedMessage
             defaultMessage="Edit"
@@ -31,17 +27,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           />
         </Link>
          - 
-<<<<<<< HEAD
-        <Connect(DeleteIntegrationLink)
-          modalMessage={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?"
-              id="installed_incoming_webhooks.delete.confirm"
-            />
-          }
-=======
         <DeleteIntegration
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
           onDelete={[Function]}
         />
       </div>
@@ -91,11 +77,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           values={
             Object {
               "createAt": 1502455422406,
-<<<<<<< HEAD
-              "creator": "3dbd736f-30e3-4993-a976-76d475388392",
-=======
               "creator": "some-user",
->>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
             }
           }
         />
