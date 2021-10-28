@@ -10,14 +10,10 @@
 // Group: @cloud_only @cloud_trial
 // Skip:  @headless @electron // run on Chrome (headed) only
 
-import dayJs from 'dayjs';
-
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
 
 describe('System Console - after subscription scenarios', () => {
-    const currentDate = new Date();
-
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
@@ -55,10 +51,7 @@ describe('System Console - after subscription scenarios', () => {
         cy.wait(['@confirm', '@subscribe']);
 
         // * Check for success message
-        cy.findByText('Great! You\'re now upgraded', {timeout: TIMEOUTS.TEN_SEC}).should('be.visible');
-
-        // * Check for starting date of the paid plan
-        cy.findByText(`Starting ${dayJs(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)).format('MMM D, YYYY')} you will be charged based on the number of enabled users`).should('exist');
+        cy.findByText('You are now subscribed to Cloud Professional', {timeout: TIMEOUTS.TEN_SEC}).should('be.visible');
 
         // # Click Let's go! button
         cy.get('#payment_complete_header').find('button').should('be.enabled').click();
@@ -70,7 +63,7 @@ describe('System Console - after subscription scenarios', () => {
 
             cy.get('.BillingSummary__lastInvoice-productName').invoke('text').as('productName');
 
-            cy.get('.BillingSummary__lastInvoice-chargeAmount>span').invoke('text').as('totalCharge');
+            cy.get('.BillingSummary__lastInvoice-chargeAmount').invoke('text').as('totalCharge');
 
             // * Check the content from the downloaded pdf file
             cy.get('.BillingSummary__lastInvoice-download >a').then((link) => {
@@ -84,15 +77,10 @@ describe('System Console - after subscription scenarios', () => {
                         cy.writeFile(filePath, response.body, 'binary');
                         cy.task('getPdfContent', filePath).then((data) => {
                             const allLines = data.text.split('\n');
-
-                            cy.get('@productName').then((productName) => {
-                                const prodLine = allLines.filter((line) => line.includes(productName));
-                                expect(prodLine.length).to.be.equal(1);
-                            });
-                            cy.get('@totalCharge').then((totalCharge) => {
-                                const amountLine = allLines.filter((line) => line.includes('Amount paid'));
-                                expect(amountLine[0].includes(totalCharge)).to.be.equal(true);
-                            });
+                            const prodLine = allLines.filter((line) => line.includes('Trial period for Cloud Starter'));
+                            expect(prodLine.length).to.be.equal(1);
+                            const amountLine = allLines.filter((line) => line.includes('Amount paid'));
+                            expect(amountLine[0].includes('$0.00')).to.be.equal(true);
                         });
                     },
                 );
