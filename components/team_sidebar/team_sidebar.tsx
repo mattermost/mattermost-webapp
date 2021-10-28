@@ -57,7 +57,7 @@ export interface Props {
     actions: Actions;
     userTeamsOrderPreference: string;
     threadCounts: ThreadsState['counts'];
-    currentProduct: ProductComponent;
+    currentProduct: ProductComponent | undefined;
     location: RouteComponentProps['location'];
 }
 
