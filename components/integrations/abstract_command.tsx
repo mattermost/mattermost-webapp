@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { ChangeEventHandler } from 'react';
-import {FormattedMessage} from 'react-intl';
+import React from 'react';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
@@ -12,12 +12,11 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import LocalizedInput from 'components/localized_input/localized_input';
 import {t} from 'utils/i18n.jsx';
-import { Command } from 'mattermost-redux/types/integrations';
-import { Team } from 'mattermost-redux/types/teams';
-import {Header} from './common_types';
+import {Command} from 'mattermost-redux/types/integrations';
+import {Team} from 'mattermost-redux/types/teams';
+
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
-
 
 type Props = {
 
@@ -29,17 +28,17 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render
@@ -54,12 +53,12 @@ type Props = {
     /**
     * The Command used to set the initial state
     */
-    initialCommand: Command;
+    initialCommand?: Command;
 
     /**
     * The async function to run when the action button is pressed
     */
-    action: (command : Command ) => Promise<any>;
+    action: (command: Command) => Promise<void>;
 
 }
 
@@ -78,22 +77,20 @@ type State = {
     username: string;
     iconUrl: string;
     autocomplete: boolean;
-    autocompleteHint: string
+    autocompleteHint: string;
     autocompleteDescription: string;
     saving: boolean;
     clientError: any;
 }
 
 export default class AbstractCommand extends React.PureComponent<Props, State> {
-
-
-    public constructor(props : Props) {
+    public constructor(props: Props) {
         super(props);
 
-        this.state = this.getStateFromCommand(this.props.initialCommand || {});
+        this.state = this.getStateFromCommand(this.props.initialCommand!);
     }
 
-    getStateFromCommand = (command : Command) => {
+    getStateFromCommand = (command: Command) => {
         return {
             id: command.id,
             token: command.token,
@@ -109,14 +106,14 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
             username: command.username || '',
             iconUrl: command.icon_url || '',
             autocomplete: command.auto_complete || false,
-            autocompleteHint: command.auto_complete_hint ,
-            autocompleteDescription: command.auto_complete_desc ,
+            autocompleteHint: command.auto_complete_hint,
+            autocompleteDescription: command.auto_complete_desc,
             saving: false,
             clientError: null,
         };
     }
 
-    handleSubmit = (e: { preventDefault: () => void; } ) => {
+    handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -133,7 +130,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
             triggerWord = triggerWord.substr(1);
         }
 
-        const command : Command = {
+        const command: Command = {
             id: this.state.id,
             token: this.state.token,
             create_at: this.state.create_at,
@@ -235,61 +232,61 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
         this.props.action(command).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e : { target: { value: string; };}) => {
+    updateDisplayName = (e: { target: { value: string }}) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e : { target: { value: string; };}) => {
+    updateDescription = (e: { target: { value: string }}) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateTrigger = (e : { target: { value: string; };}) => {
+    updateTrigger = (e: { target: { value: string }}) => {
         this.setState({
             trigger: e.target.value,
         });
     }
 
-    updateUrl = (e : { target: { value: string; };}) => {
+    updateUrl = (e: { target: { value: string }}) => {
         this.setState({
             url: e.target.value,
         });
     }
 
-    updateMethod = (e: { target: any; } ) => {
+    updateMethod = (e: { target: any }) => {
         this.setState({
             method: e.target.value,
         });
     }
 
-    updateUsername = (e : { target: { value: string; };}) => {
+    updateUsername = (e: { target: { value: string }}) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconUrl = (e : { target: { value: string; };}) => {
+    updateIconUrl = (e: { target: { value: string }}) => {
         this.setState({
             iconUrl: e.target.value,
         });
     }
 
-    updateAutocomplete = (e : { target: { checked: boolean; };}) => {
+    updateAutocomplete = (e: { target: { checked: boolean }}) => {
         this.setState({
             autocomplete: e.target.checked,
         });
     }
 
-    updateAutocompleteHint = (e : { target: { value: string; };}) => {
+    updateAutocompleteHint = (e: { target: { value: string }}) => {
         this.setState({
             autocompleteHint: e.target.value,
         });
     }
 
-    updateAutocompleteDescription = (e : { target: { value: string; };}) => {
+    updateAutocompleteDescription = (e: { target: { value: string }}) => {
         this.setState({
             autocompleteDescription: e.target.value,
         });
@@ -651,7 +648,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={Utils.localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={Utils.localizeMessage(this.props.loading.id!.toString(), this.props.loading.defaultMessage!.toString())}
                                 onClick={this.handleSubmit}
                                 id='saveCommand'
                             >

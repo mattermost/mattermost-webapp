@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
@@ -10,6 +10,7 @@ import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
 import { Team } from 'mattermost-redux/types/teams';
 import { IncomingWebhook } from 'mattermost-redux/types/integrations';
 import {Header} from './common_types';
@@ -80,12 +81,84 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
 
 
     constructor(props : Props) {
+=======
+import {Team} from 'mattermost-redux/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+
+type Props = {
+
+    /**
+    * The current team
+    */
+    team: Team;
+
+    /**
+    * The header text to render, has id and defaultMessage
+    */
+    header: MessageDescriptor;
+
+    /**
+    * The footer text to render, has id and defaultMessage
+    */
+    footer: MessageDescriptor;
+
+    /**
+    * The spinner loading text to render, has id and defaultMessage
+    */
+    loading: MessageDescriptor;
+
+    /**
+     * Any extra component/node to render
+     */
+    renderExtra?: React.ReactNode;
+
+    /**
+    * The server error text after a failed action
+    */
+    serverError: string;
+
+    /**
+    * The Hook used to set the initial state
+    */
+    initialHook?: IncomingWebhook;
+
+    /**
+    * The async function to run when the action button is pressed
+    */
+    action: (hook: IncomingWebhook) => Promise<any>;
+
+    enablePostUsernameOverride?: boolean;
+
+    enablePostIconOverride?: boolean;
+}
+
+type State = {
+    displayName: string;
+    description: string;
+    username: string;
+    iconURL: string;
+    autocompleteHint?: string;
+    autocompleteDescription?: string;
+    saving: boolean;
+    clientError: any;
+    serverError: any;
+    channelId: string;
+    channelLocked: boolean;
+}
+
+export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         super(props);
 
         this.state = this.getStateFromHook(this.props.initialHook);
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     getStateFromHook = (hook? : IncomingWebhook) => {
+=======
+    getStateFromHook = (hook?: IncomingWebhook) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         return {
             displayName: hook?.display_name || '',
             description: hook?.description || '',
@@ -99,7 +172,11 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         };
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     handleSubmit = (e: { preventDefault: () => void; } ) => {
+=======
+    handleSubmit = (e: { preventDefault: () => void }) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         e.preventDefault();
 
         if (this.state.saving) {
@@ -138,51 +215,79 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
             username: this.state.username,
             icon_url: this.state.iconURL,
             user_id: '0',
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
             team_id: '0'
+=======
+            team_id: '0',
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     updateDisplayName = (e : React.ChangeEvent<HTMLInputElement>) => {
+=======
+    updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             displayName: e.target.value,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     updateDescription = (e : React.ChangeEvent<HTMLInputElement>) => {
+=======
+    updateDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             description: e.target.value,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     updateChannelId = (e : any) => {
+=======
+    updateChannelId = (e: (React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             channelId: e.target.value,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     updateChannelLocked = (e : React.ChangeEvent<HTMLInputElement>)  => {
+=======
+    updateChannelLocked = (e: React.ChangeEvent<HTMLInputElement>) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             channelLocked: e.target.checked,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     updateUsername = (e : React.ChangeEvent<HTMLInputElement>) => {
+=======
+    updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             username: e.target.value,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_incoming_webhook.tsx
     updateIconURL = (e : React.ChangeEvent<HTMLInputElement>) => {
+=======
+    updateIconURL = (e: React.ChangeEvent<HTMLInputElement>) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_webhook.jsx
         this.setState({
             iconURL: e.target.value,
         });
     }
 
     render() {
-        var headerToRender = this.props.header;
-        var footerToRender = this.props.footer;
+        const headerToRender = this.props.header;
+        const footerToRender = this.props.footer;
 
         return (
             <div className='backstage-content'>
@@ -269,7 +374,6 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
                             </label>
                             <div className='col-md-5 col-sm-8'>
                                 <ChannelSelect
-                                    id='channelId'
                                     value={this.state.channelId}
                                     onChange={this.updateChannelId}
                                     selectOpen={true}
@@ -384,7 +488,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={localizeMessage(this.props.loading.id!.toString(), this.props.loading.defaultMessage!.toString())}
                                 onClick={this.handleSubmit}
                                 id='saveWebhook'
                             >

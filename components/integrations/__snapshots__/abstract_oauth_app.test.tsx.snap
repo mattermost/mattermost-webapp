@@ -6,7 +6,11 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_oauth_app.test.tsx.snap
       to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+=======
+      to="/DN/integrations/oauth2-apps"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_oauth_app.test.jsx.snap
     >
       <MemoizedFormattedMessage
         defaultMessage="Installed OAuth2 Apps"
@@ -276,7 +280,11 @@ https://test.com/callback2"
         />
         <Link
           className="btn btn-link btn-sm"
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_oauth_app.test.tsx.snap
           to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+=======
+          to="/DN/integrations/oauth2-apps"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_oauth_app.test.jsx.snap
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
@@ -309,7 +317,11 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
 >
   <BackstageHeader>
     <Link
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_oauth_app.test.tsx.snap
       to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+=======
+      to="/DN/integrations/oauth2-apps"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_oauth_app.test.jsx.snap
     >
       <MemoizedFormattedMessage
         defaultMessage="Installed OAuth2 Apps"
@@ -581,7 +593,11 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
         />
         <Link
           className="btn btn-link btn-sm"
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_oauth_app.test.tsx.snap
           to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/oauth2-apps"
+=======
+          to="/DN/integrations/oauth2-apps"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_oauth_app.test.jsx.snap
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"

@@ -7,15 +7,24 @@ import {shallow} from 'enzyme';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
+<<<<<<< HEAD
 import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook';
 import { Channel, ChannelType } from 'mattermost-redux/types/channels';
 import { TeamType } from 'mattermost-redux/types/teams';
 import test_helper from 'packages/mattermost-redux/test/test_helper';
 import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
+=======
+import DeleteIntegration from 'components/integrations/delete_integration';
+import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook';
+import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {TestHelper} from '../../utils/test_helper';
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
 
 describe('components/integrations/InstalledIncomingWebhook', () => {
-    const incomingWebhook: IncomingWebhook = {
+    const incomingWebhook: IncomingWebhook = TestHelper.getIncomingWebhookMock({
         id: '9w96t4nhbfdiij64wfqors4i1r',
         channel_id: '1jiw9kphbjrntfyrm7xpdcya4o',
         create_at: 1502455422406,
@@ -28,8 +37,9 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         username: 'username',
         icon_url: 'http://test/icon.png',
         channel_locked: false,
-    };
+    });
 
+<<<<<<< HEAD
     const fakeChannel = test_helper.fakeChannelWithId();
     const channel : Channel = {
         ...fakeChannel,
@@ -75,6 +85,12 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         terms_of_service_id: '',
         terms_of_service_create_at: 0
     };
+=======
+    const channel: Channel = TestHelper.getChannelMock();
+    const team: Team = TestHelper.getTeamMock();
+    const creator: UserProfile = TestHelper.getUserMock();
+
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
     test('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
@@ -87,7 +103,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={true}
                 team={team}
                 channel={channel}
+<<<<<<< HEAD
                 filter=""
+=======
+                filter=''
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -105,7 +125,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={team}
                 channel={channel}
+<<<<<<< HEAD
                 filter=""
+=======
+                filter=''
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
             />,
         );
         expect(wrapper.find('.item-actions').length).toBe(0);
@@ -123,7 +147,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={true}
                 team={team}
                 channel={channel}
+<<<<<<< HEAD
                 filter=""
+=======
+                filter=''
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
             />,
         );
         expect(wrapper.find('.item-actions').find(Link).exists()).toBe(true);
@@ -142,7 +170,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={team}
                 channel={channel}
+<<<<<<< HEAD
                 filter=""
+=======
+                filter=''
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
             />,
         );
 
@@ -162,7 +194,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={team}
                 channel={channel}
+<<<<<<< HEAD
                 filter=""
+=======
+                filter=''
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
             />,
         );
         expect(wrapper.find('.item-details__description').length).toBe(0);

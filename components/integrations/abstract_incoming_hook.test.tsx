@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
+<<<<<<< HEAD:components/integrations/abstract_incoming_hook.test.tsx
 import test_helper from 'packages/mattermost-redux/test/test_helper';
 import {TeamType} from 'packages/mattermost-redux/src/types/teams';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
@@ -20,11 +21,23 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         allow_open_invite: false,
         group_constrained: false,
     };
+=======
+import {Team} from 'packages/mattermost-redux/src/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {TestHelper} from '../../utils/test_helper';
+
+describe('components/integrations/AbstractIncomingWebhook', () => {
+    const team: Team = TestHelper.getTeamMock();
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_hook.test.jsx
     const header = {id: 'header_id', defaultMessage: 'Header'};
     const footer = {id: 'footer_id', defaultMessage: 'Footer'};
     const loading = {id: 'loading_id', defaultMessage: 'Loading'};
     const serverError = '';
+<<<<<<< HEAD:components/integrations/abstract_incoming_hook.test.tsx
     const initialHook: IncomingWebhook = {
+=======
+    const initialHook: IncomingWebhook = TestHelper.getIncomingWebhookMock({
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_hook.test.jsx
         display_name: 'testIncomingWebhook',
         channel_id: '88cxd9wpzpbpfp8pad78xj75pr',
         description: 'testing',
@@ -37,7 +50,12 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         username: 'username',
         icon_url: 'http://test/icon.png',
         channel_locked: false,
+<<<<<<< HEAD:components/integrations/abstract_incoming_hook.test.tsx
     };
+=======
+    });
+
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_hook.test.jsx
     const enablePostUsernameOverride = true;
     const enablePostIconOverride = true;
 
@@ -74,7 +92,11 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     });
 
     test('should match snapshot, displays client error when no initial hook', () => {
+<<<<<<< HEAD:components/integrations/abstract_incoming_hook.test.tsx
         const newInitialHook : IncomingWebhook = {id: '',
+=======
+        const newInitialHook: IncomingWebhook = {id: '',
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_hook.test.jsx
             create_at: 0,
             update_at: 0,
             delete_at: 0,
@@ -85,7 +107,11 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
             description: '',
             username: '',
             icon_url: '',
+<<<<<<< HEAD:components/integrations/abstract_incoming_hook.test.tsx
             channel_locked: false,};
+=======
+            channel_locked: false};
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_incoming_hook.test.jsx
         const props = {...requiredProps, initialHook: newInitialHook};
         const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
 
@@ -135,8 +161,8 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
             target: {value: newChannelId},
         };
 
-        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
-        wrapper.find('#channelId').simulate('change', evt);
+        const wrapper = shallow<AbstractIncomingWebhook>(<AbstractIncomingWebhook {...requiredProps}/>);
+        wrapper.find('[value="88cxd9wpzpbpfp8pad78xj75pr"]').simulate('change', evt);
 
         expect(wrapper.state('channelId')).toBe(newChannelId);
     });

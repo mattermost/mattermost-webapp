@@ -6,10 +6,13 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+
 import {getSiteURL} from 'utils/url';
 
 import CopyText from 'components/copy_text';
 
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
 import DeleteIntegrationLink from './delete_integration_link';
 import { Team } from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -17,6 +20,15 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 
 export function matchesFilter(incomingWebhook : IncomingWebhook, filter : string, channel? : Channel) {
+=======
+import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import DeleteIntegration from './delete_integration';
+
+export function matchesFilter(incomingWebhook: IncomingWebhook, channel?: Channel, filter?: string) {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
     if (!filter) {
         return true;
     }
@@ -40,42 +52,72 @@ type Props = {
     /**
     * Data used for showing webhook details
     */
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
     incomingWebhook: IncomingWebhook,
+=======
+    incomingWebhook: IncomingWebhook;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
 
     /**
     * Function to call when webhook delete button is pressed
     */
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
     onDelete: (hook : IncomingWebhook) => void,
+=======
+    onDelete: (hook: IncomingWebhook) => void;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
 
     /**
     * String used for filtering webhook item
     */
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
     filter?: string,
+=======
+    filter?: string;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
 
     /**
     * Data used for showing created by details
     */
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
     creator: UserProfile,
+=======
+    creator: UserProfile;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
 
     /**
     *  Set to show available actions on webhook
     */
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
     canChange: boolean,
+=======
+    canChange: boolean;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
 
     /**
     *  Data used in routing of webhook for modifications
     */
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
     team: Team,
+=======
+    team: Team;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
 
     /**
     *  Data used for filtering of webhook based on filter prop
     */
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
     channel?: Channel,
 }
 
 export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
 
+=======
+    channel?: Channel;
+}
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
 
+export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
     handleDelete = () => {
         this.props.onDelete(this.props.incomingWebhook);
     }
@@ -125,6 +167,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                         />
                     </Link>
                     {' - '}
+<<<<<<< HEAD:components/integrations/installed_incoming_webhook.tsx
                     <DeleteIntegrationLink
                         modalMessage={
                             <FormattedMessage
@@ -132,6 +175,9 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                                 defaultMessage='This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?'
                             />
                         }
+=======
+                    <DeleteIntegration
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_incoming_webhook.jsx
                         onDelete={this.handleDelete}
                     />
                 </div>

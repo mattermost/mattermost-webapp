@@ -6,14 +6,14 @@ import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
 import AbstractCommand from 'components/integrations/abstract_command';
-import test_helper from 'packages/mattermost-redux/test/test_helper';
-import {TeamType} from 'packages/mattermost-redux/src/types/teams';
+import {Team} from 'packages/mattermost-redux/src/types/teams';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractCommand', () => {
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
     const loading = {id: 'Loading', defaultMessage: 'Loading'};
-    const command = {
+    const command = TestHelper.getCommandMock({
         id: 'r5tpgt4iepf45jt768jz84djic',
         display_name: 'display_name',
         description: 'description',
@@ -31,17 +31,9 @@ describe('components/integrations/AbstractCommand', () => {
         update_at: 1504468859001,
         url: 'https://google.com/command',
         username: 'username',
-    };
-    const fakeTeam = test_helper.fakeTeamWithId();
-    const team = {
-        ...fakeTeam,
-        name: 'm5gix3oye3du8ghk4ko6h9cq7y',
-        description: command.description,
-        type: 'O' as TeamType,
-        company_name: 'Company Name',
-        allow_open_invite: false,
-        group_constrained: false,
-    };
+    });
+    const fakeTeam: Team = TestHelper.getTeamMock();
+    const team = {...fakeTeam, team_id: command.team_id};
     const action = jest.fn().mockImplementation(
         () => {
             return new Promise<void>((resolve) => {
@@ -94,7 +86,7 @@ describe('components/integrations/AbstractCommand', () => {
     });
 
     test('should match object returned by getStateFromCommand', () => {
-        const wrapper = shallow<typeof AbstractCommand>(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
 
@@ -112,10 +104,10 @@ describe('components/integrations/AbstractCommand', () => {
             url: 'https://google.com/command',
             username: 'username',
             create_at: 1499722850203,
-            creator_id: "88oybd1dwfdoxpkpw1h5kpbyco",
+            creator_id: '88oybd1dwfdoxpkpw1h5kpbyco',
             delete_at: 0,
-            id: "r5tpgt4iepf45jt768jz84djic",
-            token: "jb6oyqh95irpbx8fo9zmndkp1r",
+            id: 'r5tpgt4iepf45jt768jz84djic',
+            token: 'jb6oyqh95irpbx8fo9zmndkp1r',
             update_at: 1504468859001,
         };
 
@@ -124,7 +116,7 @@ describe('components/integrations/AbstractCommand', () => {
     });
 
     test('should match state when method is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof AbstractCommand>;
@@ -180,15 +172,14 @@ describe('components/integrations/AbstractCommand', () => {
             },
         );
         const props = {...baseProps, action: newAction};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...props}/>,
         );
         expect(newAction).toHaveBeenCalledTimes(0);
 
         const evt = {preventDefault: jest.fn()};
-        const instance = wrapper.instance() as any as InstanceType<typeof AbstractCommand>;
 
-        const handleSubmit = instance.handleSubmit;
+        const handleSubmit = wrapper.instance().handleSubmit;
         handleSubmit(evt);
         expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.state('clientError')).toEqual('');

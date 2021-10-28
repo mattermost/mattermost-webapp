@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 type Props = {
     id?: string;
     channels: Channel[];
-    onChange?: (e: any) => void;
+    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     value?: string;
     selectOpen: boolean;
     selectPrivate?: boolean;

@@ -93,7 +93,11 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                     canChange={canChange}
                     team={this.props.team}
                     channel={channel}
+<<<<<<< HEAD
                     filter=""
+=======
+                    filter=''
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2
                 />
             );
         });

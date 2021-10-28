@@ -6,7 +6,11 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_command.test.tsx.snap
       to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
+=======
+      to="/DN/integrations/commands"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_command.test.jsx.snap
     >
       <MemoizedFormattedMessage
         defaultMessage="Slash Commands"
@@ -443,7 +447,11 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         />
         <Link
           className="btn btn-link btn-sm"
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_command.test.tsx.snap
           to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
+=======
+          to="/DN/integrations/commands"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_command.test.jsx.snap
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"
@@ -476,7 +484,11 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 >
   <BackstageHeader>
     <Link
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_command.test.tsx.snap
       to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
+=======
+      to="/DN/integrations/commands"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_command.test.jsx.snap
     >
       <MemoizedFormattedMessage
         defaultMessage="Slash Commands"
@@ -916,7 +928,11 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         />
         <Link
           className="btn btn-link btn-sm"
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_command.test.tsx.snap
           to="/m5gix3oye3du8ghk4ko6h9cq7y/integrations/commands"
+=======
+          to="/DN/integrations/commands"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_command.test.jsx.snap
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"

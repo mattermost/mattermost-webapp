@@ -40,7 +40,11 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         </button>
          - 
         <Link
+<<<<<<< HEAD:components/integrations/__snapshots__/installed_outgoing_webhook.test.tsx.snap
           to="/eatxocwc3bg9ffo9xyybnj4omr/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
+=======
+          to="/DN/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_outgoing_webhook.test.jsx.snap
         >
           <MemoizedFormattedMessage
             defaultMessage="Edit"
@@ -48,6 +52,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           />
         </Link>
          - 
+<<<<<<< HEAD:components/integrations/__snapshots__/installed_outgoing_webhook.test.tsx.snap
         <Connect(DeleteIntegrationLink)
           modalMessage={
             <Memo(MemoizedFormattedMessage)
@@ -55,6 +60,9 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
               id="installed_outgoing_webhooks.delete.confirm"
             />
           }
+=======
+        <DeleteIntegration
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_outgoing_webhook.test.jsx.snap
           onDelete={[Function]}
         />
       </div>
@@ -156,7 +164,11 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           values={
             Object {
               "createAt": 1508327769020,
+<<<<<<< HEAD:components/integrations/__snapshots__/installed_outgoing_webhook.test.tsx.snap
               "creator": "zaktnt8bpbgu8mb6ez9k64r7sa",
+=======
+              "creator": "some-user",
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/installed_outgoing_webhook.test.jsx.snap
             }
           }
         />

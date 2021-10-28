@@ -6,7 +6,11 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
 >
   <BackstageHeader>
     <Link
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_outgoing_webhook.test.tsx.snap
       to="/team name/integrations/outgoing_webhooks"
+=======
+      to="/DN/integrations/outgoing_webhooks"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_outgoing_webhook.test.jsx.snap
     >
       <MemoizedFormattedMessage
         defaultMessage="Outgoing Webhooks"
@@ -164,7 +168,6 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             value="cd462387-9325-417e-9df2-06e9f0a5e7f6"
@@ -200,8 +203,12 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             maxLength={1000}
             onChange={[Function]}
             rows={3}
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_outgoing_webhook.test.tsx.snap
             value="testword
 "
+=======
+            value="testword"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_outgoing_webhook.test.jsx.snap
           />
           <div
             className="form__help"
@@ -317,7 +324,11 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
         />
         <Link
           className="btn btn-link btn-sm"
+<<<<<<< HEAD:components/integrations/__snapshots__/abstract_outgoing_webhook.test.tsx.snap
           to="/team name/integrations/outgoing_webhooks"
+=======
+          to="/DN/integrations/outgoing_webhooks"
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/__snapshots__/abstract_outgoing_webhook.test.jsx.snap
         >
           <MemoizedFormattedMessage
             defaultMessage="Cancel"

@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
 
+<<<<<<< HEAD:components/integrations/installed_outgoing_webhook.test.tsx
 import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
 import { OutgoingWebhook } from 'mattermost-redux/types/integrations';
@@ -37,6 +38,21 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
     };
 
     const outgoingWebhook : OutgoingWebhook = {
+=======
+import DeleteIntegration from 'components/integrations/delete_integration';
+import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
+import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {TestHelper} from '../../utils/test_helper';
+
+describe('components/integrations/InstalledOutgoingWebhook', () => {
+    const channel: Channel = TestHelper.getChannelMock();
+    const team: Team = TestHelper.getTeamMock();
+
+    const outgoingWebhook: OutgoingWebhook = {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_outgoing_webhook.test.jsx
         callback_urls: ['http://adsfdasd.com'],
         channel_id: 'mdpzfpfcxi85zkkqkzkch4b85h',
         content_type: 'application/x-www-form-urlencoded',
@@ -52,6 +68,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         trigger_when: 0,
         trigger_words: ['build'],
         update_at: 1508329149618,
+<<<<<<< HEAD:components/integrations/installed_outgoing_webhook.test.tsx
         icon_url:'',
     };
 
@@ -77,13 +94,22 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         bot_last_icon_update:0,
         terms_of_service_id: '',
         terms_of_service_create_at: 0,
+=======
+        icon_url: '',
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_outgoing_webhook.test.jsx
     };
+
+    const creator: UserProfile = TestHelper.getUserMock();
 
     const baseProps = {
         outgoingWebhook,
         onRegenToken: () => {}, //eslint-disable-line no-empty-function
         onDelete: () => {}, //eslint-disable-line no-empty-function
+<<<<<<< HEAD:components/integrations/installed_outgoing_webhook.test.tsx
         filter: undefined,
+=======
+        filter: '',
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_outgoing_webhook.test.jsx
         creator,
         canChange: true,
         team,
@@ -184,7 +210,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
     });
 
     test('Should match snapshot of makeDisplayName', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<InstalledOutgoingWebhook>(
             <InstalledOutgoingWebhook {...baseProps}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof InstalledOutgoingWebhook>;

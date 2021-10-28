@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import InstalledCommand from 'components/integrations/installed_command';
+<<<<<<< HEAD:components/integrations/installed_command.test.tsx
 import { Command } from 'mattermost-redux/types/integrations';
 import test_helper from 'packages/mattermost-redux/test/test_helper';
 import {TeamType} from 'packages/mattermost-redux/src/types/teams';
@@ -23,6 +24,17 @@ describe('components/integrations/InstalledCommand', () => {
         group_constrained: false,
     };
     const command : Command = {
+=======
+import {Command} from 'mattermost-redux/types/integrations';
+import {Team} from 'packages/mattermost-redux/src/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {TestHelper} from '../../utils/test_helper';
+
+describe('components/integrations/InstalledCommand', () => {
+    const team: Team = TestHelper.getTeamMock();
+
+    const command: Command = TestHelper.getCommandMock({
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_command.test.jsx
         id: 'r5tpgt4iepf45jt768jz84djic',
         display_name: 'display_name',
         description: 'description',
@@ -40,6 +52,7 @@ describe('components/integrations/InstalledCommand', () => {
         update_at: 1504468859001,
         url: 'https://google.com/command',
         username: 'username',
+<<<<<<< HEAD:components/integrations/installed_command.test.tsx
     };
     const fakeUser= test_helper.fakeUserWithId();
     const creator : UserProfile = {
@@ -64,6 +77,10 @@ describe('components/integrations/InstalledCommand', () => {
         terms_of_service_id: '',
         terms_of_service_create_at: 0
     };
+=======
+    });
+    const creator: UserProfile = TestHelper.getUserMock();
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/installed_command.test.jsx
     const requiredProps = {
         team,
         command,
@@ -119,7 +136,7 @@ describe('components/integrations/InstalledCommand', () => {
         const canChange = true;
         const props = {...requiredProps, onDelete, canChange};
 
-        const wrapper = shallow(<InstalledCommand {...props}/>);
+        const wrapper = shallow<InstalledCommand>(<InstalledCommand {...props}/>);
         expect(wrapper).toMatchSnapshot();
         const instance = wrapper.instance() as any as InstanceType<typeof InstalledCommand>;
 

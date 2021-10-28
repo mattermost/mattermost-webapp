@@ -2,7 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React, {RefObject} from 'react';
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
 import {FormattedMessage} from 'react-intl';
+=======
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
 import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -14,9 +18,13 @@ import SpinnerButton from 'components/spinner_button';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import {OAuthApp} from 'packages/mattermost-redux/src/types/integrations';
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
 import { Team } from 'mattermost-redux/types/teams';
 import {Header} from './common_types';
 
+=======
+import {Team} from 'mattermost-redux/types/teams';
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
 
 type Props = {
 
@@ -28,17 +36,29 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     header: Header;
+=======
+    header: MessageDescriptor;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
 
     /**
     * The footer text to render, has id and defaultMessage
     */
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     footer: Header;
+=======
+    footer: MessageDescriptor;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     loading: Header;
+=======
+    loading: MessageDescriptor;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
 
     /**
      * Any extra component/node to render
@@ -53,12 +73,20 @@ type Props = {
     /**
     * The App used to set the initial state
     */
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
      initialApp: OAuthApp;
+=======
+    initialApp: OAuthApp;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
 
     /**
     * The async function to run when the action button is pressed
     */
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     action: (command : OAuthApp ) => Promise<any>;
+=======
+    action: (command: OAuthApp) => Promise<any>;
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
 
 }
 
@@ -73,6 +101,7 @@ type State = {
     icon_url: string;
     saving: boolean;
     clientError: any;
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     creator_id: string,
     create_at: number,
     update_at: number,
@@ -83,6 +112,18 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
     image : HTMLImageElement;
     icon_url? : RefObject<HTMLInputElement>;
     constructor(props : Props) {
+=======
+    creator_id: string;
+    create_at: number;
+    update_at: number;
+    client_secret: string;
+}
+
+export default class AbstractOAuthApp extends React.PureComponent<Props, State> {
+    image: HTMLImageElement;
+    icon_url?: RefObject<HTMLInputElement>;
+    constructor(props: Props) {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         super(props);
 
         this.image = new Image();
@@ -91,7 +132,11 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         this.state = this.getStateFromApp(this.props.initialApp || {});
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     getStateFromApp = (app : OAuthApp) => {
+=======
+    getStateFromApp = (app: OAuthApp) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         return {
             id: app.id,
             name: app.name || '',
@@ -117,7 +162,11 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     handleSubmit = (e: { preventDefault: () => void; } ) => {
+=======
+    handleSubmit = (e: { preventDefault: () => void }) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         e.preventDefault();
 
         if (this.state.saving) {
@@ -211,31 +260,51 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         this.props.action(app).then(() => this.setState({saving: false}));
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     updateName = (e : { target: { value: string; };}) => {
+=======
+    updateName = (e: { target: { value: string }}) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         this.setState({
             name: e.target.value,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     updateTrusted = (e : { target: { value: string; };}) => {
+=======
+    updateTrusted = (e: { target: { value: string }}) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         this.setState({
             is_trusted: e.target.value === 'true',
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     updateDescription = (e : { target: { value: string; };}) => {
+=======
+    updateDescription = (e: { target: { value: string }}) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         this.setState({
             description: e.target.value,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     updateHomepage = (e : { target: { value: string; };}) => {
+=======
+    updateHomepage = (e: { target: { value: string }}) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         this.setState({
             homepage: e.target.value,
         });
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     updateIconUrl = (e : { target: { value: string; };}) => {
+=======
+    updateIconUrl = (e: { target: { value: string }}) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         this.setState({
             has_icon: false,
             icon_url: e.target.value,
@@ -243,7 +312,11 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         this.image.src = e.target.value;
     }
 
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.tsx
     updateCallbackUrls = (e : { target: { value: string; };}) => {
+=======
+    updateCallbackUrls = (e: { target: { value: string }}) => {
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.jsx
         this.setState({
             callbackUrls: e.target.value,
         });
@@ -488,7 +561,7 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={localizeMessage(this.props.loading.id!.toString() ?? '', this.props.loading.defaultMessage!.toString())}
                                 onClick={this.handleSubmit}
                                 id='saveOauthApp'
                             >

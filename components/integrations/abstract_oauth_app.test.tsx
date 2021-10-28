@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import AbstractOAuthApp from 'components/integrations/abstract_oauth_app';
+<<<<<<< HEAD:components/integrations/abstract_oauth_app.test.tsx
 import test_helper from 'packages/mattermost-redux/test/test_helper';
 import {TeamType} from 'packages/mattermost-redux/src/types/teams';
 
@@ -20,6 +21,14 @@ describe('components/integrations/AbstractOAuthApp', () => {
         allow_open_invite: false,
         group_constrained: false,
     };
+=======
+import {Team} from 'packages/mattermost-redux/src/types/teams';
+import {TestHelper} from '../../utils/test_helper';
+
+describe('components/integrations/AbstractOAuthApp', () => {
+    const team: Team = TestHelper.getTeamMock();
+
+>>>>>>> 23de6f93b5b3b784f78e6e98fbf092e80531bbc2:components/integrations/abstract_oauth_app.test.jsx
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
     const loading = {id: 'Loading', defaultMessage: 'Loading'};
@@ -93,7 +102,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
 
     test('should have correct state when updateName is called', () => {
         const props = {...baseProps, action};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
@@ -107,7 +116,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
 
     test('should have correct state when updateTrusted is called', () => {
         const props = {...baseProps, action};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
@@ -121,7 +130,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
 
     test('should have correct state when updateDescription is called', () => {
         const props = {...baseProps, action};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
@@ -135,7 +144,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
 
     test('should have correct state when updateHomepage is called', () => {
         const props = {...baseProps, action};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
@@ -149,7 +158,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
 
     test('should have correct state when updateIconUrl is called', () => {
         const props = {...baseProps, action};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
@@ -167,7 +176,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
 
     test('should have correct state when handleSubmit is called', () => {
         const props = {...baseProps, action};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractOAuthApp>(
             <AbstractOAuthApp {...props}/>,
         );
         const instance = wrapper.instance() as any as InstanceType<typeof AbstractOAuthApp>;
