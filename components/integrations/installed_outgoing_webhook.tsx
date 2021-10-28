@@ -103,7 +103,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
         this.props.onDelete(this.props.outgoingWebhook);
     }
 
-    makeDisplayName(outgoingWebhook?: any, channel?: any) {
+    makeDisplayName(outgoingWebhook: any, channel?: any) {
         if (outgoingWebhook.display_name) {
             return outgoingWebhook.display_name;
         } else if (channel) {
