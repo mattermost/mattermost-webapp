@@ -77,7 +77,7 @@ type State = {
     triggerWords: string;
     channelId: string;
     callbackUrls: string;
-    triggerWhen: string;
+    triggerWhen: number;
     id: string;
     token: string;
     create_at: number;
@@ -116,7 +116,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
             contentType: hook.content_type || 'application/x-www-form-urlencoded',
             channelId: hook.channel_id || '',
             triggerWords,
-            triggerWhen: hook.trigger_when?.toString() || '0',
+            triggerWhen: hook.trigger_when,
             callbackUrls,
             saving: false,
             clientError: null,
@@ -243,9 +243,9 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         });
     }
 
-    updateTriggerWhen = (e: { target: { value: string }}) => {
+    updateTriggerWhen = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({
-            triggerWhen: parseInt(e.target.value, 10),
+            triggerWhen: parseInt(e.target.value,10),
         });
     }
 
