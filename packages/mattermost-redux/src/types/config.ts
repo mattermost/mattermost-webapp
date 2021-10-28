@@ -189,6 +189,7 @@ export type ClientConfig = {
     WebsocketPort: string;
     WebsocketSecurePort: string;
     WebsocketURL: string;
+    ExperimentalSharedChannels: string;
 };
 
 export type License = {
