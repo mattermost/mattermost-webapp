@@ -17,7 +17,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 
-export function matchesFilter(incomingWebhook : IncomingWebhook, channel : Channel, filter : string) {
+export function matchesFilter(incomingWebhook : IncomingWebhook, channel? : Channel, filter? : string) {
     if (!filter) {
         return true;
     }
