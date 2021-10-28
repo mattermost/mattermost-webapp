@@ -5,6 +5,7 @@ import React from 'react';
 
 import {Theme} from 'mattermost-redux/types/themes';
 
+import {ProductComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
 type Props = {
@@ -61,12 +62,19 @@ export default function Pluggable(props: Props): JSX.Element | null {
         return null;
     }
 
+    let pluginComponents = components[pluggableName]!;
+
+    if (pluggableId) {
+        pluginComponents = pluginComponents.filter(
+            (element) => element.id === pluggableId);
+    }
+
     // Override the default component with any registered plugin's component
     // Select a specific component by pluginId if available
     let content;
 
     if (pluggableName === 'Product') {
-        content = components.Product.map((pc) => {
+        content = (pluginComponents as ProductComponent[]).map((pc) => {
             if (!subComponentName || !pc[subComponentName]) {
                 return null;
             }
@@ -82,13 +90,6 @@ export default function Pluggable(props: Props): JSX.Element | null {
             );
         });
     } else {
-        let pluginComponents = components[pluggableName]!;
-
-        if (pluggableId) {
-            pluginComponents = pluginComponents.filter(
-                (element) => element.id === pluggableId);
-        }
-
         content = pluginComponents.map((p) => {
             if (!p.component) {
                 return null;
