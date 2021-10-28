@@ -113,7 +113,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#edit_textbox').clear().type('{enter}');
 
             // * Verify confirm modal is shown
-            cy.waitUntil(() => cy.get('#deletePostModal').should('be.visible'));
+            cy.findByRole('dialog', {name: 'Confirm Post Delete'}).should('be.visible');
 
             // # Press enter on confirm dialog
             cy.uiGetButton('Delete').click();
@@ -122,34 +122,35 @@ describe('Keyboard Shortcuts', () => {
             cy.get(`#postMessageText_${postID}`).should('not.exist');
         });
 
-        // # Login with other user
-        cy.apiLogout();
-        cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-        // # Post message as test user
-        cy.postMessageAs({sender: testUser, message, channelId: testChannel.id});
+        // # Post message as other user
+        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
+        cy.uiWaitUntilMessagePostedIncludes(message);
         cy.getLastPostId().then((postID) => {
             cy.get(`#postMessageText_${postID}`).should('contain', message);
 
             // # Delete message as test user
-            cy.externalRequest({user: testUser, method: 'DELETE', path: `posts/${postID}`});
+            cy.externalRequest({user: otherUser, method: 'DELETE', path: `posts/${postID}`});
 
             // * Verify that other user sees that message is deleted
             cy.get(`#post_${postID} #${postID}_message`).should('have.text', '(message deleted)');
         });
     });
 
-    it('MM-T1271_2 UP - Removing all text in edit does not delete post if with attachment', () => {
+    it.only('MM-T1271_2 UP - Removing all text in edit does not delete post if with attachment', () => {
         const message = 'This is a message';
+        const filename = 'mattermost-icon.png';
         cy.apiLogin(testUser);
 
         // # Visit the channel using the channel name
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Post message with attachment
-        cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
+        cy.get('#fileUploadInput').attachFile(filename);
         cy.postMessage(message);
+
+        // * Verify that the message and file attachment is posted
+        cy.uiWaitUntilMessagePostedIncludes(message);
+        cy.uiGetFileThumbnail(filename).should('be.visible');
 
         // # Press up arrow
         cy.get('#post_textbox').type('{uparrow}');
@@ -160,6 +161,9 @@ describe('Keyboard Shortcuts', () => {
 
         // * Delete post confirm modal should not exist
         cy.get('#deletePostModal').should('not.exist');
+
+        // * Verify that attachment is still visible
+        cy.uiGetFileThumbnail(filename).should('be.visible');
 
         // * Post should contain edited tag
         cy.getLastPostId().then((postId) => {
