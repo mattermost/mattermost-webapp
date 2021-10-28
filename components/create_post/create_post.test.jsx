@@ -22,7 +22,6 @@ import Textbox from 'components/textbox';
 jest.mock('actions/global_actions', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelNameUpdateModal: jest.fn(),
     toggleShortcutsModal: jest.fn(),
 }));
 
@@ -653,18 +652,6 @@ describe('components/create_post', () => {
         expect(openModal).toHaveBeenCalledTimes(1);
         expect(openModal.mock.calls[0][0].modalId).toEqual(ModalIdentifiers.EDIT_CHANNEL_PURPOSE);
         expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
-    });
-
-    it('onSubmit test for "/rename" message', () => {
-        const wrapper = shallowWithIntl(createPost());
-
-        wrapper.setState({
-            message: '/rename',
-        });
-
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
     });
 
     it('onSubmit test for "/unknown" message ', async () => {
