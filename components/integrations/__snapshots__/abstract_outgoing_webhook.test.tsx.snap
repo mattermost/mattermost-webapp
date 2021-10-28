@@ -229,7 +229,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <select
             className="form-control"
             onChange={[Function]}
-            value="0"
+            value={0}
           >
             <option
               value="0"

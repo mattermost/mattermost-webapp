@@ -5,14 +5,13 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
 
+import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {TestHelper} from '../../utils/test_helper';
-
-import DeleteIntegrationLink from './delete_integration_link';
 
 describe('components/integrations/InstalledOutgoingWebhook', () => {
     const channel: Channel = TestHelper.getChannelMock();

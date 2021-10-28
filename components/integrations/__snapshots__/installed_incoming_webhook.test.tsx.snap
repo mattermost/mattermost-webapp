@@ -27,7 +27,13 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           />
         </Link>
          - 
-        <DeleteIntegration
+        <Connect(DeleteIntegrationLink)
+          modalMessage={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?"
+              id="installed_incoming_webhooks.delete.confirm"
+            />
+          }
           onDelete={[Function]}
         />
       </div>
