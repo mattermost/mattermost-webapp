@@ -7,12 +7,7 @@ import {Link} from 'react-router-dom';
 
 import CopyText from 'components/copy_text';
 
-import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import DeleteIntegrationLink from './delete_integration_link';
+import DeleteIntegration from './delete_integration';
 import { OutgoingWebhook } from 'mattermost-redux/types/integrations';
 import { Team } from 'mattermost-redux/types/teams';
 import { Channel } from 'mattermost-redux/types/channels';

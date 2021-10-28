@@ -7,10 +7,10 @@ import {Link} from 'react-router-dom';
 
 import CopyText from 'components/copy_text';
 
+import DeleteIntegration from './delete_integration';
 import { Team } from 'mattermost-redux/types/teams';
 import {Command} from 'mattermost-redux/types/integrations';
 import {UserProfile} from 'mattermost-redux/types/users';
-import DeleteIntegrationLink from './delete_integration_link/delete_integration_link';
 
 
 type Props = {

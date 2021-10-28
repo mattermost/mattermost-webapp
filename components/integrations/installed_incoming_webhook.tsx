@@ -6,23 +6,17 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
-
 import {getSiteURL} from 'utils/url';
 
 import CopyText from 'components/copy_text';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import DeleteIntegrationLink from './delete_integration_link';
+import DeleteIntegration from './delete_integration';
 import { Team } from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 
-export function matchesFilter(incomingWebhook : IncomingWebhook, filter : string, channel? : Channel) {
+export function matchesFilter(incomingWebhook : IncomingWebhook, channel : Channel, filter : string) {
     if (!filter) {
         return true;
     }
@@ -78,6 +72,9 @@ type Props = {
     */
     channel?: Channel,
 }
+
+export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
+
 
 export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
 

@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
-import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
+import DeleteIntegration from 'components/integrations/delete_integration';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook';
 import { Channel, ChannelType } from 'mattermost-redux/types/channels';
 import { TeamType } from 'mattermost-redux/types/teams';
@@ -28,7 +28,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         username: 'username',
         icon_url: 'http://test/icon.png',
         channel_locked: false,
-    });
+    };
 
     const fakeChannel = test_helper.fakeChannelWithId();
     const channel : Channel = {
