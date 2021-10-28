@@ -14,6 +14,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import {t} from 'utils/i18n.jsx';
 import {Command} from 'mattermost-redux/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
+import {MessageDescriptor} from 'react-intl';
 
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
@@ -58,7 +59,7 @@ type Props = {
     /**
     * The async function to run when the action button is pressed
     */
-    action: (command: Command) => Promise<any>;
+    action: (command: Command) => Promise<void>;
 
 }
 
