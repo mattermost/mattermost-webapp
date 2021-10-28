@@ -17,25 +17,20 @@ import SlashCommandIcon from 'images/slash_command_icon.jpg';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
+import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import IntegrationOption from './integration_option';
-import { Team } from 'mattermost-redux/types/teams';
-import { UserProfile } from 'mattermost-redux/types/users';
- 
 
 type Props = {
-        team: Team,
-        user: UserProfile,
-        siteName: string,
-        enableIncomingWebhooks: boolean,
-        enableOutgoingWebhooks: boolean,
-        enableCommands: boolean,
-        enableOAuthServiceProvider: boolean,
+    team: Team;
+    user: UserProfile;
+    siteName: string;
+    enableIncomingWebhooks: boolean;
+    enableOutgoingWebhooks: boolean;
+    enableCommands: boolean;
+    enableOAuthServiceProvider: boolean;
 }
-
-type State = {}
-
-export default class Integrations extends React.PureComponent<Props, State> {
-    
 
 export default class Integrations extends React.PureComponent<Props> {
     componentDidMount() {

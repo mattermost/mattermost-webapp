@@ -10,62 +10,62 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
-import { Team } from 'mattermost-redux/types/teams';
+import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {Header} from './common_types';
 
+import {Header} from './common_types';
 
 type Props = {
 
     /**
      * The current team
      */
-    team: Team,
+    team: Team;
 
     /**
      * The header text to render, has id and defaultMessage
      */
-    header: Header,
+    header: Header;
 
     /**
      * The footer text to render, has id and defaultMessage
      */
-    footer: Header,
+    footer: Header;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header,
+    loading: Header;
 
     /**
      * Any extra component/node to render
      */
-    renderExtra: React.ReactNode,
+    renderExtra: React.ReactNode;
 
     /**
      * The server error text after a failed action
      */
-    serverError: string,
+    serverError: string;
 
     /**
      * The hook used to set the initial state
      */
-    initialHook: OutgoingWebhook,
+    initialHook: OutgoingWebhook;
 
     /**
      * The async function to run when the action button is pressed
      */
-    action: (hook : OutgoingWebhook ) => Promise<any>,
+    action: (hook: OutgoingWebhook) => Promise<any>;
 
     /**
      * Whether to allow configuration of the default post username.
      */
-    enablePostUsernameOverride: boolean,
+    enablePostUsernameOverride: boolean;
 
     /**
      * Whether to allow configuration of the default post icon.
      */
-    enablePostIconOverride: boolean,
+    enablePostIconOverride: boolean;
 }
 
 type State = {
@@ -77,8 +77,8 @@ type State = {
     saving: boolean;
     clientError: any;
     triggerWords: string;
-    channelId : string;
-    callbackUrls : string;
+    channelId: string;
+    callbackUrls: string;
     triggerWhen: string;
     id: string;
     token: string;
@@ -88,18 +88,14 @@ type State = {
     creator_id: string;
 }
 
-
-
 export default class AbstractOutgoingWebhook extends React.PureComponent<Props, State> {
-
-
-    constructor(props : Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
-    getStateFromHook = (hook : OutgoingWebhook) => {
+    getStateFromHook = (hook: OutgoingWebhook) => {
         let triggerWords = '';
         if (hook.trigger_words) {
             let i = 0;
@@ -122,7 +118,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
             contentType: hook.content_type || 'application/x-www-form-urlencoded',
             channelId: hook.channel_id || '',
             triggerWords,
-            triggerWhen: hook.trigger_when?.toString() || "0",
+            triggerWhen: hook.trigger_when?.toString() || '0',
             callbackUrls,
             saving: false,
             clientError: null,
@@ -137,7 +133,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         };
     }
 
-    handleSubmit = (e: { preventDefault: () => void; }) => {
+    handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -219,55 +215,55 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e : { target: { value: string; };}) => {
+    updateDisplayName = (e: { target: { value: string }}) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e : { target: { value: string; };}) => {
+    updateDescription = (e: { target: { value: string }}) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateContentType = (e : { target: { value: string; };}) => {
+    updateContentType = (e: { target: { value: string }}) => {
         this.setState({
             contentType: e.target.value,
         });
     }
 
-    updateChannelId = (e : { target: { value: string; };}) => {
+    updateChannelId = (e: { target: { value: string }}) => {
         this.setState({
             channelId: e.target.value,
         });
     }
 
-    updateTriggerWords = (e : { target: { value: string; };}) => {
+    updateTriggerWords = (e: { target: { value: string }}) => {
         this.setState({
             triggerWords: e.target.value,
         });
     }
 
-    updateTriggerWhen = (e : { target: { value: string; };}) => {
+    updateTriggerWhen = (e: { target: { value: string }}) => {
         this.setState({
             triggerWhen: parseInt(e.target.value, 10),
         });
     }
 
-    updateCallbackUrls = (e : { target: { value: string; };}) => {
+    updateCallbackUrls = (e: { target: { value: string }}) => {
         this.setState({
             callbackUrls: e.target.value,
         });
     }
 
-    updateUsername = (e : { target: { value: string; };}) => {
+    updateUsername = (e: { target: { value: string }}) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconURL = (e : { target: { value: string; };}) => {
+    updateIconURL = (e: { target: { value: string }}) => {
         this.setState({
             iconURL: e.target.value,
         });

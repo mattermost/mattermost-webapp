@@ -7,15 +7,15 @@ import {Link} from 'react-router-dom';
 
 import DeleteIntegration from 'components/integrations/delete_integration';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
-import { OutgoingWebhook } from 'mattermost-redux/types/integrations';
+import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
 import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
 import test_helper from 'packages/mattermost-redux/test/test_helper';
-import { TeamType } from 'mattermost-redux/types/teams';
-import { Channel, ChannelType } from 'mattermost-redux/types/channels';
+import {TeamType} from 'mattermost-redux/types/teams';
+import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 
 describe('components/integrations/InstalledOutgoingWebhook', () => {
     const fakeChannel = test_helper.fakeChannelWithId();
-    const channel : Channel = {
+    const channel: Channel = {
         ...fakeChannel,
         type: 'O' as ChannelType,
         header: '',
@@ -23,8 +23,8 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         last_post_at: 0,
         last_root_post_at: 0,
         creator_id: '',
-        group_constrained: false
-    }
+        group_constrained: false,
+    };
     const fakeTeam = test_helper.fakeTeamWithId();
     const team = {
         ...fakeTeam,
@@ -36,7 +36,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         group_constrained: false,
     };
 
-    const outgoingWebhook : OutgoingWebhook = {
+    const outgoingWebhook: OutgoingWebhook = {
         callback_urls: ['http://adsfdasd.com'],
         channel_id: 'mdpzfpfcxi85zkkqkzkch4b85h',
         content_type: 'application/x-www-form-urlencoded',
@@ -52,11 +52,11 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         trigger_when: 0,
         trigger_words: ['build'],
         update_at: 1508329149618,
-        icon_url:'',
+        icon_url: '',
     };
 
-    const fakeUser= test_helper.fakeUserWithId();
-    const creator : UserProfile = {
+    const fakeUser = test_helper.fakeUserWithId();
+    const creator: UserProfile = {
         ...fakeUser,
         username: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         auth_data: '',
@@ -74,7 +74,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         last_activity_at: 0,
         is_bot: true,
         bot_description: 'tester bot',
-        bot_last_icon_update:0,
+        bot_last_icon_update: 0,
         terms_of_service_id: '',
         terms_of_service_create_at: 0,
     };

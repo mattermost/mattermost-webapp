@@ -7,13 +7,14 @@ import {Link} from 'react-router-dom';
 
 import CopyText from 'components/copy_text';
 
-import DeleteIntegration from './delete_integration';
-import { OutgoingWebhook } from 'mattermost-redux/types/integrations';
-import { Team } from 'mattermost-redux/types/teams';
-import { Channel } from 'mattermost-redux/types/channels';
-import { UserProfile } from 'mattermost-redux/types/users';
+import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
+import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-export function matchesFilter(outgoingWebhook : any, channel : any, filter : string) {
+import DeleteIntegration from './delete_integration';
+
+export function matchesFilter(outgoingWebhook: any, channel: any, filter: string) {
     if (!filter) {
         return true;
     }
@@ -53,48 +54,46 @@ type Props = {
     /**
     * Data used for showing webhook details
     */
-    outgoingWebhook: OutgoingWebhook,
+    outgoingWebhook: OutgoingWebhook;
 
     /**
     * Function used for webhook token regeneration
     */
-    onRegenToken: (hook : OutgoingWebhook) => void,
+    onRegenToken: (hook: OutgoingWebhook) => void;
 
     /**
     * Function to call when webhook delete button is pressed
     */
-    onDelete: (hook : OutgoingWebhook) => void,
+    onDelete: (hook: OutgoingWebhook) => void;
 
     /**
     * String used for filtering webhook item
     */
-    filter?: string,
+    filter?: string;
 
     /**
     * Data used for showing created by details
     */
-    creator: UserProfile,
+    creator: UserProfile;
 
     /**
     *  Set to show available actions on webhook
     */
-    canChange: boolean,
+    canChange: boolean;
 
     /**
     *  Data used in routing of webhook for modifications
     */
-    team: Team,
+    team: Team;
 
     /**
     *  Data used for filtering of webhooks based in filter prop
     */
-    channel: Channel,
+    channel: Channel;
 }
 
 export default class InstalledOutgoingWebhook extends React.PureComponent<Props> {
-
-
-    handleRegenToken = (e: { preventDefault: () => void; }) => {
+    handleRegenToken = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.outgoingWebhook);
@@ -104,7 +103,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
         this.props.onDelete(this.props.outgoingWebhook);
     }
 
-    makeDisplayName(outgoingWebhook? : any, channel? : any) {
+    makeDisplayName(outgoingWebhook?: any, channel?: any) {
         if (outgoingWebhook.display_name) {
             return outgoingWebhook.display_name;
         } else if (channel) {

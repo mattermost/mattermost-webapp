@@ -112,10 +112,10 @@ describe('components/integrations/AbstractCommand', () => {
             url: 'https://google.com/command',
             username: 'username',
             create_at: 1499722850203,
-            creator_id: "88oybd1dwfdoxpkpw1h5kpbyco",
+            creator_id: '88oybd1dwfdoxpkpw1h5kpbyco',
             delete_at: 0,
-            id: "r5tpgt4iepf45jt768jz84djic",
-            token: "jb6oyqh95irpbx8fo9zmndkp1r",
+            id: 'r5tpgt4iepf45jt768jz84djic',
+            token: 'jb6oyqh95irpbx8fo9zmndkp1r',
             update_at: 1504468859001,
         };
 
