@@ -124,13 +124,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                         />
                     </Link>
                     {' - '}
-                    <DeleteIntegrationLink
-                        modalMessage={
-                            <FormattedMessage
-                                id='installed_incoming_webhooks.delete.confirm'
-                                defaultMessage='This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?'
-                            />
-                        }
+                    <DeleteIntegration
                         onDelete={this.handleDelete}
                     />
                 </div>

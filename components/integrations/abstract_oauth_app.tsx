@@ -15,8 +15,8 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 
 import {OAuthApp} from 'packages/mattermost-redux/src/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
+import {MessageDescriptor} from 'react-intl';
 
-import {Header} from './common_types';
 
 type Props = {
 
@@ -28,17 +28,17 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render

@@ -32,7 +32,8 @@ describe('components/integrations/AbstractCommand', () => {
         url: 'https://google.com/command',
         username: 'username',
     });
-    const team : Team = TestHelper.getTeamMock();
+    const fakeTeam : Team = TestHelper.getTeamMock();
+    const team = {...fakeTeam, team_id: command.team_id};
     const action = jest.fn().mockImplementation(
         () => {
             return new Promise<void>((resolve) => {

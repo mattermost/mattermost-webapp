@@ -199,8 +199,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
             maxLength={1000}
             onChange={[Function]}
             rows={3}
-            value="testword
-"
+            value="testword"
           />
           <div
             className="form__help"

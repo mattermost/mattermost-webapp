@@ -14,8 +14,8 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import {t} from 'utils/i18n.jsx';
 import {Command} from 'mattermost-redux/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
+import {MessageDescriptor} from 'react-intl';
 
-import {Header} from './common_types';
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
 
@@ -29,17 +29,17 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render
@@ -54,12 +54,12 @@ type Props = {
     /**
     * The Command used to set the initial state
     */
-    initialCommand: Command;
+    initialCommand?: Command;
 
     /**
     * The async function to run when the action button is pressed
     */
-    action: (command: Command) => Promise<any>;
+    action: (command: Command) => Promise<void>;
 
 }
 

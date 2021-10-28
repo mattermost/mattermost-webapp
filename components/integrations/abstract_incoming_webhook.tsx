@@ -12,8 +12,7 @@ import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Team} from 'mattermost-redux/types/teams';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
-
-import {Header} from './common_types';
+import {MessageDescriptor} from 'react-intl';
 
 type Props = {
 
@@ -25,17 +24,17 @@ type Props = {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render

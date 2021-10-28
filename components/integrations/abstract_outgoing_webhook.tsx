@@ -12,8 +12,7 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-
-import {Header} from './common_types';
+import {MessageDescriptor} from 'react-intl';
 
 type Props = {
 
@@ -25,17 +24,17 @@ type Props = {
     /**
      * The header text to render, has id and defaultMessage
      */
-    header: Header;
+    header: MessageDescriptor;
 
     /**
      * The footer text to render, has id and defaultMessage
      */
-    footer: Header;
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: Header;
+    loading: MessageDescriptor;
 
     /**
      * Any extra component/node to render
@@ -100,7 +99,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         if (hook.trigger_words) {
             let i = 0;
             for (i = 0; i < hook.trigger_words.length; i++) {
-                triggerWords += hook.trigger_words[i] + ((i < (hook.trigger_words.length - 1)) ? '\n' : '');
+                triggerWords += hook.trigger_words[i] + (i < hook.trigger_words.length -1 ? '\n' : '');
             }
         }
 
