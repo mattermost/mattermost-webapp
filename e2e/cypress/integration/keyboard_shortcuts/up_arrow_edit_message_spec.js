@@ -9,7 +9,6 @@
 
 // Group: @keyboard_shortcuts
 
-import { Cipher } from 'crypto';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Keyboard Shortcuts', () => {
