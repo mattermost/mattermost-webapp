@@ -324,4 +324,3 @@ export default class ThemeSetting extends React.PureComponent {
         return themeUI;
     }
 }
-/* eslint-enable react/no-string-refs */
