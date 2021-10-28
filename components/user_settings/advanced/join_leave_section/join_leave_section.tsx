@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
@@ -11,20 +10,27 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-export default class JoinLeaveSection extends React.PureComponent {
-    static propTypes = {
-        activeSection: PropTypes.string,
-        currentUserId: PropTypes.string.isRequired,
-        joinLeave: PropTypes.string,
-        onUpdateSection: PropTypes.func.isRequired,
-        renderOnOffLabel: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    activeSection?: string;
+    currentUserId: string;
+    joinLeave?: string;
+    onUpdateSection: (section?: string) => void;
+    renderOnOffLabel: (label: string) => string;
+    actions: {
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+    };
+}
 
-    constructor(props) {
+type State = {
+    joinLeaveState?: string;
+    isSaving?: boolean;
+    serverError?: string;
+}
+
+export default class JoinLeaveSection extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -32,13 +38,13 @@ export default class JoinLeaveSection extends React.PureComponent {
         };
     }
 
-    handleOnChange = (e) => {
+    public handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = e.currentTarget.value;
 
         this.setState({joinLeaveState: value});
     }
 
-    handleUpdateSection = (section) => {
+    public handleUpdateSection = (section?: string): void => {
         if (!section) {
             this.setState({joinLeaveState: this.props.joinLeave});
         }
@@ -46,7 +52,7 @@ export default class JoinLeaveSection extends React.PureComponent {
         this.props.onUpdateSection(section);
     }
 
-    handleSubmit = () => {
+    public handleSubmit = (): void => {
         const {actions, currentUserId, onUpdateSection} = this.props;
         const joinLeavePreference = {category: Preferences.CATEGORY_ADVANCED_SETTINGS, user_id: currentUserId, name: Preferences.ADVANCED_FILTER_JOIN_LEAVE, value: this.state.joinLeaveState};
         actions.savePreferences(currentUserId, [joinLeavePreference]);
@@ -54,7 +60,7 @@ export default class JoinLeaveSection extends React.PureComponent {
         onUpdateSection();
     }
 
-    render() {
+    public render(): React.ReactNode {
         const {joinLeaveState} = this.state;
         if (this.props.activeSection === AdvancedSections.JOIN_LEAVE) {
             return (
@@ -132,7 +138,7 @@ export default class JoinLeaveSection extends React.PureComponent {
                         defaultMessage='Enable Join/Leave Messages'
                     />
                 }
-                describe={this.props.renderOnOffLabel(joinLeaveState)}
+                describe={this.props.renderOnOffLabel(joinLeaveState!)}
                 section={AdvancedSections.JOIN_LEAVE}
                 updateSection={this.handleUpdateSection}
             />
