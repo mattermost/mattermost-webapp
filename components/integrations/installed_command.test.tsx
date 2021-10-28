@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import InstalledCommand from 'components/integrations/installed_command';
-import { Command } from 'mattermost-redux/types/integrations';
+import {Command} from 'mattermost-redux/types/integrations';
 import test_helper from 'packages/mattermost-redux/test/test_helper';
 import {TeamType} from 'packages/mattermost-redux/src/types/teams';
 import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
@@ -15,14 +15,14 @@ describe('components/integrations/InstalledCommand', () => {
     const team = {
         ...fakeTeam,
         name: 'team_name',
-        teamId : 'testteamid',
+        teamId: 'testteamid',
         description: 'team description',
         type: 'O' as TeamType,
         company_name: 'Company Name',
         allow_open_invite: false,
         group_constrained: false,
     };
-    const command : Command = {
+    const command: Command = {
         id: 'r5tpgt4iepf45jt768jz84djic',
         display_name: 'display_name',
         description: 'description',
@@ -41,8 +41,8 @@ describe('components/integrations/InstalledCommand', () => {
         url: 'https://google.com/command',
         username: 'username',
     };
-    const fakeUser= test_helper.fakeUserWithId();
-    const creator : UserProfile = {
+    const fakeUser = test_helper.fakeUserWithId();
+    const creator: UserProfile = {
         ...fakeUser,
         username: 'username',
         auth_data: '',
@@ -60,9 +60,9 @@ describe('components/integrations/InstalledCommand', () => {
         last_activity_at: 0,
         is_bot: true,
         bot_description: 'tester bot',
-        bot_last_icon_update:0,
+        bot_last_icon_update: 0,
         terms_of_service_id: '',
-        terms_of_service_create_at: 0
+        terms_of_service_create_at: 0,
     };
     const requiredProps = {
         team,

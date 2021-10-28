@@ -14,9 +14,9 @@ import SpinnerButton from 'components/spinner_button';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import {OAuthApp} from 'packages/mattermost-redux/src/types/integrations';
-import { Team } from 'mattermost-redux/types/teams';
-import {Header} from './common_types';
+import {Team} from 'mattermost-redux/types/teams';
 
+import {Header} from './common_types';
 
 type Props = {
 
@@ -53,12 +53,12 @@ type Props = {
     /**
     * The App used to set the initial state
     */
-     initialApp: OAuthApp;
+    initialApp: OAuthApp;
 
     /**
     * The async function to run when the action button is pressed
     */
-    action: (command : OAuthApp ) => Promise<any>;
+    action: (command: OAuthApp) => Promise<any>;
 
 }
 
@@ -73,16 +73,16 @@ type State = {
     icon_url: string;
     saving: boolean;
     clientError: any;
-    creator_id: string,
-    create_at: number,
-    update_at: number,
-    client_secret: string,
+    creator_id: string;
+    create_at: number;
+    update_at: number;
+    client_secret: string;
 }
 
 export default class AbstractOAuthApp extends React.PureComponent<Props, State> {
-    image : HTMLImageElement;
-    icon_url? : RefObject<HTMLInputElement>;
-    constructor(props : Props) {
+    image: HTMLImageElement;
+    icon_url?: RefObject<HTMLInputElement>;
+    constructor(props: Props) {
         super(props);
 
         this.image = new Image();
@@ -91,7 +91,7 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         this.state = this.getStateFromApp(this.props.initialApp || {});
     }
 
-    getStateFromApp = (app : OAuthApp) => {
+    getStateFromApp = (app: OAuthApp) => {
         return {
             id: app.id,
             name: app.name || '',
@@ -117,7 +117,7 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         });
     }
 
-    handleSubmit = (e: { preventDefault: () => void; } ) => {
+    handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -211,31 +211,31 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         this.props.action(app).then(() => this.setState({saving: false}));
     }
 
-    updateName = (e : { target: { value: string; };}) => {
+    updateName = (e: { target: { value: string }}) => {
         this.setState({
             name: e.target.value,
         });
     }
 
-    updateTrusted = (e : { target: { value: string; };}) => {
+    updateTrusted = (e: { target: { value: string }}) => {
         this.setState({
             is_trusted: e.target.value === 'true',
         });
     }
 
-    updateDescription = (e : { target: { value: string; };}) => {
+    updateDescription = (e: { target: { value: string }}) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateHomepage = (e : { target: { value: string; };}) => {
+    updateHomepage = (e: { target: { value: string }}) => {
         this.setState({
             homepage: e.target.value,
         });
     }
 
-    updateIconUrl = (e : { target: { value: string; };}) => {
+    updateIconUrl = (e: { target: { value: string }}) => {
         this.setState({
             has_icon: false,
             icon_url: e.target.value,
@@ -243,7 +243,7 @@ export default class AbstractOAuthApp extends React.PureComponent<Props, State> 
         this.image.src = e.target.value;
     }
 
-    updateCallbackUrls = (e : { target: { value: string; };}) => {
+    updateCallbackUrls = (e: { target: { value: string }}) => {
         this.setState({
             callbackUrls: e.target.value,
         });

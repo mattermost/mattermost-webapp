@@ -9,8 +9,8 @@ import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 import DeleteIntegration from 'components/integrations/delete_integration';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook';
-import { Channel, ChannelType } from 'mattermost-redux/types/channels';
-import { TeamType } from 'mattermost-redux/types/teams';
+import {Channel, ChannelType} from 'mattermost-redux/types/channels';
+import {TeamType} from 'mattermost-redux/types/teams';
 import test_helper from 'packages/mattermost-redux/test/test_helper';
 import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
 
@@ -31,7 +31,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
     };
 
     const fakeChannel = test_helper.fakeChannelWithId();
-    const channel : Channel = {
+    const channel: Channel = {
         ...fakeChannel,
         type: 'O' as ChannelType,
         header: '',
@@ -39,8 +39,8 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         last_post_at: 0,
         last_root_post_at: 0,
         creator_id: 'b6911d07-dbf3-44f6-b9b5-90475f41933f',
-        group_constrained: false
-    }
+        group_constrained: false,
+    };
     const fakeTeam = test_helper.fakeTeamWithId();
     const team = {
         ...fakeTeam,
@@ -52,8 +52,8 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         allow_open_invite: false,
         group_constrained: false,
     };
-    const fakeUser= test_helper.fakeUserWithId();
-    const creator : UserProfile = {
+    const fakeUser = test_helper.fakeUserWithId();
+    const creator: UserProfile = {
         ...fakeUser,
         username: '3dbd736f-30e3-4993-a976-76d475388392',
         auth_data: '',
@@ -71,9 +71,9 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         last_activity_at: 0,
         is_bot: true,
         bot_description: 'tester bot',
-        bot_last_icon_update:0,
+        bot_last_icon_update: 0,
         terms_of_service_id: '',
-        terms_of_service_create_at: 0
+        terms_of_service_create_at: 0,
     };
     test('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
@@ -87,7 +87,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={true}
                 team={team}
                 channel={channel}
-                filter=""
+                filter=''
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -105,7 +105,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={team}
                 channel={channel}
-                filter=""
+                filter=''
             />,
         );
         expect(wrapper.find('.item-actions').length).toBe(0);
@@ -123,7 +123,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={true}
                 team={team}
                 channel={channel}
-                filter=""
+                filter=''
             />,
         );
         expect(wrapper.find('.item-actions').find(Link).exists()).toBe(true);
@@ -142,7 +142,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={team}
                 channel={channel}
-                filter=""
+                filter=''
             />,
         );
 
@@ -162,7 +162,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={team}
                 channel={channel}
-                filter=""
+                filter=''
             />,
         );
         expect(wrapper.find('.item-details__description').length).toBe(0);

@@ -74,7 +74,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     });
 
     test('should match snapshot, displays client error when no initial hook', () => {
-        const newInitialHook : IncomingWebhook = {id: '',
+        const newInitialHook: IncomingWebhook = {id: '',
             create_at: 0,
             update_at: 0,
             delete_at: 0,
@@ -85,7 +85,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
             description: '',
             username: '',
             icon_url: '',
-            channel_locked: false,};
+            channel_locked: false};
         const props = {...requiredProps, initialHook: newInitialHook};
         const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
 

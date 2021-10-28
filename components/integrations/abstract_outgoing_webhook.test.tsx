@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook';
-import { OutgoingWebhook } from 'mattermost-redux/types/integrations';
+import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
 import test_helper from 'packages/mattermost-redux/test/test_helper';
 import {TeamType} from 'packages/mattermost-redux/src/types/teams';
 import {generateId} from 'mattermost-redux/utils/helpers';
@@ -13,7 +13,7 @@ import {generateId} from 'mattermost-redux/utils/helpers';
 describe('components/integrations/AbstractOutgoingWebhook', () => {
     const emptyFunction = jest.fn();
 
-    const initialHook : OutgoingWebhook = {
+    const initialHook: OutgoingWebhook = {
         id: generateId(),
         token: generateId(),
         create_at: 1507841118796,
@@ -29,7 +29,7 @@ describe('components/integrations/AbstractOutgoingWebhook', () => {
         description: '',
         content_type: 'application/x-www-form-urlencoded',
         username: 'user_name',
-        icon_url: ''
+        icon_url: '',
     };
     const fakeTeam = test_helper.fakeTeamWithId();
     const team = {

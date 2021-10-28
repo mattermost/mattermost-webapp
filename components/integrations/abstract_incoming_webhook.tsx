@@ -10,10 +10,10 @@ import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
-import { Team } from 'mattermost-redux/types/teams';
-import { IncomingWebhook } from 'mattermost-redux/types/integrations';
-import {Header} from './common_types';
+import {Team} from 'mattermost-redux/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
+import {Header} from './common_types';
 
 type Props = {
 
@@ -55,11 +55,11 @@ type Props = {
     /**
     * The async function to run when the action button is pressed
     */
-    action: (hook : IncomingWebhook ) => Promise<any>;
+    action: (hook: IncomingWebhook) => Promise<any>;
 
-    enablePostUsernameOverride?: boolean
+    enablePostUsernameOverride?: boolean;
 
-    enablePostIconOverride?: boolean
+    enablePostIconOverride?: boolean;
 }
 
 type State = {
@@ -67,7 +67,7 @@ type State = {
     description: string;
     username: string;
     iconURL: string;
-    autocompleteHint?: string
+    autocompleteHint?: string;
     autocompleteDescription?: string;
     saving: boolean;
     clientError: any;
@@ -77,15 +77,13 @@ type State = {
 }
 
 export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
-
-
-    constructor(props : Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = this.getStateFromHook(this.props.initialHook);
     }
 
-    getStateFromHook = (hook? : IncomingWebhook) => {
+    getStateFromHook = (hook?: IncomingWebhook) => {
         return {
             displayName: hook?.display_name || '',
             description: hook?.description || '',
@@ -99,7 +97,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         };
     }
 
-    handleSubmit = (e: { preventDefault: () => void; } ) => {
+    handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -138,51 +136,51 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
             username: this.state.username,
             icon_url: this.state.iconURL,
             user_id: '0',
-            team_id: '0'
+            team_id: '0',
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e : React.ChangeEvent<HTMLInputElement>) => {
+    updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e : React.ChangeEvent<HTMLInputElement>) => {
+    updateDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateChannelId = (e : any) => {
+    updateChannelId = (e: any) => {
         this.setState({
             channelId: e.target.value,
         });
     }
 
-    updateChannelLocked = (e : React.ChangeEvent<HTMLInputElement>)  => {
+    updateChannelLocked = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             channelLocked: e.target.checked,
         });
     }
 
-    updateUsername = (e : React.ChangeEvent<HTMLInputElement>) => {
+    updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconURL = (e : React.ChangeEvent<HTMLInputElement>) => {
+    updateIconURL = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             iconURL: e.target.value,
         });
     }
 
     render() {
-        var headerToRender = this.props.header;
-        var footerToRender = this.props.footer;
+        const headerToRender = this.props.header;
+        const footerToRender = this.props.footer;
 
         return (
             <div className='backstage-content'>
