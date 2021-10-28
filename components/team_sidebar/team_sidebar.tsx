@@ -44,11 +44,10 @@ type State = {
     teamsOrder: Team[];
 }
 
-export interface Props {
+export interface Props extends RouteComponentProps {
     myTeams: Team[];
     collapsedThreads: boolean;
     currentTeamId: string;
-    match: { url: string };
     moreTeamsToJoin: boolean;
     myTeamMembers: Dictionary<TeamMembership>;
     isOpen: boolean;
