@@ -7,7 +7,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
 
-import {isGuest} from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 export const notFoundParams = {
     type: ErrorPageTypes.PAGE_NOT_FOUND,
@@ -36,7 +36,7 @@ export function checkIfMFARequired(
         mfaPaths.indexOf(path) === -1
     ) {
         if (
-            isGuest(user) &&
+            isGuest(user.roles) &&
             config.GuestAccountsEnforceMultifactorAuthentication !== 'true'
         ) {
             return false;

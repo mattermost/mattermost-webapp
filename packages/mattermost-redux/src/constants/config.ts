@@ -22,3 +22,8 @@ export enum PrewrittenMessagesTreatments {
     TOUR_POINT = 'tour_point',
     AROUND_INPUT = 'around_input',
 }
+
+export enum AutoTourTreatments {
+    NONE = 'none',
+    AUTO = 'auto',
+}

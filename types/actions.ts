@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 export type SuccessResult = {data: any}
 
@@ -15,8 +15,8 @@ export function isError(result: ActionResult): result is ErrorResult {
     return Boolean((result as ErrorResult).error);
 }
 
-export type ModalData = {
+export type ModalData<P> = {
     modalId: string;
-    dialogProps: Dictionary<any>;
-    dialogType: React.Component;
+    dialogProps?: Omit<P, 'onHide'>;
+    dialogType: React.ElementType<P>;
 }

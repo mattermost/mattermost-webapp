@@ -116,7 +116,7 @@ describe('channel name tooltips', () => {
             and('contain.text', longUser.username.toLowerCase());
 
         cy.get('@searchBox').type('{enter}', {force: true});
-        cy.get('#saveItems').should('be.visible').click();
+        cy.uiGetButton('Go').click();
 
         // # Hover on the channel name
         cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, longUser.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseover');
