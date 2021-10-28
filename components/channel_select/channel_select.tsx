@@ -9,7 +9,6 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
-    id?: string;
     channels: Channel[];
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     value?: string;
