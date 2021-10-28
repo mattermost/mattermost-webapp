@@ -12,7 +12,7 @@ import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractOutgoingWebhook', () => {
     const emptyFunction = jest.fn();
-    const team : Team = TestHelper.getTeamMock();
+    const team: Team = TestHelper.getTeamMock();
     const initialHook: OutgoingWebhook = {
         id: generateId(),
         token: generateId(),

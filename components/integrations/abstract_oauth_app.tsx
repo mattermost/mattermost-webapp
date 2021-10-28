@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {RefObject} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -15,8 +15,6 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 
 import {OAuthApp} from 'packages/mattermost-redux/src/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
-import {MessageDescriptor} from 'react-intl';
-
 
 type Props = {
 

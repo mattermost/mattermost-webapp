@@ -8,7 +8,6 @@ import {Link} from 'react-router-dom';
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 import {getSiteURL} from 'utils/url';
-import {t} from 'utils/i18n';
 
 import CopyText from 'components/copy_text';
 

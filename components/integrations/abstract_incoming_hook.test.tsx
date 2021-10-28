@@ -10,12 +10,12 @@ import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
-    const team : Team = TestHelper.getTeamMock();
+    const team: Team = TestHelper.getTeamMock();
     const header = {id: 'header_id', defaultMessage: 'Header'};
     const footer = {id: 'footer_id', defaultMessage: 'Footer'};
     const loading = {id: 'loading_id', defaultMessage: 'Loading'};
     const serverError = '';
-    const initialHook : IncomingWebhook = TestHelper.getIncomingWebhookMock({
+    const initialHook: IncomingWebhook = TestHelper.getIncomingWebhookMock({
         display_name: 'testIncomingWebhook',
         channel_id: '88cxd9wpzpbpfp8pad78xj75pr',
         description: 'testing',
@@ -127,8 +127,8 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
             target: {value: newChannelId},
         };
 
-        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
-        wrapper.find('#channelId').simulate('change', evt);
+        const wrapper = shallow<AbstractIncomingWebhook>(<AbstractIncomingWebhook {...requiredProps}/>);
+        wrapper.find('[value="88cxd9wpzpbpfp8pad78xj75pr"]').simulate('change', evt);
 
         expect(wrapper.state('channelId')).toBe(newChannelId);
     });

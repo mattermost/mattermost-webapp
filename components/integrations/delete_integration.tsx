@@ -31,7 +31,6 @@ export default class DeleteIntegration extends DeleteModalTrigger {
             <div className='alert alert-warning'>
                 <WarningIcon additionalClassName='mr-1'/>
                 <FormattedMessage
-                    id={this.props.messageId}
                     defaultMessage='This action permanently deletes the integration and breaks any integrations using it. Are you sure you want to delete it?'
                 />
             </div>

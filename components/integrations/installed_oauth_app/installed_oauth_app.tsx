@@ -9,7 +9,6 @@ import {OAuthApp} from 'mattermost-redux/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
 
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
 import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import CopyText from 'components/copy_text';
@@ -263,7 +262,6 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId={t('installed_oauth_apps.delete.confirm')}
                         onDelete={this.handleDelete}
                     />
                 </div>

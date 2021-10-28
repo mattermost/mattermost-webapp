@@ -107,7 +107,6 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             selectPrivate={true}
@@ -368,7 +367,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             selectPrivate={true}
@@ -629,7 +627,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             selectPrivate={true}
@@ -893,7 +890,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             selectPrivate={true}
@@ -1121,7 +1117,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             selectPrivate={true}
@@ -1349,7 +1344,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           className="col-md-5 col-sm-8"
         >
           <Connect(ChannelSelect)
-            id="channelId"
             onChange={[Function]}
             selectOpen={true}
             selectPrivate={true}

@@ -31,7 +31,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
     });
 
     const channel: Channel = TestHelper.getChannelMock();
-    const team : Team = TestHelper.getTeamMock();
+    const team: Team = TestHelper.getTeamMock();
     const creator: UserProfile = TestHelper.getUserMock();
 
     test('should match snapshot', () => {

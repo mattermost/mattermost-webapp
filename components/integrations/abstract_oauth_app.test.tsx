@@ -10,7 +10,7 @@ import {Team} from 'packages/mattermost-redux/src/types/teams';
 import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/AbstractOAuthApp', () => {
-    const team : Team = TestHelper.getTeamMock();
+    const team: Team = TestHelper.getTeamMock();
 
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
