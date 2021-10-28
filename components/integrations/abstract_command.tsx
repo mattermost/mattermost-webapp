@@ -14,7 +14,6 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import {t} from 'utils/i18n.jsx';
 import {Command} from 'mattermost-redux/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
-import {MessageDescriptor} from 'react-intl';
 
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
