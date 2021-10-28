@@ -49,10 +49,6 @@ export function handleReceivedThread(state: State, action: GenericAction, extra:
     const {thread, team_id: teamId} = action.data;
     const nextSet = new Set(state[teamId] || []);
 
-    if (!extra.threads) {
-        return state;
-    }
-
     // thread exists in state
     if (nextSet.has(thread.id)) {
         return state;
@@ -79,10 +75,6 @@ export function handleReceivedThread(state: State, action: GenericAction, extra:
 export function handleFollowChanged(state: State, action: GenericAction, extra: ExtraData) {
     const {id, team_id: teamId, following} = action.data;
     const nextSet = new Set(state[teamId] || []);
-
-    if (!extra.threads) {
-        return state;
-    }
 
     const thread = extra.threads[id];
 
@@ -203,10 +195,10 @@ export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInT
 
         // the thread is not in the unread list
         if (index === -1) {
-            const thread = extra.threads?.[id];
+            const thread = extra.threads[id];
 
             // the thread is unread
-            if (thread && extra.threads && (newUnreadReplies > 0 || newUnreadMentions > 0)) {
+            if (thread && (newUnreadReplies > 0 || newUnreadMentions > 0)) {
                 // if it's newer add it, we don't care about ordering here since we order on the selector
                 if (shouldAddThreadId(team, thread, extra.threads)) {
                     return {
