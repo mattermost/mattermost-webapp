@@ -17,7 +17,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import DeleteIntegration from './delete_integration';
 
-export function matchesFilter(incomingWebhook : IncomingWebhook, channel? : Channel, filter? : string) {
+export function matchesFilter(incomingWebhook: IncomingWebhook, channel?: Channel, filter?: string) {
     if (!filter) {
         return true;
     }
