@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -11,68 +10,96 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
+import { Team } from 'mattermost-redux/types/teams';
+import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
+import {Header} from './common_types';
 
-export default class AbstractOutgoingWebhook extends React.PureComponent {
-    static propTypes = {
 
-        /**
-         * The current team
-         */
-        team: PropTypes.object.isRequired,
+type Props = {
 
-        /**
-         * The header text to render, has id and defaultMessage
-         */
-        header: PropTypes.object.isRequired,
+    /**
+     * The current team
+     */
+    team: Team,
 
-        /**
-         * The footer text to render, has id and defaultMessage
-         */
-        footer: PropTypes.object.isRequired,
+    /**
+     * The header text to render, has id and defaultMessage
+     */
+    header: Header,
 
-        /**
-        * The spinner loading text to render, has id and defaultMessage
-        */
-        loading: PropTypes.object.isRequired,
+    /**
+     * The footer text to render, has id and defaultMessage
+     */
+    footer: Header,
 
-        /**
-         * Any extra component/node to render
-         */
-        renderExtra: PropTypes.node.isRequired,
+    /**
+    * The spinner loading text to render, has id and defaultMessage
+    */
+    loading: Header,
 
-        /**
-         * The server error text after a failed action
-         */
-        serverError: PropTypes.string.isRequired,
+    /**
+     * Any extra component/node to render
+     */
+    renderExtra: React.ReactNode,
 
-        /**
-         * The hook used to set the initial state
-         */
-        initialHook: PropTypes.object,
+    /**
+     * The server error text after a failed action
+     */
+    serverError: string,
 
-        /**
-         * The async function to run when the action button is pressed
-         */
-        action: PropTypes.func.isRequired,
+    /**
+     * The hook used to set the initial state
+     */
+    initialHook: OutgoingWebhook,
 
-        /**
-         * Whether to allow configuration of the default post username.
-         */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+    /**
+     * The async function to run when the action button is pressed
+     */
+    action: (hook : OutgoingWebhook ) => Promise<any>,
 
-        /**
-         * Whether to allow configuration of the default post icon.
-         */
-        enablePostIconOverride: PropTypes.bool.isRequired,
-    }
+    /**
+     * Whether to allow configuration of the default post username.
+     */
+    enablePostUsernameOverride: boolean,
 
-    constructor(props) {
+    /**
+     * Whether to allow configuration of the default post icon.
+     */
+    enablePostIconOverride: boolean,
+}
+
+type State = {
+    displayName: string;
+    contentType: string;
+    username: string;
+    description: string;
+    iconURL: string;
+    saving: boolean;
+    clientError: any;
+    triggerWords: string;
+    channelId : string;
+    callbackUrls : string;
+    triggerWhen: string;
+    id: string;
+    token: string;
+    create_at: number;
+    update_at: number;
+    delete_at: number;
+    creator_id: string;
+}
+
+
+
+export default class AbstractOutgoingWebhook extends React.PureComponent<Props, State> {
+
+
+    constructor(props : Props) {
         super(props);
 
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
-    getStateFromHook = (hook) => {
+    getStateFromHook = (hook : OutgoingWebhook) => {
         let triggerWords = '';
         if (hook.trigger_words) {
             let i = 0;
@@ -95,16 +122,22 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
             contentType: hook.content_type || 'application/x-www-form-urlencoded',
             channelId: hook.channel_id || '',
             triggerWords,
-            triggerWhen: hook.trigger_when || 0,
+            triggerWhen: hook.trigger_when?.toString() || "0",
             callbackUrls,
             saving: false,
             clientError: null,
             username: hook.username || '',
             iconURL: hook.icon_url || '',
+            id: hook.id || '',
+            token: hook.token || '',
+            create_at: hook.create_at || 0,
+            update_at: hook.update_at || 0,
+            delete_at: hook.delete_at || 0,
+            creator_id: hook.creator_id || '',
         };
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -175,60 +208,66 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
             description: this.state.description,
             username: this.state.username,
             icon_url: this.state.iconURL,
+            id: this.state.id,
+            token: this.state.token,
+            create_at: this.state.create_at,
+            update_at: this.state.update_at,
+            delete_at: this.state.delete_at,
+            creator_id: this.state.creator_id,
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e) => {
+    updateDisplayName = (e : { target: { value: string; };}) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e) => {
+    updateDescription = (e : { target: { value: string; };}) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateContentType = (e) => {
+    updateContentType = (e : { target: { value: string; };}) => {
         this.setState({
             contentType: e.target.value,
         });
     }
 
-    updateChannelId = (e) => {
+    updateChannelId = (e : { target: { value: string; };}) => {
         this.setState({
             channelId: e.target.value,
         });
     }
 
-    updateTriggerWords = (e) => {
+    updateTriggerWords = (e : { target: { value: string; };}) => {
         this.setState({
             triggerWords: e.target.value,
         });
     }
 
-    updateTriggerWhen = (e) => {
+    updateTriggerWhen = (e : { target: { value: string; };}) => {
         this.setState({
             triggerWhen: e.target.value,
         });
     }
 
-    updateCallbackUrls = (e) => {
+    updateCallbackUrls = (e : { target: { value: string; };}) => {
         this.setState({
             callbackUrls: e.target.value,
         });
     }
 
-    updateUsername = (e) => {
+    updateUsername = (e : { target: { value: string; };}) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconURL = (e) => {
+    updateIconURL = (e : { target: { value: string; };}) => {
         this.setState({
             iconURL: e.target.value,
         });
@@ -275,7 +314,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                 <input
                                     id='displayName'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength={64}
                                     className='form-control'
                                     value={this.state.displayName}
                                     onChange={this.updateDisplayName}
@@ -302,7 +341,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                 <input
                                     id='description'
                                     type='text'
-                                    maxLength='500'
+                                    maxLength={500}
                                     className='form-control'
                                     value={this.state.description}
                                     onChange={this.updateDescription}
@@ -400,8 +439,8 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                             <div className='col-md-5 col-sm-8'>
                                 <textarea
                                     id='triggerWords'
-                                    rows='3'
-                                    maxLength='1000'
+                                    rows={3}
+                                    maxLength={1000}
                                     className='form-control'
                                     value={this.state.triggerWords}
                                     onChange={this.updateTriggerWords}
@@ -462,8 +501,8 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                             <div className='col-md-5 col-sm-8'>
                                 <textarea
                                     id='callbackUrls'
-                                    rows='3'
-                                    maxLength='1000'
+                                    rows={3}
+                                    maxLength={1000}
                                     className='form-control'
                                     value={this.state.callbackUrls}
                                     onChange={this.updateCallbackUrls}
@@ -505,7 +544,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                     <input
                                         id='username'
                                         type='text'
-                                        maxLength='22'
+                                        maxLength={22}
                                         className='form-control'
                                         value={this.state.username}
                                         onChange={this.updateUsername}
@@ -534,7 +573,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                     <input
                                         id='iconURL'
                                         type='text'
-                                        maxLength='1024'
+                                        maxLength={1024}
                                         className='form-control'
                                         value={this.state.iconURL}
                                         onChange={this.updateIconURL}

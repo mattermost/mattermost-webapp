@@ -11,7 +11,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {browserHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen';
 import ConfirmModal from 'components/confirm_modal';
-import AbstractOAuthApp from '../abstract_oauth_app.jsx';
+import AbstractOAuthApp from '../abstract_oauth_app';
 
 const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
 const FOOTER = {id: 'update_incoming_webhook.update', defaultMessage: 'Update'};
