@@ -5,11 +5,13 @@ import React from 'react';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {showLeavePrivateChannelModal} from 'actions/global_actions';
-import {Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
+import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
+
+import {PropsFromRedux} from './index';
 
 type Props = {
 
@@ -36,19 +38,9 @@ type Props = {
     /**
      * Object with action creators
      */
-    actions: {
-
-        /**
-         * Action creator to leave channel
-         */
-        leaveChannel: (channelId: string) => void;
-    };
 };
 
-type State = {
-};
-
-export default class LeaveChannel extends React.PureComponent<Props, State> {
+export default class LeaveChannel extends React.PureComponent<Props & PropsFromRedux> {
     static defaultProps = {
         isDefault: true,
         isGuestUser: false,
@@ -61,11 +53,18 @@ export default class LeaveChannel extends React.PureComponent<Props, State> {
             channel,
             actions: {
                 leaveChannel,
+                openModal,
             },
         } = this.props;
 
         if (channel.type === Constants.PRIVATE_CHANNEL) {
-            showLeavePrivateChannelModal(channel);
+            openModal({
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogType: LeavePrivateChannelModal,
+                dialogProps: {
+                    channel,
+                },
+            });
         } else {
             leaveChannel(channel.id);
         }
