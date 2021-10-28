@@ -12,7 +12,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.jsx';
+import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants';
@@ -93,6 +93,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                     canChange={canChange}
                     team={this.props.team}
                     channel={channel}
+                    filter=''
                 />
             );
         });

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -11,77 +10,94 @@ import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
+import {Team} from 'mattermost-redux/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
-export default class AbstractIncomingWebhook extends React.PureComponent {
-    static propTypes = {
+import {Header} from './common_types';
 
-        /**
-        * The current team
-        */
-        team: PropTypes.object.isRequired,
+type Props = {
 
-        /**
-        * The header text to render, has id and defaultMessage
-        */
-        header: PropTypes.object.isRequired,
+    /**
+    * The current team
+    */
+    team: Team;
 
-        /**
-        * The footer text to render, has id and defaultMessage
-        */
-        footer: PropTypes.object.isRequired,
+    /**
+    * The header text to render, has id and defaultMessage
+    */
+    header: Header;
 
-        /**
-        * The spinner loading text to render, has id and defaultMessage
-        */
-        loading: PropTypes.object.isRequired,
+    /**
+    * The footer text to render, has id and defaultMessage
+    */
+    footer: Header;
 
-        /**
-        * The server error text after a failed action
-        */
-        serverError: PropTypes.string.isRequired,
+    /**
+    * The spinner loading text to render, has id and defaultMessage
+    */
+    loading: Header;
 
-        /**
-        * The hook used to set the initial state
-        */
-        initialHook: PropTypes.object,
+    /**
+     * Any extra component/node to render
+     */
+    renderExtra?: React.ReactNode;
 
-        /**
-        * Whether to allow configuration of the default post username.
-        */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+    /**
+    * The server error text after a failed action
+    */
+    serverError: string;
 
-        /**
-        * Whether to allow configuration of the default post icon.
-        */
-        enablePostIconOverride: PropTypes.bool.isRequired,
+    /**
+    * The Hook used to set the initial state
+    */
+    initialHook?: IncomingWebhook;
 
-        /**
-        * The async function to run when the action button is pressed
-        */
-        action: PropTypes.func.isRequired,
-    }
+    /**
+    * The async function to run when the action button is pressed
+    */
+    action: (hook: IncomingWebhook) => Promise<any>;
 
-    constructor(props) {
+    enablePostUsernameOverride?: boolean;
+
+    enablePostIconOverride?: boolean;
+}
+
+type State = {
+    displayName: string;
+    description: string;
+    username: string;
+    iconURL: string;
+    autocompleteHint?: string;
+    autocompleteDescription?: string;
+    saving: boolean;
+    clientError: any;
+    serverError: any;
+    channelId: string;
+    channelLocked: boolean;
+}
+
+export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
-        this.state = this.getStateFromHook(this.props.initialHook || {});
+        this.state = this.getStateFromHook(this.props.initialHook);
     }
 
-    getStateFromHook = (hook) => {
+    getStateFromHook = (hook?: IncomingWebhook) => {
         return {
-            displayName: hook.display_name || '',
-            description: hook.description || '',
-            channelId: hook.channel_id || '',
-            channelLocked: hook.channel_locked || false,
-            username: hook.username || '',
-            iconURL: hook.icon_url || '',
+            displayName: hook?.display_name || '',
+            description: hook?.description || '',
+            channelId: hook?.channel_id || '',
+            channelLocked: hook?.channel_locked || false,
+            username: hook?.username || '',
+            iconURL: hook?.icon_url || '',
             saving: false,
             serverError: '',
             clientError: null,
         };
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -109,56 +125,62 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
         }
 
         const hook = {
+            id: '1',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
             channel_id: this.state.channelId,
             channel_locked: this.state.channelLocked,
             display_name: this.state.displayName,
             description: this.state.description,
             username: this.state.username,
             icon_url: this.state.iconURL,
+            user_id: '0',
+            team_id: '0',
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e) => {
+    updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e) => {
+    updateDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateChannelId = (e) => {
+    updateChannelId = (e: any) => {
         this.setState({
             channelId: e.target.value,
         });
     }
 
-    updateChannelLocked = (e) => {
+    updateChannelLocked = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             channelLocked: e.target.checked,
         });
     }
 
-    updateUsername = (e) => {
+    updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconURL = (e) => {
+    updateIconURL = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             iconURL: e.target.value,
         });
     }
 
     render() {
-        var headerToRender = this.props.header;
-        var footerToRender = this.props.footer;
+        const headerToRender = this.props.header;
+        const footerToRender = this.props.footer;
 
         return (
             <div className='backstage-content'>
@@ -193,7 +215,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                 <input
                                     id='displayName'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength={64}
                                     className='form-control'
                                     value={this.state.displayName}
                                     onChange={this.updateDisplayName}
@@ -220,7 +242,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                 <input
                                     id='description'
                                     type='text'
-                                    maxLength='500'
+                                    maxLength={500}
                                     className='form-control'
                                     value={this.state.description}
                                     onChange={this.updateDescription}
@@ -299,7 +321,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                     <input
                                         id='username'
                                         type='text'
-                                        maxLength='22'
+                                        maxLength={22}
                                         className='form-control'
                                         value={this.state.username}
                                         onChange={this.updateUsername}
@@ -328,7 +350,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                     <input
                                         id='iconURL'
                                         type='text'
-                                        maxLength='1024'
+                                        maxLength={1024}
                                         className='form-control'
                                         value={this.state.iconURL}
                                         onChange={this.updateIconURL}

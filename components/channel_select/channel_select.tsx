@@ -9,12 +9,13 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
+    id?: string;
     channels: Channel[];
-    onChange?: () => void;
+    onChange?: (e: any) => void;
     value?: string;
     selectOpen: boolean;
-    selectPrivate: boolean;
-    selectDm: boolean;
+    selectPrivate?: boolean;
+    selectDm?: boolean;
 };
 
 export default class ChannelSelect extends React.PureComponent<Props> {

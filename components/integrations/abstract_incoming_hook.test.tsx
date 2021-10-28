@@ -4,25 +4,46 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.jsx';
+import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
+import test_helper from 'packages/mattermost-redux/test/test_helper';
+import {TeamType} from 'packages/mattermost-redux/src/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
-    const team = {name: 'team_name'};
+    const fakeTeam = test_helper.fakeTeamWithId();
+    const team = {
+        ...fakeTeam,
+        name: 'eatxocwc3bg9ffo9xyybnj4omr',
+        description: 'team description',
+        type: 'O' as TeamType,
+        company_name: 'Company Name',
+        allow_open_invite: false,
+        group_constrained: false,
+    };
     const header = {id: 'header_id', defaultMessage: 'Header'};
     const footer = {id: 'footer_id', defaultMessage: 'Footer'};
     const loading = {id: 'loading_id', defaultMessage: 'Loading'};
     const serverError = '';
-    const initialHook = {
+    const initialHook: IncomingWebhook = {
         display_name: 'testIncomingWebhook',
         channel_id: '88cxd9wpzpbpfp8pad78xj75pr',
         description: 'testing',
+        id: '9w96t4nhbfdiij64wfqors4i1r',
+        create_at: 1502455422406,
+        delete_at: 0,
+        team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
+        update_at: 1502455422406,
+        user_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
+        username: 'username',
+        icon_url: 'http://test/icon.png',
+        channel_locked: false,
     };
     const enablePostUsernameOverride = true;
     const enablePostIconOverride = true;
 
     const action = jest.fn().mockImplementation(
         () => {
-            return new Promise((resolve) => {
+            return new Promise<void>((resolve) => {
                 process.nextTick(() => resolve());
             });
         },
@@ -53,7 +74,18 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     });
 
     test('should match snapshot, displays client error when no initial hook', () => {
-        const newInitialHook = {};
+        const newInitialHook: IncomingWebhook = {id: '',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            user_id: '',
+            channel_id: '',
+            team_id: '',
+            display_name: '',
+            description: '',
+            username: '',
+            icon_url: '',
+            channel_locked: false};
         const props = {...requiredProps, initialHook: newInitialHook};
         const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
 
