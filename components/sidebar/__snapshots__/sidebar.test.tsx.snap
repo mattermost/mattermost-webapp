@@ -7,7 +7,16 @@ exports[`components/sidebar should match snapshot 1`] = `
   className=""
   id="SidebarContainer"
 >
-  <Connect(LegacySidebarHeader) />
+  <SidebarHeader
+    canCreateChannel={true}
+    canJoinPublicChannel={true}
+    handleOpenDirectMessagesModal={[Function]}
+    invitePeopleModal={[Function]}
+    showCreateCategoryModal={[Function]}
+    showMoreChannelsModal={[Function]}
+    showNewChannelModal={[Function]}
+    unreadFilterEnabled={false}
+  />
   <div
     aria-label="channel navigator region"
     className="a11y__region"
@@ -48,7 +57,16 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
   className=""
   id="SidebarContainer"
 >
-  <Connect(LegacySidebarHeader) />
+  <SidebarHeader
+    canCreateChannel={true}
+    canJoinPublicChannel={true}
+    handleOpenDirectMessagesModal={[Function]}
+    invitePeopleModal={[Function]}
+    showCreateCategoryModal={[Function]}
+    showMoreChannelsModal={[Function]}
+    showNewChannelModal={[Function]}
+    unreadFilterEnabled={false}
+  />
   <div
     aria-label="channel navigator region"
     className="a11y__region"
@@ -93,7 +111,16 @@ exports[`components/sidebar should match snapshot when more channels modal is op
   className=""
   id="SidebarContainer"
 >
-  <Connect(LegacySidebarHeader) />
+  <SidebarHeader
+    canCreateChannel={true}
+    canJoinPublicChannel={true}
+    handleOpenDirectMessagesModal={[Function]}
+    invitePeopleModal={[Function]}
+    showCreateCategoryModal={[Function]}
+    showMoreChannelsModal={[Function]}
+    showNewChannelModal={[Function]}
+    unreadFilterEnabled={false}
+  />
   <div
     aria-label="channel navigator region"
     className="a11y__region"

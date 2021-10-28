@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {ShortcutKey, ShortcutKetVariant} from 'components/shortcut_key';
+import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
 
 import {isMac} from 'utils/utils.jsx';
 import {isDesktopApp} from 'utils/user_agent';
@@ -13,9 +13,9 @@ export const SearchShortcut = () => {
 
     return (
         <span className='search-shortcut'>
-            <ShortcutKey variant={ShortcutKetVariant.Contrast}>{controlKey}</ShortcutKey>
-            {!isDesktopApp() && <ShortcutKey variant={ShortcutKetVariant.Contrast}>{'Shift'}</ShortcutKey>}
-            <ShortcutKey variant={ShortcutKetVariant.Contrast}>{'F'}</ShortcutKey>
+            <ShortcutKey variant={ShortcutKeyVariant.Contrast}>{controlKey}</ShortcutKey>
+            {!isDesktopApp() && <ShortcutKey variant={ShortcutKeyVariant.Contrast}>{'Shift'}</ShortcutKey>}
+            <ShortcutKey variant={ShortcutKeyVariant.Contrast}>{'F'}</ShortcutKey>
         </span>
     );
 };

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -28,7 +29,7 @@ describe('Onboarding', () => {
         });
 
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Update config to require email verification and onboarding flow
         cy.apiUpdateConfig({
@@ -48,8 +49,7 @@ describe('Onboarding', () => {
 
     it('MM-T398 Use team invite link to sign up using email and password', () => {
         // # Open the 'Invite People' full screen modal and get the invite url
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#invitePeople').find('button').eq(0).click();
+        cy.uiOpenTeamMenu('Invite People');
 
         if (isLicensed) {
             // # Click "Invite members"
@@ -111,7 +111,7 @@ describe('Onboarding', () => {
         });
 
         // * Check that the display name of the team the user successfully joined is correct
-        cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {

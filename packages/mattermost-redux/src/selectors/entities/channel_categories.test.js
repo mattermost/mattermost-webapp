@@ -134,6 +134,7 @@ describe('makeFilterAutoclosedDMs', () => {
         entities: {
             channels: {
                 currentChannelId: 'channel1',
+                messageCounts: {},
                 myMembers: {
                     channel2: {
                         channel_id: 'channel2',
@@ -172,12 +173,16 @@ describe('makeFilterAutoclosedDMs', () => {
     test('Should always show an unread channel', () => {
         const filterAutoclosedDMs = Selectors.makeFilterAutoclosedDMs();
 
-        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL, total_msg_count: 5};
+        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL};
         const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL};
 
         const state = mergeObjects(baseState, {
             entities: {
                 channels: {
+                    messageCounts: {
+                        gmChannel1: {total: 5},
+                        gmChannel2: {total: 0},
+                    },
                     myMembers: {
                         gmChannel1: {msg_count: 1, notify_props: {mark_unread: MarkUnread.ALL}},
                         gmChannel2: {msg_count: 0, notify_props: {mark_unread: MarkUnread.ALL}},
@@ -359,6 +364,7 @@ describe('makeFilterManuallyClosedDMs', () => {
                 config: {},
             },
             channels: {
+                messageCounts: {},
                 myMembers: {},
             },
             preferences: {
@@ -413,14 +419,20 @@ describe('makeFilterManuallyClosedDMs', () => {
     test('should show unread DMs and GMs, regardless of preferences', () => {
         const filterManuallyClosedDMs = Selectors.makeFilterManuallyClosedDMs();
 
-        const dmChannel1 = {id: 'dmChannel1', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser1.id}`, total_msg_count: 1};
-        const dmChannel2 = {id: 'dmChannel2', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser2.id}`, total_msg_count: 0};
-        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL, total_msg_count: 1};
-        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL, total_msg_count: 0};
+        const dmChannel1 = {id: 'dmChannel1', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser1.id}`};
+        const dmChannel2 = {id: 'dmChannel2', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser2.id}`};
+        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL};
+        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL};
 
         const state = mergeObjects(baseState, {
             entities: {
                 channels: {
+                    messageCounts: {
+                        dmChannel1: {total: 1},
+                        dmChannel2: {total: 0},
+                        gmChannel1: {total: 1},
+                        gmChannel2: {total: 0},
+                    },
                     myMembers: {
                         dmChannel1: {msg_count: 0},
                         dmChannel2: {msg_count: 0},
@@ -509,6 +521,12 @@ describe('makeSortChannelsByName', () => {
                 profiles: {
                     currentUser,
                 },
+            },
+            general: {
+                config: {},
+            },
+            preferences: {
+                myPreferences: {},
             },
         },
     };
@@ -702,15 +720,24 @@ describe('makeSortChannelsByNameWithDMs', () => {
 });
 
 describe('makeSortChannelsByRecency', () => {
-    const channel1 = {id: 'channel1', display_name: 'Apple', last_post_at: 1000};
-    const channel2 = {id: 'channel2', display_name: 'Banana', last_post_at: 2000};
-    const channel3 = {id: 'channel3', display_name: 'Zucchini', last_post_at: 3000};
+    const channel1 = {id: 'channel1', display_name: 'Apple', last_post_at: 1000, last_root_post_at: 3000};
+    const channel2 = {id: 'channel2', display_name: 'Banana', last_post_at: 2000, last_root_post_at: 1000};
+    const channel3 = {id: 'channel3', display_name: 'Zucchini', last_post_at: 3000, last_root_post_at: 2000};
 
     const baseState = {
         entities: {
             posts: {
                 posts: {},
                 postsInChannel: {},
+            },
+            general: {
+                config: {
+                    FeatureFlagCollapsedThreads: 'true',
+                    CollapsedThreads: 'default_off',
+                },
+            },
+            preferences: {
+                myPreferences: {},
             },
         },
     };
@@ -722,6 +749,27 @@ describe('makeSortChannelsByRecency', () => {
 
         expect(sortChannelsByRecency(state, [channel1, channel2, channel3])).toMatchObject([channel3, channel2, channel1]);
         expect(sortChannelsByRecency(state, [channel3, channel2, channel1])).toMatchObject([channel3, channel2, channel1]);
+    });
+
+    test('should sort channels by their last_post_at when no posts are loaded and CRT in enabled', () => {
+        const sortChannelsByRecency = Selectors.makeSortChannelsByRecency();
+
+        const state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                preferences: {
+                    myPreferences: {
+                        [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSED_REPLY_THREADS}`]: {
+                            value: 'on',
+                        },
+                    },
+                },
+            },
+        };
+
+        expect(sortChannelsByRecency(state, [channel3, channel2, channel1])).toMatchObject([channel1, channel3, channel2]);
+        expect(sortChannelsByRecency(state, [channel1, channel3, channel2])).toMatchObject([channel1, channel3, channel2]);
     });
 
     test('should sort channels by their latest post when possible', () => {
@@ -770,6 +818,7 @@ describe('makeGetChannelIdsForCategory', () => {
                     dmChannel2,
                     gmChannel1,
                 },
+                messageCounts: {},
                 myMembers: {
                     [channel1.id]: {},
                     [channel2.id]: {},
@@ -1229,6 +1278,7 @@ describe('makeGetChannelsByCategory', () => {
                     dmChannel2,
                     gmChannel1,
                 },
+                messageCounts: {},
                 myMembers: {
                     [channel1.id]: {},
                     [channel2.id]: {},

@@ -58,7 +58,7 @@ describe('Permalink message edit', () => {
             const editedText = `edited - ${searchWord}`;
 
             // # Add new text in edit box
-            cy.get('#edit_textbox').should('be.visible').type('any').clear().type(editedText);
+            cy.get('#edit_textbox').should('be.visible').type('any').click().focused().clear({force: true}).type(editedText);
 
             // # Click edit button
             cy.get('#editButton').click();
@@ -87,7 +87,7 @@ describe('Permalink message edit', () => {
         cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${team.name}/channels/town-square`).and('not.include', `/${permalinkId}`);
 
         // * Verify edited post
-        cy.get(`#postMessageText_${permalinkId}`).should('have.text', text);
-        cy.get(`#postEdited_${permalinkId}`).should('have.text', '(edited)');
+        cy.get(`#postMessageText_${permalinkId}`).should('have.text', `${text} Edited`);
+        cy.get(`#postEdited_${permalinkId}`).should('have.text', 'Edited');
     }
 });

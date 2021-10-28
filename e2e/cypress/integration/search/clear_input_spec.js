@@ -15,33 +15,34 @@ import * as MESSAGES from '../../fixtures/messages';
 
 describe('Search', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
     it('QuickInput clear X', () => {
         // * X should not be visible on empty input
-        cy.get('#searchFormContainer').find('.input-clear-x').should('not.exist');
+        cy.uiGetSearchContainer().find('.input-clear-x').should('not.exist');
 
         // # Write something on the input
-        cy.get('#searchBox').clear().type('abc');
+        cy.uiGetSearchBox().clear().type('abc');
 
         // * The input should contain what we wrote
-        cy.get('#searchBox').should('have.value', 'abc');
+        cy.uiGetSearchBox().should('have.value', 'abc');
 
         // * The X should be visible
-        cy.get('#searchFormContainer').find('.input-clear-x').should('be.visible');
-
-        // # Click the X to clear the input field
-        cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
+        // # Then click X to clear the input field
+        cy.uiGetSearchContainer().
+            find('.input-clear-x').
+            should('be.visible').
+            click({force: true});
 
         // * The X should not be visible since the input is cleared
-        cy.get('#searchFormContainer').find('.input-clear-x').should('not.exist');
+        cy.uiGetSearchContainer().find('.input-clear-x').should('not.exist');
 
         // * The value of the input is empty
-        cy.get('#searchBox').should('have.value', '');
+        cy.uiGetSearchBox().should('have.value', '');
     });
 
     it('MM-T368 - Text in search box should not clear when Pinned or Saved posts icon is clicked', () => {
@@ -49,32 +50,24 @@ describe('Search', () => {
 
         // * Verify search input field exists and not search button, as inputs contains placeholder not buttons/icons
         // and then type in a search text
-        cy.get('#searchBox').should('be.visible').as('searchInput');
-        cy.get('@searchInput').click().wait(TIMEOUTS.HALF_SEC).type(searchText);
+        cy.uiGetSearchBox().click().wait(TIMEOUTS.HALF_SEC).type(searchText);
 
         // # Click on the pinned post button from the header
-        cy.findByRole('button', {name: 'Pinned posts'}).should('be.visible').click();
+        cy.uiGetChannelPinButton().click();
 
         // * Verify the pinned post RHS is open
-        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts');
+        cy.uiGetRHS().should('contain', 'Pinned Posts');
 
         // * Check that search input value remains the same as we entered before
-        cy.get('@searchInput').should('have.value', searchText);
+        cy.uiGetSearchBox().should('have.value', searchText);
 
         // # Now click on the saved post button from the header
-        cy.get('#channel-header').within(() => {
-            cy.findByLabelText('Save Icon').should('be.visible').and('exist').click();
-        });
+        cy.uiGetSavedPostButton().click();
 
         // * Verify the pinned post RHS is open
-        cy.get('#sidebar-right').should('be.visible').and('contain', 'Saved posts');
+        cy.uiGetRHS().should('contain', 'Saved posts');
 
         // * Again check that search input value remains the same as we entered before
-        cy.get('@searchInput').should('have.value', searchText);
-
-        // # Close the Saved posts RHS
-        cy.get('#sidebar-right').within(() => {
-            cy.findByLabelText('Close').should('be.visible').and('exist').click();
-        });
+        cy.uiGetSearchBox().should('have.value', searchText);
     });
 });

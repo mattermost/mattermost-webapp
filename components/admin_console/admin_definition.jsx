@@ -70,7 +70,6 @@ import {
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
-    ChannelsFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
     DataRetentionFeatureDiscovery,
@@ -510,7 +509,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.teams'),
             title_default: 'Teams',
             isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             ),
             schema: {
@@ -531,37 +529,11 @@ const AdminDefinition = {
             url: 'user_management/channels',
             title: t('admin.sidebar.channels'),
             title_default: 'Channels',
-            isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
-            ),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'Channels',
                 component: ChannelSettings,
-            },
-        },
-        channels_feature_discovery: {
-            url: 'user_management/channels',
-            isDiscovery: true,
-            title: t('admin.sidebar.channels'),
-            title_default: 'Channels',
-            isHidden: it.any(
-                it.licensedForFeature('LDAPGroups'),
-                it.not(it.enterpriseReady),
-            ),
-            schema: {
-                id: 'Channels',
-                name: t('admin.channel_settings.title'),
-                name_default: 'Channels',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: ChannelsFeatureDiscovery,
-                        key: 'ChannelsFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                    },
-                ],
             },
         },
         systemScheme: {
@@ -1925,7 +1897,7 @@ const AdminDefinition = {
                         label: t('admin.support.enableAskCommunityTitle'),
                         label_default: 'Enable Ask Community Link:',
                         help_text: t('admin.support.enableAskCommunityDesc'),
-                        help_text_default: 'When true, "Ask the community" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.',
+                        help_text_default: 'When true, "Ask the community" link appears on the Mattermost user interface and Help Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -1934,7 +1906,7 @@ const AdminDefinition = {
                         label: t('admin.support.helpTitle'),
                         label_default: 'Help Link:',
                         help_text: t('admin.support.helpDesc'),
-                        help_text_default: 'The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.',
+                        help_text_default: 'The URL for the Help link on the Mattermost login page, sign-up pages, and Help Menu. If this field is empty, the Help link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -1943,7 +1915,7 @@ const AdminDefinition = {
                         label: t('admin.support.emailTitle'),
                         label_default: 'Support Email:',
                         help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications and during tutorial for end users to ask support questions.',
+                        help_text_default: 'Email address displayed on email notifications.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -1982,7 +1954,7 @@ const AdminDefinition = {
                         label: t('admin.support.problemTitle'),
                         label_default: 'Report a Problem Link:',
                         help_text: t('admin.support.problemDesc'),
-                        help_text_default: 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.',
+                        help_text_default: 'The URL for the Report a Problem link in the Help Menu. If this field is empty, the link is removed from the Help Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
@@ -1992,7 +1964,7 @@ const AdminDefinition = {
                         label: t('admin.customization.appDownloadLinkTitle'),
                         label_default: 'Mattermost Apps Download Page Link:',
                         help_text: t('admin.customization.appDownloadLinkDesc'),
-                        help_text_default: 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.',
+                        help_text_default: 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Product Menu so users can find the download page. Leave this field blank to hide the option from the Product Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
@@ -2054,7 +2026,7 @@ const AdminDefinition = {
                         label_default: 'Available Languages:',
                         help_text: t('admin.general.localization.availableLocalesDescription'),
                         help_text_markdown: true,
-                        help_text_default: 'Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.',
+                        help_text_default: 'Set which languages are available for users in **Settings > Display > Language** (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.',
                         multiple: true,
                         no_result: t('admin.general.localization.availableLocalesNoResults'),
                         no_result_default: 'No results found',
@@ -2150,7 +2122,7 @@ const AdminDefinition = {
                         label: t('admin.lockTeammateNameDisplay'),
                         label_default: 'Lock Teammate Name Display for all users: ',
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
-                        help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
+                        help_text_default: 'When true, disables users\' ability to change settings under Account Menu > Account Settings > Display > Teammate Name Display.',
                         isHidden: it.not(it.licensedForFeature('LockTeammateNameDisplay')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
@@ -2207,9 +2179,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableConfirmNotificationsToChannel',
                         label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
-                        label_default: 'Show @channel and @all and group mention confirmation dialog:',
+                        label_default: 'Show @channel, @all, @here and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all, @here and group mentions in channels with over five members. When false, no confirmation is required.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                     },
                     {
@@ -2239,7 +2211,7 @@ const AdminDefinition = {
                         label: t('admin.environment.notifications.enableEmailBatching.label'),
                         label_default: 'Enable Email Batching:',
                         help_text: t('admin.environment.notifications.enableEmailBatching.help'),
-                        help_text_default: 'When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Account Settings > Notifications.',
+                        help_text_default: 'When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Settings > Notifications.',
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
@@ -2396,7 +2368,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.any(
-                it.not(it.licensed),
+                it.not(it.licensedForFeature('Announcement')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.ANNOUNCEMENT_BANNER)),
             ),
             schema: {
@@ -2466,7 +2438,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.any(
-                it.licensed,
+                it.licensedForFeature('Announcement'),
                 it.not(it.enterpriseReady),
             ),
             schema: {
@@ -2530,7 +2502,7 @@ const AdminDefinition = {
                         label: t('admin.customization.enableLinkPreviewsTitle'),
                         label_default: 'Enable website link previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
-                        help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
+                        help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Settings > Display > Website Link Previews.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -2553,7 +2525,8 @@ const AdminDefinition = {
                         label: t('admin.customization.enablePermalinkPreviewsTitle'),
                         label_default: 'Enable message link previews:',
                         help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
-                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
+                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -2573,6 +2546,18 @@ const AdminDefinition = {
                         help_text: t('admin.customization.enableLatexDesc'),
                         help_text_default: 'Enable rendering of Latex code. If false, Latex code will be highlighted only.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableInlineLatex',
+                        label: t('admin.customization.enableInlineLatexTitle'),
+                        label_default: 'Enable Inline Latex Rendering:',
+                        help_text: t('admin.customization.enableInlineLatexDesc'),
+                        help_text_default: 'When true, users may render inline Latex code with dollar signs surrounding the text. When false, Latex can only be rendered in a code block using syntax highlighting. [Learn more about text formatting in our documentation](!https://docs.mattermost.com/messaging/formatting-text.html).',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                            it.configIsFalse('ServiceSettings', 'EnableLatex'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -2751,7 +2736,10 @@ const AdminDefinition = {
                         help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). New teams can only be created by users from the above domain(s). This setting affects email login for users. For Guest users, please add domains under Signup > Guest Access.',
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
-                        isHidden: it.not(it.licensed),
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
@@ -3307,7 +3295,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.firstnameAttrEx'),
                                 placeholder_default: 'E.g.: "givenName"',
                                 help_text: t('admin.ldap.firstnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3324,7 +3312,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.lastnameAttrEx'),
                                 placeholder_default: 'E.g.: "sn"',
                                 help_text: t('admin.ldap.lastnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3341,7 +3329,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.nicknameAttrEx'),
                                 placeholder_default: 'E.g.: "nickname"',
                                 help_text: t('admin.ldap.nicknameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3358,7 +3346,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.positionAttrEx'),
                                 placeholder_default: 'E.g.: "title"',
                                 help_text: t('admin.ldap.positionAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in Account Settings.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in **Account Menu > Account Settings > Profile**.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -4319,7 +4307,10 @@ const AdminDefinition = {
                 shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
-                it.not(it.licensed),
+                it.any(
+                    it.not(it.licensed),
+                    it.licensedForSku('starter'),
+                ),
                 it.all(
                     it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),
@@ -5179,17 +5170,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'ServiceSettings.EnableOnlyAdminIntegrations',
-                        label: t('admin.service.integrationAdmin'),
-                        label_default: 'Restrict managing integrations to Admins:',
-                        help_text: t('admin.service.integrationAdminDesc'),
-                        help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
-                        permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: it.licensed,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnablePostUsernameOverride',
                         label: t('admin.service.overrideTitle'),
@@ -5215,7 +5195,7 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
@@ -5513,7 +5493,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
             isHidden: it.any(
-                it.not(it.licensed),
+                it.not(it.licensedForFeature('Compliance')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
@@ -5682,7 +5662,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
                         help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, any via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.licensed), // documented as E20 and higher, but only E10 in the code
+                        isHidden: it.any( // documented as E20 and higher, but only E10 in the code
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5757,7 +5740,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.enableUserDeactivation.title'),
                         label_default: 'Enable Account Deactivation:',
                         help_text: t('admin.experimental.enableUserDeactivation.desc'),
-                        help_text_default: 'When true, users may deactivate their own account from **Account Settings > Advanced**. If a user deactivates their own account, they will get an email notification confirming they were deactivated. When false, users may not deactivate their own account.',
+                        help_text_default: 'When true, users may deactivate their own account from **Settings > Advanced**. If a user deactivates their own account, they will get an email notification confirming they were deactivated. When false, users may not deactivate their own account.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -5767,7 +5750,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalEnableAutomaticReplies.title'),
                         label_default: 'Enable Automatic Replies:',
                         help_text: t('admin.experimental.experimentalEnableAutomaticReplies.desc'),
-                        help_text_default: 'When true, users can enable Automatic Replies in **Account Settings > Notifications**. Users set a custom message that will be automatically sent in response to Direct Messages. When false, disables the Automatic Direct Message Replies feature and hides it from Account Settings.',
+                        help_text_default: 'When true, users can enable Automatic Replies in **Settings > Notifications**. Users set a custom message that will be automatically sent in response to Direct Messages. When false, disables the Automatic Direct Message Replies feature and hides it from Settings.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -5848,7 +5831,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.enablePreviewFeatures.title'),
                         label_default: 'Enable Preview Features:',
                         help_text: t('admin.experimental.enablePreviewFeatures.desc'),
-                        help_text_default: 'When true, preview features can be enabled from **Account Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.',
+                        help_text_default: 'When true, preview features can be enabled from **Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Settings > Advanced > Preview pre-release features**.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -5858,9 +5841,12 @@ const AdminDefinition = {
                         label: t('admin.experimental.enableThemeSelection.title'),
                         label_default: 'Enable Theme Selection:',
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
-                        help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
+                        help_text_default: 'Enables the **Display > Theme** tab in Settings so users can select their theme.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5869,9 +5855,12 @@ const AdminDefinition = {
                         label: t('admin.experimental.allowCustomThemes.title'),
                         label_default: 'Allow Custom Themes:',
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
-                        help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
+                        help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Settings.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
@@ -5912,7 +5901,10 @@ const AdminDefinition = {
                                 display_name_default: 'Onyx',
                             },
                         ],
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -6022,7 +6014,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.collapsedThreads.title'),
                         label_default: 'Collapsed Reply Threads',
                         help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
                         help_text_markdown: true,
                         options: [
                             {
@@ -6051,19 +6043,8 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalTimezone.title'),
                         label_default: 'Timezone:',
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
-                        help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
+                        help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone section is visible in the Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Settings.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalTownSquareIsReadOnly',
-                        label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
-                        label_default: 'Town Square is Read-Only:',
-                        help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
-                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
-                        help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {

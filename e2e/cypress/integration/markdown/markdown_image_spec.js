@@ -20,9 +20,9 @@ describe('Markdown', () => {
             },
         });
 
-        // # Login as new user, create new team and visit its URL
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user, create new team and off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -80,23 +80,21 @@ describe('Markdown', () => {
         // #  Post markdown message
         cy.postMessageFromFile('markdown/markdown_inline_images_6.md');
 
-        cy.getLastPostId().then((postId) => {
-            // # Get the image and simulate a click.
-            cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
-                cy.get('.markdown-inline-img').should('be.visible').
-                    and((inlineImg) => {
-                        expect(inlineImg.height()).to.be.closeTo(151, 2);
-                        expect(inlineImg.width()).to.be.closeTo(951, 2);
-                    }).
-                    click();
-            });
-
-            // * Verify that the preview modal opens
-            cy.get('div.modal-image__content').should('be.visible').trigger('mouseover');
-
-            // # Close the modal
-            cy.get('div.modal-close').should('exist').click({force: true});
+        cy.uiGetPostBody().within(() => {
+            cy.get('.markdown-inline-img').
+                should('be.visible').
+                and((inlineImg) => {
+                    expect(inlineImg.height()).to.be.closeTo(151, 2);
+                    expect(inlineImg.width()).to.be.closeTo(951, 2);
+                }).
+                click();
         });
+
+        // * Verify that the preview modal opens
+        cy.uiGetFilePreviewModal();
+
+        // # Close the modal
+        cy.uiCloseFilePreviewModal();
     });
 
     it('opens file preview window when icon image is clicked', () => {
@@ -105,21 +103,19 @@ describe('Markdown', () => {
         // #  Post markdown message
         cy.postMessageFromFile('markdown/markdown_inline_images_2.md');
 
-        cy.getLastPostId().then((postId) => {
-            // # Get the image and simulate a click.
-            cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
-                cy.get('.markdown-inline-img').should('be.visible').
-                    should('have.css', 'height', '34px').
-                    and('have.css', 'width', '34px').
-                    click();
-            });
-
-            // * Verify that the preview modal opens
-            cy.get('div.file-details__container').should('be.visible').trigger('mouseover');
-
-            // # Close the modal
-            cy.get('div.modal-close').should('exist').click({force: true});
+        cy.uiGetPostBody().within(() => {
+            cy.get('.markdown-inline-img').
+                should('be.visible').
+                and('have.css', 'height', '34px').
+                and('have.css', 'width', '34px').
+                click();
         });
+
+        // * Verify that the preview modal opens
+        cy.uiGetFilePreviewModal();
+
+        // # Close the modal
+        cy.uiCloseFilePreviewModal();
     });
 
     it('channel header is markdown image', () => {
@@ -136,14 +132,13 @@ describe('Markdown', () => {
             and('have.css', 'height', '18px');
 
         // * Verify image in system message
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
-                should('have.class', 'markdown-inline-img--hover').
-                and('have.class', 'cursor--pointer').
-                and('have.class', 'a11y--active').
-                and('have.class', 'markdown-inline-img--scaled-down').
-                and('have.css', 'height', '18px');
-        });
+        cy.uiGetPostBody().
+            find('img.markdown-inline-img').
+            should('have.class', 'markdown-inline-img--hover').
+            and('have.class', 'cursor--pointer').
+            and('have.class', 'a11y--active').
+            and('have.class', 'markdown-inline-img--scaled-down').
+            and('have.css', 'height', '18px');
     });
 
     it('channel header is markdown image that is also a link', () => {
@@ -159,12 +154,11 @@ describe('Markdown', () => {
             and('have.css', 'height', '18px');
 
         // * Verify image in system message
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img--no-border').
-                should('have.class', 'markdown-inline-img--hover').
-                and('have.class', 'markdown-inline-img').
-                and('have.class', 'markdown-inline-img--scaled-down').
-                and('have.css', 'height', '18px');
-        });
+        cy.uiGetPostBody().
+            find('img.markdown-inline-img--no-border').
+            should('have.class', 'markdown-inline-img--hover').
+            and('have.class', 'markdown-inline-img').
+            and('have.class', 'markdown-inline-img--scaled-down').
+            and('have.css', 'height', '18px');
     });
 });

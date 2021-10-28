@@ -7,11 +7,13 @@ import {browserHistory} from 'utils/browser_history';
 
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
+import {imageURLForUser} from 'utils/utils.jsx';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import PurchaseModal from 'components/purchase_modal';
 import Timestamp from 'components/timestamp';
+import Avatar from 'components/widgets/users/avatar';
 
 import Textbox from './textbox';
 
@@ -28,6 +30,7 @@ window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
+window.Luxon = require('luxon');
 
 // Functions exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};
@@ -46,4 +49,6 @@ window.Components = {
     Timestamp,
     ChannelInviteModal,
     ChannelMembersModal,
+    Avatar,
+    imageURLForUser,
 };

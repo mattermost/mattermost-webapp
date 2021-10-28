@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {toggleShortcutsModal} from 'actions/global_actions';
@@ -39,9 +38,9 @@ const openAdminConsole = (isAdmin: boolean) => {
     browserHistory.push('/admin_console/');
 };
 
-const openIncidentsPlugin = (isAdmin: boolean, team: Team) => {
+const openPlaybooks = (isAdmin: boolean) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'click_open_incidents');
-    browserHistory.push(`/${team.name}/com.mattermost.plugin-incident-management/playbooks`);
+    browserHistory.push('/playbooks');
 };
 
 type Props = {
@@ -49,9 +48,7 @@ type Props = {
     animating: boolean;
     currentUserId: string;
     isFirstAdmin: boolean;
-    team: Team;
-    isCloud: boolean;
-    globalHeaderEnabled: boolean;
+    isAdmin: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;
@@ -60,21 +57,19 @@ type Props = {
 export default function NextStepsTips(props: Props) {
     const dispatch = useDispatch();
     const openPluginMarketplace = () => {
-        trackEvent(getAnalyticsCategory(props.isFirstAdmin), 'click_add_plugins');
-        openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal})(dispatch);
+        trackEvent(getAnalyticsCategory(props.isAdmin), 'click_add_plugins');
+        dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
     };
-    const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
+    const openMoreChannels = () => dispatch(openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels}));
 
-    const openViewMembersModal = openModal({
+    const openViewMembersModal = () => dispatch(openModal({
         modalId: ModalIdentifiers.TEAM_MEMBERS,
         dialogType: TeamMembersModal,
-    });
+    }));
 
-    const closeCloseNextStepsModal = closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL);
+    const onCloseModal = () => dispatch(closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL));
 
-    const onCloseModal = () => closeCloseNextStepsModal(dispatch);
-
-    const closeNextSteps = openModal({
+    const closeNextSteps = () => dispatch(openModal({
         modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
         dialogType: RemoveNextStepsModal,
         dialogProps: {
@@ -82,7 +77,6 @@ export default function NextStepsTips(props: Props) {
                 'sidebar_next_steps.tipsAndNextSteps',
                 'Tips & Next Steps',
             ),
-            globalHeaderEnabled: props.globalHeaderEnabled,
             onConfirm: () => {
                 props.savePreferences(props.currentUserId, [
                     {
@@ -97,10 +91,10 @@ export default function NextStepsTips(props: Props) {
             },
             onCancel: onCloseModal,
         },
-    });
+    }));
 
     let nonMobileTips;
-    if (!Utils.isMobile() && props.isFirstAdmin) {
+    if (!Utils.isMobile() && props.isAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
@@ -129,37 +123,35 @@ export default function NextStepsTips(props: Props) {
                         </button>
                     </div>
                 </Card>
-                {props.isCloud && (
-                    <Card expanded={true}>
-                        <div className='Card__body'>
-                            <div className='Card__image'>
-                                <IncidentsSvg/>
-                            </div>
-                            <h4>
-                                <FormattedMessage
-                                    id='next_steps_view.tips.resolveIncidents'
-                                    defaultMessage='Resolve incidents faster'
-                                />
-                            </h4>
-                            <FormattedMessage
-                                id='next_steps_view.tips.resolveIncidents.text'
-                                defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
-                            />
-                            <button
-                                className='NextStepsView__button NextStepsView__finishButton primary'
-                                onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
-                            >
-                                <FormattedMessage
-                                    id='next_steps_view.tips.resolveIncidents.button'
-                                    defaultMessage='Open playbooks'
-                                />
-                            </button>
+                <Card expanded={true}>
+                    <div className='Card__body'>
+                        <div className='Card__image'>
+                            <IncidentsSvg/>
                         </div>
-                    </Card>
-                )}
+                        <h4>
+                            <FormattedMessage
+                                id='next_steps_view.tips.resolveIncidents'
+                                defaultMessage='Resolve incidents faster'
+                            />
+                        </h4>
+                        <FormattedMessage
+                            id='next_steps_view.tips.resolveIncidents.text'
+                            defaultMessage='Resolve incidents faster with Mattermost Playbooks.'
+                        />
+                        <button
+                            className='NextStepsView__button NextStepsView__finishButton primary'
+                            onClick={() => openPlaybooks(props.isAdmin)}
+                        >
+                            <FormattedMessage
+                                id='next_steps_view.tips.resolveIncidents.button'
+                                defaultMessage='Open playbooks'
+                            />
+                        </button>
+                    </div>
+                </Card>
             </>
         );
-    } else if (!Utils.isMobile() && !props.isFirstAdmin) {
+    } else if (!Utils.isMobile() && !props.isAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
@@ -176,7 +168,7 @@ export default function NextStepsTips(props: Props) {
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openViewMembersModal(dispatch)}
+                            onClick={openViewMembersModal}
                         >
                             <FormattedMessage
                                 id='next_steps_view.tips.viewMembers'
@@ -213,7 +205,7 @@ export default function NextStepsTips(props: Props) {
     }
 
     let channelsSection;
-    if (props.isFirstAdmin) {
+    if (props.isAdmin) {
         channelsSection = (
             <Card expanded={true}>
                 <div className='Card__body'>
@@ -231,7 +223,7 @@ export default function NextStepsTips(props: Props) {
                         defaultMessage='Visit the system console to manage users, teams, and plugins'
                     />
                     <button
-                        onClick={() => openAdminConsole(props.isFirstAdmin)}
+                        onClick={() => openAdminConsole(props.isAdmin)}
                         className='NextStepsView__button NextStepsView__finishButton primary'
                     >
                         <FormattedMessage
@@ -258,7 +250,7 @@ export default function NextStepsTips(props: Props) {
                     />
                     <button
                         className='NextStepsView__button NextStepsView__finishButton primary'
-                        onClick={() => openMoreChannels(dispatch)}
+                        onClick={openMoreChannels}
                     >
                         <FormattedMessage
                             id='next_steps_view.tips.exploreChannels.button'
@@ -299,7 +291,7 @@ export default function NextStepsTips(props: Props) {
                 <CloseIcon
                     id='closeIcon'
                     className='close-icon'
-                    onClick={() => closeNextSteps(dispatch)}
+                    onClick={closeNextSteps}
                 />
             </header>
             <div className='NextStepsView__body'>

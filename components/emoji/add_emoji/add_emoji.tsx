@@ -110,13 +110,13 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
             return;
         }
 
-        if ((/[^a-z0-9_-]/).test(emoji.name)) {
+        if ((/[^a-z0-9+_-]/).test(emoji.name)) {
             this.setState({
                 saving: false,
                 error: (
                     <FormattedMessage
                         id='add_emoji.nameInvalid'
-                        defaultMessage="An emoji's name can only contain lowercase letters, numbers, and the symbols '-' and '_'."
+                        defaultMessage="An emoji's name can only contain lowercase letters, numbers, and the symbols '-', '+' and '_'."
                     />
                 ),
             });

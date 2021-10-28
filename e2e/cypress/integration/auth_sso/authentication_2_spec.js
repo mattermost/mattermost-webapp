@@ -25,7 +25,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('88');
 
-        cy.findByText('Save').click();
+        cy.uiSave();
 
         // * Ensure error appears when saving a password outside of the limits
         cy.findByText('Minimum password length must be a whole number greater than or equal to 5 and less than or equal to 64.', {timeout: TIMEOUTS.ONE_MIN}).
@@ -34,7 +34,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"').clear().type('3');
 
-        cy.findByText('Save').click();
+        cy.uiSave();
 
         // * Ensure error appears when saving a password outside of the limits
         cy.findByText('Minimum password length must be a whole number greater than or equal to 5 and less than or equal to 64.', {timeout: TIMEOUTS.ONE_MIN}).
@@ -47,7 +47,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('7');
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSave();
 
         cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible');
 
@@ -80,7 +80,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('10');
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSave();
 
         cy.reload();
 
@@ -88,7 +88,7 @@ describe('Authentication', () => {
         cy.findByPlaceholderText('E.g.: "5"').invoke('val').should('equal', '10');
         cy.findByPlaceholderText('E.g.: "5"').clear();
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSave();
 
         // * Ensure the limit 10 appears
         cy.findByPlaceholderText('E.g.: "5"').invoke('val').should('equal', '5');
@@ -131,11 +131,10 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        cy.toAccountSettingsModal();
+        // # Go to Account Settings
+        cy.uiOpenAccountSettingsModal('Security');
 
-        cy.findByLabelText('security').click();
-
-        // * Assert that Multifactor Authentication text does not exist
+        // * Assert that Multi-factor Authentication text does not exist
         cy.findByText('Multi-factor Authentication').should('not.exist');
     });
 
@@ -148,11 +147,10 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        cy.toAccountSettingsModal();
+        // # Go to Account Settings
+        cy.uiOpenAccountSettingsModal('Security');
 
-        cy.findByLabelText('security').click();
-
-        // * Assert that Multifactor Authentication text does exist
+        // * Assert that Multi-factor Authentication text does exist
         cy.findByText('Multi-factor Authentication').should('be.visible');
     });
 
@@ -161,7 +159,6 @@ describe('Authentication', () => {
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
                 EnforceMultifactorAuthentication: false,
-
             },
         });
 

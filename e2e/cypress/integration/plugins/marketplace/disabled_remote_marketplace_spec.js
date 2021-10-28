@@ -9,7 +9,6 @@
 
 // Group: @not_cloud @plugin_marketplace @plugin
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {githubPlugin} from '../../../utils/plugins';
 
 describe('Plugin Marketplace', () => {
@@ -41,11 +40,8 @@ describe('Plugin Marketplace', () => {
         // # Visit town-square channel
         cy.visit(townsquareLink);
 
-        // # Click hamburger main menu
-        cy.wait(TIMEOUTS.HALF_SEC).get('#sidebarHeaderDropdownButton').click();
-
-        // # Open up marketplace modal
-        cy.get('#marketplaceModal').click();
+        // # Open up marketplace
+        cy.uiOpenProductMenu('Marketplace');
     });
 
     it('not display any plugins and no error bar', () => {

@@ -6,13 +6,12 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import thunk from 'redux-thunk';
 
-import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersButton from 'components/sidebar/invite_members_button';
 
-import * as preferences from 'mattermost-redux/selectors/entities/preferences';
 import * as teams from 'mattermost-redux/selectors/entities/teams';
 
 describe('components/sidebar/invite_members_button', () => {
@@ -42,6 +41,9 @@ describe('components/sidebar/invite_members_button', () => {
                         roles: 'system_role',
                     },
                 },
+                stats: {
+                    total_users_count: 10,
+                },
             },
             roles: {
                 roles: {
@@ -52,65 +54,26 @@ describe('components/sidebar/invite_members_button', () => {
         },
     };
 
-    const mockStore = configureStore();
+    const props = {
+        onClick: jest.fn(),
+        touchedInviteMembersButton: false,
+    };
+
+    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
-    jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('user_icon');
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.NONE}/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should return the user icon button when button type is USER_ICON', () => {
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').prop('className')).toBe('icon-account-plus-outline');
-    });
-
-    test('should return the left hand side button when button type is LHS_BUTTON', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('lhs_button');
-
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.LHS_BUTTON}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').prop('className')).toBe('icon-plus-box');
-    });
-
-    test('should return the sticky to the bottom button when button type is STICKY', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('sticky_button');
-
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').prop('className')).toBe('icon-account-plus-outline');
-    });
-
-    test('should returnnothing when button type is NONE', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('none');
-
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.NONE}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').exists()).toBeFalsy();
-    });
-
     test('should return nothing when user does not have permissions', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('sticky_button');
         const guestUser = {
             currentUserId: 'guest_user_id',
             profiles: {
@@ -125,9 +88,64 @@ describe('components/sidebar/invite_members_button', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
         expect(wrapper.find('i').exists()).toBeFalsy();
+    });
+
+    test('should should fire onClick prop on click', () => {
+        const mock = jest.fn();
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, onClick: mock}}/>
+            </Provider>,
+        );
+        expect(mock).not.toHaveBeenCalled();
+        wrapper.find('i').simulate('click');
+        expect(mock).toHaveBeenCalled();
+    });
+
+    test('should not be highlighted when button has been touched/clicked', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, touchedInviteMembersButton: true}}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched');
+    });
+
+    test('should be highlighted when component has not been touched/clicked and has less than 10 users', () => {
+        const lessThan10Users = {
+            ...state.entities.users,
+            stats: {
+                total_users_count: 9,
+            },
+        };
+        const lessThan10UsersState = {...state, entities: {...state.entities, users: lessThan10Users}};
+        const store = mockStore(lessThan10UsersState);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...props}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).toContain('untouched');
+    });
+
+    test('should not be highlighted when component has not been touched/clicked but the workspace has more than 10 users', () => {
+        const moreThan10Users = {
+            ...state.entities.users,
+            stats: {
+                total_users_count: 11,
+            },
+        };
+        const moreThan10UsersState = {...state, entities: {...state.entities, users: moreThan10Users}};
+        const store = mockStore(moreThan10UsersState);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...props}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched');
     });
 });

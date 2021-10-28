@@ -80,9 +80,6 @@ exports[`SidebarChannelList should match snapshot 1`] = `
         </Connect(Droppable)>
       </DragDropContext>
     </Scrollbars>
-    <InviteMembersButton
-      buttonType="sticky_button"
-    />
   </div>
 </Fragment>
 `;
