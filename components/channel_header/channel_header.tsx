@@ -65,6 +65,7 @@ const popoverMarkdownOptions = {
 } as const;
 
 type Props = RouteComponentProps & {
+    intl: IntlShape;
     teamId: string;
     currentUser: UserProfile;
     channel?: Channel;
@@ -114,7 +115,7 @@ type State = {
     titleMenuOpen: boolean;
 };
 
-class ChannelHeader extends React.PureComponent<Props & {intl: IntlShape}, State> {
+class ChannelHeader extends React.PureComponent<Props, State> {
     private toggleFavoriteRef: React.RefObject<HTMLButtonElement>;
     private headerDescriptionRef: React.RefObject<HTMLSpanElement>;
     private headerPopoverTextMeasurerRef: React.RefObject<HTMLDivElement>;
@@ -123,7 +124,7 @@ class ChannelHeader extends React.PureComponent<Props & {intl: IntlShape}, State
     private getHeaderMarkdownOptions: (channelNamesMap: any) => {channelNamesMap: any} & typeof headerMarkdownOptions;
     private getPopoverMarkdownOptions: (channelNamesMap: any) => {channelNamesMap: any} & typeof popoverMarkdownOptions;
 
-    constructor(props: Props & {intl: IntlShape}) {
+    constructor(props: Props) {
         super(props);
         this.toggleFavoriteRef = React.createRef();
         this.headerDescriptionRef = React.createRef();
