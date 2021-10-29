@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {displayUsername, displayLastActiveLabel} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, displayLastActiveLabel, isGuest} from 'mattermost-redux/utils/user_utils';
 
 import 'bootstrap';
 
@@ -329,7 +329,7 @@ class ChannelHeader extends React.PureComponent {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge show={Utils.isGuest(dmUser)}/>
+                    <GuestBadge show={isGuest(dmUser.roles)}/>
                 </React.Fragment>
             );
         }
@@ -363,7 +363,7 @@ class ChannelHeader extends React.PureComponent {
                     <React.Fragment key={user.id}>
                         {index > 0 && ', '}
                         {displayName}
-                        <GuestBadge show={Utils.isGuest(user)}/>
+                        <GuestBadge show={isGuest(user.roles)}/>
                     </React.Fragment>
                 );
             });

@@ -11,12 +11,6 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
-
 describe('System Console > Team Statistics', () => {
     before(() => {
         // # Create team.
@@ -63,7 +57,7 @@ describe('System Console > Team Statistics', () => {
     });
 
     it('MM-T907 - Reporting ➜ Team Statistics - teams listed in alphabetical order', () => {
-        goToAdminConsole();
+        cy.visit('/admin_console');
         cy.get('#reporting\\/team_statistics').click();
         cy.wait(TIMEOUTS.ONE_SEC);
 

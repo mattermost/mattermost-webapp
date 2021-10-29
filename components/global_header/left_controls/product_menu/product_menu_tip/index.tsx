@@ -13,22 +13,40 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {Preferences} from 'utils/constants';
+import {ProductComponent} from '../../../../../types/store/plugins';
 
-import {ProductMenuTip} from './product_menu_tip';
+import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
+
+import ProductMenuTip from './product_menu_tip';
+
+export type StateProps = {
+    currentUserId: string;
+    products: ProductComponent[];
+    step: number;
+    isAnnouncementBarOpen: boolean;
+}
+
+export type DispatchProps = {
+    actions: Actions;
+}
+
+type Actions = {
+    savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
+};
+
+export type Props = StateProps & DispatchProps;
 
 function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     const step: number = getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0);
     const products = state.plugins.components.Product;
+    const isAnnouncementBarOpen = getAnnouncementBarCount(state) > 0;
     return {
         currentUserId,
         products,
         step,
+        isAnnouncementBarOpen,
     };
-}
-
-type Actions = {
-    savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -39,4 +57,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductMenuTip);
+export default connect<StateProps, DispatchProps, Record<string, never>, GlobalState>(mapStateToProps, mapDispatchToProps)(ProductMenuTip);

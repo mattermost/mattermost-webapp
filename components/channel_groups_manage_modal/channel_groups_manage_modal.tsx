@@ -23,6 +23,8 @@ import groupsAvatar from 'images/groups-avatar.png';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
+import {ModalData} from 'types/actions';
+
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
@@ -33,8 +35,8 @@ type Props = {
         unlinkGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string) => any;
         patchGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string, params: {scheme_admin: boolean}) => any;
         getMyChannelMember: (channelId: string) => any;
-        closeModal: (modalIdentifiersManageChannelGroups: string) => any;
-        openModal: (params: {modalId: string; dialogType: any}) => any;
+        closeModal: (modalId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 };
 

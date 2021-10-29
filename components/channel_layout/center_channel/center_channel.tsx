@@ -13,6 +13,7 @@ import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import PlaybookRunner from 'components/channel_layout/playbook_runner';
 import {makeAsyncComponent} from 'components/async_load';
+
 const LazyGlobalThreads = makeAsyncComponent(
     React.lazy(() => import('components/threading/global_threads')),
     (

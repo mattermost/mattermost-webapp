@@ -9,7 +9,7 @@ import {Group} from 'mattermost-redux/types/groups';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Command} from 'mattermost-redux/types/integrations';
+import {Command, IncomingWebhook} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Session} from 'mattermost-redux/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
@@ -248,6 +248,24 @@ export class TestHelper {
         return Object.assign({}, defaultGroup, override);
     }
 
+    public static getIncomingWebhookMock(override: Partial<IncomingWebhook> = {}): IncomingWebhook {
+        const defaultIncomingWebhook: IncomingWebhook = {
+            id: 'id',
+            create_at: 1,
+            update_at: 1,
+            delete_at: 1,
+            user_id: '',
+            channel_id: '',
+            team_id: '',
+            display_name: '',
+            description: '',
+            username: '',
+            icon_url: '',
+            channel_locked: false,
+        };
+        return Object.assign({}, defaultIncomingWebhook, override);
+    }
+
     public static getPostMock(override: Partial<Post> = {}): Post {
         const defaultPost: Post = {
             edit_at: 0,
@@ -345,9 +363,9 @@ export class TestHelper {
             switcherText: name,
             baseURL: '',
             switcherLinkURL: '',
-            mainComponent: null,
-            headerCentreComponent: null,
-            headerRightComponent: null,
+            mainComponent: () => null,
+            headerCentreComponent: () => null,
+            headerRightComponent: () => null,
         };
     }
 }
