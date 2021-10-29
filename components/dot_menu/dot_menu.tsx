@@ -247,7 +247,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         e.preventDefault();
 
         const deletePostModalData = {
-            ModalId: ModalIdentifiers.DELETE_POST,
+            modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
                 post: this.props.post,
@@ -436,6 +436,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         text={item.label}
                         key={item.app_id + item.location}
+                        id={`${item.app_id}_${item.location}`}
                         onClick={() => this.onClickAppBinding(item)}
                         icon={icon}
                     />

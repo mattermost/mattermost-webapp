@@ -7,8 +7,8 @@ import {mount, shallow} from 'enzyme';
 
 import ShowStartTrialModal from 'components/announcement_bar/show_start_trial_modal/show_start_trial_modal';
 
-const mockDispatch = jest.fn();
 let mockState: any;
+const mockDispatch = jest.fn();
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
@@ -57,6 +57,15 @@ describe('components/sidebar/show_start_trial_modal', () => {
                     roles: {
                         system_role: {permissions: ['test_system_permission', 'add_user_to_team', 'invite_guest']},
                         team_role: {permissions: ['test_team_no_permission']},
+                    },
+                },
+            },
+            views: {
+                modals: {
+                    modalState: {
+                        trial_benefits_modal: {
+                            open: false,
+                        },
                     },
                 },
             },
@@ -270,6 +279,40 @@ describe('components/sidebar/show_start_trial_modal', () => {
             <ShowStartTrialModal/>,
         );
         expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
+
+    test('should dispatch the getTotalAnalytics when not total users found', () => {
+        const isAdminUser = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_admin system_user'},
+            },
+        };
+
+        const noAnalytics = {
+            analytics: null,
+            prevTrialLicense: {
+                IsLicensed: 'false',
+            },
+        };
+
+        const moreThan6Hours = {
+            config: {
+
+                // installation date is set to be 10 hours before current time
+                InstallationDate: new Date().getTime() - ((10 * 60 * 60) * 1000),
+            },
+            license: {
+                IsLicensed: 'false',
+            },
+        };
+
+        mockState = {...mockState, entities: {...mockState.entities, users: isAdminUser, admin: noAnalytics, general: moreThan6Hours}};
+
+        mount(
+            <ShowStartTrialModal/>,
+        );
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
     test('should dispatch the modal when there are more than 10 users', () => {
         const isAdminUser = {

@@ -7,11 +7,10 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {getSiteURL} from 'utils/url';
-import {t} from 'utils/i18n';
 
 import CopyText from 'components/copy_text';
 
-import DeleteIntegration from './delete_integration.jsx';
+import DeleteIntegrationLink from './delete_integration_link';
 
 export function matchesFilter(incomingWebhook, channel, filter) {
     if (!filter) {
@@ -120,8 +119,13 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
                         />
                     </Link>
                     {' - '}
-                    <DeleteIntegration
-                        messageId={t('installed_incoming_webhooks.delete.confirm')}
+                    <DeleteIntegrationLink
+                        modalMessage={
+                            <FormattedMessage
+                                id='installed_incoming_webhooks.delete.confirm'
+                                defaultMessage='This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?'
+                            />
+                        }
                         onDelete={this.handleDelete}
                     />
                 </div>

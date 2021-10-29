@@ -376,7 +376,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                     channelId={this.props.channel.id}
                     channelIsArchived={this.props.channel.delete_at !== 0}
                     channelType={this.props.channel.type}
-                    focusOnMount={this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0)}
+                    focusOnMount={!this.props.isThreadView && (this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0))}
                     isDeleted={(this.props.selected as Post).state === Posts.POST_DELETED}
                     isFakeDeletedPost={this.props.selected.type === Constants.PostTypes.FAKE_PARENT_DELETED}
                     isThreadView={this.props.isThreadView}
