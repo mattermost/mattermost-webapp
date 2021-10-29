@@ -32,6 +32,7 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
     const today = Cypress.dayjs();
     const dateToBeSelected = today.add(3, 'd');
     const months = dateToBeSelected.get('month') - today.get('month');
+
     it('MM-T4065_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown
         cy.get('.MenuWrapper .status-wrapper').click();
