@@ -48,6 +48,7 @@ type Props = {
         setStatus: (status: UserStatus) => ActionFunc;
         unsetCustomStatus: () => ActionFunc;
         setStatusDropdown: (open: boolean) => void;
+        setUserStatus: (userID: string) => void;
     };
     customStatus?: UserCustomStatus;
     currentUser: UserProfile;
@@ -81,6 +82,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             width: 0,
             isStatusSet: false,
         };
+    }
+
+    componentDidMount() {
+        this.props.actions.setUserStatus(this.props.userId);
     }
 
     setStatus = (status: string, dndEndTime?: number): void => {

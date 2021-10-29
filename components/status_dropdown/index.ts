@@ -20,6 +20,8 @@ import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 
+import {setUserStatus} from '../../actions/user_actions';
+
 import StatusDropdown from './status_dropdown';
 
 function makeMapStateToProps() {
@@ -27,7 +29,6 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state: GlobalState) {
         const currentUser = getCurrentUser(state);
-
         const userId = currentUser?.id;
         const customStatus = getCustomStatus(state, userId);
         return {
@@ -53,6 +54,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             setStatus,
             unsetCustomStatus,
             setStatusDropdown,
+            setUserStatus,
         }, dispatch),
     };
 }
