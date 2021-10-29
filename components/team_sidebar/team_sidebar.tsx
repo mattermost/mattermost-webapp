@@ -45,7 +45,7 @@ type State = {
     teamsOrder: Team[];
 }
 
-export interface Props extends RouteComponentProps {
+export interface Props {
     myTeams: Team[];
     collapsedThreads: boolean;
     currentTeamId: string;
@@ -85,8 +85,8 @@ export function renderThumbVertical(props: Props) {
         />);
 }
 
-export default class TeamSidebar extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
+export default class TeamSidebar extends React.PureComponent<Props & RouteComponentProps, State> {
+    constructor(props: Props & RouteComponentProps) {
         super(props);
 
         this.state = {

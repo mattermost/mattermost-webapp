@@ -1,17 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
+
+import {GlobalState} from 'types/store/index.js';
+
+import {GenericAction} from 'mattermost-redux/types/actions.js';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import JoinLeaveSection from './join_leave_section.jsx';
+import JoinLeaveSection from './join_leave_section';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const joinLeave = getPreference(
         state,
         Preferences.CATEGORY_ADVANCED_SETTINGS,
@@ -25,7 +29,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             savePreferences,
