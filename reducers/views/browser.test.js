@@ -13,11 +13,7 @@ describe('Reducers.Browser', () => {
 
     test('Initial state', () => {
         const nextState = browserReducer(
-            {
-                focused: true,
-                windowSize: WindowSizes.DESKTOP_VIEW,
-                isNotificationsPermissionGranted: false,
-            },
+            initialState,
             {},
         );
 
@@ -26,11 +22,7 @@ describe('Reducers.Browser', () => {
 
     test(`should lose focus on ${ActionTypes.BROWSER_CHANGE_FOCUS}`, () => {
         const nextState = browserReducer(
-            {
-                focused: true,
-                windowSize: WindowSizes.DESKTOP_VIEW,
-                isNotificationsPermissionGranted: false,
-            },
+            initialState,
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
                 focus: false,
@@ -45,11 +37,7 @@ describe('Reducers.Browser', () => {
 
     test(`should gain focus on ${ActionTypes.BROWSER_CHANGE_FOCUS}`, () => {
         const nextState = browserReducer(
-            {
-                focused: false,
-                windowSize: WindowSizes.DESKTOP_VIEW,
-                isNotificationsPermissionGranted: false,
-            },
+            initialState,
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
                 focus: true,
@@ -64,11 +52,7 @@ describe('Reducers.Browser', () => {
 
     test(`should reflect window resize update on ${ActionTypes.BROWSER_WINDOW_RESIZED}`, () => {
         const nextState = browserReducer(
-            {
-                focused: true,
-                windowSize: WindowSizes.DESKTOP_VIEW,
-                isNotificationsPermissionGranted: false,
-            },
+            initialState,
             {
                 type: ActionTypes.BROWSER_WINDOW_RESIZED,
                 data: WindowSizes.MOBILE_VIEW,
@@ -83,11 +67,7 @@ describe('Reducers.Browser', () => {
 
     test(`should save notifications permission status on ${ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED}`, () => {
         const nextState = browserReducer(
-            {
-                focused: true,
-                windowSize: WindowSizes.DESKTOP_VIEW,
-                isNotificationsPermissionGranted: false,
-            },
+            initialState,
             {
                 type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
                 data: true,

@@ -4,7 +4,7 @@ import {AnyAction} from 'redux';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 
 type TestStoreDispatch = ThunkDispatch<GlobalState, undefined, AnyAction>;
 

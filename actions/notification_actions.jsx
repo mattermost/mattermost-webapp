@@ -248,9 +248,7 @@ export const enableBrowserNotifications = () => {
 };
 
 export const disableNotificationsPermissionRequests = () => {
-    return (dispatch) => {
-        dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1));
-    };
+    return StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1);
 };
 
 const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
