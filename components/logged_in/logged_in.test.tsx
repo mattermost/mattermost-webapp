@@ -4,9 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LoggedIn from 'components/logged_in/logged_in.jsx';
+import LoggedIn, {Props} from 'components/logged_in/logged_in';
 import BrowserStore from 'stores/browser_store';
 import * as GlobalActions from 'actions/global_actions';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 jest.mock('actions/websocket_actions.jsx', () => ({
     initialize: jest.fn(),
@@ -16,8 +17,8 @@ BrowserStore.signalLogin = jest.fn();
 
 describe('components/logged_in/LoggedIn', () => {
     const children = <span>{'Test'}</span>;
-    const baseProps = {
-        currentUser: {},
+    const baseProps: Props = {
+        currentUser: {} as UserProfile,
         mfaRequired: false,
         enableTimezone: false,
         actions: {
@@ -33,18 +34,17 @@ describe('components/logged_in/LoggedIn', () => {
     it('should render loading state without user', () => {
         const props = {
             ...baseProps,
-            currentUser: null,
+            currentUser: undefined,
         };
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`,
-        );
+            <LoadingScreen
+              position="relative"
+              style={Object {}}
+            />
+        `);
     });
 
     it('should redirect to mfa when required and not on /mfa/setup', () => {
@@ -56,11 +56,10 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<Redirect
-  to="/mfa/setup"
-/>
-`,
-        );
+            <Redirect
+              to="/mfa/setup"
+            />
+        `);
     });
 
     it('should render children when mfa required and already on /mfa/setup', () => {
@@ -75,11 +74,10 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<span>
-  Test
-</span>
-`,
-        );
+            <span>
+              Test
+            </span>
+        `);
     });
 
     it('should render children when mfa is not required and on /mfa/confirm', () => {
@@ -94,11 +92,10 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<span>
-  Test
-</span>
-`,
-        );
+            <span>
+              Test
+            </span>
+        `);
     });
 
     it('should redirect to terms of service when mfa not required and terms of service required but not on /terms_of_service', () => {
@@ -111,11 +108,10 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<Redirect
-  to="/terms_of_service?redirect_to=%2F"
-/>
-`,
-        );
+            <Redirect
+              to="/terms_of_service?redirect_to=%2F"
+            />
+        `);
     });
 
     it('should render children when mfa is not required and terms of service required and on /terms_of_service', () => {
@@ -131,11 +127,10 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<span>
-  Test
-</span>
-`,
-        );
+            <span>
+              Test
+            </span>
+        `);
     });
 
     it('should render children when neither mfa nor terms of service required', () => {
@@ -148,11 +143,10 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<span>
-  Test
-</span>
-`,
-        );
+            <span>
+              Test
+            </span>
+        `);
     });
 
     it('should signal to other tabs when login is successful', () => {
@@ -169,7 +163,9 @@ describe('components/logged_in/LoggedIn', () => {
 
     it('should set state to unfocused if it starts in the background', () => {
         document.hasFocus = jest.fn(() => false);
-        GlobalActions.emitBrowserFocus = jest.fn();
+
+        const obj = Object.assign(GlobalActions);
+        obj.emitBrowserFocus = jest.fn();
 
         const props = {
             ...baseProps,
@@ -178,6 +174,6 @@ describe('components/logged_in/LoggedIn', () => {
         };
 
         shallow(<LoggedIn {...props}>{children}</LoggedIn>);
-        expect(GlobalActions.emitBrowserFocus).toBeCalledTimes(1);
+        expect(obj.emitBrowserFocus).toBeCalledTimes(1);
     });
 });

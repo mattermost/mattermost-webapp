@@ -14,7 +14,8 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
@@ -53,7 +54,7 @@ type State = {
 
 export default class QuickSwitchModal extends React.PureComponent<Props, State> {
     private channelProviders: SwitchChannelProvider[];
-    private switchBox: SuggestionBox|null;
+    private switchBox: SuggestionBoxComponent|null;
 
     constructor(props: Props) {
         super(props);
@@ -83,7 +84,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         }
     };
 
-    private setSwitchBoxRef = (input: SuggestionBox): void => {
+    private setSwitchBoxRef = (input: SuggestionBoxComponent): void => {
         this.switchBox = input;
         this.focusTextbox();
     };

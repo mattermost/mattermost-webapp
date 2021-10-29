@@ -12,6 +12,7 @@ import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
+const OPEN_COMMAND_IN_MODAL_ITEM_ID = Constants.Integrations.OPEN_COMMAND_IN_MODAL_ITEM_ID;
 const KeyCodes = Constants.KeyCodes;
 
 export default class SuggestionBox extends React.PureComponent {
@@ -152,6 +153,10 @@ export default class SuggestionBox extends React.PureComponent {
          * To show suggestions even when focus is lost
          */
         forceSuggestionsWhenBlur: PropTypes.bool,
+
+        actions: PropTypes.shape({
+            addMessageIntoHistory: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -450,9 +455,16 @@ export default class SuggestionBox extends React.PureComponent {
     handleCompleteWord = (term, matchedPretext, e) => {
         let fixedTerm = term;
         let finish = false;
+        let openCommandInModal = false;
         if (term.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
             fixedTerm = term.substring(0, term.length - EXECUTE_CURRENT_COMMAND_ITEM_ID.length);
             finish = true;
+        }
+
+        if (term.endsWith(OPEN_COMMAND_IN_MODAL_ITEM_ID)) {
+            fixedTerm = term.substring(0, term.length - OPEN_COMMAND_IN_MODAL_ITEM_ID.length);
+            finish = true;
+            openCommandInModal = true;
         }
 
         if (!finish) {
@@ -475,6 +487,18 @@ export default class SuggestionBox extends React.PureComponent {
         }
 
         this.clear();
+
+        if (openCommandInModal) {
+            const appProvider = this.props.providers.find((p) => p.openAppsModalFromCommand);
+            if (!appProvider) {
+                return false;
+            }
+            appProvider.openAppsModalFromCommand(fixedTerm);
+            this.props.actions.addMessageIntoHistory(fixedTerm);
+            this.inputRef.current.value = '';
+            this.handleChange({target: this.inputRef.current});
+            return false;
+        }
 
         this.inputRef.current.focus();
 
@@ -762,6 +786,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'wrapperHeight');
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
+        Reflect.deleteProperty(props, 'actions');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;

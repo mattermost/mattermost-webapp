@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ConfirmModal from 'components/confirm_modal';
-import PermissionsSchemeSummary from 'components/admin_console/permission_schemes_settings/permissions_scheme_summary/permissions_scheme_summary.jsx';
+import PermissionsSchemeSummary from 'components/admin_console/permission_schemes_settings/permissions_scheme_summary/permissions_scheme_summary';
 
 describe('components/admin_console/permission_schemes_settings/permissions_scheme_summary', () => {
     const defaultProps = {
@@ -23,7 +23,7 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
         actions: {
             deleteScheme: jest.fn().mockResolvedValue({data: true}),
         },
-    };
+    } as any;
 
     test('should match snapshot on default data', () => {
         const wrapper = shallow(
@@ -76,11 +76,11 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
         expect(deleteScheme).not.toBeCalled();
         wrapper.find('.delete-button').first().simulate('click', {stopPropagation: jest.fn()});
         expect(deleteScheme).not.toBeCalled();
-        wrapper.find(ConfirmModal).first().prop('onCancel')();
+        wrapper.find(ConfirmModal).first().props().onCancel?.(true);
         expect(deleteScheme).not.toBeCalled();
 
         wrapper.find('.delete-button').first().simulate('click', {stopPropagation: jest.fn()});
-        wrapper.find(ConfirmModal).first().prop('onConfirm')();
+        wrapper.find(ConfirmModal).first().props().onConfirm?.(true);
         expect(deleteScheme).toBeCalledWith('id');
     });
 });
