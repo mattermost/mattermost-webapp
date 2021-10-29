@@ -180,6 +180,11 @@
     top: unset;
     left: unset;
     padding-left: 0;
+    cursor: auto;
+
+    .SubMenuItem {
+        width: 100%;
+    }
 }
 
 .SubMenu__icon-left {
