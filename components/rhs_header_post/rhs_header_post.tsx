@@ -72,10 +72,8 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
     handleFollowChange = () => {
         const {currentTeamId, currentUserId, rootPostId, isFollowingThread, isMentionedInRootPost} = this.props;
         let followingThread: boolean;
-        if (isFollowingThread === null && isMentionedInRootPost) {
-            followingThread = false;
-        } else if (isFollowingThread === null) {
-            followingThread = true;
+        if (isFollowingThread === null) {
+            followingThread = !isMentionedInRootPost;
         } else {
             followingThread = !isFollowingThread;
         }
@@ -192,7 +190,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                     {this.props.isCollapsedThreadsEnabled ? (
                         <FollowButton
                             className='sidebar--right__follow__thread'
-                            isFollowing={(isFollowingThread === null && isMentionedInRootPost) ? true : isFollowingThread}
+                            isFollowing={isFollowingThread ?? isMentionedInRootPost}
                             onClick={this.handleFollowChange}
                         />
                     ) : null}

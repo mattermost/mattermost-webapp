@@ -271,10 +271,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     handleSetThreadFollow = () => {
         const {actions, currentTeamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
         let followingThread: boolean;
-        if (isFollowingThread === null && isMentionedInRootPost) {
-            followingThread = false;
-        } else if (isFollowingThread === null) {
-            followingThread = true;
+        if (isFollowingThread === null) {
+            followingThread = !isMentionedInRootPost;
         } else {
             followingThread = !isFollowingThread;
         }
@@ -455,7 +453,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
-        const isFollowingThread = (this.props.isFollowingThread === null && this.props.isMentionedInRootPost) ? true : this.props.isFollowingThread;
+        const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
 
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
