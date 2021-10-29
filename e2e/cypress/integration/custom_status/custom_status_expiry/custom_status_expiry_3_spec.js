@@ -29,7 +29,9 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         duration: '30 minutes',
     };
 
-    const dateToBeSelected = Cypress.dayjs().add(3, 'd');
+    const today = Cypress.dayjs();
+    const dateToBeSelected = today.add(3, 'd');
+    const months = dateToBeSelected.get('month') - today.get('month');
     it('MM-T4065_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown
         cy.get('.MenuWrapper .status-wrapper').click();
@@ -100,6 +102,9 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.get('.DayPickerInput-Overlay').should('be.visible');
 
         // # Click on the date which is dateToBeSelected
+        for (let i = 0; i < months; i++) {
+            cy.get('.fa-angle-right').click();
+        }
         cy.get('.DayPickerInput-Overlay').find(`.DayPicker-Week div[aria-label="${dateToBeSelected.format('ddd MMM DD YYYY')}"]`).click();
 
         // * Check that the date input should have the correct value
