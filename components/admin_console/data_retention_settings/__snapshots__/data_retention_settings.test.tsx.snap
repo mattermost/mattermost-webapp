@@ -305,6 +305,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                 id="admin.data_retention.createJob.title"
               />
             }
+            isDisabled={false}
             onClick={[Function]}
             subtitle={
               <Memo(MemoizedFormattedMessage)
@@ -691,6 +692,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                 id="admin.data_retention.createJob.title"
               />
             }
+            isDisabled={false}
             onClick={[Function]}
             subtitle={
               <Memo(MemoizedFormattedMessage)
@@ -1072,6 +1074,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                 id="admin.data_retention.createJob.title"
               />
             }
+            isDisabled={false}
             onClick={[Function]}
             subtitle={
               <Memo(MemoizedFormattedMessage)
@@ -1383,6 +1386,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                 id="admin.data_retention.createJob.title"
               />
             }
+            isDisabled={false}
             onClick={[Function]}
             subtitle={
               <Memo(MemoizedFormattedMessage)
