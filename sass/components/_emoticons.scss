@@ -555,9 +555,9 @@ $emoji-half-height: 33px;
     $border-width: 1px;
 
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     min-height: $border-width + $emoji-half-height + $emoji-picker-footer-margin * 2; // prevents tiny layout shift when emoji replaces placeholder
+    align-items: center;
+    justify-content: space-between;
     border-top: solid $border-width rgba(61, 60, 64, 0.2);
 }
 
@@ -608,8 +608,8 @@ $emoji-half-height: 33px;
     }
 
     .emoji-picker__preview-image-box {
-        vertical-align: middle;
         margin-right: 12px;
+        vertical-align: middle;
 
         &,
         .sprite-preview {
