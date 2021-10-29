@@ -33,7 +33,7 @@ describe('Account Settings', () => {
         // # Save the settings
         cy.uiSave();
 
-        // * Check that there are no errors
+        // * Check that there is an error
         cy.get('#clientError').should('be.visible').should('contain', 'Please enter your current password.');
         cy.get('#serverError').should('not.exist');
     });
