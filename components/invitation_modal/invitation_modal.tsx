@@ -7,15 +7,18 @@ import {Modal} from 'react-bootstrap';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {Team} from 'mattermost-redux/types/teams';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+
 
 import ResultView, {ResultState, defaultResultState} from './result_view';
 import InviteView, {InviteState, defaultInviteState} from './invite_view';
 import {As} from './invite_as';
+import {EmailInvite} from 'components/widgets/inputs/users_emails_input';
 
 type Props = {
     show: boolean;
@@ -23,10 +26,14 @@ type Props = {
     actions: {
         closeModal: () => void;
         searchChannels: (teamId: string, term: string) => ActionFunc;
+        regenerateTeamInviteId: (teamId: string) => void;
+        // sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
+        searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     };
     currentTeam: Team;
     currentChannelName: string;
     invitableChannels: Channel[];
+    isAdmin: boolean;
 }
 
 type View = 'invite' | 'result' | 'error'
@@ -35,10 +42,12 @@ type State = {
     view: View;
     invite: InviteState;
     result: ResultState;
+    termWithoutResults: string | null;
 };
 
 const defaultState: State = deepFreeze({
     view: 'invite',
+    termWithoutResults: null,
     invite: defaultInviteState,
     result: defaultResultState,
 });
@@ -123,6 +132,7 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
             },
         }));
     }
+
     onChannelsInputChange = (search: string) => {
         this.setState((state) => ({
             ...state,
@@ -136,6 +146,46 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
         }));
     }
 
+    debouncedSearchProfiles = debounce((term:string, callback: (users: Array<UserProfile>) => void) => {
+        this.props.actions.searchProfiles(term, null)
+        .then(({data}) => {
+            callback(data as unknown as Array<UserProfile>);
+            if (data.length === 0) {
+                this.setState({termWithoutResults: term});
+            } else {
+                this.setState({termWithoutResults: null});
+            }
+        }).
+            catch(() => {
+            callback([]);
+        });
+    }, 150);
+
+    usersLoader = (term: string, callback: (users: Array<UserProfile>) => void) => {
+        if (
+            this.state.termWithoutResults &&
+            term.startsWith(this.state.termWithoutResults)
+        ) {
+            callback([]);
+            return;
+        }
+        try {
+            this.debouncedSearchProfiles(term, callback);
+        } catch (error) {
+            callback([]);
+        }
+    };
+
+    onChangeUsersEmails = (usersEmails: Array<UserProfile | EmailInvite>) => {
+        this.setState((state: State) => ({
+            ...state,
+            invite: {
+                ...state.invite,
+                usersEmails,
+            }
+        }));
+    }
+
     render() {
         let view = (
             <InviteView
@@ -145,10 +195,14 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
                 setCustomMessage={this.setCustomMessage}
                 channelsLoader={this.channelsLoader}
                 toggleCustomMessage={this.toggleCustomMessage}
-                currentTeamName={this.props.currentTeam.name}
+                regenerateTeamInviteId={this.props.actions.regenerateTeamInviteId}
+                currentTeam={this.props.currentTeam}
                 onChannelsInputChange={this.onChannelsInputChange}
                 onChannelsChange={this.onChannelsChange}
                 currentChannelName={this.props.currentChannelName}
+                isAdmin={this.props.isAdmin}
+                usersLoader={this.usersLoader} 
+                onChangeUsersEmails={this.onChangeUsersEmails}
                 {...this.state.invite}
             />
         );

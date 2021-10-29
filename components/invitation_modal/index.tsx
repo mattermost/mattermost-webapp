@@ -14,6 +14,7 @@ import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/sele
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
+import {/*sendEmailInvitesToTeamGracefully, */regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
@@ -75,7 +76,7 @@ export function mapStateToProps(state: GlobalState) {
         emailInvitationsEnabled,
         show: isModalOpen(state, ModalIdentifiers.INVITATION),
         isCloud,
-        userIsAdmin: isAdmin(getCurrentUser(state).roles),
+        isAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
         inviteToTeamTreatment,
         currentChannelName: currentChannel.display_name,
@@ -88,6 +89,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             closeModal: () => closeModal(ModalIdentifiers.INVITATION),
             sendGuestsInvites,
             sendMembersInvites,
+            regenerateTeamInviteId,
             searchProfiles,
             searchChannels,
             getTeam,
