@@ -554,35 +554,42 @@ export default class EmojiPicker extends React.PureComponent {
             return this.sortEmojis(emojis);
         }
 
-        const emojis = this.state.categories[category.name].emojiIds.map((emojiId) => {
-            const emoji = this.state.allEmojis[emojiId];
+        const emojis = this.state.categories[category.name].emojiIds.map((emojiId) =>
+            this.convertRecentEmojiToUserSkinTone(category, emojiId));
 
-            if (category.name === 'recent' && emoji.skin_variations && emoji.skin_variations.hasOwnProperty(this.props.userSkinTone)) {
-                const skinVariation = emoji.skin_variations[this.props.userSkinTone];
+        return this.filterDistinctEmojis(emojis);
+    }
 
-                //retrieve it from the emoji map
-                const emojiIndex = Emoji.EmojiIndicesByUnicode.get(skinVariation.unified.toLowerCase());
-                return Emoji.Emojis[emojiIndex];
+    getEmojiByUnicode = (unicode) => {
+        const emojiIndex = Emoji.EmojiIndicesByUnicode.get(unicode.toLowerCase());
+        return Emoji.Emojis[emojiIndex];
+    }
+
+    convertRecentEmojiToUserSkinTone = (category, emojiId) => {
+        const emoji = this.state.allEmojis[emojiId];
+
+        if (category.name === 'recent' && emoji.skin_variations && emoji.skin_variations.hasOwnProperty(this.props.userSkinTone)) {
+            const skinVariationCode = emoji.skin_variations[this.props.userSkinTone].unified;
+            return this.getEmojiByUnicode(skinVariationCode);
+        }
+
+        if (category.name === 'recent' && emoji.skins && emoji.skins.length > 0) {
+            const skinCode = emoji.skins[0].toLowerCase();
+            const userSkinTone = this.props.userSkinTone.toLowerCase();
+
+            const skinnedEmojiCode = userSkinTone === 'default' ?
+                emojiId.replace(`-${skinCode}`, '') :
+                emojiId.replace(skinCode, userSkinTone);
+
+            if (emojiId !== skinnedEmojiCode) {
+                return this.getEmojiByUnicode(skinnedEmojiCode);
             }
+        }
 
-            if (category.name === 'recent' && emoji.skins && emoji.skins.length > 0) {
-                const skinCode = emoji.skins[0].toLowerCase();
-                const userSkinTone = this.props.userSkinTone.toLowerCase();
+        return emoji;
+    }
 
-                const skinnedEmojiCode = userSkinTone === 'default' ?
-                    emojiId.replace(`-${skinCode}`, '') :
-                    emojiId.replace(skinCode, userSkinTone);
-
-                if (emojiId !== skinnedEmojiCode) {
-                    //retrieve it from the emoji map
-                    const emojiIndex = Emoji.EmojiIndicesByUnicode.get(skinnedEmojiCode);
-                    return Emoji.Emojis[emojiIndex];
-                }
-            }
-
-            return emoji;
-        });
-
+    filterDistinctEmojis = (emojis) => {
         return [...new Map(emojis.map((e) => [e.unified, e])).values()];
     }
 

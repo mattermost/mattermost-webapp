@@ -143,24 +143,4 @@ describe('components/emoji_picker/EmojiPicker', () => {
             expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'auto'});
         }, 1000);
     });
-
-    test('Changing default skin tone should update recent emojis skin tone', () => {
-        const props = {
-            ...baseProps,
-            recentEmojis: [
-                'thumbsup',
-            ],
-        };
-
-        const wrapper = shallow(
-            <EmojiPicker {...props}/>,
-        );
-
-        wrapper.instance().emojiPickerContainer = {
-            offsetHeight: 200,
-        };
-
-        console.log(wrapper.state);
-        expect(wrapper.state.categories.recent.emojiIds).toHaveLength(1);
-    });
 });
