@@ -398,8 +398,8 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     focusTextboxIfNecessary = (e: KeyboardEvent) => {
-        // Should only focus if RHS is expanded
-        if (!this.props.rhsExpanded) {
+        // Should only focus if RHS is expanded or if thread view
+        if (!this.props.isThreadView && !this.props.rhsExpanded) {
             return;
         }
 
@@ -469,7 +469,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number) => {
         this.props.openModal({
             modalId: ModalIdentifiers.NOTIFY_CONFIRM_MODAL,
-            dialogType: NotifyConfirmModal as any,
+            dialogType: NotifyConfirmModal,
             dialogProps: {
                 mentions,
                 channelTimezoneCount,
@@ -697,7 +697,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 postError: null,
                 serverError: null,
             });
-        } catch (err) {
+        } catch (err: any) {
             if (isErrorInvalidSlashCommand(err)) {
                 this.props.onUpdateCommentDraft(draft);
             }
@@ -844,6 +844,12 @@ class CreateComment extends React.PureComponent<Props, State> {
         const draft = this.state.draft!;
         const {message} = draft;
 
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
+            }
+        }
+
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.textboxRef.current) {
@@ -867,7 +873,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B) ||
-                       Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 this.applyHotkeyMarkdown(e);
             }
         }
