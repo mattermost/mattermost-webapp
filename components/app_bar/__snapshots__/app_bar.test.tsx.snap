@@ -10,12 +10,14 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
   }
 >
   <div
+    aria-label="playbooks"
     className="app-bar-icon active-rhs-plugin"
     key="the_component_id"
     onClick={[Function]}
+    title="playbooks"
   >
     <img
-      src="the_icon_data"
+      src="playbooks_icon_data"
     />
   </div>
 </div>
@@ -27,12 +29,14 @@ exports[`components/app_bar/app_bar should match snapshot on mount 2`] = `
   style={Object {}}
 >
   <div
+    aria-label="playbooks"
     className="app-bar-icon active-rhs-plugin"
     key="the_component_id"
     onClick={[Function]}
+    title="playbooks"
   >
     <img
-      src="the_icon_data"
+      src="playbooks_icon_data"
     />
   </div>
 </div>

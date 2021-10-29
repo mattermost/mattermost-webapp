@@ -87,6 +87,7 @@ export default class AppBar extends React.PureComponent<Props> {
                 {this.props.channelHeaderComponents.map((component) => (
                     <div
                         key={component.id}
+                        aria-label={component.tooltipText || component.pluginId}
                         className={classNames('app-bar-icon', {'active-rhs-plugin': component.pluginId === this.props.activePluginId})}
                         onClick={() => {
                             component.action?.(this.props.channel);

@@ -15,12 +15,19 @@ import AppBar, {Props} from './app_bar';
 describe('components/app_bar/app_bar', () => {
     const marketplaceListing: Array<MarketplacePlugin | MarketplaceApp> = [
         {
-            icon_data: 'the_icon_data',
+            icon_data: 'playbooks_icon_data',
             manifest: {
                 id: 'playbooks',
                 version: '1.0.0',
             },
         } as MarketplacePlugin,
+        {
+            manifest: {
+                app_id: 'com.mattermost.zendesk',
+            },
+            installed: true,
+            icon_url: 'zendesk_icon_data',
+        } as MarketplaceApp,
     ];
 
     const channelHeaderComponents: PluginComponent[] = [
@@ -79,7 +86,7 @@ describe('components/app_bar/app_bar', () => {
 
         await props.actions.fetchListing();
 
-        expect(wrapper.find('img[src="the_icon_data"]').exists()).toBe(true);
+        expect(wrapper.find('img[src="playbooks_icon_data"]').exists()).toBe(true);
     });
 
     test('should show fallback icon when marketplace entry is missing', async () => {

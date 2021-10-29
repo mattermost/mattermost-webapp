@@ -59,6 +59,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
     return (
         <div
             id={id}
+            aria-label={binding.label || binding.app_id}
             className={'app-bar-binding'}
             onClick={submitAppCall}
         >
