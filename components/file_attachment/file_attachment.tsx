@@ -263,7 +263,6 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
             fileInfo,
         } = this.props;
 
-        const trimmedFilename = trimFilename(fileInfo.name);
         let fileThumbnail;
         let fileDetail;
         let fileActions;
@@ -292,7 +291,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 >
                     <div className='post-image__detail'>
                         <span className={'post-image__name'}>
-                            {trimmedFilename}
+                            {fileInfo.name}
                         </span>
                         <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
                         <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>

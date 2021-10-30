@@ -488,6 +488,11 @@
                 text-decoration: none;
                 word-break: break-word;
 
+                width: 191px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
                 a {
                     border-radius: 100px;
                 }
@@ -495,6 +500,12 @@
 
             .post-image__type {
                 @include opacity(0.6);
+
+                width: 147px;
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .post-image__size {
