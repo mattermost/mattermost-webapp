@@ -16,7 +16,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import {Constants, FileTypes} from 'utils/constants';
-import {trimFilename} from 'utils/file_utils';
 import {
     fileSizeToString,
     getFileType,

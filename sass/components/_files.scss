@@ -482,16 +482,15 @@
 
             .post-image__name {
                 display: block;
+                overflow: hidden;
+                width: 191px;
                 margin-bottom: 3px;
                 font-weight: 600;
                 outline: none;
                 text-decoration: none;
-                word-break: break-word;
-
-                width: 191px;
-                overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                word-break: break-word;
 
                 a {
                     border-radius: 100px;
@@ -501,9 +500,9 @@
             .post-image__type {
                 @include opacity(0.6);
 
-                width: 147px;
                 display: block;
                 overflow: hidden;
+                width: 147px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
