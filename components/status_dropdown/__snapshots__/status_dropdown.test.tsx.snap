@@ -106,31 +106,49 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                <span>
+                  Tomorrow
+                </span>
+                <Memo(Connect(injectIntl(Timestamp)))
+                  className="dndTime-tomorrow_timestamp"
+                  useDate={
+                    Object {
+                      "weekday": "short",
+                    }
+                  }
+                  useTime={
+                    Object {
+                      "timeStyle": "short",
+                    }
+                  }
+                  value={2021-10-31T21:54:35.216Z}
+                />
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -353,31 +371,49 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                <span>
+                  Tomorrow
+                </span>
+                <Memo(Connect(injectIntl(Timestamp)))
+                  className="dndTime-tomorrow_timestamp"
+                  useDate={
+                    Object {
+                      "weekday": "short",
+                    }
+                  }
+                  useTime={
+                    Object {
+                      "timeStyle": "short",
+                    }
+                  }
+                  value={2021-10-31T21:54:35.269Z}
+                />
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -584,31 +620,49 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                <span>
+                  Tomorrow
+                </span>
+                <Memo(Connect(injectIntl(Timestamp)))
+                  className="dndTime-tomorrow_timestamp"
+                  useDate={
+                    Object {
+                      "weekday": "short",
+                    }
+                  }
+                  useTime={
+                    Object {
+                      "timeStyle": "short",
+                    }
+                  }
+                  value={2021-10-31T21:54:35.251Z}
+                />
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -815,31 +869,49 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                <span>
+                  Tomorrow
+                </span>
+                <Memo(Connect(injectIntl(Timestamp)))
+                  className="dndTime-tomorrow_timestamp"
+                  useDate={
+                    Object {
+                      "weekday": "short",
+                    }
+                  }
+                  useTime={
+                    Object {
+                      "timeStyle": "short",
+                    }
+                  }
+                  value={2021-10-31T21:54:35.281Z}
+                />
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1047,31 +1119,49 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                <span>
+                  Tomorrow
+                </span>
+                <Memo(Connect(injectIntl(Timestamp)))
+                  className="dndTime-tomorrow_timestamp"
+                  useDate={
+                    Object {
+                      "weekday": "short",
+                    }
+                  }
+                  useTime={
+                    Object {
+                      "timeStyle": "short",
+                    }
+                  }
+                  value={2021-10-31T21:54:35.261Z}
+                />
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1255,31 +1345,49 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                <span>
+                  Tomorrow
+                </span>
+                <Memo(Connect(injectIntl(Timestamp)))
+                  className="dndTime-tomorrow_timestamp"
+                  useDate={
+                    Object {
+                      "weekday": "short",
+                    }
+                  }
+                  useTime={
+                    Object {
+                      "timeStyle": "short",
+                    }
+                  }
+                  value={2021-10-31T21:54:35.233Z}
+                />
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1459,31 +1567,49 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                <span>
+                  Tomorrow
+                </span>
+                <Memo(Connect(injectIntl(Timestamp)))
+                  className="dndTime-tomorrow_timestamp"
+                  useDate={
+                    Object {
+                      "weekday": "short",
+                    }
+                  }
+                  useTime={
+                    Object {
+                      "timeStyle": "short",
+                    }
+                  }
+                  value={2021-10-31T21:54:35.244Z}
+                />
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]

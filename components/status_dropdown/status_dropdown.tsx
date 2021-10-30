@@ -1,43 +1,41 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {TUserStatus} from '@mattermost/compass-components/shared';
-import React, {ReactNode} from 'react';
-import {FormattedMessage} from 'react-intl';
-
 import StatusIcon from '@mattermost/compass-components/components/status-icon';
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import Text from '@mattermost/compass-components/components/text';
+import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+import {TUserStatus} from '@mattermost/compass-components/shared';
 
 import classNames from 'classnames';
 
+import React, {ReactNode} from 'react';
+
+import {FormattedMessage} from 'react-intl';
+
 import * as GlobalActions from 'actions/global_actions';
-import {UserStatuses, ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import CustomStatusText from 'components/custom_status/custom_status_text';
+import ExpiryTime from 'components/custom_status/expiry_time';
+import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ResetStatusModal from 'components/reset_status_modal';
-import Avatar, {TAvatarSizeToken} from 'components/widgets/users/avatar/avatar';
-import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import Timestamp from 'components/timestamp';
+import UserSettingsModal from 'components/user_settings/modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import PulsatingDot from 'components/widgets/pulsating_dot';
-import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
-import CustomStatusText from 'components/custom_status/custom_status_text';
-import ExpiryTime from 'components/custom_status/expiry_time';
-import UserSettingsModal from 'components/user_settings/modal';
-
+import Avatar, {TAvatarSizeToken} from 'components/widgets/users/avatar/avatar';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-
-import {UserCustomStatus, UserStatus, CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
 import {ModalData} from 'types/actions';
 
-import {toUTCUnix} from 'utils/datetime';
+import {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {getCurrentDateTimeForTimezone} from 'utils/timezone';
-
+import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
+import {localizeMessage} from 'utils/utils.jsx';
 import './status_dropdown.scss';
 
 type Props = {
@@ -67,8 +65,14 @@ type State = {
     isStatusSet: boolean;
 };
 
-export default class StatusDropdown extends React.PureComponent <Props, State> {
-    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom']
+export default class StatusDropdown extends React.PureComponent<Props, State> {
+    dndTimes = [
+        {id: 'thirty_minutes', defaultMessage: '30 mins'},
+        {id: 'one_hour', defaultMessage: '1 hour'},
+        {id: 'two_hours', defaultMessage: '2 hours'},
+        {id: 'tomorrow', defaultMessage: 'Tomorrow'},
+        {id: 'custom', defaultMessage: 'Custom'},
+    ];
     static defaultProps = {
         userId: '',
         profilePicture: '',
@@ -113,32 +117,28 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
     }
 
     setDnd = (index: number): void => {
-        const currentDate = this.props.timezone ? getCurrentDateTimeForTimezone(this.props.timezone) : new Date();
-        const currentTime = currentDate.getTime();
-        let endTime = new Date(currentTime);
+        const currentDate = getCurrentMomentForTimezone(this.props.timezone);
+        let endTime = currentDate;
         switch (index) {
         case 0:
             // add 30 minutes in current time
-            endTime = new Date(currentTime + (30 * 60 * 1000));
+            endTime = currentDate.add(30, 'minutes');
             break;
         case 1:
             // add 1 hour in current time
-            endTime = new Date(currentTime + (60 * 60 * 1000));
+            endTime = currentDate.add(1, 'hour');
             break;
         case 2:
             // add 2 hours in current time
-            endTime = new Date(currentTime + (2 * 60 * 60 * 1000));
+            endTime = currentDate.add(2, 'hours');
             break;
         case 3:
-            // add one day in current date and set hours to last minute of the day
-            endTime = new Date(currentDate);
-            endTime.setDate(currentDate.getDate() + 1);
-            endTime.setHours(23, 59, 59, 999);
+            // add one day in current date
+            endTime = currentDate.add(1, 'day');
             break;
         }
 
-        const dndEndTime = toUTCUnix(endTime);
-        this.setStatus(UserStatuses.DND, dndEndTime);
+        this.setStatus(UserStatuses.DND, endTime.utc().unix());
     }
 
     setCustomTimedDnd = (): void => {
@@ -309,19 +309,37 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             />
         );
 
-        const dndSubMenuItems = [{
-            id: 'dndSubMenu-header',
-            direction: 'right',
-            text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
-        } as any].concat(
-            this.dndTimes.map((time, index) => {
+        const dndSubMenuItems = [
+            {
+                id: 'dndSubMenu-header',
+                direction: 'right',
+                text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
+            } as any,
+        ].concat(
+            this.dndTimes.map(({id, defaultMessage}, index) => {
+                const text = localizeMessage(`status_dropdown.dnd_sub_menu_item.${id}`, defaultMessage);
                 return {
-                    id: `dndTime-${time.split(' ').join('')}`,
+                    id: `dndTime-${id}`,
                     direction: 'right',
-                    text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
-                    action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
+                    text:
+                        index === 3 ? (
+                            <>
+                                <span>{text}</span>
+                                <Timestamp
+                                    className={`dndTime-${id}_timestamp`}
+                                    value={getCurrentMomentForTimezone(this.props.timezone).add(1, 'day').toDate()}
+                                    useDate={{weekday: 'short'}}
+                                    useTime={{timeStyle: 'short'}}
+                                />
+                            </>
+                        ) : (
+                            text
+                        ),
+                    action:
+                        index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
                 } as any;
-            }));
+            }),
+        );
 
         const customStatusComponent = this.renderCustomStatus(isStatusSet);
 
