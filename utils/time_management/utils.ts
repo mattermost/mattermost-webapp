@@ -17,37 +17,60 @@ export function calculateMinutesInBlock(block: WorkBlock): number {
     return block.tasks.reduce((a, b) => a + b.time, 0);
 }
 
-export function addBlockAndResolveTimeOverlaps(blocks: WorkBlock[], newBlock: WorkBlock) {
-    let indexOfBlockAtSameTime = -1;
+function calculateBlockEndTime(block: WorkBlock): moment.Moment {
+    const minutesInBlock = calculateMinutesInBlock(block);
+    return moment(block.start).add(minutesInBlock, 'minutes');
+}
+
+export function addBlockAndResolveTimeOverlaps(blocks: WorkBlock[], newBlock: WorkBlock): string[] {
+    const blockIDsToMove = [];
 
     const newBlockStartTime = moment(newBlock.start);
+    const newBlockEndTime = calculateBlockEndTime(newBlock);
+
     for (let i = 0; i < blocks.length; i++) {
         const currentBlock = blocks[i];
         const currentBlockStartTime = moment(currentBlock.start);
-        const minutesInCurrentBlock = calculateMinutesInBlock(currentBlock);
-        const currentBlockEndTime = moment(currentBlock.start).add(minutesInCurrentBlock, 'minutes');
+        const currentBlockEndTime = calculateBlockEndTime(currentBlock);
 
         if (newBlockStartTime.isBetween(currentBlockStartTime, currentBlockEndTime, 'minute', '[]')) {
-            indexOfBlockAtSameTime = i;
-            break;
+            blockIDsToMove.push(currentBlock.id);
+            continue;
+        }
+
+        if (currentBlockStartTime.isBetween(newBlockStartTime, newBlockEndTime, 'minute', '[]')) {
+            blockIDsToMove.push(currentBlock.id);
         }
     }
 
-    if (indexOfBlockAtSameTime >= 0) {
-        const blockAtSameTime = blocks[indexOfBlockAtSameTime];
-        blocks.splice(indexOfBlockAtSameTime, 1);
-        blocks.push(newBlock);
-        const newStart = findAvailableSlot(blockAtSameTime, blocks);
-        const newBlockAtSameTime = {...blockAtSameTime, start: newStart};
-        blocks.push(newBlockAtSameTime);
-    } else {
-        blocks.push(newBlock);
+    blocks.push(newBlock);
+    const blockIDsNotMoved: string[] = [];
+    blockIDsToMove.forEach((id) => {
+        const moved = moveBlockToNewSlot(id, blocks);
+        if (!moved) {
+            blockIDsNotMoved.push(id);
+        }
+    });
+
+    return blockIDsNotMoved;
+}
+
+function moveBlockToNewSlot(blockId: string, blocks: WorkBlock[]): boolean {
+    const index = blocks.findIndex((b) => b.id === blockId);
+    const block = blocks[index];
+    blocks.splice(index, 1);
+    const newStart = findAvailableSlot(block, blocks);
+    if (newStart == null) {
+        return false;
     }
+    const newBlockAtSameTime = {...block, start: newStart};
+    blocks.push(newBlockAtSameTime);
+    return true;
 }
 
 const dayStartHour = 9;
 
-export function findAvailableSlot(block: WorkBlock, blocks: WorkBlock[]): Date {
+export function findAvailableSlot(block: WorkBlock, blocks: WorkBlock[]): Date | null {
     const dayStart = new Date();
     dayStart.setHours(dayStartHour, 0, 0, 0);
 
@@ -88,7 +111,7 @@ export function findAvailableSlot(block: WorkBlock, blocks: WorkBlock[]): Date {
         }
     }
 
-    return dayStart;
+    return null;
 }
 
 export function findAndRemoveTaskFromBlock(blocks: WorkBlock[], taskId: string, blockId: string) {
