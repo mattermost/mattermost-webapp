@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 
 import TimeManagementTypes from 'utils/time_management/action_types';
-import {addBlockAndResolveTimeOverlaps, dateToWorkDateString, findAndRemoveTaskFromBlock, findAvailableSlot} from 'utils/time_management/utils';
+import {addBlockAndResolveTimeOverlaps, dateToWorkDateString, findAndRemoveTaskFromBlock} from 'utils/time_management/utils';
 import {WorkItem, WorkBlock} from 'types/time_management';
 
 import {generateId} from 'utils/utils';

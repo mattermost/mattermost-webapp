@@ -18,8 +18,21 @@ export function calculateMinutesInBlock(block: WorkBlock): number {
 }
 
 export function addBlockAndResolveTimeOverlaps(blocks: WorkBlock[], newBlock: WorkBlock) {
-    const newBlocksDates = blocks.map((block) => block.start);
-    const indexOfBlockAtSameTime = newBlocksDates.findIndex((d) => d.getTime() === newBlock.start.getTime());
+    let indexOfBlockAtSameTime = -1;
+
+    const newBlockStartTime = moment(newBlock.start);
+    for (let i = 0; i < blocks.length; i++) {
+        const currentBlock = blocks[i];
+        const currentBlockStartTime = moment(currentBlock.start);
+        const minutesInCurrentBlock = calculateMinutesInBlock(currentBlock);
+        const currentBlockEndTime = moment(currentBlock.start).add(minutesInCurrentBlock, 'minutes');
+
+        if (newBlockStartTime.isBetween(currentBlockStartTime, currentBlockEndTime, 'minute', '[]')) {
+            indexOfBlockAtSameTime = i;
+            break;
+        }
+    }
+
     if (indexOfBlockAtSameTime >= 0) {
         const blockAtSameTime = blocks[indexOfBlockAtSameTime];
         blocks.splice(indexOfBlockAtSameTime, 1);
