@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -132,6 +131,12 @@ export default class CustomThemeChooser extends React.PureComponent {
         this.state = {
             copyTheme,
         };
+
+        this.textareaRef = React.createRef();
+        this.sidebarStylesHeaderRef = React.createRef();
+        this.centerChannelStylesRef = React.createRef();
+        this.linkAndButtonStylesRef = React.createRef();
+        this.headerOverlayRef = React.createRef();
     }
 
     handleColorChange = (settingId, color) => {
@@ -201,7 +206,7 @@ export default class CustomThemeChooser extends React.PureComponent {
     }
 
     selectTheme = () => {
-        const textarea = this.refs.textarea;
+        const textarea = this.textareaRef.current;
         textarea.focus();
         textarea.setSelectionRange(0, this.state.copyTheme.length);
     }
@@ -209,22 +214,22 @@ export default class CustomThemeChooser extends React.PureComponent {
     toggleSidebarStyles = (e) => {
         e.preventDefault();
 
-        this.refs.sidebarStylesHeader.classList.toggle('open');
-        this.toggleSection(this.refs.sidebarStyles);
+        this.sidebarStylesHeaderRef.current.classList.toggle('open');
+        this.toggleSection(this.sidebarStylesRef.current);
     }
 
     toggleCenterChannelStyles = (e) => {
         e.preventDefault();
 
-        this.refs.centerChannelStylesHeader.classList.toggle('open');
-        this.toggleSection(this.refs.centerChannelStyles);
+        this.centerChannelStylesHeaderRef.current.classList.toggle('open');
+        this.toggleSection(this.centerChannelStylesRef.current);
     }
 
     toggleLinkAndButtonStyles = (e) => {
         e.preventDefault();
 
-        this.refs.linkAndButtonStylesHeader.classList.toggle('open');
-        this.toggleSection(this.refs.linkAndButtonStyles);
+        this.linkAndButtonStylesHeaderRef.current.classList.toggle('open');
+        this.toggleSection(this.linkAndButtonStylesRef.current);
     }
 
     toggleSection(node) {
@@ -328,7 +333,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                             <OverlayTrigger
                                 placement='top'
                                 overlay={popoverContent}
-                                ref='headerOverlay'
+                                ref={this.headerOverlayRef}
                             >
                                 <span className='input-group-addon'>
                                     <img
@@ -400,7 +405,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                     />
                 </label>
                 <textarea
-                    ref='textarea'
+                    ref={this.textareaRef}
                     className='form-control'
                     id='pasteBox'
                     value={this.state.copyTheme}
@@ -437,7 +442,7 @@ export default class CustomThemeChooser extends React.PureComponent {
             <div className='appearance-section pt-2'>
                 <div className='theme-elements row'>
                     <div
-                        ref='sidebarStylesHeader'
+                        ref={this.sidebarStylesRef}
                         id='sidebarStyles'
                         className='theme-elements__header'
                         onClick={this.toggleSidebarStyles}
@@ -458,7 +463,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         </div>
                     </div>
                     <div
-                        ref='sidebarStyles'
+                        ref={this.sidebarStylesRef}
                         className='theme-elements__body'
                     >
                         {sidebarElements}
@@ -466,7 +471,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                 </div>
                 <div className='theme-elements row'>
                     <div
-                        ref='centerChannelStylesHeader'
+                        ref={this.centerChannelStylesHeaderRef}
                         id='centerChannelStyles'
                         className='theme-elements__header'
                         onClick={this.toggleCenterChannelStyles}
@@ -487,7 +492,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         </div>
                     </div>
                     <div
-                        ref='centerChannelStyles'
+                        ref={this.centerChannelStylesRef}
                         id='centerChannelStyles'
                         className='theme-elements__body'
                     >
@@ -496,7 +501,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                 </div>
                 <div className='theme-elements row'>
                     <div
-                        ref='linkAndButtonStylesHeader'
+                        ref={this.linkAndButtonStylesHeaderRef}
                         id='linkAndButtonsStyles'
                         className='theme-elements__header'
                         onClick={this.toggleLinkAndButtonStyles}
@@ -517,7 +522,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         </div>
                     </div>
                     <div
-                        ref='linkAndButtonStyles'
+                        ref={this.linkAndButtonStylesRef}
                         className='theme-elements__body'
                     >
                         {linkAndButtonElements}
