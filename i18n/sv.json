@@ -2604,6 +2604,8 @@
   "bots.token.confirm_text": "Är du säker att du vill radera token?",
   "bots.token.delete": "Radera token",
   "call_button.menuAriaLabel": "Välj samtalstyp",
+  "carousel.PreviousButton": "Föregående",
+  "carousel.nextButton": "Nästa",
   "center_panel.archived.closeChannel": "Stäng kanalen",
   "center_panel.direct.closeDirectMessage": "Stäng direktmeddelande",
   "center_panel.direct.closeGroupMessage": "Stäng gruppmeddelande",
