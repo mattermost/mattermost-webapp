@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 type Props = {
     currentUserId: string;
-    onHide: () => void;
+    onExited: () => void;
     channelName?: string;
     remover?: string;
 }
@@ -60,7 +60,7 @@ export default class RemovedFromChannelModal extends React.PureComponent<Props, 
                 dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='removeFromChannelModalLabel'
             >
