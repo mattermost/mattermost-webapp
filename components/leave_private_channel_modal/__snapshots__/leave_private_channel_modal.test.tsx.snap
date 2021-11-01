@@ -13,7 +13,8 @@ exports[`components/LeavePrivateChannelModal should match snapshot, init 1`] = `
   modalClass=""
   onCancel={[Function]}
   onConfirm={[Function]}
-  show={false}
+  onExited={[MockFunction]}
+  show={true}
   title=""
 />
 `;

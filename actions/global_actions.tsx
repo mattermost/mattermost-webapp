@@ -153,14 +153,6 @@ export function toggleShortcutsModal() {
     });
 }
 
-export function showGetPublicLinkModal(fileId: string) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,
-        value: true,
-        fileId,
-    });
-}
-
 export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type
     const submenuModalData = {
         modalId: ModalIdentifiers.MOBILE_SUBMENU,

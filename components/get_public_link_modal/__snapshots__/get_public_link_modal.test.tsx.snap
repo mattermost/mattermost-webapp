@@ -4,8 +4,9 @@ exports[`components/GetPublicLinkModal should match snapshot when link is empty 
 <GetLinkModal
   helpText="The link below allows anyone to see this file without being registered on this server."
   link=""
+  onExited={[MockFunction]}
   onHide={[Function]}
-  show={false}
+  show={true}
   title="Copy Public Link"
 />
 `;
@@ -14,8 +15,9 @@ exports[`components/GetPublicLinkModal should match snapshot when link is not em
 <GetLinkModal
   helpText="The link below allows anyone to see this file without being registered on this server."
   link="http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs"
+  onExited={[MockFunction]}
   onHide={[Function]}
-  show={false}
+  show={true}
   title="Copy Public Link"
 />
 `;
@@ -24,8 +26,9 @@ exports[`components/GetPublicLinkModal should match snapshot when link is undefi
 <GetLinkModal
   helpText="The link below allows anyone to see this file without being registered on this server."
   link=""
+  onExited={[MockFunction]}
   onHide={[Function]}
-  show={false}
+  show={true}
   title="Copy Public Link"
 />
 `;

@@ -10,7 +10,6 @@ import Pluggable from 'plugins/pluggable';
 import SystemNotice from 'components/system_notice';
 import EditPostModal from 'components/edit_post_modal';
 
-import GetPublicLinkModal from 'components/get_public_link_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
@@ -68,7 +67,6 @@ export default class ChannelController extends React.PureComponent<Props> {
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
-                    <GetPublicLinkModal/>
                     <EditPostModal/>
                     <ResetStatusModal/>
                     <KeyboardShortcutsModal/>

@@ -29,7 +29,6 @@ class ModalStoreClass extends EventEmitter {
 
         switch (type) {
         case ActionTypes.TOGGLE_SHORTCUTS_MODAL:
-        case ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL:
             this.emit(type, value, args);
             break;
         }

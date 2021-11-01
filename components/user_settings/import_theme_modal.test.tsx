@@ -2,18 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import ImportThemeModal, {ImportThemeModalComponent} from './import_theme_modal';
+import ImportThemeModal from './import_theme_modal';
 
 describe('components/user_settings/ImportThemeModal', () => {
     const props = {
         intl: {} as any,
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         callback: jest.fn(),
     };
 
@@ -50,14 +49,5 @@ describe('components/user_settings/ImportThemeModal', () => {
         wrapper.find('#submitButton').simulate('click');
 
         expect(props.callback).toHaveBeenCalledWith(theme);
-    });
-
-    it('should have called onHide when handleExit is called', () => {
-        const wrapper = shallow(<ImportThemeModalComponent {...props}/>);
-        const instance = wrapper.instance() as ImportThemeModalComponent;
-
-        instance.handleExit();
-
-        expect(props.onHide).toHaveBeenCalledTimes(1);
     });
 });

@@ -13,7 +13,9 @@ describe('components/GetPublicLinkModal', () => {
         const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 link={''}
+                fileId={''}
                 actions={{getFilePublicLink: jest.fn()}}
+                onExited={jest.fn()}
             />,
         );
 
@@ -24,6 +26,8 @@ describe('components/GetPublicLinkModal', () => {
         const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 actions={{getFilePublicLink: jest.fn()}}
+                onExited={jest.fn()}
+                fileId={''}
             />,
         );
 
@@ -34,7 +38,9 @@ describe('components/GetPublicLinkModal', () => {
         const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
+                fileId={'n5bnoaz3e7g93nyipzo1bixdwr'}
                 actions={{getFilePublicLink: jest.fn()}}
+                onExited={jest.fn()}
             />,
         );
 
@@ -49,10 +55,12 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink}}
+                fileId={fileId}
+                onExited={jest.fn()}
             />,
         );
 
-        wrapper.setState({show: true, fileId});
+        wrapper.setState({show: true});
         expect(getFilePublicLink).toHaveBeenCalledTimes(1);
         expect(getFilePublicLink).toHaveBeenCalledWith(fileId);
     });
@@ -65,10 +73,12 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink}}
+                fileId={fileId}
+                onExited={jest.fn()}
             />,
         );
 
-        wrapper.setState({show: true, fileId});
+        wrapper.setState({show: true});
         getFilePublicLink.mockClear();
         wrapper.find(GetLinkModal).first().props().onHide();
         expect(getFilePublicLink).not.toHaveBeenCalled();
@@ -79,6 +89,8 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink: jest.fn()}}
+                onExited={jest.fn()}
+                fileId={'n5bnoaz3e7g93nyipzo1bixdwr'}
             />,
         );
 

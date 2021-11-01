@@ -63,39 +63,26 @@ describe('components/LeavePrivateChannelModal', () => {
         },
     };
 
-    const baseProps = {
-        actions: {
-            leaveChannel: jest.fn(),
-        },
-    };
-
     test('should match snapshot, init', () => {
+        const props = {
+            onExited: jest.fn(),
+            actions: {
+                leaveChannel: jest.fn(),
+            },
+        };
+
         const wrapper = shallow(
             <LeavePrivateChannelModal
-                {...baseProps}
+                {...props}
             />,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show and hide the modal dialog', () => {
-        const wrapper = shallow<LeavePrivateChannelModal>(
-            <LeavePrivateChannelModal
-                {...baseProps}
-            />,
-        );
-
-        wrapper.instance().handleToggle(channels['channel-2']);
-        expect(wrapper.state('show')).toEqual(true);
-        expect(wrapper.state('channel')).toHaveProperty('id', 'channel-2');
-
-        wrapper.instance().handleHide();
-        expect(wrapper.state('show')).toEqual(false);
-    });
-
     test('should fail to leave channel', (done) => {
         const props = {
+            channel: channels['channel-1'],
             actions: {
                 leaveChannel: jest.fn().mockImplementation(() => {
                     const error = {
@@ -105,17 +92,13 @@ describe('components/LeavePrivateChannelModal', () => {
                     return Promise.resolve({error});
                 }),
             },
+            onExited: jest.fn(),
         };
         const wrapper = shallow<LeavePrivateChannelModal>(
             <LeavePrivateChannelModal
                 {...props}
             />,
         );
-
-        wrapper.setState({
-            show: true,
-            channel: channels['channel-2'],
-        });
 
         const instance = wrapper.instance();
         instance.handleSubmit();
@@ -123,39 +106,6 @@ describe('components/LeavePrivateChannelModal', () => {
         process.nextTick(() => {
             expect(wrapper.state('show')).toEqual(true);
             expect(wrapper.state('channel')).not.toBeNull();
-            done();
-        });
-    });
-
-    test('should leave channel when pressing the enter key browse to default channel', (done) => {
-        const props = {
-            actions: {
-                leaveChannel: jest.fn().mockImplementation(() => {
-                    const data = true;
-
-                    return Promise.resolve({data});
-                }),
-            },
-        };
-        const wrapper = shallow<LeavePrivateChannelModal>(
-            <LeavePrivateChannelModal
-                {...props}
-            />,
-        );
-
-        wrapper.setState({
-            show: true,
-            channel: channels['channel-1'],
-        });
-
-        const instance = wrapper.instance();
-        const enterKey = new KeyboardEvent('keydown', {key: 'Enter'});
-
-        instance.handleHide = jest.fn();
-        instance.handleKeyPress(enterKey);
-        expect(instance.props.actions.leaveChannel).toHaveBeenCalledTimes(1);
-        process.nextTick(() => {
-            expect(instance.handleHide).toHaveBeenCalledTimes(1);
             done();
         });
     });
