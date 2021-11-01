@@ -1423,7 +1423,7 @@
   "admin.permissions.group.reactions.description": "投稿に対するリアクションの追加と削除。",
   "admin.permissions.group.reactions.name": "投稿へのリアクション",
   "admin.permissions.group.send_invites.description": "チームメンバーの追加、招待メールの送信、およびチーム招待リンクの共有。",
-  "admin.permissions.group.send_invites.name": "全てのチームメンバー",
+  "admin.permissions.group.send_invites.name": "チームメンバーの追加",
   "admin.permissions.group.teams.description": "チームの作成とメンバーの管理。",
   "admin.permissions.group.teams.name": "チーム",
   "admin.permissions.group.teams_team_scope.description": "チームメンバーを管理する。",
