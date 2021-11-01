@@ -1,10 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupDetails from 'components/admin_console/group_settings/group_details/group_details.jsx';
+import React from 'react';
+
+import GroupDetails from 'components/admin_console/group_settings/group_details/group_details';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {Group, GroupChannel, GroupTeam} from 'mattermost-redux/types/groups';
+import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 describe('components/admin_console/group_settings/group_details/GroupDetails', () => {
     const defaultProps = {
@@ -12,21 +17,21 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         group: {
             display_name: 'Group',
             name: 'Group',
-        },
+        } as Group,
         groupTeams: [
-            {team_id: '11111111111111111111111111'},
-            {team_id: '22222222222222222222222222'},
-            {team_id: '33333333333333333333333333'},
+            {team_id: '11111111111111111111111111'} as GroupTeam,
+            {team_id: '22222222222222222222222222'} as GroupTeam,
+            {team_id: '33333333333333333333333333'} as GroupTeam,
         ],
         groupChannels: [
-            {channel_id: '44444444444444444444444444'},
-            {channel_id: '55555555555555555555555555'},
-            {channel_id: '66666666666666666666666666'},
+            {channel_id: '44444444444444444444444444'} as GroupChannel,
+            {channel_id: '55555555555555555555555555'} as GroupChannel,
+            {channel_id: '66666666666666666666666666'} as GroupChannel,
         ],
         members: [
-            {id: '77777777777777777777777777'},
-            {id: '88888888888888888888888888'},
-            {id: '99999999999999999999999999'},
+            {id: '77777777777777777777777777'} as UserProfile,
+            {id: '88888888888888888888888888'} as UserProfile,
+            {id: '99999999999999999999999999'} as UserProfile,
         ],
         memberCount: 20,
         actions: {
@@ -105,16 +110,19 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             patchGroupSyncable: jest.fn(),
             setNavigationBlocked: jest.fn(),
         };
-        const wrapper = shallow(
+        const wrapper = shallow<GroupDetails>(
             <GroupDetails
                 {...defaultProps}
                 actions={actions}
             />,
         );
         const instance = wrapper.instance();
-        await instance.addChannels([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);
-        const testStateObj = (stateSubset) => {
-            const channelIDs = stateSubset.map((gc) => gc.channel_id);
+        await instance.addChannels([
+            {id: '11111111111111111111111111'} as ChannelWithTeamData,
+            {id: '22222222222222222222222222'} as ChannelWithTeamData,
+        ]);
+        const testStateObj = (stateSubset?: GroupChannel[]) => {
+            const channelIDs = stateSubset?.map((gc) => gc.channel_id);
             expect(channelIDs).toContain('11111111111111111111111111');
             expect(channelIDs).toContain('22222222222222222222222222');
         };
@@ -134,17 +142,20 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             patchGroupSyncable: jest.fn(),
             setNavigationBlocked: jest.fn(),
         };
-        const wrapper = shallow(
+        const wrapper = shallow<GroupDetails>(
             <GroupDetails
                 {...defaultProps}
                 actions={actions}
             />,
         );
         const instance = wrapper.instance();
-        expect(instance.state.groupTeams.length === 0);
-        instance.addTeams([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);
-        const testStateObj = (stateSubset) => {
-            const teamIDs = stateSubset.map((gt) => gt.team_id);
+        expect(instance.state.groupTeams?.length === 0);
+        instance.addTeams([
+            {id: '11111111111111111111111111'} as Team,
+            {id: '22222222222222222222222222'} as Team,
+        ]);
+        const testStateObj = (stateSubset?: GroupTeam[]) => {
+            const teamIDs = stateSubset?.map((gt) => gt.team_id);
             expect(teamIDs).toContain('11111111111111111111111111');
             expect(teamIDs).toContain('22222222222222222222222222');
         };
@@ -153,10 +164,13 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
     });
 
     test('update name for null slug', async () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupDetails>(
             <GroupDetails
                 {...defaultProps}
-                group={{display_name: 'test group', allow_reference: false}}
+                group={{
+                    display_name: 'test group',
+                    allow_reference: false,
+                } as Group}
             />,
         );
 
@@ -165,10 +179,14 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
     });
 
     test('update name for empty slug', async () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupDetails>(
             <GroupDetails
                 {...defaultProps}
-                group={{name: '', display_name: 'test group', allow_reference: false}}
+                group={{
+                    name: '',
+                    display_name: 'test group',
+                    allow_reference: false,
+                } as Group}
             />,
         );
 
@@ -177,10 +195,14 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
     });
 
     test('Should not update name for slug', async () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupDetails>(
             <GroupDetails
                 {...defaultProps}
-                group={{name: 'any_name_at_all', display_name: 'test group', allow_reference: false}}
+                group={{
+                    name: 'any_name_at_all',
+                    display_name: 'test group',
+                    allow_reference: false,
+                } as Group}
             />,
         );
         wrapper.instance().onMentionToggle(true);
