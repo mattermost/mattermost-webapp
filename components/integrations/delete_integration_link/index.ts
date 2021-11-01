@@ -3,12 +3,11 @@
 
 import {connect} from 'react-redux';
 
-import {closeModal, openModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 
 import DeleteIntegrationLink from './delete_integration_link';
 
 const mapDispatchToProps = {
-    closeModal,
     openModal,
 };
 

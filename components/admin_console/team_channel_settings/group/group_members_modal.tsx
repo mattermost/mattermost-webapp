@@ -11,7 +11,7 @@ import MemberListGroup from 'components/admin_console/member_list_group';
 
 type Props = {
     group: Group;
-    onHide: () => void;
+    onExited: () => void;
     onLoad?: () => void;
 }
 
@@ -39,7 +39,7 @@ export default class GroupMembersModal extends React.PureComponent<Props, State>
     }
 
     handleExit = () => {
-        this.props.onHide();
+        this.props.onExited();
     }
 
     render() {

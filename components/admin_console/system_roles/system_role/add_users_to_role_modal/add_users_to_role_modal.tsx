@@ -32,7 +32,7 @@ export type Props = {
     excludeUsers: { [userId: string]: UserProfile };
     includeUsers: { [userId: string]: UserProfile };
     onAddCallback: (users: UserProfile[]) => void;
-    onHide?: () => void;
+    onExited: () => void;
 
     actions: {
         getProfiles: (page: number, perPage?: number, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
@@ -98,8 +98,8 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
     }
 
     handleExit = () => {
-        if (this.props.onHide) {
-            this.props.onHide();
+        if (this.props.onExited) {
+            this.props.onExited();
         }
     }
 

@@ -50,6 +50,7 @@ import {
     IDMappedObjects,
     NameMappedObjects,
     RelationOneToMany,
+    RelationOneToManyUnique,
     RelationOneToOne,
     UserIDMappedObjects,
 } from 'mattermost-redux/types/utilities';
@@ -858,7 +859,7 @@ export const getDirectAndGroupChannels: (a: GlobalState) => Channel[] = createSe
     },
 );
 
-const getProfiles = (currentUserId: string, usersIdsInChannel: string[], users: IDMappedObjects<UserProfile>): UserProfile[] => {
+const getProfiles = (currentUserId: string, usersIdsInChannel: Set<string>, users: IDMappedObjects<UserProfile>): UserProfile[] => {
     const profiles: UserProfile[] = [];
     usersIdsInChannel.forEach((userId) => {
         if (userId !== currentUserId) {
@@ -876,11 +877,11 @@ export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     getUsers,
     getGroupChannels,
     getCurrentUserId,
-    (channelUserMap: RelationOneToMany<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
+    (channelUserMap: RelationOneToManyUnique<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
         return channels.map((channel: Channel): {
             profiles: UserProfile[];
         } & Channel => {
-            const profiles = getProfiles(currentUserId, channelUserMap[channel.id] || [], users);
+            const profiles = getProfiles(currentUserId, channelUserMap[channel.id], users);
             return {
                 ...channel,
                 profiles,
