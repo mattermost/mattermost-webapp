@@ -1,8 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useCallback} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
+
+import Constants from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 import Toast from 'components/toast/toast';
 
@@ -32,6 +35,22 @@ function NewRepliesBanner({
         actions.updateThreadToastStatus(hasNewReplies);
     }, [hasNewReplies]);
 
+    const handleShortcut = useCallback((e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            if (hasNewReplies) {
+                onDismiss();
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleShortcut);
+
+        return () => {
+            document.removeEventListener('keydown', handleShortcut);
+        };
+    }, []);
+
     return (
         <div
             className='new-replies-banner'
@@ -43,6 +62,7 @@ function NewRepliesBanner({
                 onClick={onClick}
                 onDismiss={onDismiss}
                 onClickMessage={onClickMessage}
+                overlayPlacement='top'
                 width={156}
             >
                 <FormattedMessage
