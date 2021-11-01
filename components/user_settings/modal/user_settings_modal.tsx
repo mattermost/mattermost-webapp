@@ -339,7 +339,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         ) : (
                             <FormattedMessage
                                 id='user.settings.modal.title'
-                                defaultMessage='Account Settings'
+                                defaultMessage='Profile'
                             />
                         )}
                     </Modal.Title>
