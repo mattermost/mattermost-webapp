@@ -129,15 +129,23 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       className="more-modal__name"
     >
       <span
-        id="displayedUserNameundefined"
-      >
-        @undefined
-        <span
-          className="light"
+       id="displayedUserNameundefined"
+       >
+       <span>
+          @undefined
+          <span
+            className="light"
         >
           
+         </span>
+           style={
+             Object {
+              "position": "absolute",
+              "right": 20,
+            }
+          }
+       />
         </span>
-      </span>
       <BotBadge
         className="badge-popoverlist"
         show={false}
