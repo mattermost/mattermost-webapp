@@ -6,9 +6,9 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig} from 'mattermost-redux/actions/general';
+import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
@@ -47,9 +47,9 @@ type Actions = {
     getCloudSubscription: () => void;
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>(
             {
                 closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
                 getCloudProducts,

@@ -13,7 +13,7 @@ import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
-import {isAdmin} from 'utils/utils.jsx';
+import {isAdmin} from 'mattermost-redux/utils/user_utils';
 
 import InvitationModalMembersStep from './invitation_modal_members_step';
 

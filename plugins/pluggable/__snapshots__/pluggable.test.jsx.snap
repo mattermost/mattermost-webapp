@@ -1,51 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`plugins/Pluggable should match snapshot with extended component 1`] = `
-<Provider
-  store={
+<Pluggable
+  components={
     Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
+      "PopoverSection1": Array [
+        Object {
+          "component": [Function],
+        },
+      ],
     }
   }
+  pluggableName="PopoverSection1"
+  theme={Object {}}
 >
-  <Pluggable
-    components={
-      Object {
-        "PopoverSection1": Array [
-          Object {
-            "component": [Function],
-          },
-        ],
-      }
-    }
-    pluggableName="PopoverSection1"
-    theme={
-      Object {
-        "id": "theme_id",
-      }
-    }
+  <ProfilePopoverPlugin
+    key="PopoverSection1undefined"
+    theme={Object {}}
   >
-    <ProfilePopoverPlugin
-      key="PopoverSection1undefined"
-      theme={
-        Object {
-          "id": "theme_id",
-        }
-      }
+    <span
+      id="pluginId"
     >
-      <span
-        id="pluginId"
-      >
-        ProfilePopoverPlugin
-      </span>
-    </ProfilePopoverPlugin>
-  </Pluggable>
-</Provider>
+      ProfilePopoverPlugin
+    </span>
+  </ProfilePopoverPlugin>
+</Pluggable>
 `;
 
 exports[`plugins/Pluggable should match snapshot with extended component with pluggableName 1`] = `
@@ -60,19 +39,11 @@ exports[`plugins/Pluggable should match snapshot with extended component with pl
     }
   }
   pluggableName="PopoverSection1"
-  theme={
-    Object {
-      "id": "theme_id",
-    }
-  }
+  theme={Object {}}
 >
   <ProfilePopoverPlugin
     key="PopoverSection1undefined"
-    theme={
-      Object {
-        "id": "theme_id",
-      }
-    }
+    theme={Object {}}
   >
     <span
       id="pluginId"
@@ -84,23 +55,11 @@ exports[`plugins/Pluggable should match snapshot with extended component with pl
 `;
 
 exports[`plugins/Pluggable should match snapshot with no extended component 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <Pluggable
-    components={Object {}}
-    theme={Object {}}
-  />
-</Provider>
+<Pluggable
+  components={Object {}}
+  pluggableName=""
+  theme={Object {}}
+/>
 `;
 
 exports[`plugins/Pluggable should match snapshot with non-null pluggableId 1`] = `
@@ -116,11 +75,6 @@ exports[`plugins/Pluggable should match snapshot with non-null pluggableId 1`] =
   }
   pluggableId="pluggableId"
   pluggableName="PopoverSection1"
-  theme={
-    Object {
-      "id": "theme_id",
-    }
-  }
 />
 `;
 
@@ -135,22 +89,12 @@ exports[`plugins/Pluggable should match snapshot with null pluggableId 1`] = `
       ],
     }
   }
-  pluggableId={null}
   pluggableName="PopoverSection1"
-  theme={
-    Object {
-      "id": "theme_id",
-    }
-  }
+  theme={Object {}}
 >
   <ProfilePopoverPlugin
     key="PopoverSection1undefined"
-    pluggableId={null}
-    theme={
-      Object {
-        "id": "theme_id",
-      }
-    }
+    theme={Object {}}
   >
     <span
       id="pluginId"
@@ -175,20 +119,11 @@ exports[`plugins/Pluggable should match snapshot with valid pluggableId 1`] = `
   }
   pluggableId="pluggableId"
   pluggableName="PopoverSection1"
-  theme={
-    Object {
-      "id": "theme_id",
-    }
-  }
+  theme={Object {}}
 >
   <ProfilePopoverPlugin
     key="PopoverSection1pluggableId"
-    pluggableId="pluggableId"
-    theme={
-      Object {
-        "id": "theme_id",
-      }
-    }
+    theme={Object {}}
   >
     <span
       id="pluginId"

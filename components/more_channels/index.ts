@@ -9,7 +9,7 @@ import {createSelector} from 'reselect';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
@@ -18,7 +18,8 @@ import {getOtherChannels, getChannelsInCurrentTeam} from 'mattermost-redux/selec
 import {searchMoreChannels} from 'actions/channel_actions.jsx';
 import {openModal, closeModal} from 'actions/views/modals';
 
-import {GlobalState} from '../../types/store';
+import {ModalData} from 'types/actions';
+import {GlobalState} from 'types/store';
 
 import MoreChannels from './more_channels';
 
@@ -49,19 +50,17 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    getChannels: (teamId: string, page: number, perPage: number) => ActionFunc | void;
-    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => ActionFunc | void;
+    getChannels: (teamId: string, page: number, perPage: number) => void;
+    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
     joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
-    openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-        data: boolean;
-    }>;
+    openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             getChannels,
             getArchivedChannels,
             joinChannel,

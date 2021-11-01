@@ -33,8 +33,8 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
             dialogProps: {
-                onExit: onFinish,
-                dialogProps: {isContentProductSettings: true},
+                isContentProductSettings: true,
+                onExited: onFinish,
             },
         }));
     };
@@ -43,7 +43,7 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
         <>
             <TextCardWithAction
                 cardBodyMessageId={t('next_steps_view.preferenceSetup')}
-                cardBodyDefaultMessage={'You can update your profile and manage security settings from Account Settings by selecting your Avatar. Select Settings to change how you receive notifications, customize your display settings, and more.'}
+                cardBodyDefaultMessage={'From your Avatar, set your availability, add a custom status, and manage your profile. Access customize notification preferences, custom theme colors, and more in **Settings**.'}
                 buttonMessageId={t('next_steps_view.preferenceSetup.setPreferences')}
                 buttonDefaultMessage={'Set Preferences'}
                 onClick={onClick}

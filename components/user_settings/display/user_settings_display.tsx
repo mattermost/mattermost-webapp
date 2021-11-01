@@ -42,6 +42,7 @@ function getDisplayStateFromProps(props: Props) {
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
         oneClickReactionsOnPosts: props.oneClickReactionsOnPosts,
+        clickToReply: props.clickToReply,
     };
 }
 
@@ -100,6 +101,7 @@ type Props = {
     collapseDisplay: string;
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
+    clickToReply: string;
     linkPreviewDisplay: string;
     oneClickReactionsOnPosts: string;
     emojiPickerEnabled: boolean;
@@ -122,6 +124,7 @@ type State = {
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
     oneClickReactionsOnPosts: string;
+    clickToReply: string;
     handleSubmit?: () => void;
     serverError?: string;
 }
@@ -237,6 +240,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.ONE_CLICK_REACTIONS_ENABLED,
             value: this.state.oneClickReactionsOnPosts,
         };
+        const clickToReplyPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.CLICK_TO_REPLY,
+            value: this.state.clickToReply,
+        };
 
         this.setState({isSaving: true});
 
@@ -245,6 +254,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             channelDisplayModePreference,
             messageDisplayPreference,
             collapsedReplyThreadsPreference,
+            clickToReplyPreference,
             collapseDisplayPreference,
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
@@ -293,6 +303,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     handleOneClickReactionsRadio = (oneClickReactionsOnPosts: string) => {
         this.setState({oneClickReactionsOnPosts});
+    }
+
+    handleClickToReplyRadio = (clickToReply: string) => {
+        this.setState({clickToReply});
     }
 
     handleOnChange(display: {[key: string]: any}) {
@@ -792,6 +806,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             });
         }
 
+        const clickToReply = this.createSection({
+            section: Preferences.CLICK_TO_REPLY,
+            display: 'clickToReply',
+            value: this.state.clickToReply,
+            defaultDisplay: 'true',
+            title: {
+                id: t('user.settings.display.clickToReply'),
+                message: 'Click to open threads',
+            },
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.on'),
+                    message: 'On',
+                },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.off'),
+                    message: 'Off',
+                },
+            },
+            description: {
+                id: t('user.settings.display.clickToReplyDescription'),
+                message: 'When enabled, click anywhere on a message to open the reply thread.',
+            },
+        });
+
         const channelDisplayModeSection = this.createSection({
             section: Preferences.CHANNEL_DISPLAY_MODE,
             display: 'channelDisplayMode',
@@ -962,6 +1005,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {collapseSection}
                     {messageDisplaySection}
                     {collapsedReplyThreads}
+                    {clickToReply}
                     {channelDisplayModeSection}
                     {oneClickReactionsOnPostsSection}
                     {languagesSection}

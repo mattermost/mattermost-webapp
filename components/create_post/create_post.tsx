@@ -286,12 +286,7 @@ type Props = {
         /**
       * Function to open a modal
       */
-        openModal: (modalData: ModalData) => void;
-
-        /**
-      * Function to close a modal
-      */
-        closeModal: (modalId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
@@ -614,20 +609,18 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     handleNotifyAllConfirmation = () => {
-        this.props.actions.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL);
         this.doSubmit();
     }
 
     showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NOTIFY_CONFIRM_MODAL,
-            dialogType: NotifyConfirmModal as any,
+            dialogType: NotifyConfirmModal,
             dialogProps: {
                 mentions,
                 channelTimezoneCount,
                 memberNotifyCount,
                 onConfirm: () => this.handleNotifyAllConfirmation(),
-                onCancel: () => this.props.actions.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL),
             },
         });
     }
@@ -708,7 +701,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
             const resetStatusModalData = {
                 modalId: ModalIdentifiers.RESET_STATUS,
-                dialogType: ResetStatusModal as any,
+                dialogType: ResetStatusModal,
                 dialogProps: {newStatus: status},
             };
 
@@ -721,7 +714,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (trimRight(this.state.message) === '/header') {
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
-                dialogType: EditChannelHeaderModal as any,
+                dialogType: EditChannelHeaderModal,
                 dialogProps: {channel: updateChannel},
             };
 
@@ -735,7 +728,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
-                dialogType: EditChannelPurposeModal as any,
+                dialogType: EditChannelPurposeModal,
                 dialogProps: {channel: updateChannel},
             };
 
@@ -1291,7 +1284,8 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
 
         if (this.state.message === '') {
-            this.setState({message: ':' + emojiAlias + ': '});
+            const newMessage = ':' + emojiAlias + ': ';
+            this.setMessageAndCaretPostion(newMessage, newMessage.length);
         } else {
             const {message} = this.state;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);

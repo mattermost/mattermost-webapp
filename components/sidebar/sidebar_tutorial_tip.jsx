@@ -119,6 +119,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
             <TutorialTip
                 placement='right'
                 screens={screens}
+                step={Constants.TutorialSteps.CHANNEL_POPOVER}
                 overlayClass='tip-overlay--sidebar'
                 telemetryTag='tutorial_tip_2_channels'
             />
