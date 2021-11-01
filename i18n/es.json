@@ -4185,7 +4185,6 @@
   "signup_user_completed.validEmail": "Por favor ingresa una dirección de correo electrónico válida",
   "signup_user_completed.whatis": "¿Cuál es tu dirección de correo electrónico?",
   "someting.string": "defaultString",
-  "status_dropdown.custom_status.tooltip_clear": "Limpiar",
   "status_dropdown.dnd_sub_menu_header": "Desactivar las notificaciones hasta:",
   "status_dropdown.menuAriaLabel": "asignar estado",
   "status_dropdown.set_away": "Ausente",

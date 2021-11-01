@@ -4250,7 +4250,6 @@
   "start_trial.modal_btn.nottnow": "今はしない",
   "start_trial.modal_btn.start": "30日間のトライアルを開始する",
   "start_trial.modal_title": "今すぐEnterprise版の無料トライアルを開始する",
-  "status_dropdown.custom_status.tooltip_clear": "クリア",
   "status_dropdown.dnd_sub_menu_header": "通知を無効にする期間:",
   "status_dropdown.menuAriaLabel": "ステータスを設定する",
   "status_dropdown.set_away": "離席中",

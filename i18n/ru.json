@@ -4139,7 +4139,6 @@
   "signup_user_completed.validEmail": "Пожалуйста, введите корректный адрес электронной почты",
   "signup_user_completed.whatis": "Ваш адрес электронной почты?",
   "someting.string": "defaultString",
-  "status_dropdown.custom_status.tooltip_clear": "Очистить",
   "status_dropdown.menuAriaLabel": "установить статус",
   "status_dropdown.set_away": "Отошёл",
   "status_dropdown.set_custom": "Установить пользовательское состояние",
