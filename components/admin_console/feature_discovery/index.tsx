@@ -6,13 +6,14 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {Action, GenericAction} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCloudLicense} from 'utils/license_utils';
 
 import {openModal} from 'actions/views/modals';
 import {requestTrialLicense} from 'actions/admin_actions';
 
+import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import FeatureDiscovery from './feature_discovery';
@@ -29,12 +30,12 @@ type Actions = {
     requestTrialLicense: () => Promise<{error?: string; data?: null}>;
     getLicenseConfig: () => void;
     getPrevTrialLicense: () => void;
-    openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             requestTrialLicense,
             getLicenseConfig,
             getPrevTrialLicense,

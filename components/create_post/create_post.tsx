@@ -286,7 +286,7 @@ type Props = {
         /**
       * Function to open a modal
       */
-        openModal: (modalData: ModalData) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         /**
       * Function to close a modal
@@ -621,7 +621,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NOTIFY_CONFIRM_MODAL,
-            dialogType: NotifyConfirmModal as any,
+            dialogType: NotifyConfirmModal,
             dialogProps: {
                 mentions,
                 channelTimezoneCount,
@@ -708,7 +708,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
             const resetStatusModalData = {
                 modalId: ModalIdentifiers.RESET_STATUS,
-                dialogType: ResetStatusModal as any,
+                dialogType: ResetStatusModal,
                 dialogProps: {newStatus: status},
             };
 
@@ -721,7 +721,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (trimRight(this.state.message) === '/header') {
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
-                dialogType: EditChannelHeaderModal as any,
+                dialogType: EditChannelHeaderModal,
                 dialogProps: {channel: updateChannel},
             };
 
@@ -735,7 +735,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
-                dialogType: EditChannelPurposeModal as any,
+                dialogType: EditChannelPurposeModal,
                 dialogProps: {channel: updateChannel},
             };
 

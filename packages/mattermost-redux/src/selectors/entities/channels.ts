@@ -50,6 +50,7 @@ import {
     IDMappedObjects,
     NameMappedObjects,
     RelationOneToMany,
+    RelationOneToManyUnique,
     RelationOneToOne,
     UserIDMappedObjects,
 } from 'mattermost-redux/types/utilities';
@@ -71,7 +72,7 @@ import {
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
-import {getThreadCounts} from './threads';
+import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -516,6 +517,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     getTeamMemberships,
     isCollapsedThreadsEnabled,
     getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         channels,
         myMembers,
@@ -527,6 +529,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         myTeamMemberships,
         collapsedThreads,
         threadCounts,
+        threadCountsIncludingDirect,
     ) => {
         const {
             messages: currentTeamUnreadMessages,
@@ -593,9 +596,16 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         // when collapsed threads are enabled, we start with root-post counts from channels, then
         // add the same thread-reply counts from the global threads view
         if (collapsedThreads) {
-            Object.values(threadCounts).forEach((c) => {
-                anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
-                totalUnreadMentions += c.total_unread_mentions;
+            Object.keys(threadCounts).forEach((teamId) => {
+                const c = threadCounts[teamId];
+                if (teamId === currentTeamId) {
+                    const currentTeamDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
+                    anyUnreadThreads = Boolean(currentTeamDirectCounts.total_unread_threads);
+                    totalUnreadMentions += currentTeamDirectCounts.total_unread_mentions;
+                } else {
+                    anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
+                    totalUnreadMentions += c.total_unread_mentions;
+                }
             });
         }
 
@@ -613,7 +623,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
     getCurrentUserId,
     getCurrentTeamId,
     isCollapsedThreadsEnabled,
-    getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         currentChannelId,
         channels,
@@ -849,7 +859,7 @@ export const getDirectAndGroupChannels: (a: GlobalState) => Channel[] = createSe
     },
 );
 
-const getProfiles = (currentUserId: string, usersIdsInChannel: string[], users: IDMappedObjects<UserProfile>): UserProfile[] => {
+const getProfiles = (currentUserId: string, usersIdsInChannel: Set<string>, users: IDMappedObjects<UserProfile>): UserProfile[] => {
     const profiles: UserProfile[] = [];
     usersIdsInChannel.forEach((userId) => {
         if (userId !== currentUserId) {
@@ -867,11 +877,11 @@ export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     getUsers,
     getGroupChannels,
     getCurrentUserId,
-    (channelUserMap: RelationOneToMany<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
+    (channelUserMap: RelationOneToManyUnique<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
         return channels.map((channel: Channel): {
             profiles: UserProfile[];
         } & Channel => {
-            const profiles = getProfiles(currentUserId, channelUserMap[channel.id] || [], users);
+            const profiles = getProfiles(currentUserId, channelUserMap[channel.id], users);
             return {
                 ...channel,
                 profiles,

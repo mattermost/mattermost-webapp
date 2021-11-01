@@ -20,9 +20,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
     rootClose={false}
     show={false}
   >
-    <div
-      className="tip-backdrop"
-    />
+    <TutorialTipBackdrop />
   </Overlay>
   <Overlay
     animation={[Function]}

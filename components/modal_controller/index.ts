@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store/index.js';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions.js';
+import {Action, GenericAction} from 'mattermost-redux/types/actions.js';
 
 import {closeModal} from 'actions/views/modals';
 
@@ -19,12 +19,12 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    closeModal: (modalId: string) => {data: boolean};
+    closeModal: (modalId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             closeModal,
         }, dispatch),
     };

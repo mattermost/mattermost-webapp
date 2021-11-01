@@ -30,7 +30,7 @@ type Props = {
         /*
          * Action creator to close modal
          */
-        closeModal: (modalId: string) => {data: boolean};
+        closeModal: (modalId: string) => void;
     };
 }
 
@@ -50,6 +50,12 @@ export default class ModalController extends React.PureComponent<Props> {
                 const modal = modalState[modalId];
                 if (modal.open) {
                     const modalComponent = React.createElement(modal.dialogType, Object.assign({}, modal.dialogProps, {
+                        onExited: () => {
+                            props.actions.closeModal(modalId);
+
+                            // Call any onExited prop provided by whoever opened the modal, if one was provided
+                            modal.dialogProps?.onExited?.();
+                        },
                         onHide: props.actions.closeModal.bind(this, modalId),
                         key: `${modalId}_modal`,
                     }));
