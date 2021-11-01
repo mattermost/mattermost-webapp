@@ -15,8 +15,10 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         channelMember: {
             notify_props: {
                 desktop: NotificationLevels.ALL,
+                desktop_threads: NotificationLevels.ALL,
                 mark_unread: NotificationLevels.ALL,
                 push: NotificationLevels.DEFAULT,
+                push_threads: NotificationLevels.DEFAULT,
                 ignore_channel_mentions: IgnoreChannelMentions.DEFAULT,
             },
         },
@@ -24,6 +26,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             id: 'current_user_id',
             notify_props: {
                 desktop: NotificationLevels.ALL,
+                desktop_threads: NotificationLevels.ALL,
             },
         },
         sendPushNotifications: true,
@@ -59,6 +62,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             id: 'current_user_id',
             notify_props: {
                 desktop: NotificationLevels.ALL,
+                desktop_threads: NotificationLevels.ALL,
                 channel: 'true',
             },
         };
@@ -75,6 +79,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             id: 'current_user_id',
             notify_props: {
                 desktop: NotificationLevels.ALL,
+                desktop_threads: NotificationLevels.ALL,
                 channel: 'false',
             },
         };
@@ -91,6 +96,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             id: 'current_user_id',
             notify_props: {
                 desktop: NotificationLevels.ALL,
+                desktop_threads: NotificationLevels.ALL,
                 channel: 'false',
             },
         };
@@ -279,6 +285,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
                 desktop: NotificationLevels.NONE,
                 mark_unread: NotificationLevels.NONE,
                 push: NotificationLevels.ALL,
+                push_threads: NotificationLevels.ALL,
             },
         };
         const props = {...baseProps, channelMember};
@@ -304,6 +311,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         const channelMember = {
             notify_props: {
                 desktop: NotificationLevels.NONE,
+                desktop_threads: NotificationLevels.NONE,
                 mark_unread: NotificationLevels.NONE,
                 push: NotificationLevels.ALL,
             },

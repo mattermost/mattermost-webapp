@@ -31,9 +31,9 @@ export default class ResetStatusModal extends React.PureComponent {
         newStatus: PropTypes.string,
 
         /**
-         * Function called when modal is dismissed
+         * Function called after the modal has been hidden
          */
-        onHide: PropTypes.func,
+        onExited: PropTypes.func,
         actions: PropTypes.shape({
 
             /*
@@ -181,7 +181,7 @@ export default class ResetStatusModal extends React.PureComponent {
                 onConfirm={this.onConfirm}
                 cancelButtonText={manualStatusCancel}
                 onCancel={this.onCancel}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 showCheckbox={showCheckbox}
                 checkboxText={manualStatusCheckbox}
             />

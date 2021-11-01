@@ -19,7 +19,7 @@ describe('admin_console/add_users_to_role_modal', () => {
             asdf123: TestHelper.getUserMock(),
         },
         onAddCallback: jest.fn(),
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         actions: {
             getProfiles: jest.fn(),
             searchProfiles: jest.fn(),
