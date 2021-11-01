@@ -14,7 +14,7 @@ type State = {
 
 type Props = {
     channel?: Channel;
-    onHide: () => void;
+    onExited: () => void;
     actions: {
         leaveChannel: (channelId: string) => any;
     };
@@ -90,7 +90,7 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
                 confirmButtonText={button}
                 onConfirm={this.handleSubmit}
                 onCancel={this.handleHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
             />
         );
     }

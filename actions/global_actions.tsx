@@ -161,13 +161,6 @@ export function showGetPublicLinkModal(fileId: string) {
     });
 }
 
-export function showLeavePrivateChannelModal(channel: Channel) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
-        value: channel,
-    });
-}
-
 export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type
     const submenuModalData = {
         modalId: ModalIdentifiers.MOBILE_SUBMENU,

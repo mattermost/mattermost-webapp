@@ -13,7 +13,7 @@ import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 
 import {PropsFromRedux} from './index';
 
-type Props = {
+export type Props = {
 
     /**
      * Object with info about user
@@ -34,13 +34,9 @@ type Props = {
      * Use for test selector
      */
     id?: string;
+} & PropsFromRedux;
 
-    /**
-     * Object with action creators
-     */
-};
-
-export default class LeaveChannel extends React.PureComponent<Props & PropsFromRedux> {
+export default class LeaveChannel extends React.PureComponent<Props> {
     static defaultProps = {
         isDefault: true,
         isGuestUser: false,

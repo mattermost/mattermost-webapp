@@ -8,21 +8,19 @@ import Menu from 'components/widgets/menu/menu';
 
 import {TestHelper} from 'utils/test_helper';
 
-import LeaveChannel from './leave_channel';
-
-jest.mock('actions/global_actions', () => ({
-    showLeavePrivateChannelModal: jest.fn(),
-}));
+import LeaveChannel, {Props} from './leave_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
-    const baseProps = {
+    const baseProps: Props = {
         channel: TestHelper.getChannelMock({
             id: 'channel_id',
             type: 'O',
         }),
+        isGuestUser: false,
         isDefault: false,
         actions: {
             leaveChannel: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 
@@ -60,14 +58,13 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             channel: {...baseProps.channel},
             actions: {...baseProps.actions},
         };
-        const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
         const wrapper = shallow<LeaveChannel>(<LeaveChannel {...props}/>);
 
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).toHaveBeenCalledWith(props.channel.id);
-        expect(showLeavePrivateChannelModal).not.toHaveBeenCalled();
+        expect(props.actions.openModal).not.toHaveBeenCalled();
 
         props.channel.type = 'P';
         props.actions.leaveChannel = jest.fn();
@@ -75,6 +72,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).not.toHaveBeenCalled();
-        expect(showLeavePrivateChannelModal).toHaveBeenCalledWith(props.channel);
+        expect(props.actions.openModal).toHaveBeenCalled();
     });
 });

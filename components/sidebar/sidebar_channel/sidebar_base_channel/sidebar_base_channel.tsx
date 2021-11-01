@@ -6,34 +6,29 @@ import React from 'react';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import * as GlobalActions from 'actions/global_actions';
 
 import SidebarChannelLink from 'components/sidebar/sidebar_channel/sidebar_channel_link';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
+import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import {localizeMessage} from 'utils/utils';
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
+
+import {PropsFromRedux} from './index';
 
 type Props = {
     channel: Channel;
     currentTeamName: string;
     isCollapsed: boolean;
-    actions: {
-        leaveChannel: (channelId: any) => void;
-    };
 };
 
-type State = {
-
-};
-
-export default class SidebarBaseChannel extends React.PureComponent<Props, State> {
+export default class SidebarBaseChannel extends React.PureComponent<Props & PropsFromRedux> {
     handleLeavePublicChannel = () => {
         this.props.actions.leaveChannel(this.props.channel.id);
         trackEvent('ui', 'ui_public_channel_x_button_clicked');
     }
 
     handleLeavePrivateChannel = () => {
-        GlobalActions.showLeavePrivateChannelModal({id: this.props.channel.id, display_name: this.props.channel.display_name} as Channel);
+        this.props.actions.openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeavePrivateChannelModal, dialogProps: {channel: {id: this.props.channel.id, display_name: this.props.channel.display_name} as Channel}});
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
     }
 
