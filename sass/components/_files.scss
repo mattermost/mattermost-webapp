@@ -500,9 +500,10 @@
             .post-image__type {
                 @include opacity(0.6);
 
-                display: block;
+                display: inline-block;
                 overflow: hidden;
                 width: 147px;
+                float: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
