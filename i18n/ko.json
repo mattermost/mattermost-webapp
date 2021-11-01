@@ -3191,7 +3191,6 @@
   "someting.string": "기본문자열",
   "start_trial.modal.loading": "로딩중...",
   "start_trial.modal_btn.start": "30일 평가판 시작",
-  "status_dropdown.custom_status.tooltip_clear": "초기화",
   "status_dropdown.menuAriaLabel": "set status",
   "status_dropdown.set_away": "다른 용무 중",
   "status_dropdown.set_dnd": "방해 금지",
