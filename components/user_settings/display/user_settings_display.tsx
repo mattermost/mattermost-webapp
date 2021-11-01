@@ -196,7 +196,11 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
         const updatedUser = {
             ...user,
-            show_last_active: lastActiveDisplay === 'true',
+            props: {
+                show_last_active: lastActiveDisplay,
+                ...user.props,
+            }
+            
         };
 
         actions.updateMe(updatedUser).
@@ -650,7 +654,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         const lastActiveSection = this.createSection({
             section: 'lastactive',
             display: 'lastActiveDisplay',
-            value: this.state.lastActiveDisplay.toString(),
+            value: this.state.lastActiveDisplay,
             defaultDisplay: 'true',
             title: {
                 id: t('user.settings.display.lastActiveDisplay'),

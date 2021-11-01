@@ -238,14 +238,14 @@ export function applyRolesFilters(user: UserProfile, filterRoles: string[], excl
     return filterRoles.length === 0 || filterRoles.some(checkUserHasRole.bind(null, user, userIsNotAdminOrGuest, membership));
 }
 
-export function displayLastActiveLabel(status: string, timestamp: number, showLastActive: boolean | undefined) {
+export function displayLastActiveLabel(status: string, timestamp: number, showLastActive: string | undefined) {
     const currentTime = new Date();
-    const oneMin = 5 * 60 * 1000;
+    const oneMin = 60 * 1000;
 
     if (
         status === General.ONLINE ||
         (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin ||
-        !showLastActive
+        showLastActive === 'false'
     ) {
         return false;
     }

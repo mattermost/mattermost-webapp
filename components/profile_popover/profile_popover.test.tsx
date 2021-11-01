@@ -193,7 +193,41 @@ describe('components/ProfilePopover', () => {
 
     test('should match snapshot with no last active display because it is disabled by user', () => {
         const user = TestHelper.getUserMock({
-            show_last_active: false,
+            props: {
+                show_last_active: 'false',
+            }
+        });
+        const props = {
+            ...baseProps,
+            user,
+            status: 'offline',
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with last active display because prop is not set (default is on)', () => {
+        const user = TestHelper.getUserMock();
+        const props = {
+            ...baseProps,
+            user,
+            status: 'offline',
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with last active display because props.show_last_active is true', () => {
+        const user = TestHelper.getUserMock({
+            props: {
+                show_last_active: 'true',
+            }
         });
         const props = {
             ...baseProps,

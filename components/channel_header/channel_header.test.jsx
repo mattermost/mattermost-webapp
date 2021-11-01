@@ -349,7 +349,9 @@ describe('components/ChannelHeader', () => {
             dmUser: {
                 id: 'user_id',
                 is_bot: false,
-                show_last_active: true,
+                props: {
+                    show_last_active: 'true',
+                },
             },
         };
 
@@ -370,7 +372,9 @@ describe('components/ChannelHeader', () => {
             dmUser: {
                 id: 'user_id',
                 is_bot: false,
-                show_last_active: true,
+                props: {
+                    show_last_active: 'true',
+                },
             },
         };
 
@@ -391,7 +395,29 @@ describe('components/ChannelHeader', () => {
             dmUser: {
                 id: 'user_id',
                 is_bot: false,
-                show_last_active: false,
+                props: {
+                    show_last_active: 'false',
+                },
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with last active display because default is on', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'offline',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
             },
         };
 

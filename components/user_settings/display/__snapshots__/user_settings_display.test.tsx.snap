@@ -601,6 +601,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         className="divider-dark"
       />
     </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;

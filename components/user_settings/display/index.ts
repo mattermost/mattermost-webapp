@@ -45,8 +45,12 @@ function mapStateToProps(state: GlobalState) {
     const enableTimezone = config.ExperimentalTimezone === 'true';
     const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay as string;
-    const lastActiveDisplay = getUser(state, currentUserId).show_last_active;
     const emojiPickerEnabled = config.EnableEmojiPicker === 'true';
+
+    let lastActiveDisplay = true;
+    if (getUser(state, currentUserId).props?.show_last_active === 'false') {
+        lastActiveDisplay = false;
+    }
 
     return {
         lockTeammateNameDisplay,

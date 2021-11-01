@@ -55,7 +55,6 @@ export type UserProfile = {
     terms_of_service_id: string;
     terms_of_service_create_at: number;
     remote_id?: string;
-    show_last_active: boolean;
     status?: string;
 };
 

@@ -58,7 +58,6 @@ export class TestHelper {
             last_activity_at: 0,
             bot_description: '',
             bot_last_icon_update: 0,
-            show_last_active: true,
         };
         return Object.assign({}, defaultUser, override);
     }
