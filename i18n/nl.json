@@ -4250,6 +4250,7 @@
   "status_dropdown.menuAriaLabel": "Zet status",
   "status_dropdown.set_away": "Afwezig",
   "status_dropdown.set_custom": "Een aangepaste status instellen",
+  "status_dropdown.set_custom_text": "Zet aangepaste statustekst...",
   "status_dropdown.set_dnd": "Niet Storen",
   "status_dropdown.set_dnd.extra": "Disables Desktop and Push Notifications",
   "status_dropdown.set_offline": "Offline",
