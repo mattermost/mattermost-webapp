@@ -3922,7 +3922,7 @@
   "post_info.tooltip.add_reactions": "Add Reaction",
   "post_info.unpin": "Unpin from Channel",
   "post_info.unread": "Mark as Unread",
-  "post_message_preview.channel": "Originally posted in ~{channel}",
+  "post_message_preview.channel": "Only visible to users in ~{channel}",
   "post_message_view.edited": "Edited",
   "post_pre_header.flagged": "Saved",
   "post_pre_header.pinned": "Pinned",
