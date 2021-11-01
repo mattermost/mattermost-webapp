@@ -195,7 +195,7 @@ describe('components/ProfilePopover', () => {
         const user = TestHelper.getUserMock({
             props: {
                 show_last_active: 'false',
-            }
+            },
         });
         const props = {
             ...baseProps,
@@ -227,7 +227,7 @@ describe('components/ProfilePopover', () => {
         const user = TestHelper.getUserMock({
             props: {
                 show_last_active: 'true',
-            }
+            },
         });
         const props = {
             ...baseProps,
