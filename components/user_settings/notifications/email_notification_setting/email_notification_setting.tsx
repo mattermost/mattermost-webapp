@@ -332,8 +332,8 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                         </div>
                         <div className='mt-5'>
                             <FormattedMessage
-                                id='user.settings.notifications.threads'
-                                defaultMessage={'When enabled, any replies to a thread you\'re following will send a desktop notification.'}
+                                id='user.settings.notifications.email_threads'
+                                defaultMessage={'When enabled, any reply to a thread you\'re following will send an email notification.'}
                             />
                         </div>
                     </fieldset>

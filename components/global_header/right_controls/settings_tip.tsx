@@ -31,7 +31,7 @@ export default function SettingsTip() {
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar.tutorialSettings.settings'
-                    defaultMessage={'Under Profile, set your availability, add a custom status, and set your  profile picture. Select **Settings** to customize your experience, including notification preferences, custom theme colors, and more.'}
+                    defaultMessage={'Under Profile, set your availability, add a custom status, and set your profile picture. Select **Settings** to customize your experience, including notification preferences, custom theme colors, and more.'}
                 />
             </p>
         </div>,

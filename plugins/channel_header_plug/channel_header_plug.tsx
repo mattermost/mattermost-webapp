@@ -221,7 +221,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                     />
                 )}
                 onClick={() => this.onBindingClick(binding)}
-                buttonId={binding.location || ''}
+                buttonId={`${binding.app_id}_${binding.location}`}
                 tooltipKey={'plugin'}
                 tooltipText={binding.label}
             />

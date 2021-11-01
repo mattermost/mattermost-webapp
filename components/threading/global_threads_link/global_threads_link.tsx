@@ -39,7 +39,7 @@ const GlobalThreadsLink = () => {
     useEffect(() => {
         // load counts if necessary
         if (isFeatureEnabled) {
-            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
+            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5, totalsOnly: true}));
         }
     }, [currentTeamId, isFeatureEnabled]);
 

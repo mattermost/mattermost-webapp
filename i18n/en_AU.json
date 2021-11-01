@@ -4639,7 +4639,7 @@
   "user.settings.notifications.sensitiveWords": "Other non case-sensitive words, separated by commas:",
   "user.settings.notifications.soundConfig": "Please configure notification sounds in your browser settings",
   "user.settings.notifications.sounds_info": "Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps.",
-  "user.settings.notifications.threads": "When enabled, any replies to a thread you're following will send a desktop notification.",
+  "user.settings.notifications.threads": "When enabled, any reply to a thread you're following will send a desktop notification.",
   "user.settings.notifications.threads.allActivity": "Notify me about threads I'm following",
   "user.settings.notifications.threads.desktop": "Thread reply notifications",
   "user.settings.notifications.title": "Notification Settings",
