@@ -93,13 +93,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       >
         <GroupTeamsAndChannels
           channels={Array []}
-          getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
           onChangeRoles={[Function]}
           onRemoveItem={[Function]}
           teams={Array []}
-          unlink={[MockFunction]}
         />
       </AdminPanel>
       <Connect(ChannelSelectorModal)
@@ -246,13 +244,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       >
         <GroupTeamsAndChannels
           channels={Array []}
-          getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
           onChangeRoles={[Function]}
           onRemoveItem={[Function]}
           teams={Array []}
-          unlink={[MockFunction]}
         />
       </AdminPanel>
       <Connect(TeamSelectorModal)
@@ -398,13 +394,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       >
         <GroupTeamsAndChannels
           channels={Array []}
-          getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
           onChangeRoles={[Function]}
           onRemoveItem={[Function]}
           teams={Array []}
-          unlink={[MockFunction]}
         />
       </AdminPanel>
       <AdminPanel
@@ -539,13 +533,11 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       >
         <GroupTeamsAndChannels
           channels={Array []}
-          getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={false}
           onChangeRoles={[Function]}
           onRemoveItem={[Function]}
           teams={Array []}
-          unlink={[MockFunction]}
         />
       </AdminPanel>
       <AdminPanel

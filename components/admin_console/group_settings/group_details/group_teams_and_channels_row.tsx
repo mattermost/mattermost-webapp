@@ -1,34 +1,44 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
-import {isNil} from 'lodash';
 import classNames from 'classnames';
 
+import {isNil} from 'lodash';
+
+import React from 'react';
+
+import {FormattedMessage} from 'react-intl';
+
 import ConfirmModal from 'components/confirm_modal';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import Menu from 'components/widgets/menu/menu';
-import {localizeMessage} from 'utils/utils.jsx';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-export default class GroupTeamsAndChannelsRow extends React.PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        hasChildren: PropTypes.bool,
-        collapsed: PropTypes.bool,
-        onRemoveItem: PropTypes.func.isRequired,
-        onToggleCollapse: PropTypes.func.isRequired,
-        onChangeRoles: PropTypes.func.isRequired,
-        schemeAdmin: PropTypes.bool,
-        isDisabled: PropTypes.bool,
-    }
+import {localizeMessage} from 'utils/utils';
 
-    constructor(props) {
+type Props = {
+    id: string;
+    type: string;
+    name: string;
+    hasChildren?: boolean;
+    collapsed?: boolean;
+    onRemoveItem: (id: string, type: string) => void;
+    onToggleCollapse: (id: string) => void;
+    onChangeRoles: (id: string, type: string, schemeAdmin: boolean) => void;
+    schemeAdmin?: boolean;
+    isDisabled?: boolean;
+};
+
+type State = {
+    showConfirmationModal: boolean;
+};
+
+export default class GroupTeamsAndChannelsRow extends React.PureComponent<
+Props,
+State
+> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             showConfirmationModal: false,
@@ -38,15 +48,19 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     removeItem = () => {
         this.props.onRemoveItem(this.props.id, this.props.type);
         this.setState({showConfirmationModal: false});
-    }
+    };
 
     changeRoles = () => {
-        this.props.onChangeRoles(this.props.id, this.props.type, !this.props.schemeAdmin);
-    }
+        this.props.onChangeRoles(
+            this.props.id,
+            this.props.type,
+            !this.props.schemeAdmin,
+        );
+    };
 
     toggleCollapse = () => {
         this.props.onToggleCollapse(this.props.id);
-    }
+    };
 
     displayAssignedRolesDropdown = () => {
         const {schemeAdmin, name, isDisabled} = this.props;
@@ -71,16 +85,18 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         let dropDown = null;
         if (!isNil(schemeAdmin)) {
             let currentRole = member;
-            let roleToBe = (this.props.type.includes('team')) ? teamAdmin : channelAdmin;
+            let roleToBe = this.props.type.includes('team') ?
+                teamAdmin :
+                channelAdmin;
             if (schemeAdmin) {
-                currentRole = (this.props.type.includes('team')) ? teamAdmin : channelAdmin;
+                currentRole = this.props.type.includes('team') ?
+                    teamAdmin :
+                    channelAdmin;
                 roleToBe = member;
             }
             dropDown = (
-                <div >
-                    <MenuWrapper
-                        isDisabled={isDisabled}
-                    >
+                <div>
+                    <MenuWrapper isDisabled={isDisabled}>
                         <div data-testid={`${name}_current_role`}>
                             <a>
                                 <span>{currentRole} </span>
@@ -90,7 +106,10 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                         <Menu
                             openLeft={true}
                             openUp={true}
-                            ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
+                            ariaLabel={localizeMessage(
+                                'admin.team_channel_settings.group_row.memberRole',
+                                'Member Role',
+                            )}
                             id={`${name}_change_role_options`}
                         >
                             <Menu.ItemAction
@@ -105,7 +124,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         }
 
         return dropDown;
-    }
+    };
 
     render = () => {
         let extraClasses = '';
@@ -113,7 +132,12 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         if (this.props.hasChildren) {
             arrowIcon = (
                 <i
-                    className={'fa ' + (this.props.collapsed ? 'fa-caret-right' : 'fa-caret-down')}
+                    className={
+                        'fa ' +
+                        (this.props.collapsed ?
+                            'fa-caret-right' :
+                            'fa-caret-down')
+                    }
                     onClick={this.toggleCollapse}
                 />
             );
@@ -201,28 +225,31 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                         />
                     }
                     onConfirm={this.removeItem}
-                    onCancel={() => this.setState({showConfirmationModal: false})}
+                    onCancel={() =>
+                        this.setState({showConfirmationModal: false})
+                    }
                 />
                 <td>
-                    <span className='arrow-icon'>
-                        {arrowIcon}
-                    </span>
+                    <span className='arrow-icon'>{arrowIcon}</span>
                     {channelIcon}
-                    <span className={classNames({'name-no-arrow': isNil(arrowIcon) && isNil(channelIcon)})}>
+                    <span
+                        className={classNames({
+                            'name-no-arrow':
+                                isNil(arrowIcon) && isNil(channelIcon),
+                        })}
+                    >
                         {this.props.name}
                     </span>
                 </td>
-                <td className='type'>
-                    {typeText}
-                </td>
-                <td>
-                    {this.displayAssignedRolesDropdown()}
-                </td>
+                <td className='type'>{typeText}</td>
+                <td>{this.displayAssignedRolesDropdown()}</td>
                 <td className='text-right'>
                     <button
                         type='button'
                         className='btn btn-link'
-                        onClick={() => this.setState({showConfirmationModal: true})}
+                        onClick={() =>
+                            this.setState({showConfirmationModal: true})
+                        }
                         data-testid={`${this.props.name}_groupsyncable_remove`}
                         disabled={this.props.isDisabled}
                     >
