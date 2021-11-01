@@ -10,7 +10,7 @@ import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 interface Props extends WrappedComponentProps {
     callback: ((args: Theme) => void) | null;
-    onHide: () => void;
+    onExited: () => void;
 }
 
 type State = {
@@ -154,10 +154,6 @@ export class ImportThemeModalComponent extends React.PureComponent<Props, State>
         }
     }
 
-    handleExit = () => {
-        this.props.onHide();
-    }
-
     render() {
         return (
             <span>
@@ -165,7 +161,7 @@ export class ImportThemeModalComponent extends React.PureComponent<Props, State>
                     dialogClassName='a11y__modal'
                     show={this.state.show}
                     onHide={this.handleOnHide}
-                    onExited={this.handleExit}
+                    onExited={this.props.onExited}
                     role='dialog'
                     aria-labelledby='importThemeModalLabel'
                 >
