@@ -4219,7 +4219,6 @@
   "start_trial.modal.loaded": "已加载！",
   "start_trial.modal.loading": "加载中...",
   "start_trial.modal_btn.start": "开始 30 天试用",
-  "status_dropdown.custom_status.tooltip_clear": "清除",
   "status_dropdown.dnd_sub_menu_header": "禁用通知，直到：",
   "status_dropdown.menuAriaLabel": "设定状态",
   "status_dropdown.set_away": "离开",
