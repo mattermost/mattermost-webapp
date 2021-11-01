@@ -745,12 +745,6 @@ class CreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
-            GlobalActions.showChannelNameUpdateModal(updateChannel);
-            this.setState({message: ''});
-            return;
-        }
-
         await this.doSubmit(e);
     }
 

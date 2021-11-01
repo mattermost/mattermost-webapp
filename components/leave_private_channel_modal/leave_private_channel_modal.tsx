@@ -6,18 +6,17 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants';
 import ConfirmModal from 'components/confirm_modal';
 
 type State = {
     show: boolean;
-    channel?: Channel;
 };
 
 type Props = {
+    channel?: Channel;
+    onHide: () => void;
     actions: {
-        leaveChannel: (channelId: any) => any;
+        leaveChannel: (channelId: string) => any;
     };
 }
 
@@ -26,27 +25,12 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
         super(props);
 
         this.state = {
-            show: false,
+            show: true,
         };
     }
 
-    componentDidMount() {
-        ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL, this.handleToggle);
-    }
-
-    componentWillUnmount() {
-        ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL, this.handleToggle);
-    }
-
-    handleKeyPress = (e: KeyboardEvent) => {
-        if (e.key === 'Enter' && this.state.show) {
-            this.handleSubmit();
-        }
-    };
-
     handleSubmit = () => {
-        const {actions} = this.props;
-        const {channel} = this.state;
+        const {actions, channel} = this.props;
 
         if (channel) {
             const channelId = channel.id;
@@ -58,13 +42,6 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
         }
     };
 
-    handleToggle = (value: Channel): void => {
-        this.setState({
-            channel: value,
-            show: value !== null,
-        });
-    };
-
     handleHide = () => {
         this.setState({
             show: false,
@@ -74,13 +51,13 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
     render() {
         let title;
         let message;
-        if (this.state.channel && this.state.channel.display_name) {
+        if (this.props.channel && this.props.channel.display_name) {
             title = (
                 <FormattedMessage
                     id='leave_private_channel_modal.title'
                     defaultMessage='Leave Private Channel {channel}'
                     values={{
-                        channel: <b>{this.state.channel.display_name}</b>,
+                        channel: <b>{this.props.channel.display_name}</b>,
                     }}
                 />
             );
@@ -90,7 +67,7 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
                     id='leave_private_channel_modal.message'
                     defaultMessage='Are you sure you wish to leave the private channel {channel}? You must be re-invited in order to re-join this channel in the future.'
                     values={{
-                        channel: <b>{this.state.channel.display_name}</b>,
+                        channel: <b>{this.props.channel.display_name}</b>,
                     }}
                 />
             );
@@ -113,6 +90,7 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
                 confirmButtonText={button}
                 onConfirm={this.handleSubmit}
                 onCancel={this.handleHide}
+                onExited={this.props.onHide}
             />
         );
     }

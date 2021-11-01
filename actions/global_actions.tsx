@@ -42,7 +42,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {GlobalState} from 'types/store';
 
-import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
+import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
@@ -153,34 +153,11 @@ export function toggleShortcutsModal() {
     });
 }
 
-export function showChannelPurposeUpdateModal(channel: Channel) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL,
-        value: true,
-        channel,
-    });
-}
-
-export function showChannelNameUpdateModal(channel: Channel) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL,
-        value: true,
-        channel,
-    });
-}
-
 export function showGetPublicLinkModal(fileId: string) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,
         value: true,
         fileId,
-    });
-}
-
-export function showGetTeamInviteLinkModal() {
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL,
-        value: true,
     });
 }
 
