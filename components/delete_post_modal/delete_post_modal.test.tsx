@@ -45,7 +45,7 @@ describe('components/delete_post_modal', () => {
         actions: {
             deleteAndRemovePost: jest.fn(),
         },
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         channelName: 'channel_name',
         teamName: 'team_name',
         location: {
@@ -193,17 +193,15 @@ describe('components/delete_post_modal', () => {
         expect(browserHistory.replace).toHaveBeenCalledWith('/teamname/channels/channelName');
     });
 
-    test('should have called props.onHide when Modal.onExited is called', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
+    test('should have called props.onExiteed when Modal.onExited is called', () => {
         const wrapper = shallow(
-            <DeletePostModal {...props}/>,
+            <DeletePostModal {...baseProps}/>,
         );
 
         const modalProps = wrapper.find(Modal).first().props();
         if (modalProps.onExited) {
             modalProps.onExited(document.createElement('div'));
         }
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
     });
 });

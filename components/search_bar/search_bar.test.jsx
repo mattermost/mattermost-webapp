@@ -4,6 +4,8 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 import {IntlProvider} from 'react-intl';
+import configureStore from 'redux-mock-store';
+import {Provider} from 'react-redux';
 
 import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
@@ -36,6 +38,15 @@ const wrapIntl = (component) => (
 );
 
 describe('components/search_bar/SearchBar', () => {
+    const mockStore = configureStore();
+    const store = mockStore({});
+
+    const wrapStore = (component) => (
+        <Provider store={store}>
+            {component}
+        </Provider>
+    );
+
     const baseProps = {
         suggestionProviders,
         searchTerms: '',
@@ -59,65 +70,65 @@ describe('components/search_bar/SearchBar', () => {
 
     it('should match snapshot without search', () => {
         const {container} = render(
-            wrapIntl(<SearchBar {...baseProps}/>),
+            wrapStore(wrapIntl(<SearchBar {...baseProps}/>)),
         );
         expect(container).toMatchSnapshot();
     });
 
     it('should match snapshot without search, without searchType', () => {
         const {container} = render(
-            wrapIntl((
+            wrapStore(wrapIntl((
                 <SearchBar {...baseProps}/>
-            )),
+            ))),
         );
         expect(container).toMatchSnapshot();
     });
 
     it('should match snapshot without search, with searchType', () => {
         const {container} = render(
-            wrapIntl((
+            wrapStore(wrapIntl((
                 <SearchBar
                     {...baseProps}
                     searchType='files'
                 />
-            )),
+            ))),
         );
         expect(container).toMatchSnapshot();
     });
 
     it('should match snapshot with search, with searchType', () => {
         const {container} = render(
-            wrapIntl((
+            wrapStore(wrapIntl((
                 <SearchBar
                     {...baseProps}
                     searchTerms={'test'}
                     searchType='files'
                 />
-            )),
+            ))),
         );
         expect(container).toMatchSnapshot();
     });
 
     it('should match snapshot without search on focus', () => {
         const {container} = render(
-            wrapIntl((
+            wrapStore(wrapIntl((
                 <SearchBar
                     {...baseProps}
                     isFocused={true}
                 />
-            )),
+            ))),
         );
         expect(container).toMatchSnapshot();
     });
 
     it('should match snapshot with search', () => {
         const {container} = render(
-            wrapIntl((
+            wrapStore(wrapIntl((
                 <SearchBar
                     {...baseProps}
                     searchTerms={'test'}
                 />
-            )),
+            ))),
         );
         expect(container).toMatchSnapshot();
     });
