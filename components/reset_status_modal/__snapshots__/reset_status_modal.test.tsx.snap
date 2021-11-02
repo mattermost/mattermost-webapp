@@ -45,7 +45,6 @@ exports[`components/ResetStatusModal should match snapshot 1`] = `
   modalClass=""
   onCancel={[Function]}
   onConfirm={[Function]}
-  onExited={[MockFunction]}
   show={false}
   showCheckbox={true}
   title={
@@ -107,7 +106,6 @@ exports[`components/ResetStatusModal should match snapshot, render modal for OOF
   modalClass=""
   onCancel={[Function]}
   onConfirm={[Function]}
-  onExited={[MockFunction]}
   show={false}
   showCheckbox={false}
   title={
