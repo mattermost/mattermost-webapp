@@ -22,3 +22,8 @@ export enum AutoTourTreatments {
     NONE = 'none',
     AUTO = 'auto',
 }
+
+export enum AddMembersToChanneltreatments {
+    TOP = 'top',
+    BOTTOM = 'bottom',
+}
