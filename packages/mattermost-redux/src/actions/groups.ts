@@ -151,10 +151,10 @@ export function getGroup(id: string): ActionFunc {
     });
 }
 
-export function getGroups(filterAllowReference: false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT): ActionFunc {
+export function getGroups(filterAllowReference: false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
     return bindClientFunc({
-        clientFunc: async (param1, param2, param3) => {
-            const result = await Client4.getGroups(param1, param2, param3);
+        clientFunc: async (param1, param2, param3, param4) => {
+            const result = await Client4.getGroups(param1, param2, param3, param4);
             return result;
         },
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -162,6 +162,7 @@ export function getGroups(filterAllowReference: false, page = 0, perPage: number
             filterAllowReference,
             page,
             perPage,
+            includeMemberCount,
         ],
     });
 }

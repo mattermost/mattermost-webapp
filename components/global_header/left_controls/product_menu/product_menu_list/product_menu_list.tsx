@@ -18,6 +18,7 @@ import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
+import UserGroupsModal from 'components/user_groups_modal';
 
 export type Props = {
     isMobile: boolean;
@@ -100,6 +101,18 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         <Icon
                             size={16}
                             glyph={'webhook-incoming'}
+                        />
+                    }
+                />
+                <Menu.ItemToggleModalRedux
+                    id='userGroups'
+                    modalId={ModalIdentifiers.USER_GROUPS}
+                    dialogType={UserGroupsModal}
+                    text={formatMessage({id: 'navbar_dropdown.userGroups', defaultMessage: 'User Groups'})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'information-outline'}
                         />
                     }
                 />
