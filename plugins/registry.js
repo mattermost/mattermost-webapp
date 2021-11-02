@@ -716,9 +716,10 @@ export default class PluginRegistry {
     // - mainComponent - The component to be displayed below the global header when your route is active.
     // - headerComponent - A component to fill the generic area in the center of
     //                     the global header when your route is active.
+    // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar = false) {
         const id = generateId();
 
         store.dispatch({

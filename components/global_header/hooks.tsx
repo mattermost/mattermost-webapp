@@ -48,7 +48,7 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
         return null;
     }
 
-    return getCurrentProductId(products, useLocation());
+    return getCurrentProductId(products, useLocation().pathname);
 };
 
 export const useShowTutorialStep = (stepToShow: number): boolean => {

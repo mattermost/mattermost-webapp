@@ -33,6 +33,7 @@ import {ProductComponent} from '../../types/store/plugins';
 import Pluggable from '../../plugins/pluggable';
 
 import TeamButton from './components/team_button';
+import {getCurrentProduct} from '../../selectors/products';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
@@ -57,7 +58,7 @@ export interface Props {
     actions: Actions;
     userTeamsOrderPreference: string;
     threadCounts: ThreadsState['counts'];
-    currentProduct: ProductComponent | undefined;
+    products: ProductComponent[];
     location: RouteComponentProps['location'];
 }
 
@@ -85,8 +86,8 @@ export function renderThumbVertical(props: Props) {
         />);
 }
 
-export default class TeamSidebar extends React.PureComponent<Props & RouteComponentProps, State> {
-    constructor(props: Props & RouteComponentProps) {
+export default class TeamSidebar extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -228,7 +229,8 @@ export default class TeamSidebar extends React.PureComponent<Props & RouteCompon
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
-        if (this.props.currentProduct && !this.props.currentProduct.showTeamSidebar) {
+        const currentProduct = getCurrentProduct(this.props.products, this.props.location.pathname);
+        if (currentProduct && !currentProduct.showTeamSidebar) {
             return null;
         }
 

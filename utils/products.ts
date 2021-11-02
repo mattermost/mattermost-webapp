@@ -7,14 +7,14 @@ import {ProductComponent} from '../types/store/plugins';
 
 import {getBasePath} from './url';
 
-export const getCurrentProductId = (products: ProductComponent[], location: RouteComponentProps['location']): string | null => {
+export const getCurrentProductId = (products: ProductComponent[], pathname: string): string | null => {
     if (!products) {
         return null;
     }
 
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
-        if (location.pathname.startsWith(getBasePath() + product.baseURL)) {
+        if (pathname.startsWith(getBasePath() + product.baseURL)) {
             return product.id;
         }
     }

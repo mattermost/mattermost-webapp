@@ -8,7 +8,7 @@ import type {ProductComponent} from '../types/store/plugins';
 
 import {getCurrentProductId} from '../utils/products';
 
-export function getCurrentProduct(state: GlobalState, location: RouteComponentProps['location']): ProductComponent | undefined {
-    const productID = getCurrentProductId(state.plugins.components.Product, location);
-    return state.plugins.components.Product.find((product) => product.id === productID);
+export function getCurrentProduct(products: ProductComponent[], pathname: string): ProductComponent | undefined {
+    const productID = getCurrentProductId(products, pathname);
+    return products.find((product) => product.id === productID);
 }
