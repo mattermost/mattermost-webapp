@@ -6,14 +6,14 @@ import React, {useCallback, useState} from 'react';
 import ConfirmModal from 'components/confirm_modal';
 
 type Props = Omit<React.ComponentProps<typeof ConfirmModal>, 'show'> & {
-    onHide: () => void;
+    onExited: () => void;
 };
 
 export default function ConfirmModalRedux(props: Props) {
     const {
         onCancel,
         onConfirm,
-        onHide, // TODO MM-39580 this should be renamed
+        onExited,
         ...otherProps
     } = props;
 
@@ -35,7 +35,7 @@ export default function ConfirmModalRedux(props: Props) {
             {...otherProps}
             onCancel={wrappedOnCancel}
             onConfirm={wrappedOnConfirm}
-            onExited={onHide}
+            onExited={onExited}
             show={show}
         />
     );
