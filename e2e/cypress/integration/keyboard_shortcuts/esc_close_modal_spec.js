@@ -24,7 +24,7 @@ describe('Keyboard Shortcuts', () => {
         const searchTerm = 'test';
 
         // # Open Channel switcher modal by click on the button
-        cy.findByRole('button', {name: 'Channel Switcher'}).click();
+        cy.findByRole('button', {name: 'Navigate Channels'}).click();
 
         // # Type in the quick switch input box
         cy.get('#quickSwitchInput').type(searchTerm, {force: true});
