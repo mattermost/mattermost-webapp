@@ -22,7 +22,6 @@ import Textbox from 'components/textbox';
 jest.mock('actions/global_actions', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    toggleShortcutsModal: jest.fn(),
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
@@ -875,16 +874,30 @@ describe('components/create_post', () => {
     });
 
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
-        const wrapper = shallowWithIntl(createPost());
+        const openModal = jest.fn();
+
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                openModal,
+            },
+        }));
         const instance = wrapper.instance();
+
         instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
+        expect(openModal).not.toHaveBeenCalled();
+
         instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+        expect(openModal).toHaveBeenCalled();
+        expect(openModal.mock.calls[0][0].modalId).toBe(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+
         instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+        expect(openModal).toHaveBeenCalled();
+        expect(openModal.mock.calls[0][0].modalId).toBe(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+
         instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+        expect(openModal).toHaveBeenCalled();
+        expect(openModal.mock.calls[0][0].modalId).toBe(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
     });
 
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {

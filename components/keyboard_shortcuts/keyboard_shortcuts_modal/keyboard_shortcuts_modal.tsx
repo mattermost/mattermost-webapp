@@ -1,17 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, useIntl} from 'react-intl';
 
-import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
+
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+
 import './keyboard_shortcuts_modal.scss';
 
 const modalMessages = defineMessages({
@@ -54,20 +54,17 @@ const modalMessages = defineMessages({
     },
 });
 
-const KeyboardShortcutsModal = (): JSX.Element => {
-    const [show, setShow] = useState<boolean>(false);
+interface Props {
+    onExited: () => void;
+}
 
-    useEffect(() => {
-        //toggles the state of shortcut dialog
-        const handleToggle = (): void => setShow(!show);
-        ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);
-        return () => {
-            ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);
-        };
-    }, []);
+const KeyboardShortcutsModal: FC<Props> = (props: Props) => {
+    const [show, setShow] = useState(true);
+
+    const {formatMessage} = useIntl();
 
     const handleHide = (): void => setShow(false);
-    const {formatMessage} = useIntl();
+
     const isLinux = Utils.isLinux();
 
     return (
@@ -75,7 +72,7 @@ const KeyboardShortcutsModal = (): JSX.Element => {
             dialogClassName='a11y__modal shortcuts-modal'
             show={show}
             onHide={handleHide}
-            onExited={handleHide}
+            onExited={props.onExited}
             role='dialog'
             aria-labelledby='shortcutsModalLabel'
         >

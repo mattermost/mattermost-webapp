@@ -165,12 +165,15 @@ describe('executeCommand', () => {
             });
         });
 
-        test('should call toggleShortcutsModal in case of no mobile', async () => {
+        test('should open shortcut modal in case of no mobile', async () => {
             UserAgent.isMobile.mockReturnValueOnce(false);
 
             const result = await store.dispatch(executeCommand('/shortcuts', []));
 
-            expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+            const actionDispatch = store.getActions()[0];
+            expect(actionDispatch.type).toEqual(ActionTypes.MODAL_OPEN);
+            expect(actionDispatch.modalId).toEqual(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+
             expect(result).toEqual({data: true});
         });
     });

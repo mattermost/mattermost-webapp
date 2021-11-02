@@ -29,11 +29,6 @@ type Props = {
 }
 
 export default class SidebarHeaderDropdown extends React.PureComponent<Props> {
-    toggleShortcutsModal = (e: React.MouseEvent) => {
-        e.preventDefault();
-        GlobalActions.toggleShortcutsModal();
-    }
-
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
     }

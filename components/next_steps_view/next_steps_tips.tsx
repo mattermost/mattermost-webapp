@@ -9,13 +9,15 @@ import classNames from 'classnames';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {toggleShortcutsModal} from 'actions/global_actions';
 import {openModal, closeModal} from 'actions/views/modals';
+
 import Card from 'components/card/card';
 import MoreChannels from 'components/more_channels';
 import TeamMembersModal from 'components/team_members_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
 import RemoveNextStepsModal from 'components/sidebar/sidebar_next_steps/remove_next_steps_modal';
+import CloseIcon from 'components/widgets/icons/close_icon';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import {browserHistory} from 'utils/browser_history';
 import {
@@ -23,7 +25,6 @@ import {
     RecommendedNextSteps,
     Preferences,
 } from 'utils/constants';
-import CloseIcon from 'components/widgets/icons/close_icon';
 import * as Utils from 'utils/utils';
 
 import DownloadSection from './download_section';
@@ -65,6 +66,11 @@ export default function NextStepsTips(props: Props) {
     const openViewMembersModal = () => dispatch(openModal({
         modalId: ModalIdentifiers.TEAM_MEMBERS,
         dialogType: TeamMembersModal,
+    }));
+
+    const openKeyboardShortcutsModal = () => dispatch(openModal({
+        modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+        dialogType: KeyboardShortcutsModal,
     }));
 
     const onCloseModal = () => dispatch(closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL));
@@ -191,7 +197,7 @@ export default function NextStepsTips(props: Props) {
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={toggleShortcutsModal}
+                            onClick={openKeyboardShortcutsModal}
                         >
                             <FormattedMessage
                                 id='next_steps_view.tips.addPlugins.buttons'

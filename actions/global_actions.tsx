@@ -32,7 +32,6 @@ import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'act
 import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store';
@@ -144,13 +143,6 @@ export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = D
 
 export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
-}
-
-export function toggleShortcutsModal() {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_SHORTCUTS_MODAL,
-        value: true,
-    });
 }
 
 export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type

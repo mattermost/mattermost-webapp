@@ -20,7 +20,6 @@ import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
-import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 interface Props {
     fetchingChannels: boolean;
@@ -69,7 +68,6 @@ export default class ChannelController extends React.PureComponent<Props> {
                     <Pluggable pluggableName='Root'/>
                     <EditPostModal/>
                     <ResetStatusModal/>
-                    <KeyboardShortcutsModal/>
                 </div>
             </div>
         );

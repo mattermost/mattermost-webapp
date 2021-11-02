@@ -76,11 +76,6 @@ export class MainMenu extends React.PureComponent<Props> {
         pluginMenuItems: [],
     };
 
-    toggleShortcutsModal = (e: Event): void => {
-        e.preventDefault();
-        GlobalActions.toggleShortcutsModal();
-    }
-
     async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
     }

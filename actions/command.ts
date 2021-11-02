@@ -30,6 +30,7 @@ import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 import {intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import {GlobalState} from 'types/store';
 
@@ -64,7 +65,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                 return {error};
             }
 
-            GlobalActions.toggleShortcutsModal();
+            dispatch(openModal({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL, dialogType: KeyboardShortcutsModal}));
             return {data: true};
         case '/leave': {
             // /leave command not supported in reply threads.
