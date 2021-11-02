@@ -4,8 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {isEmpty} from 'lodash';
-
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -14,8 +12,7 @@ import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/sele
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
-import {/*sendEmailInvitesToTeamGracefully, */regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
-import {getTeam} from 'mattermost-redux/actions/teams';
+import {regenerateTeamInviteId, getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
@@ -41,6 +38,8 @@ const searchChannels = (teamId: string, term: string) => {
     return reduxSearchChannels(teamId, term);
 };
 
+/*sendEmailInvitesToTeamGracefully, */
+
 export function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const license = getLicense(state);
@@ -63,7 +62,7 @@ export function mapStateToProps(state: GlobalState) {
     const isGroupConstrained = Boolean(currentTeam.group_constrained);
     const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveICurrentTeamPermission(state, Permissions.INVITE_GUEST);
     const isCloud = license.Cloud === 'true';
-    const isFreeTierWithNoFreeSeats = isCloud && !isEmpty(subscriptionStats) && subscriptionStats.is_paid_tier === 'false' && subscriptionStats.remaining_seats <= 0;
+    const isFreeTierWithNoFreeSeats = isCloud && subscriptionStats?.is_paid_tier === 'false' && subscriptionStats?.remaining_seats <= 0;
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
     const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.LIGHTBOX;

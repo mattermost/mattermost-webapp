@@ -17,7 +17,6 @@ import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-
 export function sendMembersInvites(teamId: string, users: UserProfile[], emails: string[]) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (users.length > 0) {
@@ -78,16 +77,6 @@ export function sendMembersInvites(teamId: string, users: UserProfile[], emails:
         return {sent, notSent};
     };
 }
-
-
-// components/admin_console/team_channel_settings/group/group_users/users_to_remove_role.tsx
-// 9:import {ChannelMembership} from 'mattermost-redux/types/channels';
-// 18:    membership: TeamMembership | ChannelMembership;
-// 
-// components/admin_console/team_channel_settings/group/group_users/users_to_remove.tsx
-// 10:import {ChannelMembership} from 'mattermost-redux/types/channels';
-// 31:export type Memberships = RelationOneToOne<UserProfile, TeamMembership> | RelationOneToOne<UserProfile, ChannelMembership>;
-
 
 export async function sendGuestInviteForUser(dispatch: DispatchFunc, user: UserProfile, teamId: string, channels: Channel[], members: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>) {
     if (!isGuest(user.roles)) {
@@ -150,7 +139,7 @@ export function sendGuestsInvites(teamId: string, channels: Channel[], users: Us
         if (emails.length > 0) {
             let response;
             try {
-                response = await dispatch(TeamActions.sendEmailGuestInvitesToChannelsGracefully(teamId, channels.map(x => x.id), emails, message));
+                response = await dispatch(TeamActions.sendEmailGuestInvitesToChannelsGracefully(teamId, channels.map((x) => x.id), emails, message));
             } catch (e) {
                 response = {data: emails.map((email) => ({email, error: {error: localizeMessage('invite.guests.unable-to-add-the-user-to-the-channels', 'Unable to add the guest to the channels.')}}))};
             }

@@ -4,27 +4,26 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
+import {injectIntl, IntlShape} from 'react-intl';
+
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 import {Team} from 'mattermost-redux/types/teams';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import ResultView, {ResultState, defaultResultState} from './result_view';
-import InviteView, {InviteState, defaultInviteState} from './invite_view';
-import {As} from './invite_as';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-type InviteResults = {
-    sent: React.ReactNode | React.ReactNodeArray;
-    notSent: React.ReactNode | React.ReactNodeArray;
-}
+import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
+import InviteView, {InviteState, defaultInviteState} from './invite_view';
+import {As} from './invite_as';
 
 type Props = {
     show: boolean;
@@ -34,15 +33,14 @@ type Props = {
         searchChannels: (teamId: string, term: string) => ActionFunc;
         regenerateTeamInviteId: (teamId: string) => void;
 
-        // sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         searchProfiles: (term: string, options?: Record<string, string>) => ActionFunc;
         sendGuestsInvites: (
             currentTeamId: string,
             channels: Channel[],
-            users:  UserProfile[],
+            users: UserProfile[],
             emails: string[],
             message: string,
-        ) => any; //Promise<InviteResults>,
+        ) => any;
         sendMembersInvites: (
             teamId: string,
             users: UserProfile[],
@@ -55,8 +53,9 @@ type Props = {
     emailInvitationsEnabled: boolean;
     isAdmin: boolean;
     isCloud: boolean;
-    subscriptionStats: any;
+    subscriptionStats?: SubscriptionStats | null;
     cloudUserLimit: string;
+    intl: IntlShape;
 }
 
 type View = 'invite' | 'result' | 'error'
@@ -75,7 +74,7 @@ const defaultState: State = deepFreeze({
     result: defaultResultState,
 });
 
-export default class InvitationModal extends React.PureComponent<Props, State> {
+class InvitationModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -128,75 +127,74 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
     }
 
     invite = async () => {
-        if (this.props.isCloud) {
+        const inviteAs = this.state.invite.as;
+        if (inviteAs === 'member' && this.props.isCloud) {
             trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length});
         }
 
-        const users = [];
-        const emails = [];
+        const users: UserProfile[] = [];
+        const emails: string[] = [];
         for (const userOrEmail of this.state.invite.usersEmails) {
             if (typeof userOrEmail === 'string' && isEmail(userOrEmail)) {
                 emails.push(userOrEmail);
-            } else {
+            } else if (typeof userOrEmail !== 'string') {
                 users.push(userOrEmail);
             }
         }
+        let invites: InviteResults = {notSent: [], sent: []};
+        if (inviteAs === 'member') {
+            invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+        } else if (inviteAs === 'guest') {
+            invites = await this.props.actions.sendGuestsInvites(
+                this.props.currentTeam.id,
+                this.state.invite.inviteChannels.channels,
+                users,
+                emails,
+                this.state.invite.customMessage.open ? this.state.invite.customMessage.message : '',
+            );
+        }
+
+        if (this.state.invite.usersEmailsSearch !== '') {
+            invites.notSent.push({
+                text: this.state.invite.usersEmailsSearch,
+                reason: this.props.intl.formatMessage({
+                    id: 'invitation-modal.confirm.not-valid-user-or-email',
+                    defaultMessage: 'Does not match a valid user or email.',
+                }),
+            });
+        }
+
+        if (inviteAs === 'guest' && this.state.invite.inviteChannels.search !== '') {
+            invites.notSent.push({
+                text: this.state.invite.inviteChannels.search,
+                reason: this.props.intl.formatMessage({
+                    id: 'invitation-modal.confirm.not-valid-channel',
+                    defaultMessage: 'Does not match a valid channel name.',
+                }),
+            });
+        }
+
+        this.setState((state: State) => ({
+            view: 'result',
+            result: {
+                ...state.result,
+                sent: invites.sent,
+                notSent: invites.notSent,
+            },
+        }));
     }
 
-    // onMembersSubmit = async (users, emails, extraText) => {
-    //     const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
-
-    //     if (this.props.isCloud) {
-    //         trackEvent('cloud_invite_users', 'invitations_sent', {num_invitations_sent: invites.sent});
-    //     }
-
-    //     if (extraText !== '') {
-    //         invites.notSent.push({
-    //             text: extraText,
-    //             reason: (
-    //                 <FormattedMessage
-    //                     id='invitation-modal.confirm.not-valid-user-or-email'
-    //                     defaultMessage='Does not match a valid user or email.'
-    //                 />
-    //             ),
-    //         });
-    //     }
-
-    //     this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_MEMBER, hasChanges: false});
-    // }
-
-    // onGuestsSubmit = async (users, emails, channels, message, extraUserText, extraChannelText) => {
-    //     const invites = await this.props.actions.sendGuestsInvites(
-    //         this.props.currentTeam.id,
-    //         channels.map((c) => c.id),
-    //         users,
-    //         emails,
-    //         message,
-    //     );
-    //     if (extraUserText !== '') {
-    //         invites.notSent.push({
-    //             text: extraUserText,
-    //             reason: (
-    //                 <FormattedMessage
-    //                     id='invitation-modal.confirm.not-valid-user-or-email'
-    //                     defaultMessage='Does not match a valid user or email.'
-    //                 />
-    //             ),
-    //         });
-    //     }
-    //     if (extraChannelText !== '') {
-    //         invites.notSent.push({
-    //             text: extraChannelText,
-    //             reason: (
-    //                 <FormattedMessage
-    //                     id='invitation-modal.confirm.not-valid-channel'
-    //                     defaultMessage='Does not match a valid channel name.'
-    //                 />
-    //             ),
-    //         });
-    //     }
-    //     this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
-    // }
+    inviteMore = () => {
+        this.setState((state: State) => ({
+            view: 'invite',
+            invite: {
+                ...defaultInviteState,
+                as: state.invite.as,
+            },
+            result: defaultResultState,
+            termWithoutResults: null,
+        }));
+    }
 
     debouncedSearchChannels = debounce((term) => this.props.actions.searchChannels(this.props.currentTeam.id, term), 150);
 
@@ -285,10 +283,6 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
                 usersEmailsSearch,
             },
         }));
-
-        // this.props.onEdit(
-        //     this.state.usersAndEmails.length > 0 || usersInputValue,
-        // );
     }
 
     render() {
@@ -317,7 +311,15 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
             />
         );
         if (this.state.view === 'result') {
-            view = <ResultView/>;
+            view = (
+                <ResultView
+                    invitedAs={this.state.invite.as}
+                    currentTeamName={this.props.currentTeam.name}
+                    onDone={this.handleHide}
+                    inviteMore={this.inviteMore}
+                    {...this.state.result}
+                />
+            );
         }
 
         return (
@@ -335,3 +337,5 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(InvitationModal);

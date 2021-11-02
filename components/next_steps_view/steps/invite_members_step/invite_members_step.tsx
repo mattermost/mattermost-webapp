@@ -36,7 +36,7 @@ type Props = StepComponentProps & {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
     };
-    subscriptionStats: SubscriptionStats | null;
+    subscriptionStats?: SubscriptionStats | null;
     intl: IntlShape;
     isCloud: boolean;
     downloadAppsAsNextStep: boolean;

@@ -21,15 +21,14 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
 import NotifyLink from 'components/widgets/links/notify_link';
 import {t} from 'utils/i18n.jsx';
+import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
-import InviteInput from './invite_input';
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {As} from './invite_as';
 
 export const defaultInviteState = deepFreeze({
     as: 'member',
     customMessage: defaultCustomMessage,
-    to: [],
     sending: false,
     inviteChannels: defaultInviteChannels,
     usersEmails: [],
@@ -38,7 +37,6 @@ export const defaultInviteState = deepFreeze({
 
 export type InviteState = {
     customMessage: CustomMessageProps;
-    to: string[];
     as: As;
     sending: boolean;
     inviteChannels: InviteChannels;
@@ -62,7 +60,7 @@ type Props = InviteState & {
     usersLoader: (value: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]> | undefined;
     onChangeUsersEmails: (usersEmails: Array<UserProfile | string>) => void;
     isCloud: boolean;
-    subscriptionStats: any;
+    subscriptionStats?: SubscriptionStats | null;
     cloudUserLimit: string;
     emailInvitationsEnabled: boolean;
     onUsersInputChange: (usersEmailsSearch: string) => void;
@@ -114,7 +112,7 @@ export default function InviteView(props: Props) {
 
     // remainingUsers is calculated against the limit, the current users, and how many are being invited in the current flow
     const remainingUsers = (
-        props.subscriptionStats?.remaining_seats - props.usersEmails.length
+        (props.subscriptionStats?.remaining_seats || 0) - props.usersEmails.length
     );
 
     const shouldShowPickerError = (() => {
@@ -177,6 +175,13 @@ export default function InviteView(props: Props) {
         noMatchMessageDefault = 'No one found matching **{text}**';
     }
 
+    const canInvite = useMemo(() => {
+        if (props.as === 'guest') {
+            return props.inviteChannels.channels.length > 0 && props.usersEmails.length > 0;
+        }
+        return props.usersEmails.length > 0;
+    }, [props.as, props.inviteChannels.channels, props.usersEmails]);
+
     return (
         <>
             <Modal.Header>
@@ -225,7 +230,6 @@ export default function InviteView(props: Props) {
                     setInviteAs={props.setInviteAs}
                     inviteToTeamTreatment={props.inviteToTeamTreatment}
                 />
-                <InviteInput/>
                 {props.as === 'guest' && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
@@ -242,7 +246,7 @@ export default function InviteView(props: Props) {
             <Modal.Footer>
                 {copyButton}
                 <button
-                    disabled={true}
+                    disabled={!canInvite}
                     onClick={props.invite}
                 >
                     <FormattedMessage

@@ -46,7 +46,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(InvitationModal)",
+              "displayName": "Connect(injectIntl(InvitationModal))",
               "type": [Function],
             }
           }
@@ -67,7 +67,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
                 "$$typeof": Symbol(react.memo),
                 "WrappedComponent": [Function],
                 "compare": null,
-                "displayName": "Connect(InvitationModal)",
+                "displayName": "Connect(injectIntl(InvitationModal))",
                 "type": [Function],
               }
             }
@@ -89,7 +89,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
                   "$$typeof": Symbol(react.memo),
                   "WrappedComponent": [Function],
                   "compare": null,
-                  "displayName": "Connect(InvitationModal)",
+                  "displayName": "Connect(injectIntl(InvitationModal))",
                   "type": [Function],
                 }
               }
