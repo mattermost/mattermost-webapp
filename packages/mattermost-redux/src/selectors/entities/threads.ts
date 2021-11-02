@@ -92,7 +92,7 @@ export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserTh
         reply_count: rootPost.reply_count,
         participants: rootPost.participants,
         last_reply_at: rootPost.last_reply_at ?? 0,
-        is_following: thread?.is_following ?? rootPost.is_following ?? false,
+        is_following: thread?.is_following ?? rootPost.is_following ?? null,
         post: {
             user_id: rootPost.user_id,
             channel_id: rootPost.channel_id,

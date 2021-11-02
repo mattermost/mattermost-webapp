@@ -8,8 +8,9 @@ import {Client4} from 'mattermost-redux/client';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import DeleteEmoji from 'components/emoji/delete_emoji_modal';
 import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
+
+import DeleteEmojiButton from './delete_emoji_button';
 
 export type Props = {
     emoji: CustomEmoji;
@@ -47,18 +48,19 @@ export default class EmojiListItem extends React.PureComponent<Props> {
             creatorDisplayName += ' (@' + creatorUsername + ')';
         }
 
-        let deleteButton: JSX.Element;
+        let deleteButton = <DeleteEmojiButton onDelete={this.handleDelete}/>;
+
         if (emoji.creator_id === this.props.currentUserId) {
             deleteButton = (
                 <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
-                    <DeleteEmoji onDelete={this.handleDelete}/>
+                    {deleteButton}
                 </AnyTeamPermissionGate>
             );
         } else {
             deleteButton = (
                 <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
                     <AnyTeamPermissionGate permissions={[Permissions.DELETE_OTHERS_EMOJIS]}>
-                        <DeleteEmoji onDelete={this.handleDelete}/>
+                        {deleteButton}
                     </AnyTeamPermissionGate>
                 </AnyTeamPermissionGate>
             );
