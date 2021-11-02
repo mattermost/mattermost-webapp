@@ -1,37 +1,43 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
-import React from 'react';
+import { shallow } from "enzyme";
+import React from "react";
 
-//
-import UsersEmailsInput from './users_emails_input.jsx';
+import { UserProfile } from "mattermost-redux/types/users";
 
-describe('components/widgets/inputs/UsersEmailsInput', () => {
-    test('should match snapshot', () => {
+import UsersEmailsInput from "./users_emails_input";
+
+describe("components/widgets/inputs/UsersEmailsInput", () => {
+    test("should match snapshot", () => {
         const wrapper = shallow(
             <UsersEmailsInput
-                placeholder='test'
-                ariaLabel='test'
+                placeholder="test"
+                ariaLabel="test"
                 usersLoader={jest.fn()}
                 onChange={jest.fn()}
                 value={[
-                    'test@email.com',
+                    "test@email.com",
                     {
-                        id: 'test-user-id',
-                        username: 'test-username',
-                        first_name: 'test',
-                        last_name: 'user',
-                    },
+                        id: "test-user-id",
+                        username: "test-username",
+                        first_name: "test",
+                        last_name: "user",
+                    } as UserProfile,
                 ]}
-            />,
+                errorMessageId="errorMessageId"
+                errorMessageDefault="errorMessageDefault"
+                onInputChange={jest.fn()}
+                inputValue=""
+                emailInvitationsEnabled={false}
+            />
         );
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
               <Async
                 aria-label="test"
                 cacheOptions={false}
-                className="UsersEmailsInput"
+                className="UsersEmailsInput empty"
                 classNamePrefix="users-emails-input"
                 components={
                   Object {
@@ -45,6 +51,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
                 filterOption={null}
                 formatOptionLabel={[Function]}
                 getOptionValue={[Function]}
+                inputValue=""
                 isClearable={false}
                 isMulti={true}
                 isValidNewOption={[Function]}

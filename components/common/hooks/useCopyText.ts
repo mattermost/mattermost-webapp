@@ -38,18 +38,18 @@ export default function useCopyText(options: CopyOptions): CopyResponse {
         }
         const clipboard = navigator.clipboard;
         if (clipboard) {
-            clipboard.writeText(options.text)
-            .then(() => {
-                setCopiedRecently(true);
-                setCopyError(false);
-            })
-            .catch(() => {
-                setCopiedRecently(false);
-                setCopyError(true);
-            });
+            clipboard.writeText(options.text).
+                then(() => {
+                    setCopiedRecently(true);
+                    setCopyError(false);
+                }).
+                catch(() => {
+                    setCopiedRecently(false);
+                    setCopyError(true);
+                });
         } else {
             const textField = document.createElement('textarea');
-            textField.innerText = options.text
+            textField.innerText = options.text;
             textField.style.position = 'fixed';
             textField.style.opacity = '0';
 
@@ -57,7 +57,7 @@ export default function useCopyText(options: CopyOptions): CopyResponse {
             textField.select();
 
             try {
-                const success = document.execCommand('copy')
+                const success = document.execCommand('copy');
                 setCopiedRecently(success);
                 setCopyError(!success);
             } catch (err) {
@@ -77,8 +77,6 @@ export default function useCopyText(options: CopyOptions): CopyResponse {
         copiedRecently,
         copyError,
         onClick,
-    }
-
+    };
 }
-
 

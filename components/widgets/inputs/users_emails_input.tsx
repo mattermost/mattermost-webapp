@@ -25,21 +25,18 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import './users_emails_input.scss';
 
-// 
-// import AsyncSelect from 'react-select/lib/AsyncCreatable';
 const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<UserProfile>>; // eslint-disable-line global-require
 
 type Props = {
     placeholder: string;
     ariaLabel: string;
-    usersLoader: (search: string, callback: (users: Array<UserProfile>) => void) => Promise<Array<UserProfile>>,
-    onChange: (change: Array<UserProfile | EmailInvite>) => void;
+    usersLoader: (search: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]> | undefined;
+    onChange: (change: Array<UserProfile | string>) => void;
     showError?: boolean;
     errorMessageId: string;
     errorMessageDefault: string;
     errorMessageValues?: Record<string, any>;
-    // user?
-    value: Array<UserProfile | EmailInvite>;
+    value: Array<UserProfile | string>;
     onInputChange: (change: string) => void;
     inputValue: string;
     noMatchMessageId?: string;
@@ -58,7 +55,7 @@ export type EmailInvite = {
 }
 
 type State = {
-    options: Array<UserProfile>;
+    options: UserProfile[];
 }
 
 export default class UsersEmailsInput extends React.PureComponent<Props, State> {
@@ -176,9 +173,9 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
 
     onChange = (value: Array<UserProfile | EmailInvite>) => {
         if (this.props.onChange) {
-            this.props.onChange(value.map(v => {
+            this.props.onChange(value.map((v) => {
                 if ((v as UserProfile).id) {
-                    return v;
+                    return v as UserProfile;
                 }
                 return (v as EmailInvite).value;
             }));
@@ -198,12 +195,13 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         </React.Fragment>
     );
 
-    NoOptionsMessage = (props) => {
+    NoOptionsMessage = (props: Record<string, any>) => {
         const inputValue = props.selectProps.inputValue;
         if (!inputValue) {
             return null;
         }
 
+        const Msg: any = components.NoOptionsMessage;
         return (
             <div className='users-emails-input__option users-emails-input__option--no-matches'>
                 <FormattedMarkdownMessage
@@ -212,17 +210,17 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                     values={{text: inputValue}}
                     disableLinks={true}
                 >
-                    {(message) => (
-                        <components.NoOptionsMessage {...props}>
+                    {(message: React.ReactNode) => (
+                        <Msg {...props}>
                             {message}
-                        </components.NoOptionsMessage>
+                        </Msg>
                     )}
                 </FormattedMarkdownMessage>
             </div>
         );
     };
 
-    MultiValueRemove = ({children, innerProps}: {children: React.ReactNode | React.ReactNodeArray, innerProps: Record<string, any>}) => (
+    MultiValueRemove = ({children, innerProps}: {children: React.ReactNode | React.ReactNodeArray; innerProps: Record<string, any>}) => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
         </div>
@@ -236,11 +234,12 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
 
     handleInputChange = (inputValue: string, action: InputActionMeta) => {
         if (action.action === 'input-blur' && inputValue !== '') {
-            const values = this.props.value.map((v) => {
+            const values: Array<UserProfile | EmailInvite> = this.props.value.map((v) => {
                 if ((v as UserProfile).id) {
-                    return v;
+                    return v as UserProfile;
                 }
-                return {label: v, value: v};
+                const emailInvite: EmailInvite = {label: v, value: v} as EmailInvite;
+                return emailInvite;
             });
 
             for (const option of this.state.options) {
@@ -266,8 +265,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         }
     }
 
-    optionsLoader = (_input: string, callback: (options: Array<UserProfile>) => void) => {
-        const customCallback = (options: Array<UserProfile>) => {
+    optionsLoader = (_input: string, callback: (options: UserProfile[]) => void) => {
+        const customCallback = (options: UserProfile[]) => {
             this.setState({options});
             callback(options);
         };
@@ -277,7 +276,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         }
     }
 
-    showAddEmail = (input: string, values, options) => {
+    showAddEmail = (input: string, _values: any, options: any[]) => {
         return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
@@ -292,15 +291,15 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
     render() {
         const values: Array<UserProfile | EmailInvite> = this.props.value.map((v) => {
             if ((v as UserProfile).id) {
-                return v;
+                return v as UserProfile;
             }
-            return {label: v, value: v};
+            return {label: v as string, value: v as string};
         });
         return (
             <>
                 <AsyncSelect
                     ref={this.selectRef}
-                    onChange={this.onChange}
+                    onChange={this.onChange as any}
                     loadOptions={this.optionsLoader}
                     isValidNewOption={this.showAddEmail}
                     isMulti={true}
@@ -325,7 +324,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     tabSelectsValue={true}
-                    value={values}
+                    value={values as any}
                     aria-label={this.props.ariaLabel}
                 />
                 {this.props.showError && (
@@ -336,11 +335,14 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                             values={this.props.errorMessageValues || null}
                             disableLinks={true}
                         >
-                            {(message: React.ReactNode) => (
-                                <components.NoOptionsMessage>
-                                    {message}
-                                </components.NoOptionsMessage>
-                            )}
+                            {(message: React.ReactNode) => {
+                                const Msg: any = components.NoOptionsMessage;
+                                return (
+                                    <Msg>
+                                        {message}
+                                    </Msg>
+                                );
+                            }}
                         </FormattedMarkdownMessage>
                         {this.props.extraErrorText || null}
                     </div>

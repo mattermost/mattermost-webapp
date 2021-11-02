@@ -7,18 +7,24 @@ import {Modal} from 'react-bootstrap';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {Team} from 'mattermost-redux/types/teams';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-
 import ResultView, {ResultState, defaultResultState} from './result_view';
 import InviteView, {InviteState, defaultInviteState} from './invite_view';
 import {As} from './invite_as';
-import {EmailInvite} from 'components/widgets/inputs/users_emails_input';
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
+type InviteResults = {
+    sent: React.ReactNode | React.ReactNodeArray;
+    notSent: React.ReactNode | React.ReactNodeArray;
+}
 
 type Props = {
     show: boolean;
@@ -27,13 +33,30 @@ type Props = {
         closeModal: () => void;
         searchChannels: (teamId: string, term: string) => ActionFunc;
         regenerateTeamInviteId: (teamId: string) => void;
+
         // sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
-        searchProfiles: (term: string, options: any) => Promise<ActionResult>;
+        searchProfiles: (term: string, options?: Record<string, string>) => ActionFunc;
+        sendGuestsInvites: (
+            currentTeamId: string,
+            channels: Channel[],
+            users:  UserProfile[],
+            emails: string[],
+            message: string,
+        ) => any; //Promise<InviteResults>,
+        sendMembersInvites: (
+            teamId: string,
+            users: UserProfile[],
+            emails: string[]
+        ) => any;
     };
     currentTeam: Team;
     currentChannelName: string;
     invitableChannels: Channel[];
+    emailInvitationsEnabled: boolean;
     isAdmin: boolean;
+    isCloud: boolean;
+    subscriptionStats: any;
+    cloudUserLimit: string;
 }
 
 type View = 'invite' | 'result' | 'error'
@@ -104,8 +127,76 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
         }
     }
 
-    invite = () => {
+    invite = async () => {
+        if (this.props.isCloud) {
+            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length});
+        }
+
+        const users = [];
+        const emails = [];
+        for (const userOrEmail of this.state.invite.usersEmails) {
+            if (typeof userOrEmail === 'string' && isEmail(userOrEmail)) {
+                emails.push(userOrEmail);
+            } else {
+                users.push(userOrEmail);
+            }
+        }
     }
+
+    // onMembersSubmit = async (users, emails, extraText) => {
+    //     const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+
+    //     if (this.props.isCloud) {
+    //         trackEvent('cloud_invite_users', 'invitations_sent', {num_invitations_sent: invites.sent});
+    //     }
+
+    //     if (extraText !== '') {
+    //         invites.notSent.push({
+    //             text: extraText,
+    //             reason: (
+    //                 <FormattedMessage
+    //                     id='invitation-modal.confirm.not-valid-user-or-email'
+    //                     defaultMessage='Does not match a valid user or email.'
+    //                 />
+    //             ),
+    //         });
+    //     }
+
+    //     this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_MEMBER, hasChanges: false});
+    // }
+
+    // onGuestsSubmit = async (users, emails, channels, message, extraUserText, extraChannelText) => {
+    //     const invites = await this.props.actions.sendGuestsInvites(
+    //         this.props.currentTeam.id,
+    //         channels.map((c) => c.id),
+    //         users,
+    //         emails,
+    //         message,
+    //     );
+    //     if (extraUserText !== '') {
+    //         invites.notSent.push({
+    //             text: extraUserText,
+    //             reason: (
+    //                 <FormattedMessage
+    //                     id='invitation-modal.confirm.not-valid-user-or-email'
+    //                     defaultMessage='Does not match a valid user or email.'
+    //                 />
+    //             ),
+    //         });
+    //     }
+    //     if (extraChannelText !== '') {
+    //         invites.notSent.push({
+    //             text: extraChannelText,
+    //             reason: (
+    //                 <FormattedMessage
+    //                     id='invitation-modal.confirm.not-valid-channel'
+    //                     defaultMessage='Does not match a valid channel name.'
+    //                 />
+    //             ),
+    //         });
+    //     }
+    //     this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
+    // }
 
     debouncedSearchChannels = debounce((term) => this.props.actions.searchChannels(this.props.currentTeam.id, term), 150);
 
@@ -146,22 +237,22 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
         }));
     }
 
-    debouncedSearchProfiles = debounce((term:string, callback: (users: Array<UserProfile>) => void) => {
-        this.props.actions.searchProfiles(term, null)
-        .then(({data}) => {
-            callback(data as unknown as Array<UserProfile>);
-            if (data.length === 0) {
-                this.setState({termWithoutResults: term});
-            } else {
-                this.setState({termWithoutResults: null});
-            }
-        }).
+    debouncedSearchProfiles = debounce((term: string, callback: (users: UserProfile[]) => void) => {
+        (this.props.actions.searchProfiles(term) as any).
+            then(({data}: {data: any}) => {
+                callback(data as unknown as UserProfile[]);
+                if (data.length === 0) {
+                    this.setState({termWithoutResults: term});
+                } else {
+                    this.setState({termWithoutResults: null});
+                }
+            }).
             catch(() => {
-            callback([]);
-        });
+                callback([]);
+            });
     }, 150);
 
-    usersLoader = (term: string, callback: (users: Array<UserProfile>) => void) => {
+    usersLoader = (term: string, callback: (users: UserProfile[]) => undefined | Promise<UserProfile[]>) => {
         if (
             this.state.termWithoutResults &&
             term.startsWith(this.state.termWithoutResults)
@@ -176,14 +267,28 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
         }
     };
 
-    onChangeUsersEmails = (usersEmails: Array<UserProfile | EmailInvite>) => {
+    onChangeUsersEmails = (usersEmails: Array<UserProfile | string>) => {
         this.setState((state: State) => ({
             ...state,
             invite: {
                 ...state.invite,
                 usersEmails,
-            }
+            },
         }));
+    }
+
+    onUsersInputChange = (usersEmailsSearch: string) => {
+        this.setState((state: State) => ({
+            ...state,
+            invite: {
+                ...state.invite,
+                usersEmailsSearch,
+            },
+        }));
+
+        // this.props.onEdit(
+        //     this.state.usersAndEmails.length > 0 || usersInputValue,
+        // );
     }
 
     render() {
@@ -201,8 +306,13 @@ export default class InvitationModal extends React.PureComponent<Props, State> {
                 onChannelsChange={this.onChannelsChange}
                 currentChannelName={this.props.currentChannelName}
                 isAdmin={this.props.isAdmin}
-                usersLoader={this.usersLoader} 
+                usersLoader={this.usersLoader as any}
+                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                 onChangeUsersEmails={this.onChangeUsersEmails}
+                onUsersInputChange={this.onUsersInputChange}
+                isCloud={this.props.isCloud}
+                subscriptionStats={this.props.subscriptionStats}
+                cloudUserLimit={this.props.cloudUserLimit}
                 {...this.state.invite}
             />
         );

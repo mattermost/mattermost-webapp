@@ -80,6 +80,7 @@ export function mapStateToProps(state: GlobalState) {
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
         inviteToTeamTreatment,
         currentChannelName: currentChannel.display_name,
+        subscriptionStats,
     };
 }
 

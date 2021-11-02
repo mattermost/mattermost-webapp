@@ -3,15 +3,23 @@
 
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {TeamMemberWithError, TeamInviteWithError} from 'mattermost-redux/types/teams';
+
+import {RelationOneToOne, UserIDMappedObjects} from 'mattermost-redux/types/utilities';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {joinChannel} from 'mattermost-redux/actions/channels';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+
 import {addUsersToTeam} from 'actions/team_actions';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-export function sendMembersInvites(teamId, users, emails) {
-    return async (dispatch, getState) => {
+
+export function sendMembersInvites(teamId: string, users: UserProfile[], emails: string[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (users.length > 0) {
             await dispatch(TeamActions.getTeamMembersByIds(teamId, users.map((u) => u.id)));
         }
@@ -33,7 +41,7 @@ export function sendMembersInvites(teamId, users, emails) {
             const response = await dispatch(addUsersToTeam(teamId, usersToAdd.map((u) => u.id)));
             const members = response.data || [];
             for (const userToAdd of usersToAdd) {
-                const memberWithError = members.find((m) => m.user_id === userToAdd.id && m.error);
+                const memberWithError = members.find((m: TeamMemberWithError) => m.user_id === userToAdd.id && m.error);
                 if (memberWithError) {
                     notSent.push({user: userToAdd, reason: memberWithError.error.message});
                 } else {
@@ -58,7 +66,7 @@ export function sendMembersInvites(teamId, users, emails) {
                 }
             } else {
                 for (const email of emails) {
-                    const inviteWithError = invitesWithErrors.find((i) => email.toLowerCase() === i.email && i.error);
+                    const inviteWithError = invitesWithErrors.find((i: TeamInviteWithError) => email.toLowerCase() === i.email && i.error);
                     if (inviteWithError) {
                         notSent.push({email, reason: inviteWithError.error.message});
                     } else {
@@ -71,7 +79,17 @@ export function sendMembersInvites(teamId, users, emails) {
     };
 }
 
-export async function sendGuestInviteForUser(dispatch, user, teamId, channels, members) {
+
+// components/admin_console/team_channel_settings/group/group_users/users_to_remove_role.tsx
+// 9:import {ChannelMembership} from 'mattermost-redux/types/channels';
+// 18:    membership: TeamMembership | ChannelMembership;
+// 
+// components/admin_console/team_channel_settings/group/group_users/users_to_remove.tsx
+// 10:import {ChannelMembership} from 'mattermost-redux/types/channels';
+// 31:export type Memberships = RelationOneToOne<UserProfile, TeamMembership> | RelationOneToOne<UserProfile, ChannelMembership>;
+
+
+export async function sendGuestInviteForUser(dispatch: DispatchFunc, user: UserProfile, teamId: string, channels: Channel[], members: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>) {
     if (!isGuest(user.roles)) {
         return {notSent: {user, reason: localizeMessage('invite.members.user-is-not-guest', 'This person is already a member.')}};
     }
@@ -79,7 +97,7 @@ export async function sendGuestInviteForUser(dispatch, user, teamId, channels, m
     let memberOfAny = false;
 
     for (const channel of channels) {
-        const member = members && members[channel] && members[channel][user.id];
+        const member = members && members[channel.id] && members[channel.id][user.id];
         if (member) {
             memberOfAny = true;
         } else {
@@ -94,9 +112,9 @@ export async function sendGuestInviteForUser(dispatch, user, teamId, channels, m
     try {
         await dispatch(addUsersToTeam(teamId, [user.id]));
         for (const channel of channels) {
-            const member = members && members[channel] && members[channel][user.id];
+            const member = members && members[channel.id] && members[channel.id][user.id];
             if (!member) {
-                await dispatch(joinChannel(user.id, teamId, channel)); // eslint-disable-line no-await-in-loop
+                await dispatch(joinChannel(user.id, teamId, channel.id, channel.name)); // eslint-disable-line no-await-in-loop
             }
         }
     } catch (e) {
@@ -109,8 +127,8 @@ export async function sendGuestInviteForUser(dispatch, user, teamId, channels, m
     return {sent: {user, reason: {id: t('invite.guests.new-member'), message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.', values: {count: channels.length}}}};
 }
 
-export function sendGuestsInvites(teamId, channels, users, emails, message) {
-    return async (dispatch, getState) => {
+export function sendGuestsInvites(teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (users.length > 0) {
             await dispatch(TeamActions.getTeamMembersByIds(teamId, users.map((u) => u.id)));
         }
@@ -132,7 +150,7 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
         if (emails.length > 0) {
             let response;
             try {
-                response = await dispatch(TeamActions.sendEmailGuestInvitesToChannelsGracefully(teamId, channels, emails, message));
+                response = await dispatch(TeamActions.sendEmailGuestInvitesToChannelsGracefully(teamId, channels.map(x => x.id), emails, message));
             } catch (e) {
                 response = {data: emails.map((email) => ({email, error: {error: localizeMessage('invite.guests.unable-to-add-the-user-to-the-channels', 'Unable to add the guest to the channels.')}}))};
             }

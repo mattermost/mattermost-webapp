@@ -25,7 +25,7 @@ describe('mapStateToProps', () => {
                 currentTeamId,
                 teams: {
                     [currentTeamId]: {
-                        display_name: 'asdf'
+                        display_name: 'asdf',
                     },
                 },
                 myMembers: {},

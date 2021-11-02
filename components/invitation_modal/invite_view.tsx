@@ -12,14 +12,19 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {getSiteURL} from 'utils/url';
+import {Constants} from 'utils/constants';
 
-import InviteAs, {As} from './invite_as';
-import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
-import InviteInput from './invite_input';
-import {trackEvent} from 'actions/telemetry_actions'
+import {trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import useCopyText from 'components/common/hooks/useCopyText';
-import UsersEmailsInput, {EmailInvite} from 'components/widgets/inputs/users_emails_input';
+import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
+import NotifyLink from 'components/widgets/links/notify_link';
+import {t} from 'utils/i18n.jsx';
+
+import InviteInput from './invite_input';
+import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
+import InviteAs, {As} from './invite_as';
 
 export const defaultInviteState = deepFreeze({
     as: 'member',
@@ -28,6 +33,7 @@ export const defaultInviteState = deepFreeze({
     sending: false,
     inviteChannels: defaultInviteChannels,
     usersEmails: [],
+    usersEmailsSearch: '',
 });
 
 export type InviteState = {
@@ -36,7 +42,8 @@ export type InviteState = {
     as: As;
     sending: boolean;
     inviteChannels: InviteChannels;
-    usersEmails: Array<UserProfile | EmailInvite>
+    usersEmails: Array<UserProfile | string>;
+    usersEmailsSearch: string;
 };
 
 type Props = InviteState & {
@@ -52,10 +59,14 @@ type Props = InviteState & {
     channelsLoader: (value: string, callback?: (channels: Channel[]) => void) => Promise<Channel[]>;
     regenerateTeamInviteId: (teamId: string) => void;
     isAdmin: boolean;
-    usersLoader: (value: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]>; 
-    onChangeUsersEmails: (usersEmails: Array<UserProfile | EmailInvite>) => void;
+    usersLoader: (value: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]> | undefined;
+    onChangeUsersEmails: (usersEmails: Array<UserProfile | string>) => void;
+    isCloud: boolean;
+    subscriptionStats: any;
+    cloudUserLimit: string;
+    emailInvitationsEnabled: boolean;
+    onUsersInputChange: (usersEmailsSearch: string) => void;
 }
-
 
 export default function InviteView(props: Props) {
     useEffect(() => {
@@ -75,7 +86,7 @@ export default function InviteView(props: Props) {
         text: inviteURL,
     });
 
-    let copyButton = (
+    const copyButton = (
         <button
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
@@ -101,6 +112,71 @@ export default function InviteView(props: Props) {
         </button>
     );
 
+    // remainingUsers is calculated against the limit, the current users, and how many are being invited in the current flow
+    const remainingUsers = (
+        props.subscriptionStats?.remaining_seats - props.usersEmails.length
+    );
+
+    const shouldShowPickerError = (() => {
+        if (props.subscriptionStats?.is_paid_tier === 'true') {
+            return false;
+        }
+
+        if (props.cloudUserLimit === '0' || !props.isCloud) {
+            return false;
+        }
+
+        if (remainingUsers === 0 && props.usersEmailsSearch !== '') {
+            return true;
+        } else if (remainingUsers < 0) {
+            return true;
+        }
+        return false;
+    })();
+
+    const errorMessageValues: Record<string, string> = {
+        num: remainingUsers < 0 ? '0' : remainingUsers.toString(),
+    };
+    const errorProperties = {
+        showError: shouldShowPickerError,
+        errorMessageId: t(
+            'invitation_modal.invite_members.hit_cloud_user_limit',
+        ),
+        errorMessageDefault: 'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.',
+        errorMessageValues,
+        extraErrorText: (props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/> : <NotifyLink/>),
+    };
+
+    if (props.usersEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
+        errorProperties.showError = true;
+        errorProperties.errorMessageId = t(
+            'invitation_modal.invite_members.exceeded_max_add_members_batch',
+        );
+        errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once';
+        errorProperties.errorMessageValues.text = Constants.MAX_ADD_MEMBERS_BATCH.toString();
+    }
+
+    let placeholder = formatMessage({
+        id: 'invite_modal.add_invites',
+        defaultMessage: 'Enter a name or email address',
+    });
+    let noMatchMessageId = t(
+        'invitation_modal.members.users_emails_input.no_user_found_matching',
+    );
+    let noMatchMessageDefault =
+        'No one found matching **{text}**. Enter their email to invite them.';
+
+    if (!props.emailInvitationsEnabled) {
+        placeholder = formatMessage({
+            id: 'invitation_modal.members.search-and-add.placeholder-email-disabled',
+            defaultMessage: 'Add members',
+        });
+        noMatchMessageId = t(
+            'invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled',
+        );
+        noMatchMessageDefault = 'No one found matching **{text}**';
+    }
+
     return (
         <>
             <Modal.Header>
@@ -125,24 +201,31 @@ export default function InviteView(props: Props) {
             </Modal.Header>
             <Modal.Body>
                 <UsersEmailsInput
+                    {...errorProperties}
                     usersLoader={props.usersLoader}
-                    placeholder={formatMessage({
-                        id: 'invite_modal.add_invites',
-                        defaultMessage: 'Enter a name or email address'
-                    })}
+                    placeholder={placeholder}
                     ariaLabel={formatMessage({
                         id: 'invitation_modal.members.search_and_add.title',
                         defaultMessage: 'Invite People',
                     })}
                     onChange={props.onChangeUsersEmails}
+                    value={props.usersEmails}
+                    validAddressMessageId={t(
+                        'invitation_modal.members.users_emails_input.valid_email',
+                    )}
+                    validAddressMessageDefault='Invite **{email}** as a team member'
+                    noMatchMessageId={noMatchMessageId}
+                    noMatchMessageDefault={noMatchMessageDefault}
+                    onInputChange={props.onUsersInputChange}
+                    inputValue={props.usersEmailsSearch}
+                    emailInvitationsEnabled={props.emailInvitationsEnabled}
                 />
                 <InviteAs
                     as={props.as}
                     setInviteAs={props.setInviteAs}
                     inviteToTeamTreatment={props.inviteToTeamTreatment}
                 />
-                <InviteInput
-                />
+                <InviteInput/>
                 {props.as === 'guest' && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}

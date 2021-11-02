@@ -7,6 +7,5 @@ type Props = {
 }
 
 export default function InviteInput(props: Props) {
-    return <div>
-    </div>
+    return (<div/>);
 }
