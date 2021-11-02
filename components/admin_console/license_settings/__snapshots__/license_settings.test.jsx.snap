@@ -2252,3 +2252,316 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
   </div>
 </div>
 `;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot with cloud expiring license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+
+Your subscription details are as follows:
+              </p>
+              Name: LicenseName
+              <br />
+              Company or organization name: Mattermost Inc.
+              <br />
+              Edition: Mattermost Enterprise Edition E20
+              <br />
+              Number of users: 100
+              <br />
+              License issued: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+               
+              <FormattedTime
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Start date of license: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Expiry date of license: 
+              <FormattedDate
+                value={2021-05-14T12:00:00.000Z}
+              />
+              <br />
+              <br />
+              See also 
+              <a
+                href="https://about.mattermost.com/enterprise-edition-terms/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Enterprise Edition Terms of Service
+              </a>
+               and 
+              <a
+                data-testid="privacyPolicyLink"
+                href="https://about.mattermost.com/default-privacy-policy/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Privacy Policy.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <button
+              className="btn btn-danger"
+              data-testid="remove-button"
+              disabled={false}
+              id="remove-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
+                id="admin.license.keyRemove"
+              />
+            </button>
+            <br />
+            <br />
+            <p
+              className="help-text"
+            >
+              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot with expiring license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <RenewLicenseCard
+          isDisabled={false}
+          isLicenseExpired={false}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": 1620993600000,
+              "IsLicensed": "true",
+              "IssuedAt": "1517714643650",
+              "Name": "LicenseName",
+              "SkuShortName": "E20",
+              "StartsAt": "1517714643650",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+
+Your subscription details are as follows:
+              </p>
+              Name: LicenseName
+              <br />
+              Company or organization name: Mattermost Inc.
+              <br />
+              Edition: Mattermost Enterprise Edition E20
+              <br />
+              Number of users: 100
+              <br />
+              License issued: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+               
+              <FormattedTime
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Start date of license: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Expiry date of license: 
+              <FormattedDate
+                value={2021-05-14T12:00:00.000Z}
+              />
+              <br />
+              <br />
+              See also 
+              <a
+                href="https://about.mattermost.com/enterprise-edition-terms/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Enterprise Edition Terms of Service
+              </a>
+               and 
+              <a
+                data-testid="privacyPolicyLink"
+                href="https://about.mattermost.com/default-privacy-policy/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Privacy Policy.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <button
+              className="btn btn-danger"
+              data-testid="remove-button"
+              disabled={false}
+              id="remove-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
+                id="admin.license.keyRemove"
+              />
+            </button>
+            <br />
+            <br />
+            <p
+              className="help-text"
+            >
+              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

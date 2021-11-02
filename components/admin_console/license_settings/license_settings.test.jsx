@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import expect from 'expect';
+import moment from 'moment';
 
 import {fakeDate} from 'tests/helpers/date';
 
@@ -195,6 +196,24 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
 
     test('should match snapshot enterprise build with E10 license', () => {
         const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: 'E10'}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with expiring license', () => {
+        // Set expiration date to 30 days from today
+        const expiringDate = moment().add(30, 'days').valueOf();
+
+        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud expiring license', () => {
+        // Set expiration date to 30 days from today
+        const expiringDate = moment().add(30, 'days').valueOf();
+
+        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate, Cloud: 'true'}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
