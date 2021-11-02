@@ -33,7 +33,7 @@ import {Reaction} from 'mattermost-redux/types/reactions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 import {
     $Email,
     $ID,
@@ -380,6 +380,10 @@ export const getProfilesWithoutTeam: (state: GlobalState, filters: Filters) => U
         return sortAndInjectProfiles(filterProfiles(profiles, filters), withoutTeamProfileSet);
     },
 );
+
+export function getCurrentUserStatus(state: GlobalState): UserStatus {
+    return state.entities.users.currentUserStatus;
+}
 
 export function getStatusForUserId(state: GlobalState, userId: $ID<UserProfile>): string {
     return getUserStatuses(state)[userId];

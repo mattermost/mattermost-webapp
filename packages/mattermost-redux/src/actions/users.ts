@@ -249,6 +249,7 @@ export function loadMe(): ActionFunc {
         const user = getState().entities.users.profiles[currentUserId];
         if (currentUserId) {
             Client4.setUserId(currentUserId);
+            await dispatch(getStatus(currentUserId));
         }
 
         if (user) {

@@ -64,6 +64,7 @@ export type UserProfileWithLastViewAt = UserProfile & {
 
 export type UsersState = {
     currentUserId: string;
+    currentUserStatus: UserStatus;
     isManualStatus: RelationOneToOne<UserProfile, boolean>;
     mySessions: Session[];
     myAudits: Audit[];

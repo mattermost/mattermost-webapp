@@ -422,17 +422,10 @@ export function autocompleteUsers(username) {
     };
 }
 
-export function setUserStatus(currentUserId) {
-    return (doDispatch, doGetState) => {
-        return UserActions.getStatus(currentUserId)(doDispatch, doGetState);
-    };
-}
-
 export function autoResetStatus() {
     return async (doDispatch, doGetState) => {
         const {currentUserId} = getState().entities.users;
-        const {data: userStatus} = await setUserStatus(currentUserId)(doDispatch, doGetState);
-
+        const userStatus = Selectors.getCurrentUserStatus(doGetState());
         if (userStatus.status === UserStatuses.OUT_OF_OFFICE || !userStatus.manual) {
             return userStatus;
         }

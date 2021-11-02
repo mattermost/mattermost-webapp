@@ -419,6 +419,17 @@ function profilesInGroup(state: RelationOneToMany<Group, UserProfile> = {}, acti
     }
 }
 
+function currentUserStatus(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
+    switch (action.type) {
+    case UserTypes.RECEIVED_STATUS: {
+        return action.data;
+    }
+    default: {
+        return state;
+    }
+    }
+}
+
 function statuses(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_STATUS: {
@@ -635,4 +646,7 @@ export default combineReducers({
 
     // Total user stats after filters have been applied
     filteredStats,
+
+    // Current user's status object, including details about manual status.
+    currentUserStatus,
 });

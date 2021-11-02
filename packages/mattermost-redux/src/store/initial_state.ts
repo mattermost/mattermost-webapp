@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {GlobalState} from 'mattermost-redux/types/store';
+import {UserStatuses} from '../../../../utils/constants';
 
 const state: GlobalState = {
     entities: {
@@ -18,6 +19,7 @@ const state: GlobalState = {
         },
         users: {
             currentUserId: '',
+            currentUserStatus: {user_id: '', status: UserStatuses.OFFLINE},
             isManualStatus: {},
             mySessions: [],
             myAudits: [],
