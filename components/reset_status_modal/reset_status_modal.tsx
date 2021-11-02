@@ -112,8 +112,6 @@ export default class ResetStatusModal extends React.PureComponent<Props, State> 
     }
 
     private hideModal = (): void => this.setState({show: false});
-        this.setState({show: false});
-    };
 
     public onConfirm = (checked: boolean): void => {
         this.hideModal();
