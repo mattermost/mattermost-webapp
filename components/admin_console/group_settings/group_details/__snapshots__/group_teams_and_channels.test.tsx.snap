@@ -13,7 +13,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     >
       <tr>
         <th
-          width="30%"
+          style={
+            Object {
+              "width": "30%",
+            }
+          }
         >
           <MemoizedFormattedMessage
             defaultMessage="Name"
@@ -21,7 +25,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
           />
         </th>
         <th
-          width="25%"
+          style={
+            Object {
+              "width": "25%",
+            }
+          }
         >
           <MemoizedFormattedMessage
             defaultMessage="Type"
@@ -29,7 +37,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
           />
         </th>
         <th
-          width="25%"
+          style={
+            Object {
+              "width": "25%",
+            }
+          }
         >
           <MemoizedFormattedMessage
             defaultMessage="Assigned Roles"
@@ -37,7 +49,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
           />
         </th>
         <th
-          width="20%"
+          style={
+            Object {
+              "width": "20%",
+            }
+          }
         />
       </tr>
     </thead>
