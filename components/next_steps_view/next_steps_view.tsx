@@ -18,7 +18,6 @@ import loadingIcon from 'images/spinner-48x48-blue.apng';
 
 import {StepType} from './steps';
 import './next_steps_view.scss';
-import NextStepsTips from './next_steps_tips';
 import DownloadSection from './download_section';
 import OnboardingBgSvg from './images/onboarding-bg-svg';
 import GettingStartedSvg from './images/getting-started-svg';
@@ -45,7 +44,6 @@ type Props = {
 };
 
 type State = {
-    showFinalScreen: boolean;
     showTransitionScreen: boolean;
     animating: boolean;
     show: boolean;
@@ -55,7 +53,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            showFinalScreen: false,
             showTransitionScreen: false,
             animating: false,
             show: false,
@@ -65,18 +62,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     async componentDidMount() {
         await this.props.actions.getProfiles();
 
-        // If all steps are complete, or user has skipped, don't render this and skip to the tips screen
-        if (this.getIncompleteStep() === null || this.checkStepsSkipped()) {
-            this.showFinalScreenNoAnimation();
-        }
         // eslint-disable-next-line react/no-did-mount-set-state
         this.setState({show: true});
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
         this.props.actions.closeRightHandSide();
-    }
-
-    checkStepsSkipped = () => {
-        return this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.SKIP && pref.value === 'true');
     }
 
     getStartingStep = () => {
@@ -114,19 +103,34 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     onSkipAll = async () => {
-        this.showFinalScreen();
-        this.props.actions.savePreferences(this.props.currentUser.id, [{
-            user_id: this.props.currentUser.id,
-            category: Preferences.RECOMMENDED_NEXT_STEPS,
-            name: RecommendedNextSteps.SKIP,
-            value: 'true',
-        }]);
+        this.transitionOutOfOnboarding();
+        setTimeout(() => {
+            this.props.actions.savePreferences(this.props.currentUser.id, [{
+                user_id: this.props.currentUser.id,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: RecommendedNextSteps.SKIP,
+                value: 'true',
+            }]);
+        }, TRANSITION_SCREEN_TIMEOUT);
     }
 
-    onFinish = (setExpanded: (expandedKey: string) => void) => {
+    onFinish = (setExpanded: (expandedKey: string) => void, isLastStep: boolean) => {
         return async (id: string) => {
             const stepIndex = this.getStepNumberFromId(id);
             trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), `complete_onboarding_step${stepIndex}`);
+
+            if (isLastStep) {
+                this.transitionOutOfOnboarding();
+                setTimeout(() => {
+                    this.props.actions.savePreferences(this.props.currentUser.id, [{
+                        category: Preferences.RECOMMENDED_NEXT_STEPS,
+                        user_id: this.props.currentUser.id,
+                        name: id,
+                        value: 'true',
+                    }]);
+                }, TRANSITION_SCREEN_TIMEOUT);
+                return;
+            }
 
             await this.props.actions.savePreferences(this.props.currentUser.id, [{
                 category: Preferences.RECOMMENDED_NEXT_STEPS,
@@ -139,32 +143,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
-    showFinalScreenNoAnimation = () => {
-        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
-        this.setState({showFinalScreen: true, animating: false});
-    }
-
-    showFinalScreen = () => {
-        trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), 'click_skip_getting_started', {channel_sidebar: false});
-        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
-        this.setState({showFinalScreen: true, animating: true});
-    }
-
-    transitionToFinalScreen = () => {
+    transitionOutOfOnboarding = () => {
         this.setState({showTransitionScreen: true, animating: true});
-    }
-
-    setTimerToFinalScreen = () => {
-        if (this.state.showTransitionScreen) {
-            setTimeout(() => {
-                pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
-                this.setState({showFinalScreen: true});
-            }, TRANSITION_SCREEN_TIMEOUT);
-        }
-    }
-
-    stopAnimating = () => {
-        this.setState({animating: false});
     }
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
@@ -175,9 +155,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             if (incompleteStep === null) {
                 // Collapse all accordion tiles
                 setExpanded('');
-                setTimeout(() => {
-                    this.transitionToFinalScreen();
-                }, 300);
             } else {
                 setExpanded(incompleteStep);
             }
@@ -206,7 +183,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             );
         }
 
-        return (setExpanded: (expandedKey: string) => void, expandedKey: string) => (
+        return (setExpanded: (expandedKey: string) => void, expandedKey: string, lastNonCompletedStep: StepType) => (
             <Card
                 className={classNames({complete: this.isStepComplete(id)})}
                 expanded={expandedKey === id}
@@ -230,7 +207,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         expanded={expandedKey === id}
                         isAdmin={this.props.isFirstAdmin}
                         currentUser={this.props.currentUser}
-                        onFinish={this.onFinish(setExpanded)}
+                        onFinish={this.onFinish(setExpanded, lastNonCompletedStep?.id === id)}
                         onSkip={this.onSkip(setExpanded)}
                     />
                 </Card.Body>
@@ -243,10 +220,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             <div
                 className={classNames('NextStepsView__viewWrapper NextStepsView__transitionView', {
                     transitioning: this.state.showTransitionScreen,
-                    completed: this.state.showTransitionScreen && this.state.showFinalScreen,
                     animating: this.state.animating,
                 })}
-                onTransitionEnd={this.setTimerToFinalScreen}
             >
                 <div className='NextStepsView__transitionBody'>
                     <OnboardingSuccessSvg/>
@@ -270,12 +245,18 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     renderMainBody = () => {
         const renderedSteps = this.props.steps.map(this.renderStep);
+        const nonCompletedSteps = this.props.steps.filter((step) => !this.isStepComplete(step.id));
+
+        let lastNonCompletedStep: StepType;
+        if (nonCompletedSteps.length === 1) {
+            lastNonCompletedStep = nonCompletedSteps[0];
+        }
         const logo = this.props.isCloud ? <CloudLogoSvg/> : <LogoSvg/>;
 
         return (
             <div
                 className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {
-                    completed: this.state.showFinalScreen || this.state.showTransitionScreen,
+                    completed: this.state.showTransitionScreen,
                     animating: this.state.animating,
                 })}
             >
@@ -304,7 +285,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             {(setExpanded, expandedKey) => {
                                 return (
                                     <>
-                                        {renderedSteps.map((step) => step(setExpanded, expandedKey))}
+                                        {renderedSteps.map((step) => step(setExpanded, expandedKey, lastNonCompletedStep))}
                                     </>
                                 );
                             }}
@@ -341,16 +322,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     <OnboardingBgSvg/>
                     {this.renderMainBody()}
                     {this.renderTransitionScreen()}
-                    <NextStepsTips
-                        showFinalScreen={this.state.showFinalScreen}
-                        animating={this.state.animating}
-                        stopAnimating={this.stopAnimating}
-                        isFirstAdmin={this.props.isFirstAdmin}
-                        savePreferences={this.props.actions.savePreferences}
-                        currentUserId={this.props.currentUser.id}
-                        setShowNextStepsView={this.props.actions.setShowNextStepsView}
-                        isAdmin={this.props.isAdmin}
-                    />
                 </>}
             </section>
         );
