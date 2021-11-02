@@ -189,12 +189,12 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             return this.state.roles;
         }
 
-        let teamGuest = null;
-        let teamUser = null;
-        let teamAdmin = null;
-        let channelGuest = null;
-        let channelUser = null;
-        let channelAdmin = null;
+        let teamGuest;
+        let teamUser;
+        let teamAdmin;
+        let channelGuest;
+        let channelUser;
+        let channelAdmin;
 
         if (this.props.schemeId && this.props.scheme) {
             if (this.isLoaded(this.props)) {
@@ -225,12 +225,12 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             all_users: {
                 name: 'all_users',
                 displayName: 'All members',
-                permissions: teamUser?.permissions.concat(channelUser?.permissions || []) || '',
+                permissions: teamUser?.permissions.concat(channelUser?.permissions || []),
             },
             guests: {
                 name: 'guests',
                 displayName: 'Guests',
-                permissions: teamGuest?.permissions.concat(channelGuest?.permissions || []) || '',
+                permissions: teamGuest?.permissions.concat(channelGuest?.permissions || []),
             },
         };
     }

@@ -55,7 +55,7 @@ import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {openModal, closeModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
@@ -198,7 +198,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setEditingPost,
             emitShortcutReactToLastPostFrom,
             openModal,
-            closeModal,
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,

@@ -1524,4 +1524,33 @@ describe('components/CreateComment', () => {
         textbox.props().onSelect(e);
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
     });
+
+    it('should blur when ESCAPE is pressed', () => {
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+            />,
+        );
+        const instance = wrapper.instance();
+        const blur = jest.fn();
+
+        const mockImpl = () => {
+            return {
+                blur: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+
+        instance.textboxRef.current = {blur, getInputBox: jest.fn(mockImpl)};
+
+        const commentEscapeKey = {
+            preventDefault: jest.fn(),
+            ctrlKey: true,
+            key: Constants.KeyCodes.ESCAPE[0],
+            keyCode: Constants.KeyCodes.ESCAPE[1],
+        };
+
+        instance.handleKeyDown(commentEscapeKey);
+        expect(blur).toHaveBeenCalledTimes(1);
+    });
 });

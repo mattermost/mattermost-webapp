@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
@@ -62,7 +62,6 @@ const GlobalThreads = () => {
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
-    const isLoading = counts?.total == null;
 
     useEffect(() => {
         dispatch(suppressRHS);
@@ -82,10 +81,39 @@ const GlobalThreads = () => {
         }
     }, [currentTeamId, selectedThreadId, threadIdentifier]);
 
+    const isEmptyList = isEmpty(threadIds) && isEmpty(unreadThreadIds);
+
+    const [isLoading, setLoading] = useState(isEmptyList);
+
+    const fetchThreads = useCallback(async (unread): Promise<{data: any}> => {
+        await dispatch(getThreads(
+            currentUserId,
+            currentTeamId,
+            {
+                unread,
+                perPage: 25,
+            },
+        ));
+
+        return {data: true};
+    }, [currentUserId, currentTeamId]);
+
     useEffect(() => {
+        const promises = [];
+
         // this is needed to jump start threads fetching
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 10}));
-    }, [currentUserId, currentTeamId, filter]);
+        if (isEmpty(threadIds)) {
+            promises.push(fetchThreads(false));
+        }
+
+        if (filter === ThreadFilter.unread && isEmpty(unreadThreadIds)) {
+            promises.push(fetchThreads(true));
+        }
+
+        Promise.all(promises).then(() => {
+            setLoading(false);
+        });
+    }, [fetchThreads, filter]);
 
     useEffect(() => {
         if (!selectedThread && !selectedPost && !isLoading) {
@@ -127,7 +155,7 @@ const GlobalThreads = () => {
                 })}
             />
 
-            {isEmpty(threadIds) ? (
+            {isLoading || isEmptyList ? (
                 <div className='no-results__holder'>
                     {isLoading ? (
                         <LoadingScreen/>

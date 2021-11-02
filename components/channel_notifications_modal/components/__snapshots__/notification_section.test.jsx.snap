@@ -22,7 +22,9 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 <ExpandView
   globalNotifyLevel="default"
   memberNotifyLevel="all"
+  memberThreadsNotifyLevel="all"
   onChange={[Function]}
+  onChangeThreads={[Function]}
   onCollapseSection={[Function]}
   onSubmit={[Function]}
   section="desktop"
@@ -43,7 +45,9 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 <ExpandView
   globalNotifyLevel={null}
   memberNotifyLevel="all"
+  memberThreadsNotifyLevel="all"
   onChange={[Function]}
+  onChangeThreads={[Function]}
   onCollapseSection={[Function]}
   onSubmit={[Function]}
   section="markUnread"
@@ -64,7 +68,9 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 <ExpandView
   globalNotifyLevel="default"
   memberNotifyLevel="all"
+  memberThreadsNotifyLevel="all"
   onChange={[Function]}
+  onChangeThreads={[Function]}
   onCollapseSection={[Function]}
   onSubmit={[Function]}
   section="push"
