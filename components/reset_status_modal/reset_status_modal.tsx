@@ -61,6 +61,11 @@ type Props = {
      */
     onHide?: () => void;
 
+    /**
+         * Function called after the modal has been hidden
+         */
+    onExited?: () => void;
+
     actions: {
 
         /*
@@ -213,7 +218,7 @@ export default class ResetStatusModal extends React.PureComponent<Props, State> 
                 onConfirm={this.onConfirm}
                 cancelButtonText={manualStatusCancel}
                 onCancel={this.onCancel}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 showCheckbox={showCheckbox}
                 checkboxText={manualStatusCheckbox}
             />
