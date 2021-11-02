@@ -9,7 +9,7 @@ import {AdvancedSections} from 'utils/constants';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-import JoinLeaveSection from 'components/user_settings/advanced/join_leave_section/join_leave_section.jsx';
+import JoinLeaveSection from 'components/user_settings/advanced/join_leave_section/join_leave_section';
 
 describe('components/user_settings/advanced/JoinLeaveSection', () => {
     const defaultProps = {
@@ -20,7 +20,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         renderOnOffLabel: jest.fn(),
         actions: {
             savePreferences: jest.fn(() => {
-                return new Promise((resolve) => {
+                return new Promise<void>((resolve) => {
                     process.nextTick(() => resolve());
                 });
             }),
@@ -43,18 +43,19 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
     });
 
     test('should match state on handleOnChange', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<JoinLeaveSection>(
             <JoinLeaveSection {...defaultProps}/>,
         );
 
-        let value = 'false';
         wrapper.setState({joinLeaveState: 'true'});
-        wrapper.instance().handleOnChange({currentTarget: {value}});
-        expect(wrapper.state('joinLeaveState')).toEqual(value);
+
+        let value = 'false';
+        wrapper.instance().handleOnChange({currentTarget: {value}} as any);
+        expect(wrapper.state('joinLeaveState')).toEqual('false');
 
         value = 'true';
-        wrapper.instance().handleOnChange({currentTarget: {value}});
-        expect(wrapper.state('joinLeaveState')).toEqual(value);
+        wrapper.instance().handleOnChange({currentTarget: {value}} as any);
+        expect(wrapper.state('joinLeaveState')).toEqual('true');
     });
 
     test('should call props.actions.savePreferences and props.onUpdateSection on handleSubmit', () => {
@@ -62,7 +63,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
             savePreferences: jest.fn().mockImplementation(() => Promise.resolve({data: true})),
         };
         const onUpdateSection = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<JoinLeaveSection>(
             <JoinLeaveSection
                 {...defaultProps}
                 actions={actions}
@@ -77,21 +78,22 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
             value: 'true',
         };
 
-        wrapper.instance().handleSubmit();
+        const instance = wrapper.instance();
+        instance.handleSubmit();
         expect(actions.savePreferences).toHaveBeenCalledTimes(1);
         expect(actions.savePreferences).toHaveBeenCalledWith('current_user_id', [joinLeavePreference]);
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
 
         wrapper.setState({joinLeaveState: 'false'});
         joinLeavePreference.value = 'false';
-        wrapper.instance().handleSubmit();
+        instance.handleSubmit();
         expect(actions.savePreferences).toHaveBeenCalledTimes(2);
         expect(actions.savePreferences).toHaveBeenCalledWith('current_user_id', [joinLeavePreference]);
     });
 
     test('should match state and call props.onUpdateSection on handleUpdateSection', () => {
         const onUpdateSection = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<JoinLeaveSection>(
             <JoinLeaveSection
                 {...defaultProps}
                 onUpdateSection={onUpdateSection}
@@ -99,12 +101,14 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         );
 
         wrapper.setState({joinLeaveState: 'false'});
-        wrapper.instance().handleUpdateSection();
+
+        const instance = wrapper.instance();
+        instance.handleUpdateSection();
         expect(wrapper.state('joinLeaveState')).toEqual(defaultProps.joinLeave);
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
 
         wrapper.setState({joinLeaveState: 'false'});
-        wrapper.instance().handleUpdateSection(AdvancedSections.JOIN_LEAVE);
+        instance.handleUpdateSection(AdvancedSections.JOIN_LEAVE);
         expect(onUpdateSection).toHaveBeenCalledTimes(2);
         expect(onUpdateSection).toBeCalledWith(AdvancedSections.JOIN_LEAVE);
     });

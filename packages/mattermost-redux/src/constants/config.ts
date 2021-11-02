@@ -28,6 +28,11 @@ export enum AutoTourTreatments {
     AUTO = 'auto',
 }
 
+export enum AddMembersToChanneltreatments {
+    TOP = 'top',
+    BOTTOM = 'bottom',
+}
+
 export enum InviteToTeamTreatments {
     NONE = 'none',
     LIGHTBOX = 'lightbox',
