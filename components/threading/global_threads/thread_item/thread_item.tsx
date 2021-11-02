@@ -84,12 +84,12 @@ function ThreadItem({
     }, [channel, thread?.post.channel_id]);
 
     const participantIds = useMemo(() => {
-        const ids = thread?.participants?.flatMap(({id}) => {
+        const ids = (thread?.participants || []).flatMap(({id}) => {
             if (id === post.user_id) {
                 return [];
             }
             return id;
-        }).reverse() || [];
+        }).reverse();
         return [post.user_id, ...ids];
     }, [thread?.participants]);
 
