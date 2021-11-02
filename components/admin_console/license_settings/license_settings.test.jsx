@@ -204,7 +204,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         // Set expiration date to 30 days from today
         const expiringDate = moment().add(30, 'days').valueOf();
 
-        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate}};
+        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate.toString()}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
@@ -213,7 +213,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         // Set expiration date to 30 days from today
         const expiringDate = moment().add(30, 'days').valueOf();
 
-        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate, Cloud: 'true'}};
+        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate.toString(), Cloud: 'true'}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

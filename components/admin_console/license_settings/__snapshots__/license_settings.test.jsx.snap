@@ -2426,7 +2426,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           license={
             Object {
               "Company": "Mattermost Inc.",
-              "ExpiresAt": 1620993600000,
+              "ExpiresAt": "1620993600000",
               "IsLicensed": "true",
               "IssuedAt": "1517714643650",
               "Name": "LicenseName",
