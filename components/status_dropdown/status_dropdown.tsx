@@ -67,11 +67,11 @@ type State = {
 
 export default class StatusDropdown extends React.PureComponent<Props, State> {
     dndTimes = [
-        {id: t('status_dropdown.dnd_sub_menu_item.thirty_minutes'), defaultMessage: '30 mins'},
-        {id: t('status_dropdown.dnd_sub_menu_item.one_hour'), defaultMessage: '1 hour'},
-        {id: t('status_dropdown.dnd_sub_menu_item.two_hours'), defaultMessage: '2 hours'},
-        {id: t('status_dropdown.dnd_sub_menu_item.tomorrow'), defaultMessage: 'Tomorrow'},
-        {id: t('status_dropdown.dnd_sub_menu_item.custom'), defaultMessage: 'Custom'},
+        {id: 'thirty_minutes', label: t('status_dropdown.dnd_sub_menu_item.thirty_minutes'), labelDefault: '30 mins'},
+        {id: 'one_hour', label: t('status_dropdown.dnd_sub_menu_item.one_hour'), labelDefault: '1 hour'},
+        {id: 'two_hours', label: t('status_dropdown.dnd_sub_menu_item.two_hours'), labelDefault: '2 hours'},
+        {id: 'tomorrow', label: t('status_dropdown.dnd_sub_menu_item.tomorrow'), labelDefault: 'Tomorrow'},
+        {id: 'custom', label: t('status_dropdown.dnd_sub_menu_item.custom'), labelDefault: 'Custom'},
     ];
     static defaultProps = {
         userId: '',
@@ -316,8 +316,8 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                 text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
             } as any,
         ].concat(
-            this.dndTimes.map(({id, defaultMessage}, index) => {
-                const text = localizeMessage(id, defaultMessage);
+            this.dndTimes.map(({id, label, labelDefault}, index) => {
+                const text = localizeMessage(label, labelDefault);
                 return {
                     id: `dndTime-${id}`,
                     direction: 'right',
