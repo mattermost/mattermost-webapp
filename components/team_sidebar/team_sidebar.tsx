@@ -32,8 +32,9 @@ import {ProductComponent} from '../../types/store/plugins';
 
 import Pluggable from '../../plugins/pluggable';
 
-import TeamButton from './components/team_button';
 import {getCurrentProduct} from '../../selectors/products';
+
+import TeamButton from './components/team_button';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;

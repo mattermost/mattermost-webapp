@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {RouteComponentProps} from 'react-router-dom';
-
 import {ProductComponent} from '../types/store/plugins';
 
 import {getBasePath} from './url';
