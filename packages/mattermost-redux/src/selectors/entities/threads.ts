@@ -64,19 +64,21 @@ export function getThreads(state: GlobalState): IDMappedObjects<UserThread> {
 }
 
 export function getThread(state: GlobalState, threadId?: $ID<UserThread>) {
-    const threads = getThreads(state);
-    const myChannels = getMyChannels(state).map((c) => c.id);
-
     if (!threadId) {
         return null;
     }
 
-    const thread = threads[threadId];
-    if (!thread || (thread.post && myChannels.indexOf(thread.post.channel_id) === -1)) {
-        return null;
+    const threads = getThreads(state);
+    return threads[threadId];
+}
+
+export function getBelongsInCurrentTeam(state: GlobalState, thread: UserThread | null) {
+    if (!thread || !thread.post) {
+        return false;
     }
 
-    return thread;
+    const channelIds = getMyChannels(state).map((chan) => chan.id);
+    return channelIds.indexOf(thread.post.channel_id) >= 0;
 }
 
 export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {
@@ -105,15 +107,12 @@ export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdI
     getThreadsInCurrentTeam,
     getThreads,
     (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
-    getMyChannels,
     (
         threadsInTeam,
         threads,
         selectedThreadIdInTeam,
-        myChannels,
     ) => {
-        const channelIds = myChannels.map((chan) => chan.id);
-        const ids = [...threadsInTeam.filter((id) => threads[id].is_following && channelIds.indexOf(threads[id].post.channel_id) !== -1)];
+        const ids = [...threadsInTeam.filter((id) => threads[id].is_following)];
 
         if (selectedThreadIdInTeam && !ids.includes(selectedThreadIdInTeam)) {
             ids.push(selectedThreadIdInTeam);
@@ -131,22 +130,14 @@ export const getUnreadThreadOrderInCurrentTeam: (
     getUnreadThreadsInCurrentTeam,
     getThreads,
     (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
-    getMyChannels,
     (
         threadsInTeam,
         threads,
         selectedThreadIdInTeam,
-        myChannels,
     ) => {
-        const channelIds = myChannels.map((chan) => chan.id);
-
         const ids = threadsInTeam.filter((id) => {
             const thread = threads[id];
-            return (
-                thread.is_following &&
-                (thread.unread_replies || thread.unread_mentions) &&
-                channelIds.indexOf(thread.post.channel_id) !== -1
-            );
+            return thread.is_following && (thread.unread_replies || thread.unread_mentions);
         });
 
         if (selectedThreadIdInTeam && !ids.includes(selectedThreadIdInTeam)) {
