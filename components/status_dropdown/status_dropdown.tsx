@@ -67,11 +67,11 @@ type State = {
 
 export default class StatusDropdown extends React.PureComponent<Props, State> {
     dndTimes = [
-        {id: 'thirty_minutes', defaultMessage: '30 mins'},
-        {id: 'one_hour', defaultMessage: '1 hour'},
-        {id: 'two_hours', defaultMessage: '2 hours'},
-        {id: 'tomorrow', defaultMessage: 'Tomorrow'},
-        {id: 'custom', defaultMessage: 'Custom'},
+        {id: t('status_dropdown.dnd_sub_menu_item.thirty_minutes'), defaultMessage: '30 mins'},
+        {id: t('status_dropdown.dnd_sub_menu_item.one_hour'), defaultMessage: '1 hour'},
+        {id: t('status_dropdown.dnd_sub_menu_item.two_hours'), defaultMessage: '2 hours'},
+        {id: t('status_dropdown.dnd_sub_menu_item.tomorrow'), defaultMessage: 'Tomorrow'},
+        {id: t('status_dropdown.dnd_sub_menu_item.custom'), defaultMessage: 'Custom'},
     ];
     static defaultProps = {
         userId: '',
@@ -317,7 +317,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             } as any,
         ].concat(
             this.dndTimes.map(({id, defaultMessage}, index) => {
-                const text = localizeMessage(`status_dropdown.dnd_sub_menu_item.${id}`, defaultMessage);
+                const text = localizeMessage(id, defaultMessage);
                 return {
                     id: `dndTime-${id}`,
                     direction: 'right',
