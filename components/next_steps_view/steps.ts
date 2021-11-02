@@ -2,7 +2,11 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {makeGetCategory, getDownloadAppsCTATreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    makeGetCategory,
+    getDownloadAppsCTATreatment,
+    getCreateGuidedFirstChannelCTATreatment,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {DownloadAppsCTATreatments} from 'mattermost-redux/constants/config';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -18,6 +22,7 @@ import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
 import DownloadAppsStep from './steps/download_apps_step/download_apps_step';
+import CreateFirstChannelStep from './steps/create_first_channel_step/create_first_channel_step';
 
 import {isStepForUser} from './step_helpers';
 
@@ -97,6 +102,16 @@ export const Steps: StepType[] = [
         visible: true,
     },
     {
+        id: RecommendedNextSteps.CREATE_FIRST_CHANNEL,
+        title: {
+            titleId: t('next_steps_view.titles.createChannel'),
+            titleMessage: 'Create your first channel',
+        },
+        roles: ['system_admin'],
+        component: CreateFirstChannelStep,
+        visible: true,
+    },
+    {
         id: RecommendedNextSteps.DOWNLOAD_APPS,
         title: {
             titleId: t('next_steps_view.downloadDesktopAndMobile'),
@@ -128,12 +143,12 @@ export const isFirstAdmin = createSelector(
     },
 );
 
-function filterDownloadAppsStep(step: StepType, downloadAppsAsNextStep: boolean): boolean {
-    if (step.id !== RecommendedNextSteps.DOWNLOAD_APPS) {
+function filterStepBasedOnFFVal(step: StepType, enableStep: boolean, stepId: string): boolean {
+    if (step.id !== stepId) {
         return true;
     }
 
-    return downloadAppsAsNextStep;
+    return enableStep;
 }
 
 export const getSteps = createSelector(
@@ -141,10 +156,14 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (state: GlobalState) => getDownloadAppsCTATreatment(state) === DownloadAppsCTATreatments.TIPS_AND_NEXT_STEPS,
-    (currentUser, firstAdmin, downloadAppsAsNextStep) => {
+    (state: GlobalState) => getCreateGuidedFirstChannelCTATreatment(state),
+    (currentUser, firstAdmin, downloadAppsAsNextStep, guidedFirstChannel) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
-            isStepForUser(step, roles) && step.visible && filterDownloadAppsStep(step, downloadAppsAsNextStep),
+            isStepForUser(step, roles) &&
+                step.visible &&
+                    filterStepBasedOnFFVal(step, downloadAppsAsNextStep, RecommendedNextSteps.DOWNLOAD_APPS) &&
+                    filterStepBasedOnFFVal(step, guidedFirstChannel, RecommendedNextSteps.CREATE_FIRST_CHANNEL),
         );
     },
 );

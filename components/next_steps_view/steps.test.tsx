@@ -223,4 +223,40 @@ describe('components/next_steps_view/steps', () => {
         };
         expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(false);
     });
+
+    test('should show the create first channel step if exposed to CreateFirstChannel treatment', () => {
+        const state = {
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagGuidedChannelCreation: 'true',
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin'},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.CREATE_FIRST_CHANNEL)).toBe(true);
+    });
+    test('should not show the create first channel step if feature flag missing', () => {
+        const state = {
+            entities: {
+                general: {
+                    config: {
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: ''},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.CREATE_FIRST_CHANNEL)).toBe(false);
+    });
 });

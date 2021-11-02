@@ -10,7 +10,7 @@ import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
-import TutorialTipBackdrop, {TutorialTipPunchout} from './tutorial_tip_backdrop';
+import TutorialTipBackdrop, {Coords, TutorialTipPunchout} from './tutorial_tip_backdrop';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
@@ -43,6 +43,7 @@ type Props = {
     };
     autoTour: boolean;
     punchOut?: TutorialTipPunchout | null;
+    pulsatingDotPosition?: Coords | undefined;
 }
 
 type State = {
@@ -281,6 +282,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 <PulsatingDot
                     onClick={this.show}
                     targetRef={this.targetRef}
+                    coords={this.props.pulsatingDotPosition}
                 />
 
                 <Overlay

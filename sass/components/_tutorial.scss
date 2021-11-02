@@ -33,6 +33,13 @@ $tip-index: 1000;
         border-color: transparent;
     }
 
+    .svg-wrapper {
+        display: flex;
+        svg {
+            margin: 0 auto;
+        }
+    }
+
     &.tip-overlay--sidebar {
         max-width: 75%;
         min-height: 330px;

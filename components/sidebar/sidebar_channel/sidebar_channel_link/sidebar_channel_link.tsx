@@ -64,6 +64,8 @@ type Props = {
 
     offTopicDisplayName: string;
 
+    firstChannelName: string;
+
     actions: {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
@@ -171,14 +173,16 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             link,
             showTutorialTip,
             unreadMentions,
+            firstChannelName,
         } = this.props;
 
         let tutorialTip: JSX.Element | null = null;
-        if (showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
+        if ((showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) || firstChannelName === channel.name) {
             tutorialTip = (
                 <ChannelTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
+                    firstChannelName={this.props.firstChannelName}
                     openLhs={actions.openLhs}
                 />
             );

@@ -266,6 +266,8 @@ export const ActionTypes = keyMirror({
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
+
+    FIRST_CHANNEL_NAME: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -462,12 +464,13 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
-    POST_POPOVER: 0,
-    CHANNEL_POPOVER: 1,
-    ADD_CHANNEL_POPOVER: 2,
-    MENU_POPOVER: 3,
-    PRODUCT_SWITCHER: 4,
-    SETTINGS: 5,
+    ADD_FIRST_CHANNEL: 0,
+    POST_POPOVER: 1,
+    CHANNEL_POPOVER: 2,
+    ADD_CHANNEL_POPOVER: 3,
+    MENU_POPOVER: 4,
+    PRODUCT_SWITCHER: 5,
+    SETTINGS: 6,
     FINISHED: 999,
 };
 
@@ -483,6 +486,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     DOWNLOAD_APPS: 'download_apps',
+    CREATE_FIRST_CHANNEL: 'create_first_channel',
     HIDE: 'hide',
     SKIP: 'skip',
 };

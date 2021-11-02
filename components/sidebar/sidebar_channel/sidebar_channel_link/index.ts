@@ -33,6 +33,8 @@ function makeMapStateToProps() {
 
         const unreadCount = getUnreadCount(state, ownProps.channel.id);
 
+        const firstChannelName = state.views.channelSidebar.firstChannelName;
+
         const channelsByName = getChannelsNameMapInCurrentTeam(state);
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
@@ -46,6 +48,7 @@ function makeMapStateToProps() {
             isMuted: isChannelMuted(member),
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
+            firstChannelName, //enableTutorial && tutorialStep === Constants.TutorialSteps.ADD_FIRST_CHANNEL ? 'ttttttt' : '',
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
         };

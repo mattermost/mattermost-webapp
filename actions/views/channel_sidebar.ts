@@ -171,6 +171,21 @@ export function multiSelectChannelAdd(channelId: string) {
     };
 }
 
+export function setFirstChannelName(channelName: string) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const firstChannelName = state.views.channel.firstChannelName;
+
+        // No first channel already added
+        if (!firstChannelName?.length) {
+            dispatch({
+                type: ActionTypes.FIRST_CHANNEL_NAME,
+                data: channelName,
+            });
+        }
+    };
+}
+
 // Much of this logic was pulled from the react-beautiful-dnd sample multiselect implementation
 // Found here: https://github.com/atlassian/react-beautiful-dnd/tree/master/stories/src/multi-drag
 export function multiSelectChannelTo(channelId: string) {

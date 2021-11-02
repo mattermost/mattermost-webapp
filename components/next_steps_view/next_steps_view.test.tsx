@@ -164,4 +164,16 @@ describe('components/next_steps_view', () => {
 
         expect(wrapper.find(DownloadSection)).toHaveLength(0);
     });
+
+    test('should not show DownloadSection when in DownloadAppsCTA test', () => {
+        const wrapper = shallow(
+            <NextStepsView
+                {...baseProps}
+                downloadAppsAsNextStep={true}
+            />,
+        );
+        wrapper.setState({show: true});
+
+        expect(wrapper.find(DownloadSection)).toHaveLength(0);
+    });
 });

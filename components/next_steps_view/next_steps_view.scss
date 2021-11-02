@@ -446,6 +446,22 @@
     }
 }
 
+.NextStepsView__createFirstChannel {
+    width: 60%;
+    margin-left: 45px;
+
+    .channelNameLegend {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    button#submitNewChannel {
+        border-radius: 4px;
+    }
+}
+
 .NextStepsView__download {
     display: flex;
     align-content: center;
