@@ -59,6 +59,7 @@ type Props = {
     isReadOnly: boolean | null;
     enableEmojiPicker?: boolean;
     location?: ComponentProps<typeof DotMenu>['location'];
+    teamName?: string;
 };
 
 const emptyBindings: AppBinding[] = [];
@@ -68,14 +69,14 @@ const getPostOptionBinding = makeGetPostOptionBinding();
 const fetchBindings = makeFetchBindings(AppBindingLocations.POST_MENU_ITEM);
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const {post} = ownProps;
+    const {post, teamName} = ownProps;
 
     const license = getLicense(state);
     const config = getConfig(state);
     const userId = getCurrentUserId(state);
     const channel = getChannel(state, post.channel_id);
     const currentTeam = getCurrentTeam(state) || {};
-    const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
+    const teamUrl = `${getSiteURL()}/${teamName || currentTeam.name}`;
 
     const systemMessage = isSystemMessage(post);
     const collapsedThreads = isCollapsedThreadsEnabled(state);
@@ -122,7 +123,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
-        currentTeamUrl,
+        teamUrl,
         currentTeamId: currentTeam.id,
         userId,
         threadId,

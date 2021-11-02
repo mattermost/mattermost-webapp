@@ -48,7 +48,7 @@ type Props = {
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
 
@@ -227,7 +227,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     copyLink = () => {
-        Utils.copyToClipboard(`${this.props.currentTeamUrl}/pl/${this.props.post.id}`);
+        Utils.copyToClipboard(`${this.props.teamUrl}/pl/${this.props.post.id}`);
     }
 
     handlePinMenuItemActivated = () => {

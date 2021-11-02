@@ -149,8 +149,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         this.props.actions.setRhsExpanded(false);
-        const teamToJumpTo = this.props.channelTeamName || this.props.currentTeamName;
-        browserHistory.push(`/${teamToJumpTo}/pl/${this.props.post.id}`);
+        browserHistory.push(`/${this.getTeamName()}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post) => {
@@ -185,6 +184,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.SEARCH}
+                teamName={this.getTeamName()}
             />
         );
     };
@@ -220,6 +220,10 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         return channelName;
+    }
+
+    getTeamName = () => {
+        return this.props.channelTeamName || this.props.currentTeamName;
     }
 
     render() {
@@ -325,6 +329,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         handleDropdownOpened={this.handleDropdownOpened}
                         isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
+                        teamName={this.getTeamName()}
                     />
                     {flagContent}
                     {canReply &&
