@@ -44,7 +44,7 @@ export type Props = {
     */
     restrictDirectMessage?: string;
     onModalDismissed: () => void;
-    onHide?: () => void;
+    onExited?: () => void;
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
@@ -170,7 +170,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         }
 
         this.props.onModalDismissed?.();
-        this.props.onHide?.();
+        this.props.onExited?.();
     }
 
     handleSubmit = (values = this.state.values) => {
