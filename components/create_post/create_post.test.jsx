@@ -69,7 +69,6 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
-    closeModal: jest.fn(),
     setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
