@@ -52,12 +52,3 @@ export function getCurrentUserId(state: GlobalState): string {
 export function getUsers(state: GlobalState): IDMappedObjects<UserProfile> {
     return state.entities.users.profiles;
 }
-
-export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
-    return state.entities.threads.counts;
-}
-
-export function getThreadCountsIncludingDirect(state: GlobalState): ThreadsState['counts'] {
-    return state.entities.threads.countsIncludingDirect;
-}
-

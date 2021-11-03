@@ -3,17 +3,12 @@
 
 import {createSelector} from 'reselect';
 
-import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from 'mattermost-redux/types/threads';
 import {Post} from 'mattermost-redux/types/posts';
 import {$ID, IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
-
-import {getThreadCounts, getThreadCountsIncludingDirect} from './common';
-
-export {getThreadCounts, getThreadCountsIncludingDirect};
 
 export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
     return state.entities.threads.threadsInTeam;
@@ -47,6 +42,14 @@ export const getUnreadThreadsInCurrentTeam: (state: GlobalState) => Array<$ID<Us
     },
 );
 
+export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
+    return state.entities.threads.counts;
+}
+
+export function getThreadCountsIncludingDirect(state: GlobalState): ThreadsState['counts'] {
+    return state.entities.threads.countsIncludingDirect;
+}
+
 export const getThreadCountsInCurrentTeam: (state: GlobalState) => ThreadsState['counts'][$ID<Team>] = createSelector(
     'getThreadCountsInCurrentTeam',
     getCurrentTeamId,
@@ -70,15 +73,6 @@ export function getThread(state: GlobalState, threadId?: $ID<UserThread>) {
 
     const threads = getThreads(state);
     return threads[threadId];
-}
-
-export function getBelongsInCurrentTeam(state: GlobalState, thread: UserThread | null) {
-    if (!thread || !thread.post) {
-        return false;
-    }
-
-    const channelIds = getMyChannels(state).map((chan) => chan.id);
-    return channelIds.indexOf(thread.post.channel_id) >= 0;
 }
 
 export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {

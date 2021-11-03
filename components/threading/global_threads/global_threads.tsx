@@ -9,7 +9,6 @@ import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import classNames from 'classnames';
 
 import {
-    getBelongsInCurrentTeam,
     getThreadOrderInCurrentTeam,
     getUnreadThreadOrderInCurrentTeam,
     getThreadCountsInCurrentTeam,
@@ -63,7 +62,6 @@ const GlobalThreads = () => {
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
-    const belongsInCurrentTeam = useSelector((state: GlobalState) => getBelongsInCurrentTeam(state, selectedThread), shallowEqual);
 
     useEffect(() => {
         dispatch(suppressRHS);
@@ -119,12 +117,11 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         if (
-            (!selectedThread && !selectedPost && !isLoading) ||
-            (selectedThread && !belongsInCurrentTeam)
+            (!selectedThread && !selectedPost && !isLoading)
         ) {
             clear();
         }
-    }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter, belongsInCurrentTeam]);
+    }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
 
     // cleanup on unmount
     useEffect(() => {
