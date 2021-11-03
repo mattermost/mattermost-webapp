@@ -25,7 +25,7 @@ export type Props = {
     activePluginId?: string;
 
     actions: {
-        fetchListing: () => Promise<{ data?: Array<MarketplacePlugin | MarketplaceApp>}>;
+        fetchListing: (localOnly?: boolean) => Promise<{ data?: Array<MarketplacePlugin | MarketplaceApp>}>;
     };
 }
 
@@ -49,7 +49,7 @@ export default class AppBar extends React.PureComponent<Props> {
     }
 
     getMarketPlaceListings = async () => {
-        await this.props.actions.fetchListing();
+        await this.props.actions.fetchListing(true);
         this.setState({loadedMarketplaceListing: true});
     }
 
