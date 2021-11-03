@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
-import {getPostsByIds} from 'mattermost-redux/actions/posts'
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {
@@ -68,7 +67,6 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             getMorePostsForSearch,
             openRHSSearch,
             getMoreFilesForSearch,
-            getPostsByIds,
             filterFilesSearchByExt,
         }, dispatch),
     };

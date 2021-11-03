@@ -53,7 +53,6 @@ export type DispatchProps = {
         getMorePostsForSearch: () => ActionFunc;
         openRHSSearch: () => void;
         getMoreFilesForSearch: () => ActionFunc;
-        getPostsByIds: (ids: string[]) => void;
         filterFilesSearchByExt: (extensions: string[]) => void;
     };
 }

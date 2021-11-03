@@ -36,17 +36,6 @@ export default class FilePreviewModal extends React.PureComponent {
          */
         post: PropTypes.object,
 
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call to get a missing post
-            */
-            getPostAction: PropTypes.func,
-        }),
-
         /**
          * Set whether to show this modal or not
          */
@@ -81,7 +70,7 @@ export default class FilePreviewModal extends React.PureComponent {
     };
 
     constructor(props) {
-        super(props); // for some images props.post = {}
+        super(props);
         const isMobile = Utils.isMobile();
 
         this.state = {
@@ -150,9 +139,6 @@ export default class FilePreviewModal extends React.PureComponent {
     }
     componentDidMount() {
         window.addEventListener('resize', this.handleWindowResize);
-        // if (Object.keys(this.props.post).length === 0) {
-        //     this.props.actions.getPostAction(this.props.postId);
-        // }
     }
 
     componentWillUnmount() {

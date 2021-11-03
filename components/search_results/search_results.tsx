@@ -132,15 +132,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         (): void => {},
     );
 
-    const loadMorePostIds = debounce(
-        () => {
-            props.getPostsByIds(['x3oun96rabys9xkcqkur17zrqa', 'u7cfpjb6n7yu7d8usriwzgr1dr']); // ids of 
-        },
-        100,
-        false,
-        (): void => {},
-    );
-
     const {
         results,
         fileResults,
@@ -169,11 +160,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const isAtEnd = (searchType === MESSAGES_SEARCH_TYPE && isSearchAtEnd) || (searchType === FILES_SEARCH_TYPE && isSearchFilesAtEnd);
     const showLoadMore = !isAtEnd && !isChannelFiles && !isFlaggedPosts && !isPinnedPosts;
     const isMessagesSearch = (!isFlaggedPosts && !isMentionSearch && !isCard && !isPinnedPosts && !isChannelFiles);
-
-    // want to loop through fileResults for postids that do not have a post in props, then add the post ids to an array
-    // then call props.getPostsByIds (e.g. (['x3oun96rabys9xkcqkur17zrqa', 'u7cfpjb6n7yu7d8usriwzgr1dr']))
-
-    props.getPostsByIds(['x3oun96rabys9xkcqkur17zrqa', 'u7cfpjb6n7yu7d8usriwzgr1dr']); // this causes a 400 "Bad Request" error
 
     let contentItems;
     let loadingMorePostsComponent;

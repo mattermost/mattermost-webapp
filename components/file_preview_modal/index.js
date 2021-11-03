@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 
 import {canDownloadFiles} from 'utils/file_utils.jsx';
 
@@ -23,12 +21,4 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getPostAction,
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FilePreviewModal);
+export default connect(mapStateToProps)(FilePreviewModal);

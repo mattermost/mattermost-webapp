@@ -70,8 +70,6 @@ function makeMapStateToProps() {
                     return;
                 }
 
-                console.log(file); // TODO remove - files with post ids here. need to loop through these and use getPostsByIds at some point
-
                 files.push(file);
             });
         }
