@@ -22,7 +22,7 @@ function FollowButton({
         <Button
             {...props}
             className={classNames(props.className, 'FollowButton')}
-            disabled={props.disabled}
+            disabled={Boolean(props.disabled)}
             isActive={isFollowing ?? false}
         >
             {formatMessage(isFollowing ? {
