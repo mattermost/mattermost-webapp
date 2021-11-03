@@ -221,6 +221,7 @@
     .popover__row {
         padding: 9px 15px 0;
         margin: 0 -15px 0;
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
 
         &.first {
             border-top: 1px solid transparent;
@@ -301,7 +302,7 @@
 .user-popover__role {
     padding: 3px 5px;
     margin-left: 10px;
-    background-color: $gray;
+    background: rgba(var(--center-channel-color-rgb), 0.3);
     border-radius: 4px;
     color: $white;
     font-size: 0.8em;

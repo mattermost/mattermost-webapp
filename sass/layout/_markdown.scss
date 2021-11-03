@@ -269,7 +269,7 @@ h6.markdown__heading {
     th,
     td {
         padding: 6px 13px;
-        border: 1px solid #ddd;
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
     }
 
     a {

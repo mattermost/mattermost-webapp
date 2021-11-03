@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .post-menu {
     @include border-radius(4px);
@@ -76,38 +76,38 @@
         &.post--hovered,
         &.a11y--active {
             .post-menu {
-                border-color: rgba(v(center-channel-color-rgb), 0.08);
+                border-color: rgba(var(--center-channel-color-rgb), 0.2);
 
                 @include box-shadow($elevation-1);
 
-                background-color: v(center-channel-bg);
+                background-color: var(--center-channel-bg);
             }
 
             .search-item__jump {
-                color: rgba(v(center-channel-color-rgb), 0.56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
 
                 &:hover {
-                    color: v(link-color);
+                    color: var(--link-color);
                 }
             }
 
             .post-menu__item {
                 display: inline-flex;
-                color: rgba(v(center-channel-color-rgb), 0.56);
-                fill: rgba(v(center-channel-color-rgb), 0.56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                fill: rgba(var(--center-channel-color-rgb), 0.56);
 
                 &:hover {
-                    background: rgba(v(center-channel-color-rgb), 0.08);
-                    color: rgba(v(center-channel-color-rgb), 0.72);
-                    fill: rgba(v(center-channel-color-rgb), 0.72);
+                    background: rgba(var(--center-channel-color-rgb), 0.08);
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                    fill: rgba(var(--center-channel-color-rgb), 0.72);
                 }
 
                 &:active,
                 &--active,
                 &--active:hover {
                     background: rgba(var(--button-bg-rgb), 0.08);
-                    color: v(button-bg);
-                    fill: v(button-bg);
+                    color: var(--button-bg);
+                    fill: var(--button-bg);
                 }
             }
         }

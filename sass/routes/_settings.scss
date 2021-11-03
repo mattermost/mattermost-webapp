@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .user-settings {
     min-height: 300px;
@@ -23,7 +23,7 @@
         width: 100%;
 
         &:not(:last-child) {
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             margin-bottom: 10px;
         }
 
@@ -227,6 +227,7 @@
             .settings-links {
                 width: 180px;
                 background: var(--sidebar-bg);
+                border-color: rgba(var(--center-channel-color-rgb), 0.2);
             }
 
             .settings-content {
@@ -344,7 +345,7 @@
 
                     .theme-elements__header {
                         padding: 1px 0 10px;
-                        border-bottom: 1px solid;
+                        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
                         margin: 10px 20px 0 0;
                         cursor: pointer;
                         font-size: em(13.5px);
@@ -422,11 +423,11 @@
                 }
 
                 .divider-dark {
-                    border-bottom: 1px solid #aaa;
+                    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
                 }
 
                 .divider-light {
-                    border-bottom: 1px solid lightgrey;
+                    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
 
                     & + .divider-light {
                         display: none;

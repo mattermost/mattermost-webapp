@@ -213,15 +213,19 @@ ol {
         url('../fonts/open-sans-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-.app__body.font--open_sans {
-    font-family: 'Open Sans', sans-serif;
-}
-
 .app__body {
+    .font--open_sans {
+        font-family: 'Open Sans', sans-serif;
+    }
+
     h1,
     h2,
     h3 {
         font-family: Metropolis, sans-serif;
+    }
+
+    .bg-text-200 {
+        background: rgba(var(--center-channel-color-rgb), 0.2);
     }
 }
 

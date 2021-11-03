@@ -362,7 +362,7 @@
     width: 40px;
     height: 40px;
     background-repeat: no-repeat;
-    fill: #444;
+    fill: rgba(var(--center-channel-color-rgb), 0.3);
     text-align: center;
 
     svg {
@@ -1114,7 +1114,7 @@
     &.post--comment {
         .post__body {
             padding-left: 7px;
-            border-left: 4px solid $gray;
+            border-left: 4px solid rgba(var(--center-channel-color-rgb), 0.2);
 
             &.mention-comment {
                 border-color: $yellow;
@@ -1809,6 +1809,7 @@
         top: 2px;
         margin: 0 6px 0 4px;
         vertical-align: top;
+        color: rgba(var(--center-channel-color-rgb), 0.3);
 
         &:hover {
             @include opacity(0.4);
@@ -2196,4 +2197,14 @@
             pointer-events: auto;
         }
     }
+}
+
+@media (min-width: 768px) {
+    .app__body .post.post--compact.same--root.post--comment .post__content {
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
+    }
+}
+
+.app__body .post.post--comment.current--user .post__body {
+    border-color: rgba(var(--center-channel-color-rgb), 0.2);
 }

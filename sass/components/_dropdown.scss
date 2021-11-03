@@ -4,6 +4,7 @@
     @include border-radius(4px);
 
     background: var(--center-channel-bg);
+    border-color: rgba(var(--center-channel-color-rgb), 0.2);
 
     &.colorpicker {
         z-index: 2500;

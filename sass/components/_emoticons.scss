@@ -89,7 +89,8 @@
     display: flex;
     width: 350px;
     flex-direction: column;
-    border: 1px solid;
+    color: var(--center-channel-color);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
     margin-right: 3px;
     background: var(--center-channel-bg);
     border-radius: 4px;
@@ -218,7 +219,7 @@
     display: none; // only visible < 480px width screen
     width: 100%;
     padding: 13px 10px 13px 15px;
-    border: 1px solid $light-gray;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
     background: $primary-color;
     color: var(--sidebar-header-text-color);
 
@@ -252,7 +253,7 @@
     height: 32px;
     align-items: center;
     justify-content: space-between;
-    border-color: transparent !important;
+    border-color: rgba(var(--center-channel-color-rgb), 0.2);
     margin: 12px;
 
     .skin-tones {
@@ -440,6 +441,7 @@
     padding: 4px 0 4px 12px;
     border-top-width: 1px;
     border-top-style: solid;
+    border-color: rgba(var(--center-channel-color-rgb), 0.2);
     -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
     overflow-y: auto;
@@ -589,6 +591,7 @@
     padding: 18px 0 18px 16px;
     background: var(--center-channel-bg);
     vertical-align: middle;
+    border-color: rgba(var(--center-channel-color-rgb), 0.2);
 
     &.emoji-picker__preview-placeholder {
         padding: 12px;

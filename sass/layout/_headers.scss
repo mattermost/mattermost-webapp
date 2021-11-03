@@ -509,6 +509,7 @@
 .channel-intro {
     padding: 110px 15px 0;
     margin: 0 auto 10px;
+    border-color: rgba(var(--center-channel-color-rgb), 0.2);
 
     &.channel-intro--centered {
         max-width: 1020px;

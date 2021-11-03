@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .browser--ie {
     .modal {
@@ -62,6 +62,11 @@
             -webkit-overflow-scrolling: touch;
             -ms-overflow-style: auto;
             overflow-y: auto;
+            border-color: rgba(var(--center-channel-color-rgb), 0.2);
+
+            &:focus {
+                border-color: rgba(var(--center-channel-color-rgb), 0.3);
+            }
 
             &.custom-textarea--preview {
                 display: none;
@@ -135,6 +140,7 @@
 
     .modal-footer {
         background: var(--center-channel-bg);
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
 
         &.modal-footer--invisible {
             overflow: hidden;
@@ -244,7 +250,7 @@
 
         min-height: 56px;
         padding: 14px 15px 11px;
-        border: 1px solid $light-gray;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
         background: #333;
         border-radius: 3px 3px 0 0;
         color: $white;
