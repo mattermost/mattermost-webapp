@@ -88,7 +88,7 @@ export type UserActivityPost = Post & {
 
 export type PostList = {
     order: Array<$ID<Post>>;
-    posts: Map<string, Post>;
+    posts: Dictionary<Post>;
     next_post_id: string;
     prev_post_id: string;
 };

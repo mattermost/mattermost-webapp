@@ -21,7 +21,8 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post, PostSearchResults} from 'mattermost-redux/types/posts';
+import {FileSearchResults} from 'mattermost-redux/types/files';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
@@ -30,6 +31,7 @@ import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
+import {getPostsByIds} from 'mattermost-redux/actions/posts';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -294,14 +296,24 @@ export function showChannelFiles(channelId: string) {
             state: RHSStates.CHANNEL_FILES,
         });
 
-        const results: any = await dispatch(performSearch('channel:' + channelId));
+        const results = await dispatch(performSearch('channel:' + channelId)) as [{data?: FileSearchResults, error?: any}, {data?: PostSearchResults, error?: any}];
+        
+        const fileData = results[0].data;
+        const postData = results[1].data;
+        const missingPostIds: string[] = [];
 
-        // HERE WE COULD DO A POST REQUEST FOR THE MISSING POSTS
-        // 1. LOOP THROUGH THE FILE RESULTS
-        // 2. CHECK IF THOSE POST IDS EXIST IN EXISTING STATE (CALL SELECTOR CALLED getPost)
-        // 3. CHECK IF POST EXISTS IN results[1].data.posts
-        // 4. CREATE THE ARRAY OF MISSING POSTIDS
-        // 5. MAKE API REQUEST getPostsByIds and add them to `data` below this comment.
+        if (fileData) {
+            fileData.order.forEach((fileId) => {
+                const postId = fileData.file_infos[fileId].post_id;
+                
+                if (postId && !getPost(state, postId) && postData && !postData.posts[postId]) {
+                    missingPostIds.push(postId)
+                }
+            });
+        }
+        if (missingPostIds.length > 0) {
+            const newPosts = await dispatch(getPostsByIds(missingPostIds));
+        }
 
         let data: any;
         if (results && results.length === 2 && 'data' in results[1]) {
