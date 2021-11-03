@@ -116,7 +116,11 @@ const ThreadList = ({
     }, [setFilter]);
 
     const handleLoadMoreItems = useCallback(async (startIndex) => {
-        const before = data[startIndex - 1];
+        let before = data[startIndex - 1];
+
+        if (before === selectedThreadId) {
+            before = data[startIndex - 2];
+        }
         await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: Constants.THREADS_PAGE_SIZE, before}));
         return {data: true};
     }, [currentTeamId, data, unread]);
