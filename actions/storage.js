@@ -62,24 +62,9 @@ export function clear(options = {exclude: []}) {
 }
 
 export function actionOnGlobalItemsWithPrefix(prefix, action) {
-    return (dispatch) => {
-        dispatch({
-            type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
-            data: {prefix, action},
-        });
-        return {data: true};
-    };
-}
-
-export function actionOnItemsWithPrefix(prefix, action) {
-    return (dispatch, getState) => {
-        const state = getState();
-        const globalPrefix = getPrefix(state);
-        dispatch({
-            type: StorageTypes.ACTION_ON_ITEMS_WITH_PREFIX,
-            data: {globalPrefix, prefix, action},
-        });
-        return {data: true};
+    return {
+        type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
+        data: {prefix, action},
     };
 }
 

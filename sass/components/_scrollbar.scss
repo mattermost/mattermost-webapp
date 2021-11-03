@@ -47,7 +47,7 @@ body {
 .scrollbar--vertical {
     @include border-radius(2px);
 
-    background-color: #999;
+    background-color: rgba(var(--sidebar-text-rgb), 0.32);
 }
 
 .scrollbar--view {

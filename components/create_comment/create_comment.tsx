@@ -239,16 +239,12 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     onHeightChange?: (height: number, maxHeight: number) => void;
     focusOnMount?: boolean;
+    isThreadView?: boolean;
 
     /**
       * Function to open a modal
       */
-    openModal: (modalData: ModalData) => void;
-
-    /**
-      * Function to close a modal
-      */
-    closeModal: (modalId: string) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 type State = {
@@ -397,8 +393,8 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     focusTextboxIfNecessary = (e: KeyboardEvent) => {
-        // Should only focus if RHS is expanded
-        if (!this.props.rhsExpanded) {
+        // Should only focus if RHS is expanded or if thread view
+        if (!this.props.isThreadView && !this.props.rhsExpanded) {
             return;
         }
 
@@ -461,20 +457,18 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleNotifyAllConfirmation = () => {
-        this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL);
         this.doSubmit();
     }
 
     showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number) => {
         this.props.openModal({
             modalId: ModalIdentifiers.NOTIFY_CONFIRM_MODAL,
-            dialogType: NotifyConfirmModal as any,
+            dialogType: NotifyConfirmModal,
             dialogProps: {
                 mentions,
                 channelTimezoneCount,
                 memberNotifyCount,
                 onConfirm: () => this.handleNotifyAllConfirmation(),
-                onCancel: () => this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL),
             },
         });
     }
@@ -500,6 +494,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         let newMessage = '';
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
+            this.setCaretPosition(newMessage.length);
         } else {
             const {message} = draft;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition || 0, message);
@@ -695,7 +690,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 postError: null,
                 serverError: null,
             });
-        } catch (err) {
+        } catch (err: any) {
             if (isErrorInvalidSlashCommand(err)) {
                 this.props.onUpdateCommentDraft(draft);
             }
@@ -842,6 +837,12 @@ class CreateComment extends React.PureComponent<Props, State> {
         const draft = this.state.draft!;
         const {message} = draft;
 
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
+            }
+        }
+
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.textboxRef.current) {
@@ -865,7 +866,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B) ||
-                       Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 this.applyHotkeyMarkdown(e);
             }
         }
@@ -1162,7 +1163,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                     onUploadProgress={this.handleUploadProgress}
                     rootId={this.props.rootId}
                     channelId={this.props.channelId}
-                    postType='comment'
+                    postType={this.props.isThreadView ? 'thread' : 'comment'}
                 />
             );
         }

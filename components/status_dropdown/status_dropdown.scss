@@ -1,4 +1,4 @@
-#statusDropdownMenu-timedDND {
+#statusDropdownMenu {
     .icon {
         position: relative;
         display: inline-flex;
@@ -18,7 +18,7 @@
         }
     }
 
-    #status-menu-dnd-timed {
+    #status-menu-dnd {
         padding: 4px 16px;
 
         .dropdown-menu {
@@ -40,6 +40,10 @@
     }
 }
 
+#channelHeaderDropdownIconRight_status-menu-dnd-timed {
+    margin-top: -15px;
+}
+
 #status-menu-dnd-timed_menuitem {
     .SubMenuItem.MenuItem {
         flex-grow: 1;
@@ -53,10 +57,14 @@
     }
 }
 
-.custom_status__row {
+button.custom_status__row {
     position: relative;
     height: auto;
     font-size: inherit;
+
+    &.flex {
+        display: flex;
+    }
 
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -91,8 +99,15 @@
         white-space: nowrap;
     }
 
-    &__expiry.MenuItem__help-text {
-        padding-left: 28px;
+    &__expiry {
+        font-size: 12px;
+        line-height: 16px;
+        opacity: 0.7;
+
+        &.padded {
+            display: block;
+            padding-left: 28px;
+        }
     }
 }
 
@@ -187,13 +202,14 @@
     }
 
     .MenuItem > button,
-    #status-menu-dnd-timed {
+    #status-menu-dnd {
         padding: 1px 16px;
 
-        .MenuItem__primary-text {
+        .MenuItem__primary-text,
+        .grid {
             display: grid;
             align-items: center;
-            grid-template-columns: auto 1fr auto auto;
+            grid-template-columns: auto 1fr auto auto auto;
 
             .SubMenu__icon-right {
                 padding-top: 0;
@@ -206,8 +222,8 @@
         }
     }
 
-    #statusDropdownMenu-timedDND,
-    #statusDropdownMenu-timedDND #status-menu-dnd-timed, {
+    #statusDropdownMenu,
+    #statusDropdownMenu #status-menu-dnd {
         .icon {
             top: unset;
             width: auto;

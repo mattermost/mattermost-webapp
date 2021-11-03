@@ -3,6 +3,7 @@
 
 import {createSelector} from 'reselect';
 
+import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
@@ -46,14 +47,14 @@ export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
     return state.entities.threads.counts;
 }
 
-export function getTeamThreadCounts(state: GlobalState, teamId: $ID<Team>): ThreadsState['counts'][$ID<Team>] {
-    return getThreadCounts(state)[teamId];
+export function getThreadCountsIncludingDirect(state: GlobalState): ThreadsState['counts'] {
+    return state.entities.threads.countsIncludingDirect;
 }
 
 export const getThreadCountsInCurrentTeam: (state: GlobalState) => ThreadsState['counts'][$ID<Team>] = createSelector(
     'getThreadCountsInCurrentTeam',
     getCurrentTeamId,
-    getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         currentTeamId,
         counts,
@@ -66,15 +67,20 @@ export function getThreads(state: GlobalState): IDMappedObjects<UserThread> {
     return state.entities.threads.threads;
 }
 
-export function getThread(state: GlobalState, threadId: $ID<UserThread> | undefined): UserThread | null {
-    if (
-        !threadId ||
-        !(getThreadsInCurrentTeam(state)?.includes(threadId) || getUnreadThreadsInCurrentTeam(state)?.includes(threadId))
-    ) {
+export function getThread(state: GlobalState, threadId?: $ID<UserThread>) {
+    const threads = getThreads(state);
+    const myChannels = getMyChannels(state).map((c) => c.id);
+
+    if (!threadId) {
         return null;
     }
 
-    return getThreads(state)[threadId];
+    const thread = threads[threadId];
+    if (!thread || (thread.post && myChannels.indexOf(thread.post.channel_id) === -1)) {
+        return null;
+    }
+
+    return thread;
 }
 
 export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {
@@ -90,7 +96,7 @@ export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserTh
         reply_count: rootPost.reply_count,
         participants: rootPost.participants,
         last_reply_at: rootPost.last_reply_at ?? 0,
-        is_following: thread?.is_following ?? rootPost.is_following ?? false,
+        is_following: thread?.is_following ?? rootPost.is_following ?? null,
         post: {
             user_id: rootPost.user_id,
             channel_id: rootPost.channel_id,

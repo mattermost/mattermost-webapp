@@ -27,7 +27,7 @@ type Props = {
 export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, ariaLabel, extraText, children, className, sibling, showUnread}: Props) => (
     <>
         <ToggleModalButtonRedux
-            accessibilityLabel={ariaLabel}
+            ariaLabel={ariaLabel}
             modalId={modalId}
             dialogType={dialogType}
             dialogProps={dialogProps}

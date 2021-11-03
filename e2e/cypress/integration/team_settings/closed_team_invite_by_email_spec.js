@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @team_settings
 
 import {getAdminAccount} from '../../support/env';
@@ -41,7 +42,7 @@ describe('Team Settings', () => {
         }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;

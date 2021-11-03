@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @onboarding @cloud_only
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -33,7 +34,7 @@ describe('Onboarding', () => {
             siteName = config.TeamSettings.SiteName;
             siteUrl = config.ServiceSettings.SiteURL;
         });
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;

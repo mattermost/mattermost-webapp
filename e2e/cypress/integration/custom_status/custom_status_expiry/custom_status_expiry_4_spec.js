@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @custom_status
 
 describe('MM-T4066 Setting manual status clear time more than 7 days away', () => {
@@ -28,7 +29,9 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         duration: '30 minutes',
     };
 
-    const dateToBeSelected = Cypress.dayjs().add(8, 'd');
+    const today = Cypress.dayjs();
+    const dateToBeSelected = today.add(8, 'd');
+    const months = dateToBeSelected.get('month') - today.get('month');
     it('MM-T4066_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown
         cy.get('.MenuWrapper .status-wrapper').click();
@@ -99,10 +102,13 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         cy.get('.DayPickerInput-Overlay').should('be.visible');
 
         // # Click on the date which is dateToBeSelected
+        for (let i = 0; i < months; i++) {
+            cy.get('.fa-angle-right').click();
+        }
         cy.get('.DayPickerInput-Overlay').find(`.DayPicker-Week div[aria-label="${dateToBeSelected.format('ddd MMM DD YYYY')}"]`).click();
 
         // * Check that the date input should have the correct value
-        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-DD'));
+        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-D'));
     });
 
     it('MM-T4066_7 should set custom status when click on Set Status', () => {

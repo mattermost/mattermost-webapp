@@ -246,12 +246,12 @@ jobs:
             cd ./docker-build
             wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/Dockerfile
             wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/entrypoint.sh
+            chmod +x entrypoint.sh
 
             export DOCKER_CLI_EXPERIMENTAL=enabled
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
             export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
-            # Pushing the images to two places to not break anything, but the `mattermost/mattermost-enterprise-edition` will be removed soon.
-            docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} -t mattermost/mm-ee-test:${TAG} .
+            docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mm-ee-test:${TAG} .
 
 workflows:
   version: 2

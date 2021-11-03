@@ -30,7 +30,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
     getCurrentRelativeTeamUrl,
     getCurrentTeam,
@@ -169,46 +169,6 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function isChannelAdmin(isLicensed, roles, hasAdminScheme = false) {
-    if (!isLicensed) {
-        return false;
-    }
-
-    if (isInRole(roles, 'channel_admin') || hasAdminScheme) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isAdmin(roles) {
-    if (isInRole(roles, 'team_admin')) {
-        return true;
-    }
-
-    if (isInRole(roles, 'system_admin')) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isSystemAdmin(roles) {
-    if (isInRole(roles, 'system_admin')) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isGuest(user) {
-    if (user && user.roles && isInRole(user.roles, 'system_guest')) {
-        return true;
-    }
-
-    return false;
-}
-
 export function getTeamRelativeUrl(team) {
     if (!team) {
         return '';
@@ -298,122 +258,6 @@ export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', 
     }
     const timezone = userTimezone ? ' ' + moment().tz(userTimezone).format('z') : '';
     return moment.unix(timestamp).format(format) + timezone;
-}
-
-// Taken from http://stackoverflow.com/questions/1068834/object-comparison-in-javascript and modified slightly
-export function areObjectsEqual(x, y) {
-    let p;
-    const leftChain = [];
-    const rightChain = [];
-
-    // Remember that NaN === NaN returns false
-    // and isNaN(undefined) returns true
-    if (isNaN(x) && isNaN(y) && typeof x === 'number' && typeof y === 'number') {
-        return true;
-    }
-
-    // Compare primitives and functions.
-    // Check if both arguments link to the same object.
-    // Especially useful on step when comparing prototypes
-    if (x === y) {
-        return true;
-    }
-
-    // Works in case when functions are created in constructor.
-    // Comparing dates is a common scenario. Another built-ins?
-    // We can even handle functions passed across iframes
-    if ((typeof x === 'function' && typeof y === 'function') ||
-        (x instanceof Date && y instanceof Date) ||
-        (x instanceof RegExp && y instanceof RegExp) ||
-        (x instanceof String && y instanceof String) ||
-        (x instanceof Number && y instanceof Number)) {
-        return x.toString() === y.toString();
-    }
-
-    if (x instanceof Map && y instanceof Map) {
-        return areMapsEqual(x, y);
-    }
-
-    // At last checking prototypes as good a we can
-    if (!(x instanceof Object && y instanceof Object)) {
-        return false;
-    }
-
-    if (x.isPrototypeOf(y) || y.isPrototypeOf(x)) {
-        return false;
-    }
-
-    if (x.constructor !== y.constructor) {
-        return false;
-    }
-
-    if (x.prototype !== y.prototype) {
-        return false;
-    }
-
-    // Check for infinitive linking loops
-    if (leftChain.indexOf(x) > -1 || rightChain.indexOf(y) > -1) {
-        return false;
-    }
-
-    // Quick checking of one object being a subset of another.
-    for (p in y) {
-        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-            return false;
-        } else if (typeof y[p] !== typeof x[p]) {
-            return false;
-        }
-    }
-
-    for (p in x) { //eslint-disable-line guard-for-in
-        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-            return false;
-        } else if (typeof y[p] !== typeof x[p]) {
-            return false;
-        }
-
-        switch (typeof (x[p])) {
-        case 'object':
-        case 'function':
-
-            leftChain.push(x);
-            rightChain.push(y);
-
-            if (!areObjectsEqual(x[p], y[p])) {
-                return false;
-            }
-
-            leftChain.pop();
-            rightChain.pop();
-            break;
-
-        default:
-            if (x[p] !== y[p]) {
-                return false;
-            }
-            break;
-        }
-    }
-
-    return true;
-}
-
-function areMapsEqual(a, b) {
-    if (a.size !== b.size) {
-        return false;
-    }
-
-    for (const [key, value] of a) {
-        if (!b.has(key)) {
-            return false;
-        }
-
-        if (!areObjectsEqual(value, b.get(key))) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 export function replaceHtmlEntities(text) {
@@ -541,7 +385,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post .card-icon__container', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .post-image__details .post-image__download svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
-        changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
+        changeCss('.app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .post-menu, .app__body .post.post--hovered .post__header .post-menu, .app__body .post.a11y--active .post__header .post-menu', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .help-text, .app__body .post .post-waiting, .app__body .post.post--system .post__body', 'color:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a, pp__body .input-group-addon, .app__body .app__content, .app__body .post-create__container .post-create-body .btn-file, .app__body .post-create__container .post-create-footer .msg-typing, .app__body .dropdown-menu, .app__body .popover, .app__body .suggestion-list__item .suggestion-list__ellipsis .suggestion-list__main, .app__body .tip-overlay, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'color:' + theme.centerChannelColor);
@@ -572,7 +416,7 @@ export function applyTheme(theme) {
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .MenuItem > div:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -600,13 +444,10 @@ export function applyTheme(theme) {
         }
         changeCss('body', 'scrollbar-arrow-color:' + theme.centerChannelColor);
         changeCss('.app__body .post-create__container .post-create-body .btn-file svg, .app__body .post.post--compact .post-image__column .post-image__details svg, .app__body .modal .about-modal .about-modal__logo svg, .app__body .status svg, .app__body .edit-post__actions .icon svg', 'fill:' + theme.centerChannelColor);
-        changeCss('.app__body .scrollbar--horizontal, .app__body .scrollbar--vertical', 'background:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .post-list__new-messages-below', 'background:' + changeColor(theme.centerChannelColor, 0.5));
         changeCss('.app__body .post.post--comment .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('@media(min-width: 768px){.app__body .post.post--compact.same--root.post--comment .post__content', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .post.post--comment.current--user .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('.app__body .channel-header__info .status .offline--icon', 'fill:' + theme.centerChannelColor);
-        changeCss('.app__body .navbar .status .offline--icon', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .emoji-picker__search-icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
