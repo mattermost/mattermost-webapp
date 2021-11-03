@@ -339,14 +339,13 @@ const cssRules = `
 @charset "UTF-8";
 .emojisprite-preview {
     // Using zoom for now as it results in less blurry emojis on Chrome - MM-34178
-    zoom: 0.55;
-    -moz-transform: scale(0.55);
+    zoom: 0.5;
+    -moz-transform: scale(0.5);
     background-repeat: no-repeat;
     cursor: pointer;
     height: ${EMOJI_SIZE_PADDED}px;
     max-width: none;
     width: ${EMOJI_SIZE_PADDED}px;
-    padding: 0 10px 0 0;
     transform-origin: 0 0;
 }
 .emojisprite {
