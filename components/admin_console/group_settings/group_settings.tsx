@@ -3,23 +3,19 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {t} from 'utils/i18n';
 import GroupsList from 'components/admin_console/group_settings/groups_list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {getSiteURL} from 'utils/url';
 
-export default class GroupSettings extends React.PureComponent {
-    static propTypes = {
-        isDisabled: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.bool,
-        ]),
-    }
+export type Props = {
+    isDisabled?: boolean;
+}
 
+export default class GroupSettings extends React.PureComponent<Props> {
     render = () => {
         const siteURL = getSiteURL();
         return (

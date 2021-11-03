@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,23 +10,27 @@ import {localizeMessage} from 'utils/utils.jsx';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
-export default class GroupRow extends React.PureComponent {
-    static propTypes = {
-        primary_key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        mattermost_group_id: PropTypes.string,
-        has_syncables: PropTypes.bool,
-        checked: PropTypes.bool,
-        failed: PropTypes.bool,
-        onCheckToggle: PropTypes.func,
-        readOnly: PropTypes.bool,
-        actions: PropTypes.shape({
-            link: PropTypes.func.isRequired,
-            unlink: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    primary_key: string;
+    name: string;
+    mattermost_group_id?: string;
+    has_syncables?: boolean;
+    checked?: boolean;
+    failed?: boolean;
+    onCheckToggle?: (key: string) => void;
+    readOnly?: boolean;
+    actions: {
+        link: (key: string) => void;
+        unlink: (key: string) => void;
     };
+}
 
-    constructor(props) {
+export type State = {
+    loading: boolean;
+}
+
+export default class GroupRow extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loading: false,
@@ -38,10 +41,12 @@ export default class GroupRow extends React.PureComponent {
         if (this.props.readOnly) {
             return;
         }
-        this.props.onCheckToggle(this.props.primary_key);
+        if (this.props.onCheckToggle) {
+            this.props.onCheckToggle(this.props.primary_key);
+        }
     }
 
-    linkHandler = async (e) => {
+    linkHandler = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.stopPropagation();
         e.preventDefault();
         if (this.props.readOnly) {
@@ -52,7 +57,7 @@ export default class GroupRow extends React.PureComponent {
         this.setState({loading: false});
     }
 
-    unlinkHandler = async (e) => {
+    unlinkHandler = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.stopPropagation();
         e.preventDefault();
         if (this.props.readOnly) {
