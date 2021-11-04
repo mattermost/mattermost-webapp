@@ -9,8 +9,6 @@ import {Team} from 'mattermost-redux/types/teams';
 import NextStepsView from 'components/next_steps_view/next_steps_view';
 import {TestHelper} from 'utils/test_helper';
 
-import DownloadSection from './download_section';
-
 describe('components/next_steps_view', () => {
     const baseProps = {
         steps: [
@@ -140,26 +138,5 @@ describe('components/next_steps_view', () => {
 
         wrapper.instance().nextStep(jest.fn(), 'step_1');
         jest.runOnlyPendingTimers();
-    });
-
-    test('should show DownloadSection when not in DownloadAppsCTA test', () => {
-        const wrapper = shallow(
-            <NextStepsView {...baseProps}/>,
-        );
-        wrapper.setState({show: true});
-
-        expect(wrapper.find(DownloadSection)).toHaveLength(1);
-    });
-
-    test('should not show DownloadSection when in DownloadAppsCTA test', () => {
-        const wrapper = shallow(
-            <NextStepsView
-                {...baseProps}
-                downloadAppsAsNextStep={true}
-            />,
-        );
-        wrapper.setState({show: true});
-
-        expect(wrapper.find(DownloadSection)).toHaveLength(0);
     });
 });
