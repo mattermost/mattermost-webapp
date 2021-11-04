@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionSchemesSettings from 'components/admin_console/permission_schemes_settings/permission_schemes_settings.jsx';
+import PermissionSchemesSettings from 'components/admin_console/permission_schemes_settings/permission_schemes_settings';
 
 describe('components/admin_console/permission_schemes_settings/permission_schemes_settings', () => {
     const defaultProps = {
@@ -22,6 +22,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
         license: {
             CustomPermissionsSchemes: 'true',
         },
+        history: [],
     };
     test('should match snapshot loading', () => {
         const wrapper = shallow(

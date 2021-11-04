@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -21,22 +20,28 @@ import PermissionsSchemeSummary from './permissions_scheme_summary';
 const PAGE_SIZE = 30;
 const PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE = 501;
 
-export default class PermissionSchemesSettings extends React.PureComponent {
-    static propTypes = {
-        schemes: PropTypes.object.isRequired,
-        jobsAreEnabled: PropTypes.bool,
-        clusterIsEnabled: PropTypes.bool,
-        license: PropTypes.shape({
-            CustomPermissionsSchemes: PropTypes.string,
-        }),
-        actions: PropTypes.shape({
-            loadSchemes: PropTypes.func.isRequired,
-            loadSchemeTeams: PropTypes.func.isRequired,
-        }),
-        isDisabled: PropTypes.bool,
+type Props = {
+    schemes: Record<string, {id: string; name: string; description: string}>;
+    jobsAreEnabled: boolean;
+    clusterIsEnabled: boolean;
+    license: { CustomPermissionsSchemes: string };
+    actions: {
+        loadSchemes: (a: string, b: number, c: number) => Promise<any>;
+        loadSchemeTeams: (id: string) => Promise<any>;
     };
+    isDisabled?: boolean;
+    history: string[];
+};
 
-    constructor(props) {
+type State = {
+    loading: boolean;
+    loadingMore: boolean;
+    page: number;
+    phase2MigrationIsComplete: boolean;
+}
+
+export default class PermissionSchemesSettings extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loading: true,
@@ -116,7 +121,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         );
     }
 
-    teamOverrideUnavalableView = (id, defaultMsg, documentationLink) => {
+    teamOverrideUnavalableView = (id: string, defaultMsg: string, documentationLink: ReactNode) => {
         return (
             <div className='team-override-unavailable'>
                 <div className='team-override-unavailable__inner'>
@@ -136,7 +141,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 scheme={scheme}
                 history={this.props.history}
                 key={scheme.id}
-                isDisabled={this.props.isDisabled}
+                isDisabled={this.props.isDisabled ?? false}
             />
         ));
         const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';
