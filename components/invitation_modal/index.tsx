@@ -65,7 +65,7 @@ export function mapStateToProps(state: GlobalState) {
     const isFreeTierWithNoFreeSeats = isCloud && subscriptionStats?.is_paid_tier === 'false' && subscriptionStats?.remaining_seats <= 0;
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
-    const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.LIGHTBOX;
+    const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.NONE;
     return {
         invitableChannels,
         currentTeam,

@@ -21,60 +21,56 @@ type Props = {
 }
 
 export default function InviteAs(props: Props) {
-    if (props.inviteToTeamTreatment === InviteToTeamTreatments.NONE) {
-        // eslint-disable-next-line no-console
-        console.error(`invariant violated. InviteAs should only be used with ${InviteToTeamTreatments.LIGHTBOX} or ${InviteToTeamTreatments.LIGHTBOX_SLIDER} treatments, but received ${props.inviteToTeamTreatment}`);
-        return null;
-    }
     let control = (
         <div>
-            <FormattedMessage
-                id='invite_modal.permanent'
-                defaultMessage="This can't be undone."
-            />
-            <FormattedMessage
-                id='invite_modal.guest_purpose'
-                defaultMessage='Guests are for temporary accounts that are limited to select channels or teams.'
-            />
-            <span>{'slider: off <-> on'}</span>
+            <Radio
+                checked={props.as === 'member'}
+                onClick={() => {
+                    props.setInviteAs('member');
+                }}
+            >
+                <span className='InviteAs__label'>
+                    <FormattedMessage
+                        id='invite_modal.choose_member'
+                        defaultMessage='Member'
+                    />
+                </span>
+            </Radio>
+            <Radio
+                checked={props.as === 'guest'}
+                onClick={() => {
+                    props.setInviteAs('guest');
+                }}
+            >
+                <span className='InviteAs__label'>
+                    <FormattedMessage
+                        id='invite_modal.choose_guest_a'
+                        defaultMessage='Guest'
+                    />
+                    <span className='InviteAs__label--parenthetical'>
+                        {' - '}
+                        <FormattedMessage
+                            id='invite_modal.choose_guest_b'
+                            defaultMessage='limited to select channels and teams'
+                        />
+                    </span>
+                </span>
+            </Radio>
         </div>
     );
-    if (props.inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX) {
+
+    if (props.inviteToTeamTreatment === InviteToTeamTreatments.SLIDER) {
         control = (
             <div>
-                <Radio
-                    checked={props.as === 'member'}
-                    onClick={() => {
-                        props.setInviteAs('member');
-                    }}
-                >
-                    <span className='InviteAs__label'>
-                        <FormattedMessage
-                            id='invite_modal.choose_member'
-                            defaultMessage='Member'
-                        />
-                    </span>
-                </Radio>
-                <Radio
-                    checked={props.as === 'guest'}
-                    onClick={() => {
-                        props.setInviteAs('guest');
-                    }}
-                >
-                    <span className='InviteAs__label'>
-                        <FormattedMessage
-                            id='invite_modal.choose_guest_a'
-                            defaultMessage='Guest'
-                        />
-                        <span className='InviteAs__label--parenthetical'>
-                            {' - '}
-                            <FormattedMessage
-                                id='invite_modal.choose_guest_b'
-                                defaultMessage='limited to select channels and teams'
-                            />
-                        </span>
-                    </span>
-                </Radio>
+                <FormattedMessage
+                    id='invite_modal.permanent'
+                    defaultMessage="This can't be undone."
+                />
+                <FormattedMessage
+                    id='invite_modal.guest_purpose'
+                    defaultMessage='Guests are for temporary accounts that are limited to select channels or teams.'
+                />
+                <span>{'slider: off <-> on'}</span>
             </div>
         );
     }
