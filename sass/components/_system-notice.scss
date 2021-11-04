@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .system-notice {
     @include box-shadow(0 20px 30px alpha-color($black, 0.07), 0 14px 20px alpha-color($black, 0.07));
@@ -10,7 +10,7 @@
     bottom: 12px;
     width: 280px;
     padding: 18px 20px 0;
-    border: 1px solid alpha-color($black, 0.15);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     background-color: var(--center-channel-bg);
 }
 

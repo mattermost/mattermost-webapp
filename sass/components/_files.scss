@@ -204,6 +204,7 @@
             max-width: 100%;
             min-height: 40px;
             max-height: 350px;
+            border-color: rgba(var(--center-channel-color-rgb), 0.12);
 
             .file-preview__button {
                 display: block;

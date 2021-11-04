@@ -776,10 +776,10 @@
     .nav-tabs {
         margin: 0 0 16px;
 
-        >li {
+        > li {
             width: 50%;
             border: none;
-            border-bottom: 2px $light-gray solid;
+            border-bottom: 2px solid rgba(var(--center-channel-color-rgb), 0.12);
             margin-right: 0;
             text-align: center;
 
@@ -791,7 +791,7 @@
                 }
             }
 
-            >a {
+            > a {
                 display: flex;
                 height: 40px;
                 align-items: center;

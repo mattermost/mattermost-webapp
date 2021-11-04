@@ -209,7 +209,7 @@
         display: inline-flex;
         flex: 0 0 1.6rem;
         justify-content: center;
-        fill: v(center-channel-color);
+        fill: var(--center-channel-color);
         opacity: 0.56;
 
         &--standard {
@@ -235,7 +235,7 @@
             align-items: center;
             justify-content: center;
             margin: 0;
-            background-color: rgba(var(--center-channel-color-rgb), 0.2);
+            background: rgba(var(--center-channel-color-rgb), 0.12);
         }
     }
 

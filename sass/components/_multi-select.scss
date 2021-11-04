@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .multi-select__container {
     display: table;
@@ -46,6 +46,7 @@
     display: table;
     width: 100%;
     padding: 8px 13px;
+    background: rgba(var(--center-channel-color-rgb), 0.12);
 
     > div {
         display: table-cell;

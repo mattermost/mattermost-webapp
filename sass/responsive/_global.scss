@@ -23,4 +23,10 @@
     .post.post--compact .post-image__column .post-image__details svg {
         fill: var(--center-channel-color);
     }
+
+    .table > tbody > tr > td,
+    .table > thead > tr > th,
+    .post .MenuWrapper .dropdown-menu button {
+        border-color: rgba(var(--center-channel-color-rgb), 0.12);
+    }
 }

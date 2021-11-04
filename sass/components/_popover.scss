@@ -465,8 +465,8 @@
         position: relative;
         overflow: auto;
         max-height: 275px;
-        border-top: 1px solid transparent;
-        border-bottom: 1px solid transparent;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     }
 
     .more-modal__header {
