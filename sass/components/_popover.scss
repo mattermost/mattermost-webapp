@@ -121,36 +121,37 @@
         }
     }
 
+    /** TODO: are these rules needed? They are hidden in the rules above **/
     &.bottom {
         margin-top: 10px;
 
         > .arrow {
-            &::after {
-                border-bottom-color: var(--center-channel-bg);
+            &:after {
+                border-bottom-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
     }
 
     &.left {
         > .arrow {
-            &::after {
-                border-left-color: var(--center-channel-bg);
+            &:after {
+                border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
     }
 
     &.right {
         > .arrow {
-            &::after {
-                border-right-color: var(--center-channel-bg);
+            &:after {
+                border-right-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
     }
 
     &.top {
         > .arrow {
-            &::after {
-                border-top-color: var(--center-channel-bg);
+            &:after {
+                border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
     }
