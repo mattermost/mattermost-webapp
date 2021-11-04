@@ -53,6 +53,10 @@
     }
 
     #dndTime-tomorrow .dndTime-tomorrow_timestamp {
+        &::before {
+            content: "\00a0";
+        }
+
         margin-left: auto;
         opacity: 0.7;
     }

@@ -42,6 +42,7 @@ describe('components/StatusDropdown', () => {
             manualTimezone: '',
         },
         isTimezoneEnabled: true,
+        isMilitaryTime: false,
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
         isStatusDropdownOpen: false,

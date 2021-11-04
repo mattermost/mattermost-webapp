@@ -126,23 +126,21 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
               "direction": "right",
               "id": "dndTime-tomorrow",
               "text": <React.Fragment>
-                <span>
-                  Tomorrow
-                </span>
-                <Memo(Connect(injectIntl(Timestamp)))
+                Tomorrow
+                <span
                   className="dndTime-tomorrow_timestamp"
-                  useDate={
-                    Object {
-                      "weekday": "short",
-                    }
-                  }
-                  useTime={
-                    Object {
-                      "timeStyle": "short",
-                    }
-                  }
-                  value={2021-11-03T22:48:57.000Z}
-                />
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
               </React.Fragment>,
             },
             Object {
@@ -391,23 +389,21 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
               "direction": "right",
               "id": "dndTime-tomorrow",
               "text": <React.Fragment>
-                <span>
-                  Tomorrow
-                </span>
-                <Memo(Connect(injectIntl(Timestamp)))
+                Tomorrow
+                <span
                   className="dndTime-tomorrow_timestamp"
-                  useDate={
-                    Object {
-                      "weekday": "short",
-                    }
-                  }
-                  useTime={
-                    Object {
-                      "timeStyle": "short",
-                    }
-                  }
-                  value={2021-11-03T22:48:57.000Z}
-                />
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
               </React.Fragment>,
             },
             Object {
@@ -640,23 +636,21 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
               "direction": "right",
               "id": "dndTime-tomorrow",
               "text": <React.Fragment>
-                <span>
-                  Tomorrow
-                </span>
-                <Memo(Connect(injectIntl(Timestamp)))
+                Tomorrow
+                <span
                   className="dndTime-tomorrow_timestamp"
-                  useDate={
-                    Object {
-                      "weekday": "short",
-                    }
-                  }
-                  useTime={
-                    Object {
-                      "timeStyle": "short",
-                    }
-                  }
-                  value={2021-11-03T22:48:57.000Z}
-                />
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
               </React.Fragment>,
             },
             Object {
@@ -889,23 +883,21 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
               "direction": "right",
               "id": "dndTime-tomorrow",
               "text": <React.Fragment>
-                <span>
-                  Tomorrow
-                </span>
-                <Memo(Connect(injectIntl(Timestamp)))
+                Tomorrow
+                <span
                   className="dndTime-tomorrow_timestamp"
-                  useDate={
-                    Object {
-                      "weekday": "short",
-                    }
-                  }
-                  useTime={
-                    Object {
-                      "timeStyle": "short",
-                    }
-                  }
-                  value={2021-11-03T22:48:57.000Z}
-                />
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
               </React.Fragment>,
             },
             Object {
@@ -1139,23 +1131,21 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
               "direction": "right",
               "id": "dndTime-tomorrow",
               "text": <React.Fragment>
-                <span>
-                  Tomorrow
-                </span>
-                <Memo(Connect(injectIntl(Timestamp)))
+                Tomorrow
+                <span
                   className="dndTime-tomorrow_timestamp"
-                  useDate={
-                    Object {
-                      "weekday": "short",
-                    }
-                  }
-                  useTime={
-                    Object {
-                      "timeStyle": "short",
-                    }
-                  }
-                  value={2021-11-03T22:48:57.000Z}
-                />
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
               </React.Fragment>,
             },
             Object {
@@ -1365,23 +1355,21 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
               "direction": "right",
               "id": "dndTime-tomorrow",
               "text": <React.Fragment>
-                <span>
-                  Tomorrow
-                </span>
-                <Memo(Connect(injectIntl(Timestamp)))
+                Tomorrow
+                <span
                   className="dndTime-tomorrow_timestamp"
-                  useDate={
-                    Object {
-                      "weekday": "short",
-                    }
-                  }
-                  useTime={
-                    Object {
-                      "timeStyle": "short",
-                    }
-                  }
-                  value={2021-11-03T22:48:57.000Z}
-                />
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
               </React.Fragment>,
             },
             Object {
@@ -1587,23 +1575,21 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
               "direction": "right",
               "id": "dndTime-tomorrow",
               "text": <React.Fragment>
-                <span>
-                  Tomorrow
-                </span>
-                <Memo(Connect(injectIntl(Timestamp)))
+                Tomorrow
+                <span
                   className="dndTime-tomorrow_timestamp"
-                  useDate={
-                    Object {
-                      "weekday": "short",
-                    }
-                  }
-                  useTime={
-                    Object {
-                      "timeStyle": "short",
-                    }
-                  }
-                  value={2021-11-03T22:48:57.000Z}
-                />
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
               </React.Fragment>,
             },
             Object {

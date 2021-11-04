@@ -10,7 +10,7 @@ import classNames from 'classnames';
 
 import React, {ReactNode} from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -20,7 +20,6 @@ import ExpiryTime from 'components/custom_status/expiry_time';
 import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ResetStatusModal from 'components/reset_status_modal';
-import Timestamp from 'components/timestamp';
 import UserSettingsModal from 'components/user_settings/modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Menu from 'components/widgets/menu/menu';
@@ -53,6 +52,7 @@ type Props = {
     currentUser: UserProfile;
     isCustomStatusEnabled: boolean;
     isCustomStatusExpired: boolean;
+    isMilitaryTime: boolean;
     isStatusDropdownOpen: boolean;
     showCustomStatusPulsatingDot: boolean;
     timezone?: string;
@@ -317,24 +317,31 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             } as any,
         ].concat(
             this.dndTimes.map(({id, label, labelDefault}, index) => {
-                const text = localizeMessage(label, labelDefault);
+                let text: React.ReactNode = localizeMessage(label, labelDefault);
+                if (index === 3) {
+                    const tomorrow = getCurrentMomentForTimezone(this.props.timezone).add(1, 'day').toDate();
+                    text = (
+                        <>
+                            {text}
+                            <span className={`dndTime-${id}_timestamp`}>
+                                <FormattedDate
+                                    value={tomorrow}
+                                    weekday='short'
+                                />
+                                {', '}
+                                <FormattedTime
+                                    value={tomorrow}
+                                    timeStyle='short'
+                                    hour12={!this.props.isMilitaryTime}
+                                />
+                            </span>
+                        </>
+                    );
+                }
                 return {
                     id: `dndTime-${id}`,
                     direction: 'right',
-                    text:
-                        index === 3 ? (
-                            <>
-                                <span>{text}</span>
-                                <Timestamp
-                                    className={`dndTime-${id}_timestamp`}
-                                    value={getCurrentMomentForTimezone(this.props.timezone).add(1, 'day').toDate()}
-                                    useDate={{weekday: 'short'}}
-                                    useTime={{timeStyle: 'short'}}
-                                />
-                            </>
-                        ) : (
-                            text
-                        ),
+                    text,
                     action:
                         index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
                 } as any;
