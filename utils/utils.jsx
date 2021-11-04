@@ -459,36 +459,35 @@ export function applyTheme(theme) {
         // changeCss('.app__body .post .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
         // changeCss('.app__body .post .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
 
-        if (theme.centerChannelBg) {
-            const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04);
-            const hoveredPostBgLight = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04);
-
-            // Fade out effect for collapsed posts that are being hovered over
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
-            );
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more',
-                `background:${hoveredPostBg}`,
-            );
-            changeCss(
-                '@media(max-width: 768px){.app__body .post-list__table .post.current--user:hover .post-collapse__show-more',
-                `background:${hoveredPostBgLight}`,
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
-                `background:${hoveredPostBg}`,
-            );
-        }
+        // if (theme.centerChannelBg) {
+        //     const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04);
+        //
+        //     // Fade out effect for collapsed posts that are being hovered over
+        //     changeCss(
+        //         '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
+        //         '.app__body .sidebar-right__body .post:hover .post-collapse__gradient',
+        //         `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
+        //     );
+        //     changeCss(
+        //         '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
+        //         '.app__body .sidebar-right__body .post:hover .post-collapse__show-more',
+        //         `background:${hoveredPostBg}`,
+        //     );
+        //     changeCss(
+        //         '@media(max-width: 768px){.app__body .post-list__table .post.current--user:hover .post-collapse__show-more',
+        //         `background:${hoveredPostBg}`,
+        //     );
+        //     changeCss(
+        //         '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
+        //         '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient',
+        //         `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
+        //     );
+        //     changeCss(
+        //         '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
+        //         '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
+        //         `background:${hoveredPostBg}`,
+        //     );
+        // }
     }
 
     if (theme.newMessageSeparator) {
@@ -574,6 +573,7 @@ export function applyTheme(theme) {
             'mention-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5)),
             'pinned-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.24)),
             'own-highlight-bg-rgb': dropAlpha(blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05)),
+            'collapsed-post-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04)),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),

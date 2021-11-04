@@ -2229,6 +2229,32 @@
     .post.current--user:hover .post__body {
         background: transparent;
     }
+
+    .post-list__table .post:hover,
+    .sidebar-right__body .post:hover {
+        .post-collapse__gradient {
+            background: linear-gradient(rgba(var(--collapsed-post-bg-mixed-rgb), 0), rgba(var(--collapsed-post-bg-mixed-rgb), 0.04));
+        }
+
+        .post-collapse__show-more {
+            background: rgba(var(--collapsed-post-bg-mixed-rgb), 0.04);
+        }
+    }
+
+    .post-list__table .post.current--user:hover .post-collapse__show-more {
+        background: rgba(var(--collapsed-post-bg-mixed-rgb), 0.04);
+    }
+}
+
+.post-list__table .post.post--hovered,
+.sidebar-right__body .post.post--hovered {
+    .post-collapse__gradient {
+        background: linear-gradient(rgba(var(--collapsed-post-bg-mixed-rgb), 0), rgba(var(--collapsed-post-bg-mixed-rgb), 0.04));
+    }
+
+    .post-collapse__show-more {
+        background: rgba(var(--collapsed-post-bg-mixed-rgb), 0.04);
+    }
 }
 
 .app__body .post.post--comment.current--user .post__body {
