@@ -66,14 +66,14 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
     return (
         <div className='file-preview-modal__info'>
             {
-                (props.post && Object.keys(props.post).length > 0) && 
+                (props.post && Object.keys(props.post).length > 0) &&
                 <Avatar
                     size='lg'
                     url={imageURLForUser(props.post.user_id, user?.last_picture_update)}
                     className='file-preview-modal__avatar'
                 />
             }
-            
+
             <div className='file-preview-modal__info-details'>
                 {info}
             </div>
