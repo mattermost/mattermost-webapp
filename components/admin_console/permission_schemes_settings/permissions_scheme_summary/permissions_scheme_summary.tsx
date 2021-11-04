@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {ReactNode} from 'react';
 import {Link} from 'react-router-dom';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -16,17 +15,37 @@ import Constants from 'utils/constants';
 
 const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
 
-export default class PermissionsSchemeSummary extends React.PureComponent {
-    static propTypes = {
-        scheme: PropTypes.object.isRequired,
-        teams: PropTypes.array,
-        isDisabled: PropTypes.func,
-        actions: PropTypes.shape({
-            deleteScheme: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type Schema = {
+    id: string;
+    name: string;
+    display_name: string;
+    description: string;
+};
 
-    constructor(props) {
+type Team = {
+    id: string;
+    name: string;
+    display_name: string;
+}
+
+export type Props = {
+    scheme: Schema;
+    teams: Team[];
+    isDisabled?: boolean;
+    actions: {
+        deleteScheme: (id: string) => Promise<any>;
+    };
+    history: string[];
+};
+
+type State = {
+    showConfirmModal: boolean;
+    deleting: boolean;
+    serverError: ReactNode;
+}
+
+export default class PermissionsSchemeSummary extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             showConfirmModal: false,
@@ -90,7 +109,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
         );
     }
 
-    stopPropagation = (e) => {
+    stopPropagation = (e: React.MouseEvent) => {
         e.stopPropagation();
     }
 
@@ -110,7 +129,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
         }
     }
 
-    delete = (e) => {
+    delete = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (this.props.isDisabled) {
             return;
