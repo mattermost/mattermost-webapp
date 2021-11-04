@@ -25,7 +25,11 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import './users_emails_input.scss';
 
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<UserProfile>>; // eslint-disable-line global-require
+// Fudging types here to approximate what AsyncCreatable props should be. They're similar to AsyncSelectProps, but the signature for onChange is a list. we have a very out of date react-select library and these types are not exposed, and its not easy to update react-select several major versions
+type AsyncCreatableProps = {
+    onChange: (value: Array<UserProfile | EmailInvite>) => void;
+};
+const AsyncCreatable = require('react-select/lib/AsyncCreatable').default as React.ElementType<Omit<AsyncSelectProps<UserProfile | EmailInvite>, 'onChange'> & AsyncCreatableProps>; // eslint-disable-line global-require
 
 type Props = {
     placeholder: string;
@@ -35,7 +39,7 @@ type Props = {
     showError?: boolean;
     errorMessageId: string;
     errorMessageDefault: string;
-    errorMessageValues?: Record<string, any>;
+    errorMessageValues?: Record<string, React.ReactNode>;
     value: Array<UserProfile | string>;
     onInputChange: (change: string) => void;
     inputValue: string;
@@ -117,7 +121,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         return (user as EmailInvite).value;
     }
 
-    formatOptionLabel = (user: UserProfile | EmailInvite, options: FormatOptionLabelMeta<UserProfile>) => {
+    formatOptionLabel = (user: UserProfile | EmailInvite, options: FormatOptionLabelMeta<UserProfile | EmailInvite>) => {
         const profileImg = imageURLForUser((user as UserProfile).id, (user as UserProfile).last_picture_update);
         let guestBadge = null;
         let botBadge = null;
@@ -276,7 +280,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         }
     }
 
-    showAddEmail = (input: string, _values: any, options: any[]) => {
+    showAddEmail = (input: string, _values: () => any[], options: UserProfile[]): boolean => {
         return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
@@ -297,9 +301,9 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         });
         return (
             <>
-                <AsyncSelect
+                <AsyncCreatable
                     ref={this.selectRef}
-                    onChange={this.onChange as any}
+                    onChange={this.onChange}
                     loadOptions={this.optionsLoader}
                     isValidNewOption={this.showAddEmail}
                     isMulti={true}
@@ -324,7 +328,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     tabSelectsValue={true}
-                    value={values as any}
+                    value={values}
                     aria-label={this.props.ariaLabel}
                 />
                 {this.props.showError && (

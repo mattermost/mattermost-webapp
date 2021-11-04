@@ -30,7 +30,7 @@ type InviteUser = {
 type I18nLike = {
     id: string;
     message: string;
-    values?: Record<string, any>;
+    values?: Record<string, React.ReactNode>;
 }
 
 export type InviteResult = (InviteNotSent | InviteEmail | InviteUser) & {
