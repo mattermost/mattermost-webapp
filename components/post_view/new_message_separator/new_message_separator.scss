@@ -1,0 +1,21 @@
+.new-separator {
+    .separator-text {
+        color: var(--new-message-separator);
+    }
+
+    .separator__hr {
+        border-color: rgba(var(--new-message-separator-rgb), 0.5);
+    }
+
+    &.hovered--after {
+        &:before {
+            background: rgba(var(--center-channel-color-rgb), 0.07);
+        }
+    }
+
+    &.hovered--before {
+        &:after {
+            background: rgba(var(--center-channel-color-rgb), 0.07);
+        }
+    }
+}

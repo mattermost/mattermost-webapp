@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import NotificationSeparator from 'components/widgets/separator/notification-separator';
 
+import './new_message_separator.scss';
+
 type Props = {
     separatorId: string;
     wrapperRef?: React.RefObject<HTMLDivElement>;
