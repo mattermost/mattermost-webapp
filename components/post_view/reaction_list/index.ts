@@ -36,7 +36,7 @@ function makeMapStateToProps() {
         return {
             teamId,
             reactions: getReactionsForPost(state, ownProps.post.id),
-            canAddReaction: canAddReactions(state, channelId),
+            canAddReactions: canAddReactions(state, channelId),
         };
     };
 }

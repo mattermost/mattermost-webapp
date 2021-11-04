@@ -63,8 +63,8 @@ function makeMapStateToProps() {
         return {
             currentUserId,
             reactionCount: ownProps.reactions.length,
-            canAddReaction: canAddReactions(state, channelId),
-            canRemoveReaction: canRemoveReactions(state, channelId),
+            canAddReactions: canAddReactions(state, channelId),
+            canRemoveReactions: canRemoveReactions(state, channelId),
             emojiImageUrl,
             currentUserReacted: didCurrentUserReact(state, ownProps.reactions),
         };
