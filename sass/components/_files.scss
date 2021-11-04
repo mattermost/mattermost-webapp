@@ -48,18 +48,18 @@
         align-items: center;
         justify-content: center;
         border-radius: 4px;
-        color: rgba(v(center-channel-color-rgb), 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 1.4rem;
         text-align: center;
         text-decoration: none;
 
         &:focus {
-            color: rgba(v(center-channel-color-rgb), 0.56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
 
         &:hover {
-            background: rgba(v(center-channel-color-rgb), 0.08);
-            color: rgba(v(center-channel-color-rgb), 0.72);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active {
@@ -158,7 +158,7 @@
             display: inline-block;
             overflow: hidden;
             margin: -4px 0 0 0;
-            color: rgba(v(center-channel-color-rgb), 0.72);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
             cursor: pointer;
             font-size: 12px;
             text-overflow: ellipsis;
@@ -304,7 +304,7 @@
     max-width: 100%;
     height: 6.4rem;
     align-items: center;
-    border: 1px solid rgba(v(center-channel-color-rgb), 0.16);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin: 4px 12px 4px 0;
     background: v(center-channel-bg);
     color: v(center-channel-color);
@@ -528,17 +528,17 @@
             align-items: center;
             justify-content: center;
             border-radius: 4px;
-            color: rgba(v(center-channel-color-rgb), 0.56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
             font-size: 1.6rem;
             text-decoration: none;
 
             &:focus {
-                color: rgba(v(center-channel-color-rgb), 0.56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
             }
 
             &:hover {
-                background: rgba(v(center-channel-color-rgb), 0.08);
-                color: rgba(v(center-channel-color-rgb), 0.72);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.72);
             }
 
             &:active {
@@ -559,7 +559,8 @@
             display: inline-block;
             width: 30px;
             height: 30px;
-            border: 1px solid;
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.35);
+            stroke: rgba(var(--center-channel-color-rgb), 0.4);
 
             &:hover {
                 @include opacity(1);
@@ -585,7 +586,7 @@
     }
 
     .post-image__uploadingTxt {
-        color: rgba(v(center-channel-color-rgb), 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
     }
 }
 

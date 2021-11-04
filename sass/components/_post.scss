@@ -498,7 +498,7 @@
 
             &.disabled {
                 i {
-                    color: inherit;
+                    color: rgba(var(--center-channel-color-rgb), 0.4);
                 }
             }
 
