@@ -2,24 +2,31 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 
-export default class GroupProfile extends React.PureComponent {
-    static propTypes = {
-        name: PropTypes.string,
-        title: PropTypes.string.isRequired,
-        titleDefault: PropTypes.string.isRequired,
-        customID: PropTypes.string,
-        isDisabled: PropTypes.bool,
-        showAtMention: PropTypes.bool.isRequired,
-        onChange: PropTypes.func,
-    };
+type Props = {
+    name?: string;
+    title: string;
+    titleDefault: string;
+    customID?: string;
+    isDisabled?: boolean;
+    showAtMention: boolean;
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}
 
+export default class GroupProfile extends React.PureComponent<Props> {
     render = () => {
-        const {name, title, titleDefault, customID, isDisabled, showAtMention, onChange} = this.props;
+        const {
+            name,
+            title,
+            titleDefault,
+            customID,
+            isDisabled,
+            showAtMention,
+            onChange,
+        } = this.props;
 
         return (
             <div
@@ -35,12 +42,12 @@ export default class GroupProfile extends React.PureComponent {
                     </label>
                     <div className='col-sm-8'>
                         <div className='icon-over-input'>
-                            {showAtMention &&
+                            {showAtMention && (
                                 <MentionsIcon
                                     className='icon icon__mentions'
                                     aria-hidden='true'
                                 />
-                            }
+                            )}
                         </div>
                         <input
                             type='text'

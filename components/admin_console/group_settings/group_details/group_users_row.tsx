@@ -2,35 +2,40 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-
 import Avatar from 'components/widgets/users/avatar';
 
-export default class GroupUsersRow extends React.PureComponent {
-    static propTypes = {
-        username: PropTypes.string.isRequired,
-        displayName: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        userId: PropTypes.string.isRequired,
-        lastPictureUpdate: PropTypes.number.isRequired,
-    };
+type Props = {
+    username: string;
+    displayName: string;
+    email: string;
+    userId: string;
+    lastPictureUpdate: number;
+};
 
+export default class GroupUsersRow extends React.PureComponent<Props> {
     render = () => {
         return (
             <div className='group-users-row'>
                 <Avatar
                     username={this.props.username}
-                    url={Client4.getProfilePictureUrl(this.props.userId, this.props.lastPictureUpdate)}
+                    url={Client4.getProfilePictureUrl(
+                        this.props.userId,
+                        this.props.lastPictureUpdate,
+                    )}
                     size='lg'
                 />
                 <div className='user-data'>
                     <div className='name-row'>
-                        <span className='username'>{'@' + this.props.username}</span>
+                        <span className='username'>
+                            {'@' + this.props.username}
+                        </span>
                         {'-'}
-                        <span className='display-name'>{this.props.displayName}</span>
+                        <span className='display-name'>
+                            {this.props.displayName}
+                        </span>
                     </div>
                     <div>
                         <span className='email-label'>
