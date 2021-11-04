@@ -191,7 +191,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderStep = (step: StepType, index: number) => {
-        const {id, title} = step;
+        const {id, title, finishButtonText} = step;
 
         let icon = (
             <div className='NextStepsView__cardHeaderBadge'>
@@ -204,7 +204,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             );
         }
 
-        return (setExpanded: (expandedKey: string) => void, expandedKey: string) => (
+        return (setExpanded: (expandedKey: string) => void, expandedKey: string, lastNonCompletedStep: StepType) => (
             <Card
                 className={classNames({complete: this.isStepComplete(id)})}
                 expanded={expandedKey === id}
@@ -230,6 +230,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
+                        isLastStep={lastNonCompletedStep?.id === id}
+                        finishButtonText={finishButtonText}
                     />
                 </Card.Body>
             </Card>
@@ -268,6 +270,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     renderMainBody = () => {
         const renderedSteps = this.props.steps.map(this.renderStep);
+        const nonCompletedSteps = this.props.steps.filter((step) => !this.isStepComplete(step.id));
+
+        let lastNonCompletedStep: StepType;
+        if (nonCompletedSteps.length === 1) {
+            lastNonCompletedStep = nonCompletedSteps[0];
+        }
+
         const logo = this.props.isCloud ? <CloudLogoSvg/> : <LogoSvg/>;
 
         return (
@@ -302,7 +311,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             {(setExpanded, expandedKey) => {
                                 return (
                                     <>
-                                        {renderedSteps.map((step) => step(setExpanded, expandedKey))}
+                                        {renderedSteps.map((step) => step(setExpanded, expandedKey, lastNonCompletedStep))}
                                     </>
                                 );
                             }}
