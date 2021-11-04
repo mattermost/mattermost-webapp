@@ -39,7 +39,6 @@ type Props = StepComponentProps & {
     subscriptionStats: SubscriptionStats | null;
     intl: IntlShape;
     isCloud: boolean;
-    downloadAppsAsNextStep: boolean;
 };
 
 type State = {

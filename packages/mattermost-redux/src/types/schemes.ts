@@ -12,8 +12,10 @@ export type Scheme = {
     scope: SchemeScope;
     default_team_admin_role: string;
     default_team_user_role: string;
+    default_team_guest_role: string;
     default_channel_admin_role: string;
     default_channel_user_role: string;
+    default_channel_guest_role: string;
 };
 export type SchemesState = {
     schemes: {

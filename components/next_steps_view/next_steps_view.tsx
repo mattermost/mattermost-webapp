@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import Accordion from 'components/accordion';
@@ -20,7 +19,6 @@ import loadingIcon from 'images/spinner-48x48-blue.apng';
 import {StepType} from './steps';
 import './next_steps_view.scss';
 import NextStepsTips from './next_steps_tips';
-import DownloadSection from './download_section';
 import OnboardingBgSvg from './images/onboarding-bg-svg';
 import GettingStartedSvg from './images/getting-started-svg';
 import CloudLogoSvg from './images/cloud-logo-svg';
@@ -35,7 +33,6 @@ type Props = {
     isFirstAdmin: boolean;
     isAdmin: boolean;
     steps: StepType[];
-    team: Team;
     isCloud: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -43,7 +40,6 @@ type Props = {
         closeRightHandSide: () => void;
         getProfiles: () => void;
     };
-    downloadAppsAsNextStep: boolean;
 };
 
 type State = {
@@ -336,7 +332,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         <GettingStartedSvg/>
                     </div>
                 </div>
-                {!this.props.downloadAppsAsNextStep && <DownloadSection isFirstAdmin={this.props.isFirstAdmin}/>}
             </div>
         );
     }
@@ -360,7 +355,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         savePreferences={this.props.actions.savePreferences}
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
-                        team={this.props.team}
                         isAdmin={this.props.isAdmin}
                     />
                 </>}

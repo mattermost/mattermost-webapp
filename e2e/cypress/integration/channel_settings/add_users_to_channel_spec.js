@@ -102,8 +102,8 @@ describe('Channel Settings', () => {
             // # Verify users list is not visible
             cy.get('#multiSelectList').should('not.exist');
 
-            // # Save and exit modal
-            cy.get('#saveItems').click();
+            // # Click 'Add' button
+            cy.uiGetButton('Add').click();
             cy.get('#addUsersToChannelModal').should('not.exist');
         });
 
@@ -182,7 +182,7 @@ function addNumberOfUsersToChannel(num = 1) {
     });
 
     // # Click the button "Add" to add user to a channel
-    cy.get('#saveItems').click();
+    cy.uiGetButton('Add').click();
 
     // # Wait for the modal to disappear
     cy.get('#addUsersToChannelModal').should('not.exist');
