@@ -61,8 +61,8 @@
         z-index: 5;
         display: inline-block;
         padding: 0 1em;
-        background: v(center-channel-bg);
-        color: v(center-channel-color);
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color);
         font-size: 13px;
         font-weight: 700;
         line-height: 2em;

@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 $backdrop-index: 999;
 $tip-index: 1000;
@@ -22,6 +22,7 @@ $tip-index: 1000;
     max-width: 90%;
     padding: 20px;
     background: var(--center-channel-bg);
+    color: var(--center-channel-color);
 
     .arrow {
         position: absolute;
@@ -340,7 +341,7 @@ $tip-index: 1000;
         width: 9px;
         height: 9px;
         margin: 0 5px;
-        background: $black;
+        background: var(--center-channel-color);
 
         &.active {
             @include opacity(1);

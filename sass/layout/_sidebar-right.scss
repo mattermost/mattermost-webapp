@@ -9,6 +9,7 @@
     width: 400px;
     height: 100%;
     padding: 0;
+    color: var(--center-channel-color);
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -280,6 +281,7 @@
             position: relative;
             top: 3px;
             margin: 0 3px;
+            fill: var(--center-channel-color);
         }
 
         &.sidebar-expanded {

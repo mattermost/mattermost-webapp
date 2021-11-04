@@ -188,6 +188,7 @@
 .form-control[readonly],
 fieldset[disabled] .form-control {
     background-color: #f9f9f9;
+    color: var(--center-channel-color);
 }
 
 input[type="file"]:focus,

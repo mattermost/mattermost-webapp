@@ -8,15 +8,16 @@
         border: none;
         background: transparent;
         border-radius: 4px;
-        box-shadow: inset 0 0 0 1px rgba(v(center-channel-color-rgb), 0.24);
+        box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
         line-height: 20px;
         resize: none;
         transition: none;
         white-space: pre-wrap;
         word-wrap: break-word;
+        color: var(--center-channel-color);
 
         &:focus {
-            box-shadow: inset 0 0 0 2px rgba(v(center-channel-color-rgb), 0.32);
+            box-shadow: inset 0 0 0 2px rgba(var(--center-channel-color-rgb), 0.32);
         }
 
         &.bad-connection {
@@ -49,7 +50,7 @@
         left: 0;
 
         &:focus {
-            border-color: rgba(v(center-channel-color-rgb), 0.4);
+            border-color: rgba(var(--center-channel-color-rgb), 0.4);
         }
 
         p {

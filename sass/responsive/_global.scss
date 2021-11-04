@@ -1,5 +1,26 @@
 .app__body {
+    color: var(--center-channel-color);
+    scrollbar-arrow-color: var(--center-channel-color);
+
     hr {
         border-color: rgba(var(--center-channel-color-rgb), 0.2);
+    }
+
+    .svg-text-color,
+    .icon--body {
+        fill: var(--center-channel-color);
+    }
+
+    #post-create,
+    .input-group-addon,
+    .post-create__container .post-create-body .btn-file,
+    .post-create__container .post-create-footer .msg-typing {
+        color: var(--center-channel-color);
+    }
+
+    .edit-post__actions .icon svg,
+    .post-create__container .post-create-body .btn-file svg,
+    .post.post--compact .post-image__column .post-image__details svg {
+        fill: var(--center-channel-color);
     }
 }

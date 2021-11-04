@@ -233,6 +233,7 @@
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
+        color: var(--center-channel-color);
 
         .Badge {
             font-family: "Open Sans", sans-serif;
@@ -887,7 +888,7 @@
                 @include opacity(1);
 
                 .icon {
-                    fill: $primary-color;
+                    fill: var(--center-channel-color);
                 }
             }
         }

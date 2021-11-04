@@ -171,10 +171,7 @@
             svg {
                 width: 125px;
                 height: 125px;
-            }
-
-            path {
-                fill: inherit;
+                fill: var(--center-channel-color);
             }
         }
     }
