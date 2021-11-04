@@ -2,17 +2,42 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {PermissionsScope} from 'utils/constants';
 
-import PermissionCheckbox from './permission_checkbox.jsx';
+import PermissionCheckbox from './permission_checkbox';
 import PermissionRow from './permission_row.jsx';
-import PermissionDescription from './permission_description.jsx';
+import PermissionDescription from './permission_description';
 
-const getRecursivePermissions = (permissions) => {
-    let result = [];
+type Permissions = Array<string | { permissions: string[] }>
+
+type Role = { permissions: string[] }
+
+type Props = {
+    id: string;
+    uniqId: string;
+    permissions: Permissions;
+    readOnly?: boolean;
+    role?: Role;
+    parentRole?: Role;
+    scope: string;
+    combined?: boolean;
+    selected?: string;
+    selectRow: () => void;
+    root?: boolean;
+    onChange: (id: string[]) => void;
+    additionalValues?: Record<string, Record<string, React.ReactNode>>;
+};
+
+type State = {
+    expanded: boolean;
+    prevPermissions: string[];
+    selected: string;
+}
+
+const getRecursivePermissions = (permissions: Permissions): string[] => {
+    let result: string[] = [];
     for (const permission of permissions) {
         if (typeof permission === 'string') {
             result.push(permission);
@@ -23,35 +48,19 @@ const getRecursivePermissions = (permissions) => {
     return result;
 };
 
-export default class PermissionGroup extends React.PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        uniqId: PropTypes.string.isRequired,
-        permissions: PropTypes.array.isRequired,
-        readOnly: PropTypes.bool,
-        role: PropTypes.object,
-        parentRole: PropTypes.object,
-        scope: PropTypes.string.isRequired,
-        combined: PropTypes.bool,
-        selected: PropTypes.string,
-        selectRow: PropTypes.func.isRequired,
-        root: PropTypes.bool,
-        onChange: PropTypes.func.isRequired,
-        additionalValues: PropTypes.object,
-    };
-
-    constructor(props) {
+export default class PermissionGroup extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             expanded: true,
             prevPermissions: [],
-            selected: props.selected,
+            selected: props.selected ?? '',
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (props.selected !== state.selected) {
-            if (getRecursivePermissions(props.permissions).indexOf(props.selected) !== -1) {
+            if (getRecursivePermissions(props.permissions).indexOf(props.selected ?? '') !== -1) {
                 return {expanded: true, selected: props.selected};
             }
             return {selected: props.selected};
@@ -59,19 +68,19 @@ export default class PermissionGroup extends React.PureComponent {
         return null;
     }
 
-    toggleExpanded = (e) => {
+    toggleExpanded = (e: React.MouseEvent) => {
         e.stopPropagation();
         this.setState({expanded: !this.state.expanded});
     }
 
-    toggleSelectRow = (id) => {
+    toggleSelectRow = (id: string) => {
         if (this.props.readOnly) {
             return;
         }
         this.props.onChange([id]);
     }
 
-    toggleSelectSubGroup = (ids) => {
+    toggleSelectSubGroup = (ids: string[]) => {
         if (this.props.readOnly) {
             return;
         }
@@ -114,16 +123,16 @@ export default class PermissionGroup extends React.PureComponent {
         } else {
             const permissionsToToggle = [];
             for (const permission of getRecursivePermissions(permissions)) {
-                if (role.permissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
+                if (role && role.permissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
                     permissionsToToggle.push(permission);
                 }
             }
-            this.setState({prevPermissions: role.permissions, expanded: false});
+            this.setState({prevPermissions: role?.permissions ?? [], expanded: false});
             onChange(permissionsToToggle);
         }
     }
 
-    isInScope = (permission) => {
+    isInScope = (permission: string) => {
         if (this.props.scope === 'channel_scope' && PermissionsScope[permission] !== 'channel_scope') {
             return false;
         }
@@ -133,12 +142,12 @@ export default class PermissionGroup extends React.PureComponent {
         return true;
     }
 
-    renderPermission = (permission, additionalValues) => {
+    renderPermission = (permission: string, additionalValues: Record<string, React.ReactNode>) => {
         if (!this.isInScope(permission)) {
             return null;
         }
         const comesFromParent = this.fromParent(permission);
-        const active = comesFromParent || this.props.role.permissions.indexOf(permission) !== -1;
+        const active = comesFromParent || this.props.role?.permissions.indexOf(permission) !== -1;
         return (
             <PermissionRow
                 key={permission}
@@ -155,7 +164,7 @@ export default class PermissionGroup extends React.PureComponent {
         );
     }
 
-    renderGroup = (g) => {
+    renderGroup = (g: any) => {
         return (
             <PermissionGroup
                 key={g.id}
@@ -176,11 +185,11 @@ export default class PermissionGroup extends React.PureComponent {
         );
     }
 
-    fromParent = (id) => {
+    fromParent = (id: string) => {
         return this.props.parentRole && this.props.parentRole.permissions.indexOf(id) !== -1;
     }
 
-    getStatus = (permissions) => {
+    getStatus = (permissions: Permissions) => {
         let anyChecked = false;
         let anyUnchecked = false;
         for (const permission of permissions) {
@@ -188,8 +197,8 @@ export default class PermissionGroup extends React.PureComponent {
                 if (!this.isInScope(permission)) {
                     continue;
                 }
-                anyChecked = anyChecked || this.fromParent(permission) || this.props.role.permissions.indexOf(permission) !== -1;
-                anyUnchecked = anyUnchecked || (!this.fromParent(permission) && this.props.role.permissions.indexOf(permission) === -1);
+                anyChecked = anyChecked || this.fromParent(permission) || this.props.role?.permissions.indexOf(permission) !== -1;
+                anyUnchecked = anyUnchecked || (!this.fromParent(permission) && this.props.role?.permissions.indexOf(permission) === -1);
             } else {
                 const status = this.getStatus(permission.permissions);
                 if (status === 'intermediate') {
@@ -216,7 +225,7 @@ export default class PermissionGroup extends React.PureComponent {
         return getRecursivePermissions(this.props.permissions).some((permission) => this.isInScope(permission));
     }
 
-    allPermissionsFromParent = (permissions) => {
+    allPermissionsFromParent = (permissions: Permissions) => {
         for (const permission of permissions) {
             if (typeof permission !== 'string') {
                 if (!this.allPermissionsFromParent(permission.permissions)) {
@@ -251,7 +260,7 @@ export default class PermissionGroup extends React.PureComponent {
             );
         }
 
-        let inherited = null;
+        let inherited;
         if (this.allPermissionsFromParent(this.props.permissions) && this.props.combined) {
             inherited = this.props.parentRole;
         }
@@ -291,7 +300,7 @@ export default class PermissionGroup extends React.PureComponent {
                         </span>
                         <PermissionDescription
                             additionalValues={additionalValues?.[id] ? additionalValues[id] : {}}
-                            inherited={inherited}
+                            inherited={inherited as any}
                             id={id}
                             selectRow={this.props.selectRow}
                             rowType='group'

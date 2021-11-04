@@ -15,7 +15,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         role: {
             permissions: [],
         },
-        parentRole: null,
+        parentRole: undefined,
         scope: 'team_scope',
         value: 'checked',
         selectRow: jest.fn(),
@@ -23,14 +23,14 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     };
 
     test('should match snapshot on editable without permissions', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot on editable without every permission out of the scope', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 scope={'system_scope'}
@@ -40,7 +40,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should match snapshot on editable with some permissions', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user']}}
@@ -50,7 +50,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should match snapshot on editable with all permissions', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user', 'add_user_to_team']}}
@@ -60,7 +60,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should match snapshot on editable without permissions and read-only', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 readOnly={true}
@@ -70,7 +70,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should match snapshot on editable with some permissions and read-only', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user']}}
@@ -81,7 +81,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should match snapshot on editable with all permissions and read-only', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user', 'add_user_to_team']}}
@@ -92,7 +92,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should match snapshot on editable with some permissions from parentRole', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 parentRole={{permissions: ['invite_user']}}
@@ -102,7 +102,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should match snapshot on editable with all permissions from parentRole', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 parentRole={{permissions: ['invite_user', 'add_user_to_team']}}
@@ -112,7 +112,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should expand and collapse correctly, expanded by default, collapsed and then expanded again', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -124,7 +124,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
 
     test('should call correctly onChange function on click without permissions', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 onChange={onChange}
@@ -136,7 +136,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
 
     test('should call correctly onChange function on click with some permissions', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user']}}
@@ -149,7 +149,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
 
     test('should call correctly onChange function on click with all permissions', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user', 'add_user_to_team']}}
@@ -162,7 +162,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
 
     test('shouldn\'t call onChange function on click when is read-only', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 readOnly={true}
@@ -175,7 +175,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
 
     test('shouldn\'t call onChange function on click when is read-only', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 readOnly={true}
@@ -187,7 +187,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should collapse when toggle to all permissions and expand otherwise', () => {
-        let wrapper = shallow(
+        let wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user']}}
@@ -197,7 +197,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         wrapper.instance().toggleSelectGroup();
         expect(wrapper.state().expanded).toBe(false);
 
-        wrapper = shallow(
+        wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user', 'add_user_to_team']}}
@@ -207,7 +207,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         wrapper.instance().toggleSelectGroup();
         expect(wrapper.state().expanded).toBe(true);
 
-        wrapper = shallow(
+        wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: []}}
@@ -220,7 +220,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
 
     test('should toggle correctly between states', () => {
         let onChange = jest.fn();
-        let wrapper = shallow(
+        let wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user']}}
@@ -232,7 +232,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         expect(onChange).toBeCalledWith(['add_user_to_team']);
 
         onChange = jest.fn();
-        wrapper = shallow(
+        wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user', 'add_user_to_team']}}
@@ -244,7 +244,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         expect(onChange).toBeCalledWith(['invite_user', 'add_user_to_team']);
 
         onChange = jest.fn();
-        wrapper = shallow(
+        wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: []}}
