@@ -862,6 +862,10 @@
         }
     }
 
+    .more-modal__row {
+        border-color: rgba(var(--center-channel-color-rgb), 0.1);
+    }
+
     .more-modal__image {
         @include border-radius(60px);
 

@@ -27,6 +27,7 @@
             padding: 110px 0;
             line-height: 2;
             text-align: center;
+            background: rgba(var(--center-channel-color-rgb), 0.15);
 
             .fa {
                 @include opacity(0.5);

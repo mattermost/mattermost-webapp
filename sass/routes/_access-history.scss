@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .access-history__table {
     display: table;
@@ -23,7 +23,7 @@
 
     .access__report {
         padding-bottom: 15px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.1);
     }
 
     .report__info {

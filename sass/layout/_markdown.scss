@@ -330,6 +330,7 @@ blockquote {
 pre {
     padding: 0;
     margin: 5px 0;
+    background-color: rgba(var(--center-channel-color-rgb), 0.05);
     color: inherit;
 }
 

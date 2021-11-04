@@ -187,7 +187,7 @@
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
-    background-color: #f9f9f9;
+    background: rgba(var(--center-channel-color-rgb), 0.1);
     color: var(--center-channel-color);
 }
 

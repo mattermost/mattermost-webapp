@@ -6,6 +6,10 @@
         border-color: rgba(var(--center-channel-color-rgb), 0.2);
     }
 
+    .input-group-addon {
+        border-color: rgba(var(--center-channel-color-rgb), 0.1);
+    }
+
     .svg-text-color,
     .icon--body {
         fill: var(--center-channel-color);
@@ -28,5 +32,15 @@
     .table > thead > tr > th,
     .post .MenuWrapper .dropdown-menu button {
         border-color: rgba(var(--center-channel-color-rgb), 0.12);
+    }
+
+    /** IMO these rules feel like overkill **/
+    .MenuWrapper .MenuItem > button:hover,
+    .Menu .MenuItem > button:hover,
+    .MenuWrapper .MenuItem > button:focus,
+    .MenuWrapper .MenuItem > a:hover,
+    .MenuItem > div:hover,
+    .SubMenuItemContainer:not(.hasDivider):hover {
+        background: rgba(var(--center-channel-color-rgb), 0.1);
     }
 }

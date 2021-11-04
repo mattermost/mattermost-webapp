@@ -1983,11 +1983,6 @@
     }
 }
 
-.post-collapse__show-more {
-    padding-bottom: 10px;
-    background: v(center-channel-bg);
-}
-
 .post-collapse__show-more,
 .post-attachment-collapse__show-more {
     z-index: 5;
@@ -2036,6 +2031,19 @@
         height: 1px;
         flex-basis: 200px;
         margin-top: 12px;
+    }
+}
+
+.post-collapse__show-more {
+    padding-bottom: 10px;
+    background: var(--center-channel-bg);
+
+    &-button {
+        border-color: rgba(var(--center-channel-color-rgb), 0.1);
+    }
+
+    &-line {
+        background-color: rgba(var(--center-channel-color-rgb), 0.1);
     }
 }
 

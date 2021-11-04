@@ -241,6 +241,7 @@
     height: calc(100% - 56px);
     padding-top: 16px;
     -webkit-overflow-scrolling: touch;
+    border-color: rgba(var(--center-channel-color-rgb), 0.1);
 
     &.no-results {
         display: flex;

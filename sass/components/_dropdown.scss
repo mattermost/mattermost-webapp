@@ -83,5 +83,16 @@
     .dropdown-menu {
         top: calc(100% + 4px);
         min-width: 245px;
+
+        div,
+        > li {
+            > a,
+            > button {
+                &:focus,
+                &:hover {
+                    background: rgba(var(--center-channel-color-rgb), 0.1);
+                }
+            }
+        }
     }
 }

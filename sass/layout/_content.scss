@@ -68,6 +68,7 @@
 
     cursor: pointer;
     font-size: 13px;
+    background: rgba(var(--center-channel-color-rgb), 0.15);
 
     .fa {
         @include opacity(0.7);
