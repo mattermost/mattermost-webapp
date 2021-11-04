@@ -3874,7 +3874,6 @@
   "signup_user_completed.usernameLength": "Os nomes de usuário precisam começar com uma letra minúscula e ter de {min}-{max} caracteres. Você pode usar letras minúsculas, números, pontos, traços e sublinhados.",
   "signup_user_completed.validEmail": "Por favor entre um endereço de e-mail válido",
   "signup_user_completed.whatis": "Qual é o seu endereço de e-mail?",
-  "status_dropdown.custom_status.tooltip_clear": "Limpar",
   "status_dropdown.menuAriaLabel": "definir status",
   "status_dropdown.set_away": "Ausente",
   "status_dropdown.set_custom": "Definir um Status Personalizado",
