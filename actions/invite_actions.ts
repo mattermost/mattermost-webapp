@@ -6,7 +6,7 @@ import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {TeamMemberWithError, TeamInviteWithError} from 'mattermost-redux/types/teams';
 
 import {RelationOneToOne, UserIDMappedObjects} from 'mattermost-redux/types/utilities';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {joinChannel} from 'mattermost-redux/actions/channels';
@@ -17,7 +17,7 @@ import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-export function sendMembersInvites(teamId: string, users: UserProfile[], emails: string[]) {
+export function sendMembersInvites(teamId: string, users: UserProfile[], emails: string[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (users.length > 0) {
             await dispatch(TeamActions.getTeamMembersByIds(teamId, users.map((u) => u.id)));
@@ -74,7 +74,12 @@ export function sendMembersInvites(teamId: string, users: UserProfile[], emails:
                 }
             }
         }
-        return {sent, notSent};
+        return {
+            data: {
+                sent,
+                notSent,
+            },
+        };
     };
 }
 
@@ -116,7 +121,7 @@ export async function sendGuestInviteForUser(dispatch: DispatchFunc, user: UserP
     return {sent: {user, reason: {id: t('invite.guests.new-member'), message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.', values: {count: channels.length}}}};
 }
 
-export function sendGuestsInvites(teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) {
+export function sendGuestsInvites(teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (users.length > 0) {
             await dispatch(TeamActions.getTeamMembersByIds(teamId, users.map((u) => u.id)));
@@ -161,6 +166,6 @@ export function sendGuestsInvites(teamId: string, channels: Channel[], users: Us
                 }
             }
         }
-        return {sent, notSent};
+        return {data: {sent, notSent}};
     };
 }

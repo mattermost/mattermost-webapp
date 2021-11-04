@@ -35,19 +35,19 @@ type Props = {
         searchChannels: (teamId: string, term: string) => ActionFunc;
         regenerateTeamInviteId: (teamId: string) => void;
 
-        searchProfiles: (term: string, options?: Record<string, string>) => ActionFunc;
+        searchProfiles: (term: string, options?: Record<string, string>) => Promise<{data: UserProfile[]}>;
         sendGuestsInvites: (
             currentTeamId: string,
             channels: Channel[],
             users: UserProfile[],
             emails: string[],
             message: string,
-        ) => any;
+        ) => Promise<{data: InviteResults}>;
         sendMembersInvites: (
             teamId: string,
             users: UserProfile[],
             emails: string[]
-        ) => any;
+        ) => Promise<{data: InviteResults}>;
     };
     currentTeam: Team;
     currentChannelName: string;
@@ -142,15 +142,17 @@ class InvitationModal extends React.PureComponent<Props, State> {
         }
         let invites: InviteResults = {notSent: [], sent: []};
         if (inviteAs === 'member') {
-            invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+            const result = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+            invites = result.data;
         } else if (inviteAs === 'guest') {
-            invites = await this.props.actions.sendGuestsInvites(
+            const result = await this.props.actions.sendGuestsInvites(
                 this.props.currentTeam.id,
                 this.state.invite.inviteChannels.channels,
                 users,
                 emails,
                 this.state.invite.customMessage.open ? this.state.invite.customMessage.message : '',
             );
+            invites = result.data;
         }
 
         if (this.state.invite.usersEmailsSearch !== '') {
@@ -235,9 +237,9 @@ class InvitationModal extends React.PureComponent<Props, State> {
     }
 
     debouncedSearchProfiles = debounce((term: string, callback: (users: UserProfile[]) => void) => {
-        (this.props.actions.searchProfiles(term) as any).
-            then(({data}: {data: any}) => {
-                callback(data as unknown as UserProfile[]);
+        this.props.actions.searchProfiles(term).
+            then(({data}: {data: UserProfile[]}) => {
+                callback(data);
                 if (data.length === 0) {
                     this.setState({termWithoutResults: term});
                 } else {
@@ -249,7 +251,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
             });
     }, 150);
 
-    usersLoader = (term: string, callback: (users: UserProfile[]) => undefined | Promise<UserProfile[]>) => {
+    usersLoader = (term: string, callback: (users: UserProfile[]) => void): Promise<UserProfile[]> | undefined => {
         if (
             this.state.termWithoutResults &&
             term.startsWith(this.state.termWithoutResults)
@@ -321,7 +323,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
                 onChannelsChange={this.onChannelsChange}
                 currentChannelName={this.props.currentChannelName}
                 isAdmin={this.props.isAdmin}
-                usersLoader={this.usersLoader as any}
+                usersLoader={this.usersLoader}
                 emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                 onChangeUsersEmails={this.onChangeUsersEmails}
                 onUsersInputChange={this.onUsersInputChange}

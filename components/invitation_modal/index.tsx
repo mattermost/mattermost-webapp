@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
@@ -12,19 +12,22 @@ import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/sele
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
-import {regenerateTeamInviteId, getTeam} from 'mattermost-redux/actions/teams';
+import {regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
-import {closeModal, openModal} from 'actions/views/modals';
+import {closeModal, CloseModalType} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers, Constants} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
+import {InviteResults} from './result_view';
 import InvitationModal from './invitation_modal';
 
 const searchProfiles = (term: string, options = {}) => {
@@ -37,8 +40,6 @@ const searchProfiles = (term: string, options = {}) => {
 const searchChannels = (teamId: string, term: string) => {
     return reduxSearchChannels(teamId, term);
 };
-
-/*sendEmailInvitesToTeamGracefully, */
 
 export function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -83,17 +84,24 @@ export function mapStateToProps(state: GlobalState) {
     };
 }
 
+type Actions = {
+    closeModal: () => void;
+    sendGuestsInvites: (teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
+    sendMembersInvites: (teamId: string, users: UserProfile[], emails: string[]) => Promise<{data: InviteResults}>;
+    regenerateTeamInviteId: (teamId: string) => void;
+    searchProfiles: (term: string, options?: Record<string, string>) => Promise<{data: UserProfile[]}>;
+    searchChannels: (teamId: string, term: string) => ActionFunc;
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | CloseModalType>, Actions>({
             closeModal: () => closeModal(ModalIdentifiers.INVITATION),
             sendGuestsInvites,
             sendMembersInvites,
             regenerateTeamInviteId,
             searchProfiles,
             searchChannels,
-            getTeam,
-            openModal,
         }, dispatch),
     };
 }
