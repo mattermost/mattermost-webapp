@@ -111,6 +111,7 @@
             margin: 5px 0 5px 20px;
             background: var(--center-channel-bg);
             border-radius: 0 4px 4px 0;
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
 
             &.attachment__content--permalink {
                 border-left-width: 1px;
@@ -379,10 +380,17 @@
                 font-size: 13px;
                 font-weight: 700;
                 outline: 0;
+                border-color: rgba(var(--center-channel-color-rgb), 0.16);
 
                 &[disabled] {
                     cursor: auto;
                     opacity: 0.5;
+                }
+
+                &:hover,
+                &:focus {
+                    border-color: rgba(var(--center-channel-color-rgb), 0.5);
+                    background: rgba(var(--center-channel-color-rgb), 0.03);
                 }
             }
 

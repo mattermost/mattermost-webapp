@@ -2218,12 +2218,16 @@
 }
 
 @media (min-width: 768px) {
-    .app__body .post.post--compact.same--root.post--comment .post__content {
+    .post.post--compact.same--root.post--comment .post__content {
         border-color: rgba(var(--center-channel-color-rgb), 0.2);
     }
 
     .post.a11y--active {
         background: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
+    .post.current--user:hover .post__body {
+        background: transparent;
     }
 }
 
