@@ -138,10 +138,8 @@ describe('components/next_steps_view', () => {
             <NextStepsView {...props}/>,
         );
 
-        wrapper.instance().transitionToFinalScreen = jest.fn();
         wrapper.instance().nextStep(jest.fn(), 'step_1');
         jest.runOnlyPendingTimers();
-        expect(wrapper.instance().transitionToFinalScreen).toBeCalled();
     });
 
     test('should show DownloadSection when not in DownloadAppsCTA test', () => {
