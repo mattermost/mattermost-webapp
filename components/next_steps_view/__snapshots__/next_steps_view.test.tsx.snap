@@ -69,9 +69,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         <GettingStartedSvg />
       </div>
     </div>
-    <DownloadSection
-      isFirstAdmin={true}
-    />
   </div>
   <div
     className="NextStepsView__viewWrapper NextStepsView__transitionView"

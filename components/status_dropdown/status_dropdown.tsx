@@ -32,6 +32,8 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {UserCustomStatus, UserStatus, CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
 
+import {ModalData} from 'types/actions';
+
 import {toUTCUnix} from 'utils/datetime';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone} from 'utils/timezone';
@@ -44,7 +46,7 @@ type Props = {
     profilePicture: string;
     autoResetPref?: string;
     actions: {
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
         setStatus: (status: UserStatus) => ActionFunc;
         unsetCustomStatus: () => ActionFunc;
         setStatusDropdown: (open: boolean) => void;
