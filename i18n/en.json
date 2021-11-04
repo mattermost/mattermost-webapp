@@ -3744,7 +3744,6 @@
   "next_steps_view.invite_members_step.emailAddresses": "Email addresses",
   "next_steps_view.invite_members_step.enterEmailAddresses": "Enter email addresses",
   "next_steps_view.invite_members_step.errorSendingEmails": "There was a problem sending your invitations. Please try again.",
-  "next_steps_view.invite_members_step.finish": "Finish",
   "next_steps_view.invite_members_step.invalidEmail": "One or more email addresses are invalid",
   "next_steps_view.invite_members_step.invitationsSent": "{num} invitations sent",
   "next_steps_view.invite_members_step.link_copied": "Copied",

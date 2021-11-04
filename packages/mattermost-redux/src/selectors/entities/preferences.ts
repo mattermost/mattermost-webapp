@@ -9,7 +9,6 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 
 import {
     AddChannelButtonTreatments,
-    DownloadAppsCTATreatments,
     PrewrittenMessagesTreatments,
     AutoTourTreatments,
     AddMembersToChanneltreatments,
@@ -212,10 +211,6 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
 
 export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButtonTreatments | undefined {
     return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
-}
-
-export function getDownloadAppsCTATreatment(state: GlobalState): DownloadAppsCTATreatments | undefined {
-    return getFeatureFlagValue(state, 'DownloadAppsCTA') as DownloadAppsCTATreatments | undefined;
 }
 
 export function getPrewrittenMessagesTreatment(state: GlobalState): PrewrittenMessagesTreatments | undefined {

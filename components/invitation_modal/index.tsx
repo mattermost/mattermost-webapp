@@ -93,7 +93,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             searchProfiles,
             searchChannels,
             getTeam,
-            openModal: (modalData) => openModal(modalData),
+            openModal,
         }, dispatch),
     };
 }
