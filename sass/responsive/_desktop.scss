@@ -63,6 +63,13 @@
                     }
                 }
             }
+            .post {
+                &.post--comment {
+                    &.same--root {
+                        border-color: rgba(var(--center-channel-color-rgb), 0.07);
+                    }
+                }
+            }
         }
     }
 }

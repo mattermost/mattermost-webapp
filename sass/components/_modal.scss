@@ -1145,7 +1145,7 @@
         }
 
         .more-modal__row--selected {
-            background-color: lighten($primary-color, 40%);
+            background-color: rgba(var(--center-channel-color-rgb), 0.07);
 
             .more-modal__actions--round {
                 display: block;

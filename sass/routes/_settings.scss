@@ -375,8 +375,8 @@
                     .theme-elements__body {
                         @include border-radius(0 0 3px 3px);
                         @include legacy-pie-clearfix;
-                        @include alpha-property(background-color, $white, 0.05);
 
+                        background: rgba(var(--center-channel-color-rgb), 0.05);
                         max-height: 0;
                         padding: 0 0 0 24px;
                         margin: 0 20px 0 0;

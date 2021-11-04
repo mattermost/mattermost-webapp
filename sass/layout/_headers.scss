@@ -561,7 +561,7 @@
         @include border-radius(3px);
 
         padding: 10px 15px;
-        background: $bg--gray;
+        background: rgba(var(--center-channel-color-rgb), 0.05);
     }
 }
 

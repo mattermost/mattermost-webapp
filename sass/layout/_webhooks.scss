@@ -2,8 +2,8 @@
 
 .webhooks__container {
     @include border-radius(3px);
-    @include alpha-property(background, $black, 0.1);
 
+    background: rgba(var(--center-channel-color-rgb), 0.05);
     padding: 0 13px 15px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
     margin-top: 10px;

@@ -35,14 +35,14 @@
     &.hovered--after {
         &::before {
             display: block;
-            background: #f5f5f5;
+            background: rgba(var(--center-channel-color-rgb), 0.07);
         }
     }
 
     &.hovered--before {
         &::after {
             display: block;
-            background: #f5f5f5;
+            background: rgba(var(--center-channel-color-rgb), 0.07);
         }
     }
 
