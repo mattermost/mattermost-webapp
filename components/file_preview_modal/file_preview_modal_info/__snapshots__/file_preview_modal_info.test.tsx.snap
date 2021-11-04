@@ -33,3 +33,22 @@ exports[`components/FilePreviewModalInfo should match snapshot 1`] = `
   </div>
 </div>
 `;
+
+exports[`components/FilePreviewModalInfo should match snapshot where post is empty 1`] = `
+<div
+  className="file-preview-modal__info"
+>
+  <div
+    className="file-preview-modal__info-details"
+  >
+    <h5
+      className="file-preview-modal__user-name"
+    >
+      Someone
+    </h5>
+    <span
+      className="file-preview-modal__channel"
+    />
+  </div>
+</div>
+`;
