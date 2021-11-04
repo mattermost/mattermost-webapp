@@ -771,6 +771,10 @@
         }
     }
 
+    &.post--hovered {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
     &.post--hovered,
     &.a11y--active {
         @include legacy-pie-clearfix;
@@ -2216,6 +2220,10 @@
 @media (min-width: 768px) {
     .app__body .post.post--compact.same--root.post--comment .post__content {
         border-color: rgba(var(--center-channel-color-rgb), 0.2);
+    }
+
+    .post.a11y--active {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
     }
 }
 
