@@ -101,20 +101,8 @@ describe('Onboarding - Sysadmin', () => {
         // # Click Finish button
         cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
 
-        // * Should show Tips and Next Steps
-        cy.get('#app-content').within(() => {
-            cy.findByText('Tips & Next Steps').should('be.visible');
-            cy.findByText('A few other areas to explore').should('be.visible');
-        });
-
-        cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next Steps');
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
-
         // * Transition screen should be visible
-        cy.get('.NextStepsView__transitionView.completed').should('be.visible');
-
-        // * Completed screen should be visible
-        cy.get('.NextStepsView__completedView.completed').should('be.visible');
+        cy.get('.NextStepsView__transitionView.transitioning').should('be.visible');
     });
 
     it('MM-T3327 Sysadmin - Switch to Next Step', () => {
@@ -145,10 +133,8 @@ describe('Onboarding - Sysadmin', () => {
         // # Click 'Skip Getting Started'
         cy.findByRole('button', {name: 'Skip Getting Started'}).scrollIntoView().should('be.visible').click();
 
-        // * Main screen should be out of view and the completed screen should be visible
-        cy.get('.NextStepsView__mainView.completed').should('exist');
-        cy.get('.NextStepsView__completedView.completed').should('be.visible');
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
+        // * Main screen should be out of view and transition screen should be visible
+        cy.get('.NextStepsView__transitionView.transitioning').should('be.visible');
     });
 
     it('MM-T3329 Sysadmin - Remove Recommended Next Steps', () => {

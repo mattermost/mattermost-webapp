@@ -49,15 +49,11 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     closeNextSteps = (event: React.SyntheticEvent): void => {
-        const {showNextSteps, isAdmin} = this.props;
+        const {isAdmin} = this.props;
         event.stopPropagation();
-        if (showNextSteps) {
-            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
-        } else {
-            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_tips');
-        }
+        trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
 
-        const screenTitle = showNextSteps ? localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') : localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
+        const screenTitle = localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started');
 
         this.props.actions.openModal({
             modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
@@ -71,12 +67,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     showNextSteps = () => {
-        if (this.props.showNextSteps) {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
-        } else {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_tips');
-        }
-
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
         this.props.actions.setShowNextStepsView(true);
     }
 
@@ -91,10 +82,6 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             name: RecommendedNextSteps.HIDE,
             value: 'true',
         }]);
-
-        if (!this.props.showNextSteps) {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_confirm_remove_tips');
-        }
 
         this.props.actions.setShowNextStepsView(false);
 
@@ -114,25 +101,25 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             return null;
         }
 
+        if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.SKIP && pref.value === 'true')) {
+            return null;
+        }
+
+        if (!this.props.showNextSteps) {
+            return null;
+        }
+
         const total = this.props.steps.length;
         const complete = this.props.preferences.filter((pref) => pref.name !== RecommendedNextSteps.HIDE && pref.value === 'true').length;
 
-        let header = (
+        const header = (
             <FormattedMessage
                 id='sidebar_next_steps.gettingStarted'
                 defaultMessage='Getting Started'
             />
         );
-        if (!this.props.showNextSteps) {
-            header = (
-                <FormattedMessage
-                    id='sidebar_next_steps.tipsAndNextSteps'
-                    defaultMessage='Tips & Next Steps'
-                />
-            );
-        }
 
-        let middleSection = (
+        const middleSection = (
             <FormattedMarkdownMessage
                 id='sidebar_next_steps.stepsComplete'
                 defaultMessage='{complete} / {total} steps complete'
@@ -142,19 +129,11 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 }}
             />
         );
-        if (!this.props.showNextSteps) {
-            middleSection = (
-                <FormattedMessage
-                    id='sidebar_next_steps.otherAreasToExplore'
-                    defaultMessage='A few other areas to explore'
-                />
-            );
-        }
+
         return (
             <div
                 className={classNames('SidebarNextSteps', {
                     active: this.props.active,
-                    tips: !this.props.showNextSteps,
                 })}
                 onClick={this.showNextSteps}
             >
@@ -170,15 +149,13 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 <div className='SidebarNextSteps__middle'>
                     <span>{middleSection}</span>
                 </div>
-                {this.props.showNextSteps && (
-                    <div className='SidebarNextSteps__progressBar'>
-                        <ProgressBar
-                            current={complete}
-                            total={total}
-                            basePercentage={4}
-                        />
-                    </div>
-                )}
+                <div className='SidebarNextSteps__progressBar'>
+                    <ProgressBar
+                        current={complete}
+                        total={total}
+                        basePercentage={4}
+                    />
+                </div>
             </div>
         );
     }

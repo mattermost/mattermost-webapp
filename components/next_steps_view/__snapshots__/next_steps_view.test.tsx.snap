@@ -75,7 +75,6 @@ exports[`components/next_steps_view should match snapshot 1`] = `
   </div>
   <div
     className="NextStepsView__viewWrapper NextStepsView__transitionView"
-    onTransitionEnd={[Function]}
   >
     <div
       className="NextStepsView__transitionBody"
@@ -102,15 +101,5 @@ exports[`components/next_steps_view should match snapshot 1`] = `
       </p>
     </div>
   </div>
-  <NextStepsTips
-    animating={false}
-    currentUserId="user_id"
-    isAdmin={true}
-    isFirstAdmin={true}
-    savePreferences={[MockFunction]}
-    setShowNextStepsView={[MockFunction]}
-    showFinalScreen={false}
-    stopAnimating={[Function]}
-  />
 </section>
 `;
