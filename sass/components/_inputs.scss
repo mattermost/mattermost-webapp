@@ -1,9 +1,9 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .help-text {
     display: block;
     margin: 10px 0 0;
-    color: $dark-gray;
+    color: rgba(var(--center-channel-color-rgb), 0.6);
 
     ul,
     ol {

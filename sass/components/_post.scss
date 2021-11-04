@@ -735,6 +735,10 @@
                 min-width: 0;
             }
         }
+
+        .post__body {
+            color: rgba(var(--center-channel-color-rgb), 0.6);
+        }
     }
 
     &:hover,
@@ -1617,6 +1621,7 @@
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
         white-space: nowrap;
+        color: rgba(var(--center-channel-color-rgb), 0.65);
 
         a {
             font-weight: bold;
@@ -1713,7 +1718,7 @@
 
     .post-waiting {
         position: relative;
-        color: #999;
+        color: rgba(var(--center-channel-color-rgb), 0.6);
 
         .spinner {
             position: absolute;
@@ -1742,7 +1747,7 @@
             position: relative;
             top: 3px;
             width: 18px;
-            fill: inherit;
+            fill: currentColor;
         }
     }
 
