@@ -26,6 +26,7 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
 
@@ -89,7 +90,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (postId: any) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         /**
          * Function to set the unread mark at given post
