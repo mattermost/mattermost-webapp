@@ -1,0 +1,35 @@
+.InvitationModal {
+    .InvitationModal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: none;
+        font-size: 22px;
+        font-weight: 600;
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        // beat regular modal-header in specificity
+        &.modal-header {
+            background-color: var(--center-channel-bg);
+            color: var(--center-channel-color);
+        }
+
+        .icon-close {
+            cursor: pointer;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: rgb(var(--center-channel-color-rgb), 0.8);
+            }
+        }
+    }
+
+    &__footer {
+        border-top: none;
+    }
+}

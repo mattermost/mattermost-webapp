@@ -1,0 +1,40 @@
+.InviteView {
+    &__sectionTitle {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        font-weight: 600;
+    }
+
+    &__copyLink {
+        display: flex;
+        align-items: center;
+
+        &.btn.btn-cancel {
+            padding-left: 0;
+        }
+
+        .icon-check {
+            color: var(--online-indicator);
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+
+        // to override clearfix rule in clearfix.less
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        .btn {
+            font-weight: 600;
+        }
+    }
+
+    &__sectionTitleParenthetical {
+        color: rgba(var(--center-channel-color-rgb), 0.6);
+        font-weight: normal;
+    }
+}

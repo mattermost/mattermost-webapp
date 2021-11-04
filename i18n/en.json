@@ -3502,6 +3502,7 @@
   "invite_modal.members": "members",
   "invite_modal.permanent": "This can't be undone.",
   "invite_modal.title": "Invite {as} to {team_name}",
+  "invite_modal.to": "To:",
   "invite.guests.added-to-channel": "An invitation email has been sent.",
   "invite.guests.already-all-channels-member": "This person is already a member of all the channels.",
   "invite.guests.already-some-channels-member": "This person is already a member of some of the channels.",

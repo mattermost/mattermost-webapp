@@ -25,6 +25,7 @@ import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {As} from './invite_as';
+import './invite_view.scss';
 
 export const defaultInviteState = deepFreeze({
     as: 'member',
@@ -64,6 +65,8 @@ type Props = InviteState & {
     cloudUserLimit: string;
     emailInvitationsEnabled: boolean;
     onUsersInputChange: (usersEmailsSearch: string) => void;
+    headerClass: string;
+    footerClass: string;
 }
 
 export default function InviteView(props: Props) {
@@ -88,6 +91,7 @@ export default function InviteView(props: Props) {
         <button
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
+            className='btn btn-cancel style--none InviteView__copyLink'
         >
             {!copyText.copiedRecently && (
                 <>
@@ -184,7 +188,7 @@ export default function InviteView(props: Props) {
 
     return (
         <>
-            <Modal.Header>
+            <Modal.Header className={props.headerClass}>
                 <FormattedMessage
                     id='invite_modal.title'
                     defaultMessage={'Invite {as} to {team_name}'}
@@ -203,8 +207,15 @@ export default function InviteView(props: Props) {
                         team_name: props.currentTeam.display_name,
                     }}
                 />
+                <i className='icon icon-close'/>
             </Modal.Header>
             <Modal.Body>
+                <div className='InviteView__sectionTitle'>
+                    <FormattedMessage
+                        id='invite_modal.to'
+                        defaultMessage='To:'
+                    />
+                </div>
                 <UsersEmailsInput
                     {...errorProperties}
                     usersLoader={props.usersLoader}
@@ -229,6 +240,7 @@ export default function InviteView(props: Props) {
                     as={props.as}
                     setInviteAs={props.setInviteAs}
                     inviteToTeamTreatment={props.inviteToTeamTreatment}
+                    titleClass='InviteView__sectionTitle'
                 />
                 {props.as === 'guest' && (
                     <AddToChannels
@@ -240,14 +252,16 @@ export default function InviteView(props: Props) {
                         inviteChannels={props.inviteChannels}
                         channelsLoader={props.channelsLoader}
                         currentChannelName={props.currentChannelName}
+                        titleClass='InviteView__sectionTitle'
                     />
                 )}
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className={'InviteView__footer ' + props.footerClass}>
                 {copyButton}
                 <button
                     disabled={!canInvite}
                     onClick={props.invite}
+                    className={'btn btn-primary'}
                 >
                     <FormattedMessage
                         id='invite_modal.invite'

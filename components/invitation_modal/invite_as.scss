@@ -1,0 +1,15 @@
+.InviteAs {
+    &__label {
+        margin-left: 5px;
+        color: var(--center-channel-color);
+
+        &--parenthetical {
+            color: rgba(var(--center-channel-color-rgb), 0.8);
+        }
+    }
+
+    label {
+        justify-content: flex-start;
+        font-weight: normal;
+    }
+}

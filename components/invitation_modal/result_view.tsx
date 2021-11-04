@@ -11,6 +11,8 @@ import {t} from 'utils/i18n';
 import {As} from './invite_as';
 import ResultTable, {InviteResult} from './result_table';
 
+import './result_view.scss';
+
 export type InviteResults = {
     sent: InviteResult[];
     notSent: InviteResult[];
@@ -32,6 +34,8 @@ type Props = {
     invitedAs: As;
     currentTeamName: string;
     onDone: () => void;
+    headerClass: string;
+    footerClass: string;
     inviteMore: () => void;
 } & ResultState;
 
@@ -39,7 +43,7 @@ export default function ResultView(props: Props) {
     const {formatMessage} = useIntl();
     return (
         <>
-            <Modal.Header>
+            <Modal.Header className={props.headerClass}>
                 <FormattedMessage
                     id='invite_modal.invited'
                     defaultMessage='{as} invited to {team_name}'
@@ -66,9 +70,10 @@ export default function ResultView(props: Props) {
                     />
                 )}
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className={props.footerClass}>
                 <button
                     onClick={props.inviteMore}
+                    className='btn btn-cancel ResultView__inviteMore'
                 >
                     <FormattedMessage
                         id='invitation_modal.invite.more'
@@ -77,6 +82,7 @@ export default function ResultView(props: Props) {
                 </button>
                 <button
                     onClick={props.onDone}
+                    className='btn btn-primary'
                 >
                     <FormattedMessage
                         id='invitation_modal.confirm.done'

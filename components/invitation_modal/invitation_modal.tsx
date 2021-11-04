@@ -25,6 +25,8 @@ import ResultView, {ResultState, defaultResultState, InviteResults} from './resu
 import InviteView, {InviteState, defaultInviteState} from './invite_view';
 import {As} from './invite_as';
 
+import './invitation_modal.scss';
+
 type Props = {
     show: boolean;
     inviteToTeamTreatment: InviteToTeamTreatments;
@@ -83,9 +85,6 @@ class InvitationModal extends React.PureComponent<Props, State> {
 
     handleHide = () => {
         this.props.actions.closeModal();
-    }
-
-    handleHidden = () => {
     }
 
     toggleCustomMessage = () => {
@@ -285,6 +284,28 @@ class InvitationModal extends React.PureComponent<Props, State> {
         }));
     }
 
+    getBackdrop = () => {
+        // 'static' means backdrop clicks do not close
+        // true means backdrop clicks do close
+        // false means no backdrop
+        if (this.state.view === 'result') {
+            return true;
+        }
+
+        const emptyInvites = this.state.invite.usersEmails.length === 0 && this.state.invite.usersEmailsSearch === '';
+        if (this.state.invite.as === 'member' && !emptyInvites) {
+            return 'static';
+        } else if (this.state.invite.as === 'guest') {
+            if (this.state.invite.inviteChannels.channels.length !== 0 ||
+                this.state.invite.inviteChannels.search !== '' ||
+                    !emptyInvites
+            ) {
+                return 'static';
+            }
+        }
+        return true;
+    }
+
     render() {
         let view = (
             <InviteView
@@ -307,6 +328,8 @@ class InvitationModal extends React.PureComponent<Props, State> {
                 isCloud={this.props.isCloud}
                 subscriptionStats={this.props.subscriptionStats}
                 cloudUserLimit={this.props.cloudUserLimit}
+                headerClass='InvitationModal__header'
+                footerClass='InvitationModal__footer'
                 {...this.state.invite}
             />
         );
@@ -317,6 +340,8 @@ class InvitationModal extends React.PureComponent<Props, State> {
                     currentTeamName={this.props.currentTeam.name}
                     onDone={this.handleHide}
                     inviteMore={this.inviteMore}
+                    headerClass='InvitationModal__header'
+                    footerClass='InvitationModal__footer'
                     {...this.state.result}
                 />
             );
@@ -326,10 +351,11 @@ class InvitationModal extends React.PureComponent<Props, State> {
             <Modal
                 id='invitationModal'
                 dialogClassName='a11y__modal'
+                className='InvitationModal'
                 show={this.props.show}
                 onHide={this.handleHide}
-                onExited={this.handleHidden}
                 role='dialog'
+                backdrop={this.getBackdrop()}
                 aria-labelledby='invitationModalLabel'
             >
                 {view}

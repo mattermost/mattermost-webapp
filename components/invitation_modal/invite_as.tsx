@@ -9,11 +9,14 @@ import Radio from '@mattermost/compass-components/components/radio';
 
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
+import './invite_as.scss';
+
 export type As = 'member' | 'guest'
 
 type Props = {
     setInviteAs: (as: As) => void;
     as: As;
+    titleClass?: string;
     inviteToTeamTreatment: InviteToTeamTreatments;
 }
 
@@ -45,7 +48,7 @@ export default function InviteAs(props: Props) {
                         props.setInviteAs('member');
                     }}
                 >
-                    <span style={{color: 'black'}}>
+                    <span className='InviteAs__label'>
                         <FormattedMessage
                             id='invite_modal.choose_member'
                             defaultMessage='Member'
@@ -58,12 +61,12 @@ export default function InviteAs(props: Props) {
                         props.setInviteAs('guest');
                     }}
                 >
-                    <span style={{color: 'black'}}>
+                    <span className='InviteAs__label'>
                         <FormattedMessage
                             id='invite_modal.choose_guest_a'
                             defaultMessage='Guest'
                         />
-                        <span>
+                        <span className='InviteAs__label--parenthetical'>
                             {' - '}
                             <FormattedMessage
                                 id='invite_modal.choose_guest_b'
@@ -75,11 +78,16 @@ export default function InviteAs(props: Props) {
             </div>
         );
     }
-    return (<div>
-        <FormattedMessage
-            id='invite_modal.as'
-            defaultMessage='Invite as'
-        />
-        {control}
-    </div>);
+
+    return (
+        <div className='InviteAs'>
+            <div className={props.titleClass}>
+                <FormattedMessage
+                    id='invite_modal.as'
+                    defaultMessage='Invite as'
+                />
+            </div>
+            {control}
+        </div>
+    );
 }

@@ -9,6 +9,8 @@ import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import ChannelsInput from 'components/widgets/inputs/channels_input';
 import {Channel} from 'mattermost-redux/types/channels';
 
+import './add_to_channels.scss';
+
 export type CustomMessageProps = {
     message: string;
     open: boolean;
@@ -38,6 +40,7 @@ type Props = {
     onChannelsInputChange: (search: string) => void;
     channelsLoader: (value: string, callback?: (channels: Channel[]) => void) => Promise<Channel[]>;
     currentChannelName: string;
+    titleClass?: string;
 }
 
 const RENDER_TIMEOUT_GUESS = 100;
@@ -53,15 +56,20 @@ export default function AddToChannels(props: Props) {
 
     const {formatMessage} = useIntl();
 
-    return (<div>
-        <FormattedMessage
-            id='invite_modal.add_channels_title_a'
-            defaultMessage='Add to channels'
-        />
-        <FormattedMessage
-            id='invite_modal.add_channels_title_b'
-            defaultMessage='(required)'
-        />
+    return (<div className='AddToChannels'>
+        <div className='InviteView__sectionTitle'>
+            <FormattedMessage
+                id='invite_modal.add_channels_title_a'
+                defaultMessage='Add to channels'
+            />
+            {' '}
+            <span className='InviteView__sectionTitleParenthetical'>
+                <FormattedMessage
+                    id='invite_modal.add_channels_title_b'
+                    defaultMessage='(required)'
+                />
+            </span>
+        </div>
         <ChannelsInput
             placeholder={
                 <FormattedMessage
@@ -82,33 +90,26 @@ export default function AddToChannels(props: Props) {
             inputValue={props.inviteChannels.search}
             value={props.inviteChannels.channels}
         />
-
-        <FormattedMessage
-            id='invitation_modal.guests.custom-message.link'
-            defaultMessage='Set a custom message'
-        />
-        <FormattedMessage
-            id='invitation_modal.guests.custom-message.description'
-            defaultMessage='Create a custom message to make your invite more personal.'
-        />
         <div
-            className='custom-message'
+            className='AddToChannels__customMessage'
             data-testid='customMessage'
         >
             {!props.customMessage.open && (
-                <a
-                    onClick={props.toggleCustomMessage}
-                    href='#'
-                >
-                    <FormattedMessage
-                        id='invitation_modal.guests.custom-message.link'
-                        defaultMessage='Set a custom message'
-                    />
-                </a>
+                <div className={'AddToChannels__customMessageTitle ' + props.titleClass}>
+                    <a
+                        onClick={props.toggleCustomMessage}
+                        href='#'
+                    >
+                        <FormattedMessage
+                            id='invitation_modal.guests.custom-message.link'
+                            defaultMessage='Set a custom message'
+                        />
+                    </a>
+                </div>
             )}
             {props.customMessage.open && (
                 <React.Fragment>
-                    <div>
+                    <div className={'AddToChannels__customMessageTitle ' + props.titleClass}>
                         <FormattedMessage
                             id='invitation_modal.guests.custom-message.title'
                             defaultMessage='Custom message'
@@ -118,6 +119,7 @@ export default function AddToChannels(props: Props) {
                         />
                     </div>
                     <textarea
+                        className='AddToChannels__messageInput'
                         id='invite-members-to-channels'
                         onChange={(e) => props.setCustomMessage(e.target.value)}
                         value={props.customMessage.message}
