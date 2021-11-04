@@ -95,9 +95,24 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
+        const onClipboardClick = (e:any, code: string) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log(e);
+            console.log(code);
+            navigator.clipboard.writeText(code);
+            console.log('I clicked from the shady function');
+            return false;
+        }
+
         return (
             '<div class="' + className + '">' +
-                header +
+                `<div class="post-code__overlay">` +
+                    '<span class="post-code__clipboard" onclick="(' + onClipboardClick.toString() + ')(event,`'+ code.replaceAll('"', "'") + '`)">' +
+                        '<i class="icon icon-content-copy"></i>' +
+                    '</span>' +
+                    header +
+                '</div>' +
                 '<div class="hljs">' +
                     lineNumbers +
                     '<code>' +
