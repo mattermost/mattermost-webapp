@@ -7,7 +7,9 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import GuestPermissionsTree from './guest_permissions_tree.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import GuestPermissionsTree from './guest_permissions_tree';
 
 export const GUEST_INCLUDED_PERMISSIONS = [
     Permissions.CREATE_PRIVATE_CHANNEL,
@@ -20,7 +22,7 @@ export const GUEST_INCLUDED_PERMISSIONS = [
     Permissions.CREATE_POST,
 ];
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const license = getLicense(state);
 

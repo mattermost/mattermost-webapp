@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -12,25 +11,31 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
-export default class GuestPermissionsTree extends React.PureComponent {
-    static propTypes = {
-        scope: PropTypes.string.isRequired,
-        role: PropTypes.object.isRequired,
-        onToggle: PropTypes.func.isRequired,
-        parentRole: PropTypes.object,
-        selected: PropTypes.string,
-        selectRow: PropTypes.func.isRequired,
-        readOnly: PropTypes.bool,
-        license: PropTypes.object,
-    };
+type Props = {
+    scope: string;
+    role: Record<string, any>;
+    onToggle: (name: string, ids: string[]) => void;
+    parentRole?: Record<string, any>;
+    selected?: string;
+    selectRow: () => void;
+    readOnly?: boolean;
+    license?: Record<string, string>;
+};
 
+type State = {
+    editTimeLimitModalIsVisible: boolean;
+}
+
+export default class GuestPermissionsTree extends React.PureComponent<Props, State> {
     static defaultProps = {
         role: {
             permissions: [],
         },
     };
+    ADDITIONAL_VALUES: { guest_edit_post: { editTimeLimitButton: JSX.Element } };
+    permissions: Array<string | { id: string; combined: boolean; permissions: string[] }>;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -42,7 +47,7 @@ export default class GuestPermissionsTree extends React.PureComponent {
                 editTimeLimitButton: (
                     <EditPostTimeLimitButton
                         onClick={this.openPostTimeLimitModal}
-                        isDisabled={this.props.readOnly}
+                        isDisabled={this.props.readOnly ?? false}
                     />
                 ),
             },
@@ -89,7 +94,7 @@ export default class GuestPermissionsTree extends React.PureComponent {
         this.setState({editTimeLimitModalIsVisible: false});
     }
 
-    toggleGroup = (ids) => {
+    toggleGroup = (ids: string[]) => {
         if (this.props.readOnly) {
             return;
         }
