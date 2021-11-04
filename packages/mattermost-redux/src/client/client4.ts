@@ -2038,7 +2038,6 @@ export default class Client4 {
     };
 
     getPostsByIds = (postIds: string[]) => {
-
         return this.doFetch<StatusOK>(
             `${this.getPostsRoute()}/ids`,
             {method: 'post', body: JSON.stringify(postIds)},
