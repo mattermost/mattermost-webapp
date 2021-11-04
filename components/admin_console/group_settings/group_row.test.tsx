@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
+import GroupRow from 'components/admin_console/group_settings/group_row';
 
 describe('components/admin_console/group_settings/GroupRow', () => {
     test('should match snapshot, on linked and configured row', () => {
@@ -160,12 +160,7 @@ describe('components/admin_console/group_settings/GroupRow', () => {
                 }}
             />,
         );
-        const event = new MouseEvent('click');
-        Object.assign(event, {
-            stopPropagation: jest.fn(),
-            preventDefault: jest.fn(),
-        });
-        await wrapper.instance().linkHandler(event as React.MouseEvent<HTMLAnchorElement>);
+        await wrapper.instance().linkHandler({stopPropagation: jest.fn(), preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLAnchorElement>);
         expect(wrapper.state('loading')).toBe(false);
         expect(link).toHaveBeenCalledWith('primary_key');
     });
@@ -188,7 +183,7 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             />,
         );
 
-        await wrapper.instance().unlinkHandler({stopPropagation: jest.fn(), preventDefault: jest.fn()} as React.MouseEvent);
+        await wrapper.instance().unlinkHandler({stopPropagation: jest.fn(), preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLAnchorElement>);
         expect(wrapper.state('loading')).toBe(false);
         expect(unlink).toHaveBeenCalledWith('primary_key');
     });
