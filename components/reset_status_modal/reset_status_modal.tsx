@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,61 +10,101 @@ import ConfirmModal from 'components/confirm_modal';
 import {toTitleCase} from 'utils/utils.jsx';
 import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {UserStatus} from 'mattermost-redux/types/users';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-export default class ResetStatusModal extends React.PureComponent {
-    static propTypes = {
+t('modal.manual_status.auto_responder.message_');
+t('modal.manual_status.auto_responder.message_away');
+t('modal.manual_status.auto_responder.message_dnd');
+t('modal.manual_status.auto_responder.message_offline');
+t('modal.manual_status.auto_responder.message_online');
+t('modal.manual_status.button_');
+t('modal.manual_status.button_away');
+t('modal.manual_status.button_dnd');
+t('modal.manual_status.button_offline');
+t('modal.manual_status.button_online');
+t('modal.manual_status.cancel_');
+t('modal.manual_status.cancel_away');
+t('modal.manual_status.cancel_dnd');
+t('modal.manual_status.cancel_offline');
+t('modal.manual_status.cancel_ooo');
+t('modal.manual_status.message_');
+t('modal.manual_status.message_away');
+t('modal.manual_status.message_dnd');
+t('modal.manual_status.message_offline');
+t('modal.manual_status.message_online');
+t('modal.manual_status.title_');
+t('modal.manual_status.title_away');
+t('modal.manual_status.title_dnd');
+t('modal.manual_status.title_offline');
+t('modal.manual_status.title_ooo');
+
+type Props = {
+
+    /*
+     * The user's preference for whether their status is automatically reset
+     */
+    autoResetPref?: string;
+
+    /*
+     * Props value is used to update currentUserStatus
+     */
+    currentUserStatus?: string;
+
+    /*
+     * Props value is used to reset status from status_dropdown
+     */
+    newStatus?: string;
+
+    /*
+     * Function called when modal is dismissed
+     */
+    onHide?: () => void;
+
+    /**
+         * Function called after the modal has been hidden
+         */
+    onExited?: () => void;
+
+    actions: {
 
         /*
-         * The user's preference for whether their status is automatically reset
+         * Function to get and then reset the user's status if needed
          */
-        autoResetPref: PropTypes.string,
+        autoResetStatus: () => Promise<UserStatus>;
 
         /*
-         * Props value is used to update currentUserStatus
+         * Function to set the status for a user
          */
-        currentUserStatus: PropTypes.string,
+        setStatus: (status: UserStatus) => void;
 
         /*
-         * Props value is used to reset status from status_dropdown
+         * Function to save user preferences
          */
-        newStatus: PropTypes.string,
-
-        /**
-         * Function called when modal is dismissed
-         */
-        onHide: PropTypes.func,
-        actions: PropTypes.shape({
-
-            /*
-             * Function to get and then reset the user's status if needed
-             */
-            autoResetStatus: PropTypes.func.isRequired,
-
-            /*
-             * Function to set the status for a user
-             */
-            setStatus: PropTypes.func.isRequired,
-
-            /*
-             * Function to save user preferences
-             */
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
+}
 
-    constructor(props) {
+type State = {
+    show: boolean;
+    currentUserStatus: UserStatus;
+    newStatus: string;
+}
+
+export default class ResetStatusModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             show: false,
-            currentUserStatus: {},
+            currentUserStatus: {} as UserStatus,
             newStatus: props.newStatus || 'online',
         };
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.props.actions.autoResetStatus().then(
-            (status) => {
+            (status: UserStatus) => {
                 const statusIsManual = status.manual;
                 const autoResetPrefNotSet = this.props.autoResetPref === '';
 
@@ -77,11 +116,9 @@ export default class ResetStatusModal extends React.PureComponent {
         );
     }
 
-    hideModal = () => {
-        this.setState({show: false});
-    };
+    private hideModal = (): void => this.setState({show: false});
 
-    onConfirm = (checked) => {
+    public onConfirm = (checked: boolean): void => {
         this.hideModal();
 
         const newStatus = {...this.state.currentUserStatus};
@@ -94,7 +131,7 @@ export default class ResetStatusModal extends React.PureComponent {
         }
     };
 
-    onCancel = (checked) => {
+    public onCancel = (checked: boolean): void => {
         this.hideModal();
 
         if (checked) {
@@ -104,7 +141,7 @@ export default class ResetStatusModal extends React.PureComponent {
         }
     };
 
-    renderModalMessage = () => {
+    private renderModalMessage = () => {
         if (this.props.currentUserStatus === UserStatuses.OUT_OF_OFFICE) {
             return (
                 <FormattedMessage
@@ -128,7 +165,7 @@ export default class ResetStatusModal extends React.PureComponent {
         );
     };
 
-    render() {
+    public render(): JSX.Element {
         const userStatus = this.state.currentUserStatus.status || '';
         const userStatusId = 'modal.manual_status.title_' + userStatus;
         const manualStatusTitle = (
@@ -181,36 +218,10 @@ export default class ResetStatusModal extends React.PureComponent {
                 onConfirm={this.onConfirm}
                 cancelButtonText={manualStatusCancel}
                 onCancel={this.onCancel}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 showCheckbox={showCheckbox}
                 checkboxText={manualStatusCheckbox}
             />
         );
     }
 }
-
-t('modal.manual_status.auto_responder.message_');
-t('modal.manual_status.auto_responder.message_away');
-t('modal.manual_status.auto_responder.message_dnd');
-t('modal.manual_status.auto_responder.message_offline');
-t('modal.manual_status.auto_responder.message_online');
-t('modal.manual_status.button_');
-t('modal.manual_status.button_away');
-t('modal.manual_status.button_dnd');
-t('modal.manual_status.button_offline');
-t('modal.manual_status.button_online');
-t('modal.manual_status.cancel_');
-t('modal.manual_status.cancel_away');
-t('modal.manual_status.cancel_dnd');
-t('modal.manual_status.cancel_offline');
-t('modal.manual_status.cancel_ooo');
-t('modal.manual_status.message_');
-t('modal.manual_status.message_away');
-t('modal.manual_status.message_dnd');
-t('modal.manual_status.message_offline');
-t('modal.manual_status.message_online');
-t('modal.manual_status.title_');
-t('modal.manual_status.title_away');
-t('modal.manual_status.title_dnd');
-t('modal.manual_status.title_offline');
-t('modal.manual_status.title_ooo');

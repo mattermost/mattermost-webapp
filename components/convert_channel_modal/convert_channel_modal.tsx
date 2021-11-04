@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -12,26 +11,26 @@ import {General} from 'mattermost-redux/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class ConvertChannelModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    channelDisplayName: string;
+    channelId: string;
 
-        /**
-        * Function called when modal is dismissed
-        */
-        onHide: PropTypes.func.isRequired,
-        channelId: PropTypes.string.isRequired,
-        channelDisplayName: PropTypes.string.isRequired,
+    /**
+     * Function injected by ModalController to be called when the modal can be unmounted
+     */
+    onExited: () => void;
 
-        actions: PropTypes.shape({
+    actions: {
+        updateChannelPrivacy: (channelId: string, privacy: string) => void;
+    };
+}
 
-            /**
-            * Function called for converting channel to private,
-            */
-            updateChannelPrivacy: PropTypes.func.isRequired,
-        }),
-    }
+type State = {
+    show: boolean;
+}
 
-    constructor(props) {
+export default class ConvertChannelModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {show: true};
@@ -55,7 +54,7 @@ export default class ConvertChannelModal extends React.PureComponent {
     render() {
         const {
             channelDisplayName,
-            onHide,
+            onExited,
         } = this.props;
 
         return (
@@ -63,7 +62,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                 dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={onHide}
+                onExited={onExited}
                 role='dialog'
                 aria-labelledby='convertChannelModalLabel'
             >

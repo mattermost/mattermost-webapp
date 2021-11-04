@@ -15,7 +15,7 @@ describe('components/AddGroupsToChannelModal', () => {
         teamID: '456',
         searchTerm: '',
         groups: [],
-        onHide: () => { },
+        onExited: jest.fn(),
         actions: {
             getGroupsNotAssociatedToChannel: jest.fn().mockResolvedValue({data: true}),
             setModalSearchTerm: jest.fn().mockResolvedValue({data: true}),
@@ -31,17 +31,6 @@ describe('components/AddGroupsToChannelModal', () => {
             <AddGroupsToChannelModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should have called onHide when handleExit is called', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
-        const wrapper = shallow(
-            <AddGroupsToChannelModal {...props}/>,
-        );
-
-        (wrapper.instance() as AddGroupsToChannelModal).handleExit();
-        expect(onHide).toHaveBeenCalledTimes(1);
     });
 
     test('should match state when handleResponse is called', () => {

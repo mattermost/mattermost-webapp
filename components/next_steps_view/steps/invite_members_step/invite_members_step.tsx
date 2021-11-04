@@ -39,7 +39,6 @@ type Props = StepComponentProps & {
     subscriptionStats: SubscriptionStats | null;
     intl: IntlShape;
     isCloud: boolean;
-    downloadAppsAsNextStep: boolean;
 };
 
 type State = {
@@ -297,20 +296,13 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             );
         }
 
-        let finishMessage = (
+        const finishMessage = (
             <FormattedMessage
-                id='next_steps_view.invite_members_step.finish'
-                defaultMessage='Finish'
+                id='next_steps_view.invite_members_step.next_step'
+                defaultMessage='Next step'
             />
         );
-        if (this.props.downloadAppsAsNextStep) {
-            finishMessage = (
-                <FormattedMessage
-                    id='next_steps_view.invite_members_step.next_step'
-                    defaultMessage='Next step'
-                />
-            );
-        }
+
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>

@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeGetPostOptionBinding} from 'mattermost-redux/selectors/entities/apps';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
@@ -26,6 +26,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
+import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
@@ -45,6 +46,9 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import {Locations} from 'utils/constants';
+import {allAtMentions} from '../../utils/text_formatting';
+
+import {matchUserMentionTriggersWithMessageMentions} from 'utils/post_utils';
 
 import DotMenu from './dot_menu';
 
@@ -84,6 +88,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const rootId = post.root_id || post.id;
     let threadId = rootId;
     let isFollowingThread = false;
+    let isMentionedInRootPost = false;
     let threadReplyCount = 0;
 
     if (
@@ -102,7 +107,11 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         if (root) {
             const thread = getThreadOrSynthetic(state, root);
             threadReplyCount = thread.reply_count;
+            const currentUserMentionKeys = getCurrentUserMentionKeys(state);
+            const rootMessageMentionKeys = allAtMentions(root.message);
             isFollowingThread = thread.is_following;
+            isMentionedInRootPost = thread.reply_count === 0 &&
+                matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
             threadId = thread.id;
         }
     }
@@ -128,6 +137,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         userId,
         threadId,
         isFollowingThread,
+        isMentionedInRootPost,
         isCollapsedThreadsEnabled: collapsedThreads,
         threadReplyCount,
         appBindings,
@@ -142,7 +152,7 @@ type Actions = {
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     pinPost: (postId: string) => void;
     unpinPost: (postId: string) => void;
-    openModal: (postId: any) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
     markPostAsUnread: (post: Post) => void;
     doAppCall: DoAppCall;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;

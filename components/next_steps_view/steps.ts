@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {makeGetCategory, getDownloadAppsCTATreatment} from 'mattermost-redux/selectors/entities/preferences';
-import {DownloadAppsCTATreatments} from 'mattermost-redux/constants/config';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
@@ -128,23 +127,14 @@ export const isFirstAdmin = createSelector(
     },
 );
 
-function filterDownloadAppsStep(step: StepType, downloadAppsAsNextStep: boolean): boolean {
-    if (step.id !== RecommendedNextSteps.DOWNLOAD_APPS) {
-        return true;
-    }
-
-    return downloadAppsAsNextStep;
-}
-
 export const getSteps = createSelector(
     'getSteps',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (state: GlobalState) => getDownloadAppsCTATreatment(state) === DownloadAppsCTATreatments.TIPS_AND_NEXT_STEPS,
-    (currentUser, firstAdmin, downloadAppsAsNextStep) => {
+    (currentUser, firstAdmin) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
-            isStepForUser(step, roles) && step.visible && filterDownloadAppsStep(step, downloadAppsAsNextStep),
+            isStepForUser(step, roles) && step.visible,
         );
     },
 );
