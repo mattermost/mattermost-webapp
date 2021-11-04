@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ResetStatusModal from 'components/reset_status_modal/reset_status_modal.jsx';
+import ResetStatusModal from 'components/reset_status_modal/reset_status_modal';
 
 describe('components/ResetStatusModal', () => {
     const autoResetStatus = jest.fn().mockImplementation(
@@ -25,7 +25,10 @@ describe('components/ResetStatusModal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ResetStatusModal {...baseProps}/>,
+            <ResetStatusModal
+                onHide={jest.fn()}
+                {...baseProps}
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -42,7 +45,10 @@ describe('components/ResetStatusModal', () => {
             },
         };
         const wrapper = shallow(
-            <ResetStatusModal {...props}/>,
+            <ResetStatusModal
+                onHide={jest.fn()}
+                {...props}
+            />,
         );
         const currentUserStatus = {
             status: 'away',
@@ -57,7 +63,8 @@ describe('components/ResetStatusModal', () => {
             show: true,
             currentUserStatus,
         });
-        wrapper.instance().onConfirm(false);
+        const instance = wrapper.instance() as ResetStatusModal;
+        instance.onConfirm(false);
         expect(wrapper.state('show')).toEqual(false);
         expect(newSetStatus).toHaveBeenCalledTimes(1);
         expect(newSetStatus).toHaveBeenCalledWith(expectedUserStatus);
@@ -67,7 +74,7 @@ describe('components/ResetStatusModal', () => {
             show: true,
             currentUserStatus,
         });
-        wrapper.instance().onConfirm(true);
+        instance.onConfirm(true);
         expect(wrapper.state('show')).toEqual(false);
         expect(newSetStatus).toHaveBeenCalledTimes(2);
         expect(newSetStatus).toHaveBeenCalledWith(expectedUserStatus);
@@ -89,7 +96,10 @@ describe('components/ResetStatusModal', () => {
             },
         };
         const wrapper = shallow(
-            <ResetStatusModal {...props}/>,
+            <ResetStatusModal
+                onHide={jest.fn()}
+                {...props}
+            />,
         );
         const currentUserStatus = {
             status: 'away',
@@ -100,7 +110,8 @@ describe('components/ResetStatusModal', () => {
             show: true,
             currentUserStatus,
         });
-        wrapper.instance().onCancel(false);
+        const instance = wrapper.instance() as ResetStatusModal;
+        instance.onCancel(false);
         expect(wrapper.state('show')).toEqual(false);
         expect(newSavePreferences).not.toHaveBeenCalled();
 
@@ -108,7 +119,7 @@ describe('components/ResetStatusModal', () => {
             show: true,
             currentUserStatus,
         });
-        wrapper.instance().onCancel(true);
+        instance.onCancel(true);
         expect(wrapper.state('show')).toEqual(false);
         expect(newSavePreferences).toHaveBeenCalledTimes(1);
         expect(newSavePreferences).toHaveBeenCalledWith(
@@ -120,7 +131,10 @@ describe('components/ResetStatusModal', () => {
     test('should match snapshot, render modal for OOF status', () => {
         const props = {...baseProps, currentUserStatus: 'ooo'};
         const wrapper = shallow(
-            <ResetStatusModal {...props}/>,
+            <ResetStatusModal
+                onHide={jest.fn()}
+                {...props}
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

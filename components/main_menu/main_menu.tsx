@@ -30,6 +30,7 @@ import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
+import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -59,7 +60,7 @@ export type Props = {
     intl: IntlShape;
     showNextStepsTips?: boolean;
     actions: {
-        openModal: (params: {modalId: string; dialogType: any; dialogProps: any}) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
         showMentions: () => void;
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
