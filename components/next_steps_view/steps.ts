@@ -20,6 +20,11 @@ import DownloadAppsStep from './steps/download_apps_step/download_apps_step';
 
 import {isStepForUser} from './step_helpers';
 
+type StepFinishButtonText = {
+    id: string;
+    defaultMessage: string;
+};
+
 export type StepComponentProps = {
     id: string;
     expanded: boolean;
@@ -27,6 +32,11 @@ export type StepComponentProps = {
     currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;
+
+    // isLastStep is passed to every step component to inform it of it's position. A check can then be made within the component to display certain text
+    // depending on the value of isLastStep. For example, we can display 'Finish' as the text of the finish button if this prop is true.
+    isLastStep: boolean;
+    finishButtonText: StepFinishButtonText;
 }
 export type StepType = {
     id: string;
@@ -36,6 +46,7 @@ export type StepType = {
     };
     component: React.ComponentType<StepComponentProps | StepComponentProps & {isFirstAdmin: boolean}>;
     visible: boolean;
+    finishButtonText: StepFinishButtonText;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
     // so you would require ['system_admin','system_user'] to match.
@@ -54,6 +65,10 @@ export const Steps: StepType[] = [
         component: CompleteProfileStep,
         roles: [],
         visible: true,
+        finishButtonText: {
+            id: t('next_steps_view.complete_profile_step.saveProfile'),
+            defaultMessage: 'Save profile',
+        },
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
@@ -64,6 +79,10 @@ export const Steps: StepType[] = [
         roles: ['first_admin'],
         component: TeamProfileStep,
         visible: true,
+        finishButtonText: {
+            id: t('next_steps_view.team_profile_step.saveTeam'),
+            defaultMessage: 'Save team',
+        },
     },
     {
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
@@ -74,6 +93,10 @@ export const Steps: StepType[] = [
         roles: ['system_user'],
         component: EnableNotificationsStep,
         visible: true,
+        finishButtonText: {
+            id: t('next_steps_view.notificationSetup.setNotifications'),
+            defaultMessage: 'Set up notifications',
+        },
     },
     {
         id: RecommendedNextSteps.PREFERENCES_SETUP,
@@ -84,6 +107,10 @@ export const Steps: StepType[] = [
         roles: ['system_user'],
         component: SetupPreferencesStep,
         visible: false,
+        finishButtonText: {
+            id: t('next_steps_view.preferenceSetup.setPreferences'),
+            defaultMessage: 'Set Preferences',
+        },
     },
     {
         id: RecommendedNextSteps.INVITE_MEMBERS,
@@ -94,6 +121,10 @@ export const Steps: StepType[] = [
         roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
         visible: true,
+        finishButtonText: {
+            id: t('next_steps_view.next'),
+            defaultMessage: 'Next step',
+        },
     },
     {
         id: RecommendedNextSteps.DOWNLOAD_APPS,
@@ -104,6 +135,10 @@ export const Steps: StepType[] = [
         roles: [],
         component: DownloadAppsStep,
         visible: true,
+        finishButtonText: {
+            id: t('next_steps_view.next'),
+            defaultMessage: 'Next step',
+        },
     },
 ];
 

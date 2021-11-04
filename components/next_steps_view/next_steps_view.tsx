@@ -168,7 +168,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderStep = (step: StepType, index: number) => {
-        const {id, title} = step;
+        const {id, title, finishButtonText} = step;
 
         let icon = (
             <div className='NextStepsView__cardHeaderBadge'>
@@ -207,6 +207,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded, lastNonCompletedStep?.id === id)}
                         onSkip={this.onSkip(setExpanded)}
+                        isLastStep={lastNonCompletedStep?.id === id}
+                        finishButtonText={finishButtonText}
                     />
                 </Card.Body>
             </Card>
@@ -249,6 +251,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         if (nonCompletedSteps.length === 1) {
             lastNonCompletedStep = nonCompletedSteps[0];
         }
+
         const logo = this.props.isCloud ? <CloudLogoSvg/> : <LogoSvg/>;
 
         return (
