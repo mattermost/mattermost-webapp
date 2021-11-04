@@ -21,6 +21,10 @@ describe('components/next_steps_view', () => {
                 },
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_2',
@@ -31,6 +35,10 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_3',
@@ -41,6 +49,10 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
         ],
         currentUser: TestHelper.getUserMock(),
@@ -136,9 +148,7 @@ describe('components/next_steps_view', () => {
             <NextStepsView {...props}/>,
         );
 
-        wrapper.instance().transitionToFinalScreen = jest.fn();
         wrapper.instance().nextStep(jest.fn(), 'step_1');
         jest.runOnlyPendingTimers();
-        expect(wrapper.instance().transitionToFinalScreen).toBeCalled();
     });
 });
