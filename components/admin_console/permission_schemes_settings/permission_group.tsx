@@ -10,17 +10,13 @@ import PermissionCheckbox from './permission_checkbox';
 import PermissionRow from './permission_row.jsx';
 import PermissionDescription from './permission_description';
 
-type Permissions = Array<string | { permissions: string[] }>
-
-type Role = { permissions: string[] }
-
 type Props = {
     id: string;
     uniqId: string;
     permissions: Permissions;
     readOnly?: boolean;
-    role?: Role;
-    parentRole?: Role;
+    role?: Record<string, any>;
+    parentRole?: Record<string, any>;
     scope: string;
     combined?: boolean;
     selected?: string;
@@ -35,6 +31,8 @@ type State = {
     prevPermissions: string[];
     selected: string;
 }
+
+type Permissions = Array<string | { permissions: string[] }>
 
 const getRecursivePermissions = (permissions: Permissions): string[] => {
     let result: string[] = [];
@@ -156,7 +154,7 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
                 selected={this.props.selected}
                 selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly || comesFromParent}
-                inherited={comesFromParent ? this.props.parentRole : null}
+                inherited={comesFromParent ? this.props.parentRole : undefined}
                 value={active ? 'checked' : ''}
                 onChange={this.toggleSelectRow}
                 additionalValues={additionalValues}

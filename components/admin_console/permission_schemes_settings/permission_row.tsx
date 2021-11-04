@@ -2,25 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import PermissionCheckbox from './permission_checkbox.jsx';
 import PermissionDescription from './permission_description.jsx';
 
-export default class PermissionRow extends React.PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        uniqId: PropTypes.string.isRequired,
-        inherited: PropTypes.object,
-        readOnly: PropTypes.bool,
-        selected: PropTypes.string,
-        selectRow: PropTypes.func.isRequired,
-        value: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired,
-        additionalValues: PropTypes.object,
-    };
+type Props = {
+    id: string;
+    uniqId: string;
+    inherited?: Record<string, string>;
+    readOnly?: boolean;
+    selected?: string;
+    selectRow: () => void;
+    value: string;
+    onChange: (id: string) => void;
+    additionalValues?: Record<string, React.ReactNode>;
+}
 
+export default class PermissionRow extends React.PureComponent<Props> {
     toggleSelect = () => {
         if (this.props.readOnly) {
             return;
