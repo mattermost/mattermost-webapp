@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+
+import {RouteComponentProps} from 'react-router-dom';
 
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
@@ -16,27 +17,38 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_with_link';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {Scheme} from 'mattermost-redux/types/schemes';
+
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
 const PAGE_SIZE = 30;
 const PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE = 501;
 
-export default class PermissionSchemesSettings extends React.PureComponent {
-    static propTypes = {
-        schemes: PropTypes.object.isRequired,
-        jobsAreEnabled: PropTypes.bool,
-        clusterIsEnabled: PropTypes.bool,
-        license: PropTypes.shape({
-            CustomPermissionsSchemes: PropTypes.string,
-        }),
-        actions: PropTypes.shape({
-            loadSchemes: PropTypes.func.isRequired,
-            loadSchemeTeams: PropTypes.func.isRequired,
-        }),
-        isDisabled: PropTypes.bool,
+type Props = {
+    schemes: Scheme[];
+    jobsAreEnabled?: boolean;
+    clusterIsEnabled?: boolean;
+    license: {
+        CustomPermissionsSchemes: string;
     };
+    actions: {
+        loadSchemes: (a: string, b: number, c: number) => Promise<ActionResult>;
+        loadSchemeTeams: (id: string) => Promise<ActionResult>;
+    };
+    isDisabled?: boolean;
+    history?: string[];
+};
 
-    constructor(props) {
+type State = {
+    loading: boolean;
+    loadingMore: boolean;
+    page: number;
+    phase2MigrationIsComplete: boolean;
+};
+export default class PermissionSchemesSettings extends React.PureComponent<Props & RouteComponentProps, State> {
+    constructor(props: Props & RouteComponentProps) {
         super(props);
         this.state = {
             loading: true,
@@ -116,7 +128,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         );
     }
 
-    teamOverrideUnavalableView = (id, defaultMsg, documentationLink) => {
+    teamOverrideUnavalableView = (id: string, defaultMsg: string, documentationLink: React.ReactNode) => {
         return (
             <div className='team-override-unavailable'>
                 <div className='team-override-unavailable__inner'>
@@ -131,7 +143,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
     };
 
     renderTeamOverrideSchemes = () => {
-        const schemes = Object.values(this.props.schemes).map((scheme) => (
+        const schemes = Object.values(this.props.schemes).map((scheme: Scheme) => (
             <PermissionsSchemeSummary
                 scheme={scheme}
                 history={this.props.history}
