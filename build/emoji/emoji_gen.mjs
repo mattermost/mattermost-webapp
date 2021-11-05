@@ -337,37 +337,40 @@ for (const key of emojiFilePositions.keys()) {
 
 const cssRules = `
 @charset "UTF-8";
+
 .emojisprite-preview {
+    width: ${EMOJI_SIZE_PADDED}px;
+    max-width: none;
+    height: ${EMOJI_SIZE_PADDED}px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    -moz-transform: scale(0.5);
+    transform-origin: 0 0;
     // Using zoom for now as it results in less blurry emojis on Chrome - MM-34178
     zoom: 0.5;
-    -moz-transform: scale(0.5);
-    background-repeat: no-repeat;
-    cursor: pointer;
-    height: ${EMOJI_SIZE_PADDED}px;
-    max-width: none;
-    width: ${EMOJI_SIZE_PADDED}px;
-    transform-origin: 0 0;
 }
+
 .emojisprite {
-    zoom: 0.35;
-    -moz-transform: scale(0.35);
+    width: ${EMOJI_SIZE_PADDED}px;
+    max-width: none;
+    height: ${EMOJI_SIZE_PADDED}px;
     background-repeat: no-repeat;
     border-radius: 18px;
     cursor: pointer;
-    height: ${EMOJI_SIZE_PADDED}px;
-    max-width: none;
-    width: ${EMOJI_SIZE_PADDED}px;
+    -moz-transform: scale(0.35);
+    zoom: 0.35;
 }
+
 .emojisprite-loading {
+    width: ${EMOJI_SIZE_PADDED}px;
+    max-width: none;
+    height: ${EMOJI_SIZE_PADDED}px;
     background-image: none !important;
-    zoom: 0.35;
-    -moz-transform: scale(0.35);
     background-repeat: no-repeat;
     border-radius: 18px;
     cursor: pointer;
-    height: ${EMOJI_SIZE_PADDED}px;
-    max-width: none;
-    width: ${EMOJI_SIZE_PADDED}px;
+    -moz-transform: scale(0.35);
+    zoom: 0.35;
 }
 
 ${cssCats.join('\n')};
