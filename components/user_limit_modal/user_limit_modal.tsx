@@ -12,6 +12,8 @@ import PurchaseModal from 'components/purchase_modal';
 import NotifyLink from 'components/widgets/links/notify_link';
 import ConfirmNotifyAdminModal from 'components/confirm_notify_admin_modal';
 
+import {ModalData} from 'types/actions';
+
 import UpgradeUserLimitModalSvg from './user_limit_upgrade_svg';
 
 import './user_limit_modal.scss';
@@ -22,7 +24,7 @@ type Props = {
     cloudUserLimit: string;
     actions: {
         closeModal: (identifier: string) => void;
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 };
 

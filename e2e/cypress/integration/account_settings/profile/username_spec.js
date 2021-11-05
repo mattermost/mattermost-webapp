@@ -48,13 +48,13 @@ describe('Account Settings > Sidebar > General > Edit', () => {
         // # Clear the username textfield contents
         cy.get('#usernameEdit').click();
         cy.get('#username').clear();
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Check if element is present and contains expected text values
         cy.get('#clientError').should('be.visible').should('contain', 'Username must begin with a letter, and contain between 3 to 22 lowercase characters made up of numbers, letters, and the symbols \'.\', \'-\', and \'_\'.');
 
         // # Click "x" button to close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
+        cy.uiClose();
     });
 
     it('MM-T2051 Username min 3 characters', () => {
@@ -63,13 +63,13 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
         // # Add the username to textfield contents
         cy.get('#username').clear().type('te');
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Check if element is present and contains expected text values
         cy.get('#clientError').should('be.visible').should('contain', 'Username must begin with a letter, and contain between 3 to 22 lowercase characters made up of numbers, letters, and the symbols \'.\', \'-\', and \'_\'.');
 
         // # Click "x" button to close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
+        cy.uiClose();
     });
 
     it('MM-T2052 Username already taken', () => {
@@ -78,7 +78,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
         // # Add the username to textfield contents
         cy.get('#username').clear().type(otherUser.username);
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Check if element is present and contains expected text values
         cy.get('#serverError').should('be.visible').should('contain', 'An account with that username already exists.');
@@ -151,7 +151,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
         for (const prefix of prefixes) {
             // # Add  username to textfield contents
             cy.get('#username').clear().type(prefix).type('{backspace}.').type(`${otherUser.username}`);
-            cy.get('#saveSetting').click();
+            cy.uiSave();
 
             // * Check if element is present and contains expected text values
             cy.get('#clientError').should('be.visible').should('contain', 'Username must begin with a letter, and contain between 3 to 22 lowercase characters made up of numbers, letters, and the symbols \'.\', \'-\', and \'_\'.');

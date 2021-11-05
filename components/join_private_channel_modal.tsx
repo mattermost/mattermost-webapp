@@ -9,11 +9,11 @@ import ConfirmModal from 'components/confirm_modal';
 type Props = {
     channelName: string;
     onCancel: () => void;
-    onHide: () => void;
+    onExited: () => void;
     onJoin: () => void;
 }
 
-function JoinPrivateChannelModal({channelName, onCancel, onHide, onJoin}: Props) {
+function JoinPrivateChannelModal({channelName, onCancel, onExited, onJoin}: Props) {
     const join = React.useRef<boolean>(false);
     const [show, setShow] = React.useState<boolean>(true);
 
@@ -34,9 +34,8 @@ function JoinPrivateChannelModal({channelName, onCancel, onHide, onJoin}: Props)
         } else if (typeof onCancel === 'function') {
             onCancel();
         }
-        if (typeof onHide === 'function') {
-            onHide();
-        }
+
+        onExited();
     };
 
     return (
