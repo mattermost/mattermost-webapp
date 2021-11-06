@@ -12,7 +12,7 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
 import {insertLineBreakFromKeyEvent, isKeyPressed, isUnhandledLineBreakKeyCombo, localizeMessage} from 'utils/utils.jsx';
 
@@ -28,11 +28,6 @@ type Props = {
     channel: Channel;
 
     /*
-     * Set whether to show the modal or not
-     */
-    show: boolean;
-
-    /*
      * boolean should be `ctrl` button pressed to send
      */
     ctrlSend: boolean;
@@ -42,15 +37,15 @@ type Props = {
      */
     shouldShowPreview: boolean;
 
+    /**
+     * Called when the modal has been hidden and should be removed.
+     */
+    onExited: () => void;
+
     /*
      * Collection of redux actions
      */
     actions: {
-
-        /*
-         * Close the modal
-         */
-        closeModal: (modalId: string) => {data: boolean};
 
         /*
          * patch channel redux-action
@@ -67,6 +62,7 @@ type Props = {
 type State = {
     header?: string;
     saving: boolean;
+    show: boolean;
     serverError?: ServerError;
     postError?: React.ReactNode;
 }
@@ -80,6 +76,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
         this.state = {
             header: props.channel.header,
             saving: false,
+            show: true,
         };
         this.editChannelHeaderTextboxRef = React.createRef<TextboxClass>();
     }
@@ -119,7 +116,9 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
     }
 
     private hideModal = (): void => {
-        this.props.actions.closeModal(ModalIdentifiers.EDIT_CHANNEL_HEADER);
+        this.setState({
+            show: false,
+        });
     }
 
     private focusTextbox = (): void => {
@@ -219,12 +218,12 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
         return (
             <Modal
                 dialogClassName='a11y__modal'
-                show={this.props.show}
+                show={this.state.show}
                 keyboard={false}
                 onKeyDown={this.handleModalKeyDown}
                 onHide={this.hideModal}
                 onEntering={this.handleEntering}
-                onExited={this.hideModal}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='editChannelHeaderModalLabel'
             >
