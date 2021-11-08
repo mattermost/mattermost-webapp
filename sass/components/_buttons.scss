@@ -42,12 +42,12 @@ button {
 
     &.btn-primary {
         border-color: transparent;
-        background: $primary-color;
+        background: var(--button-bg);
 
         &:hover,
         &:focus,
         &:active {
-            background: $primary-color--hover;
+            background: var(--button-bg-hover);
         }
     }
 
@@ -76,6 +76,11 @@ button {
         border: none;
         background: transparent;
         color: rgba(var(--center-channel-color-rgb), 0.7);
+
+        &:hover,
+        &:active {
+            background: var(--button-bg0);
+        }
     }
 
     &.btn-inactive {

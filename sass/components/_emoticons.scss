@@ -118,6 +118,7 @@
         margin-top: 10px;
     }
 
+    /* this might be obsolete (I cannot find usages anywhere) */
     .nav-tabs {
         display: flex;
         flex: 0 0 34px;
@@ -143,6 +144,10 @@
                 margin-left: 5px;
                 outline: none;
                 color: var(--center-channel-color);
+
+                &:hover {
+                    fill: var(--button-bg);
+                }
             }
         }
 
@@ -154,6 +159,8 @@
                 margin-left: 5px;
                 border-radius: 0;
                 opacity: 1;
+                fill: var(--button-bg);
+                border-bottom-color: var(--button-bg);
             }
         }
 

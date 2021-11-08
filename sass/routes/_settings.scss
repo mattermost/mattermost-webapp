@@ -140,6 +140,10 @@
                 margin-top: -3px;
                 font-size: 22px;
             }
+
+            &:hover {
+                background: var(--button-bg);
+            }
         }
 
         .team-img-preview,
@@ -192,6 +196,10 @@
             span {
                 margin-top: -3px;
                 font-size: 22px;
+            }
+
+            &:hover {
+                background: var(--button-bg);
             }
         }
 

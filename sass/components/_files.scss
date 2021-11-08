@@ -285,6 +285,12 @@
         cursor: pointer;
         text-decoration: underline;
     }
+
+    .file__download {
+        &:hover {
+            background: var(--button-bg);
+        }
+    }
 }
 
 .post-image__columns {
@@ -564,6 +570,8 @@
 
             &:hover {
                 @include opacity(1);
+                background: var(--button-bg);
+                border-color: var(--button-bg);
             }
         }
     }

@@ -69,4 +69,18 @@
     .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
         background-color: var(--button-bg);
     }
+
+    &:not(.DayPicker--interactionDisabled) {
+        .DayPicker-Day {
+            &:not(.DayPicker-Day--disabled) {
+                &:not(.DayPicker-Day--selected) {
+                    &:not(.DayPicker-Day--outside) {
+                        &:hover {
+                            background: var(--button-bg);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

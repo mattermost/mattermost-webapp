@@ -346,7 +346,7 @@ $tip-index: 1000;
         &.active {
             @include opacity(1);
 
-            background: $primary-color;
+            background: var(--button-bg);
         }
     }
 }

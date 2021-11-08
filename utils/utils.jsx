@@ -60,6 +60,7 @@ import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_lin
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
+import {rgbToHex} from "@mattermost/compass-components/shared/color-utils";
 
 const CLICKABLE_ELEMENTS = [
     'a',
@@ -516,14 +517,14 @@ export function applyTheme(theme) {
     //     changeCss('.app__body .post-message .group-mention-link', `color:${theme.linkColor}`);
     // }
 
-    if (theme.buttonBg) {
-        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
-        changeCss('.app__body .system-notice__logo svg', 'fill:' + theme.buttonBg);
-        changeCss('.app__body .post-image__details .post-image__download svg:hover', 'border-color:' + theme.buttonBg);
-        changeCss('.app__body .btn.btn-primary:hover, .app__body .btn.btn-primary:active, .app__body .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.15));
-        changeCss('.app__body .emoji-picker .nav-tabs li.active a, .app__body .emoji-picker .nav-tabs li a:hover', 'fill:' + theme.buttonBg);
-        changeCss('.app__body .emoji-picker .nav-tabs > li.active > a', 'border-bottom-color:' + theme.buttonBg + '!important;');
-    }
+    // if (theme.buttonBg) {
+    //     changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
+    //     changeCss('.app__body .system-notice__logo svg', 'fill:' + theme.buttonBg);
+    //     changeCss('.app__body .post-image__details .post-image__download svg:hover', 'border-color:' + theme.buttonBg);
+    //     changeCss('.app__body .btn.btn-primary:hover, .app__body .btn.btn-primary:active, .app__body .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.15));
+    //     changeCss('.app__body .emoji-picker .nav-tabs li.active a, .app__body .emoji-picker .nav-tabs li a:hover', 'fill:' + theme.buttonBg);
+    //     changeCss('.app__body .emoji-picker .nav-tabs > li.active > a', 'border-bottom-color:' + theme.buttonBg + '!important;');
+    // }
 
     if (theme.buttonColor) {
         changeCss('.app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .new-messages__button div, .app__body .btn.btn-primary', 'color:' + theme.buttonColor);
@@ -560,6 +561,7 @@ export function applyTheme(theme) {
             // (do not apply opacity mutations here)
             'away-indicator-rgb': toRgbValues(theme.awayIndicator),
             'button-bg-rgb': toRgbValues(theme.buttonBg),
+            'button-bg-hover-rgb': changeColor(theme.buttonBg, -0.15),
             'button-color-rgb': toRgbValues(theme.buttonColor),
             'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
             'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),
@@ -606,6 +608,7 @@ export function applyTheme(theme) {
             'new-message-separator': theme.newMessageSeparator,
             'link-color': theme.linkColor,
             'button-bg': theme.buttonBg,
+            'button-bg-hover': rgbToHex(changeColor(theme.buttonBg, -0.15)),
             'button-color': theme.buttonColor,
             'error-text': theme.errorTextColor,
             'mention-highlight-bg': theme.mentionHighlightBg,
