@@ -5,11 +5,10 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {joinChannel} from 'mattermost-redux/actions/channels';
-
 import {addUsersToTeam} from 'actions/team_actions';
-
 import {t} from 'utils/i18n';
-import {isGuest, localizeMessage} from 'utils/utils';
+import {localizeMessage} from 'utils/utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 export function sendMembersInvites(teamId, users, emails) {
     return async (dispatch, getState) => {
@@ -22,7 +21,7 @@ export function sendMembersInvites(teamId, users, emails) {
         const usersToAdd = [];
         for (const user of users) {
             const member = getTeamMember(state, teamId, user.id);
-            if (isGuest(user)) {
+            if (isGuest(user.roles)) {
                 notSent.push({user, reason: localizeMessage('invite.members.user-is-guest', 'Contact your admin to make this guest a full member.')});
             } else if (member) {
                 notSent.push({user, reason: localizeMessage('invite.members.already-member', 'This person is already a team member.')});
@@ -73,7 +72,7 @@ export function sendMembersInvites(teamId, users, emails) {
 }
 
 export async function sendGuestInviteForUser(dispatch, user, teamId, channels, members) {
-    if (!isGuest(user)) {
+    if (!isGuest(user.roles)) {
         return {notSent: {user, reason: localizeMessage('invite.members.user-is-not-guest', 'This person is already a member.')}};
     }
     let memberOfAll = true;

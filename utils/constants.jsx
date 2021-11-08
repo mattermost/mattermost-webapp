@@ -83,6 +83,8 @@ export const Preferences = {
     COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
     COLLAPSED_REPLY_THREADS_OFF: 'off',
     COLLAPSED_REPLY_THREADS_ON: 'on',
+    CLICK_TO_REPLY: 'click_to_reply',
+    CLICK_TO_REPLY_DEFAULT: 'true',
     COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT: 'off',
     LINK_PREVIEW_DISPLAY: 'link_previews',
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
@@ -106,6 +108,7 @@ export const Preferences = {
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
+    START_TRIAL_MODAL: 'start_trial_modal',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
@@ -323,6 +326,7 @@ export const ModalIdentifiers = {
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
+    TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
@@ -335,6 +339,7 @@ export const ModalIdentifiers = {
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM: 'confirm',
 };
 
 export const UserStatuses = {
@@ -497,6 +502,8 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
+    SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
 };
 
 export const PostTypes = {
@@ -782,6 +789,7 @@ export const CloudLinks = {
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
     PER_SEAT: 'per_seat',
+    SALES_SERVE: 'sales_serve',
 };
 
 export const RecurringIntervals = {
@@ -1504,6 +1512,7 @@ export const Constants = {
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
+        OPEN_COMMAND_IN_MODAL_ITEM_ID: '_open_command_in_modal',
         COMMAND_SUGGESTION_ERROR: 'error',
         COMMAND_SUGGESTION_CHANNEL: 'channel',
         COMMAND_SUGGESTION_USER: 'user',
@@ -1594,6 +1603,7 @@ export const Constants = {
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
+    TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
 };
 
 export const ValidationErrors = {

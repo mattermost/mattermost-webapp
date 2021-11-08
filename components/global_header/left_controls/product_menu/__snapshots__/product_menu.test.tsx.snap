@@ -31,16 +31,16 @@ exports[`components/global/product_switcher should have an active button state w
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -84,16 +84,16 @@ exports[`components/global/product_switcher should match snapshot 1`] = `
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -137,16 +137,16 @@ exports[`components/global/product_switcher should match snapshot with product s
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -190,16 +190,16 @@ exports[`components/global/product_switcher should render once when there are no
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />
@@ -243,16 +243,16 @@ exports[`components/global/product_switcher should render the correct amount of 
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-boards"
+        key="Boards"
         onClick={[Function]}
         text="Boards"
       />
       <ProductMenuItem
         active={false}
         destination=""
-        icon="none"
-        key=""
+        icon="product-playbooks"
+        key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
       />

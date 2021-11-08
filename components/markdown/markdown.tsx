@@ -126,11 +126,11 @@ export default class Markdown extends React.PureComponent<Props> {
     }
 
     render() {
-        const {postId, editedAt, message} = this.props;
-        if (!this.props.enableFormatting) {
+        const {postId, editedAt, message, enableFormatting} = this.props;
+        if (message === '' || !enableFormatting) {
             return (
                 <span>
-                    {this.props.message}
+                    {message}
                     <PostEditedIndicator
                         postId={postId}
                         editedAt={editedAt}

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
@@ -37,5 +38,19 @@ describe('Keyboard Shortcuts', () => {
             // * Confirm the message box has focus
             cy.get('#post_textbox').should('be.focused');
         });
+    });
+
+    it('MM-T1250 CTRL/CMD+SHIFT+L - Set focus to center channel message box (with SEARCH RHS open)', () => {
+        // # Search
+        cy.get('#searchBox').click().type('test{enter}');
+
+        // * Wait for the RHS to open and the search results to appear
+        cy.contains('.sidebar--right__header', 'Search Results').should('be.visible');
+
+        // # Press CTRL/CMD+SHIFT+L
+        cy.get('body').cmdOrCtrlShortcut('{shift}L');
+
+        // * Confirm the message box has focus
+        cy.get('#post_textbox').should('be.focused');
     });
 });

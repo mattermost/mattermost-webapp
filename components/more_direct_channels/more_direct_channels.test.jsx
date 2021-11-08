@@ -52,7 +52,7 @@ describe('components/MoreDirectChannels', () => {
         isExistingChannel: false,
         restrictDirectMessage: 'any',
         onModalDismissed: emptyFunction,
-        onHide: emptyFunction,
+        onExited: emptyFunction,
         actions: {
             getProfiles: jest.fn(() => {
                 return new Promise((resolve) => {
