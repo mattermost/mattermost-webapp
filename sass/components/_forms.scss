@@ -104,7 +104,7 @@
     .checkbox,
     .radio-inline,
     .checkbox-inline {
-        color: $red;
+        color: var(--error-text);
     }
 
     .form__label {
@@ -118,7 +118,7 @@
     &.radio-inline,
     &.checkbox-inline {
         label {
-            color: $red;
+            color: var(--error-text);
         }
     }
 }

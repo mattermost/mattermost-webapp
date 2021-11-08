@@ -57,4 +57,9 @@
     .SubMenuItemContainer:not(.hasDivider):hover {
         background: rgba(var(--center-channel-color-rgb), 0.1);
     }
+
+    .color-error,
+    .error-text {
+        color: var(--error-text);
+    }
 }

@@ -749,6 +749,12 @@
     .more-purpose {
         @include opacity(0.7);
     }
+
+    .input__help {
+        &.error {
+            color: var(--error-text);
+        }
+    }
 }
 
 .modal-tabs {
