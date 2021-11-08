@@ -3,9 +3,10 @@
 
 import React from 'react';
 
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
-import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {getFileType} from 'utils/utils';
