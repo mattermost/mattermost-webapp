@@ -14,7 +14,7 @@ import {
 
 import FilePreviewModal from 'components/file_preview_modal';
 
-import {PropsFromRedux} from './index';
+import type {PropsFromRedux} from './index';
 
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 

@@ -3,57 +3,32 @@
 
 import React from 'react';
 
-import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
-
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes} from 'utils/constants';
+import {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 import FilePreviewModal from 'components/file_preview_modal';
 
-export type Props = {
+import type {OwnProps, PropsFromRedux} from './index';
 
-    /*
-     * The post the files are attached to
-     */
-    post: Post;
-    fileCount: number;
+type Props = OwnProps & PropsFromRedux;
 
-    /*
-     * Sorted array of metadata for each file attached to the post
-     */
-    fileInfos: FileInfo[];
-
-    compactDisplay?: boolean;
-    enableSVGs?: boolean;
-    isEmbedVisible?: boolean;
-    locale: string;
-
-    handleFileDropdownOpened: (open: boolean) => void;
-}
-
-type State = {
-    showPreviewModal: boolean;
-    startImgIndex: number;
-}
-
-export default class FileAttachmentList extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {showPreviewModal: false, startImgIndex: 0};
-    }
-
-    handleImageClick = (indexClicked: number) => {
-        this.setState({showPreviewModal: true, startImgIndex: indexClicked});
-    }
-
-    hidePreviewModal = () => {
-        this.setState({showPreviewModal: false});
+export default class FileAttachmentList extends React.PureComponent<Props> {
+    handleImageClick = (indexClicked: number, fileInfos: FileInfo[], postId: Post['id']) => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                postId,
+                fileInfos,
+                startIndex: indexClicked,
+            },
+        });
     }
 
     render() {
@@ -63,6 +38,7 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
             fileInfos,
             fileCount,
             locale,
+            post: {id: postId},
         } = this.props;
 
         if (fileInfos && fileInfos.length === 1) {
@@ -94,7 +70,7 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
                         key={fileInfo.id}
                         fileInfo={sortedFileInfos[i]}
                         index={i}
-                        handleImageClick={this.handleImageClick}
+                        handleImageClick={(index) => this.handleImageClick(index, sortedFileInfos, postId)}
                         compactDisplay={compactDisplay}
                         handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                     />,
@@ -113,19 +89,12 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
         }
 
         return (
-            <>
-                <div
-                    data-testid='fileAttachmentList'
-                    className='post-image__columns clearfix'
-                >
-                    {postFiles}
-                </div>
-                <FilePreviewModal
-                    startIndex={this.state.startImgIndex}
-                    fileInfos={sortedFileInfos}
-                    postId={this.props.post.id}
-                />
-            </>
+            <div
+                data-testid='fileAttachmentList'
+                className='post-image__columns clearfix'
+            >
+                {postFiles}
+            </div>
         );
     }
 }
