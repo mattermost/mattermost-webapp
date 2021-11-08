@@ -30,7 +30,6 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
     }
     showNextSteps={false}
     showNextStepsEphemeral={false}
-    showNextStepsTips={false}
     showTutorial={false}
     viewArchivedChannels={false}
   />
@@ -93,7 +92,6 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
     }
     showNextSteps={false}
     showNextStepsEphemeral={false}
-    showNextStepsTips={false}
     showTutorial={false}
     viewArchivedChannels={false}
   />
@@ -133,7 +131,6 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     }
     showNextSteps={false}
     showNextStepsEphemeral={false}
-    showNextStepsTips={false}
     showTutorial={false}
     viewArchivedChannels={false}
   />

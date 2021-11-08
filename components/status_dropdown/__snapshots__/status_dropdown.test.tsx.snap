@@ -106,31 +106,47 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -353,31 +369,47 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -584,31 +616,47 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -815,31 +863,47 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1047,31 +1111,47 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1255,31 +1335,47 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1459,31 +1555,47 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]

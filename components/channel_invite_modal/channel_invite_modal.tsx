@@ -30,7 +30,7 @@ export type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
     profilesNotInCurrentTeam: UserProfileValue[];
     userStatuses: RelationOneToOne<UserProfile, string>;
-    onHide: () => void;
+    onExited: () => void;
     channel: Channel;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
@@ -323,7 +323,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 dialogClassName='a11y__modal channel-invite'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='channelInviteModalLabel'
             >
