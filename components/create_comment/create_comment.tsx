@@ -245,11 +245,6 @@ type Props = {
       * Function to open a modal
       */
     openModal: <P>(modalData: ModalData<P>) => void;
-
-    /**
-      * Function to close a modal
-      */
-    closeModal: (modalId: string) => void;
 }
 
 type State = {
@@ -462,7 +457,6 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleNotifyAllConfirmation = () => {
-        this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL);
         this.doSubmit();
     }
 
@@ -475,7 +469,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                 channelTimezoneCount,
                 memberNotifyCount,
                 onConfirm: () => this.handleNotifyAllConfirmation(),
-                onCancel: () => this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL),
             },
         });
     }

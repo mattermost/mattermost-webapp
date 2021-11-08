@@ -4,7 +4,7 @@
 import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {closeModal as closeModalAction, openModal as openModalAction} from 'actions/views/modals';
+import {openModal as openModalAction} from 'actions/views/modals';
 
 import ConfirmModalRedux from 'components/confirm_modal_redux';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
@@ -12,7 +12,6 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 const ModalId = 'delete_integration_confirm';
 
 type Props = {
-    closeModal: typeof closeModalAction;
     confirmButtonText?: React.ReactNode;
     linkText?: React.ReactNode;
     modalMessage?: React.ReactNode;
@@ -23,7 +22,6 @@ type Props = {
 
 export default function DeleteIntegrationLink(props: Props) {
     const {
-        closeModal,
         confirmButtonText = (
             <FormattedMessage
                 id='integrations.delete.confirm.button'
@@ -63,7 +61,7 @@ export default function DeleteIntegrationLink(props: Props) {
             },
             dialogType: ConfirmModalRedux,
         });
-    }, [closeModal, confirmButtonText, modalMessage, modalTitle, onDelete, openModal]);
+    }, [confirmButtonText, modalMessage, modalTitle, onDelete, openModal]);
 
     return (
         <button

@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
-import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels.jsx';
+import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 
 describe('components/admin_console/group_settings/group_details/GroupTeamsAndChannels', () => {
     const defaultProps = {
@@ -104,21 +104,33 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
     });
 
     test('should toggle the collapse for an element', () => {
-        const wrapper = shallow(<GroupTeamsAndChannels {...defaultProps}/>);
+        const wrapper = shallow<GroupTeamsAndChannels>(<GroupTeamsAndChannels {...defaultProps}/>);
         const instance = wrapper.instance();
-        expect(Boolean(wrapper.state().collapsed['11111111111111111111111111'])).toBe(false);
-        expect(Boolean(wrapper.state().collapsed['22222222222222222222222222'])).toBe(false);
+        expect(
+            Boolean(wrapper.state().collapsed['11111111111111111111111111']),
+        ).toBe(false);
+        expect(
+            Boolean(wrapper.state().collapsed['22222222222222222222222222']),
+        ).toBe(false);
         instance.onToggleCollapse('11111111111111111111111111');
-        expect(Boolean(wrapper.state().collapsed['11111111111111111111111111'])).toBe(true);
-        expect(Boolean(wrapper.state().collapsed['22222222222222222222222222'])).toBe(false);
+        expect(
+            Boolean(wrapper.state().collapsed['11111111111111111111111111']),
+        ).toBe(true);
+        expect(
+            Boolean(wrapper.state().collapsed['22222222222222222222222222']),
+        ).toBe(false);
         instance.onToggleCollapse('11111111111111111111111111');
-        expect(Boolean(wrapper.state().collapsed['11111111111111111111111111'])).toBe(false);
-        expect(Boolean(wrapper.state().collapsed['22222222222222222222222222'])).toBe(false);
+        expect(
+            Boolean(wrapper.state().collapsed['11111111111111111111111111']),
+        ).toBe(false);
+        expect(
+            Boolean(wrapper.state().collapsed['22222222222222222222222222']),
+        ).toBe(false);
     });
 
     test('should invoke the onRemoveItem callback', async () => {
         const onRemoveItem = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<GroupTeamsAndChannels>(
             <GroupTeamsAndChannels
                 {...defaultProps}
                 onChangeRoles={jest.fn()}
@@ -127,12 +139,15 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
         );
         const instance = wrapper.instance();
         instance.onRemoveItem('11111111111111111111111111', 'public-team');
-        expect(onRemoveItem).toBeCalledWith('11111111111111111111111111', 'public-team');
+        expect(onRemoveItem).toBeCalledWith(
+            '11111111111111111111111111',
+            'public-team',
+        );
     });
 
     test('should invoke the onChangeRoles callback', async () => {
         const onChangeRoles = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<GroupTeamsAndChannels>(
             <GroupTeamsAndChannels
                 {...defaultProps}
                 onChangeRoles={onChangeRoles}
@@ -140,7 +155,15 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             />,
         );
         const instance = wrapper.instance();
-        instance.onChangeRoles('11111111111111111111111111', 'public-team', true);
-        expect(onChangeRoles).toBeCalledWith('11111111111111111111111111', 'public-team', true);
+        instance.onChangeRoles(
+            '11111111111111111111111111',
+            'public-team',
+            true,
+        );
+        expect(onChangeRoles).toBeCalledWith(
+            '11111111111111111111111111',
+            'public-team',
+            true,
+        );
     });
 });
