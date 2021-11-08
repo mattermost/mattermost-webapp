@@ -8,11 +8,11 @@ import PermissionSchemesSettings from 'components/admin_console/permission_schem
 
 describe('components/admin_console/permission_schemes_settings/permission_schemes_settings', () => {
     const defaultProps = {
-        schemes: {
-            'id-1': {id: 'id-1', name: 'Test 1', description: 'Test description 1'},
-            'id-2': {id: 'id-2', name: 'Test 2', description: 'Test description 2'},
-            'id-3': {id: 'id-3', name: 'Test 3', description: 'Test description 3'},
-        },
+        schemes: [
+            {id: 'id-1', name: 'Test 1', description: 'Test description 1'},
+            {id: 'id-2', name: 'Test 2', description: 'Test description 2'},
+            {id: 'id-3', name: 'Test 3', description: 'Test description 3'},
+        ],
         jobsAreEnabled: true,
         clusterIsEnabled: false,
         actions: {
@@ -35,7 +35,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
         const wrapper = shallow(
             <PermissionSchemesSettings
                 {...defaultProps}
-                schemes={{}}
+                schemes={[]}
             />,
         );
         wrapper.setState({loading: false, phase2MigrationIsComplete: true});
