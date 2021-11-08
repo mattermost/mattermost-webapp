@@ -81,6 +81,10 @@
         width: 100%;
         padding: 10px 20px;
         color: inherit;
+
+        &.a11y--focused {
+            box-shadow: inset 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), inset 0 0 0 1px var(--link-color);
+        }
     }
 }
 

@@ -408,6 +408,12 @@
         }
     }
 
+    .post-create {
+        &.a11y--focused {
+            box-shadow: inset 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), inset 0 0 0 1px var(--link-color);
+        }
+    }
+
     .center {
         max-width: 1028px;
     }
@@ -769,6 +775,10 @@
                 @include opacity(1);
             }
         }
+    }
+
+    &.a11y--focussed {
+        box-shadow: inset 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), inset 0 0 0 1px var(--link-color);
     }
 
     &.post--hovered {
@@ -1751,7 +1761,7 @@
             position: relative;
             top: 3px;
             width: 18px;
-            fill: currentColor;
+            fill: var(--link-color);
         }
     }
 
@@ -1785,12 +1795,12 @@
             top: 1px;
             display: inline-block;
             margin: 0 1px 0 5px;
-            fill: inherit;
+            fill: currentColor;
             vertical-align: top;
         }
 
         path {
-            fill: inherit;
+            fill: currentColor;
         }
     }
 
@@ -1827,6 +1837,10 @@
 
         &.active {
             @include opacity(1);
+
+            svg {
+                fill: var(--link-color);
+            }
         }
 
         svg {
@@ -1993,12 +2007,14 @@
     display: flex;
     width: 100%;
     justify-content: center;
+    color: var(--link-color);
 
     .post-collapse__show-more-button {
         @include single-transition(all, 0.15s, ease);
         @include border-radius(2px);
 
         &:hover {
+            background-color: var(--link-color);
             color: var(--center-channel-bg);
         }
 
@@ -2113,6 +2129,10 @@
 
 .post-message__text {
     text-align: left;
+
+    &.a11y--focused {
+        box-shadow: inset 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), inset 0 0 0 1px var(--link-color);
+    }
 }
 
 .post-message__text > ul,

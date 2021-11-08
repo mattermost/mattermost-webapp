@@ -15,6 +15,10 @@
         display: inline-block;
     }
 
+    &.a11y--focused {
+        box-shadow: inset 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), inset 0 0 0 1px var(--link-color);
+    }
+
     .channel-header__trigger {
         display: flex;
         min-width: 0;
@@ -72,6 +76,10 @@
         &.inactive {
             .icon {
                 color: v(center-channel-color);
+            }
+
+            &:hover {
+                color: var(--link-color)
             }
         }
 
@@ -190,12 +198,17 @@
             background: rgba(var(--sidebar-text-rgb), 0.08);
 
             &:hover {
+                background: rgba(var(--link-color-rgb), 0.08);
+                border-color: var(--link-color);
+
                 .fa {
                     @include opacity(1);
+                    color: var(--link-color);
                 }
 
                 svg {
                     @include opacity(1);
+                    fill: var(--link-color);
                 }
             }
         }
@@ -840,59 +853,6 @@
 
     .header-dropdown__icon {
         top: 1px;
-    }
-}
-
-.app__body {
-    .channel-header__links {
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        margin-right: 1px;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 22px;
-        line-height: 26px;
-        text-align: center;
-
-        th {
-            &:last-child {
-                div {
-                    margin-right: 10px;
-                }
-            }
-        }
-
-        .channel__wrap.move--left & {
-            position: absolute;
-            top: 14px;
-            right: -400px;
-        }
-
-        > a {
-            @include opacity(0.6);
-            @include single-transition(all, 0.1s, ease-in);
-
-            color: inherit;
-            text-decoration: none;
-
-            &:hover {
-                @include opacity(0.7);
-            }
-
-            &:focus {
-                color: inherit;
-            }
-
-            &.active {
-                color: $primary-color;
-
-                @include opacity(1);
-
-                .icon {
-                    fill: var(--center-channel-color);
-                }
-            }
-        }
     }
 }
 

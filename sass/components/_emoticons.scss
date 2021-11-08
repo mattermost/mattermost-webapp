@@ -503,6 +503,16 @@
     }
 }
 
+.emoji-picker__container {
+    .icon--emoji {
+        .active {
+            svg {
+                fill: var(--link-color);
+            }
+        }
+    }
+}
+
 .emoji-picker__item:nth-of-type(9n) {
     margin-right: 0;
 }

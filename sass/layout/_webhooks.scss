@@ -131,7 +131,7 @@
             padding: 12px;
             border-left-width: 4px;
             border-left-style: solid;
-            border-left-color: var(--sidebar-header-bg);
+            border-left-color: rgba(var(--link-color-rgb), 0.5);
 
             &.attachment__container--good {
                 border-left-color: #00c100;
