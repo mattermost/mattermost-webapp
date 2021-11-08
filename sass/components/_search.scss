@@ -366,7 +366,12 @@
 }
 
 .search-highlight {
+    color: var(--mention-highlight-link);
     background-color: var(--mention-highlight-bg);
+
+    > a {
+        color: inherit;
+    }
 }
 
 .search-hint__title {

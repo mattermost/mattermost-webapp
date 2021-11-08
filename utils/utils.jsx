@@ -544,10 +544,10 @@ export function applyTheme(theme) {
     //     changeCss('.app__body .post.post--highlight .post-collapse__show-more', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
     // }
 
-    if (theme.mentionHighlightLink) {
-        changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
-        changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
-    }
+    // if (theme.mentionHighlightLink) {
+    //     changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
+    //     changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
+    // }
 
     if (!theme.codeTheme) {
         theme.codeTheme = Constants.DEFAULT_CODE_THEME;
