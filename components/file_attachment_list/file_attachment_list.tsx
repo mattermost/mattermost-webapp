@@ -121,8 +121,6 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
                     {postFiles}
                 </div>
                 <FilePreviewModal
-                    show={this.state.showPreviewModal}
-                    onModalDismissed={this.hidePreviewModal}
                     startIndex={this.state.startImgIndex}
                     fileInfos={sortedFileInfos}
                     postId={this.props.post.id}

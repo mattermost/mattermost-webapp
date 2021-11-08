@@ -340,6 +340,7 @@ export const ModalIdentifiers = {
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM: 'confirm',
+    FILE_PREVIEW_MODAL: 'file_preview_modal',
 };
 
 export const UserStatuses = {
