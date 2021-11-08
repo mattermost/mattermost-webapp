@@ -42,6 +42,7 @@ button {
 
     &.btn-primary {
         border-color: transparent;
+        color: var(--button-color);
         background: var(--button-bg);
 
         &:hover,
@@ -79,7 +80,8 @@ button {
 
         &:hover,
         &:active {
-            background: var(--button-bg0);
+            background: var(--button-bg);
+            color: var(--button-color);
         }
     }
 

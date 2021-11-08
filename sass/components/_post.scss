@@ -287,6 +287,11 @@
             padding: 0 20px;
             cursor: pointer;
             background: var(--button-bg);
+            color: var(--button-color);
+        }
+
+        svg {
+            color: var(--button-color);
         }
 
         body.enable-animations & {

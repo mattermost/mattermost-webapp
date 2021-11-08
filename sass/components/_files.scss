@@ -287,6 +287,10 @@
     }
 
     .file__download {
+        svg {
+            stroke: var(--button-color);
+        }
+
         &:hover {
             background: var(--button-bg);
         }
@@ -572,6 +576,7 @@
                 @include opacity(1);
                 background: var(--button-bg);
                 border-color: var(--button-bg);
+                stroke: var(--button-color);
             }
         }
     }
