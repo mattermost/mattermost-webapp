@@ -9,8 +9,8 @@
 
 // Group: @enterprise @onboarding
 
-import {stubClipboard} from '../../../../utils';
-import {spyNotificationAs} from '../../../../support/notification';
+import {stubClipboard} from '../../utils';
+import {spyNotificationAs} from '../../support/notification';
 
 describe('Onboarding - Sysadmin', () => {
     let townSquarePage;
