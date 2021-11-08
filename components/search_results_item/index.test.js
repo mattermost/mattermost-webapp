@@ -120,7 +120,7 @@ describe('components/SearchResultsItem/WithStore', () => {
 
     test('should not show team name if user only belongs to one team', () => {
         const newProps = mstp(defaultState, defaultProps);
-        expect(newProps.channelTeamName).toBe('');
+        expect(newProps.teamDisplayName).toBe('');
     });
 
     test('should show team name for open and private channels when user belongs to more than one team', () => {
@@ -138,8 +138,8 @@ describe('components/SearchResultsItem/WithStore', () => {
             },
         };
         let newProps = mstp(state, defaultProps);
-        expect(newProps.channelTeamName).toBe(team.name);
-        expect(newProps.channelTeamDisplayName).toBe(team.display_name);
+        expect(newProps.teamName).toBe(team.name);
+        expect(newProps.teamDisplayName).toBe(team.display_name);
 
         state = {
             ...state,
@@ -159,8 +159,8 @@ describe('components/SearchResultsItem/WithStore', () => {
         };
 
         newProps = mstp(state, defaultProps);
-        expect(newProps.channelTeamName).toBe(team.name);
-        expect(newProps.channelTeamDisplayName).toBe(team.display_name);
+        expect(newProps.teamName).toBe(team.name);
+        expect(newProps.teamDisplayName).toBe(team.display_name);
     });
 
     test('should not show team name but show reply button for private and group channels when user belongs to more than one team', () => {
@@ -186,7 +186,7 @@ describe('components/SearchResultsItem/WithStore', () => {
             },
         };
         let newProps = mstp(state, props);
-        expect(newProps.channelTeamName).toBe('');
+        expect(newProps.teamDisplayName).toBe('');
         expect(newProps.canReply).toBe(true);
 
         state = {
@@ -206,7 +206,7 @@ describe('components/SearchResultsItem/WithStore', () => {
             },
         };
         newProps = mstp(state, props);
-        expect(newProps.channelTeamName).toBe('');
+        expect(newProps.teamDisplayName).toBe('');
         expect(newProps.canReply).toBe(true);
     });
 
@@ -232,7 +232,7 @@ describe('components/SearchResultsItem/WithStore', () => {
             },
         };
         let newProps = mstp(state, defaultProps);
-        expect(newProps.channelTeamName).toBe('');
+        expect(newProps.teamDisplayName).toBe('');
 
         state = {
             ...state,
@@ -252,7 +252,7 @@ describe('components/SearchResultsItem/WithStore', () => {
         };
 
         newProps = mstp(state, defaultProps);
-        expect(newProps.channelTeamName).toBe('');
+        expect(newProps.teamDisplayName).toBe('');
     });
 
     test('should show reply for channels on current team', () => {

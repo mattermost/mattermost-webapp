@@ -268,10 +268,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleSetThreadFollow = () => {
-        const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
+        const {actions, teamId, currentTeamId, threadId, userId, isFollowingThread} = this.props;
         actions.setThreadFollow(
             userId,
-            currentTeamId,
+            teamId || currentTeamId,
             threadId,
             !isFollowingThread,
         );
@@ -332,7 +332,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             binding.app_id,
             binding.location,
             this.props.post.channel_id,
-            this.props.teamId,
+            this.props.teamId || this.props.currentTeamId,
             this.props.post.id,
             this.props.post.root_id,
         );
@@ -384,7 +384,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     fetchBindings = () => {
-        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId || this.props.currentTeamId).then(({data}) => {
             this.setState({appBindings: data});
         });
     }
