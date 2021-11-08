@@ -8,7 +8,7 @@ import {getSchemeTeams as loadSchemeTeams, getSchemes as loadSchemes} from 'matt
 import {getSchemes} from 'mattermost-redux/selectors/entities/schemes';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import PermissionSchemesSettings from './permission_schemes_settings.jsx';
+import PermissionSchemesSettings from './permission_schemes_settings';
 
 function mapStateToProps(state) {
     const schemes = getSchemes(state);
