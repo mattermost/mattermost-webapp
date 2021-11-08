@@ -366,7 +366,7 @@
 }
 
 .search-highlight {
-    background-color: $yellow;
+    background-color: var(--mention-highlight-bg);
 }
 
 .search-hint__title {

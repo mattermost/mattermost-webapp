@@ -1142,8 +1142,8 @@
             border-left: 4px solid rgba(var(--center-channel-color-rgb), 0.2);
 
             &.mention-comment {
-                border-color: $yellow;
-                border-left: 4px solid $yellow;
+                border-color: var(--mention-highlight-bg);
+                border-left: 4px solid var(--mention-highlight-bg);
             }
         }
 
@@ -1263,6 +1263,15 @@
                     top: -4px;
                 }
             }
+        }
+    }
+
+    &.post--highlight {
+        background: rgba(var(--mention-highlight-bg-rgb), 0.5);
+
+        .post-collapse__gradient,
+        .post-collapse__show-more {
+            background: rgba(var(--mention-highlight-bg-rgb), 0.5);
         }
     }
 
