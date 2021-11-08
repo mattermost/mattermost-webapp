@@ -15,14 +15,8 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Team Settings', () => {
     let newUser;
-    let isLicensed;
 
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
-        cy.apiGetClientLicense().then((data) => {
-            ({isLicensed} = data);
-        });
-
         cy.apiInitSetup().then(({team}) => {
             cy.apiCreateUser().then(({user}) => {
                 newUser = user;
@@ -83,6 +77,7 @@ describe('Team Settings', () => {
 
     function inviteNewMemberToTeam(email) {
         cy.wait(TIMEOUTS.HALF_SEC);
+
         // if (isLicensed) {
         //     // # Click "Invite members"
         //     cy.findByTestId('inviteMembersLink').should('be.visible').click();

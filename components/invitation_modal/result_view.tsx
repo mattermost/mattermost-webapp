@@ -76,7 +76,7 @@ export default function ResultView(props: Props) {
                 <button
                     onClick={props.inviteMore}
                     className='btn btn-cancel ResultView__inviteMore'
-                    data-testid="invite-more"
+                    data-testid='invite-more'
                 >
                     <FormattedMessage
                         id='invitation_modal.invite.more'
@@ -86,7 +86,7 @@ export default function ResultView(props: Props) {
                 <button
                     onClick={props.onDone}
                     className='btn btn-primary'
-                    data-testid="confirm-done"
+                    data-testid='confirm-done'
                     aria-label='Close'
                     title='Close'
                 >

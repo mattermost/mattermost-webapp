@@ -107,8 +107,10 @@ describe('actions/invite_actions', () => {
         it('should generate and empty list if nothing is passed', async () => {
             const response = await sendMembersInvites('correct', [], [])(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [],
-                notSent: [],
+                data: {
+                    sent: [],
+                    notSent: [],
+                },
             });
         });
 
@@ -116,21 +118,23 @@ describe('actions/invite_actions', () => {
             const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
             const response = await sendMembersInvites('correct', [], emails)(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                notSent: [],
-                sent: [
-                    {
-                        email: 'email-one@email-one.com',
-                        reason: 'An invitation email has been sent.',
-                    },
-                    {
-                        email: 'email-two@email-two.com',
-                        reason: 'An invitation email has been sent.',
-                    },
-                    {
-                        email: 'email-three@email-three.com',
-                        reason: 'An invitation email has been sent.',
-                    },
-                ],
+                data: {
+                    notSent: [],
+                    sent: [
+                        {
+                            email: 'email-one@email-one.com',
+                            reason: 'An invitation email has been sent.',
+                        },
+                        {
+                            email: 'email-two@email-two.com',
+                            reason: 'An invitation email has been sent.',
+                        },
+                        {
+                            email: 'email-three@email-three.com',
+                            reason: 'An invitation email has been sent.',
+                        },
+                    ],
+                },
             });
         });
 
@@ -138,21 +142,23 @@ describe('actions/invite_actions', () => {
             const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
             const response = await sendMembersInvites('error', [], emails)(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [],
-                notSent: [
-                    {
-                        email: 'email-one@email-one.com',
-                        reason: 'Unable to add the user to the team.',
-                    },
-                    {
-                        email: 'email-two@email-two.com',
-                        reason: 'Unable to add the user to the team.',
-                    },
-                    {
-                        email: 'email-three@email-three.com',
-                        reason: 'Unable to add the user to the team.',
-                    },
-                ],
+                data: {
+                    sent: [],
+                    notSent: [
+                        {
+                            email: 'email-one@email-one.com',
+                            reason: 'Unable to add the user to the team.',
+                        },
+                        {
+                            email: 'email-two@email-two.com',
+                            reason: 'Unable to add the user to the team.',
+                        },
+                        {
+                            email: 'email-three@email-three.com',
+                            reason: 'Unable to add the user to the team.',
+                        },
+                    ],
+                },
             });
         });
 
@@ -165,38 +171,40 @@ describe('actions/invite_actions', () => {
             ] as UserProfile[];
             const response = await sendMembersInvites('correct', users, [])(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [
-                    {
-                        reason: 'This member has been added to the team.',
-                        user: {
-                            id: 'other-user',
-                            roles: 'system_user',
+                data: {
+                    sent: [
+                        {
+                            reason: 'This member has been added to the team.',
+                            user: {
+                                id: 'other-user',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                ],
-                notSent: [
-                    {
-                        reason: 'This person is already a team member.',
-                        user: {
-                            id: 'user1',
-                            roles: 'system_user',
+                    ],
+                    notSent: [
+                        {
+                            reason: 'This person is already a team member.',
+                            user: {
+                                id: 'user1',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                    {
-                        reason: 'Contact your admin to make this guest a full member.',
-                        user: {
-                            id: 'guest1',
-                            roles: 'system_guest',
+                        {
+                            reason: 'Contact your admin to make this guest a full member.',
+                            user: {
+                                id: 'guest1',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                    {
-                        reason: 'Contact your admin to make this guest a full member.',
-                        user: {
-                            id: 'other-guest',
-                            roles: 'system_guest',
+                        {
+                            reason: 'Contact your admin to make this guest a full member.',
+                            user: {
+                                id: 'other-guest',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                ],
+                    ],
+                },
             });
         });
 
@@ -209,30 +217,32 @@ describe('actions/invite_actions', () => {
             ] as UserProfile[];
             const response = await sendMembersInvites('error', users, [])(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [{user: {id: 'other-user', roles: 'system_user'}, reason: 'This member has been added to the team.'}],
-                notSent: [
-                    {
-                        reason: 'This person is already a team member.',
-                        user: {
-                            id: 'user1',
-                            roles: 'system_user',
+                data: {
+                    sent: [{user: {id: 'other-user', roles: 'system_user'}, reason: 'This member has been added to the team.'}],
+                    notSent: [
+                        {
+                            reason: 'This person is already a team member.',
+                            user: {
+                                id: 'user1',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                    {
-                        reason: 'Contact your admin to make this guest a full member.',
-                        user: {
-                            id: 'guest1',
-                            roles: 'system_guest',
+                        {
+                            reason: 'Contact your admin to make this guest a full member.',
+                            user: {
+                                id: 'guest1',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                    {
-                        reason: 'Contact your admin to make this guest a full member.',
-                        user: {
-                            id: 'other-guest',
-                            roles: 'system_guest',
+                        {
+                            reason: 'Contact your admin to make this guest a full member.',
+                            user: {
+                                id: 'other-guest',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                ],
+                    ],
+                },
             });
         });
 
@@ -248,8 +258,10 @@ describe('actions/invite_actions', () => {
             }
             const response = await sendMembersInvites('correct', [], emails)(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                notSent: expectedNotSent,
-                sent: [],
+                data: {
+                    notSent: expectedNotSent,
+                    sent: [],
+                },
             });
         });
     });
@@ -258,8 +270,10 @@ describe('actions/invite_actions', () => {
         it('should generate and empty list if nothing is passed', async () => {
             const response = await sendGuestsInvites('correct', [], [], [], '')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [],
-                notSent: [],
+                data: {
+                    sent: [],
+                    notSent: [],
+                },
             });
         });
 
@@ -268,21 +282,23 @@ describe('actions/invite_actions', () => {
             const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
             const response = await sendGuestsInvites('correct', channels, [], emails, 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                notSent: [],
-                sent: [
-                    {
-                        email: 'email-one@email-one.com',
-                        reason: 'An invitation email has been sent.',
-                    },
-                    {
-                        email: 'email-two@email-two.com',
-                        reason: 'An invitation email has been sent.',
-                    },
-                    {
-                        email: 'email-three@email-three.com',
-                        reason: 'An invitation email has been sent.',
-                    },
-                ],
+                data: {
+                    notSent: [],
+                    sent: [
+                        {
+                            email: 'email-one@email-one.com',
+                            reason: 'An invitation email has been sent.',
+                        },
+                        {
+                            email: 'email-two@email-two.com',
+                            reason: 'An invitation email has been sent.',
+                        },
+                        {
+                            email: 'email-three@email-three.com',
+                            reason: 'An invitation email has been sent.',
+                        },
+                    ],
+                },
             });
         });
 
@@ -291,21 +307,23 @@ describe('actions/invite_actions', () => {
             const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
             const response = await sendGuestsInvites('error', channels, [], emails, 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [],
-                notSent: [
-                    {
-                        email: 'email-one@email-one.com',
-                        reason: 'Unable to add the guest to the channels.',
-                    },
-                    {
-                        email: 'email-two@email-two.com',
-                        reason: 'Unable to add the guest to the channels.',
-                    },
-                    {
-                        email: 'email-three@email-three.com',
-                        reason: 'Unable to add the guest to the channels.',
-                    },
-                ],
+                data: {
+                    sent: [],
+                    notSent: [
+                        {
+                            email: 'email-one@email-one.com',
+                            reason: 'Unable to add the guest to the channels.',
+                        },
+                        {
+                            email: 'email-two@email-two.com',
+                            reason: 'Unable to add the guest to the channels.',
+                        },
+                        {
+                            email: 'email-three@email-three.com',
+                            reason: 'Unable to add the guest to the channels.',
+                        },
+                    ],
+                },
             });
         });
 
@@ -319,46 +337,48 @@ describe('actions/invite_actions', () => {
             ] as UserProfile[];
             const response = await sendGuestsInvites('correct', channels, users, [], 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [
-                    {
-                        reason: {
-                            id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
-                            values: {count: channels.length},
+                data: {
+                    sent: [
+                        {
+                            reason: {
+                                id: 'invite.guests.new-member',
+                                message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                                values: {count: channels.length},
+                            },
+                            user: {
+                                id: 'guest1',
+                                roles: 'system_guest',
+                            },
                         },
-                        user: {
-                            id: 'guest1',
-                            roles: 'system_guest',
+                        {
+                            reason: {
+                                id: 'invite.guests.new-member',
+                                message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                                values: {count: channels.length},
+                            },
+                            user: {
+                                id: 'other-guest',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                    {
-                        reason: {
-                            id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
-                            values: {count: channels.length},
+                    ],
+                    notSent: [
+                        {
+                            reason: 'This person is already a member.',
+                            user: {
+                                id: 'user1',
+                                roles: 'system_user',
+                            },
                         },
-                        user: {
-                            id: 'other-guest',
-                            roles: 'system_guest',
+                        {
+                            reason: 'This person is already a member.',
+                            user: {
+                                id: 'other-user',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                ],
-                notSent: [
-                    {
-                        reason: 'This person is already a member.',
-                        user: {
-                            id: 'user1',
-                            roles: 'system_user',
-                        },
-                    },
-                    {
-                        reason: 'This person is already a member.',
-                        user: {
-                            id: 'other-user',
-                            roles: 'system_user',
-                        },
-                    },
-                ],
+                    ],
+                },
             });
         });
 
@@ -369,23 +389,25 @@ describe('actions/invite_actions', () => {
             ] as UserProfile[];
             const response = await sendGuestsInvites('correct', [{id: 'correct'}, {id: 'correct2'}] as Channel[], users, [], 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [],
-                notSent: [
-                    {
-                        reason: 'This person is already a member of all the channels.',
-                        user: {
-                            id: 'guest2',
-                            roles: 'system_guest',
+                data: {
+                    sent: [],
+                    notSent: [
+                        {
+                            reason: 'This person is already a member of all the channels.',
+                            user: {
+                                id: 'guest2',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                    {
-                        reason: 'This person is already a member of some of the channels.',
-                        user: {
-                            id: 'guest3',
-                            roles: 'system_guest',
+                        {
+                            reason: 'This person is already a member of some of the channels.',
+                            user: {
+                                id: 'guest3',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                ],
+                    ],
+                },
             });
         });
 
@@ -399,50 +421,52 @@ describe('actions/invite_actions', () => {
             const response = await sendGuestsInvites('error', [{id: 'correct'}] as Channel[], users, [], 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
 
             expect(response).toEqual({
-                sent: [
-                    {
-                        user: {
-                            id: 'guest1',
-                            roles: 'system_guest',
-                        },
-                        reason: {
-                            id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
-                            values: {
-                                count: 1,
+                data: {
+                    sent: [
+                        {
+                            user: {
+                                id: 'guest1',
+                                roles: 'system_guest',
+                            },
+                            reason: {
+                                id: 'invite.guests.new-member',
+                                message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                                values: {
+                                    count: 1,
+                                },
                             },
                         },
-                    },
-                    {
-                        user: {
-                            id: 'other-guest',
-                            roles: 'system_guest',
-                        },
-                        reason: {
-                            id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
-                            values: {
-                                count: 1,
+                        {
+                            user: {
+                                id: 'other-guest',
+                                roles: 'system_guest',
+                            },
+                            reason: {
+                                id: 'invite.guests.new-member',
+                                message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                                values: {
+                                    count: 1,
+                                },
                             },
                         },
-                    },
-                ],
-                notSent: [
-                    {
-                        reason: 'This person is already a member.',
-                        user: {
-                            id: 'user1',
-                            roles: 'system_user',
+                    ],
+                    notSent: [
+                        {
+                            reason: 'This person is already a member.',
+                            user: {
+                                id: 'user1',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                    {
-                        reason: 'This person is already a member.',
-                        user: {
-                            id: 'other-user',
-                            roles: 'system_user',
+                        {
+                            reason: 'This person is already a member.',
+                            user: {
+                                id: 'other-user',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                ],
+                    ],
+                },
             });
         });
 
@@ -455,37 +479,39 @@ describe('actions/invite_actions', () => {
             ] as UserProfile[];
             const response = await sendGuestsInvites('correct', [{id: 'error'}] as Channel[], users, [], 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                sent: [],
-                notSent: [
-                    {
-                        reason: 'This person is already a member.',
-                        user: {
-                            id: 'user1',
-                            roles: 'system_user',
+                data: {
+                    sent: [],
+                    notSent: [
+                        {
+                            reason: 'This person is already a member.',
+                            user: {
+                                id: 'user1',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                    {
-                        reason: 'Unable to add the guest to the channels.',
-                        user: {
-                            id: 'guest1',
-                            roles: 'system_guest',
+                        {
+                            reason: 'Unable to add the guest to the channels.',
+                            user: {
+                                id: 'guest1',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                    {
-                        reason: 'This person is already a member.',
-                        user: {
-                            id: 'other-user',
-                            roles: 'system_user',
+                        {
+                            reason: 'This person is already a member.',
+                            user: {
+                                id: 'other-user',
+                                roles: 'system_user',
+                            },
                         },
-                    },
-                    {
-                        reason: 'Unable to add the guest to the channels.',
-                        user: {
-                            id: 'other-guest',
-                            roles: 'system_guest',
+                        {
+                            reason: 'Unable to add the guest to the channels.',
+                            user: {
+                                id: 'other-guest',
+                                roles: 'system_guest',
+                            },
                         },
-                    },
-                ],
+                    ],
+                },
             });
         });
 
@@ -502,8 +528,10 @@ describe('actions/invite_actions', () => {
 
             const response = await sendGuestsInvites('correct', [{id: 'correct'}] as Channel[], [], emails, 'message')(store.dispatch as DispatchFunc, store.getState as GetStateFunc);
             expect(response).toEqual({
-                notSent: expectedNotSent,
-                sent: [],
+                data: {
+                    notSent: expectedNotSent,
+                    sent: [],
+                },
             });
         });
     });

@@ -201,10 +201,10 @@ export default function InviteView(props: Props) {
                                         id='invite_modal.members'
                                         defaultMessage='members'
                                     /> :
-                                        <FormattedMessage
-                                            id='invite_modal.guests'
-                                            defaultMessage='guests'
-                                        />
+                                    <FormattedMessage
+                                        id='invite_modal.guests'
+                                        defaultMessage='guests'
+                                    />
                             ),
                             team_name: props.currentTeam.display_name,
                         }}
@@ -270,7 +270,7 @@ export default function InviteView(props: Props) {
                     disabled={!canInvite}
                     onClick={props.invite}
                     className={'btn btn-primary'}
-                    id="inviteMembersButton"
+                    id='inviteMembersButton'
                 >
                     <FormattedMessage
                         id='invite_modal.invite'
