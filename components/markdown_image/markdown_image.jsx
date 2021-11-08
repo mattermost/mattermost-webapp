@@ -6,6 +6,8 @@ import React from 'react';
 
 import Constants from 'utils/constants.jsx';
 
+import {ModalIdentifiers} from 'utils/constants';
+
 import MarkdownImageExpand from 'components/markdown_image_expand';
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
@@ -34,13 +36,16 @@ export default class MarkdownImage extends React.PureComponent {
         onImageLoaded: PropTypes.func,
         onImageHeightChanged: PropTypes.func,
         postType: PropTypes.string,
+
+        actions: PropTypes.shape({
+            openModal: PropTypes.func,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            showModal: false,
             loadFailed: false,
             loaded: false,
         };
@@ -66,15 +71,23 @@ export default class MarkdownImage extends React.PureComponent {
         return parseInt(height, 10);
     }
 
-    showModal = (e) => {
-        if (!this.props.imageIsLink) {
+    showModal = (e, link, imageMetadata, extension, name) => {
+        if (!this.props.imageIsLink && extension) {
             e.preventDefault();
-            this.setState({showModal: true});
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+                dialogType: FilePreviewModal,
+                dialogProps: {
+                    postId: this.props.postId,
+                    fileInfos: [{
+                        has_preview_image: false,
+                        link,
+                        extension: imageMetadata.format || extension,
+                        name,
+                    }],
+                },
+            });
         }
-    }
-
-    hideModal = () => {
-        this.setState({showModal: false});
     }
 
     handleLoadFail = () => {
@@ -152,51 +165,32 @@ export default class MarkdownImage extends React.PureComponent {
 
                     let className = '';
                     if (this.state.loaded) {
-                        className = imageIsLink || !extension ?
-                            `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
-                            `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
+                        className = imageIsLink || !extension ? `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` : `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
 
                         if (this.isHeaderChangeMessage()) {
                             className += ' markdown-inline-img--scaled-down';
                         }
                     } else {
-                        const loadingClass = this.isHeaderChangeMessage() ?
-                            'markdown-inline-img--scaled-down-loading' : 'markdown-inline-img--loading';
+                        const loadingClass = this.isHeaderChangeMessage() ? 'markdown-inline-img--scaled-down-loading' : 'markdown-inline-img--loading';
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
                     const {height, width, title, postId, onImageHeightChanged} = this.props;
 
                     let imageElement = (
-                        <>
-                            <SizeAwareImage
-                                alt={alt}
-                                className={className}
-                                src={safeSrc}
-                                height={height === 'auto' ? undefined : height}
-                                width={width === 'auto' ? undefined : width}
-                                title={title}
-                                dimensions={imageMetadata}
-                                showLoader={false}
-                                onClick={this.showModal}
-                                onImageLoadFail={this.handleLoadFail}
-                                onImageLoaded={this.handleImageLoaded}
-                            />
-                            {!imageIsLink && extension &&
-                            <FilePreviewModal
-                                show={this.state.showModal}
-                                onModalDismissed={this.hideModal}
-                                postId={this.props.postId}
-                                startIndex={0}
-                                fileInfos={[{
-                                    has_preview_image: false,
-                                    link: safeSrc,
-                                    extension: imageMetadata.format || extension,
-                                    name: alt,
-                                }]}
-                            />
-                            }
-                        </>
+                        <SizeAwareImage
+                            alt={alt}
+                            className={className}
+                            src={safeSrc}
+                            height={height === 'auto' ? undefined : height}
+                            width={width === 'auto' ? undefined : width}
+                            title={title}
+                            dimensions={imageMetadata}
+                            showLoader={false}
+                            onClick={(e) => this.showModal(e, safeSrc, imageMetadata, extension, alt)}
+                            onImageLoadFail={this.handleLoadFail}
+                            onImageLoaded={this.handleImageLoaded}
+                        />
                     );
 
                     const actualHeight = this.getHeight();

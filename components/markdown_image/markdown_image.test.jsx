@@ -7,9 +7,10 @@ import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants';
 
+import SizeAwareImage from 'components/size_aware_image';
+import FilePreviewModal from 'components/file_preview_modal';
+
 import MarkdownImage from './markdown_image';
-import SizeAwareImage from './size_aware_image';
-import FilePreviewModal from './file_preview_modal';
 
 describe('components/MarkdownImage', () => {
     const baseProps = {
