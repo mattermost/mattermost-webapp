@@ -7,6 +7,11 @@
         font-size: 22px;
         font-weight: 600;
 
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
         &::before,
         &::after {
             display: none;
@@ -20,6 +25,15 @@
 
         .icon-close {
             cursor: pointer;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: none;
+            color: inherit;
+            border: none;
+            padding: 0;
+            font: inherit;
+            outline: inherit;
 
             &:hover,
             &:active,

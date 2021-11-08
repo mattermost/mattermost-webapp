@@ -332,6 +332,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
                 cloudUserLimit={this.props.cloudUserLimit}
                 headerClass='InvitationModal__header'
                 footerClass='InvitationModal__footer'
+                onClose={this.handleHide}
                 {...this.state.invite}
             />
         );
@@ -339,7 +340,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
             view = (
                 <ResultView
                     invitedAs={this.state.invite.as}
-                    currentTeamName={this.props.currentTeam.name}
+                    currentTeamName={this.props.currentTeam.display_name}
                     onDone={this.handleHide}
                     inviteMore={this.inviteMore}
                     headerClass='InvitationModal__header'
@@ -352,6 +353,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
         return (
             <Modal
                 id='invitationModal'
+                data-testid='invitationModal'
                 dialogClassName='a11y__modal'
                 className='InvitationModal'
                 show={this.props.show}

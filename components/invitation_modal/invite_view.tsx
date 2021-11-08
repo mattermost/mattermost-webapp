@@ -50,6 +50,7 @@ type Props = InviteState & {
     invite: () => void;
     onChannelsChange: (channels: Channel[]) => void;
     onChannelsInputChange: (channelsInputValue: string) => void;
+    onClose: () => void;
     currentTeam: Team;
     currentChannelName: string;
     inviteToTeamTreatment: InviteToTeamTreatments;
@@ -189,25 +190,32 @@ export default function InviteView(props: Props) {
     return (
         <>
             <Modal.Header className={props.headerClass}>
-                <FormattedMessage
-                    id='invite_modal.title'
-                    defaultMessage={'Invite {as} to {team_name}'}
-                    values={{
-                        as: (
-                            props.as === 'member' ?
-                                <FormattedMessage
-                                    id='invite_modal.members'
-                                    defaultMessage='members'
-                                /> :
-                                <FormattedMessage
-                                    id='invite_modal.guests'
-                                    defaultMessage='guests'
-                                />
-                        ),
-                        team_name: props.currentTeam.display_name,
-                    }}
+                <h1>
+                    <FormattedMessage
+                        id='invite_modal.title'
+                        defaultMessage={'Invite {as} to {team_name}'}
+                        values={{
+                            as: (
+                                props.as === 'member' ?
+                                    <FormattedMessage
+                                        id='invite_modal.members'
+                                        defaultMessage='members'
+                                    /> :
+                                        <FormattedMessage
+                                            id='invite_modal.guests'
+                                            defaultMessage='guests'
+                                        />
+                            ),
+                            team_name: props.currentTeam.display_name,
+                        }}
+                    />
+                </h1>
+                <button
+                    className='icon icon-close'
+                    aria-label='Close'
+                    title='Close'
+                    onClick={props.onClose}
                 />
-                <i className='icon icon-close'/>
             </Modal.Header>
             <Modal.Body>
                 <div className='InviteView__sectionTitle'>
@@ -262,6 +270,7 @@ export default function InviteView(props: Props) {
                     disabled={!canInvite}
                     onClick={props.invite}
                     className={'btn btn-primary'}
+                    id="inviteMembersButton"
                 >
                     <FormattedMessage
                         id='invite_modal.invite'
