@@ -614,6 +614,8 @@ $emoji-half-height: 33px;
         &,
         .sprite-preview {
             display: inline-block;
+            width: $emoji-half-height;
+            height: $emoji-half-height;
         }
     }
 
