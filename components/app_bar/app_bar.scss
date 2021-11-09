@@ -4,16 +4,25 @@
         display: none;
     }
 
-    padding-top: 40px;
+    padding-top: 16px;
     position: absolute;
     right: 0;
     top: 0;
     bottom: 0;
     width: 60px;
     text-align: center;
+    border-left: solid 1px rgba(var(--center-channel-color-rgb),.12);
+    background-color: rgba(var(--center-channel-color-rgb),.04);
 
-    .active-rhs-plugin {
-        border-left: 3px solid var(--button-bg) !important;
+    .active-rhs-plugin::before {
+        width: 3px;
+        height: 24px;
+        background-color: var(--sidebar-text-active-border);
+        content: '';
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        border-radius: 0 2px 2px 0;
     }
 
     .fa, i {
@@ -22,16 +31,10 @@
     }
 
     .app-bar-icon {
-        display: inline-block;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
-        background: transparent;
-        border-left: 3px solid transparent;
-        width: 90%;
-
-        img {
-            max-width: 80%;
-        }
+        border-left:none;
+        width: 100%;
+        cursor: pointer;
+        position: relative;
     }
 
     .app-bar-icon, .app-bar-binding {
@@ -41,10 +44,12 @@
 
     .app-bar-binding {
         margin-top: 5px;
+    }
 
-        img {
-            max-width: 60%;
-        }
+    img {
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
     }
 
     .app-bar-icon.channel-header__icon--active {
