@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments, AutoTourTreatments} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -18,6 +18,7 @@ export type ClientConfig = {
     AndroidMinVersion: string;
     AppDownloadLink: string;
     AsymmetricSigningPublicKey: string;
+    AutoTour: AutoTourTreatments;
     AvailableLocales: string;
     BannerColor: string;
     BannerText: string;
@@ -72,6 +73,7 @@ export type ClientConfig = {
     EnableGuestAccounts: string;
     EnableIncomingWebhooks: string;
     EnableLatex: string;
+    EnableInlineLatex: string;
     EnableLdap: string;
     EnableLinkPreviews: string;
     EnableMarketplace: string;
@@ -119,7 +121,6 @@ export type ClientConfig = {
     ExperimentalGroupUnreadChannels: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
-    ExperimentalTownSquareIsReadOnly: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
     GfycatAPIKey: string;
@@ -131,6 +132,7 @@ export type ClientConfig = {
     IosAppDownloadLink: string;
     IosLatestVersion: string;
     IosMinVersion: string;
+    InstallationDate: string;
     IsDefaultMarketplace: string;
     LdapFirstNameAttributeSet: string;
     LdapLastNameAttributeSet: string;
@@ -157,6 +159,7 @@ export type ClientConfig = {
     PasswordRequireNumber: string;
     PasswordRequireSymbol: string;
     PasswordRequireUppercase: string;
+    PrewrittenMessages: PrewrittenMessagesTreatments;
     PluginsEnabled: string;
     PostEditTimeLimit: string;
     PrivacyPolicyLink: string;
@@ -186,6 +189,7 @@ export type ClientConfig = {
     WebsocketPort: string;
     WebsocketSecurePort: string;
     WebsocketURL: string;
+    ExperimentalSharedChannels: string;
 };
 
 export type License = {
@@ -269,7 +273,6 @@ export type ServiceSettings = {
     EnableIncomingWebhooks: boolean;
     EnableOutgoingWebhooks: boolean;
     EnableCommands: boolean;
-    EnableOnlyAdminIntegrations: boolean;
     EnablePostUsernameOverride: boolean;
     EnablePostIconOverride: boolean;
     EnableLinkPreviews: boolean;
@@ -299,11 +302,8 @@ export type ServiceSettings = {
     EnableCustomEmoji: boolean;
     EnableEmojiPicker: boolean;
     EnableGifPicker: boolean;
-    GfycatAPIKey: string;
-    GfycatAPISecret: string;
-    RestrictCustomEmojiCreation: string;
-    RestrictPostDelete: string;
-    AllowEditPost: string;
+    GfycatApiKey: string;
+    GfycatApiSecret: string;
     PostEditTimeLimit: number;
     TimeBetweenUserTypingUpdatesMilliseconds: number;
     EnablePostSearch: boolean;
@@ -319,12 +319,8 @@ export type ServiceSettings = {
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
     ExperimentalGroupUnreadChannels: string;
     ExperimentalDataPrefetch: boolean;
-    ImageProxyType: string;
-    ImageProxyURL: string;
-    ImageProxyOptions: string;
     EnableAPITeamDeletion: boolean;
     ExperimentalEnableHardenedMode: boolean;
-    DisableLegacyMFA: boolean;
     ExperimentalStrictCSRFEnforcement: boolean;
     EnableEmailInvitations: boolean;
     DisableBotsWhenOwnerIsDeactivated: boolean;
@@ -339,7 +335,6 @@ export type ServiceSettings = {
 export type TeamSettings = {
     SiteName: string;
     MaxUsersPerTeam: number;
-    EnableTeamCreation: boolean;
     EnableCustomUserStatuses: boolean;
     EnableUserCreation: boolean;
     EnableOpenServer: boolean;
@@ -349,14 +344,6 @@ export type TeamSettings = {
     CustomBrandText: string;
     CustomDescriptionText: string;
     RestrictDirectMessage: string;
-    RestrictTeamInvite: string;
-    RestrictPublicChannelManagement: string;
-    RestrictPrivateChannelManagement: string;
-    RestrictPublicChannelCreation: string;
-    RestrictPrivateChannelCreation: string;
-    RestrictPublicChannelDeletion: string;
-    RestrictPrivateChannelDeletion: string;
-    RestrictPrivateChannelManageMembers: string;
     UserStatusAwayTimeout: number;
     MaxChannelsPerTeam: number;
     MaxNotificationsPerChannel: number;
@@ -364,7 +351,6 @@ export type TeamSettings = {
     TeammateNameDisplay: string;
     ExperimentalViewArchivedChannels: boolean;
     ExperimentalEnableAutomaticReplies: boolean;
-    ExperimentalTownSquareIsReadOnly: boolean;
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
     ExperimentalDefaultChannels: string[];

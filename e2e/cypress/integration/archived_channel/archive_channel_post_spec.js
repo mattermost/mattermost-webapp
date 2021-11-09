@@ -24,7 +24,7 @@ describe('Archived channels', () => {
             },
         });
 
-        // # Login as test user and visit create channel
+        // # Login as test user and visit created channel
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
             testTeam = team;
@@ -107,7 +107,7 @@ describe('Archived channels', () => {
         });
 
         // # View saved posts
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * RHS should be visible

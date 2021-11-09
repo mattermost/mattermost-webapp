@@ -70,23 +70,6 @@ describe('Actions.Storage', () => {
         );
     });
 
-    it('actionOnItemsWithPrefix', async () => {
-        store.dispatch(Actions.setItem('prefix_test1', 1));
-        store.dispatch(Actions.setItem('prefix_test2', 2));
-        store.dispatch(Actions.setItem('not_prefix_test', 3));
-
-        const touchedPairs = [];
-        store.dispatch(Actions.actionOnItemsWithPrefix(
-            'prefix',
-            (key, value) => touchedPairs.push([key, value]),
-        ));
-
-        assert.deepEqual(
-            touchedPairs,
-            [['prefix_test1', 1], ['prefix_test2', 2]],
-        );
-    });
-
     it('clear', async () => {
         store.dispatch(Actions.setGlobalItem('key', 'value'));
         store.dispatch(Actions.setGlobalItem('excluded', 'not-cleared'));

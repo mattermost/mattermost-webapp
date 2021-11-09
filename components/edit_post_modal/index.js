@@ -19,6 +19,7 @@ import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {hideEditPostModal} from 'actions/post_actions';
 import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
+import {runMessageWillBeUpdatedHooks} from 'actions/hooks';
 import Constants from 'utils/constants';
 
 import EditPostModal from './edit_post_modal';
@@ -64,6 +65,7 @@ function mapDispatchToProps(dispatch) {
             hideEditPostModal,
             openModal,
             setShowPreview: setShowPreviewOnEditPostModal,
+            runMessageWillBeUpdatedHooks,
         }, dispatch),
     };
 }

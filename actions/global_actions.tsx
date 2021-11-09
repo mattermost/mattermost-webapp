@@ -129,6 +129,11 @@ function setLastUnreadChannel(state: GlobalState, channel: Channel) {
     };
 }
 
+export const clearLastUnreadChannel = {
+    type: ActionTypes.SET_LAST_UNREAD_CHANNEL,
+    channelId: '',
+};
+
 export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = Date.now()) {
     return {
         type: ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT,
@@ -188,7 +193,7 @@ export function showLeavePrivateChannelModal(channel: Channel) {
 
 export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type
     const submenuModalData = {
-        ModalId: ModalIdentifiers.MOBILE_SUBMENU,
+        modalId: ModalIdentifiers.MOBILE_SUBMENU,
         dialogType: SubMenuModal,
         dialogProps: {
             elements,

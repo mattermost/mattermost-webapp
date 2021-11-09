@@ -16,7 +16,6 @@ import {
     getMyChannelMemberships,
     getMyCurrentChannelMembership,
 } from 'mattermost-redux/selectors/entities/common';
-import {getConfig, getLicense, hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {
     getTeammateNameDisplaySetting,
     isCollapsedThreadsEnabled,
@@ -24,7 +23,6 @@ import {
 import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
     getCurrentTeamId,
-    getCurrentTeamMembership,
     getMyTeams,
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
@@ -45,20 +43,19 @@ import {
     ChannelSearchOpts,
     ChannelStats,
 } from 'mattermost-redux/types/channels';
-import {ClientConfig} from 'mattermost-redux/types/config';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TeamMembership, Team} from 'mattermost-redux/types/teams';
+import {Team} from 'mattermost-redux/types/teams';
 import {UsersState, UserProfile} from 'mattermost-redux/types/users';
 import {
     IDMappedObjects,
     NameMappedObjects,
     RelationOneToMany,
+    RelationOneToManyUnique,
     RelationOneToOne,
     UserIDMappedObjects,
 } from 'mattermost-redux/types/utilities';
 
 import {
-    canManageMembersOldPermissions,
     completeDirectChannelInfo,
     completeDirectGroupInfo,
     newCompleteDirectChannelInfo,
@@ -73,10 +70,9 @@ import {
     calculateUnreadCount,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {Constants} from 'utils/constants';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
-import {getThreadCounts} from './threads';
+import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -217,13 +213,13 @@ export const getCurrentChannelNameForSearchShortcut: (state: GlobalState) => str
         const channel = allChannels[currentChannelId];
 
         // Only get the extra info from users if we need it
-        if (channel?.type === Constants.DM_CHANNEL) {
+        if (channel?.type === General.DM_CHANNEL) {
             const dmChannelWithInfo = completeDirectChannelInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel);
             return `@${dmChannelWithInfo.display_name}`;
         }
 
         // Replace spaces in GM channel names
-        if (channel?.type === Constants.GM_CHANNEL) {
+        if (channel?.type === General.GM_CHANNEL) {
             const gmChannelWithInfo = completeDirectGroupInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel, false);
             return `@${gmChannelWithInfo.display_name.replace(/\s/g, '')}`;
         }
@@ -289,7 +285,7 @@ export function isChannelReadOnlyById(state: GlobalState, channelId: string): bo
 }
 
 export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean {
-    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true';
+    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state);
 }
 
 export function getChannelMessageCounts(state: GlobalState): RelationOneToOne<Channel, ChannelMessageCount> {
@@ -521,6 +517,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     getTeamMemberships,
     isCollapsedThreadsEnabled,
     getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         channels,
         myMembers,
@@ -532,6 +529,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         myTeamMemberships,
         collapsedThreads,
         threadCounts,
+        threadCountsIncludingDirect,
     ) => {
         const {
             messages: currentTeamUnreadMessages,
@@ -598,9 +596,16 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         // when collapsed threads are enabled, we start with root-post counts from channels, then
         // add the same thread-reply counts from the global threads view
         if (collapsedThreads) {
-            Object.values(threadCounts).forEach((c) => {
-                anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
-                totalUnreadMentions += c.total_unread_mentions;
+            Object.keys(threadCounts).forEach((teamId) => {
+                const c = threadCounts[teamId];
+                if (teamId === currentTeamId) {
+                    const currentTeamDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
+                    anyUnreadThreads = Boolean(currentTeamDirectCounts.total_unread_threads);
+                    totalUnreadMentions += currentTeamDirectCounts.total_unread_mentions;
+                } else {
+                    anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
+                    totalUnreadMentions += c.total_unread_mentions;
+                }
             });
         }
 
@@ -618,7 +623,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
     getCurrentUserId,
     getCurrentTeamId,
     isCollapsedThreadsEnabled,
-    getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         currentChannelId,
         channels,
@@ -681,12 +686,6 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
 export const canManageChannelMembers: (state: GlobalState) => boolean = createSelector(
     'canManageChannelMembers',
     getCurrentChannel,
-    getCurrentUser,
-    getCurrentTeamMembership,
-    getMyCurrentChannelMembership,
-    getConfig,
-    getLicense,
-    hasNewPermissions,
     (state: GlobalState): boolean => haveICurrentChannelPermission(state,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
     ),
@@ -695,12 +694,6 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
     ),
     (
         channel: Channel,
-        user: UserProfile,
-        teamMembership: TeamMembership,
-        channelMembership: ChannelMembership | undefined,
-        config: Partial<ClientConfig>,
-        license: any,
-        newPermissions: boolean,
         managePrivateMembers: boolean,
         managePublicMembers: boolean,
     ): boolean => {
@@ -716,21 +709,13 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
             return false;
         }
 
-        if (newPermissions) {
-            if (channel.type === General.OPEN_CHANNEL) {
-                return managePublicMembers;
-            } else if (channel.type === General.PRIVATE_CHANNEL) {
-                return managePrivateMembers;
-            }
-
-            return true;
+        if (channel.type === General.OPEN_CHANNEL) {
+            return managePublicMembers;
+        } else if (channel.type === General.PRIVATE_CHANNEL) {
+            return managePrivateMembers;
         }
 
-        if (!channelMembership) {
-            return false;
-        }
-
-        return canManageMembersOldPermissions(channel, user, teamMembership, channelMembership, config, license);
+        return true;
     },
 );
 
@@ -874,7 +859,7 @@ export const getDirectAndGroupChannels: (a: GlobalState) => Channel[] = createSe
     },
 );
 
-const getProfiles = (currentUserId: string, usersIdsInChannel: string[], users: IDMappedObjects<UserProfile>): UserProfile[] => {
+const getProfiles = (currentUserId: string, usersIdsInChannel: Set<string>, users: IDMappedObjects<UserProfile>): UserProfile[] => {
     const profiles: UserProfile[] = [];
     usersIdsInChannel.forEach((userId) => {
         if (userId !== currentUserId) {
@@ -884,6 +869,9 @@ const getProfiles = (currentUserId: string, usersIdsInChannel: string[], users: 
     return profiles;
 };
 
+/**
+ * Returns an array of unsorted group channels, each with an array of the user profiles in the channel attached to them.
+ */
 export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     profiles: UserProfile[];
 } & Channel> = createSelector(
@@ -892,11 +880,11 @@ export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     getUsers,
     getGroupChannels,
     getCurrentUserId,
-    (channelUserMap: RelationOneToMany<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
+    (channelUserMap: RelationOneToManyUnique<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
         return channels.map((channel: Channel): {
             profiles: UserProfile[];
         } & Channel => {
-            const profiles = getProfiles(currentUserId, channelUserMap[channel.id] || [], users);
+            const profiles = getProfiles(currentUserId, channelUserMap[channel.id] || new Set(), users);
             return {
                 ...channel,
                 profiles,
@@ -949,7 +937,7 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string): string => {
     const defaultChannelForTeam = getDefaultChannelForTeams(state)[teamId];
     const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
-    const canIJoinPublicChannelsInTeam = !hasNewPermissions(state) || haveITeamPermission(state,
+    const canIJoinPublicChannelsInTeam = haveITeamPermission(state,
         teamId,
         Permissions.JOIN_PUBLIC_CHANNELS,
     );
@@ -1003,13 +991,13 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
     const channelType: string[] = [];
     const channels = channelList;
     if (filters.public) {
-        channelType.push(Constants.OPEN_CHANNEL);
+        channelType.push(General.OPEN_CHANNEL);
     }
     if (filters.private) {
-        channelType.push(Constants.PRIVATE_CHANNEL);
+        channelType.push(General.PRIVATE_CHANNEL);
     }
     if (filters.deleted) {
-        channelType.push(Constants.ARCHIVED_CHANNEL);
+        channelType.push(General.ARCHIVED_CHANNEL);
     }
     channelType.forEach((type) => {
         result = result.concat(channels.filter((channel) => channel.type === type));

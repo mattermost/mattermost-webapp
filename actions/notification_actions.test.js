@@ -342,11 +342,17 @@ describe('notification_actions', () => {
                 window.focus = jest.fn();
 
                 userSettings.desktop = NotificationLevels.MENTION;
-                msgProps.mentions = JSON.stringify(['current_user_id']);
+                msgProps.followers = JSON.stringify(['current_user_id']);
 
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
-                    expect(spy).toHaveBeenCalled();
+                    expect(spy).toHaveBeenCalledWith({
+                        body: '@username: Where is Jessica Hyde?',
+                        requireInteraction: false,
+                        silent: true,
+                        title: 'Reply in Utopia',
+                        onClick: expect.any(Function),
+                    });
                     spy.mock.calls[0][0].onClick();
 
                     expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');

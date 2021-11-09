@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getInt, shouldShowUnreadsCategory, getAddChannelButtonTreatment} from 'mattermost-redux/selectors/entities/preferences';
@@ -13,8 +13,9 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {openModal, closeModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers, Preferences, TutorialSteps} from 'utils/constants';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {isModalOpen} from 'selectors/views/modals';
+
+import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import ChannelNavigator from './channel_navigator';
@@ -47,14 +48,13 @@ function mapStateToProps(state: GlobalState) {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
         addChannelButton: getAddChannelButtonTreatment(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };
 }
 
 type Actions = {
-    openModal: (modalData: any) => Promise<{data: boolean}>;
+    openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
     goBack: () => void;
     goForward: () => void;
@@ -62,7 +62,7 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             openModal,
             closeModal,
             goBack,

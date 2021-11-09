@@ -53,11 +53,8 @@ describe('Direct messages: redirections', () => {
         // # From the 'Direct Messages' menu, find the same user as before and send 'hi'
         sendDirectMessageToUser(firstDMUser, 'hi again');
 
-        // # Open the direct message's menu from the upper left section
-        cy.get('#channelHeaderDropdownButton').click();
-
-        // # Click on 'Close direct message' menu item
-        cy.get('#channelCloseMessage').click();
+        // # Open channel menu and click Close Direct Message
+        cy.uiOpenChannelMenu('Close Direct Message');
 
         // * Expect to be redirected to town square channel, check channel title and url
         expectActiveChannelToBe('Town Square', `/${testTeam.name}/channels/town-square`);

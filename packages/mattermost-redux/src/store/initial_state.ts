@@ -77,8 +77,10 @@ const state: GlobalState = {
         },
         threads: {
             threadsInTeam: {},
+            unreadThreadsInTeam: {},
             threads: {},
             counts: {},
+            countsIncludingDirect: {},
         },
         preferences: {
             myPreferences: {},

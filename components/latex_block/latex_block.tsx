@@ -3,16 +3,36 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {KatexOptions, renderToString} from 'katex';
+import type {KatexOptions} from 'katex';
+
+type Katex = typeof import('katex');
 
 type Props = {
     content: string;
     enableLatex: boolean;
 };
 
-export default class LatexBlock extends React.PureComponent<Props> {
+type State = {
+    katex?: Katex;
+}
+
+export default class LatexBlock extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            katex: undefined,
+        };
+    }
+
+    componentDidMount(): void {
+        import('katex').then((katex) => {
+            this.setState({katex});
+        });
+    }
+
     render(): React.ReactNode {
-        if (!this.props.enableLatex) {
+        if (!this.props.enableLatex || this.state.katex === undefined) {
             return (
                 <div
                     className='post-body--code tex'
@@ -31,7 +51,7 @@ export default class LatexBlock extends React.PureComponent<Props> {
                 fleqn: true,
             };
 
-            const html = renderToString(this.props.content, katexOptions);
+            const html = this.state.katex.renderToString(this.props.content, katexOptions);
 
             return (
                 <div

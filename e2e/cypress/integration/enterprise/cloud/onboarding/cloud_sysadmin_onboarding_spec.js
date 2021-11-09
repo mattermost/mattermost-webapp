@@ -7,17 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding @cloud_only
+// Group: @enterprise @onboarding
 
-describe('Cloud Onboarding - Sysadmin', () => {
+import {stubClipboard} from '../../../../utils';
+import {spyNotificationAs} from '../../../../support/notification';
+
+describe('Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
 
     before(() => {
-        cy.apiRequireLicenseForFeature('Cloud');
+        cy.apiUpdateConfig({
+            ServiceSettings: {EnableOnboardingFlow: true},
+        });
 
-        cy.apiInitSetup().then(({team}) => {
-            townSquarePage = `/${team.name}/channels/town-square`;
+        cy.apiInitSetup().then(({townSquareUrl}) => {
+            townSquarePage = townSquareUrl;
         });
 
         cy.apiAdminLogin().then((res) => {
@@ -37,6 +42,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
             'notification_setup',
             'team_setup',
             'invite_members',
+            'download_apps',
             'hide',
             'skip',
         ];
@@ -48,6 +54,9 @@ describe('Cloud Onboarding - Sysadmin', () => {
     it('MM-T3326 Sysadmin - Happy Path', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
+
+        // # Use to grant permission to Notification
+        spyNotificationAs('withNotification', 'granted');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
@@ -62,7 +71,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 4 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 5 steps complete');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .TeamProfileStep').should('be.visible');
@@ -77,7 +86,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 4 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 5 steps complete');
 
         // * Check to make sure card is expanded
         cy.findByText('We recommend enabling desktop notifications so you don’t miss any important communications.').should('be.visible');
@@ -85,28 +94,22 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByRole('button', {name: 'Set up notifications'}).should('be.visible').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '3 / 4 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '3 / 5 steps complete');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
 
         // # Click Finish button
-        cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
+        cy.findByTestId('InviteMembersStep__finishButton').scrollIntoView().should('be.visible').and('not.be.disabled').click();
 
-        // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '4 / 4 steps complete');
+        // * Check to make sure card is expanded
+        cy.get('.Card__body.expanded .NextStepsView__download').should('be.visible');
 
-        // * Should show Tips and Next Steps
-        cy.findByText('Tips & Next Steps').should('be.visible');
-        cy.findByText('A few other areas to explore').should('be.visible');
-        cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next steps');
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
+        // # Click Finish button
+        cy.findByTestId('DownloadAppsStep__finishDownload').should('be.visible').and('not.be.disabled').click();
 
         // * Transition screen should be visible
-        cy.get('.NextStepsView__transitionView.completed').should('be.visible');
-
-        // * Completed screen should be visible
-        cy.get('.NextStepsView__completedView.completed').should('be.visible');
+        cy.get('.NextStepsView__transitionView.transitioning').should('be.visible');
     });
 
     it('MM-T3327 Sysadmin - Switch to Next Step', () => {
@@ -124,7 +127,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card__body.expanded .TeamProfileStep').should('exist').should('be.visible');
 
         // * Step counter should not increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 4 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 5 steps complete');
     });
 
     it('MM-T3328 Sysadmin - Skip Getting Started', () => {
@@ -137,10 +140,8 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // # Click 'Skip Getting Started'
         cy.findByRole('button', {name: 'Skip Getting Started'}).scrollIntoView().should('be.visible').click();
 
-        // * Main screen should be out of view and the completed screen should be visible
-        cy.get('.NextStepsView__mainView.completed').should('exist');
-        cy.get('.NextStepsView__completedView.completed').should('be.visible');
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
+        // * Main screen should be out of view and transition screen should be visible
+        cy.get('.NextStepsView__transitionView.transitioning').should('be.visible');
     });
 
     it('MM-T3329 Sysadmin - Remove Recommended Next Steps', () => {
@@ -163,8 +164,8 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.SidebarNextSteps').should('not.exist');
         cy.get('.app__content:not(.NextStepsView)').should('be.visible');
 
-        // # Click 'Getting Started' in the main menu
-        cy.uiOpenMainMenu('Getting Started');
+        // # Click 'Getting Started' in the help menu
+        cy.uiOpenHelpMenu('Getting Started');
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');
@@ -176,26 +177,21 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Stub out clipboard
-            const clipboard = {link: '', wasCalled: false};
-            cy.window().then((win) => {
-                cy.stub(win.navigator.clipboard, 'writeText', (link) => {
-                    clipboard.wasCalled = true;
-                    clipboard.link = link;
-                });
-            });
+            stubClipboard().as('clipboard');
 
             // # Get invite link
             const baseUrl = Cypress.config('baseUrl');
             const inviteLink = `${baseUrl}/signup_user_complete/?id=${team.invite_id}`;
 
             // * Verify initial state
-            cy.wrap(clipboard).its('link').should('eq', '');
+            cy.get('@clipboard').its('wasCalled').should('eq', false);
+            cy.get('@clipboard').its('contents').should('eq', '');
 
             // * Make sure channel view has loaded
             cy.url().should('include', `/${team.name}/channels/town-square`);
 
             // # Click Invite members to the team header
-            cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
+            cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').scrollIntoView().should('be.visible').click();
 
             // * Check to make sure card is expanded
             cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
@@ -210,8 +206,8 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.findByTestId('InviteMembersStep__shareLinkInputButton').should('be.visible').and('contain', 'Copied');
 
             // * Verify if it's called with correct link value
-            cy.wrap(clipboard).its('wasCalled').should('eq', true);
-            cy.wrap(clipboard).its('link').should('eq', inviteLink);
+            cy.get('@clipboard').its('wasCalled').should('eq', true);
+            cy.get('@clipboard').its('contents').should('eq', inviteLink);
         });
     });
 });

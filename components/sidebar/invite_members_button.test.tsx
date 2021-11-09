@@ -6,6 +6,8 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
+import thunk from 'redux-thunk';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersButton from 'components/sidebar/invite_members_button';
@@ -39,6 +41,9 @@ describe('components/sidebar/invite_members_button', () => {
                         roles: 'system_role',
                     },
                 },
+                stats: {
+                    total_users_count: 10,
+                },
             },
             roles: {
                 roles: {
@@ -49,14 +54,19 @@ describe('components/sidebar/invite_members_button', () => {
         },
     };
 
-    const mockStore = configureStore();
+    const props = {
+        onClick: jest.fn(),
+        touchedInviteMembersButton: false,
+    };
+
+    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
 
@@ -78,9 +88,64 @@ describe('components/sidebar/invite_members_button', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
         expect(wrapper.find('i').exists()).toBeFalsy();
+    });
+
+    test('should should fire onClick prop on click', () => {
+        const mock = jest.fn();
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, onClick: mock}}/>
+            </Provider>,
+        );
+        expect(mock).not.toHaveBeenCalled();
+        wrapper.find('i').simulate('click');
+        expect(mock).toHaveBeenCalled();
+    });
+
+    test('should not be highlighted when button has been touched/clicked', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, touchedInviteMembersButton: true}}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched');
+    });
+
+    test('should be highlighted when component has not been touched/clicked and has less than 10 users', () => {
+        const lessThan10Users = {
+            ...state.entities.users,
+            stats: {
+                total_users_count: 9,
+            },
+        };
+        const lessThan10UsersState = {...state, entities: {...state.entities, users: lessThan10Users}};
+        const store = mockStore(lessThan10UsersState);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...props}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).toContain('untouched');
+    });
+
+    test('should not be highlighted when component has not been touched/clicked but the workspace has more than 10 users', () => {
+        const moreThan10Users = {
+            ...state.entities.users,
+            stats: {
+                total_users_count: 11,
+            },
+        };
+        const moreThan10UsersState = {...state, entities: {...state.entities, users: moreThan10Users}};
+        const store = mockStore(moreThan10UsersState);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...props}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched');
     });
 });

@@ -14,7 +14,7 @@ import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetDisplayName, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
@@ -149,6 +149,27 @@ export function containsAtChannel(text: string, options?: {checkAllMentions: boo
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
     return mentionsRegex.test(mentionableText);
+}
+
+export function specialMentionsInText(text: string): {[key: string]: boolean} {
+    const mentions = {
+        all: false,
+        channel: false,
+        here: false,
+    };
+
+    // Don't warn for slash commands
+    if (!text || text.startsWith('/')) {
+        return mentions;
+    }
+
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+
+    mentions.all = new RegExp(Constants.ALL_MENTION_REGEX).test(mentionableText);
+    mentions.channel = new RegExp(Constants.CHANNEL_MENTION_REGEX).test(mentionableText);
+    mentions.here = new RegExp(Constants.HERE_MENTION_REGEX).test(mentionableText);
+
+    return mentions;
 }
 
 export const groupsMentionedInText = (text: string, groups: Map<string, Group> | null): Group[] => {
@@ -562,4 +583,17 @@ export function getPostURL(state: GlobalState, post: Post): string {
     default:
         return `/${team.name}/channels/${channel.name}${postURI}`;
     }
+}
+
+export function matchUserMentionTriggersWithMessageMentions(userMentionKeys: UserMentionKey[],
+    messageMentionKeys: RegExpMatchArray): boolean {
+    let isMentioned = false;
+    for (const mentionKey of userMentionKeys) {
+        const isPresentInMessage = messageMentionKeys.includes(mentionKey.key);
+        if (isPresentInMessage) {
+            isMentioned = true;
+            break;
+        }
+    }
+    return isMentioned;
 }

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -15,7 +15,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
-import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
+import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {isEmbedVisible} from 'selectors/posts';
 
 import {GlobalState} from 'types/store';
@@ -42,12 +42,18 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
 
+    let emojis = [];
+    const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
+    if (oneClickReactionsEnabled) {
+        emojis = getOneClickReactionEmojis(state);
+    }
+
     return {
         isBot,
         enableEmojiPicker,
         enablePostUsernameOverride,
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
-        isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
+        isReadOnly: false,
         teamId,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: isArchivedChannel(channel),
@@ -55,6 +61,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        oneClickReactionsEnabled,
+        recentEmojis: emojis,
+        isExpanded: state.views.rhs.isSidebarExpanded,
     };
 }
 

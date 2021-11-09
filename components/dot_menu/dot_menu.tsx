@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
@@ -26,6 +26,7 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
 
@@ -49,7 +50,7 @@ type Props = {
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings?: AppBinding[];
+    appBindings: AppBinding[] | null;
     appsEnabled: boolean;
 
     /**
@@ -89,7 +90,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (postId: any) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         /**
          * Function to set the unread mark at given post
@@ -111,6 +112,13 @@ type Props = {
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+
+        /**
+         * Function to get the post menu bindings for this post.
+         */
+        fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -120,6 +128,7 @@ type Props = {
     threadId: $ID<UserThread>;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
+    isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
 }
 
@@ -127,6 +136,7 @@ type State = {
     openUp: boolean;
     canEdit: boolean;
     canDelete: boolean;
+    appBindings?: AppBinding[];
 }
 
 export class DotMenuClass extends React.PureComponent<Props, State> {
@@ -175,11 +185,21 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.disableCanEditPostByTime();
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (!this.state.appBindings && this.props.isMenuOpen && !prevProps.isMenuOpen) {
+            this.fetchBindings();
+        }
+    }
+
     static getDerivedStateFromProps(props: Props) {
-        return {
+        const state: Partial<State> = {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };
+        if (props.appBindings) {
+            state.appBindings = props.appBindings;
+        }
+        return state;
     }
 
     componentWillUnmount() {
@@ -229,7 +249,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         e.preventDefault();
 
         const deletePostModalData = {
-            ModalId: ModalIdentifiers.DELETE_POST,
+            modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
                 post: this.props.post,
@@ -250,12 +270,18 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleSetThreadFollow = () => {
-        const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
+        const {actions, currentTeamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
+        let followingThread: boolean;
+        if (isFollowingThread === null) {
+            followingThread = !isMentionedInRootPost;
+        } else {
+            followingThread = !isFollowingThread;
+        }
         actions.setThreadFollow(
             userId,
             currentTeamId,
             threadId,
-            !isFollowingThread,
+            followingThread,
         );
     }
 
@@ -305,7 +331,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     onClickAppBinding = async (binding: AppBinding) => {
         const {post, intl} = this.props;
 
-        if (!binding.call) {
+        const call = binding.form?.call || binding.call;
+
+        if (!call) {
             return;
         }
         const context = createCallContext(
@@ -316,15 +344,20 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.post.id,
             this.props.post.root_id,
         );
-        const call = createCallRequest(
-            binding.call,
+        const callRequest = createCallRequest(
+            call,
             context,
             {
                 post: AppExpandLevels.ALL,
             },
         );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
 
         if (res.error) {
             const errorResponse = res.error;
@@ -356,6 +389,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.actions.postEphemeralCallResponseForPost(callResp, errorMessage, post);
         }
         }
+    }
+
+    fetchBindings = () => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+            this.setState({appBindings: data});
+        });
     }
 
     render() {
@@ -394,8 +433,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             }) || [];
 
         let appBindings = [] as JSX.Element[];
-        if (this.props.appsEnabled && this.props.appBindings) {
-            appBindings = this.props.appBindings.map((item) => {
+        if (this.props.appsEnabled && this.state.appBindings) {
+            appBindings = this.state.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {
                     icon = (<img src={item.icon}/>);
@@ -405,6 +444,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         text={item.label}
                         key={item.app_id + item.location}
+                        id={`${item.app_id}_${item.location}`}
                         onClick={() => this.onClickAppBinding(item)}
                         icon={icon}
                     />
@@ -415,6 +455,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
+        const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
 
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
@@ -473,7 +514,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...this.props.isFollowingThread ? {
+                        {...isFollowingThread ? {
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                             extraText: Utils.localizeMessage('threading.threadMenu.unfollowExtra', 'You won’t be notified about replies'),
                         } : {

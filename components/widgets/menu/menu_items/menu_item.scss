@@ -126,16 +126,9 @@
                 color: inherit;
             }
         }
-
-        > div {
-            &:hover,
-            &:focus {
-                background-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
-            }
-        }
     }
 
-    .MenuTopNotification {
+    .MenuCloudTrial {
         padding: 8px;
         margin: 8px;
         margin-top: 0;
@@ -157,6 +150,9 @@
     }
 
     .MenuStartTrial {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
         padding: 8px;
         padding-left: 16px;
         margin: 8px;
@@ -168,7 +164,7 @@
             padding: 3px 0;
             border: none;
             background-color: transparent;
-            color: var(--button-bg);
+            color: var(--link-color);
             font-style: normal;
             font-weight: 600;
         }
@@ -184,6 +180,7 @@
     top: unset;
     left: unset;
     padding-left: 0;
+    cursor: auto;
 }
 
 .SubMenu__icon-left {
