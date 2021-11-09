@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {RecommendedNextSteps} from 'utils/constants';
-
 import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
 //
@@ -96,6 +94,10 @@ describe('components/next_steps_view/steps', () => {
                             name: 'invite_members',
                             value: 'true',
                         },
+                        'recommended_next_steps--download_apps': {
+                            name: 'download_apps',
+                            value: 'true',
+                        },
                     },
                 },
                 users: {
@@ -127,10 +129,10 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(4);
+        expect(getSteps(state as any)).toHaveLength(5);
     });
 
-    test('should only show the complete_profile_step to guest users', () => {
+    test('should only show the complete_profile_step and download_apps to guest users', () => {
         const state = {
             entities: {
                 general: {
@@ -146,7 +148,10 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(1);
+        const steps = getSteps(state as any);
+        expect(steps).toHaveLength(2);
+        expect(steps[0].id).toEqual('complete_profile');
+        expect(steps[1].id).toEqual('download_apps');
     });
 
     test('should only show non-admin steps for non-admin users', () => {
@@ -165,63 +170,7 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(3);
-    });
-
-    test('should show the download_apps_step if exposed to DownloadAppsCTA treatment', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                        FeatureFlagDownloadAppsCTA: 'tips_and_next_steps',
-                    },
-                },
-                users: {
-                    currentUserId: 'current_user_id',
-                    profiles: {
-                        current_user_id: {roles: ''},
-                    },
-                },
-            },
-        };
-        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(true);
-    });
-
-    test('should not show the download_apps_step if exposed to control', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                        FeatureFlagDownloadAppsCTA: 'none',
-                    },
-                },
-                users: {
-                    currentUserId: 'current_user_id',
-                    profiles: {
-                        current_user_id: {roles: ''},
-                    },
-                },
-            },
-        };
-        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(false);
-    });
-
-    test('should not show the download_apps_step if feature flag missing', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                    },
-                },
-                users: {
-                    currentUserId: 'current_user_id',
-                    profiles: {
-                        current_user_id: {roles: ''},
-                    },
-                },
-            },
-        };
-        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(false);
+        expect(getSteps(state as any)).toHaveLength(4);
     });
 
     test('should show the create first channel step if exposed to CreateFirstChannel treatment', () => {

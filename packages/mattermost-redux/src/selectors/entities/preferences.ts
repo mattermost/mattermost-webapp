@@ -9,9 +9,9 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 
 import {
     AddChannelButtonTreatments,
-    DownloadAppsCTATreatments,
     PrewrittenMessagesTreatments,
     AutoTourTreatments,
+    AddMembersToChanneltreatments,
 } from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -212,10 +212,6 @@ export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButt
     return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
 }
 
-export function getDownloadAppsCTATreatment(state: GlobalState): DownloadAppsCTATreatments | undefined {
-    return getFeatureFlagValue(state, 'DownloadAppsCTA') as DownloadAppsCTATreatments | undefined;
-}
-
 export function getPrewrittenMessagesTreatment(state: GlobalState): PrewrittenMessagesTreatments | undefined {
     return getFeatureFlagValue(state, 'PrewrittenMessages') as PrewrittenMessagesTreatments | undefined;
 }
@@ -226,4 +222,8 @@ export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | u
 
 export function getCreateGuidedFirstChannelCTATreatment(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
+}
+
+export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
+    return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
 }
