@@ -5,8 +5,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import cssVars from 'css-vars-ponyfill';
-
 import moment from 'moment';
 
 import {
@@ -29,7 +27,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
     getCurrentRelativeTeamUrl,
@@ -60,7 +57,6 @@ import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_lin
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
-import {rgbToHex} from "@mattermost/compass-components/shared/color-utils";
 
 const CLICKABLE_ELEMENTS = [
     'a',
