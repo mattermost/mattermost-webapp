@@ -20,7 +20,7 @@ import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'matte
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
-import {DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Post, PostSearchResults} from 'mattermost-redux/types/posts';
 import {FileSearchResultItem, FileSearchResults} from 'mattermost-redux/types/files';
 
@@ -286,7 +286,7 @@ export function showPinnedPosts(channelId?: string) {
 }
 
 export function showChannelFiles(channelId: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult|[ActionResult, ActionResult]>, getState: GetStateFunc) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
 
@@ -296,14 +296,13 @@ export function showChannelFiles(channelId: string) {
             state: RHSStates.CHANNEL_FILES,
         });
 
-        const results = await dispatch(performSearch('channel:' + channelId)) as [{data?: FileSearchResults; error?: any}, {data?: PostSearchResults; error?: any}];
-
-        const fileData = results[0].data;
+        const results = await dispatch(performSearch('channel:' + channelId));
+        const fileData = results instanceof Array ? results[0].data : null;
         const missingPostIds: string[] = [];
 
         if (fileData) {
-            Object.values(fileData.file_infos).forEach((file: FileSearchResultItem) => {
-                const postId = file.post_id;
+            Object.values(fileData.file_infos).forEach((file: any) => {
+                const postId = file?.post_id;
 
                 if (postId && !getPost(state, postId)) {
                     missingPostIds.push(postId);
@@ -315,7 +314,7 @@ export function showChannelFiles(channelId: string) {
         }
 
         let data: any;
-        if (results && results.length === 2 && 'data' in results[1]) {
+        if (results && results instanceof Array && results.length === 2 && 'data' in results[1]) {
             data = results[1].data;
         }
 
