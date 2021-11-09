@@ -112,8 +112,9 @@ describe('Custom emojis', () => {
         // # Type emoji name
         cy.get('#name').type(customEmojiWithColons);
 
-        // # Select emoji image
+        // # Attached image file and wait to be loaded
         cy.get('input#select-emoji').attachFile(largeEmojiFile);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Save custom emoji
         saveCustomEmoji(testTeam.name);
@@ -165,8 +166,9 @@ describe('Custom emojis', () => {
         // # Type emoji name
         cy.get('#name').should('be.visible').type(customEmojiWithColons);
 
-        // # Select emoji image
+        // # Attached image file and wait to be loaded
         cy.get('input#select-emoji').attachFile(animatedGifEmojiFile);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Save custom emoji
         saveCustomEmoji(testTeam.name);
@@ -220,12 +222,17 @@ function saveCustomEmoji(teamName) {
     cy.findByText('Save').click();
 
     // # Wait until new custom emoji has been added
-    cy.waitUntil(() => cy.url().then((url) => {
-        return !url.includes('/emoji/add');
-    }, {
+    const checkFn = () => {
+        return cy.url().then((url) => {
+            return !url.includes('/emoji/add');
+        });
+    };
+    const options = {
         timeout: TIMEOUTS.ONE_MIN,
         interval: TIMEOUTS.FIVE_SEC,
-    }));
+        errorMsg: 'Timeout error waiting for custom emoji to be saved',
+    };
+    cy.waitUntil(checkFn, options);
 
     // * Should return to list of custom emojis
     cy.url().should('include', `${teamName}/emoji`);
