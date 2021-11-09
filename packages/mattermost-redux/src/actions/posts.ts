@@ -1006,10 +1006,7 @@ export function getPostsByIds(ids: string[]) {
             posts = await Client4.getPostsByIds(ids);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.GET_POSTS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch(logError(error));
             return {error};
         }
 
