@@ -9,27 +9,25 @@ import {useSelector, useDispatch} from 'react-redux';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel, ChannelType} from 'mattermost-redux/types/channels';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
-
+import {switchToChannel} from 'actions/views/channel';
 import {
     setFirstChannelName,
 } from 'actions/views/channel_sidebar';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
+import LocalizedInput from 'components/localized_input/localized_input';
+import {StepComponentProps} from '../../steps';
 
 import {t} from 'utils/i18n';
-
-import {StepComponentProps} from '../../steps';
 
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils.jsx';
 
-import LocalizedInput from 'components/localized_input/localized_input';
-
 import {GlobalState} from 'types/store';
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 const CreateFirstChannelStep = (props: StepComponentProps) => {
     const [channelNameError, setChannelNameError] = useState(false);
@@ -47,10 +45,6 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
             pageVisited(getAnalyticsCategory(props.isAdmin), 'pageview_create_first_channel');
         }
     }, [props.expanded]);
-
-    useEffect(() => {
-        console.log('component rerendered');
-    }, []);
 
     useEffect(() => {
         if (channelNameValue !== '' && channelNameValue.length > Constants.MIN_CHANNELNAME_LENGTH) {
@@ -114,9 +108,11 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         result.then(({data, error}) => {
             if (error) {
                 setChannelCreateError(true);
+                //there seems to be a problem here
             } else if (data) {
                 // dispatch the first channel name value
                 dispatch(setFirstChannelName(data.name));
+                switchToChannel(data);
             }
         });
     };
@@ -126,9 +122,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         const enterPressed = isKeyPressed(e, Constants.KeyCodes.ENTER);
 
         // Enter pressed alone without required cmd or ctrl key
-        if (enterPressed && !e.ctrlKey) {
-            e.preventDefault();
-        } else if ((enterPressed && e.ctrlKey) || (enterPressed && !e.shiftKey && !e.altKey)) {
+        if (enterPressed) {
             handleSubmit(e);
         }
     };

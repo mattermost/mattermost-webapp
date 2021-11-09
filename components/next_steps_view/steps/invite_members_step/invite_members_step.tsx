@@ -298,8 +298,8 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
 
         let finishMessage = (
             <FormattedMessage
-                id={this.props.finishButtonText.id}
-                defaultMessage={this.props.finishButtonText.defaultMessage}
+                id={this.props.finishButtonText?.id}
+                defaultMessage={this.props.finishButtonText?.defaultMessage}
             />);
 
         if (this.props.isLastStep) {

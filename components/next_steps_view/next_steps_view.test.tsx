@@ -151,16 +151,4 @@ describe('components/next_steps_view', () => {
         wrapper.instance().nextStep(jest.fn(), 'step_1');
         jest.runOnlyPendingTimers();
     });
-
-    test('should not show DownloadSection when in DownloadAppsCTA test', () => {
-        const wrapper = shallow(
-            <NextStepsView
-                {...baseProps}
-                downloadAppsAsNextStep={true}
-            />,
-        );
-        wrapper.setState({show: true});
-
-        expect(wrapper.find(DownloadSection)).toHaveLength(0);
-    });
 });
