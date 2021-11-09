@@ -13,7 +13,7 @@ type State = {
 };
 
 type Props = {
-    channel?: Channel;
+    channel: Channel;
     onExited: () => void;
     actions: {
         leaveChannel: (channelId: string) => any;

@@ -27,7 +27,7 @@ import FileThumbnail from './file_thumbnail';
 
 import {PropsFromRedux} from './index';
 
-interface Props extends PropsFromRedux{
+interface Props extends PropsFromRedux {
 
     /*
     * File detailed information
@@ -162,7 +162,8 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
     }
 
     handleGetPublicLink = () => {
-        this.props.actions.openModal({modalId: ModalIdentifiers.GET_PUBLIC_LINK_MODAL,
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.GET_PUBLIC_LINK_MODAL,
             dialogType: GetPublicModal,
             dialogProps: {
                 fileId: this.props.fileInfo.id,

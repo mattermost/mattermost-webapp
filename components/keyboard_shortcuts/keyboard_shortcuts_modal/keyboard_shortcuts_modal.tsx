@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, useIntl} from 'react-intl';
 
@@ -58,12 +58,12 @@ interface Props {
     onExited: () => void;
 }
 
-const KeyboardShortcutsModal: FC<Props> = (props: Props) => {
+const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
     const [show, setShow] = useState(true);
 
     const {formatMessage} = useIntl();
 
-    const handleHide = (): void => setShow(false);
+    const handleHide = useCallback(() => setShow(false), []);
 
     const isLinux = Utils.isLinux();
 
@@ -72,7 +72,7 @@ const KeyboardShortcutsModal: FC<Props> = (props: Props) => {
             dialogClassName='a11y__modal shortcuts-modal'
             show={show}
             onHide={handleHide}
-            onExited={props.onExited}
+            onExited={onExited}
             role='dialog'
             aria-labelledby='shortcutsModalLabel'
         >

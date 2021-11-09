@@ -28,7 +28,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props & Prop
     }
 
     handleLeavePrivateChannel = () => {
-        this.props.actions.openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeavePrivateChannelModal, dialogProps: {channel: {id: this.props.channel.id, display_name: this.props.channel.display_name} as Channel}});
+        this.props.actions.openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeavePrivateChannelModal, dialogProps: {channel: this.props.channel}});
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
     }
 

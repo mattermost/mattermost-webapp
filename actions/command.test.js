@@ -171,8 +171,11 @@ describe('executeCommand', () => {
             const result = await store.dispatch(executeCommand('/shortcuts', []));
 
             const actionDispatch = store.getActions()[0];
-            expect(actionDispatch.type).toEqual(ActionTypes.MODAL_OPEN);
-            expect(actionDispatch.modalId).toEqual(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+
+            expect(actionDispatch).toMatchObject({
+                type: ActionTypes.MODAL_OPEN,
+                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+            });
 
             expect(result).toEqual({data: true});
         });
