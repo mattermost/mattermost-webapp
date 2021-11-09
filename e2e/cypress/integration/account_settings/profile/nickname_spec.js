@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-describe('Account Settings > Sidebar > General', () => {
+describe('Settings > Sidebar > General', () => {
     let testUser;
     let testTeam;
 
@@ -26,8 +26,8 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('MM-T3848 No nickname is present', () => {
-        // # Open 'Account Settings' modal and view the default 'Profile'
-        cy.uiOpenAccountSettingsModal().within(() => {
+        // # Open 'Profile' modal and view the default 'Profile'
+        cy.uiOpenProfileModal().within(() => {
             // # Open 'Nickname' setting
             cy.uiGetHeading('Nickname').click();
 
@@ -52,11 +52,11 @@ describe('Account Settings > Sidebar > General', () => {
         cy.uiClose();
     });
 
-    it('MM-T268 Account Settings > Add Nickname', () => {
+    it('MM-T268 Profile > Profile Settings > Add Nickname', () => {
         const newNickname = 'victor_nick';
 
-        // # Open 'Account Settings' modal and view the default 'General Settings'
-        cy.uiOpenAccountSettingsModal().within(() => {
+        // # Open 'Profile' modal and view the default 'Profile Settings'
+        cy.uiOpenProfileModal().within(() => {
             // # Open 'Nickname' setting
             cy.uiGetHeading('Nickname').click();
 
@@ -131,8 +131,8 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('MM-T2061 Nickname should reset on cancel of edit', () => {
-        // # Open 'Account Settings' modal and view the default 'General Settings'
-        cy.uiOpenAccountSettingsModal().within(() => {
+        // # Open 'Profile' modal and view the default 'Profile Settings'
+        cy.uiOpenProfileModal().within(() => {
             // # Open 'Nickname' setting
             cy.uiGetHeading('Nickname').click();
 
@@ -154,8 +154,8 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('MM-T2062 Clear nickname and save', () => {
-        // # Open 'Account Settings' modal and view the default 'General Settings'
-        cy.uiOpenAccountSettingsModal().within(() => {
+        // # Open 'Profile' modal and view the default 'Profile Settings'
+        cy.uiOpenProfileModal().within(() => {
             // # Open 'Nickname' setting
             cy.uiGetHeading('Nickname').click();
 
