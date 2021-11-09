@@ -23,7 +23,7 @@ import AppBar from './app_bar';
 const getChannelHeaderBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
 
 const mapStateToProps = (state: GlobalState) => {
-    const channelHeaderComponents = state.plugins.components.ChannelHeaderButton;
+    const channelHeaderPluginComponents = state.plugins.components.ChannelHeaderButton;
 
     const channel = getCurrentChannel(state);
     const marketplaceListing = getInstalledListing(state);
@@ -37,12 +37,12 @@ const mapStateToProps = (state: GlobalState) => {
         activePluginId = component.pluginId;
     }
 
-    const appBarBindings = getChannelHeaderBindings(state);
+    const channelHeaderAppBindings = getChannelHeaderBindings(state);
 
     return {
         theme: getTheme(state),
-        channelHeaderComponents,
-        appBarBindings,
+        channelHeaderPluginComponents,
+        channelHeaderAppBindings,
         channel,
         marketplaceListing,
         activePluginId,

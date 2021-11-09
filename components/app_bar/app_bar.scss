@@ -8,8 +8,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    border-left: 'solid 1px';
-    height: 100%;
+    bottom: 0;
     width: 60px;
     text-align: center;
 
@@ -41,10 +40,11 @@
     }
 
     .app-bar-binding {
+        margin-top: 5px;
+
         img {
             max-width: 60%;
         }
-        margin-top: 5px;
     }
 
     .app-bar-icon.channel-header__icon--active {

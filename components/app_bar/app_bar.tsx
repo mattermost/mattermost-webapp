@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import semver from 'semver';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap/lib';
 
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -11,21 +12,21 @@ import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketpl
 import {Theme} from 'mattermost-redux/types/themes';
 
 import {PluginComponent} from 'types/store/plugins';
+import Constants from 'utils/constants';
 
 import AppBarBinding from './app_bar_binding';
 
 import './app_bar.scss';
 
 export type Props = {
-    channelHeaderComponents: PluginComponent[];
-    appBarBindings: AppBinding[];
+    channelHeaderPluginComponents: PluginComponent[];
+    channelHeaderAppBindings: AppBinding[];
     theme: Theme;
     channel: Channel;
     marketplaceListing: Array<MarketplacePlugin | MarketplaceApp>;
     activePluginId?: string;
-
     actions: {
-        fetchListing: (localOnly?: boolean) => Promise<{ data?: Array<MarketplacePlugin | MarketplaceApp>}>;
+        fetchListing: (localOnly?: boolean) => Promise<{ data?: Array<MarketplacePlugin | MarketplaceApp> }>;
     };
 }
 
@@ -35,8 +36,8 @@ type State = {
 
 export default class AppBar extends React.PureComponent<Props> {
     static defaultProps: Partial<Props> = {
-        channelHeaderComponents: [],
-        appBarBindings: [],
+        channelHeaderPluginComponents: [],
+        channelHeaderAppBindings: [],
         marketplaceListing: [],
     }
 
@@ -45,60 +46,78 @@ export default class AppBar extends React.PureComponent<Props> {
     }
 
     componentDidMount() {
-        this.getMarketPlaceListings();
+        this.getInstalledMarketPlaceListings();
     }
 
-    getMarketPlaceListings = async () => {
+    getInstalledMarketPlaceListings = async () => {
         await this.props.actions.fetchListing(true);
         this.setState({loadedMarketplaceListing: true});
     }
 
     getIcon = (component: PluginComponent): React.ReactNode => {
-        let entry: MarketplacePlugin | undefined;
-        for (const e of this.props.marketplaceListing) {
-            const p = e as MarketplacePlugin;
-            if (p.manifest.id === component.pluginId && p.icon_data) {
-                if (!entry || semver.gte(p.manifest.version, entry.manifest.version)) {
-                    entry = p;
+        let latestEntry: MarketplacePlugin | undefined;
+        for (const entry of this.props.marketplaceListing) {
+            const pluginEntry = entry as MarketplacePlugin;
+            if (pluginEntry.manifest.id === component.pluginId && pluginEntry.icon_data) {
+                if (!latestEntry || semver.gte(pluginEntry.manifest.version, latestEntry.manifest.version)) {
+                    latestEntry = pluginEntry;
                 }
             }
         }
 
-        if (!entry) {
+        if (!latestEntry) {
             return component.icon;
         }
 
         return (
-            <img src={entry.icon_data}/>
+            <img src={latestEntry.icon_data} />
         );
     }
 
     render() {
-        const style: CSSProperties = {};
-        if (!this.state.loadedMarketplaceListing) {
-            style.display = 'none';
-        }
-
         return (
             <div
-                className='app-bar'
-                style={style}
+                className={classNames(['app-bar', { hidden: !this.state.loadedMarketplaceListing }])}
             >
-                {this.props.channelHeaderComponents.map((component) => (
-                    <div
-                        key={component.id}
-                        aria-label={component.tooltipText || component.pluginId}
-                        className={classNames('app-bar-icon', {'active-rhs-plugin': component.pluginId === this.props.activePluginId})}
-                        onClick={() => {
-                            component.action?.(this.props.channel);
-                        }}
-                    >
-                        {this.getIcon(component)}
-                    </div>
-                ))}
-                {this.props.appBarBindings.map((binding) => (
+                {this.props.channelHeaderPluginComponents.map((component) => {
+
+                    const label = component.tooltipText || component.pluginId;
+                    const buttonId = component.id;
+                    const tooltip = (
+                        <Tooltip
+                            id='pluginTooltip'
+                            className=''
+                        >
+                            <span>{label}</span>
+                        </Tooltip>
+                    );
+
+                    return (
+                        <div>
+                            <OverlayTrigger
+                                trigger={['hover']}
+                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                placement='bottom'
+                                overlay={tooltip}
+                            >
+                                <div
+                                    id={buttonId}
+                                    aria-label={component.pluginId}
+                                    className={classNames('app-bar-icon', {'active-rhs-plugin': component.pluginId === this.props.activePluginId})}
+                                    // className={buttonClass || 'channel-header__icon'}
+                                    onClick={() => {
+                                        component.action?.(this.props.channel);
+                                    }}
+                                >
+                                    {this.getIcon(component)}
+                                </div>
+                            </OverlayTrigger>
+                        </div>
+                    )
+                })}
+                {this.props.channelHeaderAppBindings.map((binding) => (
                     <AppBarBinding
-                        key={binding.app_id}
+                        key={`${binding.app_id}_${binding.label}`}
                         binding={binding}
                     />
                 ))}

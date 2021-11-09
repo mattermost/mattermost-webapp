@@ -41,8 +41,8 @@ describe('components/app_bar/app_bar', () => {
 
     const baseProps: Props = {
         activePluginId: 'playbooks',
-        appBarBindings: [],
-        channelHeaderComponents,
+        channelHeaderAppBindings: [],
+        channelHeaderPluginComponents: channelHeaderComponents,
         marketplaceListing,
         channel: {} as Channel,
         actions: {

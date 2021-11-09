@@ -4,6 +4,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap/lib';
 
 import {AppCallTypes} from 'mattermost-redux/constants/apps';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
@@ -13,6 +14,7 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 import {doAppCall, openAppsModal} from 'actions/apps';
 
 import {createCallContext, createCallRequest} from 'utils/apps';
+import Constants from 'utils/constants';
 
 type BindingComponentProps = {
     binding: AppBinding;
@@ -55,16 +57,31 @@ const AppBarBinding = (props: BindingComponentProps) => {
     }, [binding, teamId, channelId]);
 
     const id = `app-bar-icon-${binding.app_id}`;
+    const label = binding.label || binding.app_id;
+
+    const tooltip = (
+        <Tooltip id={'tooltip-' + id}>
+            <span>{label}</span>
+        </Tooltip>
+    );
 
     return (
-        <div
-            id={id}
-            aria-label={binding.label || binding.app_id}
-            className={'app-bar-binding'}
-            onClick={submitAppCall}
+        <OverlayTrigger
+            trigger={['hover']}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='bottom'
+            overlay={tooltip}
         >
-            <img src={binding.icon}/>
-        </div>
+            <div
+                id={id}
+                aria-label={label}
+                title={label}
+                className={'app-bar-binding'}
+                onClick={submitAppCall}
+            >
+                <img src={binding.icon} />
+            </div>
+        </OverlayTrigger>
     );
 };
 
