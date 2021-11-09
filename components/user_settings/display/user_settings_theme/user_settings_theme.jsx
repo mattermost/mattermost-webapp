@@ -113,7 +113,7 @@ export default class ThemeSetting extends React.PureComponent {
         this.props.setRequireConfirm(themeChanged);
 
         this.setState({theme});
-        Utils.applyTheme(theme);
+        this.props.actions.saveTheme(this.props.currentTeamId, theme);
     };
 
     updateType(type) {
