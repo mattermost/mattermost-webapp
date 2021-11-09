@@ -9,12 +9,12 @@
         background: transparent;
         border-radius: 4px;
         box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
+        color: var(--center-channel-color);
         line-height: 20px;
         resize: none;
         transition: none;
         white-space: pre-wrap;
         word-wrap: break-word;
-        color: var(--center-channel-color);
 
         &:focus {
             box-shadow: inset 0 0 0 2px rgba(var(--center-channel-color-rgb), 0.32);
@@ -285,9 +285,9 @@
             height: 28px;
             align-items: center;
             padding: 0 20px;
-            cursor: pointer;
             background: var(--button-bg);
             color: var(--button-color);
+            cursor: pointer;
         }
 
         svg {
@@ -1643,6 +1643,7 @@
     .post__link {
         overflow: hidden;
         margin: 2px 0 5px;
+        color: rgba(var(--center-channel-color-rgb), 0.65);
         font-size: 13px;
         text-overflow: ellipsis;
         -webkit-user-select: none; /* Chrome all / Safari all */
@@ -1650,7 +1651,6 @@
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
         white-space: nowrap;
-        color: rgba(var(--center-channel-color-rgb), 0.65);
 
         a {
             font-weight: bold;
@@ -1843,8 +1843,8 @@
         z-index: 1;
         top: 2px;
         margin: 0 6px 0 4px;
-        vertical-align: top;
         color: rgba(var(--center-channel-color-rgb), 0.3);
+        vertical-align: top;
 
         &:hover {
             @include opacity(0.4);

@@ -10,7 +10,8 @@
         border-color: rgba(var(--center-channel-color-rgb), 0.2);
     }
 
-    a, .color-link {
+    a,
+    .color-link {
         color: var(--link-color);
 
         &:focus,
@@ -20,8 +21,8 @@
     }
 
     .input-group-addon {
-        background: rgba(var(--center-channel-color-rgb), 0.05);
         border-color: rgba(var(--center-channel-color-rgb), 0.1);
+        background: rgba(var(--center-channel-color-rgb), 0.05);
     }
 
     .svg-text-color,

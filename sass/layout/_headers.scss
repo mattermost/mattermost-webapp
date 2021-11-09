@@ -79,7 +79,7 @@
             }
 
             &:hover {
-                color: var(--link-color)
+                color: var(--link-color);
             }
         }
 
@@ -198,16 +198,18 @@
             background: rgba(var(--sidebar-text-rgb), 0.08);
 
             &:hover {
-                background: rgba(var(--link-color-rgb), 0.08);
                 border-color: var(--link-color);
+                background: rgba(var(--link-color-rgb), 0.08);
 
                 .fa {
                     @include opacity(1);
+
                     color: var(--link-color);
                 }
 
                 svg {
                     @include opacity(1);
+
                     fill: var(--link-color);
                 }
             }
@@ -241,12 +243,12 @@
     .heading {
         overflow: hidden;
         margin: 0 0 0 2px;
+        color: var(--center-channel-color);
         font-family: Metropolis, sans-serif;
         font-size: 16px;
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
-        color: var(--center-channel-color);
 
         .Badge {
             font-family: "Open Sans", sans-serif;
@@ -523,8 +525,8 @@
 
 .channel-intro {
     padding: 110px 15px 0;
-    margin: 0 auto 10px;
     border-color: rgba(var(--center-channel-color-rgb), 0.2);
+    margin: 0 auto 10px;
 
     &.channel-intro--centered {
         max-width: 1020px;

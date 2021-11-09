@@ -199,8 +199,8 @@
             }
 
             &:hover {
-                color: var(--button-color);
                 background: var(--button-bg);
+                color: var(--button-color);
             }
         }
 
@@ -235,8 +235,8 @@
 
             .settings-links {
                 width: 180px;
-                background: var(--sidebar-bg);
                 border-color: rgba(var(--center-channel-color-rgb), 0.2);
+                background: var(--sidebar-bg);
             }
 
             .settings-content {
@@ -391,10 +391,10 @@
                         @include border-radius(0 0 3px 3px);
                         @include legacy-pie-clearfix;
 
-                        background: rgba(var(--center-channel-color-rgb), 0.05);
                         max-height: 0;
                         padding: 0 0 0 24px;
                         margin: 0 20px 0 0;
+                        background: rgba(var(--center-channel-color-rgb), 0.05);
                         overflow-y: hidden;
                         transition: all 0.4s ease-out;
 

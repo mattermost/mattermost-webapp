@@ -3,10 +3,10 @@
 .webhooks__container {
     @include border-radius(3px);
 
-    background: rgba(var(--center-channel-color-rgb), 0.05);
     padding: 0 13px 15px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
     margin-top: 10px;
+    background: rgba(var(--center-channel-color-rgb), 0.05);
 }
 
 .post-attachment-dropdown {
@@ -107,11 +107,11 @@
         .attachment__content {
             border-width: 1px;
             border-style: solid;
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
             border-left: none;
             margin: 5px 0 5px 20px;
             background: var(--center-channel-bg);
             border-radius: 0 4px 4px 0;
-            border-color: rgba(var(--center-channel-color-rgb), 0.16);
 
             &.attachment__content--permalink {
                 border-left-width: 1px;
@@ -375,12 +375,12 @@
                 padding: 6px 12px;
                 border-width: 1px;
                 border-style: solid;
+                border-color: rgba(var(--center-channel-color-rgb), 0.16);
                 margin: 8px 8px 0 0;
                 background: var(--center-channel-bg);
                 font-size: 13px;
                 font-weight: 700;
                 outline: 0;
-                border-color: rgba(var(--center-channel-color-rgb), 0.16);
 
                 &[disabled] {
                     cursor: auto;

@@ -6,8 +6,8 @@
     padding: 8px 12px;
 
     .alert-transparent {
-        background: var(--center-channel-bg);
         border-color: rgba(var(--center-channel-color-rgb), 0.12);
+        background: var(--center-channel-bg);
     }
 }
 

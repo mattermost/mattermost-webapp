@@ -126,7 +126,7 @@
         margin-top: 10px;
 
         > .arrow {
-            &:after {
+            &::after {
                 border-bottom-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
@@ -134,7 +134,7 @@
 
     &.left {
         > .arrow {
-            &:after {
+            &::after {
                 border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
@@ -142,7 +142,7 @@
 
     &.right {
         > .arrow {
-            &:after {
+            &::after {
                 border-right-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
@@ -150,7 +150,7 @@
 
     &.top {
         > .arrow {
-            &:after {
+            &::after {
                 border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
             }
         }
@@ -221,8 +221,8 @@
 
     .popover__row {
         padding: 9px 15px 0;
-        margin: 0 -15px 0;
         border-color: rgba(var(--center-channel-color-rgb), 0.2);
+        margin: 0 -15px 0;
 
         &.first {
             border-top: 1px solid transparent;

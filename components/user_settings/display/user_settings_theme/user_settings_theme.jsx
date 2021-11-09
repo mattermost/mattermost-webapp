@@ -61,7 +61,7 @@ export default class ThemeSetting extends React.PureComponent {
 
     componentWillUnmount() {
         if (this.props.selected) {
-            this.props.actions.saveTheme(this.props.currentTeamId, this.props.theme);
+            this.updateTheme(this.props.currentTeamId, this.originalTheme);
         }
     }
 
@@ -100,7 +100,7 @@ export default class ThemeSetting extends React.PureComponent {
         let themeChanged = this.state.theme.length === theme.length;
         if (!themeChanged) {
             for (const field in theme) {
-                if (theme.hasOwnProperty(field)) {
+                if (Object.hasOwnProperty(field)) {
                     if (this.state.theme[field] !== theme[field]) {
                         themeChanged = true;
                         break;
@@ -124,7 +124,7 @@ export default class ThemeSetting extends React.PureComponent {
         state.serverError = null;
         this.setState(state);
 
-        this.props.actions.saveTheme(this.props.currentTeamId, state.theme);
+        this.updateTheme(this.originalTheme);
         this.props.setRequireConfirm(false);
     };
 

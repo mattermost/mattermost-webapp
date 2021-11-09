@@ -42,8 +42,8 @@ button {
 
     &.btn-primary {
         border-color: transparent;
-        color: var(--button-color);
         background: var(--button-bg);
+        color: var(--button-color);
 
         &:hover,
         &:focus,

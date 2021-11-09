@@ -8,13 +8,13 @@
     }
 
     &.hovered--after {
-        &:before {
+        &::before {
             background: rgba(var(--center-channel-color-rgb), 0.07);
         }
     }
 
     &.hovered--before {
-        &:after {
+        &::after {
             background: rgba(var(--center-channel-color-rgb), 0.07);
         }
     }

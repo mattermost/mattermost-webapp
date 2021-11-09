@@ -240,8 +240,8 @@
     position: relative;
     height: calc(100% - 56px);
     padding-top: 16px;
-    -webkit-overflow-scrolling: touch;
     border-color: rgba(var(--center-channel-color-rgb), 0.1);
+    -webkit-overflow-scrolling: touch;
 
     &.no-results {
         display: flex;
@@ -366,8 +366,8 @@
 }
 
 .search-highlight {
-    color: var(--mention-highlight-link);
     background-color: var(--mention-highlight-bg);
+    color: var(--mention-highlight-link);
 
     > a {
         color: inherit;
