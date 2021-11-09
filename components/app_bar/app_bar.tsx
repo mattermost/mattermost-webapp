@@ -1,15 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import classNames from 'classnames';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import semver from 'semver';
+import classNames from 'classnames';
+
 import {OverlayTrigger, Tooltip} from 'react-bootstrap/lib';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
-import {Channel} from 'mattermost-redux/types/channels';
-import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {Theme} from 'mattermost-redux/types/themes';
+import {MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+
+import {fetchListing} from 'actions/marketplace';
+import {getInstalledListing} from 'selectors/views/marketplace';
+import {getActivePluginId} from 'selectors/rhs';
 
 import {PluginComponent} from 'types/store/plugins';
 import Constants from 'utils/constants';
@@ -17,46 +21,34 @@ import Constants from 'utils/constants';
 import AppBarBinding from './app_bar_binding';
 
 import './app_bar.scss';
+import {getChannelHeaderPluginComponents} from 'selectors/plugins';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
-export type Props = {
-    channelHeaderPluginComponents: PluginComponent[];
-    channelHeaderAppBindings: AppBinding[];
-    theme: Theme;
-    channel: Channel;
-    marketplaceListing: Array<MarketplacePlugin | MarketplaceApp>;
-    activePluginId?: string;
-    actions: {
-        fetchListing: (localOnly?: boolean) => Promise<{ data?: Array<MarketplacePlugin | MarketplaceApp> }>;
-    };
-}
+const getChannelHeaderBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
 
-type State = {
-    loadedMarketplaceListing: boolean;
-}
+export default function AppBar() {
+    const [loadedMarketplace, setLoadedMarketplace] = useState(false);
 
-export default class AppBar extends React.PureComponent<Props> {
-    static defaultProps: Partial<Props> = {
-        channelHeaderPluginComponents: [],
-        channelHeaderAppBindings: [],
-        marketplaceListing: [],
-    }
+    const marketplaceListing = useSelector(getInstalledListing);
+    const channelHeaderPluginComponents = useSelector(getChannelHeaderPluginComponents);
+    const channelHeaderAppBindings = useSelector(getChannelHeaderBindings);
 
-    state: State = {
-        loadedMarketplaceListing: false,
-    }
+    const channel = useSelector(getCurrentChannel);
 
-    componentDidMount() {
-        this.getInstalledMarketPlaceListings();
-    }
+    const activePluginId = useSelector(getActivePluginId);
 
-    getInstalledMarketPlaceListings = async () => {
-        await this.props.actions.fetchListing(true);
-        this.setState({loadedMarketplaceListing: true});
-    }
+    const dispatch = useDispatch();
 
-    getIcon = (component: PluginComponent): React.ReactNode => {
+    useEffect(() => {
+        dispatch(fetchListing(true)).then(() => {
+            setLoadedMarketplace(true);
+        });
+    }, []);
+
+    const getIcon = (component: PluginComponent): React.ReactNode => {
         let latestEntry: MarketplacePlugin | undefined;
-        for (const entry of this.props.marketplaceListing) {
+        for (const entry of marketplaceListing) {
             const pluginEntry = entry as MarketplacePlugin;
             if (pluginEntry.manifest.id === component.pluginId && pluginEntry.icon_data) {
                 if (!latestEntry || semver.gte(pluginEntry.manifest.version, latestEntry.manifest.version)) {
@@ -72,56 +64,60 @@ export default class AppBar extends React.PureComponent<Props> {
         return (
             <img src={latestEntry.icon_data} />
         );
-    }
+    };
 
-    render() {
-        return (
-            <div
-                className={classNames(['app-bar', { hidden: !this.state.loadedMarketplaceListing }])}
-            >
-                {this.props.channelHeaderPluginComponents.map((component) => {
 
-                    const label = component.tooltipText || component.pluginId;
-                    const buttonId = component.id;
-                    const tooltip = (
-                        <Tooltip
-                            id='pluginTooltip'
-                            className=''
+    return (
+        <div
+            className={classNames(['app-bar', {hidden: !loadedMarketplace}])}
+        >
+            {channelHeaderPluginComponents.map((component) => {
+                // this should be its own function component in another file
+                // it will use useSelector to get the marketplace listings for the icon
+
+                const label = component.tooltipText || component.pluginId;
+                const buttonId = component.id;
+                const tooltip = (
+                    <Tooltip id={'pluginTooltip-' + buttonId}>
+                        <span>{label}</span>
+                    </Tooltip>
+                );
+
+                return (
+                    <div>
+                        <OverlayTrigger
+                            trigger={['hover']}
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='bottom'
+                            overlay={tooltip}
                         >
-                            <span>{label}</span>
-                        </Tooltip>
-                    );
-
-                    return (
-                        <div>
-                            <OverlayTrigger
-                                trigger={['hover']}
-                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                placement='bottom'
-                                overlay={tooltip}
+                            <div
+                                id={buttonId}
+                                aria-label={component.pluginId}
+                                className={classNames('app-bar-icon', {'active-rhs-plugin': component.pluginId === activePluginId})}
+                                // className={buttonClass || 'channel-header__icon'}
+                                onClick={() => {
+                                    component.action?.(channel);
+                                }}
                             >
-                                <div
-                                    id={buttonId}
-                                    aria-label={component.pluginId}
-                                    className={classNames('app-bar-icon', {'active-rhs-plugin': component.pluginId === this.props.activePluginId})}
-                                    // className={buttonClass || 'channel-header__icon'}
-                                    onClick={() => {
-                                        component.action?.(this.props.channel);
-                                    }}
-                                >
-                                    {this.getIcon(component)}
-                                </div>
-                            </OverlayTrigger>
-                        </div>
-                    )
-                })}
-                {this.props.channelHeaderAppBindings.map((binding) => (
-                    <AppBarBinding
-                        key={`${binding.app_id}_${binding.label}`}
-                        binding={binding}
-                    />
-                ))}
-            </div>
-        );
-    }
+                                {getIcon(component)}
+                            </div>
+                        </OverlayTrigger>
+                    </div>
+                )
+            })}
+            {channelHeaderAppBindings.map((binding) => (
+                <AppBarBinding
+                    key={`${binding.app_id}_${binding.label}`}
+                    binding={binding}
+                />
+            ))}
+        </div>
+    );
 }
+
+AppBar.defaultProps = {
+    channelHeaderPluginComponents: [],
+    channelHeaderAppBindings: [],
+    marketplaceListing: [],
+};

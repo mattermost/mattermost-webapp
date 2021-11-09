@@ -15,7 +15,7 @@ import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
-import AppBar from 'components/app_bar';
+import AppBar from 'components/app_bar/app_bar';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
