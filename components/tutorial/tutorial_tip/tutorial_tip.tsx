@@ -35,7 +35,7 @@ type Props = {
 
     // the step that an instance of TutorialTip is tied to, e.g.
     step: ValueOf<typeof OnBoardingTutorialStep>;
-    singleTip: boolean;
+    singleTip?: boolean;
     showOptOut?: boolean;
     screens: JSX.Element[];
     placement: string;

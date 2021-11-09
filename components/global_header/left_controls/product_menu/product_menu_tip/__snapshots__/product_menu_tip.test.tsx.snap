@@ -29,6 +29,7 @@ exports[`components/product_switcher/product_switcher_tip matches snapshot with 
       </div>,
     ]
   }
+  showOptOut={true}
   step={4}
   stopPropagation={true}
   telemetryTag="tutorial_tip_product_switcher"

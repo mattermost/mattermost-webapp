@@ -40,6 +40,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
 />
@@ -85,6 +86,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
 />
@@ -130,6 +132,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
 />
@@ -175,6 +178,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       </div>,
     ]
   }
+  showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
 />

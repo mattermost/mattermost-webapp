@@ -3,32 +3,42 @@
 exports[`components/threading/global_threads/thread_list should match snapshot 1`] = `
 <div
   className="ThreadList"
+  id="threads-list-container"
   tabIndex={0}
 >
   <Header
     heading={
       <React.Fragment>
-        <Memo(Button)
-          className="Button___large Margined"
-          isActive={true}
-          onClick={[Function]}
+        <div
+          className="tab-button-wrapper"
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="All your threads"
-            id="threading.filters.allThreads"
-          />
-        </Memo(Button)>
-        <Memo(Button)
-          className="Button___large Margined"
-          hasDot={true}
-          isActive={false}
-          onClick={[Function]}
+          <Memo(Button)
+            className="Button___large Margined"
+            isActive={true}
+            onClick={[Function]}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="All your threads"
+              id="threading.filters.allThreads"
+            />
+          </Memo(Button)>
+        </div>
+        <div
+          className="tab-button-wrapper"
+          id="threads-list-unread-button"
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Unreads"
-            id="threading.filters.unreads"
-          />
-        </Memo(Button)>
+          <Memo(Button)
+            className="Button___large Margined"
+            hasDot={true}
+            isActive={false}
+            onClick={[Function]}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Unreads"
+              id="threading.filters.unreads"
+            />
+          </Memo(Button)>
+        </div>
       </React.Fragment>
     }
     right={

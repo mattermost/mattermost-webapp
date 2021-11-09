@@ -41,58 +41,39 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
       >
         <div
           className="tutorial__circles"
-        >
-          <a
-            className="circle active"
-            data-screen={0}
-            href="#"
-            key="dotactive0"
-            onClick={[Function]}
-          />
-          <a
-            className="circle"
-            data-screen={1}
-            href="#"
-            key="dotactive1"
-            onClick={[Function]}
-          />
-          <a
-            className="circle"
-            data-screen={2}
-            href="#"
-            key="dotactive2"
-            onClick={[Function]}
-          />
-        </div>
+        />
         <div
           className="text-right"
         >
-          <button
-            className="btn btn-primary"
-            id="tipNextButton"
-            onClick={[Function]}
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Next"
-              id="tutorial_tip.ok"
-            />
-          </button>
           <div
-            className="tip-opt"
+            className="tutorial-tip__btn-ctr"
           >
-            <MemoizedFormattedMessage
-              defaultMessage="Seen this before? "
-              id="tutorial_tip.seen"
-            />
-            <a
-              href="#"
+            <button
+              className="tutorial-tip__btn tutorial-tip__cancel-btn"
+              id="tipPreviousButton"
+              onClick={[Function]}
+            >
+              <i
+                className="icon icon-chevron-left"
+              />
+              <MemoizedFormattedMessage
+                defaultMessage="Previous"
+                id="generic.previous"
+              />
+            </button>
+            <button
+              className="tutorial-tip__btn tutorial-tip__confirm-btn"
+              id="tipNextButton"
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Opt out of these tips."
-                id="tutorial_tip.out"
+                defaultMessage="Next"
+                id="tutorial_tip.ok"
               />
-            </a>
+              <i
+                className="icon icon-chevron-right"
+              />
+            </button>
           </div>
         </div>
       </div>
