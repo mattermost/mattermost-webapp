@@ -58,6 +58,7 @@ export type Props<T extends Value> = {
     valueWithImage: boolean;
     valueRenderer?: (props: {data: T}) => any;
     values: T[];
+    focusOnLoad?: boolean;
 }
 
 export type State = {
@@ -77,6 +78,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         ariaLabelRenderer: defaultAriaLabelRenderer,
         saveButtonPosition: 'top',
         valueWithImage: false,
+        focusOnLoad: true,
     }
 
     public constructor(props: Props<T>) {
@@ -97,7 +99,9 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             (inputRef as HTMLElement).addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             (inputRef as HTMLElement).addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
 
-            this.reactSelectRef.current!.focus(); // known from ternary definition of inputRef
+            if (this.props.focusOnLoad) {
+                this.reactSelectRef.current!.focus(); // known from ternary definition of inputRef
+            }
         }
     }
 

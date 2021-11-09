@@ -20,6 +20,7 @@ type Props = {
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
+    showCreateUserGroupModal: () => void;
     invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
@@ -119,12 +120,22 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             />
         );
 
+        const createUserGroup = (
+            <Menu.ItemAction
+                id={'createUserGroup'}
+                onClick={this.props.showCreateUserGroupModal}
+                icon={<i className='icon-account-outline'/>}
+                text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create new user group'})}
+            />
+        );
+
         return (
             <>
                 <Menu.Group>
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
+                    {createUserGroup}
                 </Menu.Group>
                 {createCategory}
                 {invitePeople}

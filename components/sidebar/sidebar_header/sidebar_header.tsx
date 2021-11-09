@@ -98,6 +98,7 @@ const SidebarHeading = styled(Heading).attrs(() => ({
 export type Props = {
     showNewChannelModal: () => void;
     showMoreChannelsModal: () => void;
+    showCreateUserGroupModal: () => void;
     invitePeopleModal: () => void;
     showCreateCategoryModal: () => void;
     canCreateChannel: boolean;
@@ -147,6 +148,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
             <AddChannelDropdown
                 showNewChannelModal={props.showNewChannelModal}
                 showMoreChannelsModal={props.showMoreChannelsModal}
+                showCreateUserGroupModal={props.showCreateUserGroupModal}
                 invitePeopleModal={props.invitePeopleModal}
                 showCreateCategoryModal={props.showCreateCategoryModal}
                 canCreateChannel={props.canCreateChannel}

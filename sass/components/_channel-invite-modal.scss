@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-.modal .channel-invite__content {
+.modal .channel-invite__content,
+.modal .user-groups-modal__content {
     .multi-select__container {
         padding: 0 2.4rem;
     }
@@ -119,7 +120,8 @@
 }
 
 body.app__body {
-    .channel-invite {
+    .channel-invite,
+    .user-groups-modal {
         .multi-select__wrapper {
             border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
             background: rgba(var(--center-channel-bg-rgb), 1);
@@ -128,7 +130,8 @@ body.app__body {
 }
 
 body:not(.app__body) {
-    .channel-invite {
+    .channel-invite,
+    .user-groups-modal {
         .multi-select__wrapper {
             border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
             background: rgba(var(--sys-center-channel-bg-rgb), 1);

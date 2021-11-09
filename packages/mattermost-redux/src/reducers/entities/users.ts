@@ -32,7 +32,6 @@ function profileListToSet(state: RelationOneToMany<Team, UserProfile>, action: G
         action.data.forEach((profile: UserProfile) => {
             nextSet.add(profile.id);
         });
-
         return {
             ...state,
             [id]: nextSet,
@@ -419,6 +418,16 @@ function profilesInGroup(state: RelationOneToMany<Group, UserProfile> = {}, acti
     }
 }
 
+function profilesNotInGroup(state: RelationOneToMany<Group, UserProfile> = {}, action: GenericAction) {
+    switch (action.type) {
+    case UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP: {
+        return profileListToSet(state, action);
+    }
+    default:
+        return state;
+    }
+}
+
 function statuses(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_STATUS: {
@@ -623,6 +632,9 @@ export default combineReducers({
 
     // object where every key is a group id and has a Set with the users id that are members of the group
     profilesInGroup,
+
+    // object where every key is a group id and has a Set with the users id that are members of the group
+    profilesNotInGroup,
 
     // object where every key is the user id and has a value with the current status of each user
     statuses,

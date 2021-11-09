@@ -233,7 +233,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                         this.setState({selectedFilter: 'all'})
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
-                                    rightDecorator={this.state.selectedFilter === 'all' ? <FaSuccessIcon /> : ''}
+                                    rightDecorator={this.state.selectedFilter === 'all' ? <i className='icon icon-check'/> : ''}
                                 />
                                 <Menu.ItemAction
                                     id='groupsDropdownMy'
@@ -242,7 +242,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                         this.setState({selectedFilter: 'my'})
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
-                                    rightDecorator={this.state.selectedFilter !== 'all' ? <FaSuccessIcon /> : ''}
+                                    rightDecorator={this.state.selectedFilter !== 'all' ? <i className='icon icon-check'/> : ''}
                                 />
                             </Menu>
                         </MenuWrapper>

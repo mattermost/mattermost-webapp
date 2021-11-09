@@ -24,6 +24,7 @@ import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import LegacySidebarHeader from './legacy_sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
+import CreateUserGroupsModal from 'components/create_user_groups_modal';
 
 type Props = {
     teamId: string;
@@ -137,6 +138,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         trackEvent('ui', 'ui_channels_create_channel_v2');
     }
 
+    showCreateUserGroupModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
+            dialogType: CreateUserGroupsModal,
+        });
+        trackEvent('ui', 'ui_channels_create_user_group');
+    }
+
     handleOpenMoreDirectChannelsModal = (e: Event) => {
         e.preventDefault();
         if (this.state.showDirectChannelsModal) {
@@ -191,6 +200,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     <SidebarHeader
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateUserGroupModal={this.showCreateUserGroupModal}
                         invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
@@ -209,6 +219,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     <ChannelNavigator
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateUserGroupModal={this.showCreateUserGroupModal}
                         invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}

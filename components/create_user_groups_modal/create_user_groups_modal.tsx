@@ -19,19 +19,23 @@ import { Modal } from 'react-bootstrap';
 import {browserHistory} from 'utils/browser_history';
 import { FormattedMessage } from 'react-intl';
 
-// import './user_groups_modal.scss';
+import 'components/user_groups_modal/user_groups_modal.scss';
+import './create_user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
 import { ModalData } from 'types/actions';
+import Input from 'components/input';
+import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect';
 
 export type Props = {
-    actions: {
-    };
+    onExited: () => void;
 }
 
 type State = {
     show: boolean;
+    name: string;
+    mention: string;
 }
 
 export default class CreateUserGroupsModal extends React.PureComponent<Props, State> {
@@ -40,6 +44,8 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
 
         this.state = {
             show: true,
+            name: '',
+            mention: '',
         };
     }
 
@@ -47,8 +53,17 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         this.setState({show: false});
     }
 
+    updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        this.setState({name: value});
+    }
+
+    updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        this.setState({mention: value});
+    }
+
     async componentDidMount() {
-       
     }
 
     componentWillUnmount() {
@@ -88,14 +103,18 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         // }
     }
 
+    searchUsers = () => {
+
+    }
+
 
     render() {
         return (
             <Modal
-                dialogClassName='a11y__modal create-user-groups-modal'
+                dialogClassName='a11y__modal user-groups-modal'
                 show={this.state.show}
                 onHide={this.doHide}
-                // onExited={this.props.onExited}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='createUserGroupsModalLabel'
             >
@@ -105,14 +124,56 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                         id='userGroupsModalLabel'
                     >
                         <FormattedMessage
-                            id='user_groups_modal.create_title'
+                            id='user_groups_modal.createTitle'
                             defaultMessage='Create Group'
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    className='overflow--visible'
+                >
                     <div className='user-groups-modal__content'>
- 
+                        <form role='form'>
+                            <div className='group-name-input-wrapper'>
+                                <Input
+                                    type='text'
+                                    placeholder={Utils.localizeMessage('user_groups_modal.name', 'Name')}
+                                    onChange={this.updateNameState}
+                                    value={this.state.name}
+                                    data-testid='nameInput'
+                                    autoFocus={true}
+                                />
+                            </div>
+                            <div className='group-mention-input-wrapper'>
+                                <Input
+                                    type='text'
+                                    placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
+                                    onChange={this.updateMentionState}
+                                    value={this.state.mention}
+                                    data-testid='nameInput'
+                                />
+                            </div>
+                            <h2>
+                                <FormattedMessage
+                                    id='user_groups_modal.addPeople'
+                                    defaultMessage='Add People'
+                                />
+                            </h2>
+                            <>
+                                <AddUserToGroupMultiSelect 
+                                    multilSelectKey={'addUsersToGroupKey'}
+                                    onAddCallback={() => {console.log('testing')}}
+                                    skipCommit={true}
+                                    focusOnLoad={false}
+                                    // groupId={'c75btzjxfpywp8adikr96q3iur'}
+                                    // searchOptions={{
+                                    //     not_in_group_id: 'c75btzjxfpywp8adikr96q3iur'
+                                    // }}
+                                />
+                            </>
+
+                        </form>
+                        
                     </div>
                 </Modal.Body>
             </Modal>

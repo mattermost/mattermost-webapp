@@ -83,6 +83,10 @@ export function getUserIdsInGroups(state: GlobalState): RelationOneToMany<Group,
     return state.entities.users.profilesInGroup;
 }
 
+export function getUserIdsNotInGroups(state: GlobalState): RelationOneToMany<Group, UserProfile> {
+    return state.entities.users.profilesNotInGroup;
+}
+
 export function getUserStatuses(state: GlobalState): RelationOneToOne<UserProfile, string> {
     return state.entities.users.statuses;
 }
@@ -671,6 +675,17 @@ export const getProfilesInGroup: (state: GlobalState, groupId: $ID<Group>, filte
     (state: GlobalState, groupId: string, filters: Filters) => filters,
     (profiles, usersInGroups, groupId, filters) => {
         return sortAndInjectProfiles(filterProfiles(profiles, filters), usersInGroups[groupId] || new Set());
+    },
+);
+
+export const getProfilesNotInCurrentGroup: (state: GlobalState, groupId: $ID<Group>, filters?: Filters) => UserProfile[] = createSelector(
+    'getProfilesNotInGroup',
+    getUsers,
+    getUserIdsNotInGroups,
+    (state: GlobalState, groupId: string) => groupId,
+    (state: GlobalState, groupId: string, filters: Filters) => filters,
+    (profiles, usersNotInGroups, groupId, filters) => {
+        return sortAndInjectProfiles(filterProfiles(profiles, filters), usersNotInGroups[groupId] || new Set());
     },
 );
 

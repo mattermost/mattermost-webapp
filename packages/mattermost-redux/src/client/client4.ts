@@ -840,6 +840,13 @@ export default class Client4 {
         );
     };
 
+    getProfilesNotInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
+        return this.doFetch<UserProfile[]>(
+            `${this.getUsersRoute()}${buildQueryString({not_in_group: groupId, page, per_page: perPage})}`,
+            {method: 'get'},
+        );
+    };
+
     getMe = () => {
         return this.doFetch<UserProfile>(
             `${this.getUserRoute('me')}`,

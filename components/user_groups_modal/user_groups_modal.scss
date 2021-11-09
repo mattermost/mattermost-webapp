@@ -27,8 +27,8 @@
 
                 .modal-title {
                     color: inherit;
-                    font-size: 17px;
-                    font-weight: 600;
+                    font-size: 22px;
+                    line-height: 28px;
                 }
 
             }
@@ -174,6 +174,20 @@
                 .group-action button.action-wrapper:hover {
                     background: rgba(var(--sys-center-channel-color-rgb), 0.08);
                 }
+            }
+
+            .group-name-input-wrapper {
+                padding: 2px 24px 12px;
+            }
+            .group-mention-input-wrapper {
+                padding: 12px 24px 24px;
+            }
+            h2 {
+                font-size: 18px;
+                line-height: 24px;
+                font-weight: 600;
+                color: inherit;
+                padding: 0px 16px;
             }
         }
     }
