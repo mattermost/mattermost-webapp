@@ -50,8 +50,8 @@ export default function ResultView(props: Props) {
                         defaultMessage='{as} invited to {team_name}'
                         values={{
                             as: formatMessage({
-                                id: props.invitedAs === 'member' ? t('invite_modal.invited_members') : t('invite_modal.invited_guests'),
-                                defaultMessage: props.invitedAs === 'member' ? 'Members' : 'Guests',
+                                id: props.invitedAs === As.MEMBER ? t('invite_modal.invited_members') : t('invite_modal.invited_guests'),
+                                defaultMessage: props.invitedAs === As.MEMBER ? 'Members' : 'Guests',
                             }),
                             team_name: props.currentTeamName,
                         }}

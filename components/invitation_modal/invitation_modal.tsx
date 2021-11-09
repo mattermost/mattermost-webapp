@@ -127,7 +127,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
 
     invite = async () => {
         const inviteAs = this.state.invite.as;
-        if (inviteAs === 'member' && this.props.isCloud) {
+        if (inviteAs === As.MEMBER && this.props.isCloud) {
             trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length});
         }
 
@@ -141,10 +141,10 @@ class InvitationModal extends React.PureComponent<Props, State> {
             }
         }
         let invites: InviteResults = {notSent: [], sent: []};
-        if (inviteAs === 'member') {
+        if (inviteAs === As.MEMBER) {
             const result = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
             invites = result.data;
-        } else if (inviteAs === 'guest') {
+        } else if (inviteAs === As.GUEST) {
             const result = await this.props.actions.sendGuestsInvites(
                 this.props.currentTeam.id,
                 this.state.invite.inviteChannels.channels,
@@ -165,7 +165,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
             });
         }
 
-        if (inviteAs === 'guest' && this.state.invite.inviteChannels.search !== '') {
+        if (inviteAs === As.GUEST && this.state.invite.inviteChannels.search !== '') {
             invites.notSent.push({
                 text: this.state.invite.inviteChannels.search,
                 reason: this.props.intl.formatMessage({
@@ -295,9 +295,9 @@ class InvitationModal extends React.PureComponent<Props, State> {
         }
 
         const emptyInvites = this.state.invite.usersEmails.length === 0 && this.state.invite.usersEmailsSearch === '';
-        if (this.state.invite.as === 'member' && !emptyInvites) {
+        if (this.state.invite.as === As.MEMBER && !emptyInvites) {
             return 'static';
-        } else if (this.state.invite.as === 'guest') {
+        } else if (this.state.invite.as === As.GUEST) {
             if (this.state.invite.inviteChannels.channels.length !== 0 ||
                 this.state.invite.inviteChannels.search !== '' ||
                     !emptyInvites

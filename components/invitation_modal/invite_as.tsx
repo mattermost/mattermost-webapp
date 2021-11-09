@@ -14,7 +14,12 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import './invite_as.scss';
 import Toggle from 'components/toggle';
 
-export type As = 'member' | 'guest'
+export const As = {
+    MEMBER: 'MEMBER',
+    GUEST: 'GUEST',
+} as const;
+
+export type As = typeof As[keyof typeof As];
 
 type Props = {
     setInviteAs: (as: As) => void;
@@ -34,11 +39,11 @@ export default function InviteAs(props: Props) {
     let control = (
         <div>
             <Radio
-                checked={props.as === 'member'}
+                checked={props.as === As.MEMBER}
                 onClick={() => {
-                    props.setInviteAs('member');
+                    props.setInviteAs(As.MEMBER);
                 }}
-                className={'InviteAs__radio' + (props.as === 'member' ? checkedClass : '')}
+                className={'InviteAs__radio' + (props.as === As.MEMBER ? checkedClass : '')}
                 label={
                     <span className='InviteAs__label'>
                         <FormattedMessage
@@ -49,11 +54,11 @@ export default function InviteAs(props: Props) {
                 }
             />
             <Radio
-                checked={props.as === 'guest'}
+                checked={props.as === As.GUEST}
                 onClick={() => {
-                    props.setInviteAs('guest');
+                    props.setInviteAs(As.GUEST);
                 }}
-                className={'InviteAs__radio' + (props.as === 'guest' ? checkedClass : '')}
+                className={'InviteAs__radio' + (props.as === As.GUEST ? checkedClass : '')}
                 label={
                     <span className='InviteAs__label'>
                         <FormattedMessage
@@ -83,7 +88,7 @@ export default function InviteAs(props: Props) {
         control = (
             <div className='InviteAs__toggle'>
                 <div className='InviteAs__toggleDescription'>
-                    {props.as === 'guest' &&
+                    {props.as === As.GUEST &&
                     <>
                         <FormattedMarkdownMessage
                             id='invite_modal.permanent'
@@ -98,9 +103,9 @@ export default function InviteAs(props: Props) {
                     />
                 </div>
                 <Toggle
-                    toggled={props.as === 'guest'}
+                    toggled={props.as === As.GUEST}
                     onToggle={() => {
-                        props.setInviteAs(props.as === 'guest' ? 'member' : 'guest');
+                        props.setInviteAs(props.as === As.GUEST ? As.MEMBER : As.GUEST);
                     }}
                 />
             </div>

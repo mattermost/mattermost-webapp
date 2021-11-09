@@ -223,7 +223,7 @@ export default function InviteView(props: Props) {
     }
 
     const canInvite = useMemo(() => {
-        if (props.as === 'guest') {
+        if (props.as === As.GUEST) {
             return props.inviteChannels.channels.length > 0 && props.usersEmails.length > 0;
         }
         return props.usersEmails.length > 0;
@@ -238,7 +238,7 @@ export default function InviteView(props: Props) {
                         defaultMessage={'Invite {as} to {team_name}'}
                         values={{
                             as: (
-                                props.as === 'member' ?
+                                props.as === As.MEMBER ?
                                     <FormattedMessage
                                         id='invite_modal.members'
                                         defaultMessage='members'
@@ -299,7 +299,7 @@ export default function InviteView(props: Props) {
                     inviteToTeamTreatment={props.inviteToTeamTreatment}
                     titleClass='InviteView__sectionTitle'
                 />
-                {props.as === 'guest' && (
+                {props.as === As.GUEST && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
                         toggleCustomMessage={props.toggleCustomMessage}
