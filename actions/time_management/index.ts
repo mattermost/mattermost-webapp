@@ -8,13 +8,14 @@ import TimeManagementTypes from 'utils/time_management/action_types';
 import {WorkBlock, WorkItem} from 'types/time_management';
 import {generateId} from 'utils/utils';
 
-export function createNewTask(text: string, minutes: number, date: Date): GenericAction {
+export function createNewTask(text: string, minutes: number, date: Date, tag: string | undefined): GenericAction {
     return {
         type: TimeManagementTypes.RECEIVED_WORK_ITEM,
         task: {
             id: generateId(),
             title: text,
             time: minutes,
+            tag,
         },
         date,
     };

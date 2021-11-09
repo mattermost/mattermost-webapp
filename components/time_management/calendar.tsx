@@ -57,6 +57,14 @@ const HourContainer = styled.div`
     width: 100%;
 `;
 
+const CurrentTime = styled.div`
+    position: absolute;
+    left: 55px;
+    height: 1px;
+    width: 100%;
+    border: 1px solid green;
+`;
+
 type Props = {
     date: Date;
     blocks: WorkBlock[];
@@ -75,11 +83,19 @@ const defaultProps = {
     dayEnd: max,
 };
 
+function calculateMinutesFromStart(dayStart: Date) {
+    const now = moment(new Date());
+    const start = moment(dayStart);
+    return now.diff(start, 'minutes');
+}
+
 const Calendar = (props: Props) => {
     const {date, dayStart, dayEnd, blocks: defaultBlocks} = props;
     const {formatDate} = useIntl();
     const dispatch = useDispatch();
     const [blocks, setBlocks] = useState(defaultBlocks);
+    const [minutes, setMinutes] = useState(calculateMinutesFromStart(dayStart));
+    let currentTimerId: any;
 
     let workingHours = dayEnd.getHours() - dayStart.getHours();
     if (workingHours <= 0) {
@@ -165,6 +181,15 @@ const Calendar = (props: Props) => {
 
     useEffect(() => {
         setBlocks(defaultBlocks);
+        if (currentTimerId == null) {
+            currentTimerId = setInterval(() => {
+                setMinutes(calculateMinutesFromStart(dayStart));
+            }, 30000);
+        }
+
+        return function cleanup() {
+            clearInterval(currentTimerId);
+        };
     });
 
     const renderHours = () => {
@@ -199,6 +224,8 @@ const Calendar = (props: Props) => {
         );
     };
 
+    const currentTimeMarkerPosition = PixelPerMinute * minutes;
+
     drop(ref);
     return (
         <CalendarContainer>
@@ -207,6 +234,7 @@ const Calendar = (props: Props) => {
             </CalendarTitle>
             <Body>
                 {renderHours()}
+                <CurrentTime style={{top: `${currentTimeMarkerPosition}px`}}/>
             </Body>
         </CalendarContainer>
     );

@@ -12,7 +12,7 @@ import ChecklistItemComponent from './checklist_item';
 import {ChecklistItemState, newChecklistItem} from './types';
 
 const Body = styled.div`
-    margin: 15px;
+    margin: 5px 15px;
     display: flex;
     flex-direction: row;
 `;

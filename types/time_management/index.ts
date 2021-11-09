@@ -3,17 +3,24 @@
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
+export type Tag = {
+    title: string;
+    color: string;
+}
+
 export type WorkItem = {
     id: string;
     title: string;
     time: number;
     complete: boolean;
+    tags?: Tag[];
 }
 
 export type WorkBlock = {
     id: string;
     start: Date;
     tasks: WorkItem[];
+    tags?: Tag[];
 };
 
 export type TimeState = {

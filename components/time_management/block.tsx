@@ -6,8 +6,6 @@ import styled from 'styled-components';
 import moment from 'moment';
 import {useDrag, useDrop} from 'react-dnd';
 
-import {findIndex} from 'lodash';
-
 import {PixelPerMinute, DragTypes} from 'utils/time_management/constants';
 import {calculateMinutesInBlock} from 'utils/time_management/utils';
 import {WorkBlock, WorkItem} from 'types/time_management';
@@ -40,10 +38,46 @@ const Container = styled.div`
     left: 65px;
 `;
 
+const Body = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+`;
+
+const TaskContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+`;
+
 const Header = styled.div`
     min-height: 10px;
     max-height: 10px;
     background-color: rgba(63, 67, 80, 0.04);
+    flex: 1;
+`;
+
+const TagContainer = styled.div`
+    background-color: rgba(63, 67, 80, 0.04);
+    max-width: 125px;
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+`;
+
+const Tag = styled.div`
+    border-radius: 4px;
+    margin: 5px;
+    padding: 0px 5px;
+
+    font-family: Open Sans;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+
+    max-height: 20px;
+
     flex: 1;
 `;
 
@@ -115,7 +149,6 @@ const Block = (props: Props) => {
         <Container
             ref={ref}
             data-handler-id={handlerId}
-            key={`block_${block.start.toDateString()}`}
             style={{
                 top: `${PixelPerMinute * minutesFromDayStart}px`,
                 height: `${(PixelPerMinute * totalMinutes) - 4}px`,
@@ -123,14 +156,28 @@ const Block = (props: Props) => {
             }}
         >
             <Header/>
-            {block.tasks.map((task) => (
-                <Task
-                    key={task.id}
-                    task={task}
-                    updateTaskCompletion={updateTaskCompletion}
-                    parentId={block.id}
-                />),
-            )}
+            <Body>
+                <TaskContainer>
+                    {block.tasks.map((task) => (
+                        <Task
+                            key={task.id}
+                            task={task}
+                            updateTaskCompletion={updateTaskCompletion}
+                            parentId={block.id}
+                        />),
+                    )}
+                </TaskContainer>
+                <TagContainer>
+                    {block.tags?.map((tag) => (
+                        <Tag
+                            key={tag.title}
+                            style={{background: tag.color}}
+                        >
+                            {tag.title}
+                        </Tag>
+                    ))}
+                </TagContainer>
+            </Body>
         </Container>
     );
 };
