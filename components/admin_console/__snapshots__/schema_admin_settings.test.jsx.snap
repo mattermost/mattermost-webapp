@@ -452,7 +452,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 8,
-                  "text": "Polski (Alpha)",
+                  "text": "Polski",
                   "value": "pl",
                 },
                 Object {
