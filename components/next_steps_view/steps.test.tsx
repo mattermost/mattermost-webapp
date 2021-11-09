@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {RecommendedNextSteps} from 'utils/constants';
+
 import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
-//
 describe('components/next_steps_view/steps', () => {
     test('should show next steps', () => {
         const cloudState = {

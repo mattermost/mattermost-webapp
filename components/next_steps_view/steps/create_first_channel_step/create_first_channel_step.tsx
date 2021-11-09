@@ -49,12 +49,16 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
     }, [props.expanded]);
 
     useEffect(() => {
+        console.log('component rerendered');
+    }, []);
+
+    useEffect(() => {
         if (channelNameValue !== '' && channelNameValue.length > Constants.MIN_CHANNELNAME_LENGTH) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [channelNameValue]);
+    }, [(channelNameValue.length > Constants.MIN_CHANNELNAME_LENGTH)]);
 
     const displayNameError = () => {
         if (channelNameError) {
@@ -187,4 +191,4 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
     );
 };
 
-export default CreateFirstChannelStep;
+export default React.memo(CreateFirstChannelStep);

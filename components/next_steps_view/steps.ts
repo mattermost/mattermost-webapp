@@ -40,7 +40,7 @@ export type StepComponentProps = {
     // isLastStep is passed to every step component to inform it of it's position. A check can then be made within the component to display certain text
     // depending on the value of isLastStep. For example, we can display 'Finish' as the text of the finish button if this prop is true.
     isLastStep: boolean;
-    finishButtonText: StepFinishButtonText;
+    finishButtonText?: StepFinishButtonText;
 }
 export type StepType = {
     id: string;
@@ -50,7 +50,7 @@ export type StepType = {
     };
     component: React.ComponentType<StepComponentProps | StepComponentProps & {isFirstAdmin: boolean}>;
     visible: boolean;
-    finishButtonText: StepFinishButtonText;
+    finishButtonText?: StepFinishButtonText;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
     // so you would require ['system_admin','system_user'] to match.
@@ -153,10 +153,6 @@ export const Steps: StepType[] = [
         roles: ['system_admin'],
         component: CreateFirstChannelStep,
         visible: true,
-        finishButtonText: {
-            id: t('next_steps_view.next'),
-            defaultMessage: 'Next step',
-        },
     },
 ];
 
@@ -197,8 +193,7 @@ export const getSteps = createSelector(
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
             isStepForUser(step, roles) &&
-                step.visible &&
-                    filterStepBasedOnFFVal(step, guidedFirstChannel, RecommendedNextSteps.CREATE_FIRST_CHANNEL),
+                step.visible && filterStepBasedOnFFVal(step, guidedFirstChannel, RecommendedNextSteps.CREATE_FIRST_CHANNEL),
         );
     },
 );
