@@ -58,7 +58,6 @@ export type Props = {
     isLicensedForLDAPGroups?: boolean;
     showGettingStarted: boolean;
     intl: IntlShape;
-    showNextStepsTips?: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         showMentions: () => void;
@@ -337,8 +336,8 @@ export class MainMenu extends React.PureComponent<Props> {
                         id='gettingStarted'
                         show={this.props.showGettingStarted}
                         onClick={() => this.props.actions.unhideNextSteps()}
-                        text={formatMessage({id: this.props.showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: this.props.showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
-                        icon={<i className={`icon ${this.props.showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
+                        text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
+                        icon={<i className='icon icon-play'/>}
                     />
                     <Menu.ItemExternalLink
                         id='reportLink'

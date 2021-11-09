@@ -86,7 +86,7 @@ const ProductMenuTip = ({
                 value: (TutorialSteps.PRODUCT_SWITCHER + 1).toString(),
             }],
         ).then(() => setSkippedBecauseIrrelevant(true));
-    }, []);
+    }, [skippedBecauseIrrelevant, step, products, currentUserId]);
 
     if (!tipIsRelevant) {
         return null;
