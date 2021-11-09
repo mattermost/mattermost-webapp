@@ -24,7 +24,7 @@ describe('Header', () => {
             });
 
             cy.apiLogin(user);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
         });
     });
 

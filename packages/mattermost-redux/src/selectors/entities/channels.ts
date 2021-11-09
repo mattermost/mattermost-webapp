@@ -869,6 +869,9 @@ const getProfiles = (currentUserId: string, usersIdsInChannel: Set<string>, user
     return profiles;
 };
 
+/**
+ * Returns an array of unsorted group channels, each with an array of the user profiles in the channel attached to them.
+ */
 export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     profiles: UserProfile[];
 } & Channel> = createSelector(
@@ -881,7 +884,7 @@ export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
         return channels.map((channel: Channel): {
             profiles: UserProfile[];
         } & Channel => {
-            const profiles = getProfiles(currentUserId, channelUserMap[channel.id], users);
+            const profiles = getProfiles(currentUserId, channelUserMap[channel.id] || new Set(), users);
             return {
                 ...channel,
                 profiles,
