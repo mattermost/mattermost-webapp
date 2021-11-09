@@ -3952,7 +3952,7 @@
   "quick_switch_modal.help_mobile": "Type to find a channel.",
   "quick_switch_modal.help_no_team": "Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss.",
   "quick_switch_modal.input": "quick switch input",
-  "quick_switch_modal.switchChannels": "Navigate Channels",
+  "quick_switch_modal.switchChannels": "Find Channels",
   "reaction_list.addReactionTooltip": "Add a reaction",
   "reaction.add.ariaLabel": "Add a reaction",
   "reaction.clickToAdd": "(click to add)",
