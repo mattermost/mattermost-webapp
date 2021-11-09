@@ -9,7 +9,10 @@ import Radio from '@mattermost/compass-components/components/radio';
 
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import './invite_as.scss';
+import Toggle from 'components/toggle';
 
 export type As = 'member' | 'guest'
 
@@ -21,6 +24,13 @@ type Props = {
 }
 
 export default function InviteAs(props: Props) {
+    const checkedClass = ' InviteAs__radio--checked';
+    let title = (
+        <FormattedMessage
+            id='invite_modal.as'
+            defaultMessage='Invite as'
+        />
+    );
     let control = (
         <div>
             <Radio
@@ -28,49 +38,71 @@ export default function InviteAs(props: Props) {
                 onClick={() => {
                     props.setInviteAs('member');
                 }}
-            >
-                <span className='InviteAs__label'>
-                    <FormattedMessage
-                        id='invite_modal.choose_member'
-                        defaultMessage='Member'
-                    />
-                </span>
-            </Radio>
+                className={'InviteAs__radio' + (props.as === 'member' ? checkedClass : '')}
+                label={
+                    <span className='InviteAs__label'>
+                        <FormattedMessage
+                            id='invite_modal.choose_member'
+                            defaultMessage='Member'
+                        />
+                    </span>
+                }
+            />
             <Radio
                 checked={props.as === 'guest'}
                 onClick={() => {
                     props.setInviteAs('guest');
                 }}
-            >
-                <span className='InviteAs__label'>
-                    <FormattedMessage
-                        id='invite_modal.choose_guest_a'
-                        defaultMessage='Guest'
-                    />
-                    <span className='InviteAs__label--parenthetical'>
-                        {' - '}
+                className={'InviteAs__radio' + (props.as === 'guest' ? checkedClass : '')}
+                label={
+                    <span className='InviteAs__label'>
                         <FormattedMessage
-                            id='invite_modal.choose_guest_b'
-                            defaultMessage='limited to select channels and teams'
+                            id='invite_modal.choose_guest_a'
+                            defaultMessage='Guest'
                         />
+                        <span className='InviteAs__label--parenthetical'>
+                            {' - '}
+                            <FormattedMessage
+                                id='invite_modal.choose_guest_b'
+                                defaultMessage='limited to select channels and teams'
+                            />
+                        </span>
                     </span>
-                </span>
-            </Radio>
+                }
+            />
         </div>
     );
 
-    if (props.inviteToTeamTreatment === InviteToTeamTreatments.SLIDER) {
+    if (props.inviteToTeamTreatment === InviteToTeamTreatments.TOGGLE) {
+        title = (
+            <FormattedMessage
+                id='invite_modal.as_guest'
+                defaultMessage='Invite as Guest'
+            />
+        );
         control = (
-            <div>
-                <FormattedMessage
-                    id='invite_modal.permanent'
-                    defaultMessage="This can't be undone."
+            <div className='InviteAs__toggle'>
+                <div className='InviteAs__toggleDescription'>
+                    {props.as === 'guest' &&
+                    <>
+                        <FormattedMarkdownMessage
+                            id='invite_modal.permanent'
+                            defaultMessage="**This can't be undone.**"
+                        />
+                        {' '}
+                    </>
+                    }
+                    <FormattedMessage
+                        id='invite_modal.guest_purpose'
+                        defaultMessage='Guests are for temporary accounts that are limited to select channels or teams.'
+                    />
+                </div>
+                <Toggle
+                    toggled={props.as === 'guest'}
+                    onToggle={() => {
+                        props.setInviteAs(props.as === 'guest' ? 'member' : 'guest');
+                    }}
                 />
-                <FormattedMessage
-                    id='invite_modal.guest_purpose'
-                    defaultMessage='Guests are for temporary accounts that are limited to select channels or teams.'
-                />
-                <span>{'slider: off <-> on'}</span>
             </div>
         );
     }
@@ -78,10 +110,7 @@ export default function InviteAs(props: Props) {
     return (
         <div className='InviteAs'>
             <div className={props.titleClass}>
-                <FormattedMessage
-                    id='invite_modal.as'
-                    defaultMessage='Invite as'
-                />
+                {title}
             </div>
             {control}
         </div>

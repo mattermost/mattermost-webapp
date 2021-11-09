@@ -38,3 +38,16 @@
         font-weight: normal;
     }
 }
+
+.modal-body {
+    .UsersEmailsInput {
+        .users-emails-input__control {
+            min-height: 84px;
+            align-items: flex-start;
+        }
+
+        .users-emails-input__value-container {
+            margin-top: 7px;
+        }
+    }
+}

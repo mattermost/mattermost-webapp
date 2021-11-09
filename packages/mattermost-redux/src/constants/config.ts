@@ -30,5 +30,5 @@ export enum AddMembersToChanneltreatments {
 
 export enum InviteToTeamTreatments {
     NONE = 'none',
-    SLIDER = 'slider',
+    TOGGLE = 'toggle',
 }

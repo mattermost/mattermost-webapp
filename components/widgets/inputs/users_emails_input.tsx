@@ -35,6 +35,8 @@ type Props = {
     placeholder: string;
     ariaLabel: string;
     usersLoader: (search: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]> | undefined;
+    onUsersLoad?: (users: UserProfile[]) => void;
+    onBlur?: () => void;
     onChange: (change: Array<UserProfile | string>) => void;
     showError?: boolean;
     errorMessageId: string;
@@ -273,6 +275,9 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         const customCallback = (options: UserProfile[]) => {
             this.setState({options});
             callback(options);
+            if (this.props.onUsersLoad) {
+                this.props.onUsersLoad(options);
+            }
         };
         const result = this.props.usersLoader(this.props.inputValue, customCallback);
         if (result && result.then) {
@@ -290,6 +295,9 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
 
     onBlur = () => {
         this.selectRef.current?.handleInputChange(this.props.inputValue, {action: 'input-blur'});
+        if (this.props.onBlur) {
+            this.props.onBlur();
+        }
     }
 
     render() {

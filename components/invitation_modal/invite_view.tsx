@@ -4,6 +4,7 @@
 import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
+import debounce from 'lodash/debounce';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
@@ -69,6 +70,47 @@ type Props = InviteState & {
     headerClass: string;
     footerClass: string;
 }
+
+function clearMinHeight() {
+    const modalBody = document.querySelector('.modal-body') as HTMLDivElement;
+    if (!modalBody) {
+        return;
+    }
+    if (modalBody.style.minHeight) {
+        modalBody.style.minHeight = '';
+    }
+}
+
+const FOOTER_HEIGHT = 63;
+
+const ensureInvitesVisible = debounce((options: UserProfile[]) => {
+    if (options.length < 2) {
+        clearMinHeight();
+        return;
+    }
+    setTimeout(() => {
+        const modalBody = document.querySelector('.modal-body') as HTMLDivElement;
+        if (!modalBody) {
+            return;
+        }
+
+        const bodyRect = modalBody.getBoundingClientRect();
+        const menu = document.querySelector('.users-emails-input__menu');
+        if (!menu) {
+            return;
+        }
+
+        const menuRect = menu.getBoundingClientRect();
+
+        if (menuRect.bottom > bodyRect.bottom) {
+            let betterHeight = menuRect.bottom - bodyRect.top;
+            if ((bodyRect.top + betterHeight + FOOTER_HEIGHT) > window.innerHeight) {
+                betterHeight = window.innerHeight - bodyRect.top - FOOTER_HEIGHT;
+            }
+            modalBody.style.minHeight = `${betterHeight}px`;
+        }
+    }, 125);
+});
 
 export default function InviteView(props: Props) {
     useEffect(() => {
@@ -226,7 +268,13 @@ export default function InviteView(props: Props) {
                 </div>
                 <UsersEmailsInput
                     {...errorProperties}
-                    usersLoader={props.usersLoader}
+                    usersLoader={(value: string, cb: (users: UserProfile[]) => void) => {
+                        if (value === '') {
+                            clearMinHeight();
+                        }
+                        return props.usersLoader(value, cb);
+                    }}
+                    onUsersLoad={ensureInvitesVisible}
                     placeholder={placeholder}
                     ariaLabel={formatMessage({
                         id: 'invitation_modal.members.search_and_add.title',
@@ -237,6 +285,7 @@ export default function InviteView(props: Props) {
                     validAddressMessageId={t(
                         'invitation_modal.members.users_emails_input.valid_email',
                     )}
+                    onBlur={clearMinHeight}
                     validAddressMessageDefault='Invite **{email}** as a team member'
                     noMatchMessageId={noMatchMessageId}
                     noMatchMessageDefault={noMatchMessageDefault}

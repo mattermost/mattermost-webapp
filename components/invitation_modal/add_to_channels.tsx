@@ -4,10 +4,12 @@
 import React, {useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import ChannelsInput from 'components/widgets/inputs/channels_input';
 import {Channel} from 'mattermost-redux/types/channels';
+
+import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
+import ChannelsInput from 'components/widgets/inputs/channels_input';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import './add_to_channels.scss';
 
@@ -64,9 +66,9 @@ export default function AddToChannels(props: Props) {
             />
             {' '}
             <span className='InviteView__sectionTitleParenthetical'>
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='invite_modal.add_channels_title_b'
-                    defaultMessage='(required)'
+                    defaultMessage='**(required)**'
                 />
             </span>
         </div>
