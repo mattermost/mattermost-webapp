@@ -67,8 +67,14 @@
     }
 }
 
-.sidebar--right {
+.app-bar-enabled .sidebar--right {
     @media screen and (min-width: 769px) {
         right: 60px;
+    }
+}
+
+.channel-view-inner.app-bar-enabled {
+    @media screen and (min-width: 769px) {
+        padding-right: 80px;
     }
 }

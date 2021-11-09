@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Route} from 'react-router-dom';
+import classNames from 'classnames';
 
 import AnnouncementBarController from 'components/announcement_bar';
 
@@ -27,6 +28,7 @@ import ProductNoticesModal from 'components/product_notices_modal';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 interface Props {
+    appBarEnabled: boolean;
     fetchingChannels: boolean;
 }
 
@@ -54,6 +56,8 @@ export default class ChannelController extends React.PureComponent<Props> {
     }
 
     render() {
+        const appBarEnabled = this.props.appBarEnabled;
+
         return (
             <div
                 id='channel_view'
@@ -63,7 +67,7 @@ export default class ChannelController extends React.PureComponent<Props> {
                 <SystemNotice/>
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
-                <div className='container-fluid channel-view-inner'>
+                <div className={classNames('container-fluid channel-view-inner',  { 'app-bar-enabled': appBarEnabled })}>
                     <SidebarRight/>
                     <SidebarRightMenu/>
                     <TeamSidebar/>
@@ -78,7 +82,7 @@ export default class ChannelController extends React.PureComponent<Props> {
                     <LeavePrivateChannelModal/>
                     <KeyboardShortcutsModal/>
                 </div>
-                <AppBar/>
+                {appBarEnabled && <AppBar/>}
             </div>
         );
     }

@@ -10,10 +10,13 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap/lib';
 
 import {MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {fetchListing} from 'actions/marketplace';
 import {getInstalledListing} from 'selectors/views/marketplace';
 import {getActivePluginId} from 'selectors/rhs';
+import {getChannelHeaderPluginComponents} from 'selectors/plugins';
 
 import {PluginComponent} from 'types/store/plugins';
 import Constants from 'utils/constants';
@@ -21,9 +24,6 @@ import Constants from 'utils/constants';
 import AppBarBinding from './app_bar_binding';
 
 import './app_bar.scss';
-import {getChannelHeaderPluginComponents} from 'selectors/plugins';
-import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 const getChannelHeaderBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
 
@@ -69,7 +69,7 @@ export default function AppBar() {
 
     return (
         <div
-            className={classNames(['app-bar', {hidden: !loadedMarketplace}])}
+            className={classNames(['app-bar', { hidden: !loadedMarketplace }])}
         >
             {channelHeaderPluginComponents.map((component) => {
                 // this should be its own function component in another file
@@ -94,7 +94,7 @@ export default function AppBar() {
                             <div
                                 id={buttonId}
                                 aria-label={component.pluginId}
-                                className={classNames('app-bar-icon', {'active-rhs-plugin': component.pluginId === activePluginId})}
+                                className={classNames('app-bar-icon', { 'active-rhs-plugin': component.pluginId === activePluginId })}
                                 // className={buttonClass || 'channel-header__icon'}
                                 onClick={() => {
                                     component.action?.(channel);

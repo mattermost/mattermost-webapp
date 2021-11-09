@@ -75,6 +75,7 @@ type Props = {
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
     selectedThreadId: string | null;
+    appBarEnabled: boolean;
 }
 
 type State = {
@@ -321,6 +322,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
+                            appBarEnabled={this.props.appBarEnabled}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}

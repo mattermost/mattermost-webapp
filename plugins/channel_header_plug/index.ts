@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+import {appBarEnabled, appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -26,6 +26,7 @@ function mapStateToProps(state: GlobalState) {
         components: state.plugins.components.ChannelHeaderButton,
         appBindings: getChannelHeaderBindings(state),
         appsEnabled: apps,
+        appBarEnabled: appBarEnabled(state),
         theme: getTheme(state),
     };
 }

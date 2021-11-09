@@ -23,6 +23,15 @@ export const appsEnabled = createSelector(
     },
 );
 
+export const appBarEnabled = createSelector(
+    'appBarEnabled',
+    (state: GlobalState) => getConfig(state),
+    (config?: Partial<ClientConfig>) => {
+        const enabled = config?.['FeatureFlagAppBarEnabled' as keyof Partial<ClientConfig>];
+        return enabled === 'true';
+    },
+);
+
 export const makeAppBindingsSelector = (location: string) => {
     return createSelector(
         'makeAppBindingsSelector',

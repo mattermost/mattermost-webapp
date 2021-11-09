@@ -99,6 +99,7 @@ type ChannelHeaderPlugProps = {
     components: PluginComponent[];
     appBindings?: AppBinding[];
     appsEnabled: boolean;
+    appBarEnabled: boolean;
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
@@ -319,6 +320,10 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     }
 
     render() {
+        if (this.props.appBarEnabled) {
+            return null;
+        }
+
         const components = this.props.components || [];
         const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
         if (components.length === 0 && appBindings.length === 0) {

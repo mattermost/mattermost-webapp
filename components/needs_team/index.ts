@@ -13,6 +13,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {appBarEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {Action} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
@@ -50,6 +51,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentChannelId: getCurrentChannelId(state),
         plugins,
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
+        appBarEnabled: appBarEnabled(state),
     };
 }
 
