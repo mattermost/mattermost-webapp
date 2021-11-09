@@ -38,7 +38,7 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
-import {openModal, closeModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 
 import CreateComment from './create_comment';
 
@@ -119,8 +119,7 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
-    openModal: (modalData: ModalData) => void;
-    closeModal: (modalId: string) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function makeMapDispatchToProps() {
@@ -172,7 +171,6 @@ function makeMapDispatchToProps() {
             setShowPreview: setShowPreviewOnCreateComment,
             getChannelMemberCountsByGroup,
             openModal,
-            closeModal,
         }, dispatch);
     };
 }

@@ -17,6 +17,7 @@ import * as GlobalActions from 'actions/global_actions';
 import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {Match, MatchAndHistory} from './channel_identifier_router';
 
@@ -172,7 +173,7 @@ export function goToChannelByChannelName(match: Match, history: History): Action
         if (!channel || !member) {
             // Prompt system admin before joining the private channel
             const user = getCurrentUser(getState());
-            const isSystemAdmin = Utils.isSystemAdmin(user?.roles);
+            const isSystemAdmin = UserUtils.isSystemAdmin(user?.roles);
             if (isSystemAdmin) {
                 if (channel?.type === Constants.PRIVATE_CHANNEL) {
                     const joinPromptResult = await dispatch(joinPrivateChannelPrompt(teamObj, channel));

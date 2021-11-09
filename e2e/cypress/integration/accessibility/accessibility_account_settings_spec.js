@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {isMac} from '../../utils';
 
-describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
+describe('Verify Accessibility Support in different sections in Settings and Account Settings Dialog', () => {
     const accountSettings = {
         profile: [
             {key: 'name', label: 'Full Name', type: 'text'},
@@ -46,6 +46,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
             {key: 'timezone', label: 'Timezone', type: 'none'},
             {key: 'collapse', label: 'Default Appearance of Image Previews', type: 'radio'},
             {key: 'message_display', label: 'Message Display', type: 'radio'},
+            {key: 'click_to_reply', label: 'Click to open threads', type: 'radio'},
             {key: 'channel_display_mode', label: 'Channel Display', type: 'radio'},
             {key: 'one_click_reactions_enabled', label: 'One-click reactions on messages', type: 'radio'},
             {key: 'languages', label: 'Language', type: 'dropdown'},
@@ -107,7 +108,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         });
     });
 
-    it('MM-T1465_2 Verify Accessibility Support in each section in Account Settings Dialog', () => {
+    it('MM-T1465_2 Verify Accessibility Support in each section in Settings and Account Settings Dialog', () => {
         // # Open account settings modal
         cy.uiOpenAccountSettingsModal();
 
@@ -150,7 +151,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         verifySettings(settings.advanced);
     });
 
-    it('MM-T1481 Verify Correct Radio button behavior in Account Settings', () => {
+    it('MM-T1481 Verify Correct Radio button behavior in Settings and Account Settings', () => {
         cy.uiOpenSettingsModal();
 
         cy.get('#notificationsButton').click();
@@ -160,7 +161,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#desktopNotificationNever').should('be.checked');
     });
 
-    it('MM-T1482 Input fields in Account Settings should read labels', () => {
+    it('MM-T1482 Input fields in Settings and Account Settings should read labels', () => {
         cy.uiOpenAccountSettingsModal();
 
         accountSettings.profile.forEach((section) => {
@@ -225,19 +226,19 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#generalSettings').then((el) => {
             if (el.find('.profile-img__remove').length > 0) {
                 cy.findByTestId('removeSettingPicture').click();
-                cy.findByTestId('saveSettingPicture').click();
+                cy.uiSave();
                 cy.get('#pictureEdit').click();
             }
         });
 
         // * Check Labels in different buttons
         cy.findByTestId('inputSettingPictureButton').should('have.attr', 'aria-label', 'Select');
-        cy.findByTestId('saveSettingPicture').should('have.attr', 'aria-label', 'Save').and('have.attr', 'disabled');
+        cy.uiSaveButton().should('have.attr', 'disabled');
         cy.findByTestId('cancelSettingPicture').should('have.attr', 'aria-label', 'Cancel');
 
         // # Upload a pic and save
         cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
-        cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
+        cy.uiSave();
 
         // # Click on Edit Profile Picture
         cy.get('#pictureEdit').click();
@@ -260,9 +261,9 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.findByTestId('removeSettingPicture').click().wait(TIMEOUTS.HALF_SEC);
         cy.findByTestId('inputSettingPictureButton').focus().tab({shift: true}).tab();
         cy.findByTestId('inputSettingPictureButton').should('have.class', 'a11y--active a11y--focused').tab();
-        cy.findByTestId('saveSettingPicture').should('have.class', 'a11y--active a11y--focused').tab();
+        cy.uiSaveButton().should('be.focused').tab();
         cy.findByTestId('cancelSettingPicture').should('have.class', 'a11y--active a11y--focused');
-        cy.findByTestId('saveSettingPicture').click();
+        cy.uiSave();
     });
 
     it('MM-T1496 Security Settings screen should read labels', () => {

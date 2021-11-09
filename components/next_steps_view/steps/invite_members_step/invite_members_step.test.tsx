@@ -31,6 +31,11 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
             regenerateTeamInviteId: jest.fn(),
             getSubscriptionStats: jest.fn(),
         },
+        isLastStep: false,
+        finishButtonText: {
+            id: 'tID',
+            defaultMessage: 'defaultMessage',
+        },
     };
 
     test('should match snapshot', () => {

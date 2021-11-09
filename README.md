@@ -1,15 +1,15 @@
 # Mattermost Web App
 # [![Mattermost](https://user-images.githubusercontent.com/7205829/137170381-fe86eef0-bccc-4fdd-8e92-b258884ebdd7.png)](https://mattermost.com)
 
-[Mattermost](https://mattermost.com) is an open source platform for secure collaboration across the entire software development lifecycle. This repo is the primary source for core development on the Mattermost platform; it's written in Golang and React and runs as a single Linux binary with MySQL or PostgreSQL. A new compiled version is released under an MIT license every month on the 16th.
+[Mattermost](https://mattermost.com) is an open source platform for secure collaboration across the entire software development lifecycle. This repo is the primary source for core development on the Mattermost platform; it's written in Golang and React, and runs as a single Linux binary with MySQL or PostgreSQL. A new compiled version is released under an MIT license every month on the 16th.
 
 <img width="1006" alt="mattermost-hero" src="https://user-images.githubusercontent.com/7205829/136107976-7a894c9e-290a-490d-8501-e5fdbfc3785a.png">
 
-This repo hosts the webapp client code. If you'd like to report an issue with Mattermost, please create an issue on [mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code. You can also take a look at the [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html) guide to find the resources available to our community.  
+This repo hosts the webapp client code. If you'd like to report an issue with Mattermost, please create an issue on [mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code. You can also look at the [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html) guide to find the resources available to our community.  
 
-- [Product documentation](http://docs.mattermost.com/).
-- [Developer documentation](https://developers.mattermost.com/).
-- [Download compiled version](https://mattermost.com/download).
+- [Product documentation](http://docs.mattermost.com/)
+- [Developer documentation](https://developers.mattermost.com/)
+- [Download compiled version](https://mattermost.com/download)
 
 ## Try out Mattermost
 
@@ -18,13 +18,13 @@ This repo hosts the webapp client code. If you'd like to report an issue with Ma
 
 [![Deploy a Preview](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mattermost/mattermost-heroku)
 
-_Note: Heroku preview does not include email or persistent storage_
+_Note: Heroku preview does not include email or persistent storage._
 
 ## Install Mattermost
 
-- [Quick Install Guide](https://docs.mattermost.com/getting-started/light-install.html) - Deploy in minutes via Mattermost Omnibus on Ubuntu.
-- [Run Mattermost via Docker](https://docs.mattermost.com/install/setting-up-local-machine-using-docker.html) - Launch a Mattermost server instantly to test functionality and build integrations.
-- [Developer Machine Setup](https://developers.mattermost.com/contribute/server/developer-setup) - Follow this guide if you want to write code for Mattermost.
+- [Quick Install Guide](https://docs.mattermost.com/getting-started/light-install.html) - Deploy in minutes via Mattermost Omnibus on Ubuntu
+- [Run Mattermost via Docker](https://docs.mattermost.com/install/setting-up-local-machine-using-docker.html) - Launch a Mattermost server instantly to test functionality and build integrations
+- [Developer Machine Setup](https://developers.mattermost.com/contribute/server/developer-setup) - Follow this guide if you want to write code for Mattermost
 
 Other Install Guides:
 - [Ubuntu 20.04 LTS](https://docs.mattermost.com/install/installing-ubuntu-2004-LTS.html)
@@ -51,4 +51,4 @@ Other Install Guides:
 - **Twitter** - Follow [Mattermost](https://twitter.com/Mattermost)
 - **Email** - Subscribe to our [newsletter](https://mattermost.com/community-newsletter/)
 
-Any other questions, mail us at info@mattermost.com. We'd love to meet you!
+Any other questions, mail us at [info@mattermost.com](mailto:info@mattermost.com). We'd love to meet you!

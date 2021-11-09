@@ -79,8 +79,15 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
       }
     }
     expanded={true}
+    finishButtonText={
+      Object {
+        "defaultMessage": "defaultMessage",
+        "id": "tID",
+      }
+    }
     id="test"
     isAdmin={false}
+    isLastStep={false}
     onFinish={[Function]}
     onSkip={[Function]}
   />

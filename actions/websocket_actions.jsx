@@ -48,6 +48,7 @@ import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
+    getPostThread,
     getProfilesAndStatusesForPosts,
     getThreadsForPosts,
     postDeleted,
@@ -98,7 +99,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
-import {isGuest} from 'utils/utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
@@ -660,7 +661,8 @@ export function handleNewPostEvents(queue) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch(receivedPost(post));
+    const crtEnabled = isCollapsedThreadsEnabled(getState());
+    dispatch(receivedPost(post, crtEnabled));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
@@ -674,9 +676,26 @@ export function handlePostEditEvent(msg) {
     }
 }
 
-function handlePostDeleteEvent(msg) {
+async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(postDeleted(post));
+
+    // update thread when a comment is deleted and CRT is on
+    const state = getState();
+    if (post.root_id && isCollapsedThreadsEnabled(state)) {
+        const thread = getThread(state, post.root_id);
+        if (thread) {
+            const userId = getCurrentUserId(state);
+            const teamId = getCurrentTeamId(state);
+            dispatch(fetchThread(userId, teamId, post.root_id, true));
+        } else {
+            const res = await dispatch(getPostThread(post.id));
+            const {order, posts} = res.data;
+            const rootPost = posts[order[0]];
+            dispatch(receivedPost(rootPost));
+        }
+    }
+
     if (post.is_pinned) {
         dispatch(getChannelStats(post.channel_id));
     }
@@ -741,14 +760,14 @@ export function handleLeaveTeamEvent(msg) {
                 redirectUserToDefaultTeam();
             }
         }
-        if (isGuest(currentUser)) {
+        if (isGuest(currentUser.roles)) {
             dispatch(removeNotVisibleUsers());
         }
     } else {
         const team = getTeam(state, msg.data.team_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
-        if (team && isGuest(currentUser) && !isMember) {
+        if (team && isGuest(currentUser.roles) && !isMember) {
             dispatch(batchActions([
                 {
                     type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
@@ -893,7 +912,7 @@ function fetchChannelAndAddToSidebar(channelId) {
     };
 }
 
-export async function handleUserRemovedEvent(msg) {
+export function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
@@ -910,14 +929,7 @@ export async function handleUserRemovedEvent(msg) {
         }
 
         if (msg.data.channel_id === currentChannel.id) {
-            if (msg.data.remover_id === msg.broadcast.user_id) {
-                browserHistory.push(getCurrentRelativeTeamUrl(state));
-
-                await dispatch({
-                    type: ChannelTypes.LEAVE_CHANNEL,
-                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-                });
-            } else {
+            if (msg.data.remover_id !== msg.broadcast.user_id) {
                 const user = getUser(state, msg.data.remover_id);
                 if (!user) {
                     dispatch(loadUser(msg.data.remover_id));
@@ -931,17 +943,19 @@ export async function handleUserRemovedEvent(msg) {
                         removerId: msg.data.remover_id,
                     },
                 }));
-
-                await dispatch({
-                    type: ChannelTypes.LEAVE_CHANNEL,
-                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-                });
-
-                redirectUserToDefaultTeam();
             }
         }
 
-        if (isGuest(currentUser)) {
+        dispatch({
+            type: ChannelTypes.LEAVE_CHANNEL,
+            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+        });
+
+        if (msg.data.channel_id === currentChannel.id) {
+            redirectUserToDefaultTeam();
+        }
+
+        if (isGuest(currentUser.roles)) {
             dispatch(removeNotVisibleUsers());
         }
     } else if (msg.broadcast.channel_id === currentChannel.id) {
@@ -959,7 +973,7 @@ export async function handleUserRemovedEvent(msg) {
         const channel = getChannel(state, msg.broadcast.channel_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
-        if (channel && isGuest(currentUser) && !isMember) {
+        if (channel && isGuest(currentUser.roles) && !isMember) {
             const actions = [
                 {
                     type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
@@ -1003,7 +1017,7 @@ export async function handleUserUpdatedEvent(msg) {
     const config = getConfig(state);
     const license = getLicense(state);
 
-    const userIsGuest = isGuest(user);
+    const userIsGuest = isGuest(user.roles);
     const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
     const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
 
@@ -1021,7 +1035,7 @@ export async function handleUserUpdatedEvent(msg) {
             if (isLDAPEnabled && isTimezoneEnabled) {
                 dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
             }
-            if (isGuest(user)) {
+            if (isGuest(user.roles)) {
                 dispatch(getChannelStats(currentChannelId));
             }
         }
