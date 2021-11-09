@@ -2,7 +2,7 @@
 
 exports[`components/SystemNotice should match snapshot for admin, admin notice 1`] = `
 <div
-  className="system-notice bg--white shadow--2"
+  className="system-notice"
 >
   <div
     className="system-notice__header"
@@ -69,7 +69,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
 
 exports[`components/SystemNotice should match snapshot for admin, regular notice 1`] = `
 <div
-  className="system-notice bg--white shadow--2"
+  className="system-notice"
 >
   <div
     className="system-notice__header"
@@ -119,7 +119,7 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
 
 exports[`components/SystemNotice should match snapshot for regular user, admin and regular notice 1`] = `
 <div
-  className="system-notice bg--white shadow--2"
+  className="system-notice"
 >
   <div
     className="system-notice__header"
@@ -177,7 +177,7 @@ exports[`components/SystemNotice should match snapshot for regular user, no noti
 
 exports[`components/SystemNotice should match snapshot for regular user, regular notice 1`] = `
 <div
-  className="system-notice bg--white shadow--2"
+  className="system-notice"
 >
   <div
     className="system-notice__header"
@@ -229,7 +229,7 @@ exports[`components/SystemNotice should match snapshot for show function returni
 
 exports[`components/SystemNotice should match snapshot for show function returning true 1`] = `
 <div
-  className="system-notice bg--white shadow--2"
+  className="system-notice"
 >
   <div
     className="system-notice__header"
@@ -279,7 +279,7 @@ exports[`components/SystemNotice should match snapshot for show function returni
 
 exports[`components/SystemNotice should match snapshot for with allowForget equal false 1`] = `
 <div
-  className="system-notice bg--white shadow--2"
+  className="system-notice"
 >
   <div
     className="system-notice__header"
