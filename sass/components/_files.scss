@@ -483,7 +483,7 @@
             .post-image__name {
                 display: block;
                 overflow: hidden;
-                width: 191px;
+                max-width: 167px;
                 margin-bottom: 3px;
                 font-weight: 600;
                 outline: none;
@@ -502,7 +502,7 @@
 
                 display: inline-block;
                 overflow: hidden;
-                max-width: 147px;
+                max-width: 134px;
                 float: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
