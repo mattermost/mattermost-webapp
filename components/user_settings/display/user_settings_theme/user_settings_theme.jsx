@@ -9,7 +9,6 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionTypes, Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -62,7 +61,7 @@ export default class ThemeSetting extends React.PureComponent {
 
     componentWillUnmount() {
         if (this.props.selected) {
-            Utils.applyTheme(this.props.theme);
+            this.props.actions.saveTheme(this.props.currentTeamId, this.props.theme);
         }
     }
 
@@ -125,8 +124,7 @@ export default class ThemeSetting extends React.PureComponent {
         state.serverError = null;
         this.setState(state);
 
-        Utils.applyTheme(state.theme);
-
+        this.props.actions.saveTheme(this.props.currentTeamId, state.theme);
         this.props.setRequireConfirm(false);
     };
 
