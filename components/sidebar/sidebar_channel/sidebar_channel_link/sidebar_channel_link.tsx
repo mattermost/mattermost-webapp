@@ -64,7 +64,7 @@ type Props = {
 
     offTopicDisplayName: string;
 
-    firstChannelName: string;
+    firstChannelName?: string;
 
     actions: {
         clearChannelSelection: () => void;

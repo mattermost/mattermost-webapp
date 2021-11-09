@@ -126,7 +126,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
     render() {
         const {channelIsArchived} = this.props;
 
-        if (true) {
+        if (this.props.showNextStepsEphemeral) {
             return (
                 <NextStepsView/>
             );

@@ -274,12 +274,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
         return (
             <div
-                className={'NextStepsView__viewWrapper NextStepsView__mainView'}
-
-                // className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {
-                //     completed: this.state.showFinalScreen || this.state.showTransitionScreen,
-                //     animating: this.state.animating,
-                // })}
+                className={classNames('NextStepsView__viewWrapper NextStepsView__mainView', {
+                    completed: this.state.showFinalScreen || this.state.showTransitionScreen,
+                    animating: this.state.animating,
+                })}
             >
                 <header className='NextStepsView__header'>
                     <div className='NextStepsView__header-headerText'>
@@ -338,11 +336,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 id='app-content'
                 className='app__content NextStepsView'
             >
-                {true &&
+                {this.state.show &&
                 <>
                     <OnboardingBgSvg/>
                     {this.renderMainBody()}
-                    {/* {this.renderTransitionScreen()}
+                    {this.renderTransitionScreen()}
                     <NextStepsTips
                         showFinalScreen={this.state.showFinalScreen}
                         animating={this.state.animating}
@@ -352,7 +350,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
                         isAdmin={this.props.isAdmin}
-                    /> */}
+                    />
                 </>}
             </section>
         );

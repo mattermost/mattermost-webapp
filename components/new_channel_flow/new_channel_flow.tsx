@@ -125,9 +125,6 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
             update_at: 0,
         };
 
-        console.log('old channel: ', channel);
-
-
         actions.createChannel(channel).then(({data, error}) => {
             if (error) {
                 this.onCreateChannelError(error);

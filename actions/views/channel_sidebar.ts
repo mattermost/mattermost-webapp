@@ -174,7 +174,7 @@ export function multiSelectChannelAdd(channelId: string) {
 export function setFirstChannelName(channelName: string) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
-        const firstChannelName = state.views.channel.firstChannelName;
+        const firstChannelName = state.views.channelSidebar.firstChannelName;
 
         // No first channel already added
         if (!firstChannelName?.length) {

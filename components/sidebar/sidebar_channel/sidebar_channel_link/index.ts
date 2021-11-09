@@ -48,7 +48,7 @@ function makeMapStateToProps() {
             isMuted: isChannelMuted(member),
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
-            firstChannelName, //enableTutorial && tutorialStep === Constants.TutorialSteps.ADD_FIRST_CHANNEL ? 'ttttttt' : '',
+            firstChannelName: enableTutorial && tutorialStep === Constants.TutorialSteps.ADD_FIRST_CHANNEL ? firstChannelName : '',
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
         };
