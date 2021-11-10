@@ -1,3 +1,6 @@
+/* eslint-disable header/header */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable max-lines */
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
@@ -11,7 +14,6 @@ import {StatusOK} from 'mattermost-redux/types/client4';
 
 import * as Utils from 'utils/utils.jsx';
 import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
-import {format} from 'utils/markdown';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -25,6 +27,10 @@ import RenewLinkCard from './renew_license_card/renew_license_card';
 import TrialLicenseCard from './trial_license_card/trial_license_card';
 
 import './license_settings.scss';
+
+
+import TeamEdition from './team_edition/team_edition';
+import TeamEditionRightPanel from './team_edition/team_edition_right_panel';
 
 type Props = {
     license: ClientLicense;
@@ -288,78 +294,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             edition = (
                 <div>
                     <p>{'Mattermost Starter Edition. A license is required to unlock enterprise features.'}</p>
-                    {this.state.upgradingPercentage !== 100 &&
-                        <div>
-                            <p>
-                                <button
-                                    type='button'
-                                    onClick={this.handleUpgrade}
-                                    className='btn btn-primary'
-                                >
-                                    <LoadingWrapper
-                                        loading={this.state.upgradingPercentage > 0}
-                                        text={
-                                            <FormattedMessage
-                                                id='admin.license.enterprise.upgrading'
-                                                defaultMessage='Upgrading {percentage}%'
-                                                values={{percentage: this.state.upgradingPercentage}}
-                                            />
-                                        }
-                                    >
-                                        <FormattedMessage
-                                            id='admin.license.enterprise.upgrade'
-                                            defaultMessage='Upgrade to Enterprise Edition'
-                                        />
-                                    </LoadingWrapper>
-                                </button>
-                            </p>
-                            <p className='upgrade-legal-terms'>
-                                <FormattedMarkdownMessage
-                                    id='admin.license.enterprise.upgrade.accept-terms'
-                                    defaultMessage='By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License.'
-                                />
-                            </p>
-                            {this.state.upgradeError &&
-                                <div className='col-sm-12'>
-                                    <div className='form-group has-error'>
-                                        <label className='control-label'>
-                                            <span dangerouslySetInnerHTML={{__html: format(this.state.upgradeError)}}/>
-                                        </label>
-                                    </div>
-                                </div>}
-                        </div>}
-                    {this.state.upgradingPercentage === 100 &&
-                        <div>
-                            <p>
-                                <FormattedMarkdownMessage
-                                    id='admin.license.upgraded-restart'
-                                    defaultMessage='You have upgraded your binary to mattermost enterprise, please restart the server to start using the new binary. You can do it right here:'
-                                />
-                            </p>
-                            <p>
-                                <button
-                                    type='button'
-                                    onClick={this.handleRestart}
-                                    className='btn btn-primary'
-                                >
-                                    <LoadingWrapper
-                                        loading={this.state.restarting}
-                                        text={Utils.localizeMessage('admin.license.enterprise.restarting', 'Restarting')}
-                                    >
-                                        <FormattedMessage
-                                            id='admin.license.enterprise.restart'
-                                            defaultMessage='Restart Server'
-                                        />
-                                    </LoadingWrapper>
-                                    {this.state.restartError &&
-                                        <div className='col-sm-12'>
-                                            <div className='form-group has-error'>
-                                                <label className='control-label'>{this.state.restartError}</label>
-                                            </div>
-                                        </div>}
-                                </button>
-                            </p>
-                        </div>}
+
                 </div>
             );
 
@@ -455,6 +390,21 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
+                        <div className='top-wrapper'>
+                            <div className='left-pannel'>
+                                {(!this.props.enterpriseReady) && <TeamEdition other={'testing'}/>}
+                            </div>
+                            <div className='right-pannel'>
+                                <TeamEditionRightPanel
+                                    upgradingPercentage={this.state.upgradingPercentage}
+                                    upgradeError={this.state.upgradeError}
+                                    restartError={this.state.restartError}
+                                    handleRestart={this.handleRestart}
+                                    handleUpgrade={this.handleUpgrade}
+                                    restarting={this.state.restarting}
+                                />
+                            </div>
+                        </div>
                         <form
                             className='form-horizontal'
                             role='form'

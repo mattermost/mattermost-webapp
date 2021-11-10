@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import {fakeDate} from 'tests/helpers/date';
 
-import LicenseSettings from './license_settings.jsx';
+import LicenseSettings from './license_settings.tsx';
 
 const flushPromises = () => new Promise(setImmediate);
 
