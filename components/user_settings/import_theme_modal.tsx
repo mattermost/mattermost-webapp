@@ -19,7 +19,7 @@ type State = {
     show: boolean;
 }
 
-export class ImportThemeModal extends React.PureComponent<Props, State> {
+class ImportThemeModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
@@ -232,4 +232,5 @@ export class ImportThemeModal extends React.PureComponent<Props, State> {
         );
     }
 }
+
 export default injectIntl(ImportThemeModal);
