@@ -23,14 +23,18 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import Markdown from 'components/markdown/markdown';
 
+import {ModalIdentifiers} from 'utils/constants';
+
+import {ModalData} from 'types/actions';
+
 import RenewLinkCard from './renew_license_card/renew_license_card';
 import TrialLicenseCard from './trial_license_card/trial_license_card';
 
 import './license_settings.scss';
 
-
 import TeamEdition from './team_edition/team_edition';
 import TeamEditionRightPanel from './team_edition/team_edition_right_panel';
+import EELicenseModal from './ee_license_modal/ee_license_modal';
 
 type Props = {
     license: ClientLicense;
@@ -50,6 +54,7 @@ type Props = {
         restartServer: () => Promise<StatusOK>;
         ping: () => Promise<{status: string}>;
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 
@@ -160,6 +165,13 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         await this.props.actions.getLicenseConfig();
         this.setState({fileSelected: false, fileName: null, serverError: null, uploading: false});
     }
+
+    openEELicenseModal = async () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.ENTERPRISE_EDITION_LICENSE,
+            dialogType: EELicenseModal,
+        });
+    };
 
     handleRemove = async (e: any) => {
         e.preventDefault();
@@ -402,6 +414,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                     handleRestart={this.handleRestart}
                                     handleUpgrade={this.handleUpgrade}
                                     restarting={this.state.restarting}
+                                    openEEModal={this.openEELicenseModal}
                                 />
                             </div>
                         </div>

@@ -8,6 +8,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import {localizeMessage} from 'utils/utils';
 import {format} from 'utils/markdown';
+import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
 
 interface TeamEditionRightPanelProps {
     upgradingPercentage: number;
@@ -16,6 +17,8 @@ interface TeamEditionRightPanelProps {
     restartError: string | null;
 
     handleRestart: (e: any) => Promise<void>;
+
+    openEEModal: any;
 
     restarting: boolean;
 }
@@ -27,8 +30,15 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
     restartError,
     handleRestart,
     restarting,
+    openEEModal,
 }: TeamEditionRightPanelProps) => {
     let upgradeButton = null;
+    const upgradeAdvantages = [
+        'AD?LDAP Group Sync',
+        'High Availability',
+        'Advanced compliance',
+        'And more...',
+    ];
     if (upgradingPercentage !== 100) {
         upgradeButton = (
             <div>
@@ -57,8 +67,21 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                 </p>
                 <p className='upgrade-legal-terms'>
                     <FormattedMarkdownMessage
-                        id='admin.license.enterprise.upgrade.accept-terms'
-                        defaultMessage='By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License.'
+                        id='admin.license.enterprise.upgrade.acceptTermsInitial'
+                        defaultMessage='By clicking **Upgrade**, I agree to the terms of the Mattermost'
+                    />
+                    <a
+                        role='button'
+                        onClick={openEEModal}
+                    >
+                        <FormattedMarkdownMessage
+                            id='admin.license.enterprise.upgrade.eeLicenseLink'
+                            defaultMessage='Enterprise Edition License'
+                        />
+                    </a>
+                    <FormattedMarkdownMessage
+                        id='admin.license.enterprise.upgrade.acceptTermsFinal'
+                        defaultMessage='Upgrading will download the binary and update your team edition.'
                     />
                 </p>
                 {upgradeError && (
@@ -119,7 +142,31 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
         );
     }
 
-    return upgradeButton;
+    return (
+        <div className='team-edition-right-pannel'>
+            <WomanUpArrowsAndCloudsSvg
+                width={200}
+                height={200}
+            />
+            <div className='upgrade-title'>
+                {'Upgrade to the Enterprise Edition'}
+            </div>
+            <div className='upgrade-subtitle'>
+                {'A license is required to unlock enterprise fatures'}
+            </div>
+            {upgradeAdvantages.map((item: string, i: number) => {
+                return (
+                    <div
+                        className='advantages-list'
+                        key={i.toString()}
+                    >
+                        <i className='fa fa-lock'/>{item}
+                    </div>
+                );
+            })}
+            {upgradeButton}
+        </div>
+    );
 };
 
 export default React.memo(TeamEditionRightPanel);

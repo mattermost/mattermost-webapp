@@ -9,7 +9,11 @@ import {StatusOK} from 'mattermost-redux/types/client4';
 import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {uploadLicense, removeLicense, getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import {GlobalState} from 'types/store';
+import {ModalData} from 'types/actions';
+
+import {openModal} from 'actions/views/modals';
 
 import {requestTrialLicense, upgradeToE0Status, upgradeToE0, restartServer, ping} from 'actions/admin_actions';
 
@@ -34,6 +38,8 @@ type Actions = {
     restartServer: () => Promise<StatusOK>;
     ping: () => Promise<{status: string}>;
     requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
+    openModal: <P>(modalData: ModalData<P>) => void;
+
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -48,6 +54,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             restartServer,
             ping,
             requestTrialLicense,
+            openModal,
         }, dispatch),
     };
 }
