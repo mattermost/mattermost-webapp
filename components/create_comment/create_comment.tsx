@@ -373,7 +373,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             this.doInitialScrollToBottom = false;
         }
 
-        if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error') {
+        if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
             this.showPostDeletedModal();
         }
     }
