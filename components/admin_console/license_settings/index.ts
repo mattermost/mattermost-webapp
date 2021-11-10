@@ -2,17 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {StatusOK} from 'mattermost-redux/types/client4';
+import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {uploadLicense, removeLicense, getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'types/store';
 
 import {requestTrialLicense, upgradeToE0Status, upgradeToE0, restartServer, ping} from 'actions/admin_actions';
 
-import LicenseSettings from './license_settings.jsx';
+import LicenseSettings from './license_settings';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -23,9 +24,21 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
+type Actions = {
+    getLicenseConfig: () => void;
+    uploadLicense: (file: File) => Promise<ActionResult>;
+    removeLicense: () => Promise<ActionResult>;
+    getPrevTrialLicense: () => void;
+    upgradeToE0: () => Promise<StatusOK>;
+    upgradeToE0Status: () => Promise<ActionResult>;
+    restartServer: () => Promise<StatusOK>;
+    ping: () => Promise<{status: string}>;
+    requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             getLicenseConfig,
             uploadLicense,
             removeLicense,

@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
+
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {StatusOK} from 'mattermost-redux/types/client4';
 
 import * as Utils from 'utils/utils.jsx';
 import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
@@ -23,29 +26,45 @@ import TrialLicenseCard from './trial_license_card/trial_license_card';
 
 import './license_settings.scss';
 
-export default class LicenseSettings extends React.PureComponent {
-    static propTypes = {
-        license: PropTypes.object.isRequired,
-        enterpriseReady: PropTypes.bool.isRequired,
-        upgradedFromTE: PropTypes.bool.isRequired,
-        stats: PropTypes.object,
-        config: PropTypes.object,
-        isDisabled: PropTypes.bool,
-        prevTrialLicense: PropTypes.object,
-        actions: PropTypes.shape({
-            getLicenseConfig: PropTypes.func.isRequired,
-            uploadLicense: PropTypes.func.isRequired,
-            removeLicense: PropTypes.func.isRequired,
-            getPrevTrialLicense: PropTypes.func.isRequired,
-            upgradeToE0: PropTypes.func.isRequired,
-            restartServer: PropTypes.func.isRequired,
-            ping: PropTypes.func.isRequired,
-            upgradeToE0Status: PropTypes.func.isRequired,
-            requestTrialLicense: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    license: ClientLicense;
+    enterpriseReady: boolean;
+    upgradedFromTE: boolean;
+    stats: any;
+    config: Partial<ClientConfig>;
+    isDisabled: boolean;
+    prevTrialLicense: ClientLicense;
+    actions: {
+        getLicenseConfig: () => void;
+        uploadLicense: (file: File) => Promise<ActionResult>;
+        removeLicense: () => Promise<ActionResult>;
+        getPrevTrialLicense: () => void;
+        upgradeToE0: () => Promise<StatusOK>;
+        upgradeToE0Status: () => Promise<ActionResult>;
+        restartServer: () => Promise<StatusOK>;
+        ping: () => Promise<{status: string}>;
+        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
+    };
+}
 
-    constructor(props) {
+type State = {
+    fileSelected: boolean;
+    fileName: string | null;
+    serverError: string | null;
+    gettingTrialError: string | null;
+    gettingTrial: boolean;
+    removing: boolean;
+    uploading: boolean;
+    upgradingPercentage: number;
+    upgradeError: string | null;
+    restarting: boolean;
+    restartError: string | null;
+};
+export default class LicenseSettings extends React.PureComponent<Props, State> {
+    private fileInputRef: React.RefObject<HTMLInputElement>;
+    private interval: ReturnType<typeof setInterval> | null;
+
+    constructor(props: Props) {
         super(props);
 
         this.interval = null;
@@ -83,7 +102,7 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     reloadPercentage = async () => {
-        const {percentage, error} = await this.props.actions.upgradeToE0Status();
+        const {data: percentage, error} = await this.props.actions.upgradeToE0Status();
         if (percentage === 100 || error) {
             if (this.interval) {
                 clearInterval(this.interval);
@@ -97,30 +116,37 @@ export default class LicenseSettings extends React.PureComponent {
         } else if (percentage > 0 && !this.interval) {
             this.interval = setInterval(this.reloadPercentage, 2000);
         }
-        this.setState({upgradingPercentage: percentage || 0, upgradeError: error});
+        this.setState({upgradingPercentage: percentage || 0, upgradeError: error as string});
     }
 
     handleChange = () => {
         const element = this.fileInputRef.current;
-        if (element && element.files.length > 0) {
-            this.setState({fileSelected: true, fileName: element.files[0].name});
+        if (element !== null && element.files !== null) {
+            if (element.files.length > 0) {
+                this.setState({fileSelected: true, fileName: element.files[0].name});
+            }
         }
     }
 
-    handleSubmit = async (e) => {
+    handleSubmit = async (e: any) => {
         e.preventDefault();
 
         const element = this.fileInputRef.current;
-        if (!element || element.files.length === 0) {
+        if (!element || (element && element.files?.length === 0)) {
             return;
         }
-        const file = element.files[0];
+        const files = element.files;
+        const file = files && files.length > 0 ? files[0] : null;
+
+        if (file === null) {
+            return;
+        }
 
         this.setState({uploading: true});
 
         const {error} = await this.props.actions.uploadLicense(file);
         if (error) {
-            Utils.clearFileInput(element[0]);
+            Utils.clearFileInput(element);
             this.setState({fileSelected: false, fileName: null, serverError: error.message, uploading: false});
             return;
         }
@@ -129,7 +155,7 @@ export default class LicenseSettings extends React.PureComponent {
         this.setState({fileSelected: false, fileName: null, serverError: null, uploading: false});
     }
 
-    handleRemove = async (e) => {
+    handleRemove = async (e: any) => {
         e.preventDefault();
 
         this.setState({removing: true});
@@ -145,22 +171,22 @@ export default class LicenseSettings extends React.PureComponent {
         this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
     }
 
-    handleUpgrade = async (e) => {
+    handleUpgrade = async (e: any) => {
         e.preventDefault();
         if (this.state.upgradingPercentage > 0) {
             return;
         }
         try {
             await this.props.actions.upgradeToE0();
-            this.setState({upgradingPercetage: 1});
+            this.setState({upgradingPercentage: 1});
             await this.reloadPercentage();
-        } catch (error) {
-            trackEvent('api', 'upgrade_to_e0_failed', {error: error.message});
-            this.setState({upgradeError: error.message, upgradingPercetage: 0});
+        } catch (error: any) {
+            trackEvent('api', 'upgrade_to_e0_failed', {error: error.message as string});
+            this.setState({upgradeError: error.message, upgradingPercentage: 0});
         }
     }
 
-    requestLicense = async (e) => {
+    requestLicense = async (e: any) => {
         e.preventDefault();
         if (this.state.gettingTrial) {
             return;
@@ -183,18 +209,18 @@ export default class LicenseSettings extends React.PureComponent {
         });
     }
 
-    handleRestart = async (e) => {
+    handleRestart = async (e: any) => {
         e.preventDefault();
         this.setState({restarting: true});
         try {
             await this.props.actions.restartServer();
         } catch (err) {
-            this.setState({restarting: false, restartError: err});
+            this.setState({restarting: false, restartError: err as string});
         }
         setTimeout(this.checkRestarted, 1000);
     }
 
-    renderStartTrial = (isDisabled, gettingTrialError) => {
+    renderStartTrial = (isDisabled: boolean, gettingTrialError: JSX.Element | null) => {
         return (
             <React.Fragment>
                 <p className='trial'>
@@ -227,7 +253,7 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     render() {
-        let gettingTrialError = '';
+        let gettingTrialError: JSX.Element | null = null;
         if (this.state.gettingTrialError) {
             gettingTrialError = (
                 <p className='trial-error'>
@@ -523,7 +549,7 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     renderE0Content = () => {
-        let serverError = '';
+        let serverError: any = '';
         if (this.state.serverError) {
             serverError = (<div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>
                 <Markdown
@@ -533,7 +559,7 @@ export default class LicenseSettings extends React.PureComponent {
             </label></div></div>);
         }
 
-        var btnClass = 'btn';
+        let btnClass = 'btn';
         if (this.state.fileSelected) {
             btnClass = 'btn btn-primary';
         }
