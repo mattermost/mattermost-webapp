@@ -37,7 +37,7 @@ export type InviteResult = (InviteNotSent | InviteEmail | InviteUser) & {
     reason: string | I18nLike;
 }
 
-type Props = {
+export type Props = {
     sent?: boolean;
     rows: InviteResult[];
 }

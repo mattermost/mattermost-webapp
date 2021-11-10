@@ -27,7 +27,7 @@ import {As} from './invite_as';
 
 import './invitation_modal.scss';
 
-type Props = {
+export type Props = {
     show: boolean;
     inviteToTeamTreatment: InviteToTeamTreatments;
     actions: {
@@ -60,7 +60,12 @@ type Props = {
     intl: IntlShape;
 }
 
-type View = 'invite' | 'result' | 'error'
+export const View = {
+    INVITE: 'INVITE',
+    RESULT: 'RESULT',
+} as const;
+
+type View = typeof View[keyof typeof View];
 
 type State = {
     view: View;
@@ -70,13 +75,13 @@ type State = {
 };
 
 const defaultState: State = deepFreeze({
-    view: 'invite',
+    view: View.INVITE,
     termWithoutResults: null,
     invite: defaultInviteState,
     result: defaultResultState,
 });
 
-class InvitationModal extends React.PureComponent<Props, State> {
+export class InvitationModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -176,7 +181,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
         }
 
         this.setState((state: State) => ({
-            view: 'result',
+            view: View.RESULT,
             result: {
                 ...state.result,
                 sent: invites.sent,
@@ -187,7 +192,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
 
     inviteMore = () => {
         this.setState((state: State) => ({
-            view: 'invite',
+            view: View.INVITE,
             invite: {
                 ...defaultInviteState,
                 as: state.invite.as,
@@ -290,7 +295,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
         // 'static' means backdrop clicks do not close
         // true means backdrop clicks do close
         // false means no backdrop
-        if (this.state.view === 'result') {
+        if (this.state.view === View.RESULT) {
             return true;
         }
 
@@ -336,7 +341,7 @@ class InvitationModal extends React.PureComponent<Props, State> {
                 {...this.state.invite}
             />
         );
-        if (this.state.view === 'result') {
+        if (this.state.view === View.RESULT) {
             view = (
                 <ResultView
                     invitedAs={this.state.invite.as}

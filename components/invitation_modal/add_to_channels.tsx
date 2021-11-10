@@ -33,7 +33,7 @@ export const defaultCustomMessage = deepFreeze({
     open: false,
 });
 
-type Props = {
+export type Props = {
     customMessage: CustomMessageProps;
     toggleCustomMessage: () => void;
     setCustomMessage: (message: string) => void;

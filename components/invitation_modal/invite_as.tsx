@@ -21,7 +21,7 @@ export const As = {
 
 export type As = typeof As[keyof typeof As];
 
-type Props = {
+export type Props = {
     setInviteAs: (as: As) => void;
     as: As;
     titleClass?: string;
