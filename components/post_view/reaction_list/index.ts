@@ -6,11 +6,12 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {canAddReactions} from 'mattermost-redux/selectors/entities/reactions';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {addReaction} from 'actions/post_actions.jsx';
 
@@ -27,16 +28,15 @@ function makeMapStateToProps() {
     const getReactionsForPost = makeGetReactionsForPost();
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
-        const config = getConfig(state);
-        const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !ownProps.isReadOnly;
+        const channelId = ownProps.post.channel_id;
 
-        const channel = getChannel(state, ownProps.post.channel_id) || {};
-        const teamId = channel.team_id;
+        const channel = getChannel(state, channelId);
+        const teamId = channel?.team_id ?? '';
 
         return {
             teamId,
             reactions: getReactionsForPost(state, ownProps.post.id),
-            enableEmojiPicker,
+            canAddReactions: canAddReactions(state, channelId),
         };
     };
 }

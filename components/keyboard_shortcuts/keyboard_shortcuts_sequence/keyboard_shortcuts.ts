@@ -125,11 +125,11 @@ export const KEYBOARD_SHORTCUTS = {
     navSettings: {
         default: {
             id: t('shortcuts.nav.settings'),
-            defaultMessage: 'Account settings:\tCtrl|Shift|A',
+            defaultMessage: 'Settings:\tCtrl|Shift|A',
         },
         mac: {
             id: t('shortcuts.nav.settings.mac'),
-            defaultMessage: 'Account settings:\t⌘|Shift|A',
+            defaultMessage: 'Settings:\t⌘|Shift|A',
         },
     },
     navMentions: {

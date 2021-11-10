@@ -75,6 +75,11 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
 
     public componentDidUpdate(prevProps: Props) {
         const reconnected = this.props.socketConnectionStatus && !prevProps.socketConnectionStatus;
+
+        if (!this.props.selected) {
+            return;
+        }
+
         const selectedChanged = this.props.selected.id !== prevProps.selected.id;
 
         if (reconnected || selectedChanged) {

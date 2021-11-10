@@ -70,11 +70,6 @@ export default class SearchResultsItem extends React.PureComponent {
         isFlagged: PropTypes.bool.isRequired,
 
         /**
-        *  Data used creating URl for jump to post
-        */
-        currentTeamName: PropTypes.string,
-
-        /**
          * Whether post username overrides are to be respected.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
@@ -113,8 +108,8 @@ export default class SearchResultsItem extends React.PureComponent {
          */
         isPinnedPosts: PropTypes.bool,
 
-        channelTeamDisplayName: PropTypes.string,
-        channelTeamName: PropTypes.string,
+        teamDisplayName: PropTypes.string,
+        teamName: PropTypes.string,
 
         /**
          * Is this a post that we can directly reply to?
@@ -149,8 +144,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         this.props.actions.setRhsExpanded(false);
-        const teamToJumpTo = this.props.channelTeamName || this.props.currentTeamName;
-        browserHistory.push(`/${teamToJumpTo}/pl/${this.props.post.id}`);
+        browserHistory.push(`/${this.props.teamName}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post) => {
@@ -185,6 +179,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.SEARCH}
+                teamName={this.props.teamName}
             />
         );
     };
@@ -223,7 +218,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, channelTeamDisplayName, canReply} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -401,9 +396,9 @@ export default class SearchResultsItem extends React.PureComponent {
                                 />
                             </span>
                         }
-                        {Boolean(channelTeamDisplayName) &&
+                        {Boolean(teamDisplayName) &&
                             <span className='search-team__name'>
-                                {channelTeamDisplayName}
+                                {teamDisplayName}
                             </span>
                         }
                     </div>

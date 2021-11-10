@@ -27,7 +27,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,

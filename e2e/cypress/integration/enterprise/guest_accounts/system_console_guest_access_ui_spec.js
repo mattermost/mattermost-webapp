@@ -21,7 +21,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -54,7 +54,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
         cy.findByTestId('GuestAccountsSettings.EnforceMultifactorAuthenticationhelp-text').should('be.visible').and('have.text', 'Multi-factor authentication is currently not enabled.');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
