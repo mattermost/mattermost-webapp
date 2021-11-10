@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @enterprise @onboarding
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
-import {generateRandomUser} from '../../../../support/api/user';
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {generateRandomUser} from '../../support/api/user';
 
 describe('Onboarding', () => {
     let testTeam;

@@ -80,7 +80,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>

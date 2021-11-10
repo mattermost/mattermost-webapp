@@ -82,7 +82,7 @@ function mapDispatchToProps(dispatch) {
             searchProfiles,
             searchChannels,
             getTeam,
-            openModal: (modalData) => openModal(modalData),
+            openModal,
         }, dispatch),
     };
 }
