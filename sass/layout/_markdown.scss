@@ -1,51 +1,63 @@
     @charset "UTF-8";
-    // Colors
-    $gray-lighter: lighten($gray, 30%);
-    h1.markdown__heading {
-        font-size: 28px;
+h1.markdown__heading {
+    font-size: 28px;
+}
+
+h2.markdown__heading {
+    font-size: 25px;
+}
+
+h3.markdown__heading {
+    font-size: 22px;
+}
+
+h4.markdown__heading {
+    font-size: 19px;
+}
+
+h5.markdown__heading {
+    font-size: 15px;
+}
+
+h6.markdown__heading {
+    font-size: 1em;
+}
+
+.markdown__heading {
+    margin: 10px 0;
+    font-weight: 700;
+    line-height: 1.5;
+    &:first-child {
+        margin: 5px 0 10px;
     }
-    
-    h2.markdown__heading {
-        font-size: 25px;
+    .emoticon {
+        min-width: 1.5em;
+        min-height: 1.5em;
+        vertical-align: top;
     }
-    
-    h3.markdown__heading {
-        font-size: 22px;
+}
+
+.markdown__paragraph-inline {
+    display: inline;
+    +.markdown__paragraph-inline {
+        margin-left: 4px;
     }
-    
-    h4.markdown__heading {
-        font-size: 19px;
+}
+
+#post-list,
+#rhsContainer {
+    .markdown-inline-img {
+        max-height: 500px;
+        margin: 5px 2px;
+        -moz-force-broken-image-icon: 1;
+        @include border-radius(4px);
     }
-    
-    h5.markdown__heading {
-        font-size: 15px;
-    }
-    
-    h6.markdown__heading {
-        font-size: 1em;
-    }
-    
-    .markdown__heading {
-        margin: 10px 0;
-        font-weight: 700;
-        line-height: 1.5;
-        &:first-child {
-            margin: 5px 0 10px;
-        }
-        .emoticon {
-            min-width: 1.5em;
-            min-height: 1.5em;
-            vertical-align: top;
-        }
-    }
-    
     .markdown__paragraph-inline {
         display: inline;
         +.markdown__paragraph-inline {
             margin-left: 4px;
         }
     }
-    
     #post-list,
     #rhsContainer {
         .markdown-inline-img {
@@ -109,7 +121,6 @@
             margin: 2px;
         }
     }
-    
     #channelHeaderDescription,
     #header-popover {
         .markdown-inline-img {
@@ -142,14 +153,12 @@
             border-radius: unset;
         }
     }
-    
     .post-code {
         position: relative;
         overflow-x: auto;
         visibility: visible;
         white-space: pre;
     }
-    
     .post-code__overlay {
         position: absolute;
         right: 0;

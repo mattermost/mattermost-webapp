@@ -95,11 +95,11 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
-        const onClipboardClick = (e:any, code: string) => {
+        const onClipboardClick = (e: any, code: string) => {
             navigator.clipboard.writeText(code);
 
             const classes = e.target.getAttribute('class');
-            if(classes.indexOf('icon-content-copy') > -1) {
+            if (classes.indexOf('icon-content-copy') > -1) {
                 e.target.setAttribute('class', classes.replace('icon-content-copy', '') + 'icon-check');
                 e.target.setAttribute('title', 'Copied');
 
@@ -109,11 +109,11 @@ export default class Renderer extends marked.Renderer {
                     e.target.setAttribute('title', 'Copy code block');
                 }, 5000);
             }
-        }
+        };
 
         return (
             '<div class="' + className + '">' +
-                `<div class="post-code__overlay">` +
+                '<div class="post-code__overlay">' +
                     '<span class="post-code__clipboard" onclick="' + this.makeOnClickFunction(onClipboardClick, code) + '">' +
                         '<i role="button" class="icon icon-content-copy" title="Copy code block"></i>' +
                     '</span>' +
@@ -130,10 +130,11 @@ export default class Renderer extends marked.Renderer {
         );
     }
 
-    private makeOnClickFunction = (func:Function, ...params: string[]) => {
+    // eslint-disable-next-line
+    private makeOnClickFunction = (func: Function, ...params: string[]) => {
         //The backtick is used in this situation to maintain the newlines.
         //Quotation marks are replaced with apostrophe so it doesn't break the DOM
-        const sanitizedParams = params.map(param => '`' + param.replaceAll('"', "'") + '`');
+        const sanitizedParams = params.map((param) => '`' + param.replaceAll('"', "'") + '`');
 
         const sanitizedFunction = func.toString().trim().replaceAll('\n', '');
         const functionString = `(${sanitizedFunction})(event, ${sanitizedParams.join(',')})`;

@@ -18,11 +18,11 @@
 }
 
 @mixin fade-in {
-    opacity: 1;
-    animation-name: fadeInOpacity;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
     animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-name: fadeInOpacity;
+    animation-timing-function: ease-in;
+    opacity: 1;
 }
 
 @keyframes fadeInOpacity {
