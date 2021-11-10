@@ -55,7 +55,10 @@ class ModalToggleButtonRedux extends React.PureComponent {
             ...props
         } = this.props;
 
-        const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.ariaLabel});
+        let ariaLabel;
+        if (props.ariaLabel) {
+            ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.ariaLabel});
+        }
 
         let badge = null;
         if (this.props.showUnread) {
@@ -86,7 +89,6 @@ class ModalToggleButtonRedux extends React.PureComponent {
             <button
                 {...props}
                 className={'style--none ' + props.className}
-                data-toggle='modal toggle'
                 aria-label={ariaLabel}
                 onClick={clickHandler}
             >
