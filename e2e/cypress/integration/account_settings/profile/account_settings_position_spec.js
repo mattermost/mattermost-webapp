@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings > Profile > Position', () => {
+describe('Profile > Profile Settings > Position', () => {
     beforeEach(() => {
         cy.apiAdminLogin();
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
@@ -22,8 +22,8 @@ describe('Account Settings > Profile > Position', () => {
     it('MM-T2063 Position', () => {
         const position = 'Master hacker';
 
-        // # Open 'Account Settings' modal and view the default 'Profile'
-        cy.uiOpenAccountSettingsModal().within(() => {
+        // # Open 'Profile' modal and view the default 'Profile Settings'
+        cy.uiOpenProfileModal().within(() => {
             // # Open 'Position' setting
             cy.findByRole('heading', {name: 'Position'}).should('be.visible').click();
 
@@ -47,8 +47,8 @@ describe('Account Settings > Profile > Position', () => {
     it('MM-T2064 Position / 128 characters', () => {
         const longPosition = 'Master Hacker II'.repeat(8);
 
-        // # Open 'Account Settings' modal and view the default 'Profile'
-        cy.uiOpenAccountSettingsModal().within(() => {
+        // # Open 'Profile' modal and view the default 'Profile Settings'
+        cy.uiOpenProfileModal().within(() => {
             const minPositionHeader = () => cy.findByRole('heading', {name: 'Position'});
             const maxPositionInput = () => cy.findByRole('textbox', {name: 'Position'});
 

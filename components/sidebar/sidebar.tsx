@@ -13,6 +13,9 @@ import NewChannelFlow from 'components/new_channel_flow';
 import InvitationModal from 'components/invitation_modal';
 
 import Pluggable from 'plugins/pluggable';
+
+import {ModalData} from 'types/actions';
+
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -32,9 +35,7 @@ type Props = {
     actions: {
         fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
         clearChannelSelection: () => void;
     };
     isCloud: boolean;

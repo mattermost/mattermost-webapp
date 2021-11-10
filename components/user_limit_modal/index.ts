@@ -32,8 +32,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators(
             {
-                closeModal: (identifier) => closeModal(identifier),
-                openModal: (modalData) => openModal(modalData),
+                closeModal,
+                openModal,
             },
             dispatch,
         ),
