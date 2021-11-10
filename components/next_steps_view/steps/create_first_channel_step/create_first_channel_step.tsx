@@ -108,6 +108,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         result.then(({data, error}) => {
             if (error) {
                 setChannelCreateError(true);
+
                 //there seems to be a problem here
             } else if (data) {
                 // dispatch the first channel name value
