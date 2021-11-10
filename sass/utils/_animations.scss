@@ -1,10 +1,8 @@
 @charset 'UTF-8';
-
 @keyframes spin {
     from {
         transform: scale(1) rotate(0deg);
     }
-
     to {
         transform: scale(1) rotate(360deg);
     }
@@ -14,8 +12,24 @@
     from {
         @include alpha-property(background, $yellow, 0.5);
     }
-
     to {
         background: none;
+    }
+}
+
+@mixin fade-in {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

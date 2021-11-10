@@ -96,20 +96,26 @@ export default class Renderer extends marked.Renderer {
         }
 
         const onClipboardClick = (e:any, code: string) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log(e);
-            console.log(code);
             navigator.clipboard.writeText(code);
-            console.log('I clicked from the shady function');
-            return false;
+
+            const classes = e.target.getAttribute('class');
+            if(classes.indexOf('icon-content-copy') > -1) {
+                e.target.setAttribute('class', classes.replace('icon-content-copy', '') + 'icon-check');
+                e.target.setAttribute('title', 'Copied');
+
+                setTimeout(() => {
+                    const classes = e.target.getAttribute('class');
+                    e.target.setAttribute('class', classes.replace('icon-check', '') + 'icon-content-copy');
+                    e.target.setAttribute('title', 'Copy code block');
+                }, 5000);
+            }
         }
 
         return (
             '<div class="' + className + '">' +
                 `<div class="post-code__overlay">` +
-                    '<span class="post-code__clipboard" onclick="(' + onClipboardClick.toString() + ')(event,`'+ code.replaceAll('"', "'") + '`)">' +
-                        '<i class="icon icon-content-copy"></i>' +
+                    '<span class="post-code__clipboard" onclick="' + this.makeOnClickFunction(onClipboardClick, code) + '">' +
+                        '<i role="button" class="icon icon-content-copy" title="Copy code block"></i>' +
                     '</span>' +
                     header +
                 '</div>' +
@@ -122,6 +128,16 @@ export default class Renderer extends marked.Renderer {
                 '</div>' +
             '</div>'
         );
+    }
+
+    private makeOnClickFunction = (func:Function, ...params: string[]) => {
+        //The backtick is used in this situation to maintain the newlines.
+        //Quotation marks are replaced with apostrophe so it doesn't break the DOM
+        const sanitizedParams = params.map(param => '`' + param.replaceAll('"', "'") + '`');
+
+        const sanitizedFunction = func.toString().trim().replaceAll('\n', '');
+        const functionString = `(${sanitizedFunction})(event, ${sanitizedParams.join(',')})`;
+        return functionString;
     }
 
     public codespan(text: string) {
