@@ -185,6 +185,7 @@ export type ClientConfig = {
     TeammateNameDisplay: string;
     TermsOfServiceLink: string;
     TimeBetweenUserTypingUpdatesMilliseconds: string;
+    UpgradedFromTE: string;
     Version: string;
     WebsocketPort: string;
     WebsocketSecurePort: string;
