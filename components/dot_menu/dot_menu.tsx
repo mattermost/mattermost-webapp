@@ -11,7 +11,6 @@ import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
@@ -35,7 +34,7 @@ export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     intl: IntlShape;
     post: Post;
-    teamId?: string;
+    teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
@@ -48,7 +47,7 @@ type Props = {
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
 
@@ -123,7 +122,6 @@ type Props = {
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    currentTeamId: $ID<Team>;
     threadId: $ID<UserThread>;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
@@ -227,7 +225,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     copyLink = () => {
-        Utils.copyToClipboard(`${this.props.currentTeamUrl}/pl/${this.props.post.id}`);
+        Utils.copyToClipboard(`${this.props.teamUrl}/pl/${this.props.post.id}`);
     }
 
     handlePinMenuItemActivated = () => {
@@ -268,10 +266,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleSetThreadFollow = () => {
-        const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
+        const {actions, teamId, threadId, userId, isFollowingThread} = this.props;
         actions.setThreadFollow(
             userId,
-            currentTeamId,
+            teamId,
             threadId,
             !isFollowingThread,
         );
@@ -384,7 +382,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     fetchBindings = () => {
-        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId).then(({data}) => {
             this.setState({appBindings: data});
         });
     }
