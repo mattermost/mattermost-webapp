@@ -73,20 +73,6 @@ export default class PostBody extends React.PureComponent {
          * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
          */
         isEmbedVisible: PropTypes.bool,
-
-        /**
-         * Whether or not the post username can be overridden.
-         */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
-
-        /**
-         * Set not to allow edits on post
-         */
-        isReadOnly: PropTypes.bool,
-    }
-
-    static defaultProps = {
-        isReadOnly: false,
     }
 
     constructor(props) {
@@ -224,10 +210,7 @@ export default class PostBody extends React.PureComponent {
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionList
-                        post={post}
-                        isReadOnly={this.props.isReadOnly}
-                    />
+                    <ReactionList post={post}/>
                 </div>
             </div>
         );
