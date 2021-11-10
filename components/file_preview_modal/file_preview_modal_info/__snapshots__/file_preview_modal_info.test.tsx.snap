@@ -34,7 +34,7 @@ exports[`components/FilePreviewModalInfo should match snapshot 1`] = `
 </div>
 `;
 
-exports[`components/FilePreviewModalInfo should match snapshot where post is empty 1`] = `
+exports[`components/FilePreviewModalInfo should match snapshot where post is empty and avoid crash 1`] = `
 <div
   className="file-preview-modal__info"
 >
