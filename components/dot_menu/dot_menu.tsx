@@ -36,7 +36,7 @@ export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     intl: IntlShape;
     post: Post;
-    teamId?: string;
+    teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
@@ -124,7 +124,6 @@ type Props = {
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    currentTeamId: $ID<Team>;
     threadId: $ID<UserThread>;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
@@ -270,7 +269,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleSetThreadFollow = () => {
-        const {actions, teamId, currentTeamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
+        const {actions, teamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
         let followingThread: boolean;
         if (isFollowingThread === null) {
             followingThread = !isMentionedInRootPost;
@@ -279,7 +278,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
         actions.setThreadFollow(
             userId,
-            teamId || currentTeamId,
+            teamId,
             threadId,
             followingThread,
         );
@@ -340,7 +339,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             binding.app_id,
             binding.location,
             this.props.post.channel_id,
-            this.props.teamId || this.props.currentTeamId,
+            this.props.teamId,
             this.props.post.id,
             this.props.post.root_id,
         );
@@ -392,7 +391,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     fetchBindings = () => {
-        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId || this.props.currentTeamId).then(({data}) => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId).then(({data}) => {
             this.setState({appBindings: data});
         });
     }
