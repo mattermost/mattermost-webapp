@@ -5,7 +5,7 @@ import React from 'react';
 import {IntlProvider} from 'react-intl';
 import {mount, shallow} from 'enzyme';
 
-import Radio from '@mattermost/compass-components/components/radio';
+import RadioGroup from 'components/common/radio_group';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
@@ -71,7 +71,7 @@ describe('InviteAs', () => {
     describe('control', () => {
         it('shows radio buttons in radio mode', () => {
             const wrapper = shallow(<InviteAs {...props}/>);
-            expect(wrapper.find(Radio).length).toBe(2);
+            expect(wrapper.find(RadioGroup).length).toBe(1);
         });
 
         it('shows toggle in toggle mode', () => {

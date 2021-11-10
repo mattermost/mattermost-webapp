@@ -5,11 +5,10 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import Radio from '@mattermost/compass-components/components/radio';
-
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import RadioGroup from 'components/common/radio_group';
 
 import './invite_as.scss';
 import Toggle from 'components/toggle';
@@ -29,7 +28,6 @@ export type Props = {
 }
 
 export default function InviteAs(props: Props) {
-    const checkedClass = ' InviteAs__radio--checked';
     let title = (
         <FormattedMessage
             id='invite_modal.as'
@@ -38,42 +36,39 @@ export default function InviteAs(props: Props) {
     );
     let control = (
         <div>
-            <Radio
-                checked={props.as === As.MEMBER}
-                onClick={() => {
-                    props.setInviteAs(As.MEMBER);
-                }}
-                className={'InviteAs__radio' + (props.as === As.MEMBER ? checkedClass : '')}
-                label={
-                    <span className='InviteAs__label'>
-                        <FormattedMessage
-                            id='invite_modal.choose_member'
-                            defaultMessage='Member'
-                        />
-                    </span>
-                }
-            />
-            <Radio
-                checked={props.as === As.GUEST}
-                onClick={() => {
-                    props.setInviteAs(As.GUEST);
-                }}
-                className={'InviteAs__radio' + (props.as === As.GUEST ? checkedClass : '')}
-                label={
-                    <span className='InviteAs__label'>
-                        <FormattedMessage
-                            id='invite_modal.choose_guest_a'
-                            defaultMessage='Guest'
-                        />
-                        <span className='InviteAs__label--parenthetical'>
-                            {' - '}
+            <RadioGroup
+                onChange={(e) => props.setInviteAs(e.target.value as As)}
+                value={props.as}
+                id='invite-as'
+                values={[
+                    {
+                        key: (
                             <FormattedMessage
-                                id='invite_modal.choose_guest_b'
-                                defaultMessage='limited to select channels and teams'
+                                id='invite_modal.choose_member'
+                                defaultMessage='Member'
                             />
-                        </span>
-                    </span>
-                }
+                        ),
+                        value: As.MEMBER,
+                    },
+                    {
+                        key: (
+                            <span className='InviteAs__label'>
+                                <FormattedMessage
+                                    id='invite_modal.choose_guest_a'
+                                    defaultMessage='Guest'
+                                />
+                                <span className='InviteAs__label--parenthetical'>
+                                    {' - '}
+                                    <FormattedMessage
+                                        id='invite_modal.choose_guest_b'
+                                        defaultMessage='limited to select channels and teams'
+                                    />
+                                </span>
+                            </span>
+                        ),
+                        value: As.GUEST,
+                    },
+                ]}
             />
         </div>
     );

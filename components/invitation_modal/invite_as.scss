@@ -7,11 +7,6 @@
         }
     }
 
-    label {
-        justify-content: flex-start;
-        font-weight: normal;
-    }
-
     &__toggle {
         display: flex;
         align-items: top;
@@ -22,29 +17,4 @@
     &__toggleDescription {
         max-width: 66%;
     }
-
-    // & &__radio {
-
-    //     > div, > div:hover {
-    //         border: 1px solid rgba(var(--center-channel-color), 0.24);
-    //         &::after {
-    //             background: rgba(var(--center-channel-color), 0.24);
-    //             &:hover {
-    //                 background: rgba(var(--center-channel-color), 0.24);
-    //             }
-    //         }
-    //     }
-
-    //     &--checked {
-    //         > div, > div:hover {
-    //             border: 1px solid var(--button-bg);
-    //             &::after {
-    //                 background: var(--button-bg);
-    //                 &:hover {
-    //                     background: var(--button-bg);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 }

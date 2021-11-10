@@ -28,8 +28,8 @@ import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage,
 import InviteAs, {As} from './invite_as';
 import './invite_view.scss';
 
-export const defaultInviteState = deepFreeze({
-    as: 'member',
+export const defaultInviteState: InviteState = deepFreeze({
+    as: As.MEMBER,
     customMessage: defaultCustomMessage,
     sending: false,
     inviteChannels: defaultInviteChannels,
