@@ -21,8 +21,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Post, PostSearchResults} from 'mattermost-redux/types/posts';
-import {FileSearchResultItem, FileSearchResults} from 'mattermost-redux/types/files';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
