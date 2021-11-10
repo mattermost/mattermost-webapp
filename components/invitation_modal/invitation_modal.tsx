@@ -135,6 +135,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         if (inviteAs === As.MEMBER && this.props.isCloud) {
             trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length});
         }
+        trackEvent('invite_users', 'click_invite');
 
         const users: UserProfile[] = [];
         const emails: string[] = [];
