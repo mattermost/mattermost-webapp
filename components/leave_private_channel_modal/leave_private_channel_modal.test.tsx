@@ -65,6 +65,7 @@ describe('components/LeavePrivateChannelModal', () => {
 
     test('should match snapshot, init', () => {
         const props = {
+            channel: channels['town-square'],
             onExited: jest.fn(),
             actions: {
                 leaveChannel: jest.fn(),
@@ -72,9 +73,7 @@ describe('components/LeavePrivateChannelModal', () => {
         };
 
         const wrapper = shallow(
-            <LeavePrivateChannelModal
-                {...props}
-            />,
+            <LeavePrivateChannelModal {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -7,7 +7,7 @@ import GetLinkModal from 'components/get_link_modal';
 
 import * as Utils from 'utils/utils.jsx';
 
-import {PropsFromRedux} from './index';
+import type {PropsFromRedux} from './index';
 
 interface Props extends PropsFromRedux {
     onExited: () => void;

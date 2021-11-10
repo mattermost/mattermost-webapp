@@ -19,7 +19,7 @@ type State = {
     show: boolean;
 }
 
-export class ImportThemeModalComponent extends React.PureComponent<Props, State> {
+export class ImportThemeModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
@@ -39,7 +39,7 @@ export class ImportThemeModalComponent extends React.PureComponent<Props, State>
 
         const text = this.state.value;
 
-        if (!ImportThemeModalComponent.isInputValid(text)) {
+        if (!ImportThemeModal.isInputValid(text)) {
             this.setState({
                 inputError: (
                     <FormattedMessage
@@ -140,7 +140,7 @@ export class ImportThemeModalComponent extends React.PureComponent<Props, State>
         const value = e.target.value;
         this.setState({value});
 
-        if (ImportThemeModalComponent.isInputValid(value)) {
+        if (ImportThemeModal.isInputValid(value)) {
             this.setState({inputError: null});
         } else {
             this.setState({
@@ -232,4 +232,4 @@ export class ImportThemeModalComponent extends React.PureComponent<Props, State>
         );
     }
 }
-export default injectIntl(ImportThemeModalComponent);
+export default injectIntl(ImportThemeModal);

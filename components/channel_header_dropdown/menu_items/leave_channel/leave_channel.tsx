@@ -11,9 +11,9 @@ import {localizeMessage} from 'utils/utils';
 import Menu from 'components/widgets/menu/menu';
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 
-import {PropsFromRedux} from './index';
+import type {PropsFromRedux} from './index';
 
-export interface Props extends PropsFromRedux {
+interface Props extends PropsFromRedux {
 
     /**
      * Object with info about user

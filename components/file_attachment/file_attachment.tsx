@@ -25,7 +25,7 @@ import {
 import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';
 
-import {PropsFromRedux} from './index';
+import type {PropsFromRedux} from './index';
 
 interface Props extends PropsFromRedux {
 

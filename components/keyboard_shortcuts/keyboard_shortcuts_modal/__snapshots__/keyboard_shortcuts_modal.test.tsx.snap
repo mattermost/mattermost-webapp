@@ -1,3 +1,578 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `[Function]`;
+exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="shortcutsModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal shortcuts-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[MockFunction]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <div
+    className="shortcuts-content"
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <ModalTitle
+        bsClass="modal-title"
+        componentClass="h1"
+        id="shortcutsModalLabel"
+      >
+        <strong>
+          <Memo(KeyboardShortcutSequence)
+            shortcut={
+              Object {
+                "default": Object {
+                  "defaultMessage": "Keyboard Shortcuts	Ctrl|/",
+                  "id": "shortcuts.header",
+                },
+                "mac": Object {
+                  "defaultMessage": "Keyboard Shortcuts	⌘|/",
+                  "id": "shortcuts.header.mac",
+                },
+              }
+            }
+          />
+        </strong>
+      </ModalTitle>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-sm-4"
+        >
+          <div
+            className="section"
+          >
+            <div>
+              <h3
+                className="section-title"
+              >
+                <strong>
+                  Navigation
+                </strong>
+              </h3>
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Previous channel:	Alt|Up",
+                      "id": "shortcuts.nav.prev",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Previous channel:	⌥|Up",
+                      "id": "shortcuts.nav.prev.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Next channel:	Alt|Down",
+                      "id": "shortcuts.nav.next",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Next channel:	⌥|Down",
+                      "id": "shortcuts.nav.next.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Previous unread channel:	Alt|Shift|Up",
+                      "id": "shortcuts.nav.unread_prev",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Previous unread channel:	⌥|Shift|Up",
+                      "id": "shortcuts.nav.unread_prev.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Next unread channel:	Alt|Shift|Down",
+                      "id": "shortcuts.nav.unread_next",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Next unread channel:	⌥|Shift|Down",
+                      "id": "shortcuts.nav.unread_next.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Previous team:	Ctrl|Alt|Up",
+                      "id": "shortcuts.team_nav.prev",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Previous team:	⌘|⌥|Up",
+                      "id": "shortcuts.team_nav.prev.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Next team:	Ctrl|Alt|Down",
+                      "id": "shortcuts.team_nav.next",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Next team:	⌘|⌥|Down",
+                      "id": "shortcuts.team_nav.next.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Switch to a specific team:	Ctrl|Alt|[1-9]",
+                      "id": "shortcuts.team_nav.switcher",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Switch to a specific team:	⌘|⌥|[1-9]",
+                      "id": "shortcuts.team_nav.switcher.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Quick channel switcher:	Ctrl|K",
+                      "id": "shortcuts.nav.switcher",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Quick channel switcher:	⌘|K",
+                      "id": "shortcuts.nav.switcher.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Direct messages menu:	Ctrl|Shift|K",
+                      "id": "shortcuts.nav.direct_messages_menu",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Direct messages menu:	⌘|Shift|K",
+                      "id": "shortcuts.nav.direct_messages_menu.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Settings:	Ctrl|Shift|A",
+                      "id": "shortcuts.nav.settings",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Settings:	⌘|Shift|A",
+                      "id": "shortcuts.nav.settings.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Recent mentions:	Ctrl|Shift|M",
+                      "id": "shortcuts.nav.recent_mentions",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Recent mentions:	⌘|Shift|M",
+                      "id": "shortcuts.nav.recent_mentions.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Set focus to input field:	Ctrl|Shift|L",
+                      "id": "shortcuts.nav.focus_center",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Set focus to input field:	⌘|Shift|L",
+                      "id": "shortcuts.nav.focus_center.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Open or close the right sidebar	Ctrl|.",
+                      "id": "shortcuts.nav.open_close_sidebar",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Open or close the right sidebar	⌘|.",
+                      "id": "shortcuts.nav.open_close_sidebar.mac",
+                    },
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-sm-4"
+        >
+          <div
+            className="section"
+          >
+            <div>
+              <h3
+                className="section-title"
+              >
+                <strong>
+                  Messages
+                </strong>
+              </h3>
+              <span>
+                <strong>
+                  Works inside an empty input field
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Edit last message in channel:	Up",
+                      "id": "shortcuts.msgs.edit",
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Reply to last message in channel:	Shift|Up",
+                      "id": "shortcuts.msgs.reply",
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "React to last message:	Ctrl|Shift|⧵",
+                        "id": "shortcuts.msgs.comp.last_reaction",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "React to last message:	⌘|Shift|⧵",
+                        "id": "shortcuts.msgs.comp.last_reaction.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Reprint previous message:	Ctrl|Up",
+                        "id": "shortcuts.msgs.reprint_prev",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Reprint previous message:	⌘|Up",
+                        "id": "shortcuts.msgs.reprint_prev.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Reprint next message:	Ctrl|Down",
+                        "id": "shortcuts.msgs.reprint_next",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Reprint next message:	⌘|Down",
+                        "id": "shortcuts.msgs.reprint_next.mac",
+                      },
+                    }
+                  }
+                />
+              </div>
+              <span>
+                <strong>
+                  Autocomplete
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Username:	@|[a-z]|Tab",
+                      "id": "shortcuts.msgs.comp.username",
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Channel:	~|[a-z]|Tab",
+                      "id": "shortcuts.msgs.comp.channel",
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Emoji:	:|[a-z]|Tab",
+                      "id": "shortcuts.msgs.comp.emoji",
+                    }
+                  }
+                />
+              </div>
+              <span>
+                <strong>
+                  Formatting
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Bold:	Ctrl|B",
+                        "id": "shortcuts.msgs.markdown.bold",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Bold:	⌘|B",
+                        "id": "shortcuts.msgs.markdown.bold.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Italic:	Ctrl|I",
+                        "id": "shortcuts.msgs.markdown.italic",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Italic:	⌘|I",
+                        "id": "shortcuts.msgs.markdown.italic.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Link:	Ctrl|Alt|K",
+                        "id": "shortcuts.msgs.markdown.link",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Link:	⌘|Alt|K",
+                        "id": "shortcuts.msgs.markdown.link.mac",
+                      },
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-sm-4"
+        >
+          <div
+            className="section"
+          >
+            <div>
+              <h3
+                className="section-title"
+              >
+                <strong>
+                  Files
+                </strong>
+              </h3>
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Upload files:	Ctrl|U",
+                      "id": "shortcuts.files.upload",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Upload files:	⌘|U",
+                      "id": "shortcuts.files.upload.mac",
+                    },
+                  }
+                }
+              />
+            </div>
+            <div
+              className="section--lower"
+            >
+              <h3
+                className="section-title"
+              >
+                <strong>
+                  Built-in Browser Commands
+                </strong>
+              </h3>
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Back in history:	Alt|Left",
+                      "id": "shortcuts.browser.channel_prev",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Back in history:	⌘|[",
+                      "id": "shortcuts.browser.channel_prev.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Forward in history:	Alt|Right",
+                      "id": "shortcuts.browser.channel_next",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Forward in history:	⌘|]",
+                      "id": "shortcuts.browser.channel_next.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Zoom in:	Ctrl|+",
+                      "id": "shortcuts.browser.font_increase",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Zoom in:	⌘|+",
+                      "id": "shortcuts.browser.font_increase.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Zoom out:	Ctrl|-",
+                      "id": "shortcuts.browser.font_decrease",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Zoom out:	⌘|-",
+                      "id": "shortcuts.browser.font_decrease.mac",
+                    },
+                  }
+                }
+              />
+              <span>
+                <strong>
+                  Works inside an input field
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Highlight text to the previous line:	Shift|Up",
+                      "id": "shortcuts.browser.highlight_prev",
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Highlight text to the next line:	Shift|Down",
+                      "id": "shortcuts.browser.highlight_next",
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "defaultMessage": "Create a new line:	Shift|Enter",
+                      "id": "shortcuts.browser.newline",
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="info__label"
+      >
+        Begin a message with / for a list of all the commands at your disposal.
+      </div>
+    </ModalBody>
+  </div>
+</Modal>
+`;

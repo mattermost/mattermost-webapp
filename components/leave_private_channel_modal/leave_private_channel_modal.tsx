@@ -8,10 +8,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import ConfirmModal from 'components/confirm_modal';
 
-type State = {
-    show: boolean;
-};
-
 type Props = {
     channel: Channel;
     onExited: () => void;
@@ -19,6 +15,10 @@ type Props = {
         leaveChannel: (channelId: string) => any;
     };
 }
+
+type State = {
+    show: boolean;
+};
 
 export default class LeavePrivateChannelModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {

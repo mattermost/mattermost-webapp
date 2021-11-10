@@ -13,15 +13,15 @@ import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import {localizeMessage} from 'utils/utils';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
-import {PropsFromRedux} from './index';
+import type {PropsFromRedux} from './index';
 
-type Props = {
+interface Props extends PropsFromRedux {
     channel: Channel;
     currentTeamName: string;
     isCollapsed: boolean;
-};
+}
 
-export default class SidebarBaseChannel extends React.PureComponent<Props & PropsFromRedux> {
+export default class SidebarBaseChannel extends React.PureComponent<Props> {
     handleLeavePublicChannel = () => {
         this.props.actions.leaveChannel(this.props.channel.id);
         trackEvent('ui', 'ui_public_channel_x_button_clicked');

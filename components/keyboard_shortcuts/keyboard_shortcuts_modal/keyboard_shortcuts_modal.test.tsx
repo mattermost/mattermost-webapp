@@ -2,19 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallow} from 'enzyme';
 
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
-describe('components/KeyboardShortcutsModal', () => {
-    const baseProps = {
-        onExited: jest.fn(),
+jest.mock('react-intl', () => {
+    const reactIntl = jest.requireActual('react-intl');
+    return {
+        ...reactIntl,
+        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
     };
+});
 
+describe('components/KeyboardShortcutsModal', () => {
     test('should match snapshot modal', () => {
-        const wrapper = mountWithIntl(
-            <KeyboardShortcutsModal {...baseProps}/>,
+        const wrapper = shallow(
+            <KeyboardShortcutsModal onExited={jest.fn()}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

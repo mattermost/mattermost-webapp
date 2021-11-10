@@ -223,9 +223,12 @@ describe('executeCommand', () => {
             const result = await store.dispatch(executeCommand('/leave', {}));
 
             const actionDispatch = store.getActions()[0];
-            expect(actionDispatch.type).toEqual(ActionTypes.MODAL_OPEN);
-            expect(actionDispatch.modalId).toEqual(ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL);
-            expect(actionDispatch.dialogProps).toEqual({channel: {type: Constants.PRIVATE_CHANNEL}});
+
+            expect(actionDispatch).toMatchObject({
+                type: ActionTypes.MODAL_OPEN,
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogProps: {channel: {type: Constants.PRIVATE_CHANNEL}},
+            });
 
             expect(result).toEqual({data: true});
         });

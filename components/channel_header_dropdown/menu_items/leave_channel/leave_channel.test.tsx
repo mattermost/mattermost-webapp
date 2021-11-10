@@ -8,10 +8,10 @@ import Menu from 'components/widgets/menu/menu';
 
 import {TestHelper} from 'utils/test_helper';
 
-import LeaveChannel, {Props} from './leave_channel';
+import LeaveChannel from './leave_channel';
 
 describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
-    const baseProps: Props = {
+    const baseProps = {
         channel: TestHelper.getChannelMock({
             id: 'channel_id',
             type: 'O',
