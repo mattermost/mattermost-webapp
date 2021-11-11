@@ -7,11 +7,11 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions.jsx';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-import ConfirmModal from 'components/confirm_modal';
+import ConfirmModalRedux from 'components/confirm_modal_redux';
 import RootPortal from 'components/root_portal';
 import UserLimitModal from 'components/user_limit_modal/user_limit_modal';
 
-import {InviteTypes} from 'utils/constants';
+import {InviteTypes, ModalIdentifiers} from 'utils/constants';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step';
@@ -66,8 +66,6 @@ export default class InvitationModal extends React.PureComponent {
             prevStep: null,
             lastInviteChannels: [],
             lastInviteMessage: '',
-            confirmModal: false,
-            confirmBack: false,
             hasChanges: false,
             invitesType: InviteTypes.INVITE_MEMBER,
             invitesSent: [],
@@ -87,6 +85,35 @@ export default class InvitationModal extends React.PureComponent {
         }
     }
 
+    showConfirmModal = (onConfirm) => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CONFIRM,
+            dialogType: ConfirmModalRedux,
+            dialogProps: {
+                title: (
+                    <FormattedMessage
+                        id='invitation-modal.discard-changes.title'
+                        defaultMessage='Discard Changes'
+                    />
+                ),
+                message: (
+                    <FormattedMessage
+                        id='invitation-modal.discard-changes.message'
+                        defaultMessage='You have unsent invitations, are you sure you want to discard them?'
+                    />
+                ),
+                confirmButtonText: (
+                    <FormattedMessage
+                        id='invitation-modal.discard-changes.button'
+                        defaultMessage='Yes, Discard'
+                    />
+                ),
+                modalClass: 'invitation-modal-confirm',
+                onConfirm,
+            },
+        });
+    }
+
     goToFirstStep = () => {
         if (this.props.canAddUsers && this.props.canInviteGuests) {
             this.goToInitialStep();
@@ -101,7 +128,7 @@ export default class InvitationModal extends React.PureComponent {
 
     goToInitialStep = () => {
         if (this.state.hasChanges) {
-            this.setState({confirmBack: true});
+            this.showConfirmModal(this.confirmBack);
         } else {
             this.setState({step: STEPS_INITIAL, hasChanges: false, lastInviteChannels: [], lastInviteMesssage: '', prevStep: this.state.step});
         }
@@ -157,27 +184,18 @@ export default class InvitationModal extends React.PureComponent {
 
     close = () => {
         if (this.state.hasChanges) {
-            this.setState({confirmModal: true});
+            this.showConfirmModal(this.confirmClose);
         } else {
             this.props.actions.closeModal();
         }
     }
 
     confirmBack = () => {
-        this.setState({step: STEPS_INITIAL, hasChanges: false, confirmBack: false});
-    }
-
-    cancelBack= () => {
-        this.setState({confirmBack: false});
+        this.setState({step: STEPS_INITIAL, hasChanges: false});
     }
 
     confirmClose = () => {
         this.props.actions.closeModal();
-        this.setState({confirmModal: false});
-    }
-
-    cancelClose = () => {
-        this.setState({confirmModal: false});
     }
 
     onMembersSubmit = async (users, emails, extraText) => {
@@ -248,30 +266,6 @@ export default class InvitationModal extends React.PureComponent {
                     data-testid='invitationModal'
                     className='InvitationModal'
                 >
-                    <ConfirmModal
-                        show={this.state.confirmModal || this.state.confirmBack}
-                        title={
-                            <FormattedMessage
-                                id='invitation-modal.discard-changes.title'
-                                defaultMessage='Discard Changes'
-                            />
-                        }
-                        message={
-                            <FormattedMessage
-                                id='invitation-modal.discard-changes.message'
-                                defaultMessage='You have unsent invitations, are you sure you want to discard them?'
-                            />
-                        }
-                        confirmButtonText={
-                            <FormattedMessage
-                                id='invitation-modal.discard-changes.button'
-                                defaultMessage='Yes, Discard'
-                            />
-                        }
-                        modalClass='invitation-modal-confirm'
-                        onConfirm={this.state.confirmModal ? this.confirmClose : this.confirmBack}
-                        onCancel={this.state.confirmModal ? this.cancelClose : this.cancelBack}
-                    />
                     {this.state.step === STEPS_INITIAL &&
                     <InvitationModalInitialStep
                         teamName={this.props.currentTeam.display_name}

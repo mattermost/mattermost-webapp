@@ -13,31 +13,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
         className="InvitationModal"
         data-testid="invitationModal"
       >
-        <ConfirmModal
-          confirmButtonClass="btn btn-primary"
-          confirmButtonText={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Yes, Discard"
-              id="invitation-modal.discard-changes.button"
-            />
-          }
-          message={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-              id="invitation-modal.discard-changes.message"
-            />
-          }
-          modalClass="invitation-modal-confirm"
-          onCancel={[Function]}
-          onConfirm={[Function]}
-          show={false}
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Discard Changes"
-              id="invitation-modal.discard-changes.title"
-            />
-          }
-        />
         <InvitationModalInitialStep
           emailInvitationsEnabled={true}
           goToGuests={[Function]}
@@ -63,31 +38,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         className="InvitationModal"
         data-testid="invitationModal"
       >
-        <ConfirmModal
-          confirmButtonClass="btn btn-primary"
-          confirmButtonText={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Yes, Discard"
-              id="invitation-modal.discard-changes.button"
-            />
-          }
-          message={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-              id="invitation-modal.discard-changes.message"
-            />
-          }
-          modalClass="invitation-modal-confirm"
-          onCancel={[Function]}
-          onConfirm={[Function]}
-          show={false}
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Discard Changes"
-              id="invitation-modal.discard-changes.title"
-            />
-          }
-        />
         <Connect(_class)
           currentTeamId="test"
           defaultChannels={Array []}
@@ -119,31 +69,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         className="InvitationModal"
         data-testid="invitationModal"
       >
-        <ConfirmModal
-          confirmButtonClass="btn btn-primary"
-          confirmButtonText={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Yes, Discard"
-              id="invitation-modal.discard-changes.button"
-            />
-          }
-          message={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-              id="invitation-modal.discard-changes.message"
-            />
-          }
-          modalClass="invitation-modal-confirm"
-          onCancel={[Function]}
-          onConfirm={[Function]}
-          show={false}
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Discard Changes"
-              id="invitation-modal.discard-changes.title"
-            />
-          }
-        />
         <Connect(injectIntl(_class))
           currentTeamId="test"
           emailInvitationsEnabled={true}
@@ -188,31 +113,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         className="InvitationModal"
         data-testid="invitationModal"
       >
-        <ConfirmModal
-          confirmButtonClass="btn btn-primary"
-          confirmButtonText={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Yes, Discard"
-              id="invitation-modal.discard-changes.button"
-            />
-          }
-          message={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-              id="invitation-modal.discard-changes.message"
-            />
-          }
-          modalClass="invitation-modal-confirm"
-          onCancel={[Function]}
-          onConfirm={[Function]}
-          show={false}
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Discard Changes"
-              id="invitation-modal.discard-changes.title"
-            />
-          }
-        />
         <InvitationModalInitialStep
           emailInvitationsEnabled={true}
           goToGuests={[Function]}
