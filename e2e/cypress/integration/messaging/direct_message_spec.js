@@ -70,10 +70,10 @@ describe('Direct Message', () => {
             cy.get('#edit_textbox').should('have.text', originalMessage).type(' World{enter}');
             cy.get('#editPostModal').should('not.exist');
 
-            // * Verify that last post does contain (edited)
+            // * Verify that last post does contain "Edited"
             cy.getLastPostId().then((postId) => {
                 const postEdited = `#postEdited_${postId}`;
-                cy.get(postEdited).should('be.visible');
+                cy.get(postEdited).should('be.visible').and('have.text', 'Edited');
             });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);
 
@@ -93,7 +93,7 @@ describe('Direct Message', () => {
                 const postEdited = `#postEdited_${postId}`;
 
                 // * Check the post and verify that it contains new edited message.
-                cy.get(postText).should('have.text', editedMessage);
+                cy.get(postText).should('have.text', `${editedMessage} Edited`);
                 cy.get(postEdited).should('be.visible');
             });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);
@@ -170,24 +170,14 @@ describe('Direct Message', () => {
         // # Visit the DM channel
         cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
 
-        // # Clicks on Mute Channel
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelToggleMuteChannel button').click().then(() => {
-                // * Assert that channel is muted
-                cy.get('#toggleMute').should('be.visible');
-            });
-        });
+        // # Open channel menu and click Mute Conversation
+        cy.uiOpenChannelMenu('Mute Conversation');
 
         // * Assert that channel appears as muted on the LHS
         cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').first().should('contain', otherUser.username);
 
-        // # Clicks on UnMute Channel
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelToggleMuteChannel button').click().then(() => {
-                // * Assert that channel is unmuted
-                cy.get('#toggleMute').should('not.exist');
-            });
-        });
+        // # Open channel menu and click Unmute Conversation
+        cy.uiOpenChannelMenu('Unmute Conversation');
 
         // * Assert that channel does not appear as muted on the LHS
         cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').should('not.exist');

@@ -4,7 +4,7 @@ import React from 'react';
 
 import {useSelector} from 'react-redux';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -53,6 +53,8 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
 };
 
 const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
+    const {formatMessage} = useIntl();
+
     return (
         <>
             {setHeader}
@@ -67,23 +69,16 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
                         defaultMessage='Let’s add some people to the workspace!'
                     />
                     <ToggleModalButtonRedux
-                        accessibilityLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
+                        ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
                         dialogType={InvitationModal}
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='icon-email-plus-outline'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <i
+                            className='icon-email-plus-outline'
+                            title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
+                        />
                         <FormattedMessage
                             id='intro_messages.inviteOthersToWorkspace.button'
                             defaultMessage='Invite others to the workspace'
@@ -102,6 +97,9 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
         return null;
     }
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+
+    const {formatMessage} = useIntl();
+
     return (
         <div className='MoreThanMaxFreeUsersWrapper'>
             <div className='MoreThanMaxFreeUsers'>
@@ -115,17 +113,10 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                         dialogType={modal}
                         dialogProps={{channel}}
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='icon-account-plus-outline'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <i
+                            className='icon-account-plus-outline'
+                            title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
+                        />
                         {isPrivate && channel.group_constrained &&
                             <FormattedMessage
                                 id='intro_messages.inviteGropusToChannel.button'

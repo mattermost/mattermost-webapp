@@ -13,22 +13,22 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    let townsquareLink;
+    let offtopiclink;
 
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+            offtopiclink = `/${team.name}/channels/off-topic`;
+            cy.visit(offtopiclink);
         });
     });
 
     it('MM-T99 Edit Post with attachment, paste text in middle', () => {
         // # Got to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_off-topic').click({force: true});
 
         // * Validate if the channel has been opened
-        cy.url().should('include', townsquareLink);
+        cy.url().should('include', offtopiclink);
 
         // # Upload a file on center view
         cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
@@ -55,7 +55,7 @@ describe('Messaging', () => {
             cy.get('#editButton').click();
 
             // * Assert post message should contain 'This is sample add text'
-            cy.get(`#postMessageText_${postID}`).should('have.text', 'This is sample add text');
+            cy.get(`#postMessageText_${postID}`).should('have.text', 'This is sample add text Edited');
 
             cy.get(`#${postID}_message`).within(() => {
                 // * Assert file attachment should still exist

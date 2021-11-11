@@ -130,8 +130,7 @@ context('LDAP SAML - Automated Tests (SAML TESTS)', () => {
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
                             cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                                cy.toAccountSettingsModal();
-                                cy.get('#securityButton').click();
+                                cy.uiOpenProfileModal('Security');
                                 cy.findByTestId('viewAccessHistory').click();
                                 cy.findByTestId('auditTableBody').find('td').
                                     each(($el) => {

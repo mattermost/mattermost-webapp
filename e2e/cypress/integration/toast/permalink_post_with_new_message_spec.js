@@ -15,36 +15,39 @@ import {getRandomId} from '../../utils';
 describe('Toast', () => {
     let testTeam;
     let otherUser;
-    let townsquareChannelId;
+    let testChannelId;
+    let testChannelUrl;
     let postIdToJumpTo;
     const numberOfPosts = 30;
 
     before(() => {
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiCreateUser().then(({user}) => {
+            otherUser = user;
+        });
+
+        cy.apiInitSetup().then(({team, channel, user, channelUrl}) => {
             testTeam = team;
+            testChannelId = channel.id;
+            testChannelUrl = channelUrl;
 
-            cy.apiCreateUser().then(({user}) => {
-                otherUser = user;
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
+            cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                cy.apiAddUserToChannel(testChannelId, otherUser.id);
+
+                cy.apiLogin(user);
+                cy.visit(testChannelUrl);
             });
-
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
-                townsquareChannelId = channel.id;
-            });
-
-            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     it('MM-T1794 Permalink post view combined with New Message toast', () => {
-        // # Post 30 random messages from the 'otherUser' account in Town Square
+        // # Post 30 random messages from the 'otherUser' account in test channel
         Cypress._.times(numberOfPosts, (num) => {
             if (num === 2) {
                 cy.getLastPostId().then((postId) => {
                     postIdToJumpTo = postId;
                 });
             }
-            cy.postMessageAs({sender: otherUser, message: `${num} ${getRandomId()}`, channelId: townsquareChannelId});
+            cy.postMessageAs({sender: otherUser, message: `${num} ${getRandomId()}`, channelId: testChannelId});
         });
 
         cy.getLastPostId().then((id) => {
@@ -66,14 +69,14 @@ describe('Toast', () => {
             cy.getLastPost().get('.post-message__text a').last().scrollIntoView().click();
 
             // * check the URL should be changed to permalink post
-            cy.url().should('include', `/${testTeam.name}/channels/town-square/${id}`);
+            cy.url().should('include', `${testChannelUrl}/${id}`);
 
             // # Scroll to the second post in the channel so that the 'Jump to New Messages' button would be visible
             cy.get(`#postMessageText_${postIdToJumpTo}`).scrollIntoView();
 
             // # Post two new messages as 'otherUser'
-            cy.postMessageAs({sender: otherUser, message: 'Random Message', channelId: townsquareChannelId});
-            cy.postMessageAs({sender: otherUser, message: 'Last Message', channelId: townsquareChannelId});
+            cy.postMessageAs({sender: otherUser, message: 'Random Message', channelId: testChannelId});
+            cy.postMessageAs({sender: otherUser, message: 'Last Message', channelId: testChannelId});
 
             // * Verify that the last message is currently not visible
             cy.findByText('Last Message').should('not.be.visible');
@@ -85,7 +88,7 @@ describe('Toast', () => {
             cy.findByText('Last Message').should('be.visible');
 
             // * Verify that the URL changes to the channel url
-            cy.url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', id);
+            cy.url().should('include', testChannelUrl).and('not.include', id);
         });
     });
 });

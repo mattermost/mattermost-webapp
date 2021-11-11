@@ -158,20 +158,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              definitionKey="user_management.channels_feature_discovery"
-              key="user_management.channels_feature_discovery"
-              name="user_management/channels"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Channels"
-                  id="admin.sidebar.channels"
-                />
-              }
-            />
-            <AdminSidebarSection
               definitionKey="user_management.system_roles_feature_discovery"
               key="user_management.system_roles_feature_discovery"
               name="user_management/system_roles"
@@ -541,6 +527,34 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Users"
                   id="admin.sidebar.users"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.teams"
+              key="user_management.teams"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.channel"
+              key="user_management.channel"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
                 />
               }
             />
@@ -2331,20 +2345,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Groups"
                   id="admin.sidebar.groups"
-                />
-              }
-            />
-            <AdminSidebarSection
-              definitionKey="user_management.channels_feature_discovery"
-              key="user_management.channels_feature_discovery"
-              name="user_management/channels"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Channels"
-                  id="admin.sidebar.channels"
                 />
               }
             />

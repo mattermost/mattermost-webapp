@@ -30,15 +30,17 @@ describe('Search Date Filter', () => {
     } = testData;
     const admin = getAdminAccount();
     let anotherAdmin;
+    let channelName;
 
     before(() => {
-        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
+        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, channel, user, channelUrl}) => {
             anotherAdmin = user;
+            channelName = channel.name;
 
-            // # Visit town-square
-            cy.visit(`/${team.name}/channels/town-square`);
+            // # Visit test channel
+            cy.visit(channelUrl);
 
-            setupTestData(testData, {team, admin, anotherAdmin});
+            setupTestData(testData, {team, channel, admin, anotherAdmin});
         });
     });
 
@@ -55,7 +57,7 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T3994_1 on: can be used in conjunction with "in:"', () => {
-        searchAndValidate(`on:${secondDateEarly.query} in:town-square ${commonText}`, [secondMessage]);
+        searchAndValidate(`on:${secondDateEarly.query} in:${channelName} ${commonText}`, [secondMessage]);
     });
 
     it('MM-T3994_2 on: can be used in conjunction with "from:"', () => {
@@ -63,7 +65,7 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T3994_3 on: re-add "in:" in conjunction with "from:"', () => {
-        searchAndValidate(`on:${secondDateEarly.query} in:town-square from:${anotherAdmin.username} ${commonText}`);
+        searchAndValidate(`on:${secondDateEarly.query} in:${channelName} from:${anotherAdmin.username} ${commonText}`);
     });
 
     it('MM-T604 Use "on:" to return only results from today', () => {

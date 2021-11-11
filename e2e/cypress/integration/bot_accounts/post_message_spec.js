@@ -11,7 +11,7 @@
 // Group: @bot_accounts
 
 describe('Bot post message', () => {
-    let townsquareChannel;
+    let offTopicChannel;
 
     before(() => {
         // # Set ServiceSettings to expected values
@@ -24,10 +24,10 @@ describe('Bot post message', () => {
         cy.apiUpdateConfig(newSettings);
 
         cy.apiInitSetup().then(({team}) => {
-            cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
-                townsquareChannel = channel;
+            cy.apiGetChannelByName(team.name, 'off-topic').then(({channel}) => {
+                offTopicChannel = channel;
             });
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
         });
     });
 
@@ -40,19 +40,17 @@ describe('Bot post message', () => {
             // # Get token from bot's id
             cy.apiAccessToken(botUserId, 'Create token').then(({token}) => {
                 //# Add bot to team
-                cy.apiAddUserToTeam(townsquareChannel.team_id, botUserId);
+                cy.apiAddUserToTeam(offTopicChannel.team_id, botUserId);
 
                 // # Post message as bot through api with auth token
                 const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
-                cy.postBotMessage({token, message, props, channelId: townsquareChannel.id}).
+                cy.postBotMessage({token, message, props, channelId: offTopicChannel.id}).
                     its('id').
                     should('exist').
                     as('botPost');
 
-                // # Go to the channel
-                cy.get('#sidebarItem_town-square').click({force: true});
-
                 // * Verify bot message
+                cy.uiWaitUntilMessagePostedIncludes(message);
                 cy.get('@botPost').then((postId) => {
                     cy.get(`#postMessageText_${postId}`).
                         should('be.visible').

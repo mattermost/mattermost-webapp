@@ -92,17 +92,31 @@ export function gotoGlobalPolicy() {
 }
 
 export function editGlobalPolicyMessageRetention(input, result) {
-    // # Click message retention dropdown
-    cy.get('.DataRetentionSettings #global_direct_message_dropdown #DropdownInput_channel_message_retention').should('be.visible').click();
+    cy.get('.DataRetentionSettings #global_direct_message_dropdown #DropdownInput_channel_message_retention').as('dropDown');
 
-    // # Select days from message retention dropdown
+    // * Checking if Global Policy is already created
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/data_retention/policy',
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        if (response.body.message_deletion_enabled === true) {
+            // # Click message retention dropdown and select 'Keep forever' option
+            cy.get('@dropDown').click();
+            cy.get('.channel_message_retention_dropdown__menu .channel_message_retention_dropdown__option span.option_forever').should('be.visible').click();
+        }
+    });
+
+    // # Click message retention dropdown and select 'Days' option
+    cy.get('@dropDown').click();
     cy.get('.channel_message_retention_dropdown__menu .channel_message_retention_dropdown__option span.option_days').should('be.visible').click();
 
     // # Input retention days
     cy.get('.DataRetentionSettings #global_direct_message_dropdown input#channel_message_retention_input').clear().type(input);
 
     // # Save Global Policy
-    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
+    cy.findByRole('button', {name: 'Save'}).should('be.visible').click();
 
     // * Assert global policy data table is visible
     cy.get('#global_policy_table .DataGrid').should('be.visible');
@@ -124,7 +138,7 @@ export function editGlobalPolicyFileRetention(input, result) {
     cy.get('.DataRetentionSettings #global_file_dropdown input#file_retention_input').clear().type(input);
 
     // # Save Global Policy
-    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
+    cy.findByRole('button', {name: 'Save'}).should('be.visible').click();
 
     // * Assert global policy data table is visible
     cy.get('#global_policy_table .DataGrid').should('be.visible');
@@ -133,4 +147,36 @@ export function editGlobalPolicyFileRetention(input, result) {
     cy.findByTestId('global_file_retention_cell').within(() => {
         cy.get('span').should('have.text', result);
     });
+}
+
+export function runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText) {
+    cy.uiGoToDataRetentionPage();
+
+    cy.findByRole('button', {name: 'Run Deletion Job Now'}).click();
+
+    // # Small wait to ensure new row is add
+    cy.wait(TIMEOUTS.FIVE_SEC);
+
+    // # Waiting for Data Retention process to finish
+    cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
+    cy.get('@firstRow').within(() => {
+        cy.get('td:eq(1)', {timeout: TIMEOUTS.FOUR_MIN}).should('have.text', 'Success');
+    });
+
+    // * Verifying if post has been deleted
+    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+    cy.reload();
+    cy.findAllByTestId('postView').should('have.length', 1);
+    cy.findAllByTestId('postView').should('not.contain', postText);
+}
+
+export function verifyPostNotDeleted(testTeam, testChannel, postText, expectedNoOfPosts = 2) {
+    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+    cy.findAllByTestId('postView').should('have.length', expectedNoOfPosts);
+
+    if (expectedNoOfPosts === 2) {
+        cy.findAllByTestId('postView').should('contain', postText);
+    } else {
+        cy.findAllByTestId('postView').should('not.contain', postText);
+    }
 }

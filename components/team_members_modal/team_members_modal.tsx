@@ -11,6 +11,8 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import MemberListTeam from 'components/member_list_team';
 import InvitationModal from 'components/invitation_modal';
 
+import {ModalData} from 'types/actions';
+
 import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
@@ -21,9 +23,7 @@ type Props = {
     onHide: () => void;
     onLoad?: () => void;
     actions: {
-        openModal: (modalData: {modalId: string; dialogType: any}) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 

@@ -96,8 +96,8 @@ export function doTestDMChannelSidebar(testUsers) {
     // # Click on the result to add user
     cy.get('@result').click({force: true});
 
-    // # Click on save
-    cy.get('#saveItems').click();
+    // # Click "Go"
+    cy.uiGetButton('Go').click();
 
     // # Should land on direct message channel for that user
     cy.get('#channelHeaderTitle').should('have.text', thor.username + ' ');

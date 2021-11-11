@@ -15,8 +15,8 @@ import {getRandomId} from '../../utils';
 describe('Teams Suite', () => {
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
             cy.postMessage('hello');
         });
     });
@@ -44,7 +44,6 @@ describe('Teams Suite', () => {
 
         // * check url is correct
         cy.url().should('include', teamURL + '/channels/town-square');
-        cy.postMessage('again');
 
         // * Team name should displays correctly at top of LHS
         cy.uiGetLHSHeader().findByText(teamName);

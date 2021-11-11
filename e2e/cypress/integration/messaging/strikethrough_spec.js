@@ -14,9 +14,9 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -60,13 +60,14 @@ describe('Messaging', () => {
         cy.get('#suggestionList').should('not.exist');
 
         // # Save the changes
-        cy.get('#editButton').click({force: true});
+        cy.uiSave();
 
         cy.getLastPostId().then((postId) => {
-            // * Message strikedthrough should be the same message we posted
-            cy.get(`#postMessageText_${postId}`).find('del').should('contain', message).
-                and('have.css', 'text-decoration', 'line-through solid rgb(63, 67, 80)');
-            cy.get(`#postEdited_${postId}`).should('be.visible').and('have.text', '(edited)');
+            // * Strikethrough message should be the same message we posted
+            cy.get(`#postMessageText_${postId}`).
+                should('have.text', `${message} Edited`).
+                find('del').
+                should('contain', message);
         });
     });
 });
