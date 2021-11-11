@@ -1,3 +1,34 @@
-.ee_license_modal {
+.EELicenseModal {
+    .modal-header {
+        background: none !important;
+        button.close {
+            span {
+                color: rgba(63, 67, 80, 0.56) !important;
+            }
+        }
+    }
 
+    .title {
+        font-family: Metropolis;
+        font-size: 22px;
+        line-height: 28px;
+        color: #3F4350;
+    }
+
+    .enterprise-license-text {
+        max-height: 350px;
+        overflow-y: auto;
+    }
+
+    .content-footer {
+        display: flex;
+
+        button {
+            margin-left: auto;
+        }
+    }
+
+    .modal-footer {
+        border-top: none !important;
+    }
 }

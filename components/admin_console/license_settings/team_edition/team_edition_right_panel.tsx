@@ -60,7 +60,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                         >
                             <FormattedMessage
                                 id='admin.license.enterprise.upgrade'
-                                defaultMessage='Upgrade to Enterprise Edition'
+                                defaultMessage='Upgrade'
                             />
                         </LoadingWrapper>
                     </button>
@@ -68,7 +68,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                 <p className='upgrade-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.enterprise.upgrade.acceptTermsInitial'
-                        defaultMessage='By clicking **Upgrade**, I agree to the terms of the Mattermost'
+                        defaultMessage='By clicking **Upgrade**, I agree to the terms of the Mattermost '
                     />
                     <a
                         role='button'
@@ -81,11 +81,11 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                     </a>
                     <FormattedMarkdownMessage
                         id='admin.license.enterprise.upgrade.acceptTermsFinal'
-                        defaultMessage='Upgrading will download the binary and update your team edition.'
+                        defaultMessage=' .Upgrading will download the binary and update your team edition.'
                     />
                 </p>
                 {upgradeError && (
-                    <div className='col-sm-12'>
+                    <div className='upgrade-error'>
                         <div className='form-group has-error'>
                             <label className='control-label'>
                                 <span
@@ -99,8 +99,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                 )}
             </div>
         );
-    }
-    if (upgradingPercentage === 100) {
+    } else if (upgradingPercentage === 100) {
         upgradeButton = (
             <div>
                 <p>
@@ -143,27 +142,31 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
     }
 
     return (
-        <div className='team-edition-right-pannel'>
-            <WomanUpArrowsAndCloudsSvg
-                width={200}
-                height={200}
-            />
+        <div className='teamEditionRightPannel'>
+            <div className='svg-image'>
+                <WomanUpArrowsAndCloudsSvg
+                    width={100}
+                    height={100}
+                />
+            </div>
             <div className='upgrade-title'>
                 {'Upgrade to the Enterprise Edition'}
             </div>
             <div className='upgrade-subtitle'>
                 {'A license is required to unlock enterprise fatures'}
             </div>
-            {upgradeAdvantages.map((item: string, i: number) => {
-                return (
-                    <div
-                        className='advantages-list'
-                        key={i.toString()}
-                    >
-                        <i className='fa fa-lock'/>{item}
-                    </div>
-                );
-            })}
+            <div className='advantages-list'>
+                {upgradeAdvantages.map((item: string, i: number) => {
+                    return (
+                        <div
+                            className='item'
+                            key={i.toString()}
+                        >
+                            <i className='fa fa-lock'/>{item}
+                        </div>
+                    );
+                })}
+            </div>
             {upgradeButton}
         </div>
     );

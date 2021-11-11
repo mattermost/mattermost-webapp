@@ -23,7 +23,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import Markdown from 'components/markdown/markdown';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {AboutLinks, ModalIdentifiers} from 'utils/constants';
 
 import {ModalData} from 'types/actions';
 
@@ -32,7 +32,7 @@ import TrialLicenseCard from './trial_license_card/trial_license_card';
 
 import './license_settings.scss';
 
-import TeamEdition from './team_edition/team_edition';
+import TeamEditionLeftPanel from './team_edition/team_edition_left_panel';
 import TeamEditionRightPanel from './team_edition/team_edition_right_panel';
 import EELicenseModal from './ee_license_modal/ee_license_modal';
 
@@ -238,6 +238,35 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         setTimeout(this.checkRestarted, 1000);
     }
 
+    currentPlan = (
+        <div className='current-plan-legend'>
+            <i className='icon-check-circle'/>
+            {'Current Plan'}
+        </div>
+    );
+
+    createLink = (link: string, text: string) => {
+        return (
+            <a
+                target='_blank'
+                id='privacyLink'
+                rel='noopener noreferrer'
+                href={link}
+            >
+                {text}
+            </a>
+        );
+    }
+
+    termsAndPolicy = (
+        <div className='terms-and-policy'>
+            {'See also '}
+            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Service')}
+            {' and '}
+            {this.createLink(AboutLinks.PRIVACY_POLICY, 'Privacy Policy')}
+        </div>
+    );
+
     renderStartTrial = (isDisabled: boolean, gettingTrialError: JSX.Element | null) => {
         return (
             <React.Fragment>
@@ -404,18 +433,30 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     <div className='admin-console__content'>
                         <div className='top-wrapper'>
                             <div className='left-pannel'>
-                                {(!this.props.enterpriseReady) && <TeamEdition other={'testing'}/>}
+                                <div className='panel-card'>
+                                    {(!this.props.enterpriseReady) &&
+                                        <TeamEditionLeftPanel
+                                            openEELicenseModal={this.openEELicenseModal}
+                                            currentPlan={this.currentPlan}
+                                        />
+                                    }
+                                </div>
+                                {this.termsAndPolicy}
                             </div>
                             <div className='right-pannel'>
-                                <TeamEditionRightPanel
-                                    upgradingPercentage={this.state.upgradingPercentage}
-                                    upgradeError={this.state.upgradeError}
-                                    restartError={this.state.restartError}
-                                    handleRestart={this.handleRestart}
-                                    handleUpgrade={this.handleUpgrade}
-                                    restarting={this.state.restarting}
-                                    openEEModal={this.openEELicenseModal}
-                                />
+                                <div className='panel-card'>
+                                    {(!this.props.enterpriseReady) &&
+                                        <TeamEditionRightPanel
+                                            upgradingPercentage={this.state.upgradingPercentage}
+                                            upgradeError={this.state.upgradeError}
+                                            restartError={this.state.restartError}
+                                            handleRestart={this.handleRestart}
+                                            handleUpgrade={this.handleUpgrade}
+                                            restarting={this.state.restarting}
+                                            openEEModal={this.openEELicenseModal}
+                                        />
+                                    }
+                                </div>
                             </div>
                         </div>
                         <form

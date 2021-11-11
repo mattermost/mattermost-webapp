@@ -7,20 +7,38 @@
 
     .left-pannel {
         width: 568px;
-        padding: 28px 32px;
-        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-        background: var(--sys-center-channel-bg);
-        border-radius: 4px;
-        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+        
+        .panel-card {
+            padding: 28px 32px;
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+            background: var(--sys-center-channel-bg);
+            border-radius: 4px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+        }
     }
 
     .right-pannel {
         width: 332px;
-        padding: 28px 32px;
-        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
         margin-left: 20px;
-        background-color: var(--sys-center-channel-bg);
-        border-radius: 4px;
-        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+
+        .panel-card {
+            padding: 28px 32px;
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+            background: var(--sys-center-channel-bg);
+            border-radius: 4px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+        }
     }
+
+    .terms-and-policy {
+        margin-top: 15px;
+    }
+}
+
+.current-plan-legend {
+    color: #3DB887;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 14px;
 }
