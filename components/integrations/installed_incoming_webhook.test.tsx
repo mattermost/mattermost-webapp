@@ -7,12 +7,13 @@ import {shallow} from 'enzyme';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
-import DeleteIntegration from 'components/integrations/delete_integration';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TestHelper} from '../../utils/test_helper';
+
+import DeleteIntegrationLink from './delete_integration_link/delete_integration_link';
 
 describe('components/integrations/InstalledIncomingWebhook', () => {
     const incomingWebhook: IncomingWebhook = TestHelper.getIncomingWebhookMock({
