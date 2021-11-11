@@ -1,6 +1,7 @@
 .EELicenseModal {
     .modal-header {
         background: none !important;
+
         button.close {
             span {
                 color: rgba(63, 67, 80, 0.56) !important;
@@ -9,14 +10,15 @@
     }
 
     .title {
+        color: #3f4350;
         font-family: Metropolis;
         font-size: 22px;
         line-height: 28px;
-        color: #3F4350;
+        font-weight: 700;
     }
 
     .enterprise-license-text {
-        max-height: 350px;
+        max-height: 250px;
         overflow-y: auto;
     }
 
@@ -25,6 +27,8 @@
 
         button {
             margin-left: auto;
+            margin-top: 10px !important;
+            border-radius: 4px;
         }
     }
 

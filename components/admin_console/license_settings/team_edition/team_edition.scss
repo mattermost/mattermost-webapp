@@ -1,32 +1,36 @@
 .teamEditionRightPannel {
     .svg-image {
         text-align: center;
+
         svg {
             margin: 0 auto;
         }
     }
+
     .upgrade-title {
+        color: #3f4350;
         font-family: Metropolis;
         font-size: 16px;
-        line-height: 24px;
-        color: #3F4350;
         font-weight: 700;
+        line-height: 24px;
     }
+
     .advantages-list {
         margin: 7px 0;
+
         .item {
             margin: 3px 0;
+
             i {
                 margin-right: 5px;
             }
         }
-
     }
 
     button {
-        border-radius: 4px;
         width: 100%;
         margin: 5px auto;
+        border-radius: 4px;
     }
 
     .upgrade-error {
@@ -36,10 +40,10 @@
 
 .teamEditionLeftPannel {
     .title {
+        color: #3f4350;
         font-family: Metropolis;
         font-size: 18px;
-        line-height: 24px;
-        color: #3F4350;
         font-weight: 700;
+        line-height: 24px;
     }
 }
