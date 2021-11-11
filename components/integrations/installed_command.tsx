@@ -11,7 +11,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import {Command} from 'mattermost-redux/types/integrations';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import DeleteIntegration from './delete_integration';
+import DeleteIntegrationLink from './delete_integration_link';
 
 type Props = {
 
@@ -130,7 +130,7 @@ export default class InstalledCommand extends React.PureComponent<Props> {
                         />
                     </Link>
                     {' - '}
-                    <DeleteIntegration
+                    <DeleteIntegrationLink
                         onDelete={this.handleDelete}
                     />
                 </div>

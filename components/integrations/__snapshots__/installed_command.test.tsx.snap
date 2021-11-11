@@ -44,7 +44,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
           />
         </Link>
          - 
-        <DeleteIntegration
+        <Connect(DeleteIntegrationLink)
           onDelete={[Function]}
         />
       </div>
@@ -146,7 +146,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
           />
         </Link>
          - 
-        <DeleteIntegration
+        <Connect(DeleteIntegrationLink)
           onDelete={[Function]}
         />
       </div>
