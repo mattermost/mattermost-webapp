@@ -282,7 +282,10 @@ export default function InviteView(props: Props) {
                         id: 'invitation_modal.members.search_and_add.title',
                         defaultMessage: 'Invite People',
                     })}
-                    onChange={props.onChangeUsersEmails}
+                    onChange={(usersEmails: Array<UserProfile | string>) => {
+                        props.onChangeUsersEmails(usersEmails);
+                        clearMinHeight();
+                    }}
                     value={props.usersEmails}
                     validAddressMessageId={t(
                         'invitation_modal.members.users_emails_input.valid_email',
