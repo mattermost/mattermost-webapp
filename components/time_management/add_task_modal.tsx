@@ -55,7 +55,7 @@ const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const [text, setText] = useState<string>(task);
-    const [selectedDate, setDate] = useState<Date>(currentDate);
+    const [selectedDate, setDate] = useState<Date|null>(null);
     const [selectedTime, setTime] = useState<MenuTime>(timeMenuList[0]);
 
     const handleAddTask = () => {
@@ -132,10 +132,11 @@ const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
                             </div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
-                                value={formatDate(selectedDate)}
+                                value={selectedDate ? formatDate(selectedDate) : ''}
                                 onDayChange={handleSelectDay}
+                                placeholder={formatMessage({id: 'task.unscheduled', defaultMessage: 'Unscheduled'})}
                                 dayPickerProps={{
-                                    selectedDays: selectedDate,
+                                    selectedDays: selectedDate || [],
                                     disabledDays: {
                                         before: currentDate,
                                     },

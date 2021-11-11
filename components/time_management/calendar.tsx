@@ -4,7 +4,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-import {useIntl} from 'react-intl';
 import {useDrop} from 'react-dnd';
 import {useDispatch} from 'react-redux';
 
@@ -23,14 +22,6 @@ const CalendarContainer = styled.div`
     padding: 24px;
     background-color: #FFFFFF;
     border-radius: 8px;
-`;
-
-const CalendarTitle = styled.div`
-    font-family: Metropolis;
-    font-size: 14px;
-    line-height: 24px;
-    margin-bottom: 20px;
-    font-weight: 600;
 `;
 
 const Body = styled.div`
@@ -91,7 +82,6 @@ function calculateMinutesFromStart(dayStart: Date) {
 
 const Calendar = (props: Props) => {
     const {date, dayStart, dayEnd, blocks: defaultBlocks} = props;
-    const {formatDate} = useIntl();
     const dispatch = useDispatch();
     const [blocks, setBlocks] = useState(defaultBlocks);
     const [minutes, setMinutes] = useState(calculateMinutesFromStart(dayStart));
@@ -229,9 +219,6 @@ const Calendar = (props: Props) => {
     drop(ref);
     return (
         <CalendarContainer>
-            <CalendarTitle>
-                {formatDate(date, {month: 'long', weekday: 'long', day: 'numeric'})}
-            </CalendarTitle>
             <Body>
                 {renderHours()}
                 <CurrentTime style={{top: `${currentTimeMarkerPosition}px`}}/>
