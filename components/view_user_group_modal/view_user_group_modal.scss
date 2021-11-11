@@ -1,0 +1,11 @@
+.modal {
+    .view-user-groups-modal {
+        .user-groups-search {
+            margin-bottom: 16px;
+        }
+        .user-groups-list {
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+            padding-top: 16px
+        }
+    }
+}

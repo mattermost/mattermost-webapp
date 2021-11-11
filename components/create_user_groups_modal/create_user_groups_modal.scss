@@ -1,0 +1,7 @@
+.modal {
+    .user-groups-modal-create {
+        &.modal-dialog {
+            margin-top: calc(50vh - 240px);
+        }
+    }
+}

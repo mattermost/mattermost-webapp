@@ -34,11 +34,13 @@ export type Props = {
     // Used if we are adding new members to an existing group
     groupId?: string;
 
-    // skipCommit = true used with onAddCallback will result in users not being committed immediately
+    // skipCommit = true used with onSubmitCallback will result in users not being committed immediately
     skipCommit?: boolean;
 
-    // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-    onAddCallback?: (userProfiles?: UserProfileValue[]) => void;
+    // onSubmitCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
+    onSubmitCallback?: (userProfiles?: UserProfile[]) => Promise<void>;
+    addUserCallback?: (userProfiles: UserProfile[]) => void;
+    deleteUserCallback?: (userProfiles: UserProfile[]) => void;
 
     // These are the optinoal search parameters
     searchOptions?: any;
@@ -48,6 +50,8 @@ export type Props = {
     includeUsers?: Dictionary<UserProfileValue>;
 
     profiles: UserProfileValue[];
+
+    savingEnabled: boolean;
 
     actions: {
         getProfiles: (page?: number, perPage?: number) => Promise<ActionResult>;
@@ -94,6 +98,10 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             values.push(value);
         }
 
+        if (this.props.addUserCallback) {
+            this.props.addUserCallback(values);
+        }
+
         this.setState({values});
     };
 
@@ -126,6 +134,10 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
     };
 
     private handleDelete = (values: UserProfileValue[]): void => {
+        if (this.props.deleteUserCallback) {
+            this.props.deleteUserCallback(values);
+        }
+
         this.setState({values});
     };
 
@@ -156,8 +168,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             return;
         }
 
-        if (this.props.skipCommit && this.props.onAddCallback) {
-            this.props.onAddCallback(this.state.values);
+        if (this.props.skipCommit && this.props.onSubmitCallback) {
+            this.props.onSubmitCallback(this.state.values);
             this.setState({
                 saving: false,
                 inviteError: undefined,
@@ -257,8 +269,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
         }
 
-        const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
-        const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
+        const buttonSubmitText = localizeMessage('multiselect.createGroup', 'Create Group');
+        const buttonSubmitLoadingText = localizeMessage('multiselect.creating', 'Creating...');
 
         let users = filterProfilesStartingWithTerm(this.props.profiles, this.state.term).filter((user) => {
             return user.delete_at === 0 &&
@@ -293,6 +305,7 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
                 valueWithImage={true}
                 focusOnLoad={this.props.focusOnLoad}
+                savingEnabled={this.props.savingEnabled}
             />
         );
     }

@@ -59,6 +59,8 @@ export type Props<T extends Value> = {
     valueRenderer?: (props: {data: T}) => any;
     values: T[];
     focusOnLoad?: boolean;
+    savingEnabled?: boolean;
+    handleCancel?: () => void;
 }
 
 export type State = {
@@ -79,6 +81,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         saveButtonPosition: 'top',
         valueWithImage: false,
         focusOnLoad: true,
+        savingEnabled: true,
     }
 
     public constructor(props: Props<T>) {
@@ -502,7 +505,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     <SaveButton
                         id='saveItems'
                         saving={this.props.saving}
-                        disabled={this.props.saving}
+                        disabled={this.props.saving || !this.props.savingEnabled}
                         onClick={this.handleOnClick}
                         defaultMessage={buttonSubmitText}
                         savingMessage={this.props.buttonSubmitLoadingText}

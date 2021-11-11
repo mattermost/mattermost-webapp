@@ -25,6 +25,7 @@ import Menu from 'components/widgets/menu/menu';
 import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
 import { ModalData } from 'types/actions';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
+import ViewUserGroupModal from 'components/view_user_group_modal';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -145,6 +146,20 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         this.props.onExited();
     }
 
+    goToViewGroupModal = (group: Group) => {
+        const {actions} = this.props;
+
+        actions.openModal({
+            modalId: ModalIdentifiers.VIEW_USER_GROUP,
+            dialogType: ViewUserGroupModal,
+            dialogProps: {
+                groupId: group.id,
+            }
+        });
+
+        this.props.onExited();
+    }
+
     // nextPage = (page: number) => {
     //     this.props.actions.loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE, undefined, undefined, {active: true});
     // }
@@ -154,9 +169,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     // }
 
     render() {
-        if (this.state.loading) {
-            return (<LoadingScreen/>);
-        }
         let groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
 
         return (
@@ -167,6 +179,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='userGroupsModalLabel'
+                id='userGroupsModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
@@ -248,59 +261,68 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         </MenuWrapper>
                     </div>
 
-                    <div className='user-groups-modal__content'>
-                        {groups.map((group) => {
-                            return (
-                                <div className='group-row'>
-                                    <div className='group-display-name'>
-                                        {group.display_name}
-                                    </div>
-                                    <div className='group-name'>
-                                        {'@'}{group.name}
-                                    </div>
-                                    <div className='group-member-count'>
-                                        <FormattedMessage
-                                            id='user_groups_modal.memberCount'
-                                            defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
-                                            values={{
-                                                member_count: group.member_count,
-                                            }}
-                                        />
-                                    </div>
-                                    <div className='group-action'>
-                                        <MenuWrapper
-                                            isDisabled={false}
-                                            stopPropagationOnToggle={true}
-                                            id={`customWrapper-${group.id}`}
-                                        >
-                                            <div className='text-right'>
-                                                <button className='action-wrapper'>
-                                                    <i className='icon icon-dots-vertical'/>
-                                                </button>
-                                            </div>
-                                            <Menu
-                                                openLeft={true}
-                                                openUp={false}
-                                                ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                    <div className='user-groups-modal__content user-groups-list'>
+                        {
+                            this.state.loading ?
+                            <LoadingScreen/> :
+                            (groups.map((group) => {
+                                return (
+                                    <div 
+                                        className='group-row'
+                                        key={group.id}
+                                        onClick={() => {this.goToViewGroupModal(group)}}
+                                    >
+                                        <div className='group-display-name'>
+                                            {group.display_name}
+                                        </div>
+                                        <div className='group-name'>
+                                            {'@'}{group.name}
+                                        </div>
+                                        <div className='group-member-count'>
+                                            <FormattedMessage
+                                                id='user_groups_modal.memberCount'
+                                                defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
+                                                values={{
+                                                    member_count: group.member_count,
+                                                }}
+                                            />
+                                        </div>
+                                        <div className='group-action'>
+                                            <MenuWrapper
+                                                isDisabled={false}
+                                                stopPropagationOnToggle={true}
+                                                id={`customWrapper-${group.id}`}
                                             >
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
-                                                    disabled={false}
-                                                />
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
-                                                    disabled={false}
-                                                />
-                                            </Menu>
-                                        </MenuWrapper>
+                                                <div className='text-right'>
+                                                    <button className='action-wrapper'>
+                                                        <i className='icon icon-dots-vertical'/>
+                                                    </button>
+                                                </div>
+                                                <Menu
+                                                    openLeft={true}
+                                                    openUp={false}
+                                                    ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                                                >
+                                                    <Menu.ItemAction
+                                                        show={true}
+                                                        onClick={() => {}}
+                                                        text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
+                                                        disabled={false}
+                                                    />
+                                                    <Menu.ItemAction
+                                                        show={true}
+                                                        onClick={() => {}}
+                                                        text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
+                                                        disabled={false}
+                                                    />
+                                                </Menu>
+                                            </MenuWrapper>
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            }))
+                        }
+                        
                     </div>
                 </Modal.Body>
             </Modal>

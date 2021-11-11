@@ -121,7 +121,7 @@
 
 body.app__body {
     .channel-invite,
-    .user-groups-modal {
+    .user-groups-modal-create {
         .multi-select__wrapper {
             border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
             background: rgba(var(--center-channel-bg-rgb), 1);
@@ -131,7 +131,7 @@ body.app__body {
 
 body:not(.app__body) {
     .channel-invite,
-    .user-groups-modal {
+    .user-groups-modal-create {
         .multi-select__wrapper {
             border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
             background: rgba(var(--sys-center-channel-bg-rgb), 1);

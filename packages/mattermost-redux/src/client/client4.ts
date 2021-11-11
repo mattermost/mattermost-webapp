@@ -49,6 +49,7 @@ import {
     SyncablePatch,
     UsersWithGroupsAndCount,
     GroupsWithCount,
+    GroupCreateWithUserIds,
 } from 'mattermost-redux/types/groups';
 import {PostActionResponse} from 'mattermost-redux/types/integration_actions';
 import {
@@ -3400,6 +3401,13 @@ export default class Client4 {
             {method: 'get'},
         );
     };
+
+    createGroupWithUserIds = (group: GroupCreateWithUserIds) => {
+        return this.doFetch<Group>(
+            this.getGroupsRoute(),
+            {method: 'post', body: JSON.stringify(group)},
+        );
+    }
 
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible

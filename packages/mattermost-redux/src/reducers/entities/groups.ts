@@ -171,6 +171,7 @@ function stats(state: any = {}, action: GenericAction) {
 
 function groups(state: Dictionary<Group> = {}, action: GenericAction) {
     switch (action.type) {
+    case GroupTypes.CREATE_GROUP_SUCCESS:
     case GroupTypes.PATCHED_GROUP:
     case GroupTypes.RECEIVED_GROUP: {
         return {

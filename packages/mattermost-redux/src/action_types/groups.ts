@@ -42,4 +42,6 @@ export default keyMirror({
     RECEIVED_MY_GROUPS: null,
 
     PATCHED_GROUP: null,
+
+    CREATE_GROUP_SUCCESS: null,
 });

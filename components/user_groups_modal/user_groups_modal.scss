@@ -1,14 +1,23 @@
 @charset 'UTF-8';
 
 .modal {
+    .user-groups-modal-create,
+    .view-user-groups-modal,
     .user-groups-modal {
+        &.modal-dialog {
+            margin-top: 50px;
+        }
+
         .modal-content {
+            border-radius: 8px;
+
             .modal-header {
                 align-items: center;
                 padding: 20px 24px;
                 border: none;
                 background: transparent;
                 color: inherit;
+                min-height: 0;
 
                 a {
                     border: 1px solid var(--button-bg);
@@ -35,6 +44,7 @@
         }
         .modal-body {
             padding: 0px;
+            max-height: 100%;
         }
 
         .user-groups-search {
@@ -110,69 +120,73 @@
                     margin-left: auto;
                 }
             }
-        }
-        
+        }    
 
         .user-groups-modal__content {
             overflow: auto;
 
-            .group-row {
-                display: flex;
-                align-items: center;
-                padding: 18px 32px;
+            &.user-groups-list {
+                margin-bottom: 16px;
+                max-height: 450px;
 
-                &:hover {
-                    cursor: pointer;
-                    background: rgba(var(--center-channel-color-rgb), 0.1);
-                }
-
-                .group-name {
-                    color: rgba(var(--center-channel-color-rgb), 0.64);
-                    padding-left: 8px;
-                }
-
-                .group-member-count {
-                    color: rgba(var(--center-channel-color-rgb), 0.64);
-                    font-size: 12px;
-                    line-height: 16px;
-                    margin-left: auto;
-                    margin-right: 8px;
-                }
-                .group-action {
-                    width: 24px;
-    
-                    .MenuWrapper {
-                        width: 24px;
-                        margin-left: auto;
-                    }
-                }
-    
-                .group-action button.action-wrapper {
-                    border: none;
+                .group-row {
                     display: flex;
-                    width: 24px;
-                    height: 24px;
-                    flex-direction: column;
                     align-items: center;
-                    padding: 6px;
-                    margin-left: auto;
-                    background: transparent;
-                    border-radius: 4px;
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
-                    text-decoration: none;
-
-                    i.icon {
-                        font-size: 14px;
-                        line-height: 14px;
+                    padding: 18px 32px;
+    
+                    &:hover {
+                        cursor: pointer;
+                        background: rgba(var(--center-channel-color-rgb), 0.1);
                     }
-                }
     
-                &:hover .group-action button.action-wrapper i {
-                    display: flex;
-                }
+                    .group-name {
+                        color: rgba(var(--center-channel-color-rgb), 0.64);
+                        padding-left: 8px;
+                    }
     
-                .group-action button.action-wrapper:hover {
-                    background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+                    .group-member-count {
+                        color: rgba(var(--center-channel-color-rgb), 0.64);
+                        font-size: 12px;
+                        line-height: 16px;
+                        margin-left: auto;
+                        margin-right: 8px;
+                    }
+                    .group-action {
+                        width: 24px;
+        
+                        .MenuWrapper {
+                            width: 24px;
+                            margin-left: auto;
+                        }
+                    }
+        
+                    .group-action button.action-wrapper {
+                        border: none;
+                        display: flex;
+                        width: 24px;
+                        height: 24px;
+                        flex-direction: column;
+                        align-items: center;
+                        padding: 6px;
+                        margin-left: auto;
+                        background: transparent;
+                        border-radius: 4px;
+                        color: rgba(var(--center-channel-color-rgb), 0.56);
+                        text-decoration: none;
+    
+                        i.icon {
+                            font-size: 14px;
+                            line-height: 14px;
+                        }
+                    }
+        
+                    &:hover .group-action button.action-wrapper i {
+                        display: flex;
+                    }
+        
+                    .group-action button.action-wrapper:hover {
+                        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+                    }
                 }
             }
 
@@ -187,7 +201,19 @@
                 line-height: 24px;
                 font-weight: 600;
                 color: inherit;
-                padding: 0px 16px;
+                padding: 0px 24px;
+            }
+            .group-add-user {
+                button {
+                    height: 40px;
+                    padding: 0 20px;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+                button[disabled] {
+                    color: rgba(var(--center-channel-color-rgb), 0.32);
+                }
             }
         }
     }

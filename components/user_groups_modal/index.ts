@@ -16,7 +16,7 @@ import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
-import {closeModal, openModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
 
 type Actions = {
@@ -29,7 +29,6 @@ type Actions = {
     setModalSearchTerm: (term: string) => void;
     getGroupsByUserId: (userId: string) => Promise<{data: Group[]}>;
     openModal: <P>(modalData: ModalData<P>) => void;
-    // closeModal: () => void,
 };
 
 function mapStateToProps(state: GlobalState) {

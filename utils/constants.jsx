@@ -342,6 +342,7 @@ export const ModalIdentifiers = {
     CONFIRM: 'confirm',
     USER_GROUPS:'user_groups',
     USER_GROUPS_CREATE: 'user_groups_create',
+    VIEW_USER_GROUP: 'view_user_group',
 };
 
 export const UserStatuses = {

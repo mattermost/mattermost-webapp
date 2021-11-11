@@ -125,3 +125,12 @@ export type UsersWithGroupsAndCount = {
     users: UserWithGroup[];
     total_count: number;
 };
+
+export type GroupCreateWithUserIds = {
+    name: string;
+    allow_reference: boolean;
+    display_name: string;
+    source: string;
+    user_ids: string[];
+    description?: string;
+}

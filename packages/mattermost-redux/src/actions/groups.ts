@@ -5,7 +5,7 @@ import {General, Groups} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GroupPatch, SyncableType, SyncablePatch} from 'mattermost-redux/types/groups';
+import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -303,4 +303,22 @@ export function getGroupStats(groupID: string): ActionFunc {
             groupID,
         ],
     });
+}
+
+export function createGroupWithUserIds(group: GroupCreateWithUserIds): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.createGroupWithUserIds(group);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {type: GroupTypes.CREATE_GROUP_SUCCESS, data},
+        );
+
+        return {data};
+    };
 }
