@@ -3467,6 +3467,7 @@
   "invitation_modal.guests.custom-message.description": "Create a custom message to make your invite more personal.",
   "invitation_modal.guests.custom-message.link": "Set a custom message",
   "invitation_modal.guests.custom-message.title": "Custom message",
+  "invitation_modal.guests.users_emails_input.valid_email": "Invite **{email}** as a guest",
   "invitation_modal.invite_members.exceeded_max_add_members_batch": "No more than **{text}** people can be invited at once",
   "invitation_modal.invite_members.hit_cloud_user_limit": "You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.",
   "invitation_modal.invite.more": "Invite More People",

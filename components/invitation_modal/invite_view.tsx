@@ -287,11 +287,11 @@ export default function InviteView(props: Props) {
                         clearMinHeight();
                     }}
                     value={props.usersEmails}
-                    validAddressMessageId={t(
+                    validAddressMessageId={props.as === As.MEMBER ? t(
                         'invitation_modal.members.users_emails_input.valid_email',
-                    )}
+                    ) : t('invitation_modal.guests.users_emails_input.valid_email')}
                     onBlur={clearMinHeight}
-                    validAddressMessageDefault='Invite **{email}** as a team member'
+                    validAddressMessageDefault={props.as === As.MEMBER ? 'Invite **{email}** as a team member' : 'Invite **{email}** as a guest'}
                     noMatchMessageId={noMatchMessageId}
                     noMatchMessageDefault={noMatchMessageDefault}
                     onInputChange={props.onUsersInputChange}
