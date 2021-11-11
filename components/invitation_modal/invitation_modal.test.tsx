@@ -18,6 +18,7 @@ import CompassThemeProvider from 'components/compass_theme_provider/compass_them
 
 import ResultView from './result_view';
 import InviteView from './invite_view';
+import NoPermissionsView from './no_permissions_view';
 import InvitationModal, {Props, View, InvitationModal as BaseInvitationModal} from './invitation_modal';
 
 type WithIntlProps = {
@@ -65,6 +66,8 @@ const defaultProps: Props = deepFreeze({
     isAdmin: false,
     isCloud: false,
     cloudUserLimit: '',
+    canAddUsers: true,
+    canInviteGuests: true,
     intl: {} as IntlShape,
 });
 
@@ -84,8 +87,18 @@ describe('InvitationModal', () => {
         const wrapper = mount(<WithProviders><InvitationModal {...props}/></WithProviders>);
         wrapper.find(BaseInvitationModal).at(0).setState({view: View.RESULT});
 
-        // wrapper.in
         wrapper.update();
         expect(wrapper.find(ResultView).length).toBe(1);
+    });
+
+    it('shows no permissions view when user can neither invite users nor guests', () => {
+        props = {
+            ...props,
+            canAddUsers: false,
+            canInviteGuests: false,
+        };
+        const wrapper = mount(<WithProviders><InvitationModal {...props}/></WithProviders>);
+
+        expect(wrapper.find(NoPermissionsView).length).toBe(1);
     });
 });

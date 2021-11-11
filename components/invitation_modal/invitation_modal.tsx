@@ -23,6 +23,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
 import InviteView, {InviteState, defaultInviteState} from './invite_view';
+import NoPermissionsView from './no_permissions_view';
 import {As} from './invite_as';
 
 import './invitation_modal.scss';
@@ -57,6 +58,8 @@ export type Props = {
     isCloud: boolean;
     subscriptionStats?: SubscriptionStats | null;
     cloudUserLimit: string;
+    canAddUsers: boolean;
+    canInviteGuests: boolean;
     intl: IntlShape;
 }
 
@@ -85,7 +88,13 @@ export class InvitationModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = defaultState;
+        this.state = {
+            ...defaultState,
+            invite: {
+                ...defaultState.invite,
+                as: (!props.canAddUsers && props.canInviteGuests) ? As.GUEST : defaultState.invite.as,
+            },
+        };
     }
 
     handleHide = () => {
@@ -296,7 +305,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         // 'static' means backdrop clicks do not close
         // true means backdrop clicks do close
         // false means no backdrop
-        if (this.state.view === View.RESULT) {
+        if (this.state.view === View.RESULT || (!this.props.canAddUsers && !this.props.canInviteGuests) || this.state.invite.usersEmailsSearch === 'nopermissions') {
             return true;
         }
 
@@ -313,6 +322,23 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         }
         return true;
     }
+
+    // getDerivedStateFromProps = (props: Props, state: State) => {
+    //     if (state.view === View.NO_PERMISSIONS && (props.canAddUsers || props.canInviteGuests) && state.invite.usersEmailsSearch !== 'nopermissions') {
+    //         return {
+    //             ...state,
+    //             view: View.INVITE,
+    //         };
+    //     }
+
+    //     if (((!props.canAddUsers && !props.canInviteGuests) || state.invite.usersEmailsSearch === 'nopermissions') && state.view !== View.NO_PERMISSIONS) {
+    //         return {
+    //             ...state,
+    //             view: View.NO_PERMISSIONS,
+    //         };
+    //     }
+    //     return state;
+    // }
 
     render() {
         let view = (
@@ -334,6 +360,8 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 onChangeUsersEmails={this.onChangeUsersEmails}
                 onUsersInputChange={this.onUsersInputChange}
                 isCloud={this.props.isCloud}
+                canAddUsers={this.props.canAddUsers}
+                canInviteGuests={this.props.canInviteGuests}
                 subscriptionStats={this.props.subscriptionStats}
                 cloudUserLimit={this.props.cloudUserLimit}
                 headerClass='InvitationModal__header'
@@ -352,6 +380,14 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                     headerClass='InvitationModal__header'
                     footerClass='InvitationModal__footer'
                     {...this.state.result}
+                />
+            );
+        }
+        if (this.state.invite.usersEmailsSearch === 'nopermissions' || (!this.props.canInviteGuests && !this.props.canAddUsers)) {
+            view = (
+                <NoPermissionsView
+                    footerClass='InvitationModal__footer'
+                    onDone={this.handleHide}
                 />
             );
         }

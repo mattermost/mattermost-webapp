@@ -46,7 +46,7 @@ export type InviteState = {
     usersEmailsSearch: string;
 };
 
-type Props = InviteState & {
+export type Props = InviteState & {
     setInviteAs: (as: As) => void;
     invite: () => void;
     onChannelsChange: (channels: Channel[]) => void;
@@ -69,6 +69,8 @@ type Props = InviteState & {
     onUsersInputChange: (usersEmailsSearch: string) => void;
     headerClass: string;
     footerClass: string;
+    canInviteGuests: boolean;
+    canAddUsers: boolean;
 }
 
 function clearMinHeight() {
@@ -222,7 +224,7 @@ export default function InviteView(props: Props) {
         noMatchMessageDefault = 'No one found matching **{text}**';
     }
 
-    const canInvite = useMemo(() => {
+    const isInviteValid = useMemo(() => {
         if (props.as === As.GUEST) {
             return props.inviteChannels.channels.length > 0 && props.usersEmails.length > 0;
         }
@@ -293,12 +295,14 @@ export default function InviteView(props: Props) {
                     inputValue={props.usersEmailsSearch}
                     emailInvitationsEnabled={props.emailInvitationsEnabled}
                 />
+                {props.canInviteGuests && props.canAddUsers &&
                 <InviteAs
                     as={props.as}
                     setInviteAs={props.setInviteAs}
                     inviteToTeamTreatment={props.inviteToTeamTreatment}
                     titleClass='InviteView__sectionTitle'
                 />
+                }
                 {props.as === As.GUEST && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
@@ -316,7 +320,7 @@ export default function InviteView(props: Props) {
             <Modal.Footer className={'InviteView__footer ' + props.footerClass}>
                 {copyButton}
                 <button
-                    disabled={!canInvite}
+                    disabled={!isInviteValid}
                     onClick={props.invite}
                     className={'btn btn-primary'}
                     id='inviteMembersButton'

@@ -3501,6 +3501,8 @@
   "invite_modal.invited_guests": "Guests",
   "invite_modal.invited_members": "Members",
   "invite_modal.members": "members",
+  "invite_modal.no_permissions.description": "You do not have permissions to add users or guests. If this seems like an error, please reach out to your system administrator.",
+  "invite_modal.no_permissions.title": "Oops!",
   "invite_modal.permanent": "**This can't be undone.**",
   "invite_modal.title": "Invite {as} to {team_name}",
   "invite_modal.to": "To:",
