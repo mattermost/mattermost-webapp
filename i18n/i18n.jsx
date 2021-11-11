@@ -178,11 +178,79 @@ export function isLanguageAvailable(locale) {
 export function doAddLocaleData() {
     if (!Intl.PluralRules) {
         // eslint-disable-next-line global-require
-        require('@formatjs/intl-pluralrules/polyfill-locales');
+        require('@formatjs/intl-pluralrules/locale-data/de');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/en');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/es');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/fr');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/it');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/hu');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/nl');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/pl');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/pt');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/ro');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/sv');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/tr');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/bg');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/ru');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/uk');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/ko');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/zh');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/locale-data/ja');
     }
 
     if (!Intl.RelativeTimeFormat) {
         // eslint-disable-next-line global-require
-        require('@formatjs/intl-relativetimeformat/polyfill-locales');
+        require('@formatjs/intl-relativetimeformat/locale-data/de');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/en');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/es');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/fr');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/it');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/hu');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/nl');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/pl');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/pt');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/ro');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/sv');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/tr');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/bg');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/ru');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/uk');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/ko');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/zh');
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/locale-data/ja');
     }
 }
