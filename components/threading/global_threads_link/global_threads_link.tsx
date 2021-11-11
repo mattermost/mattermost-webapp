@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {
-    getThreadCountsInCurrentTeam,
+    getThreadCountsInCurrentTeam, getThreadsInCurrentTeam,
 } from 'mattermost-redux/selectors/entities/threads';
 import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThreads} from 'mattermost-redux/actions/threads';
@@ -53,14 +53,14 @@ const GlobalThreadsLink = () => {
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUser.id, CrtTutorialSteps.WELCOME_POPOVER));
     const crtTutorialTrigger = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_TRIGGERED, getCurrentUserId(state), Constants.CrtTutorialTriggerSteps.START));
     const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER;
-    const threadsCount = useSelector((state: GlobalState) => getThreadCountsInCurrentTeam(state));
-    const showTutorialTrigger = crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount.total > 1;
+    const threadsCount = useSelector((state: GlobalState) => getThreadsInCurrentTeam(state).length);
+    const showTutorialTrigger = crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount > 1;
     const openThreads = useCallback((e) => {
         e.stopPropagation();
         if (showTutorialTrigger) {
             dispatch(openModal({modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL, dialogType: CollapsedReplyThreadsModal, dialogProps: {}}));
         }
-    }, [showTutorialTrigger]);
+    }, [showTutorialTrigger, threadsCount]);
 
     useEffect(() => {
         // load counts if necessary
