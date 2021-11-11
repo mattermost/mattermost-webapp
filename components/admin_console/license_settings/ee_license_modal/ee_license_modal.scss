@@ -15,11 +15,15 @@
         font-size: 22px;
         line-height: 28px;
         font-weight: 700;
+        margin: 10px 0;
     }
 
     .enterprise-license-text {
-        max-height: 250px;
+        max-height: 200px;
         overflow-y: auto;
+        padding: 10px;
+        background: white;
+        text-align: justify;
     }
 
     .content-footer {
@@ -27,7 +31,7 @@
 
         button {
             margin-left: auto;
-            margin-top: 10px !important;
+            margin-top: 15px !important;
             border-radius: 4px;
         }
     }

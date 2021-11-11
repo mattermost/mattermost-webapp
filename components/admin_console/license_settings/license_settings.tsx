@@ -330,25 +330,26 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
         const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
-        if (!this.props.enterpriseReady) { // Team Edition
-            // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-            edition = (
-                <div>
-                    <p>{'Mattermost Starter Edition. A license is required to unlock enterprise features.'}</p>
+        // if (!this.props.enterpriseReady) { // Team Edition
+        //     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
+        //     edition = (
+        //         <div>
+        //             <p>{'Mattermost Starter Edition. A license is required to unlock enterprise features.'}</p>
 
-                </div>
-            );
+        //         </div>
+        //     );
 
-            licenseType = (
-                <div>
-                    <p>{'When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'}</p>
-                    <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
-                    <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
-                </div>
-            );
+        //     licenseType = (
+        //         <div>
+        //             <p>{'When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'}</p>
+        //             <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
+        //             <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
+        //         </div>
+        //     );
 
-            eelicense = this.renderEELicenseText();
-        } else if (license.IsLicensed === 'true' && !uploading) {
+        //     eelicense = this.renderEELicenseText();
+        // } else if (license.IsLicensed === 'true' && !uploading) {
+        if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             let skuShortName = license.SkuShortName;
             if (isTrialLicense(license)) {
