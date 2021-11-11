@@ -16,16 +16,26 @@ export type WorkItem = {
     tags?: Tag[];
 }
 
-export type WorkBlock = {
+export type BaseBlock = {
     id: string;
     start: Date;
-    tasks: WorkItem[];
+    min_time?: number;
     tags?: Tag[];
+}
+
+export type WorkBlock = BaseBlock & {
+    tasks: WorkItem[];
+    reoccurring_id?: string;
+};
+
+export type ReoccurringBlock = BaseBlock & {
+    frequency: string;
 };
 
 export type TimeState = {
     time: {
         workBlocksByDay: Dictionary<WorkBlock[]>;
         unscheduledWorkItems: WorkItem[];
+        reoccurringBlocks: ReoccurringBlock[];
     };
 };

@@ -14,7 +14,7 @@ export function isBlockStartTimeEqual(a: WorkBlock, b: WorkBlock) {
 }
 
 export function calculateMinutesInBlock(block: WorkBlock): number {
-    return block.tasks.reduce((a, b) => a + b.time, 0);
+    return Math.max(block.tasks.reduce((a, b) => a + b.time, 0), block.min_time || 0);
 }
 
 function calculateBlockEndTime(block: WorkBlock): moment.Moment {

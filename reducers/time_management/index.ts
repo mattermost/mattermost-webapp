@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import TimeManagementTypes from 'utils/time_management/action_types';
 import {addBlockAndResolveTimeOverlaps, dateToWorkDateString, findAndRemoveTaskFromBlock} from 'utils/time_management/utils';
-import {WorkItem, WorkBlock} from 'types/time_management';
+import {WorkItem, WorkBlock, ReoccurringBlock} from 'types/time_management';
 
 import {generateId} from 'utils/utils';
 
@@ -115,17 +115,6 @@ const testWorkItemsByDay = {
             }],
         },
         {
-            id: '4',
-            start: getTodayAtHour(14, 30),
-            tags: [{title: 'sprint-work', color: '#1592E0'}],
-            tasks: [{
-                id: '6',
-                title: 'Work on card [MM-123]()',
-                time: 120,
-                complete: false,
-            }],
-        },
-        {
             id: '5',
             start: getTodayAtHour(16, 30),
             tasks: [{
@@ -150,6 +139,16 @@ const testUnscheduledWorkItems = [
         title: 'Prepare for R&D demo',
         time: 30,
         complete: false,
+    },
+];
+
+const testReoccurringBlocks = [
+    {
+        id: '1',
+        start: getTodayAtHour(14, 30),
+        tags: [{title: 'sprint-work', color: '#1592E0'}],
+        min_time: 120,
+        frequency: 'daily',
     },
 ];
 
@@ -186,6 +185,19 @@ export function workBlocksByDay(state: Dictionary<WorkBlock[]> = testWorkItemsBy
         const stringDate = dateToWorkDateString(date);
 
         return {...state, [stringDate]: action.blocks};
+    }
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
+export function reoccurringBlocks(state: ReoccurringBlock[] = testReoccurringBlocks, action: GenericAction) {
+    switch (action.type) {
+    case TimeManagementTypes.RECEIVED_REOCCURRING_BLOCK: {
+        const block = action.block as ReoccurringBlock;
+        return [...state, block];
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
@@ -241,4 +253,5 @@ export function unscheduledWorkItems(state: WorkItem[] = testUnscheduledWorkItem
 export default combineReducers({
     workBlocksByDay,
     unscheduledWorkItems,
+    reoccurringBlocks,
 });

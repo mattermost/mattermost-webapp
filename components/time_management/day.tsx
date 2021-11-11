@@ -9,7 +9,7 @@ import {useIntl} from 'react-intl';
 import {Button} from 'react-bootstrap';
 
 import {dateToWorkDateString} from 'utils/time_management/utils';
-import {TimeState} from 'types/time_management';
+import {TimeState, WorkBlock} from 'types/time_management';
 
 import Calendar from './calendar';
 
@@ -49,11 +49,33 @@ const ChangeDayButton = styled(Button)`
 `;
 
 const Day = () => {
+    const {formatDate} = useIntl();
     const [date, setDate] = useState(new Date());
     const todayKey = dateToWorkDateString(date);
-    const blocks = useSelector((state: TimeState) => state.time.workBlocksByDay[todayKey]) || [];
+    const blocks: WorkBlock[] = useSelector((state: TimeState) => {
+        const adhocBlocks = state.time.workBlocksByDay[todayKey] || [];
+        const reoccurringBlocks = state.time.reoccurringBlocks || [];
+        const reoccurringBlocksForDate = reoccurringBlocks.filter((b) => b.frequency === 'daily');
 
-    const {formatDate} = useIntl();
+        const fakeBlocks: WorkBlock[] = [];
+        reoccurringBlocksForDate.forEach((r) => {
+            const found = adhocBlocks.find((b) => b.reoccurring_id === r.id);
+
+            // If the reoccurring block doesn't have a corresponding real block, create a fake one
+            if (!found) {
+                fakeBlocks.push({
+                    id: 'reoccurring',
+                    tasks: [],
+                    start: r.start,
+                    min_time: r.min_time,
+                    tags: r.tags,
+                    reoccurring_id: r.id,
+                });
+            }
+        });
+
+        return [...adhocBlocks, ...fakeBlocks];
+    }) || [];
 
     const nextDay = () => {
         setDate(moment(date).add(1, 'day').toDate());

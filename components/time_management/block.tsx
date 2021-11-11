@@ -109,7 +109,7 @@ const Block = (props: Props) => {
                 handlerId: monitor.getHandlerId(),
             };
         },
-        drop(item: any, monitor) {
+        drop(item: any) {
             if (!ref.current) {
                 return;
             }
