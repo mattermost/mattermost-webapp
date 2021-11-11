@@ -12,6 +12,7 @@ import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import {Constants} from 'utils/constants';
 
@@ -112,6 +113,7 @@ const ThreadList = ({
     }, [setFilter]);
 
     const handleUnread = useCallback(() => {
+        trackEvent('crt', 'filter_threads_by_unread');
         setFilter(ThreadFilter.unread);
     }, [setFilter]);
 
@@ -122,6 +124,7 @@ const ThreadList = ({
     }, [currentTeamId, data, unread]);
 
     const handleAllMarkedRead = useCallback(() => {
+        trackEvent('crt', 'mark_all_threads_read');
         dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
         if (currentFilter === ThreadFilter.unread) {
             clear();
