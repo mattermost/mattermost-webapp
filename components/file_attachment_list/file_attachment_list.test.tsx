@@ -30,7 +30,10 @@ describe('FileAttachmentList', () => {
         isEmbedVisible: false,
         locale: 'en',
         handleFileDropdownOpened: jest.fn(),
-        actions: {getMissingFilesForPost: jest.fn()},
+        actions: {
+            getMissingFilesForPost: jest.fn(),
+            openModal: jest.fn(),
+        },
     };
 
     test('should render a FileAttachment for a single file', () => {

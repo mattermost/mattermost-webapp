@@ -4,8 +4,6 @@
 import React from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post} from 'mattermost-redux/types/posts';
 
 import {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {getFileType} from 'utils/utils';
@@ -19,13 +17,13 @@ import type {OwnProps, PropsFromRedux} from './index';
 type Props = OwnProps & PropsFromRedux;
 
 export default class FileAttachmentList extends React.PureComponent<Props> {
-    handleImageClick = (indexClicked: number, postId: Post['id'], fileInfos: FileInfo[]) => {
+    handleImageClick = (indexClicked: number) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
             dialogType: FilePreviewModal,
             dialogProps: {
-                postId,
-                fileInfos,
+                postId: this.props.post.id,
+                fileInfos: this.props.fileInfos,
                 startIndex: indexClicked,
             },
         });
@@ -68,8 +66,6 @@ export default class FileAttachmentList extends React.PureComponent<Props> {
                     <FileAttachment
                         key={fileInfo.id}
                         fileInfo={sortedFileInfos[i]}
-                        fileInfos={sortedFileInfos}
-                        postId={this.props.post.id}
                         index={i}
                         handleImageClick={this.handleImageClick}
                         compactDisplay={compactDisplay}

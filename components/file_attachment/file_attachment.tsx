@@ -10,7 +10,6 @@ import * as GlobalActions from 'actions/global_actions';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {FileDropdownPluginComponent} from 'types/store/plugins';
-import {Post} from 'mattermost-redux/types/posts';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -43,7 +42,7 @@ interface Props {
     /*
     * Handler for when the thumbnail is clicked passed the index above
     */
-    handleImageClick?: (index: number, postId: Post['id'], fileInfos: FileInfo[]) => void;
+    handleImageClick?: (index: number) => void;
 
     /*
     * Display in compact format
@@ -54,8 +53,6 @@ interface Props {
     enablePublicLink: boolean;
     pluginMenuItems: FileDropdownPluginComponent[];
     handleFileDropdownOpened?: (open: boolean) => void;
-    postId: Post['id'];
-    fileInfos: FileInfo[];
 }
 
 interface State {
@@ -138,7 +135,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         }
 
         if (this.props.handleImageClick) {
-            this.props.handleImageClick(this.props.index, this.props.postId, this.props.fileInfos);
+            this.props.handleImageClick(this.props.index);
         }
     }
 
