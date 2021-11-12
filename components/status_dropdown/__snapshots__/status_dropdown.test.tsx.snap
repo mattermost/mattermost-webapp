@@ -177,7 +177,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile}"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -200,7 +200,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -440,7 +440,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile}"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -463,7 +463,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -687,7 +687,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile}"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -710,7 +710,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -934,7 +934,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile}"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -957,7 +957,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -1182,7 +1182,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile}"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1205,7 +1205,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -1406,7 +1406,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile}"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1429,7 +1429,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -1626,7 +1626,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile}"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1649,7 +1649,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
