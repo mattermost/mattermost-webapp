@@ -4,7 +4,7 @@
 
 .FileSearchResultItem {
     @include single-transition(box-shadow, 0.15s, ease);
-    @include border-radius(4px);
+    border-radius: 4px;
 
     display: flex;
     overflow: hidden;
@@ -102,7 +102,7 @@
 
     .action-icon {
         @include single-transition(opacity, 0.15s, ease);
-        @include border-radius(4px);
+        border-radius: 4px;
 
         display: flex;
         width: 32px;

@@ -87,7 +87,7 @@
         color: rgba(var(--center-channel-color-rgb), 0.56);
         fill: rgba(var(--center-channel-color-rgb), 0.56);
 
-        @include border-radius(4px);
+        border-radius: 4px;
 
         &:hover {
             background: rgba(var(--center-channel-color-rgb), 0.08);

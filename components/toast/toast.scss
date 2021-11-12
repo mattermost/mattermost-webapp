@@ -16,7 +16,7 @@
     opacity: 0;
     visibility: hidden;
 
-    @include border-radius(4px);
+    border-radius: 4px;
 
     svg {
         fill: var(--button-color);

@@ -6,7 +6,7 @@
 .Reaction {
     @include button-style--none;
     @include user-select(none);
-    @include border-radius(4px);
+    border-radius: 4px;
 
     display: inline-flex;
     min-width: 28px;

@@ -55,7 +55,7 @@
     }
 
     .separator__text {
-        @include border-radius(50px);
+        border-radius: 50px;
 
         position: relative;
         z-index: 5;

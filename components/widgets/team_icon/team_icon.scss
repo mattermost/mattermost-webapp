@@ -6,7 +6,7 @@
 
 .TeamIcon__content {
     @include single-transition(all, 0.25s, ease);
-    @include border-radius(8px);
+    border-radius: 8px;
 
     display: flex;
     overflow: hidden;

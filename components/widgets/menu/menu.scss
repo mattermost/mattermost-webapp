@@ -5,7 +5,7 @@
     z-index: 10000;
 
     .dropdown-menu {
-        @include border-radius(4px);
+        border-radius: 4px;
 
         display: block;
         min-width: 220px;
