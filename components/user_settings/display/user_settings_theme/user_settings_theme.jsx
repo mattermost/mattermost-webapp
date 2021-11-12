@@ -7,13 +7,11 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.tsx';
 
-import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import CustomThemeChooser from './custom_theme_chooser.jsx';
