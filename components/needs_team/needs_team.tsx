@@ -27,7 +27,7 @@ import Pluggable from 'plugins/pluggable';
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-const BackstageController = makeAsyncComponent(LazyBackstageController);
+const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
 let wakeUpInterval: number;
 let lastTime = Date.now();

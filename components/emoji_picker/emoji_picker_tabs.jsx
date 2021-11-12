@@ -13,7 +13,7 @@ import EmojiPickerHeader from './components/emoji_picker_header';
 
 import EmojiPicker from './';
 
-const GifPicker = makeAsyncComponent(React.lazy(() => import('components/gif_picker/gif_picker.jsx')));
+const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker.jsx')));
 
 export default class EmojiPickerTabs extends PureComponent {
     static propTypes = {

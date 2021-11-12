@@ -15,12 +15,12 @@ import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-const CompleteProfileStep = makeAsyncComponent(React.lazy(() => import('./steps/complete_profile_step')));
-const SetupPreferencesStep = makeAsyncComponent(React.lazy(() => import('./steps/setup_preferences_step/setup_preferences_step')));
-const InviteMembersStep = makeAsyncComponent(React.lazy(() => import('./steps/invite_members_step')));
-const TeamProfileStep = makeAsyncComponent(React.lazy(() => import('./steps/team_profile_step')));
-const EnableNotificationsStep = makeAsyncComponent(React.lazy(() => import('./steps/enable_notifications_step/enable_notifications_step')));
-const DownloadAppsStep = makeAsyncComponent(React.lazy(() => import('./steps/download_apps_step/download_apps_step')));
+const CompleteProfileStep = makeAsyncComponent('CompleteProfileStep', React.lazy(() => import('./steps/complete_profile_step')));
+const SetupPreferencesStep = makeAsyncComponent('SetupPreferencesSteup', React.lazy(() => import('./steps/setup_preferences_step/setup_preferences_step')));
+const InviteMembersStep = makeAsyncComponent('InviteMembersStep', React.lazy(() => import('./steps/invite_members_step')));
+const TeamProfileStep = makeAsyncComponent('TeamProfileStep', React.lazy(() => import('./steps/team_profile_step')));
+const EnableNotificationsStep = makeAsyncComponent('EnableNotificationsStep', React.lazy(() => import('./steps/enable_notifications_step/enable_notifications_step')));
+const DownloadAppsStep = makeAsyncComponent('DownloadAppsStep', React.lazy(() => import('./steps/download_apps_step/download_apps_step')));
 
 import {isStepForUser} from './step_helpers';
 

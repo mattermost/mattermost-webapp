@@ -24,7 +24,7 @@ import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 import {makeAsyncComponent} from 'components/async_load';
 
-const InvitationModal = makeAsyncComponent(React.lazy(() => import('./invitation_modal.jsx')));
+const InvitationModal = makeAsyncComponent('InvitationModal', React.lazy(() => import('./invitation_modal.jsx')));
 
 const searchProfiles = (term, options = {}) => {
     if (!term) {

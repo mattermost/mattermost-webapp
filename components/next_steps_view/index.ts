@@ -19,7 +19,7 @@ import {makeAsyncComponent} from 'components/async_load';
 
 import {getSteps, isFirstAdmin} from './steps';
 
-const NextStepsView = makeAsyncComponent(React.lazy(() => import('./next_steps_view')));
+const NextStepsView = makeAsyncComponent('NextStepsView', React.lazy(() => import('./next_steps_view')));
 
 function makeMapStateToProps() {
     const getCategory = makeGetCategory();

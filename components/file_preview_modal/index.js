@@ -10,7 +10,7 @@ import {makeAsyncComponent} from 'components/async_load';
 
 import {canDownloadFiles} from 'utils/file_utils.jsx';
 
-const FilePreviewModal = makeAsyncComponent(React.lazy(() => import('./file_preview_modal')));
+const FilePreviewModal = makeAsyncComponent('FilePreviewModal', React.lazy(() => import('./file_preview_modal')));
 
 function mapStateToProps(state, ownProps) {
     const config = getConfig(state);

@@ -21,7 +21,7 @@ import {makeAsyncComponent} from 'components/async_load';
 
 import {closeModal, openModal} from 'actions/views/modals';
 
-const UserLimitModal = makeAsyncComponent(React.lazy(() => import('./user_limit_modal')));
+const UserLimitModal = makeAsyncComponent('UserLimitModal', React.lazy(() => import('./user_limit_modal')));
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);

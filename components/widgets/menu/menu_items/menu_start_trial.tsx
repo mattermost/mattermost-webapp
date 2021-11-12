@@ -20,7 +20,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import './menu_item.scss';
 
-const TrialBenefitsModal = makeAsyncComponent(React.lazy(() => import('components/trial_benefits_modal/trial_benefits_modal')));
+const TrialBenefitsModal = makeAsyncComponent('TrialBenefitsModal', React.lazy(() => import('components/trial_benefits_modal/trial_benefits_modal')));
 
 type Props = {
     id: string;

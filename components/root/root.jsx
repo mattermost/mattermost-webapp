@@ -66,24 +66,24 @@ import {applyLuxonDefaults} from './effects';
 
 import RootRedirect from './root_redirect';
 
-const CreateTeam = makeAsyncComponent(LazyCreateTeam);
-const ErrorPage = makeAsyncComponent(LazyErrorPage);
-const TermsOfService = makeAsyncComponent(LazyTermsOfService);
-const LoginController = makeAsyncComponent(LazyLoginController);
-const AdminConsole = makeAsyncComponent(LazyAdminConsole);
-const LoggedIn = makeAsyncComponent(LazyLoggedIn);
-const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
-const SignupController = makeAsyncComponent(LazySignupController);
-const SignupEmail = makeAsyncComponent(LazySignupEmail);
-const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
-const DoVerifyEmail = makeAsyncComponent(LazyDoVerifyEmail);
-const ClaimController = makeAsyncComponent(LazyClaimController);
-const HelpController = makeAsyncComponent(LazyHelpController);
-const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
-const SelectTeam = makeAsyncComponent(LazySelectTeam);
-const Authorize = makeAsyncComponent(LazyAuthorize);
-const Mfa = makeAsyncComponent(LazyMfa);
+const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
+const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
+const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
+const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
+const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
+const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
+const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
+const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
+const SignupController = makeAsyncComponent('SignupController', LazySignupController);
+const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
+const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
+const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
+const HelpController = makeAsyncComponent('HelpController', LazyHelpController);
+const LinkingLandingPage = makeAsyncComponent('LinkingLandingPage', LazyLinkingLandingPage);
+const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
+const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
+const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route

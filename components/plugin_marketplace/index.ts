@@ -21,7 +21,7 @@ import {getSiteURL} from 'utils/url';
 import {closeModal} from 'actions/views/modals';
 import {fetchListing, filterListing} from 'actions/marketplace';
 
-const MarketplaceModal = makeAsyncComponent(React.lazy(() => import('./marketplace_modal')));
+const MarketplaceModal = makeAsyncComponent('MarketplaceModal', React.lazy(() => import('./marketplace_modal')));
 
 function mapStateToProps(state: GlobalState) {
     return {

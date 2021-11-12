@@ -13,7 +13,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'types/store';
 import {makeAsyncComponent} from 'components/async_load';
 
-const DndCustomTimePicker = makeAsyncComponent(React.lazy(() => import('./dnd_custom_time_picker_modal')));
+const DndCustomTimePicker = makeAsyncComponent('DndCustomTimePicker', React.lazy(() => import('./dnd_custom_time_picker_modal')));
 
 function mapStateToProps(state: GlobalState) {
     const userId = getCurrentUserId(state);

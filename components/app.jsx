@@ -14,7 +14,7 @@ import {makeAsyncComponent} from 'components/async_load';
 import CRTPostsChannelResetWatcher from 'components/threading/channel_threads/posts_channel_reset_watcher';
 const LazyRoot = React.lazy(() => import('components/root'));
 
-const Root = makeAsyncComponent(LazyRoot);
+const Root = makeAsyncComponent('Root', LazyRoot);
 
 class App extends React.PureComponent {
     render() {
