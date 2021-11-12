@@ -1,5 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import React from 'react';
 import {connect} from 'react-redux';
 
 import {bindActionCreators, Dispatch} from 'redux';
@@ -15,9 +17,11 @@ import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 
+import {makeAsyncComponent} from 'components/async_load';
+
 import {closeModal, openModal} from 'actions/views/modals';
 
-import UserLimitModal from './user_limit_modal';
+const UserLimitModal = makeAsyncComponent(React.lazy(() => import('./user_limit_modal')));
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);

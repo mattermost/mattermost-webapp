@@ -15,9 +15,11 @@ import {requestTrialLicense} from 'actions/admin_actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
+import {makeAsyncComponent} from 'components/async_load';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
+
+const TrialBenefitsModal = makeAsyncComponent(React.lazy(() => import('components/trial_benefits_modal/trial_benefits_modal')));
 
 import './start_trial_modal.scss';
 

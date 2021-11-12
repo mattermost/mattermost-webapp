@@ -12,13 +12,15 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 
 import StartTrialModal from 'components/start_trial_modal';
-import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
+import {makeAsyncComponent} from 'components/async_load';
 
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import './menu_item.scss';
+
+const TrialBenefitsModal = makeAsyncComponent(React.lazy(() => import('components/trial_benefits_modal/trial_benefits_modal')));
 
 type Props = {
     id: string;
