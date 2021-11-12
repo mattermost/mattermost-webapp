@@ -41,7 +41,7 @@
         }
 
         span.MenuItem__help-text {
-            @include opacity(0.7);
+            opacity: 0.7;
 
             display: block;
             padding-bottom: 8px;

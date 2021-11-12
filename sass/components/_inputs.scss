@@ -35,7 +35,7 @@
     text-align: left;
 
     &:focus {
-        @include box-shadow(none);
+        box-shadow: none;
     }
 
     &.no-padding {

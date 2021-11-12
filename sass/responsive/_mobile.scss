@@ -814,7 +814,7 @@
     #header-popover {
         @include single-transition(all, 0.35s, ease);
         @include translate3d(0, 100%, 0);
-        @include box-shadow(none);
+        box-shadow: none;
 
         position: fixed;
         top: 40px !important;

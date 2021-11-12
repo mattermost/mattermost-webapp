@@ -52,12 +52,12 @@
                     border-radius: 16px;
                     line-height: 20px;
 
-                    @include box-shadow($elevation-1);
+                    box-shadow: $elevation-1;
 
                     &:hover {
                         border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
 
-                        @include box-shadow($elevation-2);
+                        box-shadow: $elevation-2;
                     }
                 }
             }

@@ -59,7 +59,7 @@
                 background: v(center-channel-bg);
                 border-radius: 0 0 3px 3px;
 
-                @include box-shadow(rgba(var(--center-channel-color-rgb), 0.08) 0 17px 50px 0, rgba(var(--center-channel-color-rgb), 0.08) 0 12px 15px 0);
+                box-shadow: rgba(var(--center-channel-color-rgb), 0.08) 0 17px 50px 0, rgba(var(--center-channel-color-rgb), 0.08) 0 12px 15px 0;
 
                 .shared-user-icon {
                     width: 16px;

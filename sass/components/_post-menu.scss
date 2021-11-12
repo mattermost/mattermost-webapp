@@ -78,7 +78,7 @@
             .post-menu {
                 border-color: rgba(v(center-channel-color-rgb), 0.08);
 
-                @include box-shadow($elevation-1);
+                box-shadow: $elevation-1;
 
                 background-color: v(center-channel-bg);
             }

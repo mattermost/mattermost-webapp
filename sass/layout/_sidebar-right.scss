@@ -19,7 +19,7 @@
     }
 
     &.sidebar--right--expanded {
-        @include box-shadow(0 8px 24px alpha-color($black, 0.24));
+        box-shadow: 0 8px 24px alpha-color($black, 0.24);
 
         z-index: 13;
 

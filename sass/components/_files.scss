@@ -225,7 +225,7 @@
                 }
 
                 &:hover {
-                    @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
+                    box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1);
                 }
 
                 &.min-preview {
@@ -257,7 +257,7 @@
                     height: inherit;
 
                     &:hover {
-                        @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
+                        box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1);
                     }
                 }
             }
@@ -312,7 +312,7 @@
     &:hover,
     &:focus-within,
     &.keep-open {
-        @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
+        box-shadow: 0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1);
 
         overflow: visible;
 
@@ -326,7 +326,7 @@
     }
 
     &:hover {
-        @include box-shadow($elevation-1);
+        box-shadow: $elevation-1;
 
         .post-image__download {
             opacity: 1;
@@ -692,7 +692,7 @@
 
     &:hover {
         @include single-transition(all, 0.1s, linear);
-        @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
+        box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
 
         z-index: 2;
     }
