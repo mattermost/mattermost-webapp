@@ -425,10 +425,10 @@
     }
 
     body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration(0.1s);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in, step-end);
+        transition-property: opacity, visibility;
+        transition-duration: 0.1s;
+        transition-delay: 0s;
+        transition-timing-function: ease-in, step-end;
     }
 
     &.visible {
@@ -437,17 +437,17 @@
         visibility: visible;
 
         body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration(0.3s);
-            @include transition-delay(0.2s);
-            @include transition-timing-function(ease-out, step-start);
+            transition-property: opacity, visibility;
+            transition-duration: 0.3s;
+            transition-delay: 0.2s;
+            transition-timing-function: ease-out, step-start;
         }
 
         body.enable-animations .sidebar--right & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration(0.3s);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
+            transition-property: opacity, visibility;
+            transition-duration: 0.3s;
+            transition-delay: 0s;
+            transition-timing-function: ease-out, step-start;
         }
     }
 }

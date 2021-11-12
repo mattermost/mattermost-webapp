@@ -24,9 +24,9 @@
     }
 
     body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration(0s);
-        @include transition-timing-function(ease-in-out);
+        transition-property: opacity, visibility;
+        transition-duration: 0s;
+        transition-timing-function: ease-in-out;
     }
 
     .toast__jump {
@@ -78,9 +78,9 @@
     visibility: visible;
 
     body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration(0s);
-        @include transition-timing-function(ease-in-out);
+        transition-property: opacity, visibility;
+        transition-duration: 0s;
+        transition-timing-function: ease-in-out;
     }
 }
 

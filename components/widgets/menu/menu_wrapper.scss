@@ -37,8 +37,8 @@ body.enable-animations {
     .MenuWrapperAnimation {
         &-enter-active,
         &-exit-active {
-            @include transition-property(opacity);
-            @include transition-duration(80ms);
+            transition-property: opacity;
+            transition-duration: 80ms;
         }
     }
 }

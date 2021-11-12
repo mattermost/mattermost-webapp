@@ -49,7 +49,7 @@
 
 .app__content {
     display: flex;
-    @include flex-direction(column);
+    flex-direction: column;
 
     position: relative;
     height: 100%;

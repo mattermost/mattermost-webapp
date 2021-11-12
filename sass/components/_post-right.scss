@@ -3,7 +3,7 @@
 .post-right__container,
 .ThreadViewer {
     display: flex;
-    @include flex-direction(column);
+    flex-direction: column;
 
     .post-right-root-message {
         padding: 1em 1em 0;

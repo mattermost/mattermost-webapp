@@ -813,7 +813,7 @@
 
     #header-popover {
         @include single-transition(all, 0.35s, ease);
-        @include translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
         box-shadow: none;
 
         position: fixed;
@@ -825,7 +825,7 @@
         background: alpha-color($black, 0.9);
 
         &.in {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
 
         a {
@@ -1429,7 +1429,7 @@
 
         .search__form {
             @include single-transition(all, 0.2s, linear);
-            @include translateX(0);
+            transform: translateX(0);
 
             width: 100%;
             border-color: transparent;
@@ -1459,7 +1459,7 @@
 
     .sidebar--menu {
         @include single-transition(transform, 0.35s, ease);
-        @include translate3d(290px, 0, 0);
+        transform: translate3d(290px, 0, 0);
 
         width: 290px;
         border: none;
@@ -1471,7 +1471,7 @@
         }
 
         &.move--left {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
 
             display: block;
             visibility: visible;
@@ -1489,7 +1489,7 @@
 
     .sidebar--left {
         @include single-transition(transform, 0.35s, ease);
-        @include translate3d(-290px, 0, 0);
+        transform: translate3d(-290px, 0, 0);
 
         width: 290px;
         border: none;
@@ -1499,7 +1499,7 @@
         }
 
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
 
         .team__header {
@@ -1587,7 +1587,7 @@
 
     #SidebarContainer {
         @include single-transition(transform, 0.35s, ease);
-        @include translate3d(-290px, 0, 0);
+        transform: translate3d(-290px, 0, 0);
 
         width: 290px;
         border: none;
@@ -1597,7 +1597,7 @@
         }
 
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
 
         .team__header {
@@ -1726,7 +1726,7 @@
     }
 
     .sidebar--right {
-        @include translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
 
         right: 0;
         width: 100%;
@@ -1826,7 +1826,7 @@
         }
 
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
 
             &::before {
                 @include single-transition(all, 0.35s, ease);
@@ -1837,7 +1837,7 @@
         }
 
         &.move--left-small {
-            @include translate3d(-290px, 0, 0);
+            transform: translate3d(-290px, 0, 0);
 
             &::before {
                 @include single-transition(all, 0.35s, ease);
@@ -1850,7 +1850,7 @@
         &.move--left {
             margin: 0;
 
-            @include translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
         }
     }
 
@@ -1903,7 +1903,7 @@
             &.move--right {
                 display: flex;
 
-                @include translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
             }
         }
     }
@@ -2254,14 +2254,14 @@
 
     .sidebar--left,
     #SidebarContainer {
-        @include translate3d(-260px, 0, 0);
+        transform: translate3d(-260px, 0, 0);
 
         width: 260px;
     }
 
     .inner-wrap {
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
     }
 

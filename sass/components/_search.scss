@@ -177,10 +177,10 @@
     }
 
     body.enable-animations .search-bar__container & {
-        @include transition-property(border-color, width);
-        @include transition-duration($transition-quick, 0.3s);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in-out, ease-out);
+        transition-property: border-color, width;
+        transition-duration: $transition-quick, 0.3s;
+        transition-delay: 0s;
+        transition-timing-function: ease-in-out, ease-out;
     }
 
     .inner-wrap.move--left & {

@@ -107,7 +107,7 @@
         .about-modal__content {
             @include clearfix;
             display: flex;
-            @include flex-direction(row);
+            flex-direction: row;
 
             padding: 1em 0 3em;
         }

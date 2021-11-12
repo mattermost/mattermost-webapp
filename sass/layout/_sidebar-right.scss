@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 .sidebar--right {
-    @include translateX(100%);
+    transform: translateX(100%);
 
     position: absolute;
     z-index: 11;
@@ -73,7 +73,7 @@
 
     .sidebar--right__content {
         display: flex;
-        @include flex-direction(column);
+        flex-direction: column;
 
         height: 100%;
     }
@@ -106,7 +106,7 @@
     .sidebar-right__body {
         display: flex;
         @include flex(1 1 auto);
-        @include flex-direction(column);
+        flex-direction: column;
 
         height: calc(100% - 56px);
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
@@ -302,7 +302,7 @@
 
 .sidebar-collapse {
     @include single-transition(all, 0.2s, linear);
-    @include translateX(0);
+    transform: translateX(0);
 
     z-index: 5;
     display: flex;

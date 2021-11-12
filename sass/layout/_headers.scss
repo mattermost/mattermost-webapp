@@ -579,7 +579,7 @@
     .team__header {
         @include legacy-pie-clearfix;
         display: flex;
-        @include flex-direction(row-reverse);
+        flex-direction: row-reverse;
 
         position: relative;
         max-height: 63px;
@@ -642,7 +642,7 @@
         a {
             text-decoration: none;
 
-            @include flex-grow(1);
+            flex-grow: 1;
         }
 
         a.out_of_office {
@@ -733,7 +733,7 @@
         }
 
         .header__info {
-            @include flex-grow(1);
+            flex-grow: 1;
 
             position: relative;
             width: 100%;

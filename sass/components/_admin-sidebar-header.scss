@@ -18,7 +18,7 @@
 
         .header__info {
             @include clearfix;
-            @include flex-grow(1);
+            flex-grow: 1;
 
             position: relative;
             width: 100%;

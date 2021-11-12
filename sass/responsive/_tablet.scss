@@ -187,7 +187,7 @@
         }
 
         &.move--left {
-            @include translateX(0);
+            transform: translateX(0);
 
             .search-bar__container {
                 display: none;
@@ -476,7 +476,7 @@
 
     .sidebar--right {
         @include single-transition(all, 0.35s, ease);
-        @include translateX(100%);
+        transform: translateX(100%);
 
         z-index: 13;
         top: 0;

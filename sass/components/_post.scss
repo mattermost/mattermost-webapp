@@ -251,7 +251,7 @@
 
     .new-messages__button {
         opacity: 0;
-        @include translateX(-50%);
+        transform: translateX(-50%);
 
         position: absolute;
         z-index: 3;
@@ -288,10 +288,10 @@
         }
 
         body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in, step-end);
+            transition-property: opacity, visibility;
+            transition-duration: $transition-quick;
+            transition-delay: 0s;
+            transition-timing-function: ease-in, step-end;
         }
 
         &.visible {
@@ -300,10 +300,10 @@
             visibility: visible;
 
             body.enable-animations & {
-                @include transition-property(opacity, visibility);
-                @include transition-duration($transition-quick);
-                @include transition-delay(0s);
-                @include transition-timing-function(ease-out, step-start);
+                transition-property: opacity, visibility;
+                transition-duration: $transition-quick;
+                transition-delay: 0s;
+                transition-timing-function: ease-out, step-start;
             }
         }
     }
@@ -312,7 +312,7 @@
 .post-list__timestamp {
     opacity: 0;
     @include single-transition(all, 0.6s, ease);
-    @include translateY(-45px);
+    transform: translateY(-45px);
 
     position: absolute;
     z-index: 50;
@@ -323,7 +323,7 @@
     text-align: center;
 
     &.scrolling {
-        @include translateY(0);
+        transform: translateY(0);
         opacity: 0.9;
     }
 

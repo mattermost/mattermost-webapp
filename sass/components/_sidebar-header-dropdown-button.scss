@@ -4,7 +4,7 @@
     align-items: center;
 
     .header__info {
-        @include flex-grow(1);
+        flex-grow: 1;
 
         position: relative;
         width: 100%;

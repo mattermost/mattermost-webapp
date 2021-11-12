@@ -113,10 +113,10 @@
 .status-selector {
     .status {
         body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
+            transition-property: opacity, visibility;
+            transition-duration: $transition-quick;
+            transition-delay: 0s;
+            transition-timing-function: ease-out, step-start;
         }
 
         opacity: 1;

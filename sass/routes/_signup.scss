@@ -45,7 +45,7 @@ body {
 
     &.branded {
         display: flex;
-        @include flex-direction(row);
+        flex-direction: row;
 
         max-width: 900px;
 
