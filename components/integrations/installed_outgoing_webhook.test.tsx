@@ -38,8 +38,6 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
 
     const creator: UserProfile = TestHelper.getUserMock();
 
-    const creator: UserProfile = TestHelper.getUserMock();
-
     const baseProps = {
         outgoingWebhook,
         onRegenToken: () => {}, //eslint-disable-line no-empty-function
@@ -150,13 +148,13 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         );
 
         // displays webhook's display name
-        expect(wrapper.instance().makeDisplayName({display_name: 'hook display name'}, {})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({display_name: 'hook display name'} as OutgoingWebhook, {} as Channel)).toMatchSnapshot();
 
         // displays channel's display name
-        expect(wrapper.instance().makeDisplayName({}, {display_name: 'channel display name'})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({} as OutgoingWebhook, {display_name: 'channel display name'} as Channel)).toMatchSnapshot();
 
         // displays a private hook
-        expect(wrapper.instance().makeDisplayName({})).toMatchSnapshot();
+        expect(wrapper.instance().makeDisplayName({} as OutgoingWebhook)).toMatchSnapshot();
     });
 
     test('Should match result when matchesFilter is called', () => {

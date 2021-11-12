@@ -12,7 +12,6 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 const ModalId = 'delete_integration_confirm';
 
 type Props = {
-    closeModal: typeof closeModalAction;
     confirmButtonText?: React.ReactNode;
     linkText?: React.ReactNode;
     modalMessage?: React.ReactNode;
