@@ -3,27 +3,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ProductComponent} from 'types/store/plugins';
 import {TopLevelProducts} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
+
 import * as hooks from '../../hooks';
 
 import ProductMenu, {ProductMenuButton, ProductMenuContainer} from './product_menu';
 import ProductMenuItem from './product_menu_item';
 import ProductMenuList from './product_menu_list';
-
-function makeProduct(name: string): ProductComponent {
-    return {
-        id: '',
-        pluginId: '',
-        switcherIcon: 'none',
-        switcherText: name,
-        baseURL: '',
-        switcherLinkURL: '',
-        mainComponent: null,
-        headerCentreComponent: null,
-        headerRightComponent: null,
-    };
-}
 
 const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
 spyProduct.mockReturnValue(null);
@@ -31,8 +18,8 @@ spyProduct.mockReturnValue(null);
 describe('components/global/product_switcher', () => {
     beforeEach(() => {
         const products = [
-            makeProduct(TopLevelProducts.BOARDS),
-            makeProduct(TopLevelProducts.PLAYBOOKS),
+            TestHelper.makeProduct(TopLevelProducts.BOARDS),
+            TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ];
         const spyProducts = jest.spyOn(hooks, 'useProducts');
         spyProducts.mockReturnValue(products);
@@ -57,8 +44,8 @@ describe('components/global/product_switcher', () => {
     it('should render the correct amount of times when there are products available', () => {
         const wrapper = shallow(<ProductMenu/>);
         const products = [
-            makeProduct(TopLevelProducts.BOARDS),
-            makeProduct(TopLevelProducts.PLAYBOOKS),
+            TestHelper.makeProduct(TopLevelProducts.BOARDS),
+            TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ];
 
         const spyProducts = jest.spyOn(hooks, 'useProducts');

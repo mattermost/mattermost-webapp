@@ -46,7 +46,6 @@ type Props = {
     isCollapsedThreadsEnabled: boolean;
     currentUserId: string;
     showNextSteps: boolean;
-    showNextStepsTips: boolean;
     isOnboardingHidden: boolean;
     showNextStepsEphemeral: boolean;
     actions: {
@@ -80,9 +79,9 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        const {actions, showNextSteps, showNextStepsTips, isOnboardingHidden} = this.props;
+        const {actions, showNextSteps, isOnboardingHidden} = this.props;
         await actions.getProfiles();
-        if ((showNextSteps || showNextStepsTips) && !isOnboardingHidden) {
+        if (showNextSteps && !isOnboardingHidden) {
             actions.setShowNextStepsView(true);
         }
     }

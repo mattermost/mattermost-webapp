@@ -25,7 +25,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiGetRHS();
          */
-        uiGetRHS(option: Record<string, boolean>): Chainable;
+        uiGetRHS(option?: Record<string, boolean>): Chainable;
 
         /**
          * Close RHS

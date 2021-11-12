@@ -65,23 +65,19 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       <i
         className="icon icon-magnify icon-16"
       />
-      <SuggestionBox
+      <Connect(SuggestionBox)
         aria-label="quick switch input"
         className="form-control focused"
         completeOnTab={false}
-        containerClass=""
         delayInputUpdate={true}
         forceSuggestionsWhenBlur={true}
         id="quickSwitchInput"
-        isRHS={false}
         listComponent={[Function]}
         listPosition="bottom"
-        listenForMentionKeyClick={false}
         maxLength="64"
         onChange={[Function]}
         onItemSelected={[Function]}
         onSuggestionsReceived={[Function]}
-        openOnFocus={false}
         openWhenEmpty={true}
         providers={
           Array [
@@ -94,9 +90,6 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
           ]
         }
         renderDividers={true}
-        renderNoResults={false}
-        replaceAllInputOnSelect={false}
-        requiredCharacters={1}
         spellCheck="false"
         value=""
       />

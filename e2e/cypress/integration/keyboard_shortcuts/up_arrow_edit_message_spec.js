@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -88,6 +89,108 @@ describe('Keyboard Shortcuts', () => {
 
         // * Verify that the Edit textbox contains previously sent message by user 1
         cy.get('#edit_textbox').should('have.text', message1);
+    });
+
+    it('MM-T1271_1 UP - Removing all text in edit deletes post if without attachment', () => {
+        const message = 'Message to be deleted';
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post message
+        cy.postMessage(message);
+        cy.uiWaitUntilMessagePostedIncludes(message);
+
+        cy.getLastPostId().then((postID) => {
+            // * Verify that testuser sees post
+            cy.get(`#postMessageText_${postID}`).should('contain', message);
+
+            cy.get('#post_textbox').type('{uparrow}');
+
+            // * Validate that edit box contains just posted message
+            cy.get('#edit_textbox').should('have.text', message);
+
+            // # Clear all text, delete and confirm by pressing enter
+            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.get('#edit_textbox').clear().type('{enter}');
+
+            // * Verify confirm modal is shown
+            cy.findByRole('dialog', {name: 'Confirm Post Delete'}).should('be.visible');
+
+            // # Press enter on confirm dialog
+            cy.uiGetButton('Delete').click();
+
+            // * Verify post is deleted
+            cy.get(`#postMessageText_${postID}`).should('not.exist');
+        });
+
+        // # Post message as other user
+        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
+        cy.uiWaitUntilMessagePostedIncludes(message);
+        cy.getLastPostId().then((postID) => {
+            cy.get(`#postMessageText_${postID}`).should('contain', message);
+
+            // # Delete message as test user
+            cy.externalRequest({user: otherUser, method: 'DELETE', path: `posts/${postID}`});
+
+            // * Verify that other user sees that message is deleted
+            cy.get(`#post_${postID} #${postID}_message`).should('have.text', '(message deleted)');
+        });
+    });
+
+    it('MM-T1271_2 UP - Removing all text in edit does not delete post if with attachment', () => {
+        const message = 'This is a message';
+        const filename = 'mattermost-icon.png';
+        cy.apiLogin(testUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post message with attachment
+        cy.get('#fileUploadInput').attachFile(filename);
+        cy.postMessage(message);
+
+        // * Verify that the message and file attachment is posted
+        cy.uiWaitUntilMessagePostedIncludes(message);
+        cy.uiGetFileThumbnail(filename).should('be.visible');
+
+        // # Press up arrow
+        cy.get('#post_textbox').type('{uparrow}');
+        cy.wait(TIMEOUTS.HALF_SEC);
+
+        // # Clear all text and confirm
+        cy.get('#edit_textbox').clear().type('{enter}');
+
+        // * Delete post confirm modal should not exist
+        cy.get('#deletePostModal').should('not.exist');
+
+        // * Verify that attachment is still visible
+        cy.uiGetFileThumbnail(filename).should('be.visible');
+
+        // * Post should contain edited tag
+        cy.getLastPostId().then((postId) => {
+            // * Post should have "Edited"
+            cy.get(`#postEdited_${postId}`).
+                should('be.visible').
+                should('contain', 'Edited');
+        });
+
+        // # Login with other user
+        cy.apiLogout();
+        cy.apiLogin(otherUser);
+
+        // # Visit the channel using the channel name
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // * Verify that attachment is still visible
+        cy.uiGetFileThumbnail(filename).should('be.visible');
+
+        // * Post should contain edited tag
+        cy.getLastPostId().then((postId) => {
+            // * Post should have "Edited"
+            cy.get(`#postEdited_${postId}`).
+                should('be.visible').
+                should('contain', 'Edited');
+        });
     });
 
     it('MM-T1272 Arrow up key - Removing all text in edit deletes reply', () => {

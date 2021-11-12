@@ -14,9 +14,10 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import Carousel from 'components/common/carousel/carousel';
 import GenericModal from 'components/generic_modal';
@@ -65,6 +66,12 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
     const redirectToConsolePage = (route: string) => {
         history.push(route);
         handleOnClose();
+
+        const lastSection = route.split('/').pop();
+        trackEvent(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+            'benefits_modal_section_opened_' + lastSection,
+        );
     };
 
     const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});

@@ -5,9 +5,10 @@ import React, {useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {isTrialLicense} from 'utils/license_utils';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 
 import StartTrialModal from 'components/start_trial_modal';
@@ -32,14 +33,21 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
     }, []);
 
     const openStartTrialModal = () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+            'open_start_trial_modal',
+        );
         dispatch(openModal({
             modalId: ModalIdentifiers.START_TRIAL_MODAL,
             dialogType: StartTrialModal,
-            dialogProps: {onClose: null},
         }));
     };
 
     const openTrialBenefitsModal = () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+            'open_trial_benefits_modal_from_menu',
+        );
         dispatch(openModal({
             modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
             dialogType: TrialBenefitsModal,

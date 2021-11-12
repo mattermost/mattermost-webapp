@@ -27,7 +27,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -189,7 +189,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
             type(guest.username).wait(TIMEOUTS.ONE_SEC).
             type('{enter}');
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
         cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');
@@ -206,7 +206,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
             type(admin.username).wait(TIMEOUTS.ONE_SEC).
             type('{enter}');
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
         cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');
