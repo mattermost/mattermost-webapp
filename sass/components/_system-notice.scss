@@ -2,7 +2,7 @@
 
 .system-notice {
     @include box-shadow(0 20px 30px alpha-color($black, 0.07), 0 14px 20px alpha-color($black, 0.07));
-    @include border-radius(4px);
+    border-radius: 4px;
 
     position: absolute;
     z-index: 9999;
@@ -74,11 +74,11 @@
         }
 
         &:first-child {
-            @include border-radius(0 0 0 4px);
+            border-radius: 0 0 0 4px;
         }
 
         &:last-child {
-            @include border-radius(0 0 4px 0);
+            border-radius: 0 0 4px 0;
 
             border-left: 1px solid alpha-color($black, 0.2);
         }

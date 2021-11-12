@@ -96,7 +96,7 @@
             line-height: 48px;
 
             &.navbar-right__icon {
-                @include border-radius(50px);
+                border-radius: 50px;
 
                 display: flex;
                 width: 32px;

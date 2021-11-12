@@ -10,7 +10,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    @include border-radius($border-rad * 2);
+    border-radius: $border-rad * 2;
 
     background: rgba(0, 0, 0, 0.2);
 }
@@ -45,7 +45,7 @@ body {
 
 .scrollbar--horizontal,
 .scrollbar--vertical {
-    @include border-radius(2px);
+    border-radius: 2px;
 
     background-color: rgba(var(--sidebar-text-rgb), 0.32);
 }

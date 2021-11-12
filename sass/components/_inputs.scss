@@ -30,7 +30,7 @@
 }
 
 .form-control {
-    @include border-radius($border-rad);
+    border-radius: $border-rad;
 
     text-align: left;
 

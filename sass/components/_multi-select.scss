@@ -41,7 +41,7 @@
 }
 
 .multi-select__note {
-    @include border-radius(3px);
+    border-radius: 3px;
 
     display: table;
     width: 100%;

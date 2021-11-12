@@ -456,7 +456,7 @@
         }
 
         .cancel-button {
-            @include border-radius($border-rad);
+            border-radius: $border-rad;
             @include single-transition(all, 0.15s, ease);
 
             display: flex;

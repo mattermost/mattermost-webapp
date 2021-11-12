@@ -23,7 +23,7 @@
         align-items: center;
         padding: 4px 4px;
 
-        @include border-radius(4px);
+        border-radius: 4px;
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
@@ -59,7 +59,7 @@
         color: v(center-channel-color);
         float: left;
 
-        @include border-radius(4px);
+        border-radius: 4px;
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
@@ -99,7 +99,7 @@
         color: v(center-channel-color);
         float: left;
 
-        @include border-radius(4px);
+        border-radius: 4px;
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
@@ -545,7 +545,7 @@
         }
 
         img {
-            @include border-radius(100px);
+            border-radius: 100px;
         }
     }
 
@@ -556,7 +556,7 @@
     }
 
     .channel-intro__content {
-        @include border-radius(3px);
+        border-radius: 3px;
 
         padding: 10px 15px;
         background: $bg--gray;

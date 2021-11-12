@@ -67,7 +67,7 @@
             }
 
             .Menu__close {
-                @include border-radius(50%);
+                border-radius: 50%;
 
                 position: fixed;
                 top: 70px;
@@ -397,7 +397,7 @@
         .AddChannelDropdown,
         .GlobalThreads {
             .Menu {
-                @include border-radius(0);
+                border-radius: 0;
 
                 position: fixed;
                 z-index: 9999;
@@ -675,7 +675,7 @@
 
                 >div,
                 >button {
-                    @include border-radius(0);
+                    border-radius: 0;
 
                     height: auto;
                     padding: 15px 20px;
@@ -851,7 +851,7 @@
         }
 
         .close {
-            @include border-radius(50%);
+            border-radius: 50%;
 
             position: fixed;
             bottom: 25px;
@@ -1444,7 +1444,7 @@
             }
 
             .form-control {
-                @include border-radius(3px);
+                border-radius: 3px;
 
                 padding: 0 31px;
                 border: none;

@@ -55,7 +55,7 @@ h6.markdown__heading {
         margin: 5px 2px;
         -moz-force-broken-image-icon: 1;
 
-        @include border-radius(4px);
+        border-radius: 4px;
     }
 
     div.markdown-inline-img {
@@ -102,7 +102,7 @@ h6.markdown__heading {
         max-height: 18px;
         margin: 2px;
 
-        @include border-radius(2px);
+        border-radius: 2px;
 
         &:hover {
             @include single-transition(all, 0.1s, linear);
@@ -135,7 +135,7 @@ h6.markdown__heading {
         margin: 2px;
         -moz-force-broken-image-icon: 1;
 
-        @include border-radius(2px);
+        border-radius: 2px;
     }
 
     .markdown-inline-img--loading {

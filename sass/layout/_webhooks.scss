@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .webhooks__container {
-    @include border-radius(3px);
+    border-radius: 3px;
     @include alpha-property(background, $black, 0.1);
 
     padding: 0 13px 15px;
@@ -307,7 +307,7 @@
         }
 
         .attachment__author-icon {
-            @include border-radius(50px);
+            border-radius: 50px;
 
             width: 14px;
             height: 14px;
@@ -368,7 +368,7 @@
             }
 
             button {
-                @include border-radius(3px);
+                border-radius: 3px;
 
                 height: auto;
                 padding: 6px 12px;

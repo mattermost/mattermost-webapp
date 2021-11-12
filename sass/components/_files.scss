@@ -197,7 +197,7 @@
 
         .image-loaded {
             @include single-transition(all, 0.1s, linear);
-            @include border-radius(4px);
+            border-radius: 4px;
 
             bottom: 0;
             min-width: 40px;
@@ -210,7 +210,7 @@
             }
 
             img {
-                @include border-radius(4px);
+                border-radius: 4px;
                 @include single-transition(all, 0.1s, linear);
 
                 position: relative;
@@ -294,7 +294,7 @@
 
 .post-image__column {
     @include single-transition(box-shadow, 0.15s, ease);
-    @include border-radius(4px);
+    border-radius: 4px;
 
     position: relative;
     display: flex;
@@ -425,7 +425,7 @@
 
 .file-dropdown-icon {
     @include single-transition(opacity, 0.15s, ease);
-    @include border-radius(4px);
+    border-radius: 4px;
 
     display: none;
     width: 32px;
@@ -552,7 +552,7 @@
         svg {
             opacity: 0.7;
             @include single-transition(all, 0.1s, linear);
-            @include border-radius(50%);
+            border-radius: 50%;
 
             display: inline-block;
             width: 30px;
@@ -688,7 +688,7 @@
     margin: 5px 2px;
     background: var(--center-channel-bg);
 
-    @include border-radius(4px);
+    border-radius: 4px;
 
     &:hover {
         @include single-transition(all, 0.1s, linear);

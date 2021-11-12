@@ -80,7 +80,7 @@
 }
 
 .emoji-picker {
-    @include border-radius($border-rad);
+    border-radius: $border-rad;
     @include clearfix;
     @include user-select(none);
 

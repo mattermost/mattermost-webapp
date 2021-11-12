@@ -147,7 +147,7 @@
     }
 
     .overlay__circle {
-        @include border-radius(500px);
+        border-radius: 500px;
         @include alpha-property(background, $black, 0.7);
 
         position: absolute;
@@ -278,7 +278,7 @@
         }
 
         div {
-            @include border-radius(50px);
+            border-radius: 50px;
 
             display: flex;
             height: 28px;
@@ -336,7 +336,7 @@
     }
 
     > div {
-        @include border-radius(3px);
+        border-radius: 3px;
         @include font-smoothing(initial);
 
         display: inline-block;
@@ -997,7 +997,7 @@
         }
 
         .post-image__column {
-            @include border-radius(2px);
+            border-radius: 2px;
 
             min-width: 150px;
             max-width: 250px;
@@ -1396,7 +1396,7 @@
 
             &.emoji {
                 img {
-                    @include border-radius(unset);
+                    border-radius: unset;
 
                     width: 28px;
                     min-width: 28px;
@@ -1825,7 +1825,7 @@
     }
 
     .web-embed-data {
-        @include border-radius(2px);
+        border-radius: 2px;
         @include alpha-property(background, $black, 0.05);
 
         overflow: hidden;
@@ -1990,7 +1990,7 @@
 
     .post-collapse__show-more-button {
         @include single-transition(all, 0.15s, ease);
-        @include border-radius(2px);
+        border-radius: 2px;
 
         &:hover {
             color: var(--center-channel-bg);

@@ -1,6 +1,6 @@
 .channel-view {
     .badge {
-        @include border-radius(100px);
+        border-radius: 100px;
 
         position: relative;
         display: flex;

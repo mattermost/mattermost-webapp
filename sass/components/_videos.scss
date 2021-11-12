@@ -2,7 +2,7 @@
 
 .post {
     .video-div {
-        @include border-radius(4px);
+        border-radius: 4px;
 
         position: relative;
         overflow: hidden;
@@ -63,7 +63,7 @@
     }
 
     .play-button {
-        @include border-radius(14px);
+        border-radius: 14px;
 
         position: absolute;
         top: 26px;

@@ -15,7 +15,7 @@
 }
 
 .popover {
-    @include border-radius($border-rad * 2);
+    border-radius: $border-rad * 2;
 
     padding: 0;
     background: var(--center-channel-bg);
@@ -179,7 +179,7 @@
     }
 
     .popover-title {
-        @include border-radius(0);
+        border-radius: 0;
 
         overflow: hidden;
         max-width: 100%;
@@ -529,7 +529,7 @@
                 opacity: 1;
 
                 button {
-                    @include border-radius(4px);
+                    border-radius: 4px;
 
                     width: 2em;
                     height: 2em;

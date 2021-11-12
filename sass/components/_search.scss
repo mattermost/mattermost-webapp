@@ -111,7 +111,7 @@
         font-size: 10px;
         font-weight: 700;
 
-        @include border-radius(4px);
+        border-radius: 4px;
 
         .icon-close {
             padding: 2px;
@@ -145,7 +145,7 @@
     }
 
     .search-bar__container & {
-        @include border-radius(4px);
+        border-radius: 4px;
 
         width: 180px;
         height: 32px;
@@ -343,7 +343,7 @@
     }
 
     .search-item__jump {
-        @include border-radius(4px);
+        border-radius: 4px;
 
         position: relative;
         padding: 5px 4px 0;
@@ -423,7 +423,7 @@
     }
 
     button {
-        @include border-radius(4px);
+        border-radius: 4px;
 
         display: flex;
         align-items: center;

@@ -1,5 +1,5 @@
 .channel-header__icon {
-    @include border-radius(4px);
+    border-radius: 4px;
 
     position: relative;
     z-index: 5;

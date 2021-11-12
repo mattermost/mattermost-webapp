@@ -14,7 +14,7 @@ $tip-index: 1000;
 }
 
 .tip-overlay {
-    @include border-radius(3px);
+    border-radius: 3px;
 
     position: absolute;
     z-index: $tip-index;
@@ -165,7 +165,7 @@ $tip-index: 1000;
     }
 
     .btn {
-        @include border-radius(3px);
+        border-radius: 3px;
 
         border: none;
         margin: 10px 0;
@@ -333,7 +333,7 @@ $tip-index: 1000;
     margin: 2em 0;
 
     .circle {
-        @include border-radius(9px);
+        border-radius: 9px;
         opacity: 0.2;
 
         display: inline-block;

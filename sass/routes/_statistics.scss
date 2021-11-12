@@ -2,7 +2,7 @@
 
 .team_statistics {
     .total-count {
-        @include border-radius(3px);
+        border-radius: 3px;
 
         width: 100%;
         border: 1px solid $light-gray;

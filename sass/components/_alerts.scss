@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .alert {
-    @include border-radius($border-rad);
+    border-radius: $border-rad;
 
     padding: 8px 12px;
 

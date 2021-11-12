@@ -34,7 +34,7 @@
         cursor: pointer;
         font-size: 13px;
 
-        @include border-radius(3px);
+        border-radius: 3px;
         @include box-shadow(unset);
     }
 

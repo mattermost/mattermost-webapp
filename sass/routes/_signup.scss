@@ -206,7 +206,7 @@ body {
     }
 
     .block--gray {
-        @include border-radius(3px);
+        border-radius: 3px;
 
         display: inline-block;
         padding: 0.85em 1.2em;
@@ -320,7 +320,7 @@ body {
         }
 
         &.btn-custom-login {
-            @include border-radius(2px);
+            border-radius: 2px;
 
             display: flex;
             width: 200px;
@@ -443,7 +443,7 @@ body {
         }
 
         .control-label {
-            @include border-radius(3px);
+            border-radius: 3px;
 
             width: 100%;
             padding: 0.7em 1em;
@@ -464,7 +464,7 @@ body {
     }
 
     .reset-form {
-        @include border-radius(3px);
+        border-radius: 3px;
 
         position: relative;
         font-size: 0.95em;
@@ -501,7 +501,7 @@ body {
 }
 
 .signup-team-all {
-    @include border-radius(2px);
+    border-radius: 2px;
 
     max-height: calc(75vh - (108px + 89px));
     border: 1px solid #ddd;

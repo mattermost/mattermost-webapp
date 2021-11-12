@@ -239,7 +239,7 @@
     }
 
     .modal-header {
-        @include border-radius(0);
+        border-radius: 0;
         @include clearfix;
 
         min-height: 56px;
@@ -413,7 +413,7 @@
         }
 
         .modal-image__wrapper {
-            @include border-radius(3px);
+            border-radius: 3px;
 
             position: relative;
             display: table-cell;
@@ -423,7 +423,7 @@
             vertical-align: middle;
 
             &:hover {
-                @include border-radius(3px 3px 0 0);
+                border-radius: 3px 3px 0 0;
             }
 
             &.default {
@@ -857,7 +857,7 @@
     }
 
     .more-modal__image {
-        @include border-radius(60px);
+        border-radius: 60px;
 
         max-width: none;
         flex-grow: 0;
