@@ -291,7 +291,7 @@
             opacity: 0.7;
             text-shadow: none;
 
-            @include single-transition(all, 0.1s, ease-in);
+            transition: all 0.1s ease-in;
 
             &:hover {
                 opacity: 1;
@@ -483,7 +483,7 @@
             }
 
             .modal-close {
-                @include single-transition(opacity, 0.6s);
+                transition: opacity 0.6s;
                 @include background-size(100% 100%);
 
                 position: absolute;

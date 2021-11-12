@@ -515,7 +515,7 @@ body {
         background: #fafafa;
 
         &:hover {
-            @include single-transition(background-color, 0.15s, ease);
+            transition: background-color 0.15s ease;
 
             background: $white;
         }

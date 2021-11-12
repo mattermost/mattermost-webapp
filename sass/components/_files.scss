@@ -196,7 +196,7 @@
         }
 
         .image-loaded {
-            @include single-transition(all, 0.1s, linear);
+            transition: all 0.1s linear;
 
             bottom: 0;
             min-width: 40px;
@@ -218,7 +218,7 @@
                 border-radius: 4px;
                 cursor: pointer;
 
-                @include single-transition(all, 0.1s, linear);
+                transition: all 0.1s linear;
 
                 &.compact-display {
                     max-height: 175px;
@@ -293,7 +293,7 @@
 }
 
 .post-image__column {
-    @include single-transition(box-shadow, 0.15s, ease);
+    transition: box-shadow 0.15s ease;
 
     position: relative;
     display: flex;
@@ -423,7 +423,7 @@
 }
 
 .file-dropdown-icon {
-    @include single-transition(opacity, 0.15s, ease);
+    transition: opacity 0.15s ease;
 
     display: none;
     width: 32px;
@@ -504,7 +504,7 @@
     }
 
     .post-image__download {
-        @include single-transition(opacity, 0.15s, ease);
+        transition: opacity 0.15s ease;
 
         top: 0;
         right: 0;
@@ -555,7 +555,7 @@
             border-radius: 50%;
             opacity: 0.7;
 
-            @include single-transition(all, 0.1s, linear);
+            transition: all 0.1s linear;
 
             &:hover {
                 opacity: 1;
@@ -628,7 +628,7 @@
 }
 
 .file-playback__controls {
-    @include single-transition(opacity, 0.6s);
+    transition: opacity 0.6s;
 
     position: absolute;
     z-index: 2;
@@ -687,7 +687,7 @@
     border-radius: 4px;
 
     &:hover {
-        @include single-transition(all, 0.1s, linear);
+        transition: all 0.1s linear;
 
         z-index: 2;
         box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);

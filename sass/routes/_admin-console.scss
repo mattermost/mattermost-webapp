@@ -461,7 +461,7 @@
             border-radius: $border-rad;
             text-decoration: none;
 
-            @include single-transition(all, 0.15s, ease);
+            transition: all 0.15s ease;
 
             &:hover {
                 background-color: $primary-color;

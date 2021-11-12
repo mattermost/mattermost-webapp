@@ -475,7 +475,7 @@
     }
 
     .sidebar--right {
-        @include single-transition(all, 0.35s, ease);
+        transition: all 0.35s ease;
 
         z-index: 13;
         top: 0;

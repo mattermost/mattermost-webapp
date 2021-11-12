@@ -1,5 +1,5 @@
 .edit-post-time-limit-button {
-    @include single-transition(all, 0.15s, ease);
+    transition: all 0.15s ease;
 
     height: 26px;
     padding: 0 8px;

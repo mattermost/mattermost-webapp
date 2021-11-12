@@ -3,7 +3,7 @@
 }
 
 .groups-list {
-    @include single-transition(all, 0.4s, ease-in-out, 0s);
+    transition: all 0.4s ease-in-out 0s;
 
     padding: 2rem 2rem 2rem 2rem;
 

@@ -11,7 +11,7 @@
     }
 
     &::after {
-        @include single-transition(opacity, 0.15s, ease);
+        transition: opacity 0.15s ease;
 
         position: absolute;
         top: 8px;

@@ -2,7 +2,7 @@
 @import 'sass/utils/variables';
 
 .tooltip-container {
-    @include single-transition(opacity, $transition-quick, ease-in);
+    transition: opacity $transition-quick ease-in;
 
     opacity: 0;
     visibility: hidden;

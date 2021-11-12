@@ -106,7 +106,7 @@
     }
 
     .react-select__indicator {
-        @include single-transition(opacity, 0.2s, ease);
+        transition: opacity 0.2s ease;
 
         padding: 7px 8px;
         color: inherit;

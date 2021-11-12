@@ -82,7 +82,7 @@
     }
 
     .img-div {
-        @include single-transition(all, 0.1s, linear);
+        transition: all 0.1s linear;
 
         position: relative;
         max-width: 480px;

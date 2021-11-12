@@ -53,7 +53,7 @@
         height: 14px;
 
         body.enable-animations & {
-            @include single-transition(opacity, $transition-quick, ease-out);
+            transition: opacity $transition-quick ease-out;
         }
     }
 }
@@ -86,7 +86,7 @@
     }
 
     body.enable-animations & {
-        @include single-transition(opacity, $transition-quick, ease-out);
+        transition: opacity $transition-quick ease-out;
     }
 }
 

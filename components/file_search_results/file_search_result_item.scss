@@ -3,7 +3,7 @@
 @import 'utils/variables';
 
 .FileSearchResultItem {
-    @include single-transition(box-shadow, 0.15s, ease);
+    transition: box-shadow 0.15s ease;
 
     display: flex;
     overflow: hidden;
@@ -100,7 +100,7 @@
     }
 
     .action-icon {
-        @include single-transition(opacity, 0.15s, ease);
+        transition: opacity 0.15s ease;
 
         display: flex;
         width: 32px;

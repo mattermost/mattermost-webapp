@@ -74,7 +74,7 @@
 }
 
 .help__format-text {
-    @include single-transition(all, 0.3s, ease-in, 0.3s);
+    transition: all 0.3s ease-in 0.3s;
 
     display: inline-block;
     font-size: 0.85em;
@@ -315,7 +315,7 @@
     text-align: center;
     transform: translateY(-45px);
 
-    @include single-transition(all, 0.6s, ease);
+    transition: all 0.6s ease;
 
     &.scrolling {
         opacity: 0.9;
@@ -358,7 +358,7 @@
     opacity: 0;
     text-align: center;
 
-    @include single-transition(all, 0.6s);
+    transition: all 0.6s;
 
     svg {
         width: 28px;
@@ -472,7 +472,7 @@
         }
 
         .send-button {
-            @include single-transition(all, 0.15s);
+            transition: all 0.15s;
 
             display: none;
             width: 45px;
@@ -505,7 +505,7 @@
             cursor: pointer;
             opacity: 0.5;
 
-            @include single-transition(all, 0.15s);
+            transition: all 0.15s;
 
             &:hover,
             &:active {
@@ -1397,7 +1397,7 @@
     }
 
     .post__embed-container {
-        @include single-transition(max-height, 0.5, ease);
+        transition: max-height 0.5 ease;
 
         display: block;
         overflow: hidden;
@@ -1969,7 +1969,7 @@
     justify-content: center;
 
     .post-collapse__show-more-button {
-        @include single-transition(all, 0.15s, ease);
+        transition: all 0.15s ease;
 
         position: relative;
         display: inline-block;

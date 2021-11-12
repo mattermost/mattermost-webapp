@@ -582,7 +582,7 @@
         padding: 10px;
 
         &::before {
-            @include single-transition(all, $transition-quick, ease-in-out);
+            transition: all $transition-quick ease-in-out;
 
             position: absolute;
             top: 0;
@@ -732,7 +732,7 @@
             color: var(--sidebar-header-text-color);
 
             .sidebar-header-dropdown__icon {
-                @include single-transition(opacity, $transition-quick, ease-in-out);
+                transition: opacity $transition-quick ease-in-out;
 
                 position: absolute;
                 top: 4px;
@@ -770,7 +770,7 @@
         }
 
         .user__name {
-            @include single-transition(all, $transition-quick, ease-in-out);
+            transition: all $transition-quick ease-in-out;
 
             position: relative;
             top: -3px;
@@ -861,7 +861,7 @@
             opacity: 0.6;
             text-decoration: none;
 
-            @include single-transition(all, 0.1s, ease-in);
+            transition: all 0.1s ease-in;
 
             &:hover {
                 opacity: 0.7;

@@ -5,7 +5,7 @@
 @import 'utils/module';
 
 .TeamIcon__content {
-    @include single-transition(all, 0.25s, ease);
+    transition: all 0.25s ease;
 
     display: flex;
     overflow: hidden;

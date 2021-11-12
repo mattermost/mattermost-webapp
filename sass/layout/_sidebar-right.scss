@@ -76,7 +76,7 @@
     }
 
     .sidebar--right__back {
-        @include single-transition(all, 0.2s, ease-in);
+        transition: all 0.2s ease-in;
 
         display: flex;
         width: 2.4rem;
@@ -241,7 +241,7 @@
     }
 
     .sidebar--right__subheader {
-        @include single-transition(width, 0.25s, ease-in);
+        transition: width 0.25s ease-in;
 
         width: 100%;
         padding-bottom: 10vh;
@@ -294,7 +294,7 @@
 }
 
 .sidebar-collapse {
-    @include single-transition(all, 0.2s, linear);
+    transition: all 0.2s linear;
 
     z-index: 5;
     display: flex;

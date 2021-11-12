@@ -37,7 +37,7 @@ button {
 }
 
 .btn {
-    @include single-transition(all, 0.15s, ease);
+    transition: all 0.15s ease;
 
     border-radius: $border-rad;
 
@@ -105,7 +105,7 @@ button {
 }
 
 %btn-transition {
-    @include single-transition(all, 0.15s, ease);
+    transition: all 0.15s ease;
 }
 
 .btn-icon {

@@ -35,7 +35,7 @@
             }
 
             .Menu {
-                @include single-transition(all, 0.35s, ease);
+                transition: all 0.35s ease;
 
                 position: fixed;
                 top: 48px;
@@ -809,7 +809,7 @@
     }
 
     #header-popover {
-        @include single-transition(all, 0.35s, ease);
+        transition: all 0.35s ease;
 
         position: fixed;
         top: 40px !important;
@@ -1424,7 +1424,7 @@
         }
 
         .search__form {
-            @include single-transition(all, 0.2s, linear);
+            transition: all 0.2s linear;
 
             width: 100%;
             border-color: transparent;
@@ -1453,7 +1453,7 @@
     }
 
     .sidebar--menu {
-        @include single-transition(transform, 0.35s, ease);
+        transition: transform 0.35s ease;
 
         width: 290px;
         border: none;
@@ -1482,7 +1482,7 @@
     }
 
     .sidebar--left {
-        @include single-transition(transform, 0.35s, ease);
+        transition: transform 0.35s ease;
 
         width: 290px;
         border: none;
@@ -1579,7 +1579,7 @@
     }
 
     #SidebarContainer {
-        @include single-transition(transform, 0.35s, ease);
+        transition: transform 0.35s ease;
 
         width: 290px;
         border: none;
@@ -1799,7 +1799,7 @@
     }
 
     .inner-wrap {
-        @include single-transition(all, 0.35s, ease);
+        transition: all 0.35s ease;
 
         .app__body & {
             &::before {
@@ -1820,7 +1820,7 @@
             transform: translate3d(0, 0, 0);
 
             &::before {
-                @include single-transition(all, 0.35s, ease);
+                transition: all 0.35s ease;
 
                 z-index: 9999;
                 background-color: rgba(0, 0, 0, 0.4);
@@ -1831,7 +1831,7 @@
             transform: translate3d(-290px, 0, 0);
 
             &::before {
-                @include single-transition(all, 0.35s, ease);
+                transition: all 0.35s ease;
 
                 z-index: 9999;
                 background-color: rgba(0, 0, 0, 0.4);

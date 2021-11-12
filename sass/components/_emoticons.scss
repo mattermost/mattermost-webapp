@@ -256,7 +256,7 @@
     margin: 12px;
 
     .skin-tones {
-        @include single-transition(all, 0.35s, ease);
+        transition: all 0.35s ease;
 
         z-index: 10;
         display: flex;
@@ -343,14 +343,14 @@
     }
 
     .skin-tones__close {
-        @include single-transition(opacity, 0.35s, ease);
+        transition: opacity 0.35s ease;
 
         display: flex;
         align-items: center;
     }
 
     .skin-tones__icons {
-        @include single-transition(opacity, 0.35s, ease);
+        transition: opacity 0.35s ease;
 
         opacity: 0;
     }
@@ -386,7 +386,7 @@
     }
 
     .color-selector {
-        @include single-transition(all, 0.35s, ease);
+        transition: all 0.35s ease;
 
         z-index: 11;
         display: flex;
