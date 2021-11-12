@@ -136,7 +136,6 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
               <button
                 aria-label="Invite Users dialog"
                 className="style--none intro-links color--link cursor--pointer"
-                data-toggle="modal toggle"
                 id="introTextInvite"
                 onClick={[Function]}
               >

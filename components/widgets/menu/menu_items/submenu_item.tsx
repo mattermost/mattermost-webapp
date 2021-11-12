@@ -87,11 +87,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         event.preventDefault();
         const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
-        const pathPair = Object.entries(event.nativeEvent).find(([key]) => key === 'path');
-        let path: HTMLElement[] | undefined;
-        if (pathPair) {
-            path = pathPair[1];
-        }
         if (isMobile) {
             if (subMenu && subMenu.length) { // if contains a submenu, call openModal with it
                 if (!root) { //required to close only the original menu
@@ -101,23 +96,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
             } else if (action) { // leaf node in the tree handles action only
                 action(postId);
             }
-        } else if (
-            path && // the first 2 elements in path match original event id
-            path.slice(0, 2).find((e) => e.id === id) &&
-            action
-        ) {
-            action(postId);
-        } else if (
-            !path &&
-            !event.nativeEvent.composedPath &&
-            action
-        ) { //for tests only that don't contain `path` or `composedPath`
-            action(postId);
-        } else if (
-            !path &&
-            (event.nativeEvent.composedPath() as HTMLElement[]).slice(0, 2).find((e) => e.id === id) &&
-            action
-        ) {
+        } else if (event.currentTarget.id === id && action) {
             action(postId);
         }
     }

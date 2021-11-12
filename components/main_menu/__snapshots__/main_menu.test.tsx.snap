@@ -485,7 +485,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1095,7 +1095,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1707,7 +1707,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>
