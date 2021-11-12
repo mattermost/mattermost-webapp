@@ -89,7 +89,7 @@ function stepThroughStatuses(statusTestCases = []) {
     statusTestCases.forEach((tc) => {
         // # Open user menu and click option
         if (tc.text === 'Do Not Disturb') {
-            cy.uiOpenDndStatusSubMenu().find('#dndTime-30mins_menuitem').click();
+            cy.uiOpenDndStatusSubMenu().find('#dndTime-thirty_minutes_menuitem').click();
         } else {
             cy.uiOpenUserMenu(tc.text);
         }

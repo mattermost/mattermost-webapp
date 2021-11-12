@@ -106,8 +106,6 @@
     "ClientRequirements": {
         "AndroidLatestVersion": "",
         "AndroidMinVersion": "",
-        "DesktopLatestVersion": "",
-        "DesktopMinVersion": "",
         "IosLatestVersion": "",
         "IosMinVersion": ""
     },
