@@ -121,9 +121,10 @@ const ThreadList = ({
         if (before === selectedThreadId) {
             before = data[startIndex - 2];
         }
+
         await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: Constants.THREADS_PAGE_SIZE, before}));
         return {data: true};
-    }, [currentTeamId, data, unread]);
+    }, [currentTeamId, data, unread, selectedThreadId]);
 
     const handleAllMarkedRead = useCallback(() => {
         dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
