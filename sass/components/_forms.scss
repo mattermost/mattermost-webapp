@@ -16,7 +16,7 @@
 }
 
 .form-control {
-    @include input-placeholder {
+    ::placeholder {
         color: inherit;
     }
 

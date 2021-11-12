@@ -489,11 +489,10 @@
                 width: 37px;
                 height: 37px;
                 background-image: url('../images/close.png');
+                background-size: 100% 100%;
                 cursor: pointer;
                 opacity: 1;
                 transition: opacity 0.6s;
-
-                @include background-size(100% 100%);
             }
 
             .modal-zoom-btn {

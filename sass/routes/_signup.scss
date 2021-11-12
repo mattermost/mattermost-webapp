@@ -307,13 +307,12 @@ body {
         }
 
         .icon {
-            @include background-size(100% 100%);
-
             position: relative;
             display: inline-block;
             width: 18px;
             height: 18px;
             margin-right: 12px;
+            background-size: 100% 100%;
             text-align: center;
         }
 

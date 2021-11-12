@@ -12,11 +12,10 @@
                 float: none;
 
                 .dropdown__icon {
-                    @include background-size(100% 100%);
-
                     display: inline-block;
                     width: 4px;
                     height: 16px;
+                    background-size: 100% 100%;
                 }
             }
 

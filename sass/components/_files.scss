@@ -364,14 +364,13 @@
 }
 
 .post-image {
-    @include background-size(cover);
-
     position: relative;
     overflow: hidden;
     width: 4rem;
     height: 4rem;
     background-color: $white;
     background-repeat: no-repeat;
+    background-size: cover;
     border-radius: 4px;
     text-align: center;
 

@@ -421,7 +421,7 @@
             overflow-y: auto;
         }
 
-        @include input-placeholder {
+        ::placeholder {
             color: inherit;
         }
     }
