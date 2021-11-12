@@ -66,10 +66,15 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
     }
     case ThreadTypes.FOLLOW_CHANGED_THREAD: {
         const {id, following} = action.data;
+
+        if (!state[id]) {
+            return state;
+        }
+
         return {
             ...state,
             [id]: {
-                ...(state[id] || {}),
+                ...state[id],
                 is_following: following,
             },
         };
@@ -159,17 +164,15 @@ const initialState = {
 // custom combineReducers function
 // enables passing data between reducers
 function reducer(state: ThreadsState = initialState, action: GenericAction): ThreadsState {
-    const extra: ExtraData = {};
+    const extra: ExtraData = {
+        threads: state.threads,
+    };
 
     // acting as a 'middleware'
     if (action.type === ChannelTypes.LEAVE_CHANNEL) {
         if (!action.data.viewArchivedChannels) {
             extra.threadsToDelete = getThreadsOfChannel(state.threads, action.data.id);
         }
-    }
-
-    if (action.type === ThreadTypes.FOLLOW_CHANGED_THREAD) {
-        extra.threads = state.threads;
     }
 
     const nextState = {
