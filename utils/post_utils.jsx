@@ -18,6 +18,7 @@ import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils
 import {allAtMentions} from 'utils/text_formatting';
 
 import {getEmojiMap} from 'selectors/emojis';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
@@ -94,7 +95,7 @@ export function shouldShowDotMenu(state, post, channel) {
         return false;
     }
 
-    if (Utils.isMobile()) {
+    if (getIsMobileView(state)) {
         return true;
     }
 
