@@ -197,28 +197,28 @@
 
         .image-loaded {
             @include single-transition(all, 0.1s, linear);
-            border-radius: 4px;
 
             bottom: 0;
             min-width: 40px;
             max-width: 100%;
             min-height: 40px;
             max-height: 350px;
+            border-radius: 4px;
 
             .file-preview__button {
                 display: block;
             }
 
             img {
-                border-radius: 4px;
-                @include single-transition(all, 0.1s, linear);
-
                 position: relative;
                 z-index: 2;
                 overflow: hidden;
                 max-height: 350px;
                 align-self: center;
+                border-radius: 4px;
                 cursor: pointer;
+
+                @include single-transition(all, 0.1s, linear);
 
                 &.compact-display {
                     max-height: 175px;
@@ -294,7 +294,6 @@
 
 .post-image__column {
     @include single-transition(box-shadow, 0.15s, ease);
-    border-radius: 4px;
 
     position: relative;
     display: flex;
@@ -306,15 +305,15 @@
     border: 1px solid rgba(v(center-channel-color-rgb), 0.16);
     margin: 4px 12px 4px 0;
     background: v(center-channel-bg);
+    border-radius: 4px;
     color: v(center-channel-color);
     cursor: pointer;
 
     &:hover,
     &:focus-within,
     &.keep-open {
-        box-shadow: 0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1);
-
         overflow: visible;
+        box-shadow: 0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1);
 
         .file-dropdown-icon {
             display: flex;
@@ -425,7 +424,6 @@
 
 .file-dropdown-icon {
     @include single-transition(opacity, 0.15s, ease);
-    border-radius: 4px;
 
     display: none;
     width: 32px;
@@ -436,6 +434,7 @@
     border: 0;
     margin-left: 8px;
     background-color: var(--center-channel-bg);
+    border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.72);
     cursor: pointer;
     fill: rgba(var(--center-channel-color-rgb), 0.72);
@@ -498,9 +497,8 @@
             }
 
             .post-image__size {
-                opacity: 0.6;
-
                 margin-left: 4px;
+                opacity: 0.6;
             }
         }
     }
@@ -550,14 +548,14 @@
         }
 
         svg {
-            opacity: 0.7;
-            @include single-transition(all, 0.1s, linear);
-            border-radius: 50%;
-
             display: inline-block;
             width: 30px;
             height: 30px;
             border: 1px solid;
+            border-radius: 50%;
+            opacity: 0.7;
+
+            @include single-transition(all, 0.1s, linear);
 
             &:hover {
                 opacity: 1;
@@ -589,7 +587,6 @@
 
 .file-details__container {
     display: flex;
-
     background: $white;
 
     .file-details {
@@ -687,14 +684,13 @@
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
     margin: 5px 2px;
     background: var(--center-channel-bg);
-
     border-radius: 4px;
 
     &:hover {
         @include single-transition(all, 0.1s, linear);
-        box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
 
         z-index: 2;
+        box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
     }
 }
 

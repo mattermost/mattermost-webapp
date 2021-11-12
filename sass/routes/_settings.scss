@@ -119,9 +119,6 @@
         }
 
         .profile-img__remove {
-            border-radius: 50%;
-            @include single-transition(all, 0.15s, ease);
-
             position: absolute;
             top: 4px;
             right: 8px;
@@ -133,8 +130,11 @@
             padding: 0;
             border: none;
             background: $black;
+            border-radius: 50%;
             color: $white;
             text-decoration: none;
+
+            @include single-transition(all, 0.15s, ease);
 
             span {
                 margin-top: -3px;
@@ -154,11 +154,10 @@
             }
 
             .img-preview__image {
-                border-radius: 6px;
-
                 overflow: hidden;
                 border: 1px solid alpha-color($black, 0.15);
                 background-color: $white;
+                border-radius: 6px;
             }
 
             div {
@@ -173,9 +172,6 @@
         }
 
         .team-img__remove {
-            border-radius: 50%;
-            @include single-transition(all, 0.15s, ease);
-
             position: absolute;
             top: -8px;
             right: -8px;
@@ -184,10 +180,13 @@
             padding: 0;
             border: none;
             background: $black;
+            border-radius: 50%;
             color: $white;
             line-height: 23px;
             text-align: center;
             text-decoration: none;
+
+            @include single-transition(all, 0.15s, ease);
 
             span {
                 margin-top: -3px;
@@ -365,22 +364,21 @@
                         }
 
                         .header__icon {
-                            opacity: 0.5;
-
                             float: right;
+                            opacity: 0.5;
                         }
                     }
 
                     .theme-elements__body {
-                        border-radius: 0 0 3px 3px;
-                        @include legacy-pie-clearfix;
-                        @include alpha-property(background-color, $white, 0.05);
-
                         max-height: 0;
                         padding: 0 0 0 24px;
                         margin: 0 20px 0 0;
+                        border-radius: 0 0 3px 3px;
                         overflow-y: hidden;
                         transition: all 0.4s ease-out;
+
+                        @include legacy-pie-clearfix;
+                        @include alpha-property(background-color, $white, 0.05);
 
                         &.open {
                             max-height: 1200px;
@@ -607,9 +605,8 @@
     }
 
     .post-profile-img {
-        border-radius: 50px;
-
         margin-right: 8px;
+        border-radius: 50px;
     }
 }
 
@@ -692,18 +689,17 @@
     text-align: right;
 
     .fa {
-        opacity: 0.5;
-
         display: none;
         margin-right: 5px;
         font-size: 12px;
+        opacity: 0.5;
     }
 }
 
 .section-min__describe {
     @include clearfix;
-    opacity: 0.7;
 
+    opacity: 0.7;
     text-overflow: ellipsis;
     white-space: pre;
 }

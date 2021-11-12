@@ -67,8 +67,6 @@
             }
 
             .Menu__close {
-                border-radius: 50%;
-
                 position: fixed;
                 top: 70px;
                 right: 20px;
@@ -78,6 +76,7 @@
                 padding-top: 13px;
                 border: 1px solid $white;
                 margin-left: -15px;
+                border-radius: 50%;
                 color: $white;
                 font-family: 'Open Sans', sans-serif;
                 font-size: 23px;
@@ -397,8 +396,6 @@
         .AddChannelDropdown,
         .GlobalThreads {
             .Menu {
-                border-radius: 0;
-
                 position: fixed;
                 z-index: 9999;
                 top: 0;
@@ -413,6 +410,7 @@
                 border: 0;
                 margin: 0;
                 background: transparent;
+                border-radius: 0;
 
                 .Menu__content {
                     position: relative;
@@ -675,11 +673,10 @@
 
                 >div,
                 >button {
-                    border-radius: 0;
-
                     height: auto;
                     padding: 15px 20px;
                     border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+                    border-radius: 0;
                 }
 
                 &:first-child {
@@ -813,8 +810,6 @@
 
     #header-popover {
         @include single-transition(all, 0.35s, ease);
-        transform: translate3d(0, 100%, 0);
-        box-shadow: none;
 
         position: fixed;
         top: 40px !important;
@@ -823,6 +818,8 @@
         height: calc(100% - 50px);
         border: none;
         background: alpha-color($black, 0.9);
+        box-shadow: none;
+        transform: translate3d(0, 100%, 0);
 
         &.in {
             transform: translate3d(0, 0, 0);
@@ -851,8 +848,6 @@
         }
 
         .close {
-            border-radius: 50%;
-
             position: fixed;
             bottom: 25px;
             left: 50%;
@@ -862,6 +857,7 @@
             padding-top: 13px;
             border: 1px solid $white;
             margin-left: -15px;
+            border-radius: 50%;
             color: $white;
             font-family: 'Open Sans', sans-serif;
             font-size: 23px;
@@ -910,11 +906,11 @@
     }
 
     .post-code__language {
-        opacity: 1;
-        @include transition(none);
-
         position: relative;
         display: block;
+        opacity: 1;
+
+        @include transition(none);
     }
 
     .backstage-form__footer {
@@ -1429,12 +1425,12 @@
 
         .search__form {
             @include single-transition(all, 0.2s, linear);
-            transform: translateX(0);
 
             width: 100%;
             border-color: transparent;
             margin-top: 9px;
             background: var(--center-channel-bg);
+            transform: translateX(0);
 
             &:hover,
             &--focused,
@@ -1444,11 +1440,10 @@
             }
 
             .form-control {
-                border-radius: 3px;
-
                 padding: 0 31px;
                 border: none;
                 background: var(--center-channel-bg);
+                border-radius: 3px;
             }
         }
 
@@ -1459,10 +1454,10 @@
 
     .sidebar--menu {
         @include single-transition(transform, 0.35s, ease);
-        transform: translate3d(290px, 0, 0);
 
         width: 290px;
         border: none;
+        transform: translate3d(290px, 0, 0);
         visibility: hidden;
 
         &.visible {
@@ -1471,9 +1466,8 @@
         }
 
         &.move--left {
-            transform: translate3d(0, 0, 0);
-
             display: block;
+            transform: translate3d(0, 0, 0);
             visibility: visible;
         }
 
@@ -1489,10 +1483,10 @@
 
     .sidebar--left {
         @include single-transition(transform, 0.35s, ease);
-        transform: translate3d(-290px, 0, 0);
 
         width: 290px;
         border: none;
+        transform: translate3d(-290px, 0, 0);
 
         &.sidebar--padded {
             padding-top: 0;
@@ -1555,14 +1549,13 @@
 
                     &.has-close {
                         .btn-close {
-                            opacity: 0.5;
-
                             display: block;
                             width: 30px;
                             height: 30px;
                             margin-right: 4px;
                             font-size: 25px;
                             line-height: 30px;
+                            opacity: 0.5;
                         }
                     }
                 }
@@ -1587,10 +1580,10 @@
 
     #SidebarContainer {
         @include single-transition(transform, 0.35s, ease);
-        transform: translate3d(-290px, 0, 0);
 
         width: 290px;
         border: none;
+        transform: translate3d(-290px, 0, 0);
 
         +.inner-wrap #app-content {
             margin-left: 0;
@@ -1682,14 +1675,13 @@
 
                     &.has-close {
                         .btn-close {
-                            opacity: 0.5;
-
                             display: block;
                             width: 30px;
                             height: 30px;
                             margin-right: 4px;
                             font-size: 25px;
                             line-height: 30px;
+                            opacity: 0.5;
                         }
                     }
 
@@ -1726,10 +1718,9 @@
     }
 
     .sidebar--right {
-        transform: translate3d(100%, 0, 0);
-
         right: 0;
         width: 100%;
+        transform: translate3d(100%, 0, 0);
 
         .browser--ie & {
             display: none;
@@ -1849,7 +1840,6 @@
 
         &.move--left {
             margin: 0;
-
             transform: translate3d(-100%, 0, 0);
         }
     }
@@ -1902,7 +1892,6 @@
 
             &.move--right {
                 display: flex;
-
                 transform: translate3d(0, 0, 0);
             }
         }
@@ -2254,9 +2243,8 @@
 
     .sidebar--left,
     #SidebarContainer {
-        transform: translate3d(-260px, 0, 0);
-
         width: 260px;
+        transform: translate3d(-260px, 0, 0);
     }
 
     .inner-wrap {

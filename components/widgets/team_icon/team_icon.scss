@@ -6,13 +6,13 @@
 
 .TeamIcon__content {
     @include single-transition(all, 0.25s, ease);
-    border-radius: 8px;
 
     display: flex;
     overflow: hidden;
     height: 100%;
     flex-direction: column;
     justify-content: center;
+    border-radius: 8px;
 
     &.no-hover {
         transition: none;

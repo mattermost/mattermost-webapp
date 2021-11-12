@@ -107,11 +107,10 @@
         padding: 2px 2px 2px 7px;
         margin: 0 6px;
         background: rgba(var(--sidebar-text-rgb), 0.08);
+        border-radius: 4px;
         color: var(--sidebar-text);
         font-size: 10px;
         font-weight: 700;
-
-        border-radius: 4px;
 
         .icon-close {
             padding: 2px;
@@ -145,12 +144,11 @@
     }
 
     .search-bar__container & {
-        border-radius: 4px;
-
         width: 180px;
         height: 32px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
         margin: 16px 0 0;
+        border-radius: 4px;
 
         .input-clear {
             right: 4px;
@@ -177,9 +175,9 @@
     }
 
     body.enable-animations .search-bar__container & {
-        transition-property: border-color, width;
-        transition-duration: $transition-quick, 0.3s;
         transition-delay: 0s;
+        transition-duration: $transition-quick, 0.3s;
+        transition-property: border-color, width;
         transition-timing-function: ease-in-out, ease-out;
     }
 
@@ -188,12 +186,11 @@
     }
 
     .LoadingSpinner {
-        opacity: 0.5;
-
         position: absolute;
         top: 4px;
         right: 25px;
         font-size: 1em;
+        opacity: 0.5;
     }
 
     // global header style adjustments
@@ -343,10 +340,9 @@
     }
 
     .search-item__jump {
-        border-radius: 4px;
-
         position: relative;
         padding: 5px 4px 0;
+        border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.4);
         font-size: 12px;
         font-weight: 600;
@@ -355,9 +351,8 @@
 }
 
 .search-item-time {
-    opacity: 0.7;
-
     font-size: 0.9em;
+    opacity: 0.7;
 }
 
 .search-results-none {
@@ -423,8 +418,6 @@
     }
 
     button {
-        border-radius: 4px;
-
         display: flex;
         align-items: center;
         justify-content: center;
@@ -432,6 +425,7 @@
         border: 1px solid v(button-bg);
         margin: 18px 8px 16px 0;
         background: v(center-channel-bg);
+        border-radius: 4px;
         color: v(button-bg);
         font-size: 12px;
         line-height: 1;

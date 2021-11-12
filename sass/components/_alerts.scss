@@ -1,9 +1,8 @@
 @charset 'UTF-8';
 
 .alert {
-    border-radius: $border-rad;
-
     padding: 8px 12px;
+    border-radius: $border-rad;
 
     .alert-transparent {
         background: var(--center-channel-bg);

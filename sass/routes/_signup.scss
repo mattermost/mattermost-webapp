@@ -45,9 +45,8 @@ body {
 
     &.branded {
         display: flex;
-        flex-direction: row;
-
         max-width: 900px;
+        flex-direction: row;
 
         .signup__markdown {
             @include flex(1.3 0 0);
@@ -206,11 +205,10 @@ body {
     }
 
     .block--gray {
-        border-radius: 3px;
-
         display: inline-block;
         padding: 0.85em 1.2em;
         background: #f2f2f2;
+        border-radius: 3px;
         font-weight: 600;
     }
 
@@ -320,8 +318,6 @@ body {
         }
 
         &.btn-custom-login {
-            border-radius: 2px;
-
             display: flex;
             width: 200px;
             min-width: 200px;
@@ -329,6 +325,7 @@ body {
             align-items: center;
             padding: 0 24px;
             margin: 1em 0;
+            border-radius: 2px;
             color: $white;
             text-align: left;
 
@@ -443,12 +440,11 @@ body {
         }
 
         .control-label {
-            border-radius: 3px;
-
             width: 100%;
             padding: 0.7em 1em;
             margin: 1em 0 0;
             background: #f2f2f2;
+            border-radius: 3px;
             color: #999;
             font-size: 14px;
             font-weight: normal;
@@ -464,9 +460,8 @@ body {
     }
 
     .reset-form {
-        border-radius: 3px;
-
         position: relative;
+        border-radius: 3px;
         font-size: 0.95em;
 
         p {
@@ -501,11 +496,10 @@ body {
 }
 
 .signup-team-all {
-    border-radius: 2px;
-
     max-height: calc(75vh - (108px + 89px));
     border: 1px solid #ddd;
     margin: 0 0 20px;
+    border-radius: 2px;
     border-radius: 4px;
 
     .signup-team-dir {

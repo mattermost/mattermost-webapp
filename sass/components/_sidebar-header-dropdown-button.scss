@@ -4,10 +4,9 @@
     align-items: center;
 
     .header__info {
-        flex-grow: 1;
-
         position: relative;
         width: 100%;
+        flex-grow: 1;
         padding: 3px 15px 0 8px;
         color: $white;
 
@@ -46,9 +45,8 @@
     }
 
     .menu-icon {
-        opacity: 0.8;
-
         fill: $white;
+        opacity: 0.8;
     }
 
     &:hover {

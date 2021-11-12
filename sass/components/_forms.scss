@@ -35,10 +35,9 @@
 }
 
 .input__help {
-    opacity: 0.8;
-
     margin: 10px 0 0 0;
     color: inherit;
+    opacity: 0.8;
     word-break: break-word;
 
     &.dark {
@@ -62,12 +61,11 @@
         text-align: left;
 
         &.light {
-            opacity: 0.6;
-
             padding-top: 2px;
             font-size: 1.05em;
             font-style: italic;
             font-weight: normal;
+            opacity: 0.6;
         }
     }
 

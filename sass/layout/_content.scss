@@ -48,11 +48,10 @@
 }
 
 .app__content {
-    display: flex;
-    flex-direction: column;
-
     position: relative;
+    display: flex;
     height: 100%;
+    flex-direction: column;
     padding-top: 50px;
     margin-left: 220px;
     background: var(--center-channel-bg);
@@ -69,9 +68,8 @@
     font-size: 13px;
 
     .fa {
-        opacity: 0.7;
-
         font-size: 11px;
+        opacity: 0.7;
     }
 
     a {

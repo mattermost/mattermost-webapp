@@ -50,13 +50,11 @@
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
                     border-radius: 16px;
-                    line-height: 20px;
-
                     box-shadow: $elevation-1;
+                    line-height: 20px;
 
                     &:hover {
                         border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
-
                         box-shadow: $elevation-2;
                     }
                 }

@@ -15,10 +15,9 @@
 }
 
 .popover {
-    border-radius: $border-rad * 2;
-
     padding: 0;
     background: var(--center-channel-bg);
+    border-radius: $border-rad * 2;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     color: lighten($black, 25%);
     font-family: inherit;
@@ -58,7 +57,6 @@
                 border-top: none;
                 background: v(center-channel-bg);
                 border-radius: 0 0 3px 3px;
-
                 box-shadow: rgba(var(--center-channel-color-rgb), 0.08) 0 17px 50px 0, rgba(var(--center-channel-color-rgb), 0.08) 0 12px 15px 0;
 
                 .shared-user-icon {
@@ -179,13 +177,12 @@
     }
 
     .popover-title {
-        border-radius: 0;
-
         overflow: hidden;
         max-width: 100%;
         padding: 8px 10px;
         border-color: rgba(var(--center-channel-color-rgb), 0.08);
         background: alpha-color($black, 0.05);
+        border-radius: 0;
         text-overflow: ellipsis;
 
         > span {
@@ -366,9 +363,8 @@
     left: auto;
     width: 296px;
     max-width: 350px;
-    visibility: hidden;
-
     opacity: 0;
+    visibility: hidden;
 
     &.autocomplete {
         display: block;
@@ -425,28 +421,27 @@
     }
 
     body.enable-animations & {
-        transition-property: opacity, visibility;
-        transition-duration: 0.1s;
         transition-delay: 0s;
+        transition-duration: 0.1s;
+        transition-property: opacity, visibility;
         transition-timing-function: ease-in, step-end;
     }
 
     &.visible {
         opacity: 1;
-
         visibility: visible;
 
         body.enable-animations & {
-            transition-property: opacity, visibility;
-            transition-duration: 0.3s;
             transition-delay: 0.2s;
+            transition-duration: 0.3s;
+            transition-property: opacity, visibility;
             transition-timing-function: ease-out, step-start;
         }
 
         body.enable-animations .sidebar--right & {
-            transition-property: opacity, visibility;
-            transition-duration: 0.3s;
             transition-delay: 0s;
+            transition-duration: 0.3s;
+            transition-property: opacity, visibility;
             transition-timing-function: ease-out, step-start;
         }
     }
@@ -473,10 +468,9 @@
         padding: 14px 20px;
 
         .icon {
-            opacity: 0.8;
-
             position: relative;
             margin: 0 38px 0 24px;
+            opacity: 0.8;
         }
 
         span {
@@ -529,10 +523,9 @@
                 opacity: 1;
 
                 button {
-                    border-radius: 4px;
-
                     width: 2em;
                     height: 2em;
+                    border-radius: 4px;
                     line-height: 0;
                     opacity: 0;
 
@@ -619,10 +612,9 @@
         }
 
         .more-modal__actions {
-            opacity: 0;
-
             margin: 0;
             line-height: 42px;
+            opacity: 0;
 
             .icon {
                 position: relative;

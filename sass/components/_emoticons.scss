@@ -80,10 +80,6 @@
 }
 
 .emoji-picker {
-    border-radius: $border-rad;
-    @include clearfix;
-    user-select: none;
-
     position: absolute;
     z-index: 1100;
     display: flex;
@@ -92,8 +88,12 @@
     border: 1px solid;
     margin-right: 3px;
     background: var(--center-channel-bg);
+    border-radius: $border-rad;
     border-radius: 4px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    user-select: none;
+
+    @include clearfix;
 
     .emoji-picker__header {
         background: var(--sidebar-header-bg);
@@ -601,9 +601,8 @@ $emoji-half-height: 33px;
         display: inline;
 
         .emoji-picker__preview-name {
-            user-select: text;
-
             font-weight: bold;
+            user-select: text;
         }
     }
 

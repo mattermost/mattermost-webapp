@@ -9,6 +9,7 @@
     height: 32px;
     margin: 10px 15px 0;
     background-color: var(--button-bg);
+    border-radius: 4px;
     color: var(--button-color);
     cursor: default;
     font-size: 13px;
@@ -16,16 +17,14 @@
     opacity: 0;
     visibility: hidden;
 
-    border-radius: 4px;
-
     svg {
         fill: var(--button-color);
         vertical-align: middle;
     }
 
     body.enable-animations & {
-        transition-property: opacity, visibility;
         transition-duration: 0s;
+        transition-property: opacity, visibility;
         transition-timing-function: ease-in-out;
     }
 
@@ -78,8 +77,8 @@
     visibility: visible;
 
     body.enable-animations & {
-        transition-property: opacity, visibility;
         transition-duration: 0s;
+        transition-property: opacity, visibility;
         transition-timing-function: ease-in-out;
     }
 }

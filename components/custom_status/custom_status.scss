@@ -84,10 +84,9 @@
         justify-content: center;
         border: none;
         background: transparent;
+        border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
         fill: rgba(var(--center-channel-color-rgb), 0.56);
-
-        border-radius: 4px;
 
         &:hover {
             background: rgba(var(--center-channel-color-rgb), 0.08);

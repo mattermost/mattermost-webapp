@@ -1,9 +1,8 @@
 @charset "utf-8";
 
 .dropdown-menu {
-    border-radius: 4px;
-
     background: var(--center-channel-bg);
+    border-radius: 4px;
 
     &.colorpicker {
         z-index: 2500;

@@ -155,8 +155,6 @@
         }
 
         .msg-typing {
-            opacity: 0.7;
-
             display: block;
             min-width: 1px;
             max-width: 230px;
@@ -166,13 +164,13 @@
             float: left;
             font-size: 13px;
             line-height: 20px;
+            opacity: 0.7;
         }
 
         .post-right-comments-upload-in-progress {
-            opacity: 0.7;
-
             padding: 6px 0;
             margin-right: 10px;
+            opacity: 0.7;
         }
 
         .emoji-picker {
@@ -191,14 +189,13 @@
 
         .post-create-footer {
             .post-error {
-                opacity: 0.55;
-
                 position: relative;
                 top: 0;
                 display: inline-block;
                 margin-bottom: 0;
                 font-size: 0.85em;
                 font-weight: normal;
+                opacity: 0.55;
             }
         }
     }

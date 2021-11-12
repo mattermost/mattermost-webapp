@@ -1,12 +1,12 @@
 @charset 'UTF-8';
 
 .webhooks__container {
-    border-radius: 3px;
-    @include alpha-property(background, $black, 0.1);
-
     padding: 0 13px 15px;
     border: 1px solid;
     margin-top: 10px;
+    border-radius: 3px;
+
+    @include alpha-property(background, $black, 0.1);
 }
 
 .post-attachment-dropdown {
@@ -181,8 +181,6 @@
             }
 
             .btn-close {
-                opacity: 0.4;
-
                 position: absolute;
                 z-index: 5;
                 left: -7px;
@@ -195,6 +193,7 @@
                 font-size: 21px;
                 font-weight: 500;
                 line-height: 20px;
+                opacity: 0.4;
                 outline: none;
                 text-align: center;
                 text-decoration: none;
@@ -307,11 +306,10 @@
         }
 
         .attachment__author-icon {
-            border-radius: 50px;
-
             width: 14px;
             height: 14px;
             margin-right: 5px;
+            border-radius: 50px;
         }
 
         .attachment__thumb-container {
@@ -368,14 +366,13 @@
             }
 
             button {
-                border-radius: 3px;
-
                 height: auto;
                 padding: 6px 12px;
                 border-width: 1px;
                 border-style: solid;
                 margin: 8px 8px 0 0;
                 background: var(--center-channel-bg);
+                border-radius: 3px;
                 font-size: 13px;
                 font-weight: 700;
                 outline: 0;

@@ -476,10 +476,10 @@
 
     .sidebar--right {
         @include single-transition(all, 0.35s, ease);
-        transform: translateX(100%);
 
         z-index: 13;
         top: 0;
+        transform: translateX(100%);
 
         .announcement-bar--fixed & {
             top: 32px;

@@ -2,9 +2,8 @@
 
 .modal {
     .modal-content {
-        box-shadow: 0 0 10px rgba($black, 0.5);
-
         border-radius: $border-rad;
+        box-shadow: 0 0 10px rgba($black, 0.5);
     }
 
     .about-modal {
@@ -42,10 +41,9 @@
                     margin: 0 5px 0 8px;
 
                     svg {
-                        opacity: 0.8;
-
                         width: 14px;
                         height: 14px;
+                        opacity: 0.8;
                     }
                 }
             }
@@ -106,16 +104,15 @@
 
         .about-modal__content {
             @include clearfix;
+
             display: flex;
             flex-direction: row;
-
             padding: 1em 0 3em;
         }
 
         .about-modal__copyright {
-            opacity: 0.6;
-
             margin-top: 0.5em;
+            opacity: 0.6;
         }
 
         .about-modal__links {
@@ -136,10 +133,9 @@
         }
 
         .about-modal__hash {
-            opacity: 0.4;
-
             overflow: hidden;
             font-size: 0.75em;
+            opacity: 0.4;
             text-align: right;
 
             p {
@@ -151,9 +147,8 @@
         }
 
         .about-modal__notice {
-            opacity: 0.8;
-
             font-size: 0.79em;
+            opacity: 0.8;
             text-align: right;
 
             p {
@@ -164,9 +159,8 @@
         }
 
         .about-modal__logo {
-            opacity: 0.9;
-
             padding: 0 40px 0 20px;
+            opacity: 0.9;
 
             svg {
                 width: 125px;

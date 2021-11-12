@@ -1,8 +1,6 @@
 @charset 'UTF-8';
 
 .post-menu {
-    border-radius: 4px;
-
     position: absolute;
     z-index: 6;
     top: -8px;
@@ -11,6 +9,7 @@
     justify-content: flex-end;
     padding: 4px;
     border: 1px solid transparent;
+    border-radius: 4px;
     white-space: normal;
 }
 
@@ -77,10 +76,8 @@
         &.a11y--active {
             .post-menu {
                 border-color: rgba(v(center-channel-color-rgb), 0.08);
-
-                box-shadow: $elevation-1;
-
                 background-color: v(center-channel-bg);
+                box-shadow: $elevation-1;
             }
 
             .search-item__jump {

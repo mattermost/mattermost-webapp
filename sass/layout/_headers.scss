@@ -22,7 +22,6 @@
         flex: 1 1 0;
         align-items: center;
         padding: 4px 4px;
-
         border-radius: 4px;
 
         &:hover {
@@ -56,10 +55,9 @@
         height: 24px;
         padding: 4px;
         margin-left: 4px;
+        border-radius: 4px;
         color: v(center-channel-color);
         float: left;
-
-        border-radius: 4px;
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
@@ -82,11 +80,10 @@
         }
 
         i {
-            opacity: 0.56;
-
             position: relative;
             top: -1px;
             font-size: 18px;
+            opacity: 0.56;
         }
     }
 
@@ -96,10 +93,9 @@
         height: 24px;
         padding: 4px;
         margin-left: 4px;
+        border-radius: 4px;
         color: v(center-channel-color);
         float: left;
-
-        border-radius: 4px;
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
@@ -122,11 +118,10 @@
         }
 
         i {
-            opacity: 0.56;
-
             position: relative;
             top: -2px;
             font-size: 16px;
+            opacity: 0.56;
         }
     }
 
@@ -556,10 +551,9 @@
     }
 
     .channel-intro__content {
-        border-radius: 3px;
-
         padding: 10px 15px;
         background: $bg--gray;
+        border-radius: 3px;
     }
 }
 
@@ -578,12 +572,12 @@
 
     .team__header {
         @include legacy-pie-clearfix;
-        display: flex;
-        flex-direction: row-reverse;
 
         position: relative;
+        display: flex;
         max-height: 63px;
         flex: 0 0 63px;
+        flex-direction: row-reverse;
         align-items: center;
         padding: 10px;
 
@@ -640,9 +634,8 @@
         }
 
         a {
-            text-decoration: none;
-
             flex-grow: 1;
+            text-decoration: none;
         }
 
         a.out_of_office {
@@ -687,8 +680,6 @@
 
             .sidebar-header-dropdown__toggle,
             .admin-navbar-dropdown__toggle {
-                opacity: 0.8;
-
                 left: 0;
                 display: block;
                 width: 100%;
@@ -698,6 +689,7 @@
                 color: $white;
                 font-size: 1em;
                 line-height: 1.8;
+                opacity: 0.8;
             }
 
             .dropdown-menu {
@@ -733,16 +725,14 @@
         }
 
         .header__info {
-            flex-grow: 1;
-
             position: relative;
             width: 100%;
+            flex-grow: 1;
             padding: 2px 36px 0 0;
             color: var(--sidebar-header-text-color);
 
             .sidebar-header-dropdown__icon {
                 @include single-transition(opacity, $transition-quick, ease-in-out);
-                opacity: 0.8;
 
                 position: absolute;
                 top: 4px;
@@ -752,6 +742,7 @@
                 border-radius: 36px;
                 fill: var(--sidebar-header-text-color);
                 line-height: 36px;
+                opacity: 0.8;
                 text-align: center;
             }
         }
@@ -866,11 +857,11 @@
         }
 
         > a {
-            opacity: 0.6;
-            @include single-transition(all, 0.1s, ease-in);
-
             color: inherit;
+            opacity: 0.6;
             text-decoration: none;
+
+            @include single-transition(all, 0.1s, ease-in);
 
             &:hover {
                 opacity: 0.7;
@@ -882,7 +873,6 @@
 
             &.active {
                 color: $primary-color;
-
                 opacity: 1;
 
                 .icon {

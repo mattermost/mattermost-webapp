@@ -78,13 +78,12 @@
             font-size: 13px;
 
             .post-error {
-                opacity: 0.55;
-
                 position: relative;
                 top: 3px;
                 margin-bottom: 0;
                 font-size: 0.85em;
                 font-weight: normal;
+                opacity: 0.55;
             }
         }
     }
@@ -99,11 +98,10 @@
 }
 
 .modal__hint {
-    opacity: 0.8;
-
     display: block;
     margin: 0 0 10px;
     font-size: 0.9em;
+    opacity: 0.8;
 }
 
 .modal__error {
@@ -169,11 +167,10 @@
     }
 
     .info__label {
-        opacity: 0.5;
-
         margin-bottom: 3px;
         font-size: 0.9em;
         font-weight: 600;
+        opacity: 0.5;
     }
 
     .info__value {
@@ -239,15 +236,15 @@
     }
 
     .modal-header {
-        border-radius: 0;
-        @include clearfix;
-
         min-height: 56px;
         padding: 14px 15px 11px;
         border: 1px solid $light-gray;
         background: #333;
+        border-radius: 0;
         border-radius: 3px 3px 0 0;
         color: $white;
+
+        @include clearfix;
 
         .modal-title {
             overflow: hidden;
@@ -283,9 +280,6 @@
         }
 
         .close {
-            opacity: 0.7;
-            @include single-transition(all, 0.1s, ease-in);
-
             position: absolute;
             z-index: 5;
             right: 10px;
@@ -294,10 +288,14 @@
             color: white;
             font-size: 24px;
             line-height: 30px;
+            opacity: 0.7;
             text-shadow: none;
+
+            @include single-transition(all, 0.1s, ease-in);
 
             &:hover {
                 opacity: 1;
+
                 @include alpha-property(background, $black, 0.1);
             }
 
@@ -329,9 +327,8 @@
         text-align: center;
 
         .secondary-message {
-            opacity: 0.8;
-
             margin: 1em 0 0;
+            opacity: 0.8;
         }
     }
 
@@ -413,12 +410,11 @@
         }
 
         .modal-image__wrapper {
-            border-radius: 3px;
-
             position: relative;
             display: table-cell;
             width: 100%;
             max-width: 90%;
+            border-radius: 3px;
             text-align: center;
             vertical-align: middle;
 
@@ -489,7 +485,6 @@
             .modal-close {
                 @include single-transition(opacity, 0.6s);
                 @include background-size(100% 100%);
-                opacity: 1;
 
                 position: absolute;
                 z-index: 9999;
@@ -499,6 +494,7 @@
                 height: 37px;
                 background-image: url('../images/close.png');
                 cursor: pointer;
+                opacity: 1;
                 transition: opacity 0.6s;
             }
 
@@ -636,10 +632,9 @@
         }
 
         .channel-count {
-            opacity: 0.8;
-
             margin-top: 5px;
             float: right;
+            opacity: 0.8;
         }
     }
 
@@ -712,18 +707,16 @@
     }
 
     .member-count {
-        opacity: 0.8;
-
         margin-top: 5px;
         float: right;
+        opacity: 0.8;
     }
 
     .member-show {
-        opacity: 0.8;
-
         margin-top: 8px;
         margin-right: 3px;
         float: right;
+        opacity: 0.8;
     }
 
     .member-select__container {
@@ -732,11 +725,10 @@
         }
 
         select {
-            opacity: 0.8;
-
             width: auto;
             margin: 1px 5px 0 2px;
             float: right;
+            opacity: 0.8;
         }
     }
 
@@ -857,12 +849,11 @@
     }
 
     .more-modal__image {
-        border-radius: 60px;
-
         max-width: none;
         flex-grow: 0;
         flex-shrink: 0;
         margin-top: 2px;
+        border-radius: 60px;
     }
 
     .more-modal__details {
@@ -937,10 +928,9 @@
     }
 
     .more-modal__description {
-        opacity: 0.6;
-
         display: block;
         overflow: hidden;
+        opacity: 0.6;
         text-overflow: ellipsis;
         white-space: nowrap;
 

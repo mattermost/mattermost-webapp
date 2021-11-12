@@ -2,12 +2,11 @@
 
 .team_statistics {
     .total-count {
-        border-radius: 3px;
-
         width: 100%;
         border: 1px solid $light-gray;
         margin: 1em 0;
         background: $white;
+        border-radius: 3px;
         text-align: center;
 
         .title {

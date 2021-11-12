@@ -23,9 +23,8 @@
             border-bottom-color: transparent !important;
 
             .small {
-                opacity: 0.8;
-
                 margin-left: 4px;
+                opacity: 0.8;
             }
         }
     }
@@ -96,8 +95,6 @@
             line-height: 48px;
 
             &.navbar-right__icon {
-                border-radius: 50px;
-
                 display: flex;
                 width: 32px;
                 height: 32px;
@@ -106,6 +103,7 @@
                 padding: 0;
                 margin: 9px 10px 0 0;
                 background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
+                border-radius: 50px;
                 line-height: 0;
 
                 &:hover,

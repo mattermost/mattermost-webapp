@@ -1,12 +1,11 @@
 @charset 'UTF-8';
 
 .mention {
-    border-radius: 3px;
-
     position: relative;
     z-index: 10;
     padding-bottom: 2px;
     background: $primary-color;
+    border-radius: 3px;
     color: $white;
 }
 

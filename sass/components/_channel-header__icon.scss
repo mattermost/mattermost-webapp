@@ -1,6 +1,4 @@
 .channel-header__icon {
-    border-radius: 4px;
-
     position: relative;
     z-index: 5;
     display: flex;
@@ -12,6 +10,7 @@
     border: none;
     margin: 16px 0 0 4px;
     background: transparent;
+    border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
     cursor: pointer;
     fill: rgba(var(--center-channel-color-rgb), 0.56);

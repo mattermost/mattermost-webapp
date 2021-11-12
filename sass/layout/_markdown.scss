@@ -53,9 +53,8 @@ h6.markdown__heading {
     .markdown-inline-img {
         max-height: 500px;
         margin: 5px 2px;
-        -moz-force-broken-image-icon: 1;
-
         border-radius: 4px;
+        -moz-force-broken-image-icon: 1;
     }
 
     div.markdown-inline-img {
@@ -88,9 +87,9 @@ h6.markdown__heading {
 
         &:hover {
             @include single-transition(all, 0.1s, linear);
-            box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
 
             z-index: 2;
+            box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
         }
     }
 
@@ -101,14 +100,13 @@ h6.markdown__heading {
     .markdown-inline-img--scaled-down {
         max-height: 18px;
         margin: 2px;
-
         border-radius: 2px;
 
         &:hover {
             @include single-transition(all, 0.1s, linear);
-            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
 
             z-index: 2;
+            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
         }
     }
 
@@ -133,9 +131,8 @@ h6.markdown__heading {
     .markdown-inline-img {
         max-height: 18px;
         margin: 2px;
-        -moz-force-broken-image-icon: 1;
-
         border-radius: 2px;
+        -moz-force-broken-image-icon: 1;
     }
 
     .markdown-inline-img--loading {
@@ -148,9 +145,9 @@ h6.markdown__heading {
 
         &:hover {
             @include single-transition(all, 0.1s, linear);
-            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
 
             z-index: 2;
+            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
         }
     }
 
@@ -194,14 +191,13 @@ h6.markdown__heading {
     }
 
     .post-code__line-numbers {
-        user-select: none;
-
         min-width: 36px;
         padding-right: 4px;
         border-right: 1px solid #ccc;
         margin-right: 12px;
         color: #ccc;
         font-family: Menlo, Monaco, Consolas, "Courier New", monospace; // Match the fonts that code elements use
+        user-select: none;
     }
 
     .hljs {
@@ -221,10 +217,6 @@ h6.markdown__heading {
 }
 
 .post-code__language {
-    opacity: 0;
-    @include transition(opacity, 0.6s);
-    @include unselectable;
-
     position: absolute;
     z-index: 5;
     top: 5px;
@@ -233,25 +225,27 @@ h6.markdown__heading {
     background: #21586d;
     border-radius: 0 0 0 2px;
     color: $white;
+    opacity: 0;
+
+    @include transition(opacity, 0.6s);
+    @include unselectable;
 }
 
 .post-code__search-highlighting {
     position: absolute;
     color: transparent;
     pointer-events: none;
-
     user-select: none;
 }
 
 .post__body {
     hr {
-        opacity: 0.2;
-
         height: 4px;
         padding: 0;
         border: 0 none;
         margin: 15px 0 16px;
         background-color: #e7e7e7;
+        opacity: 0.2;
     }
 
     .codespan__pre-wrap {
@@ -312,8 +306,6 @@ blockquote {
     font-size: inherit;
 
     &::before {
-        opacity: 0.6;
-
         position: absolute;
         top: 5px;
         left: 8px;
@@ -323,6 +315,7 @@ blockquote {
         font-size: 20px;
         font-style: normal;
         font-weight: normal;
+        opacity: 0.6;
         text-decoration: inherit;
     }
 }

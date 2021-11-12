@@ -4,7 +4,6 @@
 
 .FileSearchResultItem {
     @include single-transition(box-shadow, 0.15s, ease);
-    border-radius: 4px;
 
     display: flex;
     overflow: hidden;
@@ -16,6 +15,7 @@
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin: 0 14px 8px 14px;
     background: transparent;
+    border-radius: 4px;
     color: var(--center-channel-color);
     cursor: pointer;
 
@@ -38,9 +38,8 @@
     &:hover,
     &:focus-within,
     &.keep-open {
-        box-shadow: 0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1);
-
         overflow: visible;
+        box-shadow: 0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1);
 
         .action-icon {
             display: flex;
@@ -102,7 +101,6 @@
 
     .action-icon {
         @include single-transition(opacity, 0.15s, ease);
-        border-radius: 4px;
 
         display: flex;
         width: 32px;
@@ -111,6 +109,7 @@
         justify-content: center;
         margin-left: 8px;
         background-color: var(--center-channel-bg);
+        border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.72);
         cursor: pointer;
         fill: rgba(var(--center-channel-color-rgb), 0.72);

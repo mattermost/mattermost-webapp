@@ -14,14 +14,13 @@ $tip-index: 1000;
 }
 
 .tip-overlay {
-    border-radius: 3px;
-
     position: absolute;
     z-index: $tip-index;
     width: 350px;
     max-width: 90%;
     padding: 20px;
     background: var(--center-channel-bg);
+    border-radius: 3px;
 
     .arrow {
         position: absolute;
@@ -165,11 +164,10 @@ $tip-index: 1000;
     }
 
     .btn {
-        border-radius: 3px;
-
         border: none;
         margin: 10px 0;
         background: alpha-color($black, 0.3);
+        border-radius: 3px;
         color: $white;
 
         &:hover,
@@ -242,10 +240,9 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--sidebar {
-        opacity: 0.8;
-
         top: 10px;
         right: 21px;
+        opacity: 0.8;
     }
 
     &.tip-overlay--add-channels {
@@ -333,19 +330,17 @@ $tip-index: 1000;
     margin: 2em 0;
 
     .circle {
-        border-radius: 9px;
-        opacity: 0.2;
-
         display: inline-block;
         width: 9px;
         height: 9px;
         margin: 0 5px;
         background: $black;
+        border-radius: 9px;
+        opacity: 0.2;
 
         &.active {
-            opacity: 1;
-
             background: $primary-color;
+            opacity: 1;
         }
     }
 }

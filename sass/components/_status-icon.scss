@@ -78,11 +78,10 @@
             visibility: hidden;
 
             i {
-                opacity: 1;
-
                 position: relative;
                 top: 4px;
                 font-size: 10px;
+                opacity: 1;
             }
         }
 
@@ -113,9 +112,9 @@
 .status-selector {
     .status {
         body.enable-animations & {
-            transition-property: opacity, visibility;
-            transition-duration: $transition-quick;
             transition-delay: 0s;
+            transition-duration: $transition-quick;
+            transition-property: opacity, visibility;
             transition-timing-function: ease-out, step-start;
         }
 
