@@ -52,5 +52,9 @@
 .move--left {
     .Drafts__main {
         margin-right: 400px;
+
+        @media screen and (min-width: 1680px) {
+            margin-right: 500px;
+        }
     }
 }
