@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
@@ -14,9 +15,11 @@ import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
+import {makeAsyncComponent} from 'components/async_load';
 
 import {getSteps, isFirstAdmin} from './steps';
-import NextStepsView from './next_steps_view';
+
+const NextStepsView = makeAsyncComponent(React.lazy(() => import('./next_steps_view')));
 
 function makeMapStateToProps() {
     const getCategory = makeGetCategory();

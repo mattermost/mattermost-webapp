@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import React from 'react';
+
 import {createSelector} from 'reselect';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -7,16 +10,17 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
 
+import {makeAsyncComponent} from 'components/async_load';
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-import CompleteProfileStep from './steps/complete_profile_step';
-import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferences_step';
-import InviteMembersStep from './steps/invite_members_step';
-import TeamProfileStep from './steps/team_profile_step';
-import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
-import DownloadAppsStep from './steps/download_apps_step/download_apps_step';
+const CompleteProfileStep = makeAsyncComponent(React.lazy(() => import('./steps/complete_profile_step')));
+const SetupPreferencesStep = makeAsyncComponent(React.lazy(() => import('./steps/setup_preferences_step/setup_preferences_step')));
+const InviteMembersStep = makeAsyncComponent(React.lazy(() => import('./steps/invite_members_step')));
+const TeamProfileStep = makeAsyncComponent(React.lazy(() => import('./steps/team_profile_step')));
+const EnableNotificationsStep = makeAsyncComponent(React.lazy(() => import('./steps/enable_notifications_step/enable_notifications_step')));
+const DownloadAppsStep = makeAsyncComponent(React.lazy(() => import('./steps/download_apps_step/download_apps_step')));
 
 import {isStepForUser} from './step_helpers';
 
