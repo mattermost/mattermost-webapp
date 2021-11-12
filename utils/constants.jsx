@@ -296,6 +296,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_ROLE: 'add_user_to_role',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
@@ -341,6 +342,7 @@ export const ModalIdentifiers = {
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM: 'confirm',
     FILE_PREVIEW_MODAL: 'file_preview_modal',
+    USERS_TO_BE_REMOVED: 'users_to_be_removed',
 };
 
 export const UserStatuses = {
