@@ -2,7 +2,7 @@
 
 @import 'compass/utilities';
 @import 'compass/css3';
-@import 'utils/module';
+@import 'utils/variables';
 
 .TeamIcon__content {
     @include single-transition(all, 0.25s, ease);

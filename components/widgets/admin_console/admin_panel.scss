@@ -1,6 +1,6 @@
 @import 'compass/utilities';
 @import 'compass/css3';
-@import 'utils/module';
+@import 'utils/variables';
 
 .AdminPanel {
     @include border-radius($border-rad);
