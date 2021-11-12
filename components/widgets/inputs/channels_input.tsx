@@ -95,7 +95,7 @@ export default class ChannelsInput extends React.PureComponent<Props, State> {
             />
         );
 
-        // fudging types due to longstanding mismatches
+        // faking types due to longstanding mismatches in react-select & @types/react-select
         return (<LoadingSpinner text={text}/> as unknown as string);
     }
 

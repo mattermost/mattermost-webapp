@@ -323,23 +323,6 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         return true;
     }
 
-    // getDerivedStateFromProps = (props: Props, state: State) => {
-    //     if (state.view === View.NO_PERMISSIONS && (props.canAddUsers || props.canInviteGuests) && state.invite.usersEmailsSearch !== 'nopermissions') {
-    //         return {
-    //             ...state,
-    //             view: View.INVITE,
-    //         };
-    //     }
-
-    //     if (((!props.canAddUsers && !props.canInviteGuests) || state.invite.usersEmailsSearch === 'nopermissions') && state.view !== View.NO_PERMISSIONS) {
-    //         return {
-    //             ...state,
-    //             view: View.NO_PERMISSIONS,
-    //         };
-    //     }
-    //     return state;
-    // }
-
     render() {
         let view = (
             <InviteView

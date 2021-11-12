@@ -5,10 +5,6 @@ import React from 'react';
 import {IntlShape, IntlProvider} from 'react-intl';
 import {mount} from 'enzyme';
 
-// import {Modal} from 'react-bootstrap';
-
-// import Radio from '@mattermost/compass-components/components/radio';
-
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {Team} from 'mattermost-redux/types/teams';

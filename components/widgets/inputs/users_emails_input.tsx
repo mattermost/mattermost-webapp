@@ -25,7 +25,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import './users_emails_input.scss';
 
-// Fudging types here to approximate what AsyncCreatable props should be. They're similar to AsyncSelectProps, but the signature for onChange is a list. we have a very out of date react-select library and these types are not exposed, and its not easy to update react-select several major versions
+// Faking types here to approximate what AsyncCreatable props should be. They're similar to AsyncSelectProps, but the signature for onChange is a list. we have a very out of date react-select library and these types are not exposed, and its not easy to update react-select several major versions
 type AsyncCreatableProps = {
     onChange: (value: Array<UserProfile | EmailInvite>) => void;
 };
