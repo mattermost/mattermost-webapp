@@ -33,6 +33,43 @@
     .terms-and-policy {
         margin-top: 15px;
     }
+
+    .compare-plans-text {
+        margin-top: 15px;
+    }
+}
+
+.file__upload {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px 10px 0;
+
+    input {
+        // @include opacity(0);
+
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding-left: 100%;
+        cursor: pointer;
+
+        &[disabled] {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.banner-start-trial {
+    .trial-legal-terms {
+        color: #3F4350;
+    }
+}
+
+.admin-console__banner_section {
+    margin-bottom: 20px;
 }
 
 .current-plan-legend {

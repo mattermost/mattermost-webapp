@@ -1,0 +1,96 @@
+.EnterpriseVersionsRightPannel {
+    .svg-image {
+        text-align: center;
+
+        svg {
+            margin: 0 auto;
+        }
+    }
+
+    .upgrade-title {
+        color: #3f4350;
+        font-family: Metropolis;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        margin: 10px 0;
+    }
+
+    .advantages-list {
+        margin: 7px 0;
+
+        .item {
+            margin: 3px 0;
+
+            i {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    button {
+        width: 100%;
+        margin: 5px auto;
+        border-radius: 4px;
+    }
+
+    .purchase_buttons {
+        margin-top: 20px;
+        button {
+            margin: 0 5px !important;
+            padding: 6px 12px !important;
+            max-height: 48px !important;
+        }
+    }
+
+    .upgrade-error {
+        margin-top: 10px;
+    }
+}
+
+.EnterpriseVersionsLeftPanel {
+    .title {
+        color: #3f4350;
+        font-family: Metropolis;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 24px;
+    }
+    .subtitle {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        color: #3D3C40;
+    }
+
+    .licenseInformation {
+
+        .licenseKeyTitle {
+            font-family: Metropolis;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 700;
+        }
+
+        .uploadButtons {
+            margin-top: 10px;
+
+            input {
+                display: hidden;
+            }
+
+            button {
+                border-radius: 4px;
+
+                &.btn-upload {
+                    margin-left: 10px;
+                    
+                    color: #1C58D9;
+                    background: rgba(28, 88, 217, 0.08);
+                }
+            }
+
+        }
+    }
+}

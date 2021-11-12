@@ -23,7 +23,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import Markdown from 'components/markdown/markdown';
 
-import {AboutLinks, ModalIdentifiers} from 'utils/constants';
+import {AboutLinks, CloudLinks, ModalIdentifiers} from 'utils/constants';
 
 import {ModalData} from 'types/actions';
 
@@ -34,7 +34,10 @@ import './license_settings.scss';
 
 import TeamEditionLeftPanel from './team_edition/team_edition_left_panel';
 import TeamEditionRightPanel from './team_edition/team_edition_right_panel';
+import StarterEditionLeftPanel from './starter_edition/starter_edition_left_panel';
+import StarterEditionRightPanel from './starter_edition/starter_edition_right_panel';
 import EELicenseModal from './ee_license_modal/ee_license_modal';
+import {free30DayTrial} from './license_utils/license_utils';
 
 type Props = {
     license: ClientLicense;
@@ -267,6 +270,13 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         </div>
     );
 
+    comparePlans = (
+        <div className='compare-plans-text'>
+            {'Curious about upgrading? '}
+            {this.createLink(CloudLinks.PRICING, 'Compare Plans')}
+        </div>
+    );
+
     renderStartTrial = (isDisabled: boolean, gettingTrialError: JSX.Element | null) => {
         return (
             <React.Fragment>
@@ -330,26 +340,30 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
         const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
-        // if (!this.props.enterpriseReady) { // Team Edition
-        //     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-        //     edition = (
-        //         <div>
-        //             <p>{'Mattermost Starter Edition. A license is required to unlock enterprise features.'}</p>
+        let leftPanel = null;
+        let rightPanel = null;
 
-        //         </div>
-        //     );
+        if (!this.props.enterpriseReady) { // Team Edition
+            // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
+            leftPanel = (
+                <TeamEditionLeftPanel
+                    openEELicenseModal={this.openEELicenseModal}
+                    currentPlan={this.currentPlan}
+                />
+            );
 
-        //     licenseType = (
-        //         <div>
-        //             <p>{'When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'}</p>
-        //             <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
-        //             <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
-        //         </div>
-        //     );
-
-        //     eelicense = this.renderEELicenseText();
-        // } else if (license.IsLicensed === 'true' && !uploading) {
-        if (license.IsLicensed === 'true' && !uploading) {
+            rightPanel = (
+                <TeamEditionRightPanel
+                    upgradingPercentage={this.state.upgradingPercentage}
+                    upgradeError={this.state.upgradeError}
+                    restartError={this.state.restartError}
+                    handleRestart={this.handleRestart}
+                    handleUpgrade={this.handleUpgrade}
+                    restarting={this.state.restarting}
+                    openEEModal={this.openEELicenseModal}
+                />
+            );
+        } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             let skuShortName = license.SkuShortName;
             if (isTrialLicense(license)) {
@@ -399,28 +413,67 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 </div>
             );
             licenseContent = this.renderE10E20Content();
-        } else {
-            // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-            edition = (
-                <div>
-                    {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
-                    {this.props.prevTrialLicense?.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(isDisabled, gettingTrialError)}
-                </div>
+            leftPanel = (
+                <TeamEditionLeftPanel
+                    openEELicenseModal={this.openEELicenseModal}
+                    currentPlan={this.currentPlan}
+                />
             );
 
-            if (upgradedFromTE) {
-                licenseType = (
-                    <div>
-                        <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
-                        <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
-                    </div>
-                );
-                eelicense = this.renderEELicenseText();
-            } else {
-                licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
-            }
+            rightPanel = (
+                <TeamEditionRightPanel
+                    upgradingPercentage={this.state.upgradingPercentage}
+                    upgradeError={this.state.upgradeError}
+                    restartError={this.state.restartError}
+                    handleRestart={this.handleRestart}
+                    handleUpgrade={this.handleUpgrade}
+                    restarting={this.state.restarting}
+                    openEEModal={this.openEELicenseModal}
+                />
+            );
+        } else {
+            // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
+            // This is Mattermost Starter (Already downloaded the binary but no license has been set, or ended the trial period)
 
-            licenseContent = this.renderE0Content();
+            leftPanel = (
+                <StarterEditionLeftPanel
+                    openEELicenseModal={this.openEELicenseModal}
+                    currentPlan={this.currentPlan}
+                    upgradedFromTE={this.props.upgradedFromTE}
+                    serverError={this.state.serverError}
+                    fileSelected={this.state.fileSelected}
+                    fileName={this.state.fileName}
+                    uploading={this.state.uploading}
+                    fileInputRef={this.fileInputRef}
+                    isDisabled={this.props.isDisabled}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                />
+            );
+
+            rightPanel = (
+                <StarterEditionRightPanel/>
+            );
+
+            // edition = (
+            //     <div>
+            //         {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
+            //     </div>
+            // );
+
+            // if (upgradedFromTE) {
+            //     licenseType = (
+            //         <div>
+            //             <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
+            //             <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
+            //         </div>
+            //     );
+            //     eelicense = this.renderEELicenseText();
+            // } else {
+            //     licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
+            // }
+
+            // licenseContent = this.renderE0Content();
         }
 
         return (
@@ -432,32 +485,28 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
+                        <div className='admin-console__banner_section'>
+                            {this.props.prevTrialLicense?.IsLicensed !== 'true' &&
+                                free30DayTrial(
+                                    isDisabled,
+                                    gettingTrialError,
+                                    this.requestLicense,
+                                    this.state.gettingTrial,
+                                )
+                            }
+                        </div>
                         <div className='top-wrapper'>
                             <div className='left-pannel'>
                                 <div className='panel-card'>
-                                    {(!this.props.enterpriseReady) &&
-                                        <TeamEditionLeftPanel
-                                            openEELicenseModal={this.openEELicenseModal}
-                                            currentPlan={this.currentPlan}
-                                        />
-                                    }
+                                    {leftPanel}
                                 </div>
                                 {this.termsAndPolicy}
                             </div>
                             <div className='right-pannel'>
                                 <div className='panel-card'>
-                                    {(!this.props.enterpriseReady) &&
-                                        <TeamEditionRightPanel
-                                            upgradingPercentage={this.state.upgradingPercentage}
-                                            upgradeError={this.state.upgradeError}
-                                            restartError={this.state.restartError}
-                                            handleRestart={this.handleRestart}
-                                            handleUpgrade={this.handleUpgrade}
-                                            restarting={this.state.restarting}
-                                            openEEModal={this.openEELicenseModal}
-                                        />
-                                    }
+                                    {rightPanel}
                                 </div>
+                                {this.comparePlans}
                             </div>
                         </div>
                         <form
