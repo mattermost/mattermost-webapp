@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {ComponentProps} from 'react';
-import {Unit} from '@formatjs/intl-relativetimeformat';
 import moment from 'moment';
 
 import {storiesOf} from '@storybook/react';
@@ -21,7 +20,7 @@ function* range(start: number, end: number): Iterable<number> {
     }
 }
 
-const unitDiffs = new Map<Unit, number[]>([
+const unitDiffs = new Map<Intl.RelativeTimeFormatUnit, number[]>([
     ['second', [...range(-1, -3), -57, -58, -59]],
     ['minute', [...range(-1, -3), -57, -58, -59]],
     ['hour', [...range(-1, -3), -12, -22, -23]],
