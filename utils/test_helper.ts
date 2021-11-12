@@ -1,7 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {combineReducers, createStore} from 'redux';
-
 import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {Bot} from 'mattermost-redux/types/bots';
 import {Role} from 'mattermost-redux/types/roles';
@@ -15,7 +13,6 @@ import {Command, IncomingWebhook} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Session} from 'mattermost-redux/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
-import {plugins as pluginsReducer, views as viewsReducer, storage as storageReducer} from 'reducers/index.js';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -370,14 +367,4 @@ export class TestHelper {
             headerRightComponent: () => null,
         };
     }
-}
-
-export function createMockStore() {
-    const store = createStore(combineReducers({
-        plugins: pluginsReducer,
-        views: viewsReducer,
-        storage: storageReducer,
-    }));
-
-    return store;
 }
