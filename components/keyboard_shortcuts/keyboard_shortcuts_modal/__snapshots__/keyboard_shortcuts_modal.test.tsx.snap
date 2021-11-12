@@ -170,11 +170,11 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                 shortcut={
                   Object {
                     "default": Object {
-                      "defaultMessage": "Switch to a specific team:	Ctrl|Alt|[1-9]",
+                      "defaultMessage": "Navigate to a specific team:	Ctrl|Alt|[1-9]",
                       "id": "shortcuts.team_nav.switcher",
                     },
                     "mac": Object {
-                      "defaultMessage": "Switch to a specific team:	⌘|⌥|[1-9]",
+                      "defaultMessage": "Navigate to a specific team:	⌘|⌥|[1-9]",
                       "id": "shortcuts.team_nav.switcher.mac",
                     },
                   }
@@ -184,11 +184,11 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                 shortcut={
                   Object {
                     "default": Object {
-                      "defaultMessage": "Quick channel switcher:	Ctrl|K",
+                      "defaultMessage": "Quick channel navigation:	Ctrl|K",
                       "id": "shortcuts.nav.switcher",
                     },
                     "mac": Object {
-                      "defaultMessage": "Quick channel switcher:	⌘|K",
+                      "defaultMessage": "Quick channel navigation:	⌘|K",
                       "id": "shortcuts.nav.switcher.mac",
                     },
                   }
