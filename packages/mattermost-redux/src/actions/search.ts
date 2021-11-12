@@ -3,7 +3,7 @@
 import {Client4} from 'mattermost-redux/client';
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {ActionResult, batchActions, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -282,44 +282,6 @@ export function clearPinnedPosts(channelId: string): ActionFunc {
         });
 
         return {data: true};
-    };
-}
-
-export function getRecentMentions(): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const teamId = getCurrentTeamId(state);
-
-        let posts;
-        try {
-            const termKeys = getCurrentUserMentionKeys(state).filter(({key}) => {
-                return key !== '@channel' && key !== '@all' && key !== '@here';
-            });
-
-            const terms = termKeys.map(({key}) => key).join(' ').trim() + ' ';
-
-            Client4.trackEvent('api', 'api_posts_search_mention');
-            posts = await Client4.searchPosts(teamId, terms, true);
-
-            const profilesAndStatuses = getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
-            const missingChannels = dispatch(getMissingChannelsFromPosts(posts.posts));
-            const arr: [Promise<any>, Promise<any>] = [profilesAndStatuses, missingChannels];
-            await Promise.all(arr);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch(batchActions([
-            {
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: posts,
-            },
-            receivedPosts(posts),
-        ], 'SEARCH_RECENT_MENTIONS_BATCH'));
-
-        return {data: posts};
     };
 }
 

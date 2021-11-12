@@ -1,22 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 import {FormattedMessage} from 'react-intl';
 
-import {Constants, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.tsx';
 
+import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
+import * as Utils from 'utils/utils.jsx';
+
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser';
-
 export default class ThemeSetting extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
@@ -44,20 +45,9 @@ export default class ThemeSetting extends React.PureComponent {
         this.originalTheme = Object.assign({}, this.state.theme);
     }
 
-    componentDidMount() {
-        if (this.props.selected) {
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
-        }
-    }
-
     componentDidUpdate(prevProps) {
         if (prevProps.selected && !this.props.selected) {
             this.resetFields();
-        }
-
-        if (this.props.selected) {
-            $('.color-btn').removeClass('active-border'); // eslint-disable-line jquery/no-class
-            $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border'); // eslint-disable-line jquery/no-class
         }
     }
 
