@@ -15,12 +15,12 @@
 
     .fa {
         @include single-transition(all, 0.15s, ease);
-        @include opacity(0.6);
+        opacity: 0.6;
 
         color: var(--sidebar-header-text-color);
 
         &:hover {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 
@@ -80,7 +80,7 @@
 
             &.active {
                 .TeamIcon__content {
-                    @include opacity(1);
+                    opacity: 1;
                 }
             }
 
@@ -91,7 +91,7 @@
             }
 
             a.team-disabled {
-                @include opacity(0.5);
+                opacity: 0.5;
 
                 cursor: not-allowed;
             }

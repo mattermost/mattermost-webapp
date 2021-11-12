@@ -29,7 +29,7 @@
             text-align: center;
 
             .fa {
-                @include opacity(0.5);
+                opacity: 0.5;
             }
 
             div {
@@ -50,7 +50,7 @@
     }
 
     .video-type {
-        @include opacity(0.8);
+        opacity: 0.8;
 
         padding: 0;
         margin: 0;

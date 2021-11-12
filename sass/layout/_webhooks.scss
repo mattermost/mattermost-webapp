@@ -181,7 +181,7 @@
             }
 
             .btn-close {
-                @include opacity(0.4);
+                opacity: 0.4;
 
                 position: absolute;
                 z-index: 5;
@@ -207,7 +207,7 @@
                 }
 
                 &:hover {
-                    @include opacity(0.9);
+                    opacity: 0.9;
                 }
             }
 
@@ -279,7 +279,7 @@
         }
 
         .attachment__author-name {
-            @include opacity(0.6);
+            opacity: 0.6;
         }
 
         .attachment__title {

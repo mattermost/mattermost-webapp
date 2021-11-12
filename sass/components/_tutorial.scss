@@ -185,7 +185,7 @@ $tip-index: 1000;
         font-size: 12px;
 
         span {
-            @include opacity(0.9);
+            opacity: 0.9;
         }
     }
 
@@ -223,7 +223,7 @@ $tip-index: 1000;
         right: 2px;
 
         .tip-button {
-            @include opacity(0.8);
+            opacity: 0.8;
         }
     }
 
@@ -242,7 +242,7 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--sidebar {
-        @include opacity(0.8);
+        opacity: 0.8;
 
         top: 10px;
         right: 21px;
@@ -334,7 +334,7 @@ $tip-index: 1000;
 
     .circle {
         @include border-radius(9px);
-        @include opacity(0.2);
+        opacity: 0.2;
 
         display: inline-block;
         width: 9px;
@@ -343,7 +343,7 @@ $tip-index: 1000;
         background: $black;
 
         &.active {
-            @include opacity(1);
+            opacity: 1;
 
             background: $primary-color;
         }

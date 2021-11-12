@@ -65,7 +65,7 @@
             background: rgba(v(center-channel-color-rgb), 0.08);
 
             i {
-                @include opacity(0.72);
+                opacity: 0.72;
             }
         }
 
@@ -77,12 +77,12 @@
 
         &.active {
             i {
-                @include opacity(1);
+                opacity: 1;
             }
         }
 
         i {
-            @include opacity(0.56);
+            opacity: 0.56;
 
             position: relative;
             top: -1px;
@@ -105,7 +105,7 @@
             background: rgba(v(center-channel-color-rgb), 0.08);
 
             i {
-                @include opacity(0.72);
+                opacity: 0.72;
             }
         }
 
@@ -117,12 +117,12 @@
 
         &.active {
             i {
-                @include opacity(1);
+                opacity: 1;
             }
         }
 
         i {
-            @include opacity(0.56);
+            opacity: 0.56;
 
             position: relative;
             top: -2px;
@@ -191,11 +191,11 @@
 
             &:hover {
                 .fa {
-                    @include opacity(1);
+                    opacity: 1;
                 }
 
                 svg {
-                    @include opacity(1);
+                    opacity: 1;
                 }
             }
         }
@@ -578,7 +578,7 @@
 
     .team__header {
         @include legacy-pie-clearfix;
-        @include display-flex();
+        display: flex;
         @include flex-direction(row-reverse);
 
         position: relative;
@@ -610,19 +610,19 @@
 
             .sidebar-header-dropdown {
                 .sidebar-header-dropdown__toggle {
-                    @include opacity(1);
+                    opacity: 1;
                 }
             }
 
             .navbar-right {
                 .dropdown-toggle {
-                    @include opacity(1);
+                    opacity: 1;
                 }
             }
 
             .header__info {
                 .sidebar-header-dropdown__icon {
-                    @include opacity(1);
+                    opacity: 1;
                 }
             }
         }
@@ -687,7 +687,7 @@
 
             .sidebar-header-dropdown__toggle,
             .admin-navbar-dropdown__toggle {
-                @include opacity(0.8);
+                opacity: 0.8;
 
                 left: 0;
                 display: block;
@@ -742,7 +742,7 @@
 
             .sidebar-header-dropdown__icon {
                 @include single-transition(opacity, $transition-quick, ease-in-out);
-                @include opacity(0.8);
+                opacity: 0.8;
 
                 position: absolute;
                 top: 4px;
@@ -866,14 +866,14 @@
         }
 
         > a {
-            @include opacity(0.6);
+            opacity: 0.6;
             @include single-transition(all, 0.1s, ease-in);
 
             color: inherit;
             text-decoration: none;
 
             &:hover {
-                @include opacity(0.7);
+                opacity: 0.7;
             }
 
             &:focus {
@@ -883,7 +883,7 @@
             &.active {
                 color: $primary-color;
 
-                @include opacity(1);
+                opacity: 1;
 
                 .icon {
                     fill: $primary-color;

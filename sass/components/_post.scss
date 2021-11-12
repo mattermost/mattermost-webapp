@@ -95,7 +95,7 @@
     }
 
     b {
-        @include opacity(0.9);
+        opacity: 0.9;
     }
 
     code {
@@ -165,7 +165,7 @@
     }
 
     .overlay__logo {
-        @include opacity(0.3);
+        opacity: 0.3;
 
         position: absolute;
         bottom: 30px;
@@ -192,7 +192,7 @@
     }
 
     .post-list__loading {
-        @include opacity(0.5);
+        opacity: 0.5;
 
         padding: 1em 0;
         font-size: 0.9em;
@@ -250,7 +250,7 @@
     }
 
     .new-messages__button {
-        @include opacity(0);
+        opacity: 0;
         @include translateX(-50%);
 
         position: absolute;
@@ -295,7 +295,7 @@
         }
 
         &.visible {
-            @include opacity(1);
+            opacity: 1;
 
             visibility: visible;
 
@@ -310,7 +310,7 @@
 }
 
 .post-list__timestamp {
-    @include opacity(0);
+    opacity: 0;
     @include single-transition(all, 0.6s, ease);
     @include translateY(-45px);
 
@@ -324,7 +324,7 @@
 
     &.scrolling {
         @include translateY(0);
-        @include opacity(0.9);
+        opacity: 0.9;
     }
 
     &.rhs {
@@ -351,7 +351,7 @@
 }
 
 .post-list__arrows {
-    @include opacity(0);
+    opacity: 0;
     @include single-transition(all, 0.6s);
 
     position: absolute;
@@ -372,7 +372,7 @@
     }
 
     &.scrolling {
-        @include opacity(1);
+        opacity: 1;
 
         display: block;
     }
@@ -492,7 +492,7 @@
             vertical-align: bottom;
 
             &:active {
-                @include opacity(0.75);
+                opacity: 0.75;
             }
 
             &.disabled {
@@ -508,20 +508,20 @@
         }
 
         .icon--emoji-picker {
-            @include opacity(0.5);
+            opacity: 0.5;
             @include single-transition(all, 0.15s);
 
             cursor: pointer;
 
             &:hover,
             &:active {
-                @include opacity(0.9);
+                opacity: 0.9;
 
                 box-shadow: none;
             }
 
             .icon--attachment {
-                @include opacity(0.5);
+                opacity: 0.5;
 
                 position: relative;
                 display: inline-block;
@@ -542,14 +542,14 @@
                 }
 
                 &:hover {
-                    @include opacity(0.9);
+                    opacity: 0.9;
                 }
             }
         }
     }
 
     .msg-typing {
-        @include opacity(0.7);
+        opacity: 0.7;
 
         display: block;
         overflow: hidden;
@@ -612,11 +612,11 @@
     }
 
     &.btn-file__disabled {
-        @include opacity(0.1);
+        opacity: 0.1;
 
         &:hover,
         &:active {
-            @include opacity(0.1);
+            opacity: 0.1;
         }
     }
 
@@ -627,7 +627,7 @@
         vertical-align: top;
 
         & + input {
-            @include opacity(0);
+            opacity: 0;
 
             position: absolute;
             top: 0;
@@ -658,7 +658,7 @@
     }
 
     .post-error {
-        @include opacity(0.55);
+        opacity: 0.55;
 
         position: absolute;
         top: 4px;
@@ -761,7 +761,7 @@
             .Reaction {
                 visibility: visible;
 
-                @include opacity(1);
+                opacity: 1;
             }
         }
     }
@@ -1139,7 +1139,7 @@
             &.post--hovered,
             &.a11y--active {
                 .post__time {
-                    @include opacity(0.5);
+                    opacity: 0.5;
                 }
             }
 
@@ -1451,7 +1451,7 @@
     }
 
     .post__remove {
-        @include opacity(0.5);
+        opacity: 0.5;
 
         position: relative;
         right: -10px;
@@ -1469,7 +1469,7 @@
         visibility: hidden;
 
         &:hover {
-            @include opacity(0.8);
+            opacity: 0.8;
         }
     }
 
@@ -1477,7 +1477,7 @@
         display: inline-block;
 
         .Reaction {
-            @include opacity(0);
+            opacity: 0;
 
             visibility: hidden;
         }
@@ -1591,7 +1591,7 @@
             display: inline-block;
 
             .Reaction {
-                @include opacity(1);
+                opacity: 1;
 
                 visibility: visible;
             }
@@ -1657,7 +1657,7 @@
     }
 
     .post__visibility {
-        @include opacity(0.6);
+        opacity: 0.6;
 
         padding: 4px;
         font-size: 0.9em;
@@ -1665,7 +1665,7 @@
 
     .post__time,
     .post-preview__time {
-        @include opacity(0.6);
+        opacity: 0.6;
 
         margin-right: 4px;
         font-size: 0.9em;
@@ -1802,7 +1802,7 @@
     .card-icon__container {
         @extend %btn-transition;
 
-        @include opacity(0.24);
+        opacity: 0.24;
 
         position: relative;
         z-index: 1;
@@ -1811,11 +1811,11 @@
         vertical-align: top;
 
         &:hover {
-            @include opacity(0.4);
+            opacity: 0.4;
         }
 
         &.active {
-            @include opacity(1);
+            opacity: 1;
         }
 
         svg {
@@ -2103,7 +2103,7 @@
 }
 
 .file-attachment-menu-item-input {
-    @include opacity(0);
+    opacity: 0;
 
     position: absolute;
     top: 0;

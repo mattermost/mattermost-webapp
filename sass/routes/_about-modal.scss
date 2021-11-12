@@ -42,7 +42,7 @@
                     margin: 0 5px 0 8px;
 
                     svg {
-                        @include opacity(0.8);
+                        opacity: 0.8;
 
                         width: 14px;
                         height: 14px;
@@ -106,14 +106,14 @@
 
         .about-modal__content {
             @include clearfix;
-            @include display-flex;
+            display: flex;
             @include flex-direction(row);
 
             padding: 1em 0 3em;
         }
 
         .about-modal__copyright {
-            @include opacity(0.6);
+            opacity: 0.6;
 
             margin-top: 0.5em;
         }
@@ -132,11 +132,11 @@
         }
 
         .about-modal__subtitle {
-            @include opacity(0.6);
+            opacity: 0.6;
         }
 
         .about-modal__hash {
-            @include opacity(0.4);
+            opacity: 0.4;
 
             overflow: hidden;
             font-size: 0.75em;
@@ -151,7 +151,7 @@
         }
 
         .about-modal__notice {
-            @include opacity(0.8);
+            opacity: 0.8;
 
             font-size: 0.79em;
             text-align: right;
@@ -164,7 +164,7 @@
         }
 
         .about-modal__logo {
-            @include opacity(0.9);
+            opacity: 0.9;
 
             padding: 0 40px 0 20px;
 

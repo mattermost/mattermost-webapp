@@ -36,14 +36,14 @@
             }
 
             .user__name {
-                @include opacity(0.8);
+                opacity: 0.8;
 
                 font-weight: 400;
             }
         }
 
         .menu-icon {
-            @include opacity(0.8);
+            opacity: 0.8;
 
             margin-right: 10px;
             fill: $white;
@@ -52,11 +52,11 @@
         &:hover {
             .user__name,
             .menu-icon {
-                @include opacity(1);
+                opacity: 1;
             }
 
             > div > img {
-                @include opacity(0.8);
+                opacity: 0.8;
             }
         }
     }

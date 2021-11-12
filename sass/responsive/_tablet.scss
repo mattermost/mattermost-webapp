@@ -35,7 +35,7 @@
                     }
 
                     .modal-close {
-                        @include opacity(1);
+                        opacity: 1;
                     }
                 }
 
@@ -284,7 +284,7 @@
                         }
 
                         .post__time {
-                            @include opacity(0.6);
+                            opacity: 0.6;
                         }
                     }
                 }
@@ -420,7 +420,7 @@
         &.same--root {
             &.same--user {
                 .post__time {
-                    @include opacity(0);
+                    opacity: 0;
                 }
 
                 .post__header {

@@ -368,7 +368,7 @@
     max-width: 350px;
     visibility: hidden;
 
-    @include opacity(0);
+    opacity: 0;
 
     &.autocomplete {
         display: block;
@@ -411,12 +411,12 @@
 
     ul {
         span {
-            @include opacity(0.8);
+            opacity: 0.8;
         }
 
         strong,
         b {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 
@@ -432,7 +432,7 @@
     }
 
     &.visible {
-        @include opacity(1);
+        opacity: 1;
 
         visibility: visible;
 
@@ -473,7 +473,7 @@
         padding: 14px 20px;
 
         .icon {
-            @include opacity(0.8);
+            opacity: 0.8;
 
             position: relative;
             margin: 0 38px 0 24px;
@@ -556,7 +556,7 @@
 
                 .more-modal__actions {
                     button {
-                        @include opacity(1);
+                        opacity: 1;
                     }
                 }
 
@@ -619,7 +619,7 @@
         }
 
         .more-modal__actions {
-            @include opacity(0);
+            opacity: 0;
 
             margin: 0;
             line-height: 42px;

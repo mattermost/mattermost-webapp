@@ -2,7 +2,7 @@
 
 .post-right__container,
 .ThreadViewer {
-    @include display-flex;
+    display: flex;
     @include flex-direction(column);
 
     .post-right-root-message {
@@ -155,7 +155,7 @@
         }
 
         .msg-typing {
-            @include opacity(0.7);
+            opacity: 0.7;
 
             display: block;
             min-width: 1px;
@@ -169,7 +169,7 @@
         }
 
         .post-right-comments-upload-in-progress {
-            @include opacity(0.7);
+            opacity: 0.7;
 
             padding: 6px 0;
             margin-right: 10px;
@@ -191,7 +191,7 @@
 
         .post-create-footer {
             .post-error {
-                @include opacity(0.55);
+                opacity: 0.55;
 
                 position: relative;
                 top: 0;

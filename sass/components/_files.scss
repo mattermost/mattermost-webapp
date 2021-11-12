@@ -494,11 +494,11 @@
             }
 
             .post-image__type {
-                @include opacity(0.6);
+                opacity: 0.6;
             }
 
             .post-image__size {
-                @include opacity(0.6);
+                opacity: 0.6;
 
                 margin-left: 4px;
             }
@@ -550,7 +550,7 @@
         }
 
         svg {
-            @include opacity(0.7);
+            opacity: 0.7;
             @include single-transition(all, 0.1s, linear);
             @include border-radius(50%);
 
@@ -560,7 +560,7 @@
             border: 1px solid;
 
             &:hover {
-                @include opacity(1);
+                opacity: 1;
             }
         }
     }
@@ -588,7 +588,7 @@
 }
 
 .file-details__container {
-    @include display-flex;
+    display: flex;
 
     background: $white;
 
@@ -642,7 +642,7 @@
     transition: opacity 0.6s;
 
     &.stop {
-        @include opacity(0);
+        opacity: 0;
     }
 }
 

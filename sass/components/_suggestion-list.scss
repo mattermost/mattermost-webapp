@@ -118,7 +118,7 @@
 }
 
 .slash-command__desc {
-    @include opacity(0.56);
+    opacity: 0.56;
 
     margin: 2px 0 0;
     font-size: 12px;

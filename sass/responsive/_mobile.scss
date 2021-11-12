@@ -735,7 +735,7 @@
 
     .more-modal__list {
         .more-modal__actions--round {
-            @include opacity(0.5);
+            opacity: 0.5;
         }
     }
 
@@ -910,7 +910,7 @@
     }
 
     .post-code__language {
-        @include opacity(1);
+        opacity: 1;
         @include transition(none);
 
         position: relative;
@@ -1555,7 +1555,7 @@
 
                     &.has-close {
                         .btn-close {
-                            @include opacity(0.5);
+                            opacity: 0.5;
 
                             display: block;
                             width: 30px;
@@ -1682,7 +1682,7 @@
 
                     &.has-close {
                         .btn-close {
-                            @include opacity(0.5);
+                            opacity: 0.5;
 
                             display: block;
                             width: 30px;

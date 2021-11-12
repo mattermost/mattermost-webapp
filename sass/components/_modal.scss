@@ -10,7 +10,7 @@
 
 .modal-backdrop {
     &.in {
-        @include opacity(0.64);
+        opacity: 0.64;
     }
 }
 
@@ -78,7 +78,7 @@
             font-size: 13px;
 
             .post-error {
-                @include opacity(0.55);
+                opacity: 0.55;
 
                 position: relative;
                 top: 3px;
@@ -99,7 +99,7 @@
 }
 
 .modal__hint {
-    @include opacity(0.8);
+    opacity: 0.8;
 
     display: block;
     margin: 0 0 10px;
@@ -169,7 +169,7 @@
     }
 
     .info__label {
-        @include opacity(0.5);
+        opacity: 0.5;
 
         margin-bottom: 3px;
         font-size: 0.9em;
@@ -283,7 +283,7 @@
         }
 
         .close {
-            @include opacity(0.7);
+            opacity: 0.7;
             @include single-transition(all, 0.1s, ease-in);
 
             position: absolute;
@@ -297,7 +297,7 @@
             text-shadow: none;
 
             &:hover {
-                @include opacity(1);
+                opacity: 1;
                 @include alpha-property(background, $black, 0.1);
             }
 
@@ -329,7 +329,7 @@
         text-align: center;
 
         .secondary-message {
-            @include opacity(0.8);
+            opacity: 0.8;
 
             margin: 1em 0 0;
         }
@@ -489,7 +489,7 @@
             .modal-close {
                 @include single-transition(opacity, 0.6s);
                 @include background-size(100% 100%);
-                @include opacity(1);
+                opacity: 1;
 
                 position: absolute;
                 z-index: 9999;
@@ -636,7 +636,7 @@
         }
 
         .channel-count {
-            @include opacity(0.8);
+            opacity: 0.8;
 
             margin-top: 5px;
             float: right;
@@ -712,14 +712,14 @@
     }
 
     .member-count {
-        @include opacity(0.8);
+        opacity: 0.8;
 
         margin-top: 5px;
         float: right;
     }
 
     .member-show {
-        @include opacity(0.8);
+        opacity: 0.8;
 
         margin-top: 8px;
         margin-right: 3px;
@@ -732,7 +732,7 @@
         }
 
         select {
-            @include opacity(0.8);
+            opacity: 0.8;
 
             width: auto;
             margin: 1px 5px 0 2px;
@@ -741,7 +741,7 @@
     }
 
     .more-purpose {
-        @include opacity(0.7);
+        opacity: 0.7;
     }
 }
 
@@ -937,7 +937,7 @@
     }
 
     .more-modal__description {
-        @include opacity(0.6);
+        opacity: 0.6;
 
         display: block;
         overflow: hidden;

@@ -184,7 +184,7 @@ h6.markdown__heading {
     }
 
     &:hover .post-code__language {
-        @include opacity(1);
+        opacity: 1;
     }
 
     &.post-code--wrap {
@@ -221,7 +221,7 @@ h6.markdown__heading {
 }
 
 .post-code__language {
-    @include opacity(0);
+    opacity: 0;
     @include transition(opacity, 0.6s);
     @include unselectable;
 
@@ -245,7 +245,7 @@ h6.markdown__heading {
 
 .post__body {
     hr {
-        @include opacity(0.2);
+        opacity: 0.2;
 
         height: 4px;
         padding: 0;
@@ -312,7 +312,7 @@ blockquote {
     font-size: inherit;
 
     &::before {
-        @include opacity(0.6);
+        opacity: 0.6;
 
         position: absolute;
         top: 5px;

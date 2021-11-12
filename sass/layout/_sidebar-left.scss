@@ -1028,7 +1028,7 @@
 
         &:hover {
             .btn-close {
-                @include opacity(0.8);
+                opacity: 0.8;
 
                 visibility: visible;
             }
@@ -1062,7 +1062,7 @@
         }
 
         .btn-close {
-            @include opacity(0);
+            opacity: 0;
 
             position: relative;
             width: 24px;
@@ -1076,7 +1076,7 @@
             visibility: hidden;
 
             &:hover {
-                @include opacity(1);
+                opacity: 1;
             }
         }
 

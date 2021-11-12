@@ -46,7 +46,7 @@
     }
 
     .menu-icon {
-        @include opacity(0.8);
+        opacity: 0.8;
 
         fill: $white;
     }
@@ -54,7 +54,7 @@
     &:hover {
         .user__name,
         .menu-icon {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 }

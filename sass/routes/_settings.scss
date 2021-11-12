@@ -365,7 +365,7 @@
                         }
 
                         .header__icon {
-                            @include opacity(0.5);
+                            opacity: 0.5;
 
                             float: right;
                         }
@@ -692,7 +692,7 @@
     text-align: right;
 
     .fa {
-        @include opacity(0.5);
+        opacity: 0.5;
 
         display: none;
         margin-right: 5px;
@@ -702,7 +702,7 @@
 
 .section-min__describe {
     @include clearfix;
-    @include opacity(0.7);
+    opacity: 0.7;
 
     text-overflow: ellipsis;
     white-space: pre;
