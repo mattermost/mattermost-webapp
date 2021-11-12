@@ -142,30 +142,6 @@ exports[`components/SingleImageView should match snapshot 2`] = `
         />
       </div>
     </div>
-    <Connect(FilePreviewModal)
-      fileInfos={
-        Array [
-          Object {
-            "clientId": "client_id",
-            "create_at": 1,
-            "delete_at": 1,
-            "extension": "jpg",
-            "has_preview_image": true,
-            "height": 200,
-            "id": "file_info_id",
-            "mime_type": "mime_type",
-            "name": "name",
-            "size": 1,
-            "update_at": 1,
-            "user_id": "user_id",
-            "width": 350,
-          },
-        ]
-      }
-      onModalDismissed={[Function]}
-      postId="original_post_id"
-      show={false}
-    />
   </div>
 </div>
 `;
@@ -320,30 +296,6 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
         />
       </div>
     </div>
-    <Connect(FilePreviewModal)
-      fileInfos={
-        Array [
-          Object {
-            "clientId": "client_id",
-            "create_at": 1,
-            "delete_at": 1,
-            "extension": "svg",
-            "has_preview_image": true,
-            "height": 200,
-            "id": "svg_file_info_id",
-            "mime_type": "mime_type",
-            "name": "name_svg",
-            "size": 1,
-            "update_at": 1,
-            "user_id": "user_id",
-            "width": 350,
-          },
-        ]
-      }
-      onModalDismissed={[Function]}
-      postId="original_post_id"
-      show={false}
-    />
   </div>
 </div>
 `;
@@ -417,30 +369,6 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
         />
       </div>
     </div>
-    <Connect(FilePreviewModal)
-      fileInfos={
-        Array [
-          Object {
-            "clientId": "client_id",
-            "create_at": 1,
-            "delete_at": 1,
-            "extension": "jpg",
-            "has_preview_image": true,
-            "height": 200,
-            "id": "file_info_id",
-            "mime_type": "mime_type",
-            "name": "name",
-            "size": 1,
-            "update_at": 1,
-            "user_id": "user_id",
-            "width": 350,
-          },
-        ]
-      }
-      onModalDismissed={[Function]}
-      postId="original_post_id"
-      show={false}
-    />
   </div>
 </div>
 `;

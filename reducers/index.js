@@ -10,3 +10,5 @@ export default {
     plugins,
     storage,
 };
+
+export {plugins, views, storage};
