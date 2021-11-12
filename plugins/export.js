@@ -29,7 +29,10 @@ window.ReactRedux = require('react-redux');
 window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
-window.PDFJS = require('pdfjs-dist');
+window.importPDFJS = () => import('pdfjs-dist').then((m) => {
+    m.disableWorker = true;
+    return m;
+});
 window.Luxon = require('luxon');
 
 // Functions exposed on window for plugins to use.
