@@ -41,7 +41,7 @@ function NewRepliesBanner({
                 onDismiss();
             }
         }
-    }, []);
+    }, [hasNewReplies]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleShortcut);
@@ -49,7 +49,7 @@ function NewRepliesBanner({
         return () => {
             document.removeEventListener('keydown', handleShortcut);
         };
-    }, []);
+    }, [handleShortcut]);
 
     return (
         <div
