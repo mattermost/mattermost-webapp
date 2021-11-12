@@ -475,11 +475,10 @@
     }
 
     .sidebar--right {
-        transition: all 0.35s ease;
-
         z-index: 13;
         top: 0;
         transform: translateX(100%);
+        transition: all 0.35s ease;
 
         .announcement-bar--fixed & {
             top: 32px;

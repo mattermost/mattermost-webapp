@@ -3,9 +3,8 @@
 @import 'sass/utils/functions';
 
 .AbstractList {
-    transition: all 0.4s ease-in-out 0s;
-
     padding: 1rem 2rem 2rem 2rem;
+    transition: all 0.4s ease-in-out 0s;
 
     .AbstractList__header {
         display: flex;

@@ -5,14 +5,13 @@
 @import 'utils/module';
 
 .TeamIcon__content {
-    transition: all 0.25s ease;
-
     display: flex;
     overflow: hidden;
     height: 100%;
     flex-direction: column;
     justify-content: center;
     border-radius: 8px;
+    transition: all 0.25s ease;
 
     &.no-hover {
         transition: none;

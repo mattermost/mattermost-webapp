@@ -74,11 +74,10 @@
 }
 
 .help__format-text {
-    transition: all 0.3s ease-in 0.3s;
-
     display: inline-block;
     font-size: 0.85em;
     opacity: 0;
+    transition: all 0.3s ease-in 0.3s;
     vertical-align: bottom;
     white-space: nowrap;
 
@@ -314,7 +313,6 @@
     opacity: 0;
     text-align: center;
     transform: translateY(-45px);
-
     transition: all 0.6s ease;
 
     &.scrolling {
@@ -357,7 +355,6 @@
     fill: #444;
     opacity: 0;
     text-align: center;
-
     transition: all 0.6s;
 
     svg {
@@ -472,8 +469,6 @@
         }
 
         .send-button {
-            transition: all 0.15s;
-
             display: none;
             width: 45px;
             height: 100%;
@@ -483,6 +478,7 @@
             font-size: 17px;
             line-height: 49px;
             text-align: center;
+            transition: all 0.15s;
             vertical-align: bottom;
 
             &:active {
@@ -504,7 +500,6 @@
         .icon--emoji-picker {
             cursor: pointer;
             opacity: 0.5;
-
             transition: all 0.15s;
 
             &:hover,
@@ -1397,12 +1392,11 @@
     }
 
     .post__embed-container {
-        transition: max-height 0.5 ease;
-
         display: block;
         overflow: hidden;
         max-height: 1000px;
         padding-top: 5px;
+        transition: max-height 0.5 ease;
 
         &[hidden] {
             max-height: 0;
@@ -1969,8 +1963,6 @@
     justify-content: center;
 
     .post-collapse__show-more-button {
-        transition: all 0.15s ease;
-
         position: relative;
         display: inline-block;
         flex-shrink: 0;
@@ -1982,6 +1974,7 @@
         font-size: 13px;
         font-weight: bold;
         line-height: 24px;
+        transition: all 0.15s ease;
 
         &:hover {
             color: var(--center-channel-bg);

@@ -515,9 +515,8 @@ body {
         background: #fafafa;
 
         &:hover {
-            transition: background-color 0.15s ease;
-
             background: $white;
+            transition: background-color 0.15s ease;
         }
 
         &:first-child {

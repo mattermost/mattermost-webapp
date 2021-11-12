@@ -14,10 +14,9 @@
     }
 
     .fa {
-        transition: all 0.15s ease;
-
         color: var(--sidebar-header-text-color);
         opacity: 0.6;
+        transition: all 0.15s ease;
 
         &:hover {
             opacity: 1;

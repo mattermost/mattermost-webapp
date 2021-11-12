@@ -76,8 +76,6 @@
     }
 
     .sidebar--right__back {
-        transition: all 0.2s ease-in;
-
         display: flex;
         width: 2.4rem;
         height: 2.4rem;
@@ -88,6 +86,7 @@
         color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 12px;
         text-decoration: none;
+        transition: all 0.2s ease-in;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -241,12 +240,11 @@
     }
 
     .sidebar--right__subheader {
-        transition: width 0.25s ease-in;
-
         width: 100%;
         padding-bottom: 10vh;
         margin: auto;
         font-size: 1em;
+        transition: width 0.25s ease-in;
 
         &.search__hints {
             margin: 0;
@@ -294,8 +292,6 @@
 }
 
 .sidebar-collapse {
-    transition: all 0.2s linear;
-
     z-index: 5;
     display: flex;
     width: 45px;
@@ -305,6 +301,7 @@
     cursor: pointer;
     text-align: center;
     transform: translateX(0);
+    transition: all 0.2s linear;
 
     .fa {
         position: relative;

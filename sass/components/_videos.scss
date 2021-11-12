@@ -82,14 +82,13 @@
     }
 
     .img-div {
-        transition: all 0.1s linear;
-
         position: relative;
         max-width: 480px;
         max-height: 350px;
         margin-bottom: 8px;
         border-radius: 4px;
         -moz-force-broken-image-icon: 1;
+        transition: all 0.1s linear;
 
         &:hover {
             box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1);

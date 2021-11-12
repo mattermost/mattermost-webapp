@@ -582,8 +582,6 @@
         padding: 10px;
 
         &::before {
-            transition: all $transition-quick ease-in-out;
-
             position: absolute;
             top: 0;
             left: 0;
@@ -591,6 +589,7 @@
             height: 100%;
             background: none;
             content: '';
+            transition: all $transition-quick ease-in-out;
         }
 
         &:hover {
@@ -732,8 +731,6 @@
             color: var(--sidebar-header-text-color);
 
             .sidebar-header-dropdown__icon {
-                transition: opacity $transition-quick ease-in-out;
-
                 position: absolute;
                 top: 4px;
                 right: 1px;
@@ -744,6 +741,7 @@
                 line-height: 36px;
                 opacity: 0.8;
                 text-align: center;
+                transition: opacity $transition-quick ease-in-out;
             }
         }
 
@@ -770,14 +768,13 @@
         }
 
         .user__name {
-            transition: all $transition-quick ease-in-out;
-
             position: relative;
             top: -3px;
             padding-right: 4px;
             color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             font-size: 14px;
             font-weight: 400;
+            transition: all $transition-quick ease-in-out;
         }
 
         .custom-status {
@@ -860,7 +857,6 @@
             color: inherit;
             opacity: 0.6;
             text-decoration: none;
-
             transition: all 0.1s ease-in;
 
             &:hover {

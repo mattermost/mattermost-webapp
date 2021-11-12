@@ -86,10 +86,9 @@ h6.markdown__heading {
         border: 1px solid transparent;
 
         &:hover {
-            transition: all 0.1s linear;
-
             z-index: 2;
             box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
     }
 
@@ -103,10 +102,9 @@ h6.markdown__heading {
         border-radius: 2px;
 
         &:hover {
-            transition: all 0.1s linear;
-
             z-index: 2;
             box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
     }
 
@@ -144,10 +142,9 @@ h6.markdown__heading {
         border: 1px solid transparent;
 
         &:hover {
-            transition: all 0.1s linear;
-
             z-index: 2;
             box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
     }
 

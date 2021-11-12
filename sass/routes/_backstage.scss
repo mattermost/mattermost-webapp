@@ -339,8 +339,6 @@
 }
 
 .integration-option {
-    transition: all 0.2s ease;
-
     flex: 0 0 30%;
     padding: 20px;
     border: 1px solid $light-gray;
@@ -348,6 +346,7 @@
     background-color: $white;
     border-radius: 4px;
     text-align: center;
+    transition: all 0.2s ease;
 
     &:hover {
         @extend %box-shadow-1;
@@ -526,7 +525,6 @@
     border-radius: 50%;
     color: $white;
     text-decoration: none;
-
     transition: all 0.15s ease;
 
     span {

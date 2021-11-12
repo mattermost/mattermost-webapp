@@ -196,14 +196,13 @@
         }
 
         .image-loaded {
-            transition: all 0.1s linear;
-
             bottom: 0;
             min-width: 40px;
             max-width: 100%;
             min-height: 40px;
             max-height: 350px;
             border-radius: 4px;
+            transition: all 0.1s linear;
 
             .file-preview__button {
                 display: block;
@@ -217,7 +216,6 @@
                 align-self: center;
                 border-radius: 4px;
                 cursor: pointer;
-
                 transition: all 0.1s linear;
 
                 &.compact-display {
@@ -293,8 +291,6 @@
 }
 
 .post-image__column {
-    transition: box-shadow 0.15s ease;
-
     position: relative;
     display: flex;
     overflow: hidden;
@@ -308,6 +304,7 @@
     border-radius: 4px;
     color: v(center-channel-color);
     cursor: pointer;
+    transition: box-shadow 0.15s ease;
 
     &:hover,
     &:focus-within,
@@ -423,8 +420,6 @@
 }
 
 .file-dropdown-icon {
-    transition: opacity 0.15s ease;
-
     display: none;
     width: 32px;
     min-width: 32px;
@@ -439,6 +434,7 @@
     cursor: pointer;
     fill: rgba(var(--center-channel-color-rgb), 0.72);
     text-decoration: none;
+    transition: opacity 0.15s ease;
 
     svg {
         display: flex;
@@ -504,8 +500,6 @@
     }
 
     .post-image__download {
-        transition: opacity 0.15s ease;
-
         top: 0;
         right: 0;
         display: flex;
@@ -516,6 +510,7 @@
         line-height: 0;
         opacity: 1;
         text-align: center;
+        transition: opacity 0.15s ease;
 
         a {
             display: flex;
@@ -554,7 +549,6 @@
             border: 1px solid;
             border-radius: 50%;
             opacity: 0.7;
-
             transition: all 0.1s linear;
 
             &:hover {
@@ -628,8 +622,6 @@
 }
 
 .file-playback__controls {
-    transition: opacity 0.6s;
-
     position: absolute;
     z-index: 2;
     right: 5px;
@@ -687,10 +679,9 @@
     border-radius: 4px;
 
     &:hover {
-        transition: all 0.1s linear;
-
         z-index: 2;
         box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
+        transition: all 0.1s linear;
     }
 }
 

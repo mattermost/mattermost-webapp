@@ -11,8 +11,6 @@
     }
 
     &::after {
-        transition: opacity 0.15s ease;
-
         position: absolute;
         top: 8px;
         right: 1rem;
@@ -25,6 +23,7 @@
         opacity: 0.4;
         pointer-events: none;
         text-rendering: auto;
+        transition: opacity 0.15s ease;
     }
 
     .form-control {

@@ -256,14 +256,13 @@
     margin: 12px;
 
     .skin-tones {
-        transition: all 0.35s ease;
-
         z-index: 10;
         display: flex;
         overflow: hidden;
         height: 100%;
         align-items: center;
         background: var(--center-channel-bg);
+        transition: all 0.35s ease;
 
         &--active {
             position: absolute;
@@ -343,16 +342,14 @@
     }
 
     .skin-tones__close {
-        transition: opacity 0.35s ease;
-
         display: flex;
         align-items: center;
+        transition: opacity 0.35s ease;
     }
 
     .skin-tones__icons {
-        transition: opacity 0.35s ease;
-
         opacity: 0;
+        transition: opacity 0.35s ease;
     }
 
     .skin-tones__close-text {
@@ -386,8 +383,6 @@
     }
 
     .color-selector {
-        transition: all 0.35s ease;
-
         z-index: 11;
         display: flex;
         width: 32px;
@@ -396,6 +391,7 @@
         justify-content: center;
         margin-left: 8px;
         border-radius: 4px;
+        transition: all 0.35s ease;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);

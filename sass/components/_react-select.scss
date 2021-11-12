@@ -106,11 +106,10 @@
     }
 
     .react-select__indicator {
-        transition: opacity 0.2s ease;
-
         padding: 7px 8px;
         color: inherit;
         opacity: 0.4;
+        transition: opacity 0.2s ease;
     }
 
     .react-select__single-value {

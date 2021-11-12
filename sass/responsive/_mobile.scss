@@ -35,8 +35,6 @@
             }
 
             .Menu {
-                transition: all 0.35s ease;
-
                 position: fixed;
                 top: 48px;
                 left: 0;
@@ -47,6 +45,7 @@
                 padding: 2.5em 0 0;
                 padding-bottom: 50px;
                 background: alpha-color($black, 0.9);
+                transition: all 0.35s ease;
 
                 body.announcement-bar--fixed & {
                     top: calc(48px + #{$announcement-bar-height});
@@ -809,8 +808,6 @@
     }
 
     #header-popover {
-        transition: all 0.35s ease;
-
         position: fixed;
         top: 40px !important;
         width: 100%;
@@ -820,6 +817,7 @@
         background: alpha-color($black, 0.9);
         box-shadow: none;
         transform: translate3d(0, 100%, 0);
+        transition: all 0.35s ease;
 
         &.in {
             transform: translate3d(0, 0, 0);
@@ -1424,13 +1422,12 @@
         }
 
         .search__form {
-            transition: all 0.2s linear;
-
             width: 100%;
             border-color: transparent;
             margin-top: 9px;
             background: var(--center-channel-bg);
             transform: translateX(0);
+            transition: all 0.2s linear;
 
             &:hover,
             &--focused,
@@ -1453,11 +1450,10 @@
     }
 
     .sidebar--menu {
-        transition: transform 0.35s ease;
-
         width: 290px;
         border: none;
         transform: translate3d(290px, 0, 0);
+        transition: transform 0.35s ease;
         visibility: hidden;
 
         &.visible {
@@ -1482,11 +1478,10 @@
     }
 
     .sidebar--left {
-        transition: transform 0.35s ease;
-
         width: 290px;
         border: none;
         transform: translate3d(-290px, 0, 0);
+        transition: transform 0.35s ease;
 
         &.sidebar--padded {
             padding-top: 0;
@@ -1579,11 +1574,10 @@
     }
 
     #SidebarContainer {
-        transition: transform 0.35s ease;
-
         width: 290px;
         border: none;
         transform: translate3d(-290px, 0, 0);
+        transition: transform 0.35s ease;
 
         +.inner-wrap #app-content {
             margin-left: 0;
@@ -1820,10 +1814,9 @@
             transform: translate3d(0, 0, 0);
 
             &::before {
-                transition: all 0.35s ease;
-
                 z-index: 9999;
                 background-color: rgba(0, 0, 0, 0.4);
+                transition: all 0.35s ease;
             }
         }
 
@@ -1831,10 +1824,9 @@
             transform: translate3d(-290px, 0, 0);
 
             &::before {
-                transition: all 0.35s ease;
-
                 z-index: 9999;
                 background-color: rgba(0, 0, 0, 0.4);
+                transition: all 0.35s ease;
             }
         }
 

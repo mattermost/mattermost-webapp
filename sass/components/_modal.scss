@@ -290,7 +290,6 @@
             line-height: 30px;
             opacity: 0.7;
             text-shadow: none;
-
             transition: all 0.1s ease-in;
 
             &:hover {
@@ -483,9 +482,6 @@
             }
 
             .modal-close {
-                transition: opacity 0.6s;
-                @include background-size(100% 100%);
-
                 position: absolute;
                 z-index: 9999;
                 top: -13px;
@@ -496,6 +492,8 @@
                 cursor: pointer;
                 opacity: 1;
                 transition: opacity 0.6s;
+
+                @include background-size(100% 100%);
             }
 
             .modal-zoom-btn {

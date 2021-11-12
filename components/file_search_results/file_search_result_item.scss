@@ -3,8 +3,6 @@
 @import 'utils/variables';
 
 .FileSearchResultItem {
-    transition: box-shadow 0.15s ease;
-
     display: flex;
     overflow: hidden;
     max-width: 600px;
@@ -18,6 +16,7 @@
     border-radius: 4px;
     color: var(--center-channel-color);
     cursor: pointer;
+    transition: box-shadow 0.15s ease;
 
     .Menu__content {
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -100,8 +99,6 @@
     }
 
     .action-icon {
-        transition: opacity 0.15s ease;
-
         display: flex;
         width: 32px;
         min-width: 32px;
@@ -115,6 +112,7 @@
         fill: rgba(var(--center-channel-color-rgb), 0.72);
         opacity: 0;
         text-decoration: none;
+        transition: opacity 0.15s ease;
 
         &.download-icon {
             margin-right: 6px;

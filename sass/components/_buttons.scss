@@ -37,9 +37,8 @@ button {
 }
 
 .btn {
-    transition: all 0.15s ease;
-
     border-radius: $border-rad;
+    transition: all 0.15s ease;
 
     &.btn-primary {
         border-color: transparent;

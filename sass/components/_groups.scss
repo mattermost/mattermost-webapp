@@ -3,9 +3,8 @@
 }
 
 .groups-list {
-    transition: all 0.4s ease-in-out 0s;
-
     padding: 2rem 2rem 2rem 2rem;
+    transition: all 0.4s ease-in-out 0s;
 
     &.groups-list-less-padding {
         padding: 0;
