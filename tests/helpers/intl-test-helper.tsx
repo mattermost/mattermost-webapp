@@ -19,10 +19,7 @@ import {
     MountRendererProps,
 } from 'enzyme';
 
-import {doAddLocaleData} from 'i18n/i18n';
 import defaultMessages from 'i18n/en.json';
-
-doAddLocaleData();
 
 export const defaultIntl = createIntl({
     locale: 'en',
