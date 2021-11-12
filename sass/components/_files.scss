@@ -147,7 +147,7 @@
     margin: 5px 0;
 
     .file__image {
-        @include legacy-pie-clearfix;
+        @include pie-clearfix;
 
         .image-header {
             display: flex;
@@ -170,7 +170,7 @@
         }
 
         .image-container {
-            @include legacy-pie-clearfix;
+            @include pie-clearfix;
 
             position: relative;
             width: 100%;

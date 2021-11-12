@@ -1,8 +1,6 @@
 @charset 'UTF-8';
 
-@import "compass/css3/animation";
-
-@include keyframes(move) {
+@keyframes move {
     from {
         opacity: 1;
     }

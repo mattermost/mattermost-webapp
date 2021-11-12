@@ -501,7 +501,7 @@ body {
     border-radius: 4px;
 
     .signup-team-dir {
-        @include legacy-pie-clearfix;
+        @include pie-clearfix;
 
         position: relative;
         display: flex;

@@ -31,7 +31,7 @@
     }
 
     .team__header {
-        @include legacy-pie-clearfix;
+        @include pie-clearfix;
 
         display: none;
         padding: 0 15px;

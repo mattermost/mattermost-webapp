@@ -720,7 +720,7 @@
 
     &:hover,
     &.a11y--active {
-        @include legacy-pie-clearfix;
+        @include pie-clearfix;
 
         overflow: visible;
 
@@ -749,7 +749,7 @@
 
     &.post--hovered,
     &.a11y--active {
-        @include legacy-pie-clearfix;
+        @include pie-clearfix;
 
         overflow: visible;
 
@@ -1460,7 +1460,7 @@
     }
 
     .post__body {
-        @include legacy-pie-clearfix;
+        @include pie-clearfix;
 
         width: 100%;
         padding: 0 0 0.2em;

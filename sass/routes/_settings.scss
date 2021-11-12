@@ -233,7 +233,7 @@
                 }
 
                 .section-max {
-                    @include legacy-pie-clearfix;
+                    @include pie-clearfix;
                     @include alpha-property('background', $black, 0.05);
 
                     padding: 1em 0 1.3em;
@@ -267,9 +267,8 @@
 
                     .group--code {
                         select {
-                            @include appearance(none);
-
                             padding-right: 25px;
+                            -webkit-appearance: none;
                             appearance: none;
                         }
 
@@ -374,7 +373,7 @@
                         overflow-y: hidden;
                         transition: all 0.4s ease-out;
 
-                        @include legacy-pie-clearfix;
+                        @include pie-clearfix;
                         @include alpha-property(background-color, $white, 0.05);
 
                         &.open {

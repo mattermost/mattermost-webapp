@@ -71,3 +71,18 @@
     width: fit-content;
     width: -moz-fit-content;
 }
+
+@mixin clearfix {
+    overflow: hidden;
+    *zoom: 1;
+}
+
+@mixin pie-clearfix {
+    &::after {
+        display: table;
+        clear: both;
+        content: "";
+    }
+
+    *zoom: 1;
+}

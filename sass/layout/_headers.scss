@@ -570,7 +570,7 @@
     }
 
     .team__header {
-        @include legacy-pie-clearfix;
+        @include pie-clearfix;
 
         position: relative;
         display: flex;
