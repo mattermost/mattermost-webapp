@@ -20,20 +20,20 @@ export default class PostImage extends React.PureComponent {
         }).isRequired,
     }
 
-    showModal = (e, post, link, extension, name) => {
+    showModal = (e, link) => {
         e.preventDefault();
 
         this.props.actions.openModal({
             modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
             dialogType: FilePreviewModal,
             dialogProps: {
-                post,
+                post: this.props.post,
                 startIndex: 0,
                 fileInfos: [{
                     has_preview_image: false,
                     link,
-                    extension,
-                    name,
+                    extension: this.props.imageMetadata.format,
+                    name: this.props.link,
                 }],
             },
         });
@@ -53,15 +53,7 @@ export default class PostImage extends React.PureComponent {
                                 src={safeLink}
                                 dimensions={this.props.imageMetadata}
                                 showLoader={true}
-                                onClick={(e) =>
-                                    this.showModal(
-                                        e,
-                                        this.props.post,
-                                        safeLink,
-                                        this.props.imageMetadata.format,
-                                        this.props.link,
-                                    )
-                                }
+                                onClick={this.showModal}
                             />
                         </React.Fragment>
                     )}

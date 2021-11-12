@@ -71,9 +71,17 @@ export default class MarkdownImage extends React.PureComponent {
         return parseInt(height, 10);
     }
 
-    showModal = (e, link, imageMetadata, extension, name) => {
+    getFileExtensionFromUrl = (url) => {
+        const index = url.lastIndexOf('.');
+        return index > 0 ? url.substring(index + 1) : null;
+    };
+
+    showModal = (e, link) => {
+        const extension = this.getFileExtensionFromUrl(link);
+
         if (!this.props.imageIsLink && extension) {
             e.preventDefault();
+
             this.props.actions.openModal({
                 modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
                 dialogType: FilePreviewModal,
@@ -82,8 +90,8 @@ export default class MarkdownImage extends React.PureComponent {
                     fileInfos: [{
                         has_preview_image: false,
                         link,
-                        extension: imageMetadata.format || extension,
-                        name,
+                        extension: this.props.imageMetadata.format || extension,
+                        name: this.props.alt,
                     }],
                 },
             });
@@ -157,11 +165,7 @@ export default class MarkdownImage extends React.PureComponent {
                         );
                     }
 
-                    const getFileExtensionFromUrl = (url) => {
-                        const index = url.lastIndexOf('.');
-                        return index > 0 ? url.substring(index + 1) : null;
-                    };
-                    const extension = getFileExtensionFromUrl(safeSrc);
+                    const extension = this.getFileExtensionFromUrl(safeSrc);
 
                     let className = '';
                     if (this.state.loaded) {
@@ -187,7 +191,7 @@ export default class MarkdownImage extends React.PureComponent {
                             title={title}
                             dimensions={imageMetadata}
                             showLoader={false}
-                            onClick={(e) => this.showModal(e, safeSrc, imageMetadata, extension, alt)}
+                            onClick={this.showModal}
                             onImageLoadFail={this.handleLoadFail}
                             onImageLoaded={this.handleImageLoaded}
                         />
