@@ -54,7 +54,7 @@ const GlobalThreadsLink = () => {
     const crtTutorialTrigger = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_TRIGGERED, getCurrentUserId(state), Constants.CrtTutorialTriggerSteps.START));
     const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER;
     const threadsCount = useSelector((state: GlobalState) => getThreadsInCurrentTeam(state).length);
-    const showTutorialTrigger = crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount > 1;
+    const showTutorialTrigger = crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount >= 1;
     const openThreads = useCallback((e) => {
         e.stopPropagation();
         if (showTutorialTrigger) {
