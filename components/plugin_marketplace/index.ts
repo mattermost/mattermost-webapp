@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
@@ -11,6 +12,8 @@ import {getListing, getInstalledListing} from 'selectors/views/marketplace';
 import {setFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/actions/general';
 import {getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
 
+import {makeAsyncComponent} from 'components/async_load';
+
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
@@ -18,7 +21,7 @@ import {getSiteURL} from 'utils/url';
 import {closeModal} from 'actions/views/modals';
 import {fetchListing, filterListing} from 'actions/marketplace';
 
-import {MarketplaceModal} from './marketplace_modal';
+const MarketplaceModal = makeAsyncComponent(React.lazy(() => import('./marketplace_modal')));
 
 function mapStateToProps(state: GlobalState) {
     return {

@@ -114,7 +114,7 @@ type MarketplaceModalState = {
 };
 
 // MarketplaceModal is the marketplace modal.
-export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps, MarketplaceModalState> {
+export default class MarketplaceModal extends React.PureComponent<MarketplaceModalProps, MarketplaceModalState> {
     private filterRef: React.RefObject<QuickInput>;
 
     constructor(props: MarketplaceModalProps) {

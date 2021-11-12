@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Stripe} from '@stripe/stripe-js';
@@ -9,6 +10,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getClientConfig} from 'mattermost-redux/actions/general';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {Action} from 'mattermost-redux/types/actions';
+
+import {makeAsyncComponent} from 'components/async_load';
 
 import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
@@ -21,7 +24,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {closeModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 
-import PurchaseModal from './purchase_modal';
+const PurchaseModal = makeAsyncComponent(React.lazy(() => import('./purchase_modal')));
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
