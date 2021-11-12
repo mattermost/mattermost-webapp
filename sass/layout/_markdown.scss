@@ -194,7 +194,7 @@ h6.markdown__heading {
     }
 
     .post-code__line-numbers {
-        @include user-select(none);
+        user-select: none;
 
         min-width: 36px;
         padding-right: 4px;
@@ -240,7 +240,7 @@ h6.markdown__heading {
     color: transparent;
     pointer-events: none;
 
-    @include user-select(none);
+    user-select: none;
 }
 
 .post__body {

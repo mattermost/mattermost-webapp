@@ -82,7 +82,7 @@
 .emoji-picker {
     border-radius: $border-rad;
     @include clearfix;
-    @include user-select(none);
+    user-select: none;
 
     position: absolute;
     z-index: 1100;
@@ -601,7 +601,7 @@ $emoji-half-height: 33px;
         display: inline;
 
         .emoji-picker__preview-name {
-            @include user-select(text);
+            user-select: text;
 
             font-weight: bold;
         }
