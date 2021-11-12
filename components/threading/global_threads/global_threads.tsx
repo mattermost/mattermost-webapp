@@ -119,7 +119,7 @@ const GlobalThreads = () => {
         Promise.all(promises).then(() => {
             setLoading(false);
         });
-    }, [fetchThreads, filter]);
+    }, [fetchThreads, filter, threadIds, unreadThreadIds]);
 
     useEffect(() => {
         if (!selectedThread && !selectedPost && !isLoading) {
