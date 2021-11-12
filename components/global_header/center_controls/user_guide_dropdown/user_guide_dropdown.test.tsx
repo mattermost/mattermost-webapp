@@ -30,7 +30,6 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         reportAProblemLink: 'reportAProblemLink',
         enableAskCommunityLink: 'true',
         showGettingStarted: false,
-        showNextStepsTips: false,
         actions: {
             unhideNextSteps: jest.fn(),
         },

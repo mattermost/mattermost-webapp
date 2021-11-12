@@ -21,7 +21,6 @@ type Props = {
     reportAProblemLink: string;
     enableAskCommunityLink: string;
     showGettingStarted: boolean;
-    showNextStepsTips: boolean;
     actions: {
         unhideNextSteps: () => void;
     };
@@ -55,7 +54,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = (): React.ReactNode => {
-        const {intl, showGettingStarted, showNextStepsTips} = this.props;
+        const {intl, showGettingStarted} = this.props;
 
         return (
             <Menu.Group>
@@ -76,8 +75,8 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     id='gettingStarted'
                     show={showGettingStarted}
                     onClick={() => this.props.actions.unhideNextSteps()}
-                    text={intl.formatMessage({id: showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
-                    icon={Utils.isMobile() && <i className={`icon ${showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
+                    text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
+                    icon={Utils.isMobile() && <i className='icon icon-play'/>}
                 />
                 <Menu.ItemExternalLink
                     id='reportAProblemLink'

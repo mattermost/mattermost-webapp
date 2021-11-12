@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Account Settings > General', () => {
+describe('Profile > Profile Settings', () => {
     let otherUser;
     let testChannel;
 

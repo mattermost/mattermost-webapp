@@ -16,14 +16,18 @@ describe('components/ChannelInfoModal', () => {
         header: '',
         purpose: '',
     });
-    const mockTeam = TestHelper.getTeamMock();
+
+    const baseProps = {
+        channel: mockChannel,
+        currentChannel: mockChannel,
+        currentTeam: TestHelper.getTeamMock(),
+        onExited: jest.fn(),
+    };
+
     it('should match snapshot', () => {
         const wrapper = shallow(
             <ChannelInfoModal
-                channel={mockChannel}
-                currentChannel={mockChannel}
-                currentTeam={mockTeam}
-                onHide={jest.fn()}
+                {...baseProps}
             />,
         );
 
@@ -46,38 +50,29 @@ describe('components/ChannelInfoModal', () => {
 
         const wrapper = shallow(
             <ChannelInfoModal
+                {...baseProps}
                 channel={channel}
                 currentChannel={channel}
-                currentTeam={mockTeam}
-                onHide={jest.fn()}
             />,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should call onHide callback when modal is hidden', () => {
-        const onHide = jest.fn();
-
+    it('should call onExited callback when modal is hidden', () => {
         const wrapper = mountWithIntl(
             <ChannelInfoModal
-                channel={mockChannel}
-                currentChannel={mockChannel}
-                currentTeam={mockTeam}
-                onHide={onHide}
+                {...baseProps}
             />,
         );
         wrapper.find(Modal).first().props().onExited!(document.createElement('div'));
-        expect(onHide).toHaveBeenCalled();
+        expect(baseProps.onExited).toHaveBeenCalled();
     });
 
     it('should call onHide when current channel changes', () => {
         const wrapper = mountWithIntl(
             <ChannelInfoModal
-                channel={mockChannel}
-                currentChannel={mockChannel}
-                currentTeam={mockTeam}
-                onHide={jest.fn()}
+                {...baseProps}
             />,
         );
 
@@ -89,10 +84,7 @@ describe('components/ChannelInfoModal', () => {
     it('should call hide when RHS opens', () => {
         const wrapper = mountWithIntl(
             <ChannelInfoModal
-                channel={mockChannel}
-                currentChannel={mockChannel}
-                currentTeam={mockTeam}
-                onHide={jest.fn()}
+                {...baseProps}
             />,
         );
 
