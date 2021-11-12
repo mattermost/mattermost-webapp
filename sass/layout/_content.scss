@@ -62,8 +62,7 @@
 }
 
 #archive-link-home {
-    @include flex(0 0 auto);
-
+    flex: 0 0 auto;
     cursor: pointer;
     font-size: 13px;
 

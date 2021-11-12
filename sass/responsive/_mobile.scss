@@ -906,8 +906,7 @@
         position: relative;
         display: block;
         opacity: 1;
-
-        @include transition(none);
+        transition: none;
     }
 
     .backstage-form__footer {
@@ -1410,8 +1409,7 @@
     }
 
     .search-bar__container {
-        @include flex(0 0 50px);
-
+        flex: 0 0 50px;
         padding: 0;
         background: var(--sidebar-header-bg);
         color: var(--sidebar-header-text-color);

@@ -260,10 +260,9 @@
 
 .post-right__scroll {
     position: relative;
+    flex: 1 1 auto;
     padding-top: 28px;
     -webkit-overflow-scrolling: touch;
-
-    @include flex(1 1 auto);
 
     .file-preview__container {
         margin-top: 5px;

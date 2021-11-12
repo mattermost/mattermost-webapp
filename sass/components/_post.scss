@@ -179,10 +179,9 @@
 }
 
 #post-list {
-    @include flex(1 1 auto);
-
     position: relative;
     height: 100%;
+    flex: 1 1 auto;
     overflow-y: hidden;
 
     .inactive {
@@ -374,10 +373,9 @@
 }
 
 .post-create__container {
-    @include flex(0 0 auto);
-
     z-index: 12;
     width: 100%;
+    flex: 0 0 auto;
     background: var(--center-channel-bg);
 
     label {

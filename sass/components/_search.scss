@@ -16,7 +16,7 @@
 }
 
 .icon--rotate {
-    @include animation(spin 0.7s infinite linear);
+    animation: spin 0.7s infinite linear;
 }
 
 .search-item-snippet {
@@ -232,10 +232,9 @@
 }
 
 .search-items-container {
-    @include flex(1 1 auto);
-
     position: relative;
     height: calc(100% - 56px);
+    flex: 1 1 auto;
     padding-top: 16px;
     -webkit-overflow-scrolling: touch;
 

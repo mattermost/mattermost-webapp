@@ -528,14 +528,13 @@
         position: relative;
 
         &.emoji-category--custom {
-            @include transform(scale(1));
-
             top: auto;
             left: auto;
             width: auto;
             max-width: 22px;
             height: auto;
             max-height: 22px;
+            transform: scale(1);
         }
     }
 }

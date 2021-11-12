@@ -102,11 +102,10 @@
     .sidebar-right__body {
         display: flex;
         height: calc(100% - 56px);
+        flex: 1 1 auto;
         flex-direction: column;
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         background: v(center-channel-bg);
-
-        @include flex(1 1 auto);
 
         .loading-screen {
             position: relative;
@@ -207,10 +206,9 @@
     }
 
     .sidebar--right__header {
-        @include flex(0 0 56px);
-
         display: flex;
         overflow: hidden;
+        flex: 0 0 56px;
         align-items: center;
         justify-content: space-between;
         padding: 0 16px 0 0;

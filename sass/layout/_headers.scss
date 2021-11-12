@@ -1,12 +1,11 @@
 @charset "utf-8";
 
 .channel-header {
-    @include flex(0 0 63px);
-
     position: relative;
     z-index: 15;
     width: 100%;
     max-height: 63px;
+    flex: 0 0 63px;
     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     background: v(center-channel-bg);
     font-size: 14px;
