@@ -15,10 +15,13 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {dismissNotice} from 'actions/views/notice';
 import {GlobalState} from 'types/store';
 
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import AnnouncementBarController from './announcement_bar_controller';
 
 function mapStateToProps(state: GlobalState) {
     const canViewSystemErrors = haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM});
+    const isInSomeTeam = Boolean(getCurrentTeamId(state));
     const license = getLicense(state);
     const config = getConfig(state);
     const errors = getDisplayableErrors(state);
@@ -31,6 +34,7 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         license,
+        isInSomeTeam,
         config,
         canViewSystemErrors,
         latestError,

@@ -20,6 +20,7 @@ import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal
 type Props = {
     license?: ClientLicense;
     config?: Partial<ClientConfig>;
+    isInSomeTeam: boolean;
     canViewSystemErrors: boolean;
     latestError?: {
         error: any;
@@ -85,7 +86,7 @@ export default class AnnouncementBarController extends React.PureComponent<Props
                     canViewSystemErrors={this.props.canViewSystemErrors}
                     warnMetricsStatus={this.props.warnMetricsStatus}
                 />
-                <EnableNotificationsBar/>
+                {this.props.isInSomeTeam && <EnableNotificationsBar/>}
             </>
         );
     }
