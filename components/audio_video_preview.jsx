@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -39,7 +37,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         this.handleFileInfoChanged(this.props.fileInfo);
 
         if (this.sourceRef.current) {
-            $(ReactDOM.findDOMNode(this.sourceRef.current)).one('error', this.handleLoadError);
+            this.sourceRef.current.addEventListener('error', this.handleLoadeError, {once: true});
         }
     }
 
@@ -49,12 +47,12 @@ export default class AudioVideoPreview extends React.PureComponent {
         }
 
         if (this.sourceRef.current) {
-            $(ReactDOM.findDOMNode(this.sourceRef.current)).one('error', this.handleLoadError);
+            this.sourceRef.current.addEventListener('error', this.handleLoadeError, {once: true});
         }
     }
 
     handleFileInfoChanged = (fileInfo) => {
-        let video = ReactDOM.findDOMNode(this.videoRef.current);
+        let video = this.videoRef.current;
         if (!video) {
             video = document.createElement('video');
         }
@@ -74,7 +72,7 @@ export default class AudioVideoPreview extends React.PureComponent {
 
     stop = () => {
         if (this.videoRef.current) {
-            const video = ReactDOM.findDOMNode(this.videoRef.current);
+            const video = this.videoRef.current;
             video.pause();
             video.currentTime = 0;
         }
