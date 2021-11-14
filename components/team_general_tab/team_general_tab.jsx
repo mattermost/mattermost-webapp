@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, FormattedDate} from 'react-intl';
@@ -289,11 +288,11 @@ export default class GeneralTab extends React.PureComponent {
     }
 
     componentDidMount() {
-        $('#team_settings').on('hidden.bs.modal', this.handleClose);
+        document.getElementById('team_settings').addEventListener('hidden.bs.modal', this.handleClose);
     }
 
     componentWillUnmount() {
-        $('#team_settings').off('hidden.bs.modal', this.handleClose);
+        document.getElementById('team_settings').addEventListener('hidden.bs.modal', this.handleClose);
     }
 
     handleUpdateSection = (section) => {
