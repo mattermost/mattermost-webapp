@@ -2,14 +2,13 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {mount, shallow} from 'enzyme';
+import {Provider} from 'react-redux';
 
 import {TestHelper} from 'utils/test_helper';
+import testConfigureStore from 'tests/test_configure_store';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import EnableNotificationsStep from './enable_notifications_step';
-import {Provider} from 'react-redux';
-import testConfigureStore from 'tests/test_configure_store';
-import { mountWithIntl } from 'tests/helpers/intl-test-helper';
 
 describe('components/next_steps_view/steps/setup_preferences_step', () => {
     const props = {

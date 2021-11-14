@@ -3,6 +3,8 @@
 
 import React, {useEffect} from 'react';
 
+import {useDispatch} from 'react-redux';
+
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import * as Utils from 'utils/utils.jsx';
@@ -12,8 +14,7 @@ import {t} from 'utils/i18n';
 import {StepComponentProps} from '../../steps';
 
 import TextCardWithAction from '../text_card_with_action/text_card_with_action';
-import { useDispatch } from 'react-redux';
-import { setBrowserNotificationsPermission } from 'actions/views/browser';
+import {setBrowserNotificationsPermission} from 'actions/views/browser';
 
 export default function EnableNotificationsStep(props: StepComponentProps) {
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
                     'This is how notifications from Mattermost will appear',
                 ),
                 requireInteraction: false,
-                silent: false, 
+                silent: false,
                 onNotificationsPermissionStatusReceived,
                 onClick: () => { },
             });

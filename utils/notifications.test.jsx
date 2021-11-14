@@ -116,7 +116,7 @@ describe('Notifications.showNotification', () => {
 
     it('should call onNotificationsPermissionStatusReceived callback if notifications permission request was made', async () => {
         window.Notification = jest.fn();
-        window.Notification.requestPermission = () => Promise.resolve('granted'),
+        window.Notification.requestPermission = () => Promise.resolve('granted');
         window.Notification.permission = 'default';
 
         const onNotificationsPermissionStatusReceived = jest.fn();
@@ -133,7 +133,7 @@ describe('Notifications.showNotification', () => {
 
     it('should not call onNotificationsPermissionStatusReceived callback if there was no notifications permission request made', async () => {
         window.Notification = jest.fn();
-        window.Notification.requestPermission = () => Promise.resolve('granted'),
+        window.Notification.requestPermission = () => Promise.resolve('granted');
         window.Notification.permission = 'default';
 
         const onNotificationsPermissionStatusReceived = jest.fn();

@@ -66,6 +66,7 @@ class LoginController extends React.PureComponent {
         actions: PropTypes.shape({
             login: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
+            setBrowserNotificationsPermission: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -173,7 +174,7 @@ class LoginController extends React.PureComponent {
                         this.closeSessionExpiredNotification = null;
                     }
                 },
-                onNotificationsPermissionStatusReceived: (permissionStatus) => this.props.actions.setBrowserNotificationsPermission(permissionStatus), 
+                onNotificationsPermissionStatusReceived: (permissionStatus) => this.props.actions.setBrowserNotificationsPermission(permissionStatus),
             }).then((closeNotification) => {
                 this.closeSessionExpiredNotification = closeNotification;
             }).catch(() => {

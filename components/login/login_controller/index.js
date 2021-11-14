@@ -9,7 +9,7 @@ import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entitie
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
-import { setBrowserNotificationsPermission } from 'actions/views/browser';
+import {setBrowserNotificationsPermission} from 'actions/views/browser';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
 
 import {login} from 'actions/views/login';
