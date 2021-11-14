@@ -7,6 +7,7 @@ import {shallow} from 'enzyme';
 import Menu from 'components/widgets/menu/menu';
 
 import {TestHelper} from 'utils/test_helper';
+import {ModalIdentifiers} from 'utils/constants';
 
 import LeaveChannel from './leave_channel';
 
@@ -71,7 +72,15 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
+
         expect(props.actions.leaveChannel).not.toHaveBeenCalled();
-        expect(props.actions.openModal).toHaveBeenCalled();
+
+        expect(props.actions.openModal).toHaveBeenCalledWith(
+            expect.objectContaining({
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogProps: {
+                    channel: props.channel,
+                },
+            }));
     });
 });

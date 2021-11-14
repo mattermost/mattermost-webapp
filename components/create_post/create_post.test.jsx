@@ -881,16 +881,13 @@ describe('components/create_post', () => {
         expect(wrapper.instance().props.actions.openModal).not.toHaveBeenCalled();
 
         instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
-        expect(wrapper.instance().props.actions.openModal.mock.calls[0][0].modalId).toBe(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledWith(expect.objectContaining({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL}));
 
         instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn()});
-        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
-        expect(wrapper.instance().props.actions.openModal.mock.calls[0][0].modalId).toBe(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledWith(expect.objectContaining({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL}));
 
         instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
-        expect(wrapper.instance().props.actions.openModal.mock.calls[0][0].modalId).toBe(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledWith(expect.objectContaining({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL}));
     });
 
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
