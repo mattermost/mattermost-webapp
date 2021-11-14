@@ -8,12 +8,12 @@
     }
 
     .upgrade-title {
+        margin: 10px 0;
         color: #3f4350;
         font-family: Metropolis;
         font-size: 16px;
         font-weight: 700;
         line-height: 24px;
-        margin: 10px 0;
     }
 
     .advantages-list {
@@ -36,10 +36,11 @@
 
     .purchase_buttons {
         margin-top: 20px;
+
         button {
-            margin: 0 5px !important;
-            padding: 6px 12px !important;
             max-height: 48px !important;
+            padding: 6px 12px !important;
+            margin: 0 5px !important;
         }
     }
 
@@ -56,21 +57,21 @@
         font-weight: 700;
         line-height: 24px;
     }
+
     .subtitle {
+        color: #3d3c40;
+        font-size: 12px;
         font-style: normal;
         font-weight: normal;
-        font-size: 12px;
         line-height: 16px;
-        color: #3D3C40;
     }
 
     .licenseInformation {
-
         .licenseKeyTitle {
             font-family: Metropolis;
             font-size: 16px;
-            line-height: 24px;
             font-weight: 700;
+            line-height: 24px;
         }
 
         .uploadButtons {
@@ -85,12 +86,8 @@
 
                 &.btn-upload {
                     margin-left: 10px;
-                    
-                    color: #1C58D9;
-                    background: rgba(28, 88, 217, 0.08);
                 }
             }
-
         }
     }
 }

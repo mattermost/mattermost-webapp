@@ -10,19 +10,19 @@
     }
 
     .title {
+        margin: 10px 0;
         color: #3f4350;
         font-family: Metropolis;
         font-size: 22px;
-        line-height: 28px;
         font-weight: 700;
-        margin: 10px 0;
+        line-height: 28px;
     }
 
     .enterprise-license-text {
         max-height: 200px;
-        overflow-y: auto;
         padding: 10px;
         background: white;
+        overflow-y: auto;
         text-align: justify;
     }
 
@@ -30,8 +30,8 @@
         display: flex;
 
         button {
-            margin-left: auto;
             margin-top: 15px !important;
+            margin-left: auto;
             border-radius: 4px;
         }
     }

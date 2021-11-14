@@ -33,6 +33,7 @@ const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
         <div className='purchase-card'>
             <ContactUsButton
                 eventID='post_trial_contact_sales'
+                customClass='light-blue-btn'
             />
         </div>
     );

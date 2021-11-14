@@ -1,5 +1,6 @@
 .EnterpriseVersionsRightPannel {
     font-family: Metropolis;
+
     .svg-image {
         text-align: center;
 
@@ -9,11 +10,11 @@
     }
 
     .upgrade-title {
+        margin: 10px 0;
         color: #3f4350;
         font-size: 16px;
         font-weight: 700;
         line-height: 24px;
-        margin: 10px 0;
     }
 
     .advantages-list {
@@ -36,10 +37,11 @@
 
     .purchase_buttons {
         margin-top: 20px;
+
         button {
-            margin: 0 5px !important;
-            padding: 6px 12px !important;
             max-height: 48px !important;
+            padding: 6px 12px !important;
+            margin: 0 5px !important;
         }
     }
 
@@ -67,17 +69,18 @@
     }
 
     .Badge {
+        position: absolute;
         display: inline-block;
         align-items: center;
         margin: 0 0 0 4px;
         margin-top: 2px;
-        position: absolute;
+
         .free-trial-license {
-            background: var(--denim-status-online);
-            color: #fff;
-            margin-left: 10px;
-            border-radius: 4px;
             padding: 2px 5px;
+            margin-left: 10px;
+            background: var(--denim-status-online);
+            border-radius: 4px;
+            color: #fff;
             text-transform: uppercase;
         }
     }
@@ -88,49 +91,51 @@
         margin: 15px 0;
 
         .license-details-top {
-            font-size: 14px;
-            line-height: 24px;
-            font-weight: 700;
             display: flex;
             justify-content: flex-start;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 24px;
 
             span.title {
-                color: #3F4350;
                 display: inline-block;
+                color: #3f4350;
             }
 
             span.expiration-days {
-                color: var(--denim-status-online);
                 margin-left: auto;
+                color: var(--denim-status-online);
                 font-size: 12px;
             }
         }
 
         .licenseElements {
             .item-element {
+                margin: 15px 0;
                 font-size: 14px;
                 line-height: 20px;
-                margin: 15px 0;
+
                 span.legend {
-                    color: rgba(var(--secondary-blue-rgb), 0.4);
-                    min-width: 150px;
-                    font-weight: 700;
                     display: inline-block;
+                    min-width: 150px;
+                    color: rgba(var(--secondary-blue-rgb), 0.4);
+                    font-weight: 700;
                 }
+
                 span.value {
-                    color:var(--secondary-blue);
                     margin-left: 10px;
+                    color: var(--secondary-blue);
                 }
             }
         }
 
         #remove-button {
-            background: none !important;
+            padding: 0;
             border: none !important;
+            margin: 10px 0;
+            background: none !important;
             color: var(--error-text);
             font-weight: 700;
-            padding: 0;
-            margin: 10px 0;
 
             &:hover {
                 text-decoration: underline;

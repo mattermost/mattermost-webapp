@@ -64,8 +64,14 @@
 
 .banner-start-trial {
     .trial-legal-terms {
-        color: #3F4350;
+        color: #3f4350;
     }
+}
+
+.light-blue-btn {
+    background: rgba(var(--sys-denim-button-bg-rgb), 0.08) !important;
+    color: var(sys-denim-button-bg) !important;
+    border: none !important;
 }
 
 .admin-console__banner_section {
@@ -73,15 +79,15 @@
 }
 
 .current-plan-legend {
+    margin: 10px 0;
     color: #3db887;
     font-size: 14px;
     font-style: normal;
     font-weight: normal;
     line-height: 14px;
-    margin: 10px 0;
 
     i {
-        margin-left: -5px;
         margin-right: 5px;
+        margin-left: -5px;
     }
 }

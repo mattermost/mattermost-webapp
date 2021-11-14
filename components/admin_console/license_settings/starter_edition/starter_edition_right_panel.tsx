@@ -28,6 +28,7 @@ const StarterEditionRightPanel: React.FC = () => {
             />
             <ContactUsButton
                 eventID='post_trial_contact_sales'
+                customClass='light-blue-btn'
             />
         </div>
     );

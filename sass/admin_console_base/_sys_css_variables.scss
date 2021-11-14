@@ -24,6 +24,7 @@
     --sys-sidebar-text-active-color: #fff;
     --sys-sidebar-text-hover-bg: #4578bf;
     --sys-sidebar-unread-text: #fff;
+    --sys-denim-button-bg: #1c58d9;
 
     // Cloned RGB values from base/css_variables, to be used as rgba(var(--sys-color), opacity_here) to apply opacity to base colors
     --sys-away-indicator-rgb: 255, 188, 66;
@@ -48,4 +49,6 @@
     --sys-sidebar-text-active-color-rgb: 255, 255, 255;
     --sys-sidebar-text-hover-bg-rgb: 69, 120, 191;
     --sys-sidebar-unread-text-rgb: 255, 255, 255;
+    --sys-denim-button-bg-rgb: 28, 88, 217;
+
 }

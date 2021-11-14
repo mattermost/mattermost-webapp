@@ -28,15 +28,19 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
+type StatusOKFunc = () => Promise<StatusOK>;
+type PromiseStatusFunc = () => Promise<{status: string}>;
+type ActionCreatorTypes = Action | PromiseStatusFunc | StatusOKFunc;
+
 type Actions = {
     getLicenseConfig: () => void;
     uploadLicense: (file: File) => Promise<ActionResult>;
     removeLicense: () => Promise<ActionResult>;
     getPrevTrialLicense: () => void;
-    upgradeToE0: () => Promise<StatusOK>;
+    upgradeToE0: StatusOKFunc;
     upgradeToE0Status: () => Promise<ActionResult>;
-    restartServer: () => Promise<StatusOK>;
-    ping: () => Promise<{status: string}>;
+    restartServer: StatusOKFunc;
+    ping: PromiseStatusFunc;
     requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
 
@@ -44,7 +48,7 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionCreatorTypes>, Actions>({
             getLicenseConfig,
             uploadLicense,
             removeLicense,
