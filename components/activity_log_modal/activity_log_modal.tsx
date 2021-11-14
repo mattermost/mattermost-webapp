@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -66,10 +65,10 @@ export default class ActivityLogModal extends React.PureComponent<Props, State> 
 
     submitRevoke = (altId: string, e: React.MouseEvent) => {
         e.preventDefault();
-        const modalContent = $(e.target).closest('.modal-content'); // eslint-disable-line jquery/no-closest
-        modalContent.addClass('animation--highlight');
+        const modalContent = (e.target as Element).closest('.modal-content'); // eslint-disable-line jquery/no-closest
+        modalContent?.classList.add('animation--highlight');
         setTimeout(() => {
-            modalContent.removeClass('animation--highlight');
+            modalContent?.classList.remove('animation--highlight');
         }, 1500);
         this.props.actions.revokeSession(this.props.currentUserId, altId).then(() => {
             this.props.actions.getSessions(this.props.currentUserId);
