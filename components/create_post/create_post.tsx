@@ -60,6 +60,7 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import CreatePostTip from './create_post_tip';
 import PrewrittenChips from './prewritten_chips';
@@ -738,12 +739,6 @@ class CreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
-            GlobalActions.showChannelNameUpdateModal(updateChannel);
-            this.setState({message: ''});
-            return;
-        }
-
         await this.doSubmit(e);
     }
 
@@ -1077,7 +1072,11 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (shortcutModalKeyCombo) {
             e.preventDefault();
 
-            GlobalActions.toggleShortcutsModal();
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+                dialogType: KeyboardShortcutsModal,
+            });
+
             return;
         } else if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
