@@ -21,7 +21,6 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import Markdown from 'components/markdown/markdown';
 
 import {AboutLinks, CloudLinks, ModalIdentifiers} from 'utils/constants';
 
@@ -36,6 +35,8 @@ import TeamEditionLeftPanel from './team_edition/team_edition_left_panel';
 import TeamEditionRightPanel from './team_edition/team_edition_right_panel';
 import StarterEditionLeftPanel from './starter_edition/starter_edition_left_panel';
 import StarterEditionRightPanel from './starter_edition/starter_edition_right_panel';
+import EnterpriseVersionsLeftPanel from './enterprise_versions/enterprise_versions_left_panel';
+import EnterpriseVersionsRightPanel from './enterprise_versions/enterprise_versions_right_panel';
 import EELicenseModal from './ee_license_modal/ee_license_modal';
 import {free30DayTrial} from './license_utils/license_utils';
 
@@ -325,10 +326,10 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const {license, upgradedFromTE, isDisabled} = this.props;
         const {uploading} = this.state;
 
-        let edition;
-        let licenseType;
-        let licenseContent;
-        let eelicense;
+        // let edition;
+        // let licenseType;
+        // let licenseContent;
+        // let eelicense;
 
         const issued = (
             <React.Fragment>
@@ -365,70 +366,73 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             );
         } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-            let skuShortName = license.SkuShortName;
-            if (isTrialLicense(license)) {
-                skuShortName = `${license.SkuShortName} Trial`;
-            }
-            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${skuShortName}`}<br/></React.Fragment> : null;
-            if (license.SkuShortName === 'E20') {
-                edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.';
-            } else {
-                edition = 'Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.';
-            }
-            if (upgradedFromTE) {
-                eelicense = this.renderEELicenseText();
-            }
-            licenseType = (
-                <div>
-                    {!upgradedFromTE &&
-                        <p>
-                            {'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.\n\nYour subscription details are as follows:'}
-                        </p>}
-                    {upgradedFromTE &&
-                        <div>
-                            <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
-                            <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
-                            <p>{'Your subscription details are as follows:'}</p>
-                        </div>}
-                    {`Name: ${license.Name}`}<br/>
-                    {`Company or organization name: ${license.Company}`}<br/>
-                    {sku}
-                    {`Number of users: ${license.Users}`}<br/>
-                    {'License issued: '}{issued}<br/>
-                    {'Start date of license: '}{startsAt}<br/>
-                    {'Expiry date of license: '}{expiresAt}<br/>
-                    <br/>
-                    {'See also '}
-                    <a
-                        rel='noopener noreferrer'
-                        target='_blank'
-                        href='https://about.mattermost.com/enterprise-edition-terms/'
-                    >{'Enterprise Edition Terms of Service'}</a>{' and '}
-                    <a
-                        data-testid='privacyPolicyLink'
-                        rel='noopener noreferrer'
-                        target='_blank'
-                        href='https://about.mattermost.com/default-privacy-policy/'
-                    >{'Privacy Policy.'}</a>
-                </div>
-            );
-            licenseContent = this.renderE10E20Content();
+            // let skuShortName = license.SkuShortName;
+            // if (isTrialLicense(license)) {
+            //     skuShortName = `${license.SkuShortName} Trial`;
+            // }
+            // const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${skuShortName}`}<br/></React.Fragment> : null;
+            // if (license.SkuShortName === 'E20') {
+            //     edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.';
+            // } else {
+            //     edition = 'Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.';
+            // }
+            // if (upgradedFromTE) {
+            //     eelicense = this.renderEELicenseText();
+            // }
+            // licenseType = (
+            //     <div>
+            //         {!upgradedFromTE &&
+            //             <p>
+            //                 {'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.\n\nYour subscription details are as follows:'}
+            //             </p>}
+            //         {upgradedFromTE &&
+            //             <div>
+            //                 <p>{'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.'}</p>
+            //                 <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
+            //                 <p>{'Your subscription details are as follows:'}</p>
+            //             </div>}
+            //         {`Name: ${license.Name}`}<br/>
+            //         {`Company or organization name: ${license.Company}`}<br/>
+            //         {sku}
+            //         {`Number of users: ${license.Users}`}<br/>
+            //         {'License issued: '}{issued}<br/>
+            //         {'Start date of license: '}{startsAt}<br/>
+            //         {'Expiry date of license: '}{expiresAt}<br/>
+            //         <br/>
+            //         {'See also '}
+            //         <a
+            //             rel='noopener noreferrer'
+            //             target='_blank'
+            //             href='https://about.mattermost.com/enterprise-edition-terms/'
+            //         >{'Enterprise Edition Terms of Service'}</a>{' and '}
+            //         <a
+            //             data-testid='privacyPolicyLink'
+            //             rel='noopener noreferrer'
+            //             target='_blank'
+            //             href='https://about.mattermost.com/default-privacy-policy/'
+            //         >{'Privacy Policy.'}</a>
+            //     </div>
+            // );
+            // licenseContent = this.renderE10E20Content();
             leftPanel = (
-                <TeamEditionLeftPanel
+                <EnterpriseVersionsLeftPanel
                     openEELicenseModal={this.openEELicenseModal}
-                    currentPlan={this.currentPlan}
+                    upgradedFromTE={upgradedFromTE}
+                    license={license}
+                    isTrialLicense={isTrialLicense(license)}
+                    issued={issued}
+                    startsAt={startsAt}
+                    expiresAt={expiresAt}
+                    handleRemove={this.handleRemove}
+                    isDisabled={isDisabled}
+                    removing={this.state.removing}
                 />
             );
 
             rightPanel = (
-                <TeamEditionRightPanel
-                    upgradingPercentage={this.state.upgradingPercentage}
-                    upgradeError={this.state.upgradeError}
-                    restartError={this.state.restartError}
-                    handleRestart={this.handleRestart}
-                    handleUpgrade={this.handleUpgrade}
-                    restarting={this.state.restarting}
-                    openEEModal={this.openEELicenseModal}
+                <EnterpriseVersionsRightPanel
+                    isTrialLicense={isTrialLicense(license)}
+                    license={license}
                 />
             );
         } else {
@@ -500,7 +504,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 <div className='panel-card'>
                                     {leftPanel}
                                 </div>
-                                {this.termsAndPolicy}
+                                {(!isTrialLicense(license)) && this.termsAndPolicy}
                             </div>
                             <div className='right-pannel'>
                                 <div className='panel-card'>
@@ -509,7 +513,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 {this.comparePlans}
                             </div>
                         </div>
-                        <form
+                        {/* <form
                             className='form-horizontal'
                             role='form'
                         >
@@ -548,177 +552,177 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 <div className='form-group'>
                                     {eelicense}
                                 </div>}
-                        </form>
+                        </form> */}
                     </div>
                 </div>
             </div>
         );
     }
 
-    renderE10E20Content = () => {
-        let removeButtonText = (
-            <FormattedMessage
-                id='admin.license.keyRemove'
-                defaultMessage='Remove License and Downgrade Server'
-            />
-        );
-        if (this.state.removing) {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.license.removing'
-                    defaultMessage='Removing License...'
-                />
-            );
-        }
+    // renderE10E20Content = () => {
+    //     let removeButtonText = (
+    //         <FormattedMessage
+    //             id='admin.license.keyRemove'
+    //             defaultMessage='Remove License and Downgrade Server'
+    //         />
+    //     );
+    //     if (this.state.removing) {
+    //         removeButtonText = (
+    //             <FormattedMessage
+    //                 id='admin.license.removing'
+    //                 defaultMessage='Removing License...'
+    //             />
+    //         );
+    //     }
 
-        return (
-            <>
-                <label
-                    className='control-label col-sm-4'
-                >
-                    <FormattedMessage
-                        id='admin.license.key'
-                        defaultMessage='License Key: '
-                    />
-                </label>
-                <div className='col-sm-8'>
-                    <button
-                        type='button'
-                        className='btn btn-danger'
-                        onClick={this.handleRemove}
-                        disabled={this.props.isDisabled}
-                        id='remove-button'
-                        data-testid='remove-button'
-                    >
-                        {removeButtonText}
-                    </button>
-                    <br/>
-                    <br/>
-                    <p className='help-text'>
-                        {'If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.'}
-                    </p>
-                </div>
-            </>
-        );
-    }
+    //     return (
+    //         <>
+    //             <label
+    //                 className='control-label col-sm-4'
+    //             >
+    //                 <FormattedMessage
+    //                     id='admin.license.key'
+    //                     defaultMessage='License Key: '
+    //                 />
+    //             </label>
+    //             <div className='col-sm-8'>
+    //                 <button
+    //                     type='button'
+    //                     className='btn btn-danger'
+    //                     onClick={this.handleRemove}
+    //                     disabled={this.props.isDisabled}
+    //                     id='remove-button'
+    //                     data-testid='remove-button'
+    //                 >
+    //                     {removeButtonText}
+    //                 </button>
+    //                 <br/>
+    //                 <br/>
+    //                 <p className='help-text'>
+    //                     {'If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.'}
+    //                 </p>
+    //             </div>
+    //         </>
+    //     );
+    // }
 
-    renderE0Content = () => {
-        let serverError: any = '';
-        if (this.state.serverError) {
-            serverError = (<div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>
-                <Markdown
-                    enableFormatting={true}
-                    message={this.state.serverError}
-                />
-            </label></div></div>);
-        }
+    // renderE0Content = () => {
+    //     let serverError: any = '';
+    //     if (this.state.serverError) {
+    //         serverError = (<div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>
+    //             <Markdown
+    //                 enableFormatting={true}
+    //                 message={this.state.serverError}
+    //             />
+    //         </label></div></div>);
+    //     }
 
-        let btnClass = 'btn';
-        if (this.state.fileSelected) {
-            btnClass = 'btn btn-primary';
-        }
+    //     let btnClass = 'btn';
+    //     if (this.state.fileSelected) {
+    //         btnClass = 'btn btn-primary';
+    //     }
 
-        let fileName;
-        if (this.state.fileName) {
-            fileName = this.state.fileName;
-        } else {
-            fileName = (
-                <FormattedMessage
-                    id='admin.license.noFile'
-                    defaultMessage='No file uploaded'
-                />
-            );
-        }
+    //     let fileName;
+    //     if (this.state.fileName) {
+    //         fileName = this.state.fileName;
+    //     } else {
+    //         fileName = (
+    //             <FormattedMessage
+    //                 id='admin.license.noFile'
+    //                 defaultMessage='No file uploaded'
+    //             />
+    //         );
+    //     }
 
-        let uploadButtonText = (
-            <FormattedMessage
-                id='admin.license.upload'
-                defaultMessage='Upload'
-            />
-        );
-        if (this.state.uploading) {
-            uploadButtonText = (
-                <FormattedMessage
-                    id='admin.license.uploading'
-                    defaultMessage='Uploading License...'
-                />
-            );
-        }
-        return (
-            <>
-                <label
-                    className='control-label col-sm-4'
-                >
-                    <FormattedMessage
-                        id='admin.license.key'
-                        defaultMessage='License Key: '
-                    />
-                </label>
-                <div className='col-sm-8'>
-                    <div className='file__upload'>
-                        <button
-                            type='button'
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='admin.license.choose'
-                                defaultMessage='Choose File'
-                            />
-                        </button>
-                        <input
-                            ref={this.fileInputRef}
-                            type='file'
-                            accept='.mattermost-license'
-                            onChange={this.handleChange}
-                            disabled={this.props.isDisabled}
-                        />
-                    </div>
-                    <button
-                        className={btnClass}
-                        disabled={this.props.isDisabled || !this.state.fileSelected}
-                        onClick={this.handleSubmit}
-                        id='upload-button'
-                    >
-                        {uploadButtonText}
-                    </button>
-                    <div className='help-text m-0'>
-                        {fileName}
-                    </div>
-                    <br/>
-                    {serverError}
-                    <p className='help-text m-0'>
-                        <FormattedMarkdownMessage
-                            id='admin.license.uploadDesc'
-                            defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key.'
-                        />
-                    </p>
-                </div>
-            </>
-        );
-    }
+    //     let uploadButtonText = (
+    //         <FormattedMessage
+    //             id='admin.license.upload'
+    //             defaultMessage='Upload'
+    //         />
+    //     );
+    //     if (this.state.uploading) {
+    //         uploadButtonText = (
+    //             <FormattedMessage
+    //                 id='admin.license.uploading'
+    //                 defaultMessage='Uploading License...'
+    //             />
+    //         );
+    //     }
+    //     return (
+    //         <>
+    //             <label
+    //                 className='control-label col-sm-4'
+    //             >
+    //                 <FormattedMessage
+    //                     id='admin.license.key'
+    //                     defaultMessage='License Key: '
+    //                 />
+    //             </label>
+    //             <div className='col-sm-8'>
+    //                 <div className='file__upload'>
+    //                     <button
+    //                         type='button'
+    //                         className='btn btn-primary'
+    //                     >
+    //                         <FormattedMessage
+    //                             id='admin.license.choose'
+    //                             defaultMessage='Choose File'
+    //                         />
+    //                     </button>
+    //                     <input
+    //                         ref={this.fileInputRef}
+    //                         type='file'
+    //                         accept='.mattermost-license'
+    //                         onChange={this.handleChange}
+    //                         disabled={this.props.isDisabled}
+    //                     />
+    //                 </div>
+    //                 <button
+    //                     className={btnClass}
+    //                     disabled={this.props.isDisabled || !this.state.fileSelected}
+    //                     onClick={this.handleSubmit}
+    //                     id='upload-button'
+    //                 >
+    //                     {uploadButtonText}
+    //                 </button>
+    //                 <div className='help-text m-0'>
+    //                     {fileName}
+    //                 </div>
+    //                 <br/>
+    //                 {serverError}
+    //                 <p className='help-text m-0'>
+    //                     <FormattedMarkdownMessage
+    //                         id='admin.license.uploadDesc'
+    //                         defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key.'
+    //                     />
+    //                 </p>
+    //             </div>
+    //         </>
+    //     );
+    // }
 
-    renderEELicenseText = () => {
-        return (
-            <>
-                <label
-                    className='control-label col-sm-4'
-                >
-                    <FormattedMessage
-                        id='admin.license.enterprise-edition-license'
-                        defaultMessage='Enterprise Edition License:'
-                    />
-                </label>
-                <div className='col-sm-8 enterprise-license-text'>
-                    <div>
-                        <p>{'The Mattermost Enterprise Edition (EE) license (the “EE License”)'}</p>
-                        <p>{'Copyright (c) 2016-present Mattermost, Inc.'}</p>
-                        <p>{'The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.'}</p>
-                        <p>{'EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'}</p>
-                    </div>
-                </div>
-            </>
-        );
-    }
+    // renderEELicenseText = () => {
+    //     return (
+    //         <>
+    //             <label
+    //                 className='control-label col-sm-4'
+    //             >
+    //                 <FormattedMessage
+    //                     id='admin.license.enterprise-edition-license'
+    //                     defaultMessage='Enterprise Edition License:'
+    //                 />
+    //             </label>
+    //             <div className='col-sm-8 enterprise-license-text'>
+    //                 <div>
+    //                     <p>{'The Mattermost Enterprise Edition (EE) license (the “EE License”)'}</p>
+    //                     <p>{'Copyright (c) 2016-present Mattermost, Inc.'}</p>
+    //                     <p>{'The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.'}</p>
+    //                     <p>{'EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'}</p>
+    //                 </div>
+    //             </div>
+    //         </>
+    //     );
+    // }
 
     renewLicenseCard = () => {
         const {isDisabled} = this.props;

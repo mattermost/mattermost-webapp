@@ -24,6 +24,8 @@
     --sidebar-text-hover-bg: #4578bf;
     --sidebar-unread-text: #fff;
     --sidebar-team-background: #0b428c;
+    --secondary-blue: #22406D;
+    --denim-status-online: #3DB887;
 
     // Default RGB values to be replaced by applyTheme() (do not add opacity mutations here)
     // these are define to prevent flashes of unstyled content
@@ -51,6 +53,8 @@
     --sidebar-unread-text-rgb: 255, 255, 255;
     --error-box-background: 197, 67, 72;
     --sidebar-team-background-rgb: 11, 66, 140;
+    --secondary-blue-rgb: 34, 64, 109;
+    --denim-status-online-rgb: 61, 184, 135;
 
     // offline indicator color stays the same in all themes, that's why it is separated from the other variables
     // the color specified here is the new hard-coded color from the compass design system

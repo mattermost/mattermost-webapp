@@ -4,55 +4,90 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import Markdown from 'components/markdown/markdown';
+import {ClientLicense} from 'mattermost-redux/types/config';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+
+import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_versions.scss';
 export interface EnterpriseVersionsProps {
     openEELicenseModal: () => void;
-    currentPlan: JSX.Element;
     upgradedFromTE: boolean;
-    serverError: string | null;
-    fileSelected: boolean;
-    fileName: string | null;
-    uploading: boolean;
-    fileInputRef: any;
+    license: ClientLicense;
+    isTrialLicense: boolean;
+    issued: JSX.Element;
+    startsAt: JSX.Element;
+    expiresAt: JSX.Element;
+    handleRemove: (e: any) => Promise<void>;
     isDisabled: boolean;
-    handleChange: () => void;
-    handleSubmit: (e: any) => Promise<void>;
+    removing: boolean;
 }
 
 const EnterpriseVersionsLeftPanel: React.FC<EnterpriseVersionsProps> = ({
     openEELicenseModal,
-    currentPlan,
     upgradedFromTE,
-    serverError,
-    fileSelected,
-    fileName,
-    uploading,
-    fileInputRef,
+    license,
+    isTrialLicense,
+    issued,
+    startsAt,
+    expiresAt,
+    handleRemove,
     isDisabled,
-    handleChange,
-    handleSubmit,
+    removing,
 }: EnterpriseVersionsProps) => {
+    let edition = '';
+    switch (license.SkuShortName) {
+    case 'E20':
+        edition = 'Enterprise E20';
+        break;
+    case 'E10':
+        edition = 'Enterprise E10';
+        break;
+    case 'professional':
+        edition = 'Professional';
+        break;
+    default:
+        edition = 'Enterprise';
+        break;
+    }
+
+    const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
+
     return (
         <div className='EnterpriseVersionsLeftPanel'>
             <div className='title'>
-                <FormattedMessage
-                    id='admin.license.starterEdition.title'
-                    defaultMessage='Starter Edition'
-                />
-            </div>
-            <div className='currentPlanLegend'>
-                {currentPlan}
+                {`Mattermost ${edition}`}{freeTrialBadge(isTrialLicense)}
             </div>
             <div className='subtitle'>
                 <FormattedMessage
                     id='admin.license.starterEdition.subtitle'
-                    defaultMessage='Purchase Professional or Enterprise to unlock enterprise fatures.'
+                    defaultMessage='This is {edition} Edition for the Mattermost Enterprise plan'
+                    values={{edition}}
                 />
             </div>
-            <hr/>
-            <div className='content'>
+            <div className='licenseInformation'>
+                <div className='license-details-top'>
+                    <span className='title'>{'License details'}</span>
+                    {(expirationDays <= 30) &&
+                        <span className='expiration-days'>
+                            {`Expires in ${expirationDays} day${expirationDays > 1 ? 's' : ''}`}
+                        </span>
+                    }
+                </div>
+                {
+                    renderLicenseContent(
+                        license,
+                        isTrialLicense,
+                        issued,
+                        startsAt,
+                        expiresAt,
+                        handleRemove,
+                        isDisabled,
+                        removing,
+                    )
+                }
+            </div>
+            <div className='license-notices'>
                 {upgradedFromTE ? <>
                     <p>
                         {'When using Mattermost Enterprise Edition, the software is offered under a commercial license. See '}
@@ -71,123 +106,106 @@ const EnterpriseVersionsLeftPanel: React.FC<EnterpriseVersionsProps> = ({
                 </p>
                 }
             </div>
-            <div className='licenseInformation'>
-                {
-                    renderStarterContent(
-                        serverError,
-                        fileSelected,
-                        fileName,
-                        uploading,
-                        fileInputRef,
-                        isDisabled,
-                        handleChange,
-                        handleSubmit,
-                    )
-                }
-            </div>
         </div>
     );
 };
 
-const renderStarterContent = (
-    _serverError: string | null,
-    fileSelected: boolean,
-    _fileName: string | null,
-    uploading: boolean,
-    fileInputRef: any,
+const renderLicenseContent = (
+    license: ClientLicense,
+    isTrialLicense: boolean,
+    issued: JSX.Element,
+    startsAt: JSX.Element,
+    expiresAt: JSX.Element,
+    handleRemove: (e: any) => Promise<void>,
     isDisabled: boolean,
-    handleChange: () => void,
-    handleSubmit: (e: any) => Promise<void>,
+    removing: boolean,
 ) => {
-    let serverError: JSX.Element | null = null;
-    if (_serverError) {
-        serverError = (
-            <div className='has-error'>
-                <Markdown
-                    enableFormatting={true}
-                    message={_serverError}
-                />
-            </div>
-        );
+    // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
+    let skuShortName = license.SkuShortName;
+    if (isTrialLicense) {
+        skuShortName = `${license.SkuShortName} License Trial`;
     }
+    const sku = license.SkuShortName ? <>{`Mattermost ${skuShortName}`}</> : null;
 
-    let btnClass = '';
-    if (fileSelected) {
-        btnClass = 'btn-primary';
-    }
+    const licenseValues = [
+        {legend: 'START DATE:', value: startsAt},
+        {legend: 'EXPIRES:', value: expiresAt},
+        {legend: 'USERS:', value: license.Users},
+        {legend: 'EDITION:', value: sku},
+        {legend: 'LICENSE ISSUED:', value: issued},
+        {legend: 'NAME:', value: license.Name},
+        {legend: 'COMPANY / ORG:', value: license.Company},
+    ];
 
-    let fileName;
-    if (_fileName) {
-        fileName = _fileName;
-    } else {
-        fileName = (
-            <FormattedMessage
-                id='admin.license.noFile'
-                defaultMessage='No file uploaded'
-            />
-        );
-    }
+    return (
+        <div className='licenseElements'>
+            {licenseValues.map((item: {legend: string; value: any}, i: number) => {
+                return (
+                    <div
+                        className='item-element'
+                        key={item.value + i.toString()}
+                    >
+                        <span className='legend'>{item.legend}</span>
+                        <span className='value'>{item.value}</span>
+                    </div>
+                );
+            })}
+            <hr/>
+            {renderRemoveButton(handleRemove, isDisabled, removing)}
+        </div>
+    );
+};
 
-    let uploadButtonText = (
+const renderRemoveButton = (
+    handleRemove: (e: any) => Promise<void>,
+    isDisabled: boolean,
+    removing: boolean,
+) => {
+    let removeButtonText = (
         <FormattedMessage
-            id='admin.license.upload'
-            defaultMessage='Upload'
+            id='admin.license.keyRemove'
+            defaultMessage='Remove License and Downgrade Server'
         />
     );
-    if (uploading) {
-        uploadButtonText = (
+    if (removing) {
+        removeButtonText = (
             <FormattedMessage
-                id='admin.license.uploading'
-                defaultMessage='Uploading License...'
+                id='admin.license.removing'
+                defaultMessage='Removing License...'
             />
         );
     }
+
     return (
         <>
-            <div
-                className='licenseKeyTitle'
-            >
-                <FormattedMessage
-                    id='admin.license.key'
-                    defaultMessage='License Key: '
-                />
-            </div>
-            <div className='uploadButtons'>
-                <div className='file__upload'>
-                    <button
-                        type='button'
-                        className='btn btn-primary btn-select'
-                    >
-                        <FormattedMessage
-                            id='admin.license.choose'
-                            defaultMessage='Choose File'
-                        />
-                    </button>
-                    <input
-                        ref={fileInputRef}
-                        type='file'
-                        accept='.mattermost-license'
-                        onChange={handleChange}
-                        disabled={isDisabled}
-                    />
-                </div>
+            <div className='remove-button'>
                 <button
-                    className={`btn btn-upload ${btnClass}`}
-                    disabled={isDisabled || !fileSelected}
-                    onClick={handleSubmit}
-                    id='upload-button'
+                    type='button'
+                    className='btn btn-danger'
+                    onClick={handleRemove}
+                    disabled={isDisabled}
+                    id='remove-button'
+                    data-testid='remove-button'
                 >
-                    {uploadButtonText}
+                    {removeButtonText}
                 </button>
-                <div className='help-text'>
-                    {fileName}
-                </div>
-                <br/>
-                <div className='serverError'>
-                    {serverError}
-                </div>
             </div>
         </>
+    );
+};
+
+const freeTrialBadge = (isTrialLicense: boolean) => {
+    if (!isTrialLicense) {
+        return null;
+    }
+
+    return (
+        <Badge className='free-trial-license'>
+            <FormattedMessage
+                id='admin.license.Trial'
+                defaultMessage='Trial'
+            />
+        </Badge>
     );
 };
 

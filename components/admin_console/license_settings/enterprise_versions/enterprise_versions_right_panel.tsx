@@ -3,49 +3,108 @@
 import * as React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
-import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
-import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
+import {ClientLicense} from 'mattermost-redux/types/config';
 
-const EnterpriseVersionsRightPanel: React.FC = () => {
+import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
+import WomanWithCardSvg from 'components/common/svg_images_components/woman_with_card_svg';
+import TwoPeopleChattingSvg from 'components/common/svg_images_components/two_people_chatting_svg';
+
+export interface EnterpriseVersionsProps {
+    isTrialLicense: boolean;
+    license: ClientLicense;
+}
+
+const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
+    isTrialLicense,
+    license,
+
+}: EnterpriseVersionsProps) => {
     const upgradeAdvantages = [
-        'OneLogin/ADFS SAML 2.0',
-        'OpenID Connect',
-        'Office365 suite integration',
-        'Read-only announcement channels',
+        'AD/LDAP Group sync',
+        'High Availability',
+        'Advanced compliance',
+        'Advanced roles and permissions',
     ];
 
-    const purchaseLicenseBtns = (
+    const skuShortName = license.SkuShortName;
+
+    const contactSalesBtn = (
         <div className='purchase-card'>
-            <PurchaseLink
-                eventID='post_trial_purchase_license'
-                buttonTextElement={
-                    <FormattedMessage
-                        id='admin.license.trialCard.purchase'
-                        defaultMessage='Purchase'
-                    />
-                }
-            />
             <ContactUsButton
                 eventID='post_trial_contact_sales'
             />
         </div>
     );
 
-    return (
-        <div className='EnterpriseVersionsRightPannel'>
-            <div className='svg-image'>
-                <WomanUpArrowsAndCloudsSvg
+    const title = () => {
+        if (isTrialLicense) {
+            return (
+                <FormattedMessage
+                    id='admin.license.purchaseEnterprisePlanTitle'
+                    defaultMessage='Purchase the Enterprise Plan'
+                />
+            );
+        }
+        if (skuShortName === 'enterprise') {
+            return (
+                <FormattedMessage
+                    id='admin.license.enterprisePlanTitle'
+                    defaultMessage='Need to increase your headcount?'
+                />
+            );
+        }
+        return (
+            <FormattedMessage
+                id='admin.license.upgradeToEnterprise'
+                defaultMessage='Upgrade to the Enterprise plan'
+            />
+        );
+    };
+
+    const svgImage = () => {
+        if (isTrialLicense) {
+            return (
+                <WomanWithCardSvg
                     width={100}
                     height={100}
                 />
-            </div>
-            <div className='upgrade-title'>
-                <FormattedMessage
-                    id='admin.license.upgradeTitle'
-                    defaultMessage='Upgrade to the Professional Plan'
+            );
+        }
+        if (skuShortName === 'enterprise') {
+            return (
+                <TwoPeopleChattingSvg
+                    width={100}
+                    height={100}
                 />
-            </div>
+            );
+        }
+        return (
+            <WomanUpArrowsAndCloudsSvg
+                width={100}
+                height={100}
+            />
+        );
+    };
+
+    const subtitle = () => {
+        if (isTrialLicense) {
+            return (
+                <FormattedMessage
+                    id='admin.license.purchaseEnterprisePlanSubtitle'
+                    defaultMessage='Continue your access to Enterprise features by purchasing a license today.'
+                />
+            );
+        }
+        if (skuShortName === 'enterprise') {
+            return (
+                <FormattedMessage
+                    id='admin.license.enterprisePlanSubtitle'
+                    defaultMessage='We’re here to work with you and your needs. Contact us today to get more seats on your plan.'
+                />
+            );
+        }
+        return (
             <div className='advantages-list'>
                 {upgradeAdvantages.map((item: string, i: number) => {
                     return (
@@ -62,8 +121,22 @@ const EnterpriseVersionsRightPanel: React.FC = () => {
                     defaultMessage='And more...'
                 />
             </div>
+        );
+    };
+
+    return (
+        <div className='EnterpriseVersionsRightPannel'>
+            <div className='svg-image'>
+                {svgImage()}
+            </div>
+            <div className='upgrade-title'>
+                {title()}
+            </div>
+            <div className='upgrade-subtitle'>
+                {subtitle()}
+            </div>
             <div className='purchase_buttons'>
-                {purchaseLicenseBtns}
+                {contactSalesBtn}
             </div>
         </div>
     );

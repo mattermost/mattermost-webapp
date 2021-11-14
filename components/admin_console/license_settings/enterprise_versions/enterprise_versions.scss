@@ -1,4 +1,5 @@
 .EnterpriseVersionsRightPannel {
+    font-family: Metropolis;
     .svg-image {
         text-align: center;
 
@@ -9,7 +10,6 @@
 
     .upgrade-title {
         color: #3f4350;
-        font-family: Metropolis;
         font-size: 16px;
         font-weight: 700;
         line-height: 24px;
@@ -49,48 +49,92 @@
 }
 
 .EnterpriseVersionsLeftPanel {
+    font-family: Metropolis;
+
     .title {
         color: #3f4350;
-        font-family: Metropolis;
         font-size: 18px;
         font-weight: 700;
         line-height: 24px;
     }
+
     .subtitle {
-        font-style: normal;
-        font-weight: normal;
-        font-size: 12px;
-        line-height: 16px;
-        color: #3D3C40;
+        margin-top: 15px;
+    }
+
+    .license-notices {
+        text-align: justify;
+    }
+
+    .Badge {
+        display: inline-block;
+        align-items: center;
+        margin: 0 0 0 4px;
+        margin-top: 2px;
+        position: absolute;
+        .free-trial-license {
+            background: var(--denim-status-online);
+            color: #fff;
+            margin-left: 10px;
+            border-radius: 4px;
+            padding: 2px 5px;
+            text-transform: uppercase;
+        }
     }
 
     .licenseInformation {
+        padding: 24px;
+        border: 1px solid rgba(63, 67, 80, 0.16);
+        margin: 15px 0;
 
-        .licenseKeyTitle {
-            font-family: Metropolis;
-            font-size: 16px;
+        .license-details-top {
+            font-size: 14px;
             line-height: 24px;
             font-weight: 700;
+            display: flex;
+            justify-content: flex-start;
+
+            span.title {
+                color: #3F4350;
+                display: inline-block;
+            }
+
+            span.expiration-days {
+                color: var(--denim-status-online);
+                margin-left: auto;
+                font-size: 12px;
+            }
         }
 
-        .uploadButtons {
-            margin-top: 10px;
-
-            input {
-                display: hidden;
-            }
-
-            button {
-                border-radius: 4px;
-
-                &.btn-upload {
+        .licenseElements {
+            .item-element {
+                font-size: 14px;
+                line-height: 20px;
+                margin: 15px 0;
+                span.legend {
+                    color: rgba(var(--secondary-blue-rgb), 0.4);
+                    min-width: 150px;
+                    font-weight: 700;
+                    display: inline-block;
+                }
+                span.value {
+                    color:var(--secondary-blue);
                     margin-left: 10px;
-                    
-                    color: #1C58D9;
-                    background: rgba(28, 88, 217, 0.08);
                 }
             }
+        }
 
+        #remove-button {
+            background: none !important;
+            border: none !important;
+            color: var(--error-text);
+            font-weight: 700;
+            padding: 0;
+            margin: 10px 0;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 }
