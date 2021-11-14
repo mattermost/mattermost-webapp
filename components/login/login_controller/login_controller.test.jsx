@@ -40,6 +40,7 @@ describe('components/login/LoginController', () => {
         actions: {
             login: jest.fn(),
             addUserToTeamFromInvite: jest.fn(),
+            setBrowserNotificationsPermission: jest.fn(),
         },
         emojiMap: {},
     };
