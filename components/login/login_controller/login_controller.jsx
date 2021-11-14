@@ -173,6 +173,7 @@ class LoginController extends React.PureComponent {
                         this.closeSessionExpiredNotification = null;
                     }
                 },
+                onNotificationsPermissionStatusReceived: (permissionStatus) => this.props.actions.setBrowserNotificationsPermission(permissionStatus), 
             }).then((closeNotification) => {
                 this.closeSessionExpiredNotification = closeNotification;
             }).catch(() => {

@@ -179,6 +179,7 @@ describe('notification_actions', () => {
                     silent: true,
                     title: 'Utopia',
                     onClick: expect.any(Function),
+                    onNotificationsPermissionStatusReceived: expect.any(Function),
                 });
 
                 spy.mock.calls[0][0].onClick();
@@ -363,6 +364,7 @@ describe('notification_actions', () => {
                         silent: true,
                         title: 'Reply in Utopia',
                         onClick: expect.any(Function),
+                        onNotificationsPermissionStatusReceived: expect.any(Function),
                     });
                     spy.mock.calls[0][0].onClick();
 

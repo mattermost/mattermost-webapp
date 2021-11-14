@@ -59,6 +59,7 @@ describe('Notifications.showNotification', () => {
             body: 'body',
             requireInteraction: true,
             silent: false,
+            onNotificationsPermissionStatusReceived: jest.fn(),
         })).resolves.toBeTruthy();
         await expect(window.Notification.mock.calls.length).toBe(1);
         const call = window.Notification.mock.calls[0];
@@ -87,6 +88,7 @@ describe('Notifications.showNotification', () => {
             body: 'body',
             requireInteraction: true,
             silent: false,
+            onNotificationsPermissionStatusReceived: jest.fn(),
         })).resolves.toBeTruthy();
         await expect(window.Notification.mock.calls.length).toBe(1);
         const call = window.Notification.mock.calls[0];
@@ -110,5 +112,40 @@ describe('Notifications.showNotification', () => {
 
         // Try again
         await expect(Notifications.showNotification()).rejects.toThrow('Notifications already requested but not granted');
+    });
+
+    it('should call onNotificationsPermissionStatusReceived callback if notifications permission request was made', async () => {
+        window.Notification = jest.fn();
+        window.Notification.requestPermission = () => Promise.resolve('granted'),
+        window.Notification.permission = 'default';
+
+        const onNotificationsPermissionStatusReceived = jest.fn();
+
+        await Notifications.showNotification({
+            body: 'body',
+            requireInteraction: true,
+            silent: false,
+            onNotificationsPermissionStatusReceived,
+        });
+
+        expect(onNotificationsPermissionStatusReceived).toHaveBeenCalled();
+    });
+
+    it('should not call onNotificationsPermissionStatusReceived callback if there was no notifications permission request made', async () => {
+        window.Notification = jest.fn();
+        window.Notification.requestPermission = () => Promise.resolve('granted'),
+        window.Notification.permission = 'default';
+
+        const onNotificationsPermissionStatusReceived = jest.fn();
+
+        await Notifications.showNotification();
+        await expect(Notifications.showNotification({
+            body: 'body',
+            requireInteraction: true,
+            silent: false,
+            onNotificationsPermissionStatusReceived,
+        })).rejects.toThrow('Notifications already requested but not granted');
+
+        expect(onNotificationsPermissionStatusReceived).not.toHaveBeenCalled();
     });
 });

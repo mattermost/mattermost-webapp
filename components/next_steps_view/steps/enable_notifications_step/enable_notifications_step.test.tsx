@@ -2,11 +2,14 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
 
 import EnableNotificationsStep from './enable_notifications_step';
+import {Provider} from 'react-redux';
+import testConfigureStore from 'tests/test_configure_store';
+import { mountWithIntl } from 'tests/helpers/intl-test-helper';
 
 describe('components/next_steps_view/steps/setup_preferences_step', () => {
     const props = {
@@ -19,7 +22,11 @@ describe('components/next_steps_view/steps/setup_preferences_step', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<EnableNotificationsStep {...props}/>);
+        const store = testConfigureStore();
+
+        const wrapper = mountWithIntl(<Provider store={store}>
+            <EnableNotificationsStep {...props}/>
+        </Provider>);
         expect(wrapper).toMatchSnapshot();
     });
 });

@@ -20,6 +20,7 @@ export interface ShowNotificationParams {
     body: string;
     requireInteraction: boolean;
     silent: boolean;
+    onNotificationsPermissionStatusReceived: (permissionStatus: NotificationPermission) => void;
     onClick?: (this: Notification, e: Event) => any | null;
 }
 
@@ -45,7 +46,7 @@ export async function requestNotificationsPermission() {
     const permission = await Notification.requestPermission();
     if (typeof permission === 'undefined') {
         // Handle browsers that don't support the promise-based syntax.
-        return new Promise((resolve) => {
+        return new Promise<NotificationPermission>((resolve) => {
             Notification.requestPermission(resolve);
         });
     }
@@ -60,11 +61,13 @@ export async function showNotification(
         requireInteraction,
         silent,
         onClick,
+        onNotificationsPermissionStatusReceived,
     }: ShowNotificationParams = {
         title: '',
         body: '',
         requireInteraction: false,
         silent: false,
+        onNotificationsPermissionStatusReceived: () => {},
     },
 ) {
     if (!('Notification' in window)) {
@@ -76,6 +79,7 @@ export async function showNotification(
     }
 
     const permission = await requestNotificationsPermission();
+    onNotificationsPermissionStatusReceived(permission);
 
     if (permission !== 'granted') {
         throw new Error('Notifications not granted');

@@ -233,6 +233,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
                 window.focus();
                 browserHistory.push(url);
             },
+            onNotificationsPermissionStatusReceived: (permissionStatus) => dispatch(setBrowserNotificationsPermission(permissionStatus)), 
         }).catch((error) => {
             dispatch(logError(error));
         });

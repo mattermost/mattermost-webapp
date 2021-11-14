@@ -12,13 +12,19 @@ import {t} from 'utils/i18n';
 import {StepComponentProps} from '../../steps';
 
 import TextCardWithAction from '../text_card_with_action/text_card_with_action';
+import { useDispatch } from 'react-redux';
+import { setBrowserNotificationsPermission } from 'actions/views/browser';
 
 export default function EnableNotificationsStep(props: StepComponentProps) {
+    const dispatch = useDispatch();
+
     useEffect(() => {
         if (props.expanded) {
             pageVisited(getAnalyticsCategory(props.isAdmin), 'pageview_enable_notifications');
         }
     }, [props.expanded]);
+
+    const onNotificationsPermissionStatusReceived = (permissionStatus: NotificationPermission) => dispatch(setBrowserNotificationsPermission(permissionStatus));
 
     const onFinish = async () => {
         trackEvent(getAnalyticsCategory(props.isAdmin), 'click_enable_notifications');
@@ -33,7 +39,8 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
                     'This is how notifications from Mattermost will appear',
                 ),
                 requireInteraction: false,
-                silent: false,
+                silent: false, 
+                onNotificationsPermissionStatusReceived,
                 onClick: () => { },
             });
         } catch (err) {
