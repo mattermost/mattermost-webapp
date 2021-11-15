@@ -82,7 +82,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
       </div>
     </div>
@@ -116,7 +116,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
@@ -213,7 +213,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
       </div>
     </div>
@@ -247,7 +247,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={false}
           handlePostError={[Function]}
@@ -320,7 +320,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
         <Connect(FilePreview)
           fileInfos={
@@ -366,7 +366,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
@@ -463,7 +463,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
       </div>
     </div>
@@ -497,7 +497,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
@@ -602,7 +602,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
         <Connect(FilePreview)
           fileInfos={
