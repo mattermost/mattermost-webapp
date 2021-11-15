@@ -24,7 +24,7 @@ import './invitation_modal_guests_step.scss';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import {PropsFromRedux} from './index';
+import type {PropsFromRedux} from './index';
 
 type OwnProps = {
     teamName: string;

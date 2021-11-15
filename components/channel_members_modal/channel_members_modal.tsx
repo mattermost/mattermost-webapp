@@ -27,9 +27,9 @@ type Props = {
     channel: Channel;
 
     /**
-     * Function that is called when modal is hidden
+     * Function that is called after the modal is hidden
      */
-    onHide: () => void;
+    onExited: () => void;
 
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -53,10 +53,6 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
         this.setState({show: false});
     }
 
-    handleExit = () => {
-        this.props.onHide();
-    }
-
     onAddNewMembersButton = () => {
         const {channel, actions} = this.props;
 
@@ -66,7 +62,7 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
             dialogProps: {channel},
         });
 
-        this.handleExit();
+        this.handleHide();
     }
 
     render() {
@@ -77,7 +73,7 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
                     dialogClassName='a11y__modal more-modal more-modal--action'
                     show={this.state.show}
                     onHide={this.handleHide}
-                    onExited={this.handleExit}
+                    onExited={this.props.onExited}
                     role='dialog'
                     aria-labelledby='channelMembersModalLabel'
                     id='channelMembersModal'

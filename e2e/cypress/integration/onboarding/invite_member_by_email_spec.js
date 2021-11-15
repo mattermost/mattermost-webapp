@@ -7,15 +7,17 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding @cloud_only
+// Group: @enterprise @onboarding
 
-describe('Cloud Onboarding - Sysadmin invite members by email', () => {
+describe('Onboarding - Sysadmin invite members by email', () => {
     let teamId;
     let townSquarePage;
     let sysadmin;
 
     before(() => {
-        cy.apiRequireLicenseForFeature('Cloud');
+        cy.apiUpdateConfig({
+            ServiceSettings: {EnableOnboardingFlow: true},
+        });
 
         cy.apiInitSetup().then(({team}) => {
             teamId = team.id;
@@ -39,48 +41,13 @@ describe('Cloud Onboarding - Sysadmin invite members by email', () => {
             'notification_setup',
             'team_setup',
             'invite_members',
+            'download_apps',
             'hide',
             'skip',
         ];
 
         cy.apiSaveUserPreference(adminSteps.map((step) => ({...preference, name: step})));
         cy.visit(townSquarePage);
-    });
-
-    it('MM-T3332_3 Invite more than user limit', () => {
-        cy.intercept('GET', '/api/v4/cloud/subscription/stats', {
-            statusCode: 200,
-            body: {
-                remaining_seats: 10,
-                is_paid_tier: 'false',
-                is_free_trial: 'true',
-            },
-        });
-
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
-
-        // # Click Invite members to the team header
-        cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
-
-        // # Enter email addresses
-        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('a@b.c,b@c.d,c@d.e,d@e.f,e@f.g,f@g.h,g@h.i,h@i.j,i@j.k,j@k.l,k@l.m,', {force: true});
-
-        cy.apiGetConfig().then(({config}) => {
-            cy.get('.InviteMembersStep__invitationResults').should('contain', `The free tier is limited to ${config.ExperimentalSettings.CloudUserLimit} members.`);
-        });
-
-        // * Verify that Send button is disabled until only 10 emails remain
-        cy.findByTestId('InviteMembersStep__sendButton').should('be.disabled');
-
-        // # Remove the last email
-        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('{backspace}');
-
-        // * Verify that Send button is now enabled
-        cy.findByTestId('InviteMembersStep__sendButton').should('not.be.disabled');
     });
 
     it('MM-T3332_1 Invite with valid email', () => {

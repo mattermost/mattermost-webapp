@@ -31,7 +31,7 @@ type Props = {
     // used in tandem with 'skipCommit' to allow using this component without performing actual linking
     excludeGroups?: Group[];
     includeGroups?: Group[];
-    onHide?: () => void;
+    onExited: () => void;
     skipCommit?: boolean;
     onAddCallback?: (groupIDs: string[]) => void;
     actions: Actions;
@@ -111,9 +111,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
 
     // public for tests
     public handleExit = (): void => {
-        if (this.props.onHide) {
-            this.props.onHide();
-        }
+        this.props.onExited();
     }
 
     // public for tests

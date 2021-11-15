@@ -29,6 +29,7 @@ import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {showNextSteps} from 'components/next_steps_view/steps';
 
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
@@ -58,6 +59,7 @@ const GlobalThreads = () => {
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
+    const showSteps = useSelector((state: GlobalState) => showNextSteps(state));
     const config = useSelector(getConfig);
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
@@ -98,22 +100,26 @@ const GlobalThreads = () => {
         return {data: true};
     }, [currentUserId, currentTeamId]);
 
+    const isOnlySelectedThreadInList = (list: string[]) => {
+        return selectedThreadId && list.length === 1 && list.includes(selectedThreadId);
+    };
+
     useEffect(() => {
         const promises = [];
 
         // this is needed to jump start threads fetching
-        if (isEmpty(threadIds)) {
+        if (isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds)) {
             promises.push(fetchThreads(false));
         }
 
-        if (filter === ThreadFilter.unread && isEmpty(unreadThreadIds)) {
+        if (filter === ThreadFilter.unread && (isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds))) {
             promises.push(fetchThreads(true));
         }
 
         Promise.all(promises).then(() => {
             setLoading(false);
         });
-    }, [fetchThreads, filter]);
+    }, [fetchThreads, filter, threadIds, unreadThreadIds]);
 
     useEffect(() => {
         if (!selectedThread && !selectedPost && !isLoading) {
@@ -133,7 +139,7 @@ const GlobalThreads = () => {
     }, []);
 
     const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
-    if (showNextStepsEphemeral && enableOnboardingFlow) {
+    if (showNextStepsEphemeral && enableOnboardingFlow && showSteps) {
         return <NextStepsView/>;
     }
 

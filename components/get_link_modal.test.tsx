@@ -13,6 +13,7 @@ describe('components/GetLinkModal', () => {
     const requiredProps = {
         show: true,
         onHide,
+        onExited: jest.fn(),
         title: 'title',
         link: 'https://mattermost.com',
     };

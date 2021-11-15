@@ -5,17 +5,15 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
 
-import * as GlobalActions from 'actions/global_actions';
-
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
-import {FileDropdownPluginComponent} from 'types/store/plugins';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
+import GetPublicModal from 'components/get_public_link_modal';
 
-import {Constants, FileTypes} from 'utils/constants';
+import {Constants, FileTypes, ModalIdentifiers} from 'utils/constants';
 import {trimFilename} from 'utils/file_utils';
 import {
     fileSizeToString,
@@ -27,7 +25,9 @@ import {
 import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';
 
-interface Props {
+import type {PropsFromRedux} from './index';
+
+interface Props extends PropsFromRedux {
 
     /*
     * File detailed information
@@ -48,10 +48,6 @@ interface Props {
     * Display in compact format
     */
     compactDisplay?: boolean;
-    canDownloadFiles?: boolean;
-    enableSVGs: boolean;
-    enablePublicLink: boolean;
-    pluginMenuItems: FileDropdownPluginComponent[];
     handleFileDropdownOpened?: (open: boolean) => void;
 }
 
@@ -166,7 +162,13 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
     }
 
     handleGetPublicLink = () => {
-        GlobalActions.showGetPublicLinkModal(this.props.fileInfo.id);
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.GET_PUBLIC_LINK_MODAL,
+            dialogType: GetPublicModal,
+            dialogProps: {
+                fileId: this.props.fileInfo.id,
+            },
+        });
     }
 
     private renderFileMenuItems = () => {

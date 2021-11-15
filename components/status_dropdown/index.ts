@@ -8,7 +8,7 @@ import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
@@ -29,6 +29,7 @@ function makeMapStateToProps() {
         const currentUser = getCurrentUser(state);
         const userId = currentUser?.id;
         const customStatus = getCustomStatus(state, userId);
+        const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
         return {
             userId,
             profilePicture: Client4.getProfilePictureUrl(userId, currentUser?.last_picture_update),
@@ -38,6 +39,7 @@ function makeMapStateToProps() {
             currentUser,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
+            isMilitaryTime,
             isStatusDropdownOpen: isStatusDropdownOpen(state),
             showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
             timezone: getCurrentUserTimezone(state),
