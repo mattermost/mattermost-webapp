@@ -37,12 +37,17 @@ type Actions = {
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    const actions = bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        setStatus,
+        savePreferences,
+    }, dispatch);
+
+    const autoResetStatusAction = bindActionCreators<ActionCreatorsMapObject<UserStatus>, any>({
+        autoResetStatus,
+    }, dispatch);
+
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            autoResetStatus,
-            setStatus,
-            savePreferences,
-        }, dispatch),
+        actions: {...actions, ...autoResetStatusAction},
     };
 }
 
