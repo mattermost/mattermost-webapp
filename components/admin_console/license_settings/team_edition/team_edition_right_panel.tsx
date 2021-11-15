@@ -142,7 +142,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
     }
 
     return (
-        <div className='TeamEditionRightPannel'>
+        <div className='TeamEditionRightPanel'>
             <div className='svg-image'>
                 <WomanUpArrowsAndCloudsSvg
                     width={100}

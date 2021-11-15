@@ -1,4 +1,4 @@
-.EnterpriseVersionsRightPannel {
+.EnterpriseEditionRightPannel {
     font-family: Metropolis;
 
     .svg-image {
@@ -50,7 +50,7 @@
     }
 }
 
-.EnterpriseVersionsLeftPanel {
+.EnterpriseEditionLeftPanel {
     font-family: Metropolis;
 
     .title {
@@ -58,6 +58,7 @@
         font-size: 18px;
         font-weight: 700;
         line-height: 24px;
+        display: flex;
     }
 
     .subtitle {
@@ -69,11 +70,7 @@
     }
 
     .Badge {
-        position: absolute;
-        display: inline-block;
-        align-items: center;
         margin: 0 0 0 4px;
-        margin-top: 2px;
 
         .free-trial-license {
             padding: 2px 5px;

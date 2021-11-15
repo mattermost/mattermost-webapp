@@ -1,10 +1,9 @@
-/* eslint-disable header/header */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-lines */
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
-
+/* eslint-disable header/header */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable max-lines */
 import React from 'react';
 import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
@@ -31,10 +30,10 @@ import TrialLicenseCard from './trial_license_card/trial_license_card';
 
 import TeamEditionLeftPanel from './team_edition/team_edition_left_panel';
 import TeamEditionRightPanel from './team_edition/team_edition_right_panel';
-import StarterEditionLeftPanel from './starter_edition/starter_edition_left_panel';
-import StarterEditionRightPanel from './starter_edition/starter_edition_right_panel';
-import EnterpriseVersionsLeftPanel from './enterprise_versions/enterprise_versions_left_panel';
-import EnterpriseVersionsRightPanel from './enterprise_versions/enterprise_versions_right_panel';
+import StarterLeftPanel from './starter_edition/starter_left_panel';
+import StarterRightPanel from './starter_edition/starter_right_panel';
+import EnterpriseEditionLeftPanel from './enterprise_edition/enterprise_edition_left_panel';
+import EnterpriseEditionRightPanel from './enterprise_edition/enterprise_edition_right_panel';
 import EELicenseModal from './ee_license_modal/ee_license_modal';
 import {free30DayTrial} from './license_utils/license_utils';
 
@@ -362,7 +361,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             leftPanel = (
-                <EnterpriseVersionsLeftPanel
+                <EnterpriseEditionLeftPanel
                     openEELicenseModal={this.openEELicenseModal}
                     upgradedFromTE={upgradedFromTE}
                     license={license}
@@ -377,7 +376,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             );
 
             rightPanel = (
-                <EnterpriseVersionsRightPanel
+                <EnterpriseEditionRightPanel
                     isTrialLicense={isTrialLicense(license)}
                     license={license}
                 />
@@ -386,7 +385,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             // This is Mattermost Starter (Already downloaded the binary but no license has been set, or ended the trial period)
             leftPanel = (
-                <StarterEditionLeftPanel
+                <StarterLeftPanel
                     openEELicenseModal={this.openEELicenseModal}
                     currentPlan={this.currentPlan}
                     upgradedFromTE={this.props.upgradedFromTE}
@@ -402,7 +401,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             );
 
             rightPanel = (
-                <StarterEditionRightPanel/>
+                <StarterRightPanel/>
             );
         }
 
@@ -427,13 +426,13 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                             {this.renewLicenseCard()}
                         </div>
                         <div className='top-wrapper'>
-                            <div className='left-pannel'>
+                            <div className='left-panel'>
                                 <div className='panel-card'>
                                     {leftPanel}
                                 </div>
                                 {(!isTrialLicense(license)) && this.termsAndPolicy}
                             </div>
-                            <div className='right-pannel'>
+                            <div className='right-panel'>
                                 <div className='panel-card'>
                                     {rightPanel}
                                 </div>

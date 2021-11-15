@@ -5,12 +5,14 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
+import {LicenseSkus} from 'mattermost-redux/types/general';
+
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
 
-import './enterprise_versions.scss';
-export interface EnterpriseVersionsProps {
+import './enterprise_edition.scss';
+export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
     upgradedFromTE: boolean;
     license: ClientLicense;
@@ -23,7 +25,7 @@ export interface EnterpriseVersionsProps {
     removing: boolean;
 }
 
-const EnterpriseVersionsLeftPanel: React.FC<EnterpriseVersionsProps> = ({
+const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     openEELicenseModal,
     upgradedFromTE,
     license,
@@ -34,35 +36,35 @@ const EnterpriseVersionsLeftPanel: React.FC<EnterpriseVersionsProps> = ({
     handleRemove,
     isDisabled,
     removing,
-}: EnterpriseVersionsProps) => {
-    let edition = '';
+}: EnterpriseEditionProps) => {
+    let skuName = '';
     switch (license.SkuShortName) {
-    case 'E20':
-        edition = 'Enterprise E20';
+    case LicenseSkus.E20:
+        skuName = 'Enterprise E20';
         break;
-    case 'E10':
-        edition = 'Enterprise E10';
+    case LicenseSkus.E10:
+        skuName = 'Enterprise E10';
         break;
-    case 'professional':
-        edition = 'Professional';
+    case LicenseSkus.Professional:
+        skuName = 'Professional';
         break;
     default:
-        edition = 'Enterprise';
+        skuName = 'Enterprise';
         break;
     }
 
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
 
     return (
-        <div className='EnterpriseVersionsLeftPanel'>
+        <div className='EnterpriseEditionLeftPanel'>
             <div className='title'>
-                {`Mattermost ${edition}`}{freeTrialBadge(isTrialLicense)}
+                {`Mattermost ${skuName}`}{freeTrialBadge(isTrialLicense)}
             </div>
             <div className='subtitle'>
                 <FormattedMessage
                     id='admin.license.starterEdition.subtitle'
-                    defaultMessage='This is {edition} Edition for the Mattermost Enterprise plan'
-                    values={{edition}}
+                    defaultMessage='This is an Enterprise Edition for the Mattermost {skuName} plan'
+                    values={{skuName}}
                 />
             </div>
             <div className='licenseInformation'>
@@ -121,11 +123,11 @@ const renderLicenseContent = (
     removing: boolean,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-    let skuShortName = license.SkuShortName;
+    let skuName = license.SkuShortName;
     if (isTrialLicense) {
-        skuShortName = `${license.SkuShortName} License Trial`;
+        skuName = `${license.SkuShortName} License Trial`;
     }
-    const sku = license.SkuShortName ? <>{`Mattermost ${skuShortName}`}</> : null;
+    const sku = license.SkuShortName ? <>{`Mattermost ${skuName}`}</> : null;
 
     const licenseValues = [
         {legend: 'START DATE:', value: startsAt},
@@ -209,4 +211,4 @@ const freeTrialBadge = (isTrialLicense: boolean) => {
     );
 };
 
-export default React.memo(EnterpriseVersionsLeftPanel);
+export default React.memo(EnterpriseEditionLeftPanel);

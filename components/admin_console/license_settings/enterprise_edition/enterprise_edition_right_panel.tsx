@@ -4,22 +4,23 @@ import * as React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
+import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 import WomanWithCardSvg from 'components/common/svg_images_components/woman_with_card_svg';
 import TwoPeopleChattingSvg from 'components/common/svg_images_components/two_people_chatting_svg';
 
-export interface EnterpriseVersionsProps {
+export interface EnterpriseEditionProps {
     isTrialLicense: boolean;
     license: ClientLicense;
 }
 
-const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
+const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
     isTrialLicense,
     license,
 
-}: EnterpriseVersionsProps) => {
+}: EnterpriseEditionProps) => {
     const upgradeAdvantages = [
         'AD/LDAP Group sync',
         'High Availability',
@@ -47,7 +48,7 @@ const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
                 />
             );
         }
-        if (skuShortName === 'enterprise') {
+        if (skuShortName === LicenseSkus.Enterprise) {
             return (
                 <FormattedMessage
                     id='admin.license.enterprisePlanTitle'
@@ -72,7 +73,7 @@ const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
                 />
             );
         }
-        if (skuShortName === 'enterprise') {
+        if (skuShortName === LicenseSkus.Enterprise) {
             return (
                 <TwoPeopleChattingSvg
                     width={100}
@@ -97,7 +98,7 @@ const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
                 />
             );
         }
-        if (skuShortName === 'enterprise') {
+        if (skuShortName === LicenseSkus.Enterprise) {
             return (
                 <FormattedMessage
                     id='admin.license.enterprisePlanSubtitle'
@@ -126,7 +127,7 @@ const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
     };
 
     return (
-        <div className='EnterpriseVersionsRightPannel'>
+        <div className='EnterpriseEditionRightPannel'>
             <div className='svg-image'>
                 {svgImage()}
             </div>
@@ -143,4 +144,4 @@ const EnterpriseVersionsRightPanel: React.FC<EnterpriseVersionsProps> = ({
     );
 };
 
-export default React.memo(EnterpriseVersionsRightPanel);
+export default React.memo(EnterpriseEditionRightPanel);

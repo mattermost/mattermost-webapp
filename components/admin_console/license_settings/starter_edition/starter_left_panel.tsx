@@ -21,7 +21,7 @@ export interface StarterEditionProps {
     handleSubmit: (e: any) => Promise<void>;
 }
 
-const StarterEditionLeftPanel: React.FC<StarterEditionProps> = ({
+const StarterLeftPanel: React.FC<StarterEditionProps> = ({
     openEELicenseModal,
     currentPlan,
     upgradedFromTE,
@@ -35,7 +35,7 @@ const StarterEditionLeftPanel: React.FC<StarterEditionProps> = ({
     handleSubmit,
 }: StarterEditionProps) => {
     return (
-        <div className='StarterEditionLeftPanel'>
+        <div className='StarterLeftPanel'>
             <div className='title'>
                 <FormattedMessage
                     id='admin.license.starterEdition.title'
@@ -191,4 +191,4 @@ const renderStarterContent = (
     );
 };
 
-export default React.memo(StarterEditionLeftPanel);
+export default React.memo(StarterLeftPanel);

@@ -7,7 +7,7 @@ import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/w
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
-const StarterEditionRightPanel: React.FC = () => {
+const StarterRightPanel: React.FC = () => {
     const upgradeAdvantages = [
         'OneLogin/ADFS SAML 2.0',
         'OpenID Connect',
@@ -70,4 +70,4 @@ const StarterEditionRightPanel: React.FC = () => {
     );
 };
 
-export default React.memo(StarterEditionRightPanel);
+export default React.memo(StarterRightPanel);

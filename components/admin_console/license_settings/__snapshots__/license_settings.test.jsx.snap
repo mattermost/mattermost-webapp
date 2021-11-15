@@ -87,7 +87,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
@@ -130,7 +130,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
@@ -252,7 +252,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
@@ -295,7 +295,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
@@ -400,12 +400,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionLeftPanel)
+            <Memo(StarterLeftPanel)
               currentPlan={
                 <div
                   className="current-plan-legend"
@@ -456,12 +456,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionRightPanel) />
+            <Memo(StarterRightPanel) />
           </div>
           <div
             className="compare-plans-text"
@@ -570,12 +570,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-06T21:10:43.650Z}
@@ -641,12 +641,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={false}
               license={
                 Object {
@@ -769,12 +769,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-06T21:10:43.650Z}
@@ -840,12 +840,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={false}
               license={
                 Object {
@@ -968,12 +968,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-06T21:10:43.650Z}
@@ -1039,12 +1039,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={false}
               license={
                 Object {
@@ -1167,12 +1167,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-06T21:10:43.650Z}
@@ -1238,12 +1238,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={false}
               license={
                 Object {
@@ -1366,12 +1366,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-06T21:10:43.650Z}
@@ -1437,12 +1437,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={false}
               license={
                 Object {
@@ -1558,12 +1558,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-06T21:10:43.650Z}
@@ -1603,12 +1603,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={true}
               license={
                 Object {
@@ -1710,12 +1710,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionLeftPanel)
+            <Memo(StarterLeftPanel)
               currentPlan={
                 <div
                   className="current-plan-legend"
@@ -1766,12 +1766,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionRightPanel) />
+            <Memo(StarterRightPanel) />
           </div>
           <div
             className="compare-plans-text"
@@ -1863,12 +1863,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionLeftPanel)
+            <Memo(StarterLeftPanel)
               currentPlan={
                 <div
                   className="current-plan-legend"
@@ -1919,12 +1919,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionRightPanel) />
+            <Memo(StarterRightPanel) />
           </div>
           <div
             className="compare-plans-text"
@@ -2033,7 +2033,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
@@ -2076,7 +2076,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
@@ -2181,7 +2181,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
@@ -2224,7 +2224,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
@@ -2281,12 +2281,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionLeftPanel)
+            <Memo(StarterLeftPanel)
               currentPlan={
                 <div
                   className="current-plan-legend"
@@ -2337,12 +2337,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(StarterEditionRightPanel) />
+            <Memo(StarterRightPanel) />
           </div>
           <div
             className="compare-plans-text"
@@ -2434,12 +2434,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-14T12:00:00.000Z}
@@ -2506,12 +2506,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={false}
               license={
                 Object {
@@ -2635,12 +2635,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="top-wrapper"
       >
         <div
-          className="left-pannel"
+          className="left-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsLeftPanel)
+            <Memo(EnterpriseEditionLeftPanel)
               expiresAt={
                 <FormattedDate
                   value={2021-05-14T12:00:00.000Z}
@@ -2706,12 +2706,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           </div>
         </div>
         <div
-          className="right-pannel"
+          className="right-panel"
         >
           <div
             className="panel-card"
           >
-            <Memo(EnterpriseVersionsRightPanel)
+            <Memo(EnterpriseEditionRightPanel)
               isTrialLicense={false}
               license={
                 Object {
