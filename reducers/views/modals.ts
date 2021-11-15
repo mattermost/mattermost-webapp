@@ -3,9 +3,14 @@
 
 import {combineReducers} from 'redux';
 
+import {ViewsState} from 'types/store/views';
+import {OpenModalReturnType, CloseModalReturnType} from 'actions/views/modals';
+
 import {ActionTypes} from 'utils/constants';
 
-function modalState(state = {}, action) {
+type ActionsReturnType = OpenModalReturnType | CloseModalReturnType;
+
+function modalState(state: ViewsState['modals']['modalState'] = {}, action: ActionsReturnType) {
     switch (action.type) {
     case ActionTypes.MODAL_OPEN:
         return {
@@ -17,15 +22,13 @@ function modalState(state = {}, action) {
             },
         };
     case ActionTypes.MODAL_CLOSE:
-        return {
-            ...state,
-            [action.modalId]: {
-                open: false,
-                dialogProps: action.dialogProps,
-                dialogType: action.dialogType,
-            },
-        };
+        return Object.keys(state).reduce((previousModalState: ViewsState['modals']['modalState'], currentModalId) => {
+            if (currentModalId !== action.modalId) {
+                previousModalState[currentModalId] = state[currentModalId];
+            }
 
+            return previousModalState;
+        }, {});
     default:
         return state;
     }
