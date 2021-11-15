@@ -14,15 +14,7 @@
     border-left: solid 1px rgba(var(--center-channel-color-rgb),.12);
     background-color: rgba(var(--center-channel-color-rgb),.04);
 
-    // For when there are 15+ Apps installed
-    overflow-y: scroll;
-    overflow-x: hidden;
-
-    ::-webkit-scrollbar {
-        display: none;
-    }
-
-    .active-rhs-plugin::before {
+    .app-bar__icon--active::before {
         width: 3px;
         height: 24px;
         background-color: var(--sidebar-text-active-border);
@@ -38,29 +30,22 @@
         display: block;
     }
 
-    .app-bar-icon {
+    .app-bar__icon {
         border-left:none;
         width: 100%;
         cursor: pointer;
         position: relative;
-    }
-
-    .app-bar-icon, .app-bar-binding {
         margin-bottom: 20px;
         cursor: pointer;
+
+        img {
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+        }
     }
 
-    .app-bar-binding {
-        margin-top: 5px;
-    }
-
-    img {
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-    }
-
-    .app-bar-icon.channel-header__icon--active {
+    .app-bar__icon.channel-header__icon--active {
         background: rgba(var(--button-bg-rgb), 0.08);
         color: var(--button-bg);
         fill: var(--button-bg);

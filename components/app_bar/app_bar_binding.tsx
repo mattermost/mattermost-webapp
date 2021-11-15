@@ -76,7 +76,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
                 id={id}
                 aria-label={label}
                 title={label}
-                className={'app-bar-binding'}
+                className={'app-bar__icon'}
                 onClick={submitAppCall}
             >
                 <img src={binding.icon} />

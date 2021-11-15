@@ -46,26 +46,42 @@ export default function AppBar() {
         });
     }, []);
 
-    const getIcon = (component: PluginComponent): React.ReactNode => {
+    const getMarketplaceEntryForPlugin = (pluginId: string):  MarketplacePlugin | undefined => {
         let latestEntry: MarketplacePlugin | undefined;
         for (const entry of marketplaceListing) {
             const pluginEntry = entry as MarketplacePlugin;
-            if (pluginEntry.manifest.id === component.pluginId && pluginEntry.icon_data) {
+            if (pluginEntry.manifest.id === pluginId && pluginEntry.icon_data) {
                 if (!latestEntry || semver.gte(pluginEntry.manifest.version, latestEntry.manifest.version)) {
                     latestEntry = pluginEntry;
                 }
             }
         }
 
-        if (!latestEntry) {
-            return component.icon;
+        return latestEntry;
+    }
+
+    const getIconForPluginComponent = (component: PluginComponent): React.ReactNode => {
+        const entry = getMarketplaceEntryForPlugin(component.pluginId);
+        if (entry) {
+            return <img src={entry.icon_data} />;
         }
 
-        return (
-            <img src={latestEntry.icon_data} />
-        );
+        return component.icon;
     };
 
+    const getPluginDisplayName = (component: PluginComponent): React.ReactNode => {
+        const text = component.tooltipText || component.text;
+        if (text) {
+            return text;
+        }
+
+        const entry = getMarketplaceEntryForPlugin(component.pluginId);
+        if (entry) {
+            return entry.manifest.name;
+        }
+
+        return component.pluginId;
+    };
 
     return (
         <div
@@ -75,7 +91,7 @@ export default function AppBar() {
                 // this should be its own function component in another file
                 // it will use useSelector to get the marketplace listings for the icon
 
-                const label = component.tooltipText || component.pluginId;
+                const label = getPluginDisplayName(component);
                 const buttonId = component.id;
                 const tooltip = (
                     <Tooltip id={'pluginTooltip-' + buttonId}>
@@ -94,13 +110,13 @@ export default function AppBar() {
                             <div
                                 id={buttonId}
                                 aria-label={component.pluginId}
-                                className={classNames('app-bar-icon', { 'active-rhs-plugin': component.pluginId === activePluginId })}
+                                className={classNames('app-bar__icon', { 'app-bar__icon--active': component.pluginId === activePluginId })}
                                 // className={buttonClass || 'channel-header__icon'}
                                 onClick={() => {
                                     component.action?.(channel);
                                 }}
                             >
-                                {getIcon(component)}
+                                {getIconForPluginComponent(component)}
                             </div>
                         </OverlayTrigger>
                     </div>
