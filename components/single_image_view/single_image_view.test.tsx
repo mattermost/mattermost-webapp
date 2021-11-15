@@ -58,14 +58,14 @@ describe('components/SingleImageView', () => {
         expect(wrapper.state('showPreviewModal')).toEqual(true);
     });
 
-    test('should match state on showPreviewModal', () => {
+    test('should match state on hidePreviewModal', () => {
         const wrapper = shallow(
             <SingleImageView {...baseProps}/>,
         );
 
         wrapper.setState({showPreviewModal: true});
         const instance = wrapper.instance() as SingleImageView;
-        instance.showPreviewModal();
+        instance.hidePreviewModal();
         expect(wrapper.state('showPreviewModal')).toEqual(false);
     });
 
@@ -105,5 +105,28 @@ describe('components/SingleImageView', () => {
 
         expect(wrapper.find(SizeAwareImage).prop('handleSmallImageContainer')).
             toEqual(true);
+    });
+
+    test('should not show filename when image is displayed', () => {
+        const wrapper = shallow(
+            <SingleImageView
+                {...baseProps}
+                isEmbedVisible={true}
+            />,
+        );
+
+        expect(wrapper.find('.image-header').text()).toHaveLength(0);
+    });
+
+    test('should show filename when image is collapsed', () => {
+        const wrapper = shallow(
+            <SingleImageView
+                {...baseProps}
+                isEmbedVisible={false}
+            />,
+        );
+
+        expect(wrapper.find('.image-header').text()).
+            toEqual(baseProps.fileInfo.name);
     });
 });

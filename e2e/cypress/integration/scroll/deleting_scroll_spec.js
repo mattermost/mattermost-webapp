@@ -10,13 +10,9 @@
 // Stage: @prod
 // Group: @scroll
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
-import {postMessagesAndScrollUp} from './helpers';
+import {deletePostAndVerifyScroll, postListOfMessages, scrollCurrentChannelFromTop} from './helpers';
 
 describe('Scroll', () => {
-    let firstPostBeforeScroll;
-    let lastPostBeforeScroll;
     let testChannelId;
     let testChannelLink;
     let otherUser;
@@ -43,36 +39,15 @@ describe('Scroll', () => {
         // # Other user posts a multiline message
         cy.postMessageAs({sender: otherUser, message: multilineString, channelId: testChannelId});
 
-        cy.getLastPostId().then((postId) => {
-            const multilineMessageID = postId;
+        cy.getLastPostId().then((multilineMessageID) => {
+            // # Main user posts a few messages so that the first message is hidden
+            postListOfMessages({sender: otherUser, channelId: testChannelId});
 
-            postMessagesAndScrollUp(otherUser, testChannelId);
+            // # Main user scrolls to the middle so that multiline post is offscreen
+            scrollCurrentChannelFromTop('90%');
 
-            // # Get the text of the first visible post
-            cy.get('.post-message__text:visible').first().then((postMessage) => {
-                firstPostBeforeScroll = postMessage.text();
-            });
-
-            // # Get the text of the last visible post
-            cy.get('.post-message__text:visible').last().then((postMessage) => {
-                lastPostBeforeScroll = postMessage.text();
-            });
-
-            // # Remove multiline message from the other user
-            cy.externalRequest({user: otherUser, method: 'DELETE', path: `posts/${multilineMessageID}`});
-
-            // # Wait for the message to be deleted
-            cy.wait(TIMEOUTS.ONE_SEC);
-
-            // * Verify the first post is the same after the deleting
-            cy.get('.post-message__text:visible').first().then((firstPostAfterScroll) => {
-                expect(firstPostAfterScroll.text()).equal(firstPostBeforeScroll);
-            });
-
-            // * Verify the last post is the same after the deleting
-            cy.get('.post-message__text:visible').last().then((lastPostAfterScroll) => {
-                expect(lastPostAfterScroll.text()).equal(lastPostBeforeScroll);
-            });
+            // * Delete the multiline message and verify that the channel did not scroll
+            deletePostAndVerifyScroll(multilineMessageID, {user: otherUser});
         });
     });
 });

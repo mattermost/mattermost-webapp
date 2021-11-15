@@ -17,7 +17,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
     <span
       className="group-description row-content"
     >
-      <ModalToggleButton
+      <Connect(injectIntl(ModalToggleButtonRedux))
         className="color--link"
         dialogProps={
           Object {
@@ -30,6 +30,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
         }
         dialogType={[Function]}
         id="DNMembersToggle"
+        modalId="group_members"
       >
         <MemoizedFormattedMessage
           defaultMessage="{memberCount, number} {memberCount, plural, one {member} other {members}}"
@@ -40,7 +41,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
             }
           }
         />
-      </ModalToggleButton>
+      </Connect(injectIntl(ModalToggleButtonRedux))>
     </span>
     <div
       className="group-description row-content roles"

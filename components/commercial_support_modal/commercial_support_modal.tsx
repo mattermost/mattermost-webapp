@@ -16,11 +16,9 @@ import './commercial_support_modal.scss';
 type Props = {
 
     /**
-     * Function that is called when the modal is dismissed
+     * Function called after the modal has been hidden
      */
-    onHide: () => void;
-
-    show?: boolean;
+    onExited: () => void;
 
     showBannerWarning: boolean;
 
@@ -35,10 +33,6 @@ type State = {
 };
 
 export default class CommercialSupportModal extends React.PureComponent<Props, State> {
-    static defaultProps = {
-        show: false,
-    };
-
     constructor(props: Props) {
         super(props);
 
@@ -56,10 +50,6 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
 
     doHide = () => {
         this.setState({show: false});
-    }
-
-    handleExit = () => {
-        this.props.onHide();
     }
 
     updateBannerWarning = (showBannerWarning: boolean) => {
@@ -82,7 +72,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                 dialogClassName='a11y__modal more-modal more-direct-channels'
                 show={this.state.show}
                 onHide={this.doHide}
-                onExited={this.handleExit}
+                onExited={this.props.onExited}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

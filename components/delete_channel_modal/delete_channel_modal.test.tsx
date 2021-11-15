@@ -24,6 +24,7 @@ describe('components/delete_channel_modal', () => {
         header: 'test',
         purpose: 'test',
         last_post_at: 1508265709635,
+        last_root_post_at: 1508265709635,
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         scheme_id: '',
         group_constrained: false,
@@ -41,7 +42,7 @@ describe('components/delete_channel_modal', () => {
                 return {data: true};
             }),
         },
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         penultimateViewedChannelName: 'my-prev-channel',
     };
 
@@ -79,13 +80,12 @@ describe('components/delete_channel_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called props.onHide when Modal.onExited is called', () => {
-        const props = {...baseProps};
+    test('should have called props.onExited when Modal.onExited is called', () => {
         const wrapper = shallow(
-            <DeleteChannelModal {...props}/>,
+            <DeleteChannelModal {...baseProps}/>,
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));
-        expect(props.onHide).toHaveBeenCalledTimes(1);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
     });
 });

@@ -16,67 +16,65 @@ import {spyNotificationAs} from '../../support/notification';
 describe('Notifications', () => {
     const admin = getAdminAccount();
     let testTeam;
+    let testChannel;
     let otherChannel;
-    let townsquareChannelId;
-    let offTopicChannelId;
     let receiver;
     let sender;
 
     before(() => {
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup({userPrefix: 'receiver'}).then(({team, channel, user}) => {
             testTeam = team;
-            otherChannel = channel;
+            testChannel = channel;
             receiver = user;
-
-            cy.apiCreateUser().then(({user: user1}) => {
-                sender = user1;
-
-                cy.apiAddUserToTeam(testTeam.id, sender.id);
-            });
-
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
-                townsquareChannelId = out.channel.id;
-            });
-
-            cy.apiGetChannelByName(testTeam.name, 'off-topic').then((out) => {
-                offTopicChannelId = out.channel.id;
-            });
-
+            return cy.apiCreateChannel(team.id, 'test', 'Test');
+        }).then(({channel}) => {
+            otherChannel = channel;
+            return cy.apiCreateUser({prefix: 'sender'});
+        }).then(({user}) => {
+            sender = user;
+            return cy.apiAddUserToTeam(testTeam.id, sender.id);
+        }).then(() => {
+            cy.apiAddUserToChannel(testChannel.id, sender.id);
+            cy.apiAddUserToChannel(otherChannel.id, sender.id);
+            return cy.apiAddUserToChannel(otherChannel.id, receiver.id);
+        }).then(() => {
             // # Login as receiver and visit off-topic channel
             cy.apiLogin(receiver);
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.get(`#sidebarItem_${otherChannel.name}`).click();
+            cy.get('#sidebarItem_off-topic').click();
         });
     });
 
     it('MM-T547 still triggers notification if username is not listed in words that trigger mentions', () => {
         // # Set Notification settings
-        setNotificationSettings({first: false, username: true, shouts: true, custom: true}, otherChannel);
+        setNotificationSettings({first: false, username: true, shouts: true, custom: true}, 'off-topic');
 
         const message = `@${receiver.username} I'm messaging you! ${Date.now()}`;
 
         // # Use another account to post a message @-mentioning our receiver
-        cy.postMessageAs({sender, message, channelId: townsquareChannelId});
+        cy.postMessageAs({sender, message, channelId: otherChannel.id});
 
         const body = `@${sender.username}: ${message}`;
 
-        cy.get('@notifySpy').should('have.been.calledWithMatch', 'Town Square', (args) => {
+        cy.get('@notifySpy').should('have.been.calledWithMatch', otherChannel.display_name, (args) => {
             expect(args.body, `Notification body: "${args.body}" should match: "${body}"`).to.equal(body);
             expect(args.tag, `Notification tag: "${args.tag}" should match: "${body}"`).to.equal(body);
             return true;
         });
 
         cy.get('@notifySpy').should('have.been.calledWithMatch',
-            'Town Square', {body, tag: body, requireInteraction: false, silent: false});
+            otherChannel.display_name, {body, tag: body, requireInteraction: false, silent: false});
 
         // * Verify unread mentions badge
-        cy.get('#sidebarItem_town-square').
+        cy.get(`#sidebarItem_${otherChannel.name}`).
             scrollIntoView().
             find('#unreadMentions').
             should('be.visible').
             and('have.text', '1');
 
         // * Go to that channel
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
@@ -97,24 +95,24 @@ describe('Notifications', () => {
 
     it('MM-T545 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
         // # Set Notification settings
-        setNotificationSettings({first: false, username: false, shouts: true, custom: true}, otherChannel);
+        setNotificationSettings({first: false, username: false, shouts: true, custom: true}, 'off-topic');
 
         const message = `Hey ${receiver.username}! I'm messaging you! ${Date.now()}`;
 
         // # Use another account to post a message @-mentioning our receiver
-        cy.postMessageAs({sender, message, channelId: townsquareChannelId});
+        cy.postMessageAs({sender, message, channelId: otherChannel.id});
 
         // * Verify stub was not called
         cy.get('@notifySpy').should('be.not.called');
 
         // * Verify unread mentions badge does not exist
-        cy.get('#sidebarItem_town-square').
+        cy.get(`#sidebarItem_${otherChannel.name}`).
             scrollIntoView().
             find('#unreadMentions').
             should('not.exist');
 
         // # Go to the channel where you were messaged
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
@@ -134,7 +132,7 @@ describe('Notifications', () => {
 
     it('MM-T548 does not trigger notifications with "channel-wide mentions" unchecked', () => {
         // # Set Notification settings
-        setNotificationSettings({first: false, username: false, shouts: false, custom: true}, otherChannel);
+        setNotificationSettings({first: false, username: false, shouts: false, custom: true}, 'off-topic');
 
         const channelMentions = ['@here', '@all', '@channel'];
 
@@ -142,18 +140,18 @@ describe('Notifications', () => {
             const message = `Hey ${mention} I'm message you all! ${Date.now()}`;
 
             // # Use another account to post a message @-mentioning our receiver
-            cy.postMessageAs({sender, message, channelId: townsquareChannelId});
+            cy.postMessageAs({sender, message, channelId: otherChannel.id});
 
             // * Verify stub was not called
             cy.get('@notifySpy').should('be.not.called');
 
             // * Verify unread mentions badge does not exist
-            cy.get('#sidebarItem_town-square').
+            cy.get(`#sidebarItem_${otherChannel.name}`).
                 find('#unreadMentions').
                 should('not.exist');
 
             // # Go to the channel where you were messaged
-            cy.get('#sidebarItem_town-square').click({force: true});
+            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
 
             // # Get last post message text
             cy.getLastPostId().then((postId) => {
@@ -176,23 +174,23 @@ describe('Notifications', () => {
         var customText = '番茄';
 
         // # Set Notification settings
-        setNotificationSettings({first: false, username: false, shouts: false, custom: true, customText}, otherChannel);
+        setNotificationSettings({first: false, username: false, shouts: false, custom: true, customText}, 'off-topic');
         const message = '番茄 I\'m messaging you!';
         const message2 = '我爱吃番茄炒饭 I\'m messaging you!';
 
         // # Use another account to post a message @-mentioning our receiver
-        cy.postMessageAs({sender, message, channelId: townsquareChannelId});
+        cy.postMessageAs({sender, message, channelId: otherChannel.id});
 
-        // # Check mention on town-square channel
+        // # Check mention on other channel
         // * Verify unread mentions badge
-        cy.get('#sidebarItem_town-square').
+        cy.get(`#sidebarItem_${otherChannel.name}`).
             scrollIntoView().
             find('#unreadMentions').
             should('be.visible').
             and('have.text', '1');
 
         // * Go to that channel
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
@@ -210,18 +208,18 @@ describe('Notifications', () => {
             should('be.visible').
             and('have.text', '番茄');
 
-        // # Check mention on off-topic channel
-        cy.postMessageAs({sender: admin, message: message2, channelId: offTopicChannelId});
+        // # Check mention on test channel
+        cy.postMessageAs({sender: admin, message: message2, channelId: testChannel.id});
 
         // * Verify unread mentions badge
-        cy.get('#sidebarItem_off-topic').
+        cy.get(`#sidebarItem_${testChannel.name}`).
             scrollIntoView().
             find('#unreadMentions').
             should('be.visible').
             and('have.text', '1');
 
         // * Go to that channel
-        cy.get('#sidebarItem_off-topic').click({force: true});
+        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {
@@ -241,7 +239,7 @@ describe('Notifications', () => {
     });
 });
 
-function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channel) {
+function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channelName) {
     // Navigate to settings modal
     cy.uiOpenSettingsModal();
 
@@ -283,5 +281,5 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
     spyNotificationAs('notifySpy', 'granted');
 
     // # Navigate to a channel we are NOT going to post to
-    cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().click({force: true});
+    cy.get(`#sidebarItem_${channelName}`).scrollIntoView().click({force: true});
 }

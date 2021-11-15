@@ -143,7 +143,7 @@ function waitUntilPermanentPost() {
 Cypress.Commands.add('getLastPost', () => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').last();
+    return cy.findAllByTestId('postView').last();
 });
 
 Cypress.Commands.add('getLastPostId', () => {
@@ -198,7 +198,7 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
 Cypress.Commands.add('uiGetNthPost', (index) => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').eq(index);
+    return cy.findAllByTestId('postView').eq(index);
 });
 
 /**
@@ -390,11 +390,6 @@ Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
-// Close RHS by clicking close button
-Cypress.Commands.add('closeRHS', () => {
-    cy.get('#rhsCloseButton').should('be.visible').click();
-});
-
 // ***********************************************************
 // Teams
 // ***********************************************************
@@ -404,10 +399,6 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
     cy.get('#teamNameInput').type(teamName).type('{enter}');
     cy.get('#teamURLInput').type(teamURL).type('{enter}');
     cy.visit(`/${teamURL}`);
-});
-
-Cypress.Commands.add('getCurrentTeamId', () => {
-    return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
 
 Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {

@@ -24,6 +24,11 @@ describe('components/next_steps_view/steps/team_profile_step', () => {
             removeTeamIcon: jest.fn(),
             setTeamIcon: jest.fn(),
         },
+        isLastStep: false,
+        finishButtonText: {
+            id: 'tID',
+            defaultMessage: 'defaultMessage',
+        },
     };
 
     test('should match snapshot', () => {

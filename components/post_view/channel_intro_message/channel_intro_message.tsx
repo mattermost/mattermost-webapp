@@ -13,9 +13,9 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
+import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -23,7 +23,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import {getMonthLong} from 'utils/i18n.jsx';
+import {getMonthLong, t} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AddMembersButton from './add_members_button';
@@ -301,27 +301,21 @@ export function createDefaultIntroMessage(
                         />
                     }
                     {teamIsGroupConstrained &&
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         className='intro-links color--link'
+                        modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                         dialogType={AddGroupsToTeamModal}
                         dialogProps={{channel}}
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='fa fa-user-plus'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-user-plus'
+                            title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
+                        />
                         <FormattedMessage
                             id='intro_messages.addGroupsToTeam'
                             defaultMessage='Add other groups to this team'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                     }
                 </TeamPermissionGate>
             </TeamPermissionGate>
@@ -534,7 +528,7 @@ function createSetHeaderButton(channel: Channel) {
     return (
         <ToggleModalButtonRedux
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-            accessibilityLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
+            ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
             className={'intro-links color--link setHeaderButton'}
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}

@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .sidebar--right {
     @include translateX(100%);
@@ -316,5 +316,33 @@
     .fa {
         position: relative;
         top: 1px;
+    }
+}
+
+// global header style adjustments
+@media screen and (min-width: 769px) {
+    // adjust RHS position and height
+    #sidebar-right {
+        z-index: 20;
+        top: 0;
+
+        .sidebar-right-container {
+            height: 100%;
+        }
+
+        .sidebar--right__header {
+            flex-basis: 63px;
+        }
+
+        .sidebar--right__title {
+            height: auto;
+            align-items: center;
+            line-height: 63px;
+        }
+
+        // search bar container is now only for mobile
+        .search-bar__container {
+            display: none !important;
+        }
     }
 }

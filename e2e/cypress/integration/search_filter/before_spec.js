@@ -30,14 +30,19 @@ describe('Search Date Filter', () => {
     let anotherAdmin;
 
     before(() => {
-        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
+        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, channel, user, channelUrl}) => {
             anotherAdmin = user;
 
-            // # Visit town-square
-            cy.visit(`/${team.name}/channels/town-square`);
+            // # Visit test channel
+            cy.visit(channelUrl);
 
-            setupTestData(testData, {team, admin, anotherAdmin});
+            setupTestData(testData, {team, channel, admin, anotherAdmin});
         });
+    });
+
+    beforeEach(() => {
+        cy.reload();
+        cy.postMessage(Date.now());
     });
 
     it('MM-T586 before: omits results on and after target date', () => {

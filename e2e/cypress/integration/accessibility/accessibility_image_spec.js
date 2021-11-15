@@ -16,11 +16,11 @@ describe('Verify Accessibility Support in Different Images', () => {
     let otherUser;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({offTopicUrl, user}) => {
             otherUser = user;
 
             // Visit the Off Topic channel
-            cy.visit(`/${team.name}/channels/off-topic`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -59,7 +59,7 @@ describe('Verify Accessibility Support in Different Images', () => {
             });
         });
 
-        // # Open Account Settings > Display > Themes
+        // # Open Settings > Display > Themes
         cy.uiOpenSettingsModal('Display').within(() => {
             cy.get('#displayButton').click();
             cy.get('#displaySettingsTitle').should('exist');

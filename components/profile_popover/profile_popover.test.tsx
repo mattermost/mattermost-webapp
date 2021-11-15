@@ -3,19 +3,23 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-import ProfilePopover from 'components/profile_popover/profile_popover';
 import {CustomStatusDuration} from 'mattermost-redux/types/users';
-import Pluggable from '../../plugins/pluggable';
+
+import ProfilePopover from 'components/profile_popover/profile_popover';
+
+import Pluggable from 'plugins/pluggable';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/ProfilePopover', () => {
     const baseProps = {
         enableTimezone: false,
         userId: '0',
-        user: {
-            name: 'some name',
+        user: TestHelper.getUserMock({
             username: 'some_username',
-        },
+        }),
         hide: jest.fn(),
         src: 'src',
         currentUserId: '',
@@ -48,12 +52,11 @@ describe('components/ProfilePopover', () => {
     test('should match snapshot for shared user', () => {
         const props = {
             ...baseProps,
-            user: {
-                name: 'shared user',
+            user: TestHelper.getUserMock({
                 username: 'shared_user',
                 first_name: 'shared',
                 remote_id: 'fakeuser',
-            },
+            }),
         };
 
         const wrapper = shallowWithIntl(
@@ -65,10 +68,10 @@ describe('components/ProfilePopover', () => {
     test('should have bot description', () => {
         const props = {
             ...baseProps,
-            user: {
+            user: TestHelper.getUserMock({
                 is_bot: true,
                 bot_description: 'bot description',
-            },
+            }),
         };
 
         const wrapper = shallowWithIntl(

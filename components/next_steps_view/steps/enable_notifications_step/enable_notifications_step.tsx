@@ -7,6 +7,8 @@ import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import * as Utils from 'utils/utils.jsx';
 import {showNotification} from 'utils/notifications';
+import {t} from 'utils/i18n';
+
 import {StepComponentProps} from '../../steps';
 
 import TextCardWithAction from '../text_card_with_action/text_card_with_action';
@@ -57,12 +59,12 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
         return (
             <div>
                 <TextCardWithAction
-                    cardBodyMessageId={'next_steps_view.notificationSetupNotificationsDisabled'}
+                    cardBodyMessageId={t('next_steps_view.notificationSetupNotificationsDisabled')}
                     cardBodyDefaultMessage={
                         'Notifications were previously disabled or you may be browsing in private mode. You\'ll need to open your browser settings or turn off private mode to enable notifications.'
                     }
                     buttonMessageId={
-                        'next_steps_view.notificationSetup.skipThisStep'
+                        t('next_steps_view.notificationSetup.skipThisStep')
                     }
                     buttonDefaultMessage={'Skip this step'}
                     onClick={onFinish}
@@ -70,14 +72,22 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
             </div>
         );
     }
+
+    let buttonMessageId = props.finishButtonText.id;
+    let buttonDefaultMessage = props.finishButtonText.defaultMessage;
+
+    if (props.isLastStep) {
+        buttonMessageId = t('next_steps_view.invite_members_step.finish');
+        buttonDefaultMessage = 'Finish';
+    }
     return (
         <TextCardWithAction
-            cardBodyMessageId={'next_steps_view.notificationSetup'}
+            cardBodyMessageId={t('next_steps_view.notificationSetup')}
             cardBodyDefaultMessage={
                 'We recommend enabling desktop notifications so you don’t miss any important communications.'
             }
-            buttonMessageId={'next_steps_view.notificationSetup.setNotifications'}
-            buttonDefaultMessage={'Set up notifications'}
+            buttonMessageId={buttonMessageId}
+            buttonDefaultMessage={buttonDefaultMessage}
             onClick={onFinish}
         />
     );
