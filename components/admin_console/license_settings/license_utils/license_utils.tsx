@@ -27,7 +27,7 @@ export const free30DayTrial = (
             }
             message={
                 <div className='banner-start-trial'>
-                    <p className='trial-legal-terms'>
+                    <p className='license-trial-legal-terms'>
                         <FormattedMessage
                             id='admin.license.trial-request.title'
                             defaultMessage='Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. '

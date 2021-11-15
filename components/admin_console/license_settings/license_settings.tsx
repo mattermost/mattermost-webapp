@@ -299,7 +299,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     </button>
                 </p>
                 {gettingTrialError}
-                <p className='trial-legal-terms'>
+                <p className='license-trial-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
@@ -415,7 +415,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <div className='admin-console__banner_section'>
-                            {this.props.prevTrialLicense?.IsLicensed !== 'true' &&
+                            {this.props.prevTrialLicense?.IsLicensed === 'true' &&
                                 free30DayTrial(
                                     isDisabled,
                                     gettingTrialError,

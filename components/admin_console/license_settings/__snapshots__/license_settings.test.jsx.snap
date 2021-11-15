@@ -24,7 +24,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -189,7 +189,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -354,7 +354,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -507,7 +507,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -706,7 +706,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -905,7 +905,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -1104,7 +1104,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -1303,7 +1303,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -1502,7 +1502,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -1664,7 +1664,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -1817,7 +1817,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -1970,7 +1970,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -2135,7 +2135,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -2388,7 +2388,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
@@ -2572,7 +2572,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="banner-start-trial"
             >
               <p
-                className="trial-legal-terms"
+                className="license-trial-legal-terms"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
