@@ -11,8 +11,6 @@
 // Group: @team_settings
 
 describe('Invite Members', () => {
-    let testTeam;
-
     before(() => {
         // # Enable API Team Deletion
         // # Disable Require Email Verification
@@ -32,7 +30,6 @@ describe('Invite Members', () => {
             cy.apiAdminLogin();
 
             cy.visit('/');
-            // cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Open and select invite menu item
             cy.uiOpenTeamMenu('Invite People');
@@ -56,7 +53,6 @@ describe('Invite Members', () => {
 function testBackdropClickCloses(shouldClose) {
     // # Click on modal
     cy.get('.modal-backdrop').click({force: true});
-    // cy.get('#inviteMembersButton').scrollIntoView().click();
 
     if (shouldClose) {
         // * Verify modal was closed

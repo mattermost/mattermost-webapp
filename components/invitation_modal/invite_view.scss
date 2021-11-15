@@ -13,6 +13,10 @@
         display: flex;
         align-items: center;
 
+        &.btn:active {
+            box-shadow: none;
+        }
+
         &.btn.btn-cancel {
             padding-left: 0;
         }
