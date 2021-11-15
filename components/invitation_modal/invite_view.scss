@@ -50,7 +50,9 @@
 .modal-body {
     .UsersEmailsInput {
         .users-emails-input__control {
+            overflow: auto;
             min-height: 84px;
+            max-height: min(50vh, 800px);
             align-items: flex-start;
         }
 
