@@ -49,7 +49,7 @@ describe('Authentication', () => {
         cy.postMessage('hello');
 
         // # From a separate browser session, login to the same server as the same user
-        // # Click the hamburger menu and select Account Settings ➜ Security
+        // # Click the hamburger menu and select Profile ➜ Security
         // # Click "View and Logout of Active Sessions", then find and close the session created in step 1
         // Since we are testing this on browser, we can revoke sessions with admin user.
         const sysadmin = getAdminAccount();

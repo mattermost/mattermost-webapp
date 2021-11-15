@@ -13,7 +13,7 @@ const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 import TeamSettings from 'components/team_settings';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
     isCloud?: boolean;
 }
 
@@ -69,7 +69,7 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
             activeTab: 'general',
             activeSection: '',
         });
-        this.props.onHide();
+        this.props.onExited();
     }
 
     render() {

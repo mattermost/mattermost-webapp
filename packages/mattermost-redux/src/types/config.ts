@@ -41,8 +41,6 @@ export type ClientConfig = {
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
     DefaultTheme: ThemeKey;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     DiagnosticId: string;
     DiagnosticsEnabled: string;
     EmailLoginButtonBorderColor: string;
@@ -359,8 +357,6 @@ export type TeamSettings = {
 export type ClientRequirements = {
     AndroidLatestVersion: string;
     AndroidMinVersion: string;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     IosLatestVersion: string;
     IosMinVersion: string;
 };

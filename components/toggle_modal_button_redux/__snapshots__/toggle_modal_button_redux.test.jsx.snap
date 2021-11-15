@@ -53,7 +53,6 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
   <button
     aria-label="Delete Channel dialog"
     className="style--none "
-    data-toggle="modal toggle"
     id="channelDelete"
     onClick={[Function]}
     role="menuitem"

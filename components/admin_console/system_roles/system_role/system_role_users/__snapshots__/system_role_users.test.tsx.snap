@@ -3,7 +3,7 @@
 exports[`admin_console/system_role_users should match snapshot 1`] = `
 <AdminPanel
   button={
-    <ModalToggleButton
+    <Memo(Connect(injectIntl(ModalToggleButtonRedux)))
       className="btn btn-primary"
       dialogProps={
         Object {
@@ -122,14 +122,15 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
           "type": [Function],
         }
       }
+      disabled={false}
       id="addRoleMembers"
-      isDisabled={false}
+      modalId="add_user_to_role"
     >
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Add People"
         id="admin.permissions.system_role_users.add_people"
       />
-    </ModalToggleButton>
+    </Memo(Connect(injectIntl(ModalToggleButtonRedux)))>
   }
   className=""
   id="SystemRoleUsers"
@@ -405,7 +406,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
 exports[`admin_console/system_role_users should match snapshot with readOnly true 1`] = `
 <AdminPanel
   button={
-    <ModalToggleButton
+    <Memo(Connect(injectIntl(ModalToggleButtonRedux)))
       className="btn btn-primary"
       dialogProps={
         Object {
@@ -524,14 +525,15 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
           "type": [Function],
         }
       }
+      disabled={true}
       id="addRoleMembers"
-      isDisabled={true}
+      modalId="add_user_to_role"
     >
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Add People"
         id="admin.permissions.system_role_users.add_people"
       />
-    </ModalToggleButton>
+    </Memo(Connect(injectIntl(ModalToggleButtonRedux)))>
   }
   className=""
   id="SystemRoleUsers"
