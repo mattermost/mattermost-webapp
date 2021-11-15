@@ -78,10 +78,6 @@ describe('Team Settings', () => {
     function inviteNewMemberToTeam(email) {
         cy.wait(TIMEOUTS.HALF_SEC);
 
-        // if (isLicensed) {
-        //     // # Click "Invite members"
-        //     cy.findByTestId('inviteMembersLink').should('be.visible').click();
-        // }
         cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}');
         cy.get('#inviteMembersButton').click();
     }
