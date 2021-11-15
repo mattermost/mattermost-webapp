@@ -31,7 +31,6 @@ import './invite_view.scss';
 export const defaultInviteState: InviteState = deepFreeze({
     inviteType: InviteType.MEMBER,
     customMessage: defaultCustomMessage,
-    sending: false,
     inviteChannels: defaultInviteChannels,
     usersEmails: [],
     usersEmailsSearch: '',
@@ -40,7 +39,6 @@ export const defaultInviteState: InviteState = deepFreeze({
 export type InviteState = {
     customMessage: CustomMessageProps;
     inviteType: InviteType;
-    sending: boolean;
     inviteChannels: InviteChannels;
     usersEmails: Array<UserProfile | string>;
     usersEmailsSearch: string;
