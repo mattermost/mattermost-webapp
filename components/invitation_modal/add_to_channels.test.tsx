@@ -2,28 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
-import {mount} from 'enzyme';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 
 import AddToChannels, {Props} from './add_to_channels';
-
-type WithIntlProps = {
-    children: React.ReactNode | React.ReactNodeArray;
-};
-const WithIntl = (props: WithIntlProps) => {
-    return (
-        <IntlProvider
-            locale='en'
-            messages={{}}
-        >
-            {props.children}
-        </IntlProvider>
-    );
-};
 
 const defaultProps: Props = deepFreeze({
     customMessage: {
@@ -50,7 +36,7 @@ describe('AddToChannels', () => {
     });
     describe('custom message', () => {
         it('UI to toggle custom message opens it when closed', () => {
-            const wrapper = mount(<WithIntl><AddToChannels {...props}/></WithIntl>);
+            const wrapper = mountWithIntl(<AddToChannels {...props}/>);
             expect(props.toggleCustomMessage).not.toHaveBeenCalled();
             wrapper.find('a').at(0).simulate('click');
             expect(props.toggleCustomMessage).toHaveBeenCalled();
@@ -64,7 +50,7 @@ describe('AddToChannels', () => {
                     open: true,
                 },
             };
-            const wrapper = mount(<WithIntl><AddToChannels {...props}/></WithIntl>);
+            const wrapper = mountWithIntl(<AddToChannels {...props}/>);
             expect(props.toggleCustomMessage).not.toHaveBeenCalled();
             wrapper.find(CloseCircleIcon).at(0).simulate('click');
             expect(props.toggleCustomMessage).toHaveBeenCalled();
@@ -78,7 +64,7 @@ describe('AddToChannels', () => {
                     open: true,
                 },
             };
-            const wrapper = mount(<WithIntl><AddToChannels {...props}/></WithIntl>);
+            const wrapper = mountWithIntl(<AddToChannels {...props}/>);
             expect(props.setCustomMessage).not.toHaveBeenCalled();
             const expectedMessage = 'welcome to the team!';
             wrapper.find('textarea').at(0).simulate('change', {

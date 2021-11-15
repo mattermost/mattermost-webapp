@@ -10,19 +10,20 @@ import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import RadioGroup from 'components/common/radio_group';
 
-import './invite_as.scss';
 import Toggle from 'components/toggle';
 
-export const As = {
+import './invite_as.scss';
+
+export const InviteType = {
     MEMBER: 'MEMBER',
     GUEST: 'GUEST',
 } as const;
 
-export type As = typeof As[keyof typeof As];
+export type InviteType = typeof InviteType[keyof typeof InviteType];
 
 export type Props = {
-    setInviteAs: (as: As) => void;
-    as: As;
+    setInviteAs: (inviteType: InviteType) => void;
+    inviteType: InviteType;
     titleClass?: string;
     inviteToTeamTreatment: InviteToTeamTreatments;
 }
@@ -37,8 +38,8 @@ export default function InviteAs(props: Props) {
     let control = (
         <div>
             <RadioGroup
-                onChange={(e) => props.setInviteAs(e.target.value as As)}
-                value={props.as}
+                onChange={(e) => props.setInviteAs(e.target.value as InviteType)}
+                value={props.inviteType}
                 id='invite-as'
                 values={[
                     {
@@ -48,7 +49,7 @@ export default function InviteAs(props: Props) {
                                 defaultMessage='Member'
                             />
                         ),
-                        value: As.MEMBER,
+                        value: InviteType.MEMBER,
                     },
                     {
                         key: (
@@ -66,7 +67,7 @@ export default function InviteAs(props: Props) {
                                 </span>
                             </span>
                         ),
-                        value: As.GUEST,
+                        value: InviteType.GUEST,
                     },
                 ]}
             />
@@ -83,7 +84,7 @@ export default function InviteAs(props: Props) {
         control = (
             <div className='InviteAs__toggle'>
                 <div className='InviteAs__toggleDescription'>
-                    {props.as === As.GUEST &&
+                    {props.inviteType === InviteType.GUEST &&
                     <>
                         <FormattedMarkdownMessage
                             id='invite_modal.permanent'
@@ -98,9 +99,9 @@ export default function InviteAs(props: Props) {
                     />
                 </div>
                 <Toggle
-                    toggled={props.as === As.GUEST}
+                    toggled={props.inviteType === InviteType.GUEST}
                     onToggle={() => {
-                        props.setInviteAs(props.as === As.GUEST ? As.MEMBER : As.GUEST);
+                        props.setInviteAs(props.inviteType === InviteType.GUEST ? InviteType.MEMBER : InviteType.GUEST);
                     }}
                 />
             </div>

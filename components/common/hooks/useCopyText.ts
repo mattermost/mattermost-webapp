@@ -23,7 +23,7 @@ export default function useCopyText(options: CopyOptions): CopyResponse {
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     let successCopyTimeout = DEFAULT_COPY_TIMEOUT;
-    if (options.successCopyTimeout !== null && options.successCopyTimeout !== undefined) {
+    if (options.successCopyTimeout || options.successCopyTimeout === 0) {
         successCopyTimeout = options.successCopyTimeout;
     }
 

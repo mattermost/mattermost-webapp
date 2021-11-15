@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {components, /*ValueType, ActionMeta,*/ InputActionMeta, FormatOptionLabelMeta} from 'react-select';
+import {components, InputActionMeta, FormatOptionLabelMeta} from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/async';
 import classNames from 'classnames';
 

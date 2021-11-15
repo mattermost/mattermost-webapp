@@ -7,7 +7,7 @@ import Badge from 'components/widgets/badges/badge';
 
 type RadioGroupProps = {
     id: string;
-    values: Array<{ key: React.ReactNode | React.ReactNode; value: string}>;
+    values: Array<{ key: React.ReactNode | React.ReactNodeArray; value: string}>;
     value: string;
     badge?: {matchVal: string; text: ReactNode};
     sideLegend?: {matchVal: string; text: ReactNode};

@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, mount} from 'enzyme';
-import {IntlProvider} from 'react-intl';
+import {shallow} from 'enzyme';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
@@ -18,24 +19,6 @@ import ResultTable, {Props} from './result_table';
 let props: Props = {
     sent: true,
     rows: [],
-};
-type WithIntlProps = {
-    children: React.ReactNode | React.ReactNodeArray;
-}
-
-const WithIntl = (props: WithIntlProps) => {
-    const translations = {
-        'invitation_modal.confirm.not-sent-header': 'not sent',
-        'invitation_modal.confirm.sent-header': 'sent',
-    };
-    return (
-        <IntlProvider
-            locale={'en'}
-            messages={translations}
-        >
-            {props.children}
-        </IntlProvider>
-    );
 };
 
 const defaultUser = deepFreeze({
@@ -150,13 +133,13 @@ describe('ResultTable', () => {
 
     test('renders success banner when invites were sent', () => {
         props.sent = true;
-        const wrapper = mount(<WithIntl><ResultTable {...props}/></WithIntl>);
-        expect(wrapper.find('h2').at(0).text()).toContain('sent');
+        const wrapper = mountWithIntl(<ResultTable {...props}/>);
+        expect(wrapper.find('h2').at(0).text()).toContain('Successful Invites');
     });
 
     test('renders not sent banner when invites were not sent', () => {
         props.sent = false;
-        const wrapper = mount(<WithIntl><ResultTable {...props}/></WithIntl>);
-        expect(wrapper.find('h2').at(0).text()).toContain('not sent');
+        const wrapper = mountWithIntl(<ResultTable {...props}/>);
+        expect(wrapper.find('h2').at(0).text()).toContain('Invitations Not Sent');
     });
 });

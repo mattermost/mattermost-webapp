@@ -2,46 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
-import {mount} from 'enzyme';
+
+import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
-import {Theme} from 'mattermost-redux/types/themes';
 import {Team} from 'mattermost-redux/types/teams';
 
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
-
-import InviteAs, {As} from './invite_as';
+import InviteAs, {InviteType} from './invite_as';
 import InviteView, {Props} from './invite_view';
-
-type WithIntlProps = {
-    children: React.ReactNode | React.ReactNodeArray;
-};
-const WithProviders = (props: WithIntlProps) => {
-    return (
-        <CompassThemeProvider
-            theme={{
-                sidebarHeaderBg: '#fff',
-                sidebarHeaderTextColor: '#fff',
-                dndIndicator: '#fff',
-                onlineIndicator: '#fff',
-                awayIndicator: '#fff',
-            } as Theme}
-        >
-            <IntlProvider
-                locale='en'
-                messages={{}}
-            >
-                {props.children}
-            </IntlProvider>
-        </CompassThemeProvider>
-    );
-};
 
 const defaultProps: Props = deepFreeze({
     setInviteAs: jest.fn(),
-    as: As.MEMBER,
+    inviteType: InviteType.MEMBER,
     titleClass: 'title',
 
     invite: jest.fn(),
@@ -88,7 +61,7 @@ describe('InviteView', () => {
     });
 
     it('shows invite as UI when user can choose to invite guests or users', () => {
-        const wrapper = mount(<WithProviders><InviteView {...props}/></WithProviders>);
+        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
         expect(wrapper.find(InviteAs).length).toBe(1);
     });
 
@@ -98,7 +71,7 @@ describe('InviteView', () => {
             canAddUsers: false,
         };
 
-        const wrapper = mount(<WithProviders><InviteView {...props}/></WithProviders>);
+        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
         expect(wrapper.find(InviteAs).length).toBe(0);
     });
 
@@ -108,7 +81,7 @@ describe('InviteView', () => {
             canInviteGuests: false,
         };
 
-        const wrapper = mount(<WithProviders><InviteView {...props}/></WithProviders>);
+        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
         expect(wrapper.find(InviteAs).length).toBe(0);
     });
 });

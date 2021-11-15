@@ -8,7 +8,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {t} from 'utils/i18n';
 
-import {As} from './invite_as';
+import {InviteType} from './invite_as';
 import ResultTable, {InviteResult} from './result_table';
 
 import './result_view.scss';
@@ -31,7 +31,7 @@ export const defaultResultState = deepFreeze({
 });
 
 type Props = {
-    invitedAs: As;
+    inviteType: InviteType;
     currentTeamName: string;
     onDone: () => void;
     headerClass: string;
@@ -47,11 +47,11 @@ export default function ResultView(props: Props) {
                 <h1>
                     <FormattedMessage
                         id='invite_modal.invited'
-                        defaultMessage='{as} invited to {team_name}'
+                        defaultMessage='{inviteType} invited to {team_name}'
                         values={{
-                            as: formatMessage({
-                                id: props.invitedAs === As.MEMBER ? t('invite_modal.invited_members') : t('invite_modal.invited_guests'),
-                                defaultMessage: props.invitedAs === As.MEMBER ? 'Members' : 'Guests',
+                            inviteType: formatMessage({
+                                id: props.inviteType === InviteType.MEMBER ? t('invite_modal.invited_members') : t('invite_modal.invited_guests'),
+                                defaultMessage: props.inviteType === InviteType.MEMBER ? 'Members' : 'Guests',
                             }),
                             team_name: props.currentTeamName,
                         }}

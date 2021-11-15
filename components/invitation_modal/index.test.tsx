@@ -25,7 +25,7 @@ describe('mapStateToProps', () => {
                 currentTeamId,
                 teams: {
                     [currentTeamId]: {
-                        display_name: 'asdf',
+                        display_name: 'team1',
                     },
                 },
                 myMembers: {},
@@ -36,7 +36,7 @@ describe('mapStateToProps', () => {
             channels: {
                 channels: {
                     [currentChannelId]: {
-                        display_name: 'asdf',
+                        display_name: 'team1',
                     },
                 },
                 currentChannelId,

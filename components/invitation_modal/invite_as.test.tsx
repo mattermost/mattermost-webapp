@@ -2,47 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
+
+import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import RadioGroup from 'components/common/radio_group';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
-import {Theme} from 'mattermost-redux/types/themes';
 
 import Toggle from 'components/toggle';
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 
-import InviteAs, {Props, As} from './invite_as';
-
-type WithIntlProps = {
-    children: React.ReactNode | React.ReactNodeArray;
-};
-const WithProviders = (props: WithIntlProps) => {
-    return (
-        <CompassThemeProvider
-            theme={{
-                sidebarHeaderBg: '#fff',
-                sidebarHeaderTextColor: '#fff',
-                dndIndicator: '#fff',
-                onlineIndicator: '#fff',
-                awayIndicator: '#fff',
-            } as Theme}
-        >
-            <IntlProvider
-                locale='en'
-                messages={{}}
-            >
-                {props.children}
-            </IntlProvider>
-        </CompassThemeProvider>
-    );
-};
+import InviteAs, {Props, InviteType} from './invite_as';
 
 const defaultProps: Props = deepFreeze({
     setInviteAs: jest.fn(),
-    as: As.MEMBER,
+    inviteType: InviteType.MEMBER,
     inviteToTeamTreatment: InviteToTeamTreatments.NONE,
     titleClass: 'title',
 });
@@ -55,7 +30,7 @@ describe('InviteAs', () => {
     });
     describe('title', () => {
         it('does not mention guest in radio mode', () => {
-            const wrapper = mount(<WithProviders><InviteAs {...props}/></WithProviders>);
+            const wrapper = mountWithThemedIntl(<InviteAs {...props}/>);
             expect(wrapper.find('.' + props.titleClass).at(0).text()).toBe('Invite as');
         });
 
@@ -64,7 +39,7 @@ describe('InviteAs', () => {
                 ...props,
                 inviteToTeamTreatment: InviteToTeamTreatments.TOGGLE,
             };
-            const wrapper = mount(<WithProviders><InviteAs {...props}/></WithProviders>);
+            const wrapper = mountWithThemedIntl(<InviteAs {...props}/>);
             expect(wrapper.find('.' + props.titleClass).at(0).text()).toBe('Invite as Guest');
         });
     });

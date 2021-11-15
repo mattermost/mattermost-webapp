@@ -24,9 +24,14 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
 import InviteView, {InviteState, defaultInviteState} from './invite_view';
 import NoPermissionsView from './no_permissions_view';
-import {As} from './invite_as';
+import {InviteType} from './invite_as';
 
 import './invitation_modal.scss';
+
+// 'static' means backdrop clicks do not close
+// true means backdrop clicks do close
+// false means no backdrop
+type Backdrop = 'static' | boolean
 
 export type Props = {
     show: boolean;
@@ -92,7 +97,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
             ...defaultState,
             invite: {
                 ...defaultState.invite,
-                as: (!props.canAddUsers && props.canInviteGuests) ? As.GUEST : defaultState.invite.as,
+                inviteType: (!props.canAddUsers && props.canInviteGuests) ? InviteType.GUEST : defaultState.invite.inviteType,
             },
         };
     }
@@ -127,21 +132,21 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         }));
     }
 
-    setInviteAs = (as: As) => {
-        if (this.state.invite.as !== as) {
+    setInviteAs = (inviteType: InviteType) => {
+        if (this.state.invite.inviteType !== inviteType) {
             this.setState((state) => ({
                 ...state,
                 invite: {
                     ...this.state.invite,
-                    as,
+                    inviteType,
                 },
             }));
         }
     }
 
     invite = async () => {
-        const inviteAs = this.state.invite.as;
-        if (inviteAs === As.MEMBER && this.props.isCloud) {
+        const inviteAs = this.state.invite.inviteType;
+        if (inviteAs === InviteType.MEMBER && this.props.isCloud) {
             trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length});
         }
         trackEvent('invite_users', 'click_invite');
@@ -156,10 +161,10 @@ export class InvitationModal extends React.PureComponent<Props, State> {
             }
         }
         let invites: InviteResults = {notSent: [], sent: []};
-        if (inviteAs === As.MEMBER) {
+        if (inviteAs === InviteType.MEMBER) {
             const result = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
             invites = result.data;
-        } else if (inviteAs === As.GUEST) {
+        } else if (inviteAs === InviteType.GUEST) {
             const result = await this.props.actions.sendGuestsInvites(
                 this.props.currentTeam.id,
                 this.state.invite.inviteChannels.channels,
@@ -180,7 +185,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
             });
         }
 
-        if (inviteAs === As.GUEST && this.state.invite.inviteChannels.search !== '') {
+        if (inviteAs === InviteType.GUEST && this.state.invite.inviteChannels.search !== '') {
             invites.notSent.push({
                 text: this.state.invite.inviteChannels.search,
                 reason: this.props.intl.formatMessage({
@@ -205,7 +210,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
             view: View.INVITE,
             invite: {
                 ...defaultInviteState,
-                as: state.invite.as,
+                inviteType: state.invite.inviteType,
             },
             result: defaultResultState,
             termWithoutResults: null,
@@ -301,7 +306,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         }));
     }
 
-    getBackdrop = () => {
+    getBackdrop = (): Backdrop => {
         // 'static' means backdrop clicks do not close
         // true means backdrop clicks do close
         // false means no backdrop
@@ -310,12 +315,11 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         }
 
         const emptyInvites = this.state.invite.usersEmails.length === 0 && this.state.invite.usersEmailsSearch === '';
-        if (this.state.invite.as === As.MEMBER && !emptyInvites) {
+        if (!emptyInvites) {
             return 'static';
-        } else if (this.state.invite.as === As.GUEST) {
+        } else if (this.state.invite.inviteType === InviteType.GUEST) {
             if (this.state.invite.inviteChannels.channels.length !== 0 ||
-                this.state.invite.inviteChannels.search !== '' ||
-                    !emptyInvites
+                this.state.invite.inviteChannels.search !== ''
             ) {
                 return 'static';
             }
@@ -356,7 +360,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         if (this.state.view === View.RESULT) {
             view = (
                 <ResultView
-                    invitedAs={this.state.invite.as}
+                    inviteType={this.state.invite.inviteType}
                     currentTeamName={this.props.currentTeam.display_name}
                     onDone={this.handleHide}
                     inviteMore={this.inviteMore}

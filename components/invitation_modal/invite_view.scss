@@ -3,6 +3,10 @@
         padding-top: 16px;
         padding-bottom: 8px;
         font-weight: 600;
+
+        &--first {
+            padding-top: 0;
+        }
     }
 
     &__copyLink {

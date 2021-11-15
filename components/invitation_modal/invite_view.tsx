@@ -25,11 +25,11 @@ import {t} from 'utils/i18n.jsx';
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
-import InviteAs, {As} from './invite_as';
+import InviteAs, {InviteType} from './invite_as';
 import './invite_view.scss';
 
 export const defaultInviteState: InviteState = deepFreeze({
-    as: As.MEMBER,
+    inviteType: InviteType.MEMBER,
     customMessage: defaultCustomMessage,
     sending: false,
     inviteChannels: defaultInviteChannels,
@@ -39,7 +39,7 @@ export const defaultInviteState: InviteState = deepFreeze({
 
 export type InviteState = {
     customMessage: CustomMessageProps;
-    as: As;
+    inviteType: InviteType;
     sending: boolean;
     inviteChannels: InviteChannels;
     usersEmails: Array<UserProfile | string>;
@@ -47,7 +47,7 @@ export type InviteState = {
 };
 
 export type Props = InviteState & {
-    setInviteAs: (as: As) => void;
+    setInviteAs: (inviteType: InviteType) => void;
     invite: () => void;
     onChannelsChange: (channels: Channel[]) => void;
     onChannelsInputChange: (channelsInputValue: string) => void;
@@ -85,8 +85,11 @@ function clearMinHeight() {
 
 const FOOTER_HEIGHT = 63;
 
+// don't need height adjustment
+const ALWAYS_VISIBLE_OPTIONS = 2;
+
 const ensureInvitesVisible = debounce((options: UserProfile[]) => {
-    if (options.length < 2) {
+    if (options.length < ALWAYS_VISIBLE_OPTIONS) {
         clearMinHeight();
         return;
     }
@@ -225,11 +228,11 @@ export default function InviteView(props: Props) {
     }
 
     const isInviteValid = useMemo(() => {
-        if (props.as === As.GUEST) {
+        if (props.inviteType === InviteType.GUEST) {
             return props.inviteChannels.channels.length > 0 && props.usersEmails.length > 0;
         }
         return props.usersEmails.length > 0;
-    }, [props.as, props.inviteChannels.channels, props.usersEmails]);
+    }, [props.inviteType, props.inviteChannels.channels, props.usersEmails]);
 
     return (
         <>
@@ -237,10 +240,10 @@ export default function InviteView(props: Props) {
                 <h1>
                     <FormattedMessage
                         id='invite_modal.title'
-                        defaultMessage={'Invite {as} to {team_name}'}
+                        defaultMessage={'Invite {inviteType} to {team_name}'}
                         values={{
-                            as: (
-                                props.as === As.MEMBER ?
+                            inviteType: (
+                                props.inviteType === InviteType.MEMBER ?
                                     <FormattedMessage
                                         id='invite_modal.members'
                                         defaultMessage='members'
@@ -262,7 +265,7 @@ export default function InviteView(props: Props) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <div className='InviteView__sectionTitle'>
+                <div className='InviteView__sectionTitle InviteView__sectionTitle--first'>
                     <FormattedMessage
                         id='invite_modal.to'
                         defaultMessage='To:'
@@ -287,11 +290,11 @@ export default function InviteView(props: Props) {
                         clearMinHeight();
                     }}
                     value={props.usersEmails}
-                    validAddressMessageId={props.as === As.MEMBER ? t(
+                    validAddressMessageId={props.inviteType === InviteType.MEMBER ? t(
                         'invitation_modal.members.users_emails_input.valid_email',
                     ) : t('invitation_modal.guests.users_emails_input.valid_email')}
                     onBlur={clearMinHeight}
-                    validAddressMessageDefault={props.as === As.MEMBER ? 'Invite **{email}** as a team member' : 'Invite **{email}** as a guest'}
+                    validAddressMessageDefault={props.inviteType === InviteType.MEMBER ? 'Invite **{email}** as a team member' : 'Invite **{email}** as a guest'}
                     noMatchMessageId={noMatchMessageId}
                     noMatchMessageDefault={noMatchMessageDefault}
                     onInputChange={props.onUsersInputChange}
@@ -300,13 +303,13 @@ export default function InviteView(props: Props) {
                 />
                 {props.canInviteGuests && props.canAddUsers &&
                 <InviteAs
-                    as={props.as}
+                    inviteType={props.inviteType}
                     setInviteAs={props.setInviteAs}
                     inviteToTeamTreatment={props.inviteToTeamTreatment}
                     titleClass='InviteView__sectionTitle'
                 />
                 }
-                {props.as === As.GUEST && (
+                {props.inviteType === InviteType.GUEST && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
                         toggleCustomMessage={props.toggleCustomMessage}

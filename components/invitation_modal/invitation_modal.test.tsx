@@ -2,44 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlShape, IntlProvider} from 'react-intl';
-import {mount} from 'enzyme';
+import {IntlShape} from 'react-intl';
+
+import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {Team} from 'mattermost-redux/types/teams';
-import {Theme} from 'mattermost-redux/types/themes';
-
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 
 import ResultView from './result_view';
 import InviteView from './invite_view';
 import NoPermissionsView from './no_permissions_view';
 import InvitationModal, {Props, View, InvitationModal as BaseInvitationModal} from './invitation_modal';
-
-type WithIntlProps = {
-    children: React.ReactNode | React.ReactNodeArray;
-};
-const WithProviders = (props: WithIntlProps) => {
-    return (
-        <CompassThemeProvider
-            theme={{
-                sidebarHeaderBg: '#fff',
-                sidebarHeaderTextColor: '#fff',
-                dndIndicator: '#fff',
-                onlineIndicator: '#fff',
-                awayIndicator: '#fff',
-            } as Theme}
-        >
-            <IntlProvider
-                locale='en'
-                messages={{}}
-            >
-                {props.children}
-            </IntlProvider>
-        </CompassThemeProvider>
-    );
-};
 
 const defaultProps: Props = deepFreeze({
     show: true,
@@ -75,12 +49,12 @@ describe('InvitationModal', () => {
     });
 
     it('shows invite view when view state is invite', () => {
-        const wrapper = mount(<WithProviders><InvitationModal {...props}/></WithProviders>);
+        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
         expect(wrapper.find(InviteView).length).toBe(1);
     });
 
     it('shows result view when view state is result', () => {
-        const wrapper = mount(<WithProviders><InvitationModal {...props}/></WithProviders>);
+        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
         wrapper.find(BaseInvitationModal).at(0).setState({view: View.RESULT});
 
         wrapper.update();
@@ -93,7 +67,7 @@ describe('InvitationModal', () => {
             canAddUsers: false,
             canInviteGuests: false,
         };
-        const wrapper = mount(<WithProviders><InvitationModal {...props}/></WithProviders>);
+        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
 
         expect(wrapper.find(NoPermissionsView).length).toBe(1);
     });

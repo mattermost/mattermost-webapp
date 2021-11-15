@@ -15,6 +15,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
 import './result_table.scss';
+
 type InviteNotSent = {
     text: React.ReactNode | React.ReactNodeArray;
 }
