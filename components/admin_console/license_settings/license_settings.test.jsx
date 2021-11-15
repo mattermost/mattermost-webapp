@@ -123,8 +123,11 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         await instance.handleUpgrade({preventDefault: jest.fn()});
         expect(actions.upgradeToE0).toBeCalledTimes(1);
         expect(actions.upgradeToE0Status).toBeCalledTimes(1);
-        expect(wrapper.state('upgradingPercentage')).toBe(1);
-        expect(instance.interval).not.toBe(null);
+        wrapper.update();
+        jest.setTimeout(() => {
+            expect(wrapper.update().state('upgradingPercentage')).toBe(1);
+            expect(instance.interval).not.toBe(null);
+        }, 100);
     });
 
     test('load screen while upgrading', async () => {
