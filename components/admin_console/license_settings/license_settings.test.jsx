@@ -50,6 +50,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             restartServer: jest.fn(),
             getPrevTrialLicense: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
+            openModal: jest.fn(),
         },
         stats: {
             TOTAL_USERS: 10,
