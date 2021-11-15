@@ -591,9 +591,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
-        // Posting a message completes the tip when there are prewritten messages.
-        // We do not complete messages in the control group,
-        // so as to not alter behavior in the control group as a result of the A/B test code changes.
         const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER;
         if (shouldCompleteTip) {
             this.completePostTip('send_message');
