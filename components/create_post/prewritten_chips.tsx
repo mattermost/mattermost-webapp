@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {t} from 'utils/i18n.jsx';
@@ -15,7 +14,6 @@ import {t} from 'utils/i18n.jsx';
 import Chip from './chip';
 
 type Props = {
-    prewrittenMessages?: PrewrittenMessagesTreatments;
     prefillMessage: (msg: string, shouldFocus: boolean) => void;
     intl: IntlShape;
     currentChannel: Channel;
