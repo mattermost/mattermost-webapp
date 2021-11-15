@@ -301,7 +301,7 @@ export default function InviteView(props: Props) {
                     inputValue={props.usersEmailsSearch}
                     emailInvitationsEnabled={props.emailInvitationsEnabled}
                 />
-                {props.canInviteGuests && props.canAddUsers &&
+                {'props.canInviteGuests && props.canAddUsers' &&
                 <InviteAs
                     inviteType={props.inviteType}
                     setInviteAs={props.setInviteAs}

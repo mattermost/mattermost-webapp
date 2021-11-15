@@ -6,7 +6,7 @@
         height: 90px;
         padding: 12px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.64);
-        margin-top: 4px;
+        margin-bottom: 8px;
         background: var(--center-channel-bg);
         border-radius: 4px;
         resize: vertical;
@@ -18,7 +18,8 @@
     }
 
     .help-text {
-        margin-top: 8px;
+        // override default from _inputs.scss
+        margin: 0;
         color: rgba(var(--center-channel-color-rgb), 0.64);
     }
 
@@ -26,7 +27,6 @@
         position: relative;
         width: 100%;
         max-width: 720px;
-        margin-bottom: 28px;
 
         &Title {
             display: flex;
@@ -41,7 +41,7 @@
 
         svg {
             &:hover {
-                fill: rgba(var(--center-channel-color-rgb), 0.8);
+                fill: rgba(var(--center-channel-color-rgb), 0.56);
             }
 
             position: relative;

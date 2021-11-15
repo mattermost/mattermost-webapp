@@ -60,12 +60,12 @@ describe('InviteView', () => {
         props = defaultProps;
     });
 
-    it('shows invite as UI when user can choose to invite guests or users', () => {
+    it('shows InviteAs component when user can choose to invite guests or users', () => {
         const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
         expect(wrapper.find(InviteAs).length).toBe(1);
     });
 
-    it('hides invite as UI when user can not choose members option', () => {
+    it('hides InviteAs component when user can not choose members option', () => {
         props = {
             ...defaultProps,
             canAddUsers: false,
@@ -75,7 +75,7 @@ describe('InviteView', () => {
         expect(wrapper.find(InviteAs).length).toBe(0);
     });
 
-    it('hides invite as UI when user can not choose guests option', () => {
+    it('hides InviteAs component when user can not choose guests option', () => {
         props = {
             ...defaultProps,
             canInviteGuests: false,

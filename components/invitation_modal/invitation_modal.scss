@@ -1,4 +1,17 @@
 .InvitationModal {
+    &.modal {
+        overflow: hidden;
+    }
+
+    .modal-header,
+    .modal-footer {
+        padding: 24px;
+    }
+
+    .modal-body {
+        padding: 0 24px;
+    }
+
     .InvitationModal__header {
         display: flex;
         align-items: center;
@@ -8,7 +21,7 @@
         font-weight: 600;
 
         h1 {
-            margin: 10px 0;
+            margin: 0;
             font-size: 22px;
             font-weight: 600;
         }
@@ -39,7 +52,7 @@
             &:hover,
             &:active,
             &:focus {
-                color: rgb(var(--center-channel-color-rgb), 0.8);
+                color: rgb(var(--center-channel-color-rgb), 0.56);
             }
         }
     }
