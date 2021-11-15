@@ -1246,6 +1246,7 @@
   "admin.license.enterprise.upgrade.acceptTermsInitial": "By clicking **Upgrade**, I agree to the terms of the Mattermost ",
   "admin.license.enterprise.upgrade.eeLicenseLink": "Enterprise Edition License",
   "admin.license.enterprise.upgrading": "Upgrading {percentage}%",
+  "admin.license.enterpriseEdition.subtitle": "This is an Enterprise Edition for the Mattermost {skuName} plan",
   "admin.license.enterprisePlanSubtitle": "We’re here to work with you and your needs. Contact us today to get more seats on your plan.",
   "admin.license.enterprisePlanTitle": "Need to increase your headcount?",
   "admin.license.key": "License Key: ",

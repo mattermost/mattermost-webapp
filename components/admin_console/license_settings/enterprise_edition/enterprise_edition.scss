@@ -54,11 +54,11 @@
     font-family: Metropolis;
 
     .title {
+        display: flex;
         color: #3f4350;
         font-size: 18px;
         font-weight: 700;
         line-height: 24px;
-        display: flex;
     }
 
     .subtitle {

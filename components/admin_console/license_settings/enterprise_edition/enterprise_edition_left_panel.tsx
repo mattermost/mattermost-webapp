@@ -62,7 +62,7 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
             </div>
             <div className='subtitle'>
                 <FormattedMessage
-                    id='admin.license.starterEdition.subtitle'
+                    id='admin.license.enterpriseEdition.subtitle'
                     defaultMessage='This is an Enterprise Edition for the Mattermost {skuName} plan'
                     values={{skuName}}
                 />
