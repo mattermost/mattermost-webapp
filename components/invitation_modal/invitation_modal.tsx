@@ -310,7 +310,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         // 'static' means backdrop clicks do not close
         // true means backdrop clicks do close
         // false means no backdrop
-        if (this.state.view === View.RESULT || (!this.props.canAddUsers && !this.props.canInviteGuests) || this.state.invite.usersEmailsSearch === 'nopermissions') {
+        if (this.state.view === View.RESULT || (!this.props.canAddUsers && !this.props.canInviteGuests)) {
             return true;
         }
 
@@ -370,7 +370,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 />
             );
         }
-        if (this.state.invite.usersEmailsSearch === 'nopermissions' || (!this.props.canInviteGuests && !this.props.canAddUsers)) {
+        if (!this.props.canInviteGuests && !this.props.canAddUsers) {
             view = (
                 <NoPermissionsView
                     footerClass='InvitationModal__footer'
