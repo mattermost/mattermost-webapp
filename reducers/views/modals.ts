@@ -4,13 +4,11 @@
 import {combineReducers} from 'redux';
 
 import {ViewsState} from 'types/store/views';
-import {OpenModalReturnType, CloseModalReturnType} from 'actions/views/modals';
+import {ActionsReturnType} from 'actions/views/modals';
 
 import {ActionTypes} from 'utils/constants';
 
-type ActionsReturnType = OpenModalReturnType | CloseModalReturnType;
-
-function modalState(state: ViewsState['modals']['modalState'] = {}, action: ActionsReturnType) {
+export function modalState(state: ViewsState['modals']['modalState'] = {}, action: ActionsReturnType) {
     switch (action.type) {
     case ActionTypes.MODAL_OPEN:
         return {

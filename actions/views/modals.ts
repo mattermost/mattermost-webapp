@@ -24,3 +24,5 @@ export function closeModal(modalId: string) {
 }
 
 export type CloseModalReturnType = ReturnType<typeof closeModal>
+
+export type ActionsReturnType = OpenModalReturnType | CloseModalReturnType;

@@ -4,7 +4,9 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
-import modalsReducer from 'reducers/views/modals';
+import {ActionsReturnType} from 'actions/views/modals';
+
+import {modalState as modalStateReducer} from 'reducers/views/modals';
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
 class TestModal extends React.PureComponent {
@@ -12,6 +14,7 @@ class TestModal extends React.PureComponent {
         return (
             <Modal
                 show={true}
+                onHide={jest.fn()}
             >
                 <Modal.Header closeButton={true}/>
                 <Modal.Body/>
@@ -22,14 +25,12 @@ class TestModal extends React.PureComponent {
 
 describe('Reducers.Modals', () => {
     test('Initial state', () => {
-        const nextState = modalsReducer(
+        const nextState = modalStateReducer(
             {},
-            {},
+            {} as ActionsReturnType,
         );
 
-        const expectedState = {
-            modalState: {},
-        };
+        const expectedState = {};
 
         expect(nextState).toEqual(expectedState);
     });
@@ -40,31 +41,29 @@ describe('Reducers.Modals', () => {
             test: true,
         };
 
-        const nextState = modalsReducer(
+        const nextState = modalStateReducer(
             {},
             {
                 type: ActionTypes.MODAL_OPEN,
                 modalId: ModalIdentifiers.DELETE_CHANNEL,
-                dialogType,
+                dialogType: TestModal as React.ElementType<unknown>,
                 dialogProps,
             },
         );
 
         const expectedState = {
-            modalState: {},
-        };
-
-        expectedState.modalState[ModalIdentifiers.DELETE_CHANNEL] = {
-            open: true,
-            dialogProps,
-            dialogType,
+            [ModalIdentifiers.DELETE_CHANNEL]: {
+                open: true,
+                dialogProps,
+                dialogType,
+            },
         };
 
         expect(nextState).toEqual(expectedState);
     });
 
     test(ActionTypes.MODAL_CLOSE, () => {
-        const nextState = modalsReducer(
+        const nextState = modalStateReducer(
             {},
             {
                 type: ActionTypes.MODAL_CLOSE,
@@ -72,14 +71,28 @@ describe('Reducers.Modals', () => {
             },
         );
 
-        const expectedState = {
-            modalState: {},
+        expect(nextState).toEqual({});
+    });
+
+    test(`${ActionTypes.MODAL_CLOSE} with initial state`, () => {
+        const initialState = {
+            test_modal1: {
+                open: true,
+                dialogProps: {
+                    test: true,
+                },
+                dialogType: TestModal as React.ElementType<unknown>,
+            },
         };
 
-        expectedState.modalState[ModalIdentifiers.DELETE_CHANNEL] = {
-            open: false,
-        };
+        const nextState = modalStateReducer(
+            initialState,
+            {
+                type: ActionTypes.MODAL_CLOSE,
+                modalId: ModalIdentifiers.DELETE_CHANNEL,
+            },
+        );
 
-        expect(nextState).toEqual(expectedState);
+        expect(nextState).toEqual(initialState);
     });
 });
