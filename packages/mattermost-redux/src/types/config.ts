@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments, AutoTourTreatments} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads, AutoTourTreatments} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -41,8 +41,6 @@ export type ClientConfig = {
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
     DefaultTheme: ThemeKey;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     DiagnosticId: string;
     DiagnosticsEnabled: string;
     EmailLoginButtonBorderColor: string;
@@ -159,7 +157,6 @@ export type ClientConfig = {
     PasswordRequireNumber: string;
     PasswordRequireSymbol: string;
     PasswordRequireUppercase: string;
-    PrewrittenMessages: PrewrittenMessagesTreatments;
     PluginsEnabled: string;
     PostEditTimeLimit: string;
     PrivacyPolicyLink: string;
@@ -359,8 +356,6 @@ export type TeamSettings = {
 export type ClientRequirements = {
     AndroidLatestVersion: string;
     AndroidMinVersion: string;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     IosLatestVersion: string;
     IosMinVersion: string;
 };

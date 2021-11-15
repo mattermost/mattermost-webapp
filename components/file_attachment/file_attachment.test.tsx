@@ -42,6 +42,9 @@ describe('FileAttachment', () => {
         enablePublicLink: false,
         pluginMenuItems: [],
         handleFileDropdownOpened: jest.fn(() => null),
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot, regular file', () => {

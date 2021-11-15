@@ -41,9 +41,9 @@ type Props = {
     reactions: { [x: string]: ReactionType } | undefined | null;
 
     /**
-     * Whether to show the emoji picker.
+     * Whether or not the user can add reactions to this post.
      */
-    enableEmojiPicker: boolean;
+    canAddReactions: boolean;
 
     actions: {
 
@@ -130,7 +130,7 @@ export default class ReactionList extends React.PureComponent<Props, State> {
         }
 
         let emojiPicker = null;
-        if (this.props.enableEmojiPicker) {
+        if (this.props.canAddReactions) {
             const addReactionTooltip = (
                 <Tooltip id='addReactionTooltip'>
                     <FormattedMessage

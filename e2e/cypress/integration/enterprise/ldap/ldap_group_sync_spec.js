@@ -83,13 +83,13 @@ context('ldap', () => {
             cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Link first group
-            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#addGroupsToChannelToggle').click();
             cy.get('#multiSelectList').should('be.visible');
             cy.get('#multiSelectList>div').children().eq(0).click();
             cy.uiGetButton('Add').click();
 
             // # Link second group
-            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#addGroupsToChannelToggle').click();
             cy.get('#multiSelectList').should('be.visible');
             cy.get('#multiSelectList>div').children().eq(0).click();
             cy.uiGetButton('Add').click();
@@ -133,7 +133,7 @@ context('ldap', () => {
                 click({force: true});
 
             // # Add board group to team
-            cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+            cy.get('#addGroupsToTeamToggle').scrollIntoView().click();
             cy.get('#multiSelectList').should('be.visible');
             cy.get('#multiSelectList>div').children().eq(0).click();
             cy.uiGetButton('Add').click();

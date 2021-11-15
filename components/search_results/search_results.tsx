@@ -91,13 +91,13 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         // after the first page of search results, there is no way to
         // know if the search has more results to return, so we search
         // for the second page and stop if it yields no results
-        if (props.searchPage === 0 && !props.isChannelFiles) {
+        if (props.searchPage === 0 && !props.isChannelFiles && !props.isSearchingTerm) {
             setTimeout(() => {
                 props.getMorePostsForSearch();
                 props.getMoreFilesForSearch();
             }, 100);
         }
-    }, [props.searchPage, props.searchTerms]);
+    }, [props.searchPage, props.searchTerms, props.isSearchingTerm]);
 
     const handleScroll = (): void => {
         if (!props.isFlaggedPosts && !props.isPinnedPosts && !props.isSearchingTerm && !props.isSearchGettingMore && !props.isChannelFiles) {
