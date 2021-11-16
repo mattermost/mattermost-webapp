@@ -3,8 +3,8 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%) !important;
         margin: auto;
+        transform: translate(-50%, -50%) !important;
     }
 
     .modal-header,
@@ -13,8 +13,8 @@
     }
 
     .modal-body {
-        max-height: none;
         overflow: visible;
+        max-height: none;
         padding: 0 24px;
     }
 
@@ -65,10 +65,10 @@
 
     &__footer {
         border-top: none;
-    }
 
-    .btn {
-        border-radius: 4px;
+        .btn {
+            border-radius: 4px;
+        }
     }
 
     .btn.btn-primary:disabled {
@@ -76,8 +76,8 @@
         color: rgba(var(--center-channel-color-rgb), 0.32);
 
         &:hover {
-            background-color: rgba(var(--center-channel-color-rgb), 0.08);
             border-color: rgba(var(--center-channel-color-rgb), 0.08);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
             color: rgba(var(--center-channel-color-rgb), 0.32);
         }
     }
