@@ -146,6 +146,7 @@ export default class Client4 {
     userId = '';
     diagnosticId = '';
     includeCookies = true;
+    setAuthHeader = true;
     translations = {
         connectionError: 'There appears to be a problem with your internet connection.',
         unknownError: 'We received an unexpected status code from the server.',
@@ -449,7 +450,7 @@ export default class Client4 {
             ...this.defaultHeaders,
         };
 
-        if (this.token) {
+        if (this.setAuthHeader && this.token) {
             headers[HEADER_AUTH] = `${HEADER_BEARER} ${this.token}`;
         }
 
