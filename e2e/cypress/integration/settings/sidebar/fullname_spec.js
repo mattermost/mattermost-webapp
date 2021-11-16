@@ -55,7 +55,7 @@ describe('Settings > Sidebar > General', () => {
         cy.get('#post_textbox').clear().type(`@${newFirstName.substring(0, 11)}`);
 
         // * Verify that the testUser is selected from mention autocomplete
-        cy.uiVerifyAtMentionInSuggestionList('Channel Members', {...testUser, first_name: newFirstName}, true);
+        cy.uiVerifyAtMentionInSuggestionList({...testUser, first_name: newFirstName}, true);
 
         // # Press tab on text input
         cy.get('#post_textbox').tab();
