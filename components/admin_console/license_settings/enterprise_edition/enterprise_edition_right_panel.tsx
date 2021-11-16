@@ -68,23 +68,23 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         if (isTrialLicense) {
             return (
                 <WomanWithCardSvg
-                    width={100}
-                    height={100}
+                    width={200}
+                    height={200}
                 />
             );
         }
         if (skuShortName === LicenseSkus.Enterprise) {
             return (
                 <TwoPeopleChattingSvg
-                    width={100}
-                    height={100}
+                    width={200}
+                    height={200}
                 />
             );
         }
         return (
             <WomanUpArrowsAndCloudsSvg
-                width={100}
-                height={100}
+                width={200}
+                height={200}
             />
         );
     };
