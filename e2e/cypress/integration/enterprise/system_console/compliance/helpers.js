@@ -5,13 +5,13 @@ import path from 'path';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-export function downloadAndUnzipExportFile(targetDownload) {
+export function downloadAndUnzipExportFile(downloadsFolder = '') {
     // # Get the download link
     cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
         // # Getting export file url
         const fileURL = fileAttachment.attr('href');
 
-        const zipFilePath = path.join(targetDownload, 'export.zip');
+        const zipFilePath = path.join(downloadsFolder, 'export.zip');
 
         // # Downloading zip file
         cy.request({url: fileURL, encoding: 'binary'}).then((response) => {
@@ -20,19 +20,19 @@ export function downloadAndUnzipExportFile(targetDownload) {
         });
 
         // # Unzipping exported file
-        cy.exec(`unzip ${zipFilePath} -d ${targetDownload}`);
-        cy.exec(`find ${targetDownload}/export -name '*.zip' | xargs unzip -d ${targetDownload}`);
+        cy.exec(`unzip ${zipFilePath} -d ${downloadsFolder}`);
+        cy.exec(`find ${downloadsFolder}/export -name '*.zip' | xargs unzip -d ${downloadsFolder}`);
     });
 }
 
-export function getXMLFile(targetDownload) {
+export function getXMLFile(downloadsFolder) {
     // Finding xml file location
-    return cy.exec(`find ${targetDownload} -name '*.xml'`);
+    return cy.exec(`find ${downloadsFolder} -name '*.xml'`);
 }
 
-export function deleteExportFolder(targetDownload) {
+export function deleteExportFolder(downloadsFolder) {
     // Delete local download folder
-    cy.exec(`rm -rf ${targetDownload}`);
+    cy.exec(`rm -rf ${downloadsFolder}`);
 }
 
 export function verifyExportedMessagesCount(expectedNumber) {

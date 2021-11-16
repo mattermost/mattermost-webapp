@@ -9,8 +9,6 @@
 
 // Group: @enterprise @system_console @compliance_export
 
-import path from 'path';
-
 import {
     deleteExportFolder,
     downloadAndUnzipExportFile,
@@ -21,20 +19,14 @@ import {
 
 describe('Compliance Export', () => {
     const ExportFormatActiance = 'Actiance XML';
+    const downloadsFolder = Cypress.config('downloadsFolder');
 
-    let targetDownload;
-    let pwd;
     let newTeam;
     let newUser;
     let newChannel;
     let adminUser;
 
     before(() => {
-        cy.exec('PWD').then((result) => {
-            pwd = result.stdout;
-            targetDownload = path.join(pwd, 'Downloads');
-        });
-
         cy.apiRequireLicenseForFeature('Compliance');
 
         cy.apiUpdateConfig({
@@ -60,7 +52,7 @@ describe('Compliance Export', () => {
     });
 
     afterEach(() => {
-        deleteExportFolder(targetDownload);
+        deleteExportFolder(downloadsFolder);
     });
 
     it('MM-T1172 - Compliance Export - Deleted file is indicated in CSV File Export', () => {
@@ -84,10 +76,10 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and extract export zip file
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Verifying if export file contains delete
-        cy.readFile(`${targetDownload}/posts.csv`).should('exist').and('have.string', 'deleted attachment');
+        cy.readFile(`${downloadsFolder}/posts.csv`).should('exist').and('have.string', 'deleted attachment');
     });
 
     it('MM-T1173 - Compliance Export - Deleted file is indicated in Actiance XML File Export', () => {
@@ -111,15 +103,15 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Verifying if export file contains deleted image
-        getXMLFile(targetDownload).then((result) => {
+        getXMLFile(downloadsFolder).then((result) => {
             cy.readFile(result.stdout).should('exist').and('have.string', 'delete file uploaded-image-400x400.jpg');
         });
 
         // * Verifying if image has been downloaded
-        cy.exec(`find ${targetDownload} -name 'image-400x400.jpg'`).then((result) => {
+        cy.exec(`find ${downloadsFolder} -name 'image-400x400.jpg'`).then((result) => {
             expect(result.stdout !== null).to.be.true;
         });
     });
@@ -146,10 +138,10 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Verifying if export file contains edited text
-        cy.exec(`find ${targetDownload} -name '*.xml'`).then((result) => {
+        cy.exec(`find ${downloadsFolder} -name '*.xml'`).then((result) => {
             cy.readFile(result.stdout).should('exist').and('have.string', '<Content>Hello</Content>');
         });
     });
@@ -173,15 +165,15 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Verifying if export file contains deactivated user info
-        getXMLFile(targetDownload).then((result) => {
+        getXMLFile(downloadsFolder).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
         });
 
-        deleteExportFolder(targetDownload);
+        deleteExportFolder(downloadsFolder);
 
         // # Post a message by Admin
         cy.postMessageAs({
@@ -195,15 +187,15 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Verifying export file should not contain deactivated user name
-        getXMLFile(targetDownload).then((result) => {
+        getXMLFile(downloadsFolder).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('not.have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
         });
 
-        deleteExportFolder(targetDownload);
+        deleteExportFolder(downloadsFolder);
 
         // # Re-activate the user
         cy.apiActivateUser(newUser.id);
@@ -220,10 +212,10 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Verifying if export file contains deactivated user name
-        getXMLFile(targetDownload).then((result) => {
+        getXMLFile(downloadsFolder).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
         });

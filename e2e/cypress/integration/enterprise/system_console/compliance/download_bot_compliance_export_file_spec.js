@@ -9,8 +9,6 @@
 
 // Group: @enterprise @system_console @compliance_export
 
-import path from 'path';
-
 import {
     downloadAndUnzipExportFile,
     getXMLFile,
@@ -18,18 +16,14 @@ import {
 } from './helpers';
 
 describe('Compliance Export', () => {
-    let targetDownload;
+    const downloadsFolder = Cypress.config('downloadsFolder');
+
     let newTeam;
     let newChannel;
     let botId;
     let botName;
 
     before(() => {
-        cy.exec('PWD').then((result) => {
-            const pwd = result.stdout;
-            targetDownload = path.join(pwd, 'Downloads');
-        });
-
         cy.apiRequireLicenseForFeature('Compliance');
 
         cy.apiUpdateConfig({
@@ -59,7 +53,7 @@ describe('Compliance Export', () => {
     });
 
     afterEach(() => {
-        deleteExportFolder(targetDownload);
+        deleteExportFolder(downloadsFolder);
     });
 
     it('MM-T1175_1 - UserType identifies that the message is posted by a bot', () => {
@@ -72,10 +66,10 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and Unzip exported file
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Export file should contain bot messages
-        cy.readFile(`${targetDownload}/posts.csv`).should('exist').and('have.string', `This is CSV bot message ${botName},message,bot`);
+        cy.readFile(`${downloadsFolder}/posts.csv`).should('exist').and('have.string', `This is CSV bot message ${botName},message,bot`);
     });
 
     it('MM-T1175_2 - UserType identifies that the message is posted by a bot', () => {
@@ -88,10 +82,10 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and Unzip exported File
-        downloadAndUnzipExportFile(targetDownload);
+        downloadAndUnzipExportFile(downloadsFolder);
 
         // * Export file should contain Delete text
-        getXMLFile(targetDownload).then((result) => {
+        getXMLFile(downloadsFolder).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('have.string', `This is XML bot message ${botName}`).
                 and('have.string', '<UserType>bot</UserType>');
