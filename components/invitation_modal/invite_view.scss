@@ -47,12 +47,15 @@
     }
 }
 
+// UX decision to show no more than about 5 1/4 lines of users/emails at a time.
+$less-than-6-user-lines-height: 227px;
+
 .modal-body {
     .UsersEmailsInput {
         .users-emails-input__control {
             overflow: auto;
             min-height: 84px;
-            max-height: min(50vh, 800px);
+            max-height: $less-than-6-user-lines-height;
             align-items: flex-start;
         }
 
