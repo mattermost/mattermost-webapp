@@ -96,7 +96,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
             } else if (data) {
                 // dispatch the first channel name value
                 dispatch(setFirstChannelName(data.name));
-                switchToChannel(data);
+                dispatch(switchToChannel(data));
             }
         });
     };
