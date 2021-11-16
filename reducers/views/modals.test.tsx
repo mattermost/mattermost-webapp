@@ -4,9 +4,10 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
-import {ActionsReturnType} from 'actions/views/modals';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {modalState as modalStateReducer} from 'reducers/views/modals';
+
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
 class TestModal extends React.PureComponent {
@@ -27,7 +28,7 @@ describe('Reducers.Modals', () => {
     test('Initial state', () => {
         const nextState = modalStateReducer(
             {},
-            {} as ActionsReturnType,
+            {} as GenericAction,
         );
 
         const expectedState = {};
