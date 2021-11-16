@@ -17,12 +17,6 @@ const CodeBlock: React.FC<Props> = ({code, language, searchedContent}: Props) =>
     let usedLanguage = language || '';
     usedLanguage = usedLanguage.toLowerCase();
 
-    if (usedLanguage === 'tex' || usedLanguage === 'latex') {
-        return (
-            <div data-latex={TextFormatting.escapeHtml(code)}/>
-        );
-    }
-
     if (usedLanguage === 'texcode' || usedLanguage === 'latexcode') {
         usedLanguage = 'latex';
     }
