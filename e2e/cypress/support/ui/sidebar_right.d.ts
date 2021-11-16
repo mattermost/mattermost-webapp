@@ -52,12 +52,12 @@ declare namespace Cypress {
         isExpanded(): Chainable;
 
         /**
-         * Add comment by clicking "Add Comment" button
+         * Reply by clicking "Reply" button
          *
          * @example
-         *   cy.uiAddComment();
+         *   cy.uiReply();
          */
-        uiAddComment(): Chainable;
+        uiReply(): Chainable;
 
         /**
          * Get RHS container
