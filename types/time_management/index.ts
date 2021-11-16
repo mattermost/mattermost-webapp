@@ -33,9 +33,7 @@ export type ReoccurringBlock = BaseBlock & {
 };
 
 export type TimeState = {
-    time: {
-        workBlocksByDay: Dictionary<WorkBlock[]>;
-        unscheduledWorkItems: WorkItem[];
-        reoccurringBlocks: ReoccurringBlock[];
-    };
+    workBlocksByDay: Dictionary<WorkBlock[]>;
+    unscheduledWorkItems: WorkItem[];
+    reoccurringBlocks: ReoccurringBlock[];
 };

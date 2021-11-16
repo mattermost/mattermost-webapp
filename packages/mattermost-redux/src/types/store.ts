@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {TimeState} from 'types/time_management';
+
 import {AdminState} from './admin';
 import {Bot} from './bots';
 import {ChannelsState} from './channels';
@@ -32,6 +34,7 @@ import {Dictionary} from './utilities';
 import {AppsState} from './apps';
 
 export type GlobalState = {
+    time: TimeState;
     entities: {
         general: GeneralState;
         users: UsersState;

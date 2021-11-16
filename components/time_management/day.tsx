@@ -9,7 +9,11 @@ import {useIntl} from 'react-intl';
 import {Button} from 'react-bootstrap';
 
 import {dateToWorkDateString} from 'utils/time_management/utils';
-import {TimeState, WorkBlock} from 'types/time_management';
+import {WorkBlock} from 'types/time_management';
+
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import {generateId} from 'mattermost-redux/utils/helpers';
 
 import Calendar from './calendar';
 
@@ -48,12 +52,26 @@ const ChangeDayButton = styled(Button)`
     margin: 0px 5px;
 `;
 
+const StartHour = 9;
+const EndHour = 19;
+
 const Day = () => {
     const {formatDate} = useIntl();
-    const [date, setDate] = useState(new Date());
-    const todayKey = dateToWorkDateString(date);
-    const blocks: WorkBlock[] = useSelector((state: TimeState) => {
-        const adhocBlocks = state.time.workBlocksByDay[todayKey] || [];
+
+    const defaultDate = new Date();
+    const [date, setDate] = useState(defaultDate);
+
+    const defaultDayStart = new Date(defaultDate);
+    defaultDayStart.setHours(StartHour, 0, 0, 0);
+    const [dayStart, setDayStart] = useState(defaultDayStart);
+
+    const defaultDayEnd = new Date(defaultDate);
+    defaultDayEnd.setHours(EndHour, 0, 0, 0);
+    const [dayEnd, setDayEnd] = useState(defaultDayEnd);
+
+    const blocks: WorkBlock[] = useSelector((state: GlobalState) => {
+        const key = dateToWorkDateString(date);
+        const adhocBlocks = state.time.workBlocksByDay[key] || [];
         const reoccurringBlocks = state.time.reoccurringBlocks || [];
         const reoccurringBlocksForDate = reoccurringBlocks.filter((b) => b.frequency === 'daily');
 
@@ -62,11 +80,14 @@ const Day = () => {
             const found = adhocBlocks.find((b) => b.reoccurring_id === r.id);
 
             // If the reoccurring block doesn't have a corresponding real block, create a fake one
+            // TODO support frequencies other than daily
             if (!found) {
+                const start = new Date(date);
+                start.setHours(r.start.getHours(), r.start.getMinutes(), 0, 0);
                 fakeBlocks.push({
-                    id: 'reoccurring',
+                    id: `reoccurring_${generateId()}`,
                     tasks: [],
-                    start: r.start,
+                    start,
                     min_time: r.min_time,
                     tags: r.tags,
                     reoccurring_id: r.id,
@@ -77,12 +98,25 @@ const Day = () => {
         return [...adhocBlocks, ...fakeBlocks];
     }) || [];
 
+    const setDayStartAndEnd = (date: Date) => {
+        const newDayStart = new Date(date);
+        newDayStart.setHours(StartHour, 0, 0, 0);
+        setDayStart(newDayStart);
+        const newDayEnd = new Date(date);
+        newDayEnd.setHours(EndHour, 0, 0, 0);
+        setDayEnd(newDayEnd);
+    };
+
     const nextDay = () => {
-        setDate(moment(date).add(1, 'day').toDate());
+        const newDate = moment(date).add(1, 'day').toDate();
+        setDate(newDate);
+        setDayStartAndEnd(newDate);
     };
 
     const previousDay = () => {
-        setDate(moment(date).subtract(1, 'day').toDate());
+        const newDate = moment(date).subtract(1, 'day').toDate();
+        setDate(newDate);
+        setDayStartAndEnd(newDate);
     };
 
     return (
@@ -106,7 +140,9 @@ const Day = () => {
             </Title>
             <Body>
                 <Calendar
-                    date={new Date()}
+                    date={date}
+                    dayStart={dayStart}
+                    dayEnd={dayEnd}
                     blocks={blocks}
                 />
             </Body>

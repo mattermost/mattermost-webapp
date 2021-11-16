@@ -59,7 +59,7 @@ const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
     const [selectedTime, setTime] = useState<MenuTime>(timeMenuList[0]);
 
     const handleAddTask = () => {
-        dispatch(createNewTask(text, selectedTime.minutes, selectedDate));
+        dispatch(createNewTask(text, selectedTime.minutes, selectedDate, 'sprint-work'));
     };
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
     const handleClearText = () => setText('');

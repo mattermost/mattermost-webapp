@@ -3,7 +3,9 @@
 
 import moment from 'moment';
 
-import {WorkBlock} from 'types/time_management';
+import {WorkItem, WorkBlock, ReoccurringBlock} from 'types/time_management';
+
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 export function dateToWorkDateString(date: Date): string {
     return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
@@ -13,13 +15,127 @@ export function isBlockStartTimeEqual(a: WorkBlock, b: WorkBlock) {
     return a.start.getTime() === b.start.getTime();
 }
 
+export function calculateMinutesInBlockFromTasks(block: WorkBlock): number {
+    return block.tasks.reduce((a, b) => a + b.time, 0);
+}
+
 export function calculateMinutesInBlock(block: WorkBlock): number {
-    return Math.max(block.tasks.reduce((a, b) => a + b.time, 0), block.min_time || 0);
+    return Math.max(calculateMinutesInBlockFromTasks(block), block.min_time || 0);
 }
 
 function calculateBlockEndTime(block: WorkBlock): moment.Moment {
     const minutesInBlock = calculateMinutesInBlock(block);
     return moment(block.start).add(minutesInBlock, 'minutes');
+}
+
+export function findBlockWithMatchingTagAndAddTask(blocksByDay: Dictionary<WorkBlock[]>, reoccurringBlocks: ReoccurringBlock[], task: WorkItem): WorkBlock | null | undefined {
+    if (task.tags == null || task.tags.length === 0) {
+        return null;
+    }
+
+    // TODO check more than just first tag
+    const tag = task.tags[0];
+    if (tag == null) {
+        return null;
+    }
+
+    const allBlocks: WorkBlock[] = [];
+    const days = Object.values(blocksByDay);
+    days.forEach((blocks) => allBlocks.push(...blocks));
+
+    // First check if there is an existing block we can schedule this task in.
+    const matchingBlockWithSpace = allBlocks.find((b) => {
+        if (!b.tags || !b.min_time) {
+            return false;
+        }
+        if (b.tags.findIndex((t) => t.title === tag.title) === -1) {
+            return false;
+        }
+        const currentMinutes = calculateMinutesInBlockFromTasks(b);
+        if (currentMinutes + task.time > b.min_time) {
+            return false;
+        }
+        return true;
+    });
+
+    if (matchingBlockWithSpace) {
+        const newBlock = {...matchingBlockWithSpace};
+        newBlock.tasks = [...newBlock.tasks, task];
+        return newBlock;
+    }
+
+    // If no existing "real" blocks have space or matching tags for our task
+    // we need to check if any reoccurring blocks match.
+    const matchingReoccurringBlock = reoccurringBlocks.find((r) => {
+        if (!r.tags || !r.min_time) {
+            return false;
+        }
+        if (r.tags.findIndex((t) => t.title === tag.title) === -1) {
+            return false;
+        }
+        if (task.time > r.min_time) {
+            return false;
+        }
+        return true;
+    });
+
+    if (!matchingReoccurringBlock) {
+        return null;
+    }
+
+    // Now that we have a matching reocurring block we need to find the last coressponding
+    // "real" block so we can create the next instance of the reoccurring block.
+    let newestInstanceOfReoccurringBlock: WorkBlock | undefined;
+    allBlocks.forEach((b) => {
+        if (b.reoccurring_id !== matchingReoccurringBlock.id) {
+            return;
+        }
+        if (!newestInstanceOfReoccurringBlock) {
+            newestInstanceOfReoccurringBlock = b;
+            return;
+        }
+
+        if (newestInstanceOfReoccurringBlock.start.getTime() < b.start.getTime()) {
+            newestInstanceOfReoccurringBlock = b;
+        }
+    });
+
+    let start: Date = new Date();
+    let newestInstanceStart;
+
+    // Create the next reoccurring block based on the frequency.
+    if (newestInstanceOfReoccurringBlock) {
+        newestInstanceStart = moment(newestInstanceOfReoccurringBlock.start);
+    } else {
+        start.setHours(matchingReoccurringBlock.start.getHours(), matchingReoccurringBlock.start.getMinutes(), 0, 0);
+
+        const now = new Date();
+        if (start.getTime() < now.getTime()) {
+            newestInstanceStart = moment(start);
+        }
+    }
+
+    if (newestInstanceStart) {
+        switch (matchingReoccurringBlock.frequency) {
+        case 'daily':
+            start = newestInstanceStart.add(1, 'day').toDate();
+            break;
+        case 'weekly':
+            start = newestInstanceStart.add(1, 'week').toDate();
+            break;
+        default:
+            return null;
+        }
+    }
+
+    return {
+        id: '',
+        tasks: [task],
+        start,
+        min_time: matchingReoccurringBlock.min_time,
+        tags: matchingReoccurringBlock.tags,
+        reoccurring_id: matchingReoccurringBlock.id,
+    };
 }
 
 export function addBlockAndResolveTimeOverlaps(blocks: WorkBlock[], newBlock: WorkBlock): string[] {

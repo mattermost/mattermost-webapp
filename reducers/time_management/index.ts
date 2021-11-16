@@ -162,7 +162,8 @@ export function workBlocksByDay(state: Dictionary<WorkBlock[]> = testWorkItemsBy
         const stringDate = dateToWorkDateString(date);
         const task = action.task as WorkItem;
 
-        const newBlocks = [...state[stringDate]] || [];
+        const blocks = state[stringDate];
+        const newBlocks = blocks ? [...blocks] : [];
         const block = {
             id: generateId(),
             start: date,
@@ -185,6 +186,28 @@ export function workBlocksByDay(state: Dictionary<WorkBlock[]> = testWorkItemsBy
         const stringDate = dateToWorkDateString(date);
 
         return {...state, [stringDate]: action.blocks};
+    }
+    case TimeManagementTypes.RECEIVED_WORK_BLOCK: {
+        const block = action.block as WorkBlock;
+        const stringDate = dateToWorkDateString(block.start);
+
+        // If the block doesn't have an id then it's new
+        if (!block.id) {
+            block.id = generateId();
+            const blocks = state[stringDate];
+            const newBlocks = blocks ? [...blocks] : [];
+            return {...state, [stringDate]: [...newBlocks, block]};
+        }
+
+        // If the block has an id it already exists and we need to find and update it
+        const newBlocks = [...state[stringDate]];
+        const oldBlockIndex = newBlocks.findIndex((b) => b.id === block.id);
+        if (oldBlockIndex === -1) {
+            // Should never happen
+            return state;
+        }
+        newBlocks.splice(oldBlockIndex, 1, block);
+        return {...state, [stringDate]: newBlocks};
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};

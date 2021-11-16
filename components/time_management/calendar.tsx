@@ -63,17 +63,6 @@ type Props = {
     dayEnd: Date;
 }
 
-const min = new Date();
-min.setHours(9, 0, 0, 0);
-
-const max = new Date();
-max.setHours(19, 0, 0, 0);
-
-const defaultProps = {
-    dayStart: min,
-    dayEnd: max,
-};
-
 function calculateMinutesFromStart(dayStart: Date) {
     const now = moment(new Date());
     const start = moment(dayStart);
@@ -100,6 +89,9 @@ const Calendar = (props: Props) => {
 
         const newBlocks = [...blocks];
         const newBlock = {...block, start: time};
+        if (newBlock.id.includes('reoccurring')) {
+            newBlock.id = newBlock.id.replace('reoccurring_', '');
+        }
         newBlocks.splice(blockIndex, 1);
 
         addBlockAndResolveTimeOverlaps(newBlocks, newBlock);
@@ -112,6 +104,10 @@ const Calendar = (props: Props) => {
         const index = blocks.findIndex((b) => b.id === block.id);
         if (index < 0) {
             return;
+        }
+
+        if (block.id.includes('reoccurring')) {
+            block.id = block.id.replace('reoccurring_', '');
         }
 
         const newBlocks = [...blocks];
@@ -184,7 +180,7 @@ const Calendar = (props: Props) => {
 
     const renderHours = () => {
         const hours = [];
-        let cursor = dayStart;
+        let cursor = new Date(dayStart);
         while (dayEnd.getHours() - cursor.getHours() > 0) {
             hours.push(
                 <Hour
@@ -199,7 +195,7 @@ const Calendar = (props: Props) => {
                 ref={ref}
                 data-handler-id={handlerId}
             >
-                <HourContainer>
+                <HourContainer key={date.toDateString()}>
                     {hours}
                     {blocks.map((block) => (
                         <Block
@@ -226,7 +222,5 @@ const Calendar = (props: Props) => {
         </CalendarContainer>
     );
 };
-
-Calendar.defaultProps = defaultProps;
 
 export default Calendar;

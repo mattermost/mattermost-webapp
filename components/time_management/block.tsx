@@ -10,6 +10,8 @@ import {PixelPerMinute, DragTypes} from 'utils/time_management/constants';
 import {calculateMinutesInBlock} from 'utils/time_management/utils';
 import {WorkBlock, WorkItem} from 'types/time_management';
 
+import {generateId} from 'mattermost-redux/utils/helpers';
+
 import Task from './task';
 import {ChecklistItemState} from './types';
 
@@ -140,6 +142,9 @@ const Block = (props: Props) => {
             return;
         }
         const newBlock = {...block};
+        if (newBlock.id === 'reoccurring') {
+            newBlock.id = generateId();
+        }
         newBlock.tasks = [...block.tasks, task];
         updateBlock(newBlock, {addedTaskId: task.id, sourceId});
     };
