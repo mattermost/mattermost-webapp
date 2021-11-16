@@ -73,6 +73,7 @@ export default class AnnouncementBarController extends React.PureComponent<Props
 
         return (
             <>
+                {this.props.isInSomeTeam && <EnableNotificationsBar/>}
                 {adminConfiguredAnnouncementBar}
                 {errorBar}
                 {cloudAnnouncementBar}
@@ -86,7 +87,6 @@ export default class AnnouncementBarController extends React.PureComponent<Props
                     canViewSystemErrors={this.props.canViewSystemErrors}
                     warnMetricsStatus={this.props.warnMetricsStatus}
                 />
-                {this.props.isInSomeTeam && <EnableNotificationsBar/>}
             </>
         );
     }

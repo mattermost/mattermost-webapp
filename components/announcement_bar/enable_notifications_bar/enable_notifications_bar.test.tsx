@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
 
 import EnableNotificationsBar from './enable_notifications_bar';
 
@@ -17,9 +17,21 @@ describe('components/EnableNotificationsBar', () => {
         },
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot when hidden', () => {
         const props = baseProps;
-        const wrapper = shallow<typeof EnableNotificationsBar>(
+        const wrapper = mount<typeof EnableNotificationsBar>(
+            <EnableNotificationsBar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when shown', () => {
+        const props = {
+            ...baseProps,
+            show: true,
+        };
+        const wrapper = mount<typeof EnableNotificationsBar>(
             <EnableNotificationsBar {...props}/>,
         );
 

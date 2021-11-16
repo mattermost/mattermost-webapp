@@ -1,3 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/EnableNotificationsBar should match snapshot 1`] = `""`;
+exports[`components/EnableNotificationsBar should match snapshot when hidden 1`] = `
+<EnableNotificationsBar
+  actions={
+    Object {
+      "disableNotificationsPermissionRequests": [Function],
+      "enableBrowserNotifications": [Function],
+      "trackEnableNotificationsBarDisplay": [Function],
+    }
+  }
+  show={false}
+/>
+`;
+
+exports[`components/EnableNotificationsBar should match snapshot when shown 1`] = `
+<EnableNotificationsBar
+  actions={
+    Object {
+      "disableNotificationsPermissionRequests": [Function],
+      "enableBrowserNotifications": [Function],
+      "trackEnableNotificationsBarDisplay": [Function],
+    }
+  }
+  show={true}
+>
+  <Connect(AnnouncementBar)
+    handleClose={[Function]}
+    message="enable_notifications_banner.message"
+    modalButtonDefaultText="Enable"
+    modalButtonText="enable_notifications_banner.enable_button"
+    onButtonClick={[Function]}
+    onDontAskAgainButtonClick={[Function]}
+    showCloseButton={true}
+    showDontAskAgainButton={true}
+    showLinkAsButton={true}
+    type="general"
+  />
+</EnableNotificationsBar>
+`;

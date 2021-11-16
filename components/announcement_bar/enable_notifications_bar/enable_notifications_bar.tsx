@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {AnnouncementBarTypes} from 'utils/constants';
 
@@ -18,13 +18,19 @@ type Props = {
 }
 
 const EnableNotificationsBar = ({show, actions}: Props) => {
+    const [isDisplayed, setIsDisplayed] = useState(false);
+
     useEffect(() => {
-        if (show) {
+        setIsDisplayed(show);
+    }, [show]);
+
+    useEffect(() => {
+        if (isDisplayed) {
             actions.trackEnableNotificationsBarDisplay();
         }
-    }, [show, actions]);
+    }, [isDisplayed, actions]);
 
-    if (!show) {
+    if (!isDisplayed) {
         return null;
     }
 
@@ -36,6 +42,10 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
         actions.disableNotificationsPermissionRequests();
     };
 
+    const handleCloseButtonClick = () => {
+        setIsDisplayed(false);
+    };
+
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.GENERAL}
@@ -44,6 +54,7 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
             modalButtonText='enable_notifications_banner.enable_button'
             modalButtonDefaultText='Enable'
             onButtonClick={handleEnableButtonClick}
+            handleClose={handleCloseButtonClick}
             showCloseButton={true}
             showDontAskAgainButton={true}
             onDontAskAgainButtonClick={handleDontAskAgainButtonClick}
