@@ -8,43 +8,30 @@ import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 import {Theme} from 'mattermost-redux/types/themes';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
-import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants';
-
-const ActionTypes = Constants.ActionTypes;
+interface Props extends WrappedComponentProps {
+    callback: ((args: Theme) => void) | null;
+    onExited: () => void;
+}
 
 type State = {
     value: string;
     inputError: React.ReactNode | null;
     show: boolean;
-    callback: ((args: Theme) => void) | null;
 }
 
-class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State> {
-    public constructor(props: WrappedComponentProps) {
+class ImportThemeModal extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
             value: '',
             inputError: null,
-            show: false,
-            callback: null,
+            show: true,
         };
     }
 
-    public componentDidMount() {
-        ModalStore.addModalListener(ActionTypes.TOGGLE_IMPORT_THEME_MODAL, this.updateShow);
-    }
-
-    public componentWillUnmount() {
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_IMPORT_THEME_MODAL, this.updateShow);
-    }
-
-    private updateShow = (show: boolean, args: {callback: null}) => {
-        this.setState({
-            show,
-            callback: args.callback,
-        });
+    private handleOnHide = () => {
+        this.setState({show: false});
     }
 
     private handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
@@ -110,12 +97,9 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             mentionBg,
         });
 
-        this.state.callback?.(theme as Theme);
+        this.props.callback?.(theme as Theme);
 
-        this.setState({
-            show: false,
-            callback: null,
-        });
+        this.handleOnHide();
     }
 
     private static isInputValid(text: string) {
@@ -170,10 +154,6 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
         }
     }
 
-    handleOnHide = () => {
-        this.setState({show: false});
-    }
-
     render() {
         return (
             <span>
@@ -181,6 +161,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
                     dialogClassName='a11y__modal'
                     show={this.state.show}
                     onHide={this.handleOnHide}
+                    onExited={this.props.onExited}
                     role='dialog'
                     aria-labelledby='importThemeModalLabel'
                 >
@@ -251,4 +232,5 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
         );
     }
 }
+
 export default injectIntl(ImportThemeModal);
