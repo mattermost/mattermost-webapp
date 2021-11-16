@@ -12,12 +12,6 @@ export enum AddChannelButtonTreatments {
     INVERTED_SIDEBAR_BG_COLOR = 'inverted_sidebar_bg_color',
 }
 
-export enum PrewrittenMessagesTreatments {
-    NONE = 'none',
-    TOUR_POINT = 'tour_point',
-    AROUND_INPUT = 'around_input',
-}
-
 export enum AutoTourTreatments {
     NONE = 'none',
     AUTO = 'auto',
