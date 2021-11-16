@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap/lib';
 
 import {MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+import {appBarEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
@@ -33,20 +33,30 @@ export default function AppBar() {
     const marketplaceListing = useSelector(getInstalledListing);
     const channelHeaderPluginComponents = useSelector(getChannelHeaderPluginComponents);
     const channelHeaderAppBindings = useSelector(getChannelHeaderBindings);
-
     const channel = useSelector(getCurrentChannel);
 
+    const enabled = useSelector(appBarEnabled);
     const activePluginId = useSelector(getActivePluginId);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchListing(true)).then(() => {
-            setLoadedMarketplace(true);
-        });
-    }, []);
+        if (enabled) {
+            dispatch(fetchListing(true)).then(() => {
+                setLoadedMarketplace(true);
+            });
+        }
+    }, [enabled]);
 
-    const getMarketplaceEntryForPlugin = (pluginId: string):  MarketplacePlugin | undefined => {
+    if (!enabled) {
+        return null;
+    }
+
+    if (!loadedMarketplace) {
+        return <div className={'app-bar'}/>;
+    }
+
+    const getMarketplaceEntryForPlugin = (pluginId: string): MarketplacePlugin | undefined => {
         let latestEntry: MarketplacePlugin | undefined;
         for (const entry of marketplaceListing) {
             const pluginEntry = entry as MarketplacePlugin;
@@ -58,7 +68,7 @@ export default function AppBar() {
         }
 
         return latestEntry;
-    }
+    };
 
     const getIconForPluginComponent = (component: PluginComponent): React.ReactNode => {
         const entry = getMarketplaceEntryForPlugin(component.pluginId);
@@ -84,13 +94,8 @@ export default function AppBar() {
     };
 
     return (
-        <div
-            className={classNames(['app-bar', { hidden: !loadedMarketplace }])}
-        >
+        <div className={'app-bar'}>
             {channelHeaderPluginComponents.map((component) => {
-                // this should be its own function component in another file
-                // it will use useSelector to get the marketplace listings for the icon
-
                 const label = getPluginDisplayName(component);
                 const buttonId = component.id;
                 const tooltip = (
@@ -111,7 +116,6 @@ export default function AppBar() {
                                 id={buttonId}
                                 aria-label={component.pluginId}
                                 className={classNames('app-bar__icon', { 'app-bar__icon--active': component.pluginId === activePluginId })}
-                                // className={buttonClass || 'channel-header__icon'}
                                 onClick={() => {
                                     component.action?.(channel);
                                 }}

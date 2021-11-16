@@ -9,7 +9,11 @@ import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+
+import {getChannelHeaderPluginComponents} from 'selectors/plugins';
+
 import {Locations} from 'utils/constants';
+import {PluginComponent} from 'types/store/plugins';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -27,7 +31,6 @@ export const appBarEnabled = createSelector(
     'appBarEnabled',
     (state: GlobalState) => getConfig(state),
     (config?: Partial<ClientConfig>) => {
-        return true;
         const enabled = config?.['FeatureFlagAppBarEnabled' as keyof Partial<ClientConfig>];
         return enabled === 'true';
     },
@@ -48,6 +51,19 @@ export const makeAppBindingsSelector = (location: string) => {
         },
     );
 };
+
+const getChannelHeaderAppBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
+
+export const shouldShowAppBar = createSelector(
+    'shouldShowAppBar',
+    appBarEnabled,
+    getChannelHeaderAppBindings,
+    getChannelHeaderPluginComponents,
+    (enabled: boolean, bindings: AppBinding[]
+        , pluginComponents: Array<PluginComponent>) => {
+        return enabled && (bindings.length || pluginComponents.length);
+    },
+);
 
 export const makeRHSAppBindingSelector = (location: string) => {
     return createSelector(

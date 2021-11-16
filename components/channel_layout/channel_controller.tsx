@@ -28,7 +28,7 @@ import ProductNoticesModal from 'components/product_notices_modal';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 interface Props {
-    appBarEnabled: boolean;
+    shouldShowAppBar: boolean;
     fetchingChannels: boolean;
 }
 
@@ -56,7 +56,7 @@ export default class ChannelController extends React.PureComponent<Props> {
     }
 
     render() {
-        const appBarEnabled = this.props.appBarEnabled;
+        const shouldShowAppBar = this.props.shouldShowAppBar;
 
         return (
             <div
@@ -67,7 +67,7 @@ export default class ChannelController extends React.PureComponent<Props> {
                 <SystemNotice/>
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
-                <div className={classNames('container-fluid channel-view-inner',  { 'app-bar-enabled': appBarEnabled })}>
+                <div className={classNames('container-fluid channel-view-inner',  { 'app-bar-enabled': shouldShowAppBar })}>
                     <SidebarRight/>
                     <SidebarRightMenu/>
                     <TeamSidebar/>
@@ -82,7 +82,7 @@ export default class ChannelController extends React.PureComponent<Props> {
                     <LeavePrivateChannelModal/>
                     <KeyboardShortcutsModal/>
                 </div>
-                {appBarEnabled && <AppBar/>}
+                <AppBar/>
             </div>
         );
     }
