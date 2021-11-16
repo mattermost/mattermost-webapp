@@ -11,6 +11,7 @@ import {
     AddChannelButtonTreatments,
     AutoTourTreatments,
     AddMembersToChanneltreatments,
+    InviteToTeamTreatments,
 } from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -217,4 +218,8 @@ export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | u
 
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
+}
+
+export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
+    return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
 }
