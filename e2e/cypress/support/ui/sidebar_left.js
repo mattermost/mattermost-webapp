@@ -100,7 +100,7 @@ Cypress.Commands.add('uiGetFindChannels', () => {
 });
 
 Cypress.Commands.add('uiOpenFindChannels', () => {
-    return cy.uiGetFindChannels().click();
+   cy.uiGetFindChannels().click();
 });
 
 Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
