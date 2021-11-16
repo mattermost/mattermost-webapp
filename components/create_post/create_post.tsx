@@ -60,7 +60,6 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import CreatePostTip from './create_post_tip';
 import PrewrittenChips from './prewritten_chips';
@@ -1066,19 +1065,8 @@ class CreatePost extends React.PureComponent<Props, State> {
 
     documentKeyHandler = (e: KeyboardEvent) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
-
-        if (shortcutModalKeyCombo) {
-            e.preventDefault();
-
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
-                dialogType: KeyboardShortcutsModal,
-            });
-
-            return;
-        } else if (lastMessageReactionKeyCombo) {
+        if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
             return;
         }
