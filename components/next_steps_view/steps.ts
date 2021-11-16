@@ -176,11 +176,11 @@ export const isFirstAdmin = createSelector(
     },
 );
 
+// filter the steps depending on the feature flag value
 function filterStepBasedOnFFVal(step: StepType, enableStep: boolean, stepId: string): boolean {
     if (step.id !== stepId) {
         return true;
     }
-
     return enableStep;
 }
 

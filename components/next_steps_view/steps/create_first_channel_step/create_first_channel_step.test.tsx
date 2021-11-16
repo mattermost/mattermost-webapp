@@ -16,7 +16,7 @@ jest.mock('react-redux', () => ({
     useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
     useDispatch: () => mockDispatch,
 }));
-describe('components/next_steps_view/steps/create_channel_step', () => {
+describe('components/next_steps_view/steps/create_first_channel_step', () => {
     beforeEach(() => {
         // required state to mount using the provider
         mockState = {
