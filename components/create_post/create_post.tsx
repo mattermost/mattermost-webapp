@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
-import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -45,7 +44,6 @@ import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
 import {PostDraft} from 'types/store/rhs';
@@ -63,7 +61,6 @@ import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import CreatePostTip from './create_post_tip';
-import PrewrittenChips from './prewritten_chips';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -134,11 +131,6 @@ type Props = {
   *  Data used for advancing from create post tip
   */
     tutorialStep: number;
-
-    /**
-  *  A/B test treatments for presenting prewritten messages to first time users
-  */
-    prewrittenMessages?: PrewrittenMessagesTreatments;
 
     /**
   *  Data used populating message state when triggered by shortcuts
@@ -600,10 +592,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
-        // Posting a message completes the tip when there are prewritten messages.
-        // We do not complete messages in the control group,
-        // so as to not alter behavior in the control group as a result of the A/B test code changes.
-        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER && this.props.prewrittenMessages && this.props.prewrittenMessages !== PrewrittenMessagesTreatments.NONE;
+        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER;
         if (shouldCompleteTip) {
             this.completePostTip('send_message');
         }
@@ -1338,49 +1327,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         trackEvent('ui', 'tutorial_tip_1_complete_' + source);
     }
 
-    renderPrewrittenMessages() {
-        if (this.props.prewrittenMessages !== PrewrittenMessagesTreatments.AROUND_INPUT || this.props.tutorialStep !== Constants.TutorialSteps.POST_POPOVER) {
-            return null;
-        }
-
-        let id = t('create_post.prewritten.around_input.team');
-        let defaultMessage = '**Send your first message** to your team';
-        if (this.props.currentChannel.type === 'D') {
-            if (this.props.currentChannel.teammate_id === this.props.currentUserId) {
-                id = t('create_post.prewritten.around_input.self');
-                defaultMessage = '**Send your first message** to yourself';
-            } else {
-                id = t('create_post.prewritten.around_input.dm');
-                defaultMessage = '**Send your first message** to your teammate';
-            }
-        }
-        return (
-            <>
-                <div className='post-create-prewritten-title'>
-                    <FormattedMarkdownMessage
-                        id={id}
-                        defaultMessage={defaultMessage}
-                    />
-                    <button
-                        type='button'
-                        className='btn-icon'
-                        aria-label='Got it'
-                        onClick={() => this.completePostTip('close_prewritten_wrapper')}
-                    >
-                        <i className='icon icon-close'/>
-                    </button>
-                </div>
-                <PrewrittenChips
-                    prewrittenMessages={this.props.prewrittenMessages}
-                    prefillMessage={this.prefillMessage}
-                    currentChannel={this.props.currentChannel}
-                    currentUserId={this.props.currentUserId}
-                    currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
-                />
-            </>
-        );
-    }
-
     render() {
         const {
             currentChannel,
@@ -1432,7 +1378,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (showTutorialTip) {
             tutorialTip = (
                 <CreatePostTip
-                    prewrittenMessages={this.props.prewrittenMessages}
                     prefillMessage={this.prefillMessage}
                     currentChannel={this.props.currentChannel}
                     currentUserId={this.props.currentUserId}
@@ -1444,11 +1389,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         let centerClass = '';
         if (!fullWidthTextBox) {
             centerClass = 'center';
-        }
-
-        let prewrittenClass = '';
-        if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.AROUND_INPUT && this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER) {
-            prewrittenClass = 'prewritten';
         }
 
         let sendButtonClass = 'send-button theme';
@@ -1538,10 +1478,9 @@ class CreatePost extends React.PureComponent<Props, State> {
             <form
                 id='create_post'
                 ref={this.topDiv}
-                className={centerClass + prewrittenClass}
+                className={centerClass}
                 onSubmit={this.handleSubmit}
             >
-                {this.renderPrewrittenMessages()}
                 <div
                     className={'post-create' + attachmentsDisabled + scrollbarClass}
                     style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as any : undefined}
