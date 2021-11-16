@@ -95,8 +95,12 @@ Cypress.Commands.add('uiAddDirectMessage', () => {
     return cy.findByRole('button', {name: 'Write a direct message'});
 });
 
-Cypress.Commands.add('uiGetChannelSwitcher', () => {
+Cypress.Commands.add('uiGetFindChannels', () => {
     return cy.get('#lhsNavigator').findByRole('button', {name: 'Find Channels'});
+});
+
+Cypress.Commands.add('uiOpenFindChannels', () => {
+    cy.uiGetFindChannels().click();
 });
 
 Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
