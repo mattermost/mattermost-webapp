@@ -38,8 +38,8 @@ describe('Account Settings', () => {
     });
 
     it('MM-T2081 Password: Error on blank', () => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal('Security');
+        // # Go to Profile > Security
+        cy.uiOpenProfileModal('Security');
 
         // * Check that the Security tab is loaded
         cy.get('#securityButton').should('be.visible');
@@ -88,7 +88,7 @@ describe('Account Settings', () => {
                     // * Update email
                     const oldEMail = testUser.email;
                     const newEMail = 'test@example.com';
-                    cy.uiOpenAccountSettingsModal();
+                    cy.uiOpenProfileModal();
                     cy.get('#emailEdit').should('be.visible').click();
                     cy.get('#primaryEmail').should('be.visible').type(newEMail);
                     cy.get('#confirmEmail').should('be.visible').type(newEMail);
