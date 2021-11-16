@@ -29,16 +29,6 @@ $channel-view-padding: 75px;
         border-radius: 0 2px 2px 0;
     }
 
-    .fa, i, svg {
-        font-size: 20px;
-        width: $app-bar-icon-size;
-        height: $app-bar-icon-size;
-        background-color: white;
-        border-radius: 50%;
-        padding: 4px;
-        color: #3F4350;
-    }
-
     .app-bar__icon {
         border-left:none;
         width: 100%;
@@ -46,12 +36,21 @@ $channel-view-padding: 75px;
         margin-bottom: 20px;
         cursor: pointer;
 
-        img {
-            border-radius: 50%;
+        .app-bar__icon-inner, .fa, i, svg {
             width: $app-bar-icon-size;
             height: $app-bar-icon-size;
-            padding: 4px;
             background-color: white;
+            border-radius: 50%;
+            padding: 4px;
+        }
+
+        .fa, i, svg {
+            font-size: 20px;
+            color: #3F4350;
+        }
+
+        .app-bar__icon-inner {
+            margin: 0 auto;
         }
     }
 

@@ -78,7 +78,9 @@ const AppBarBinding = (props: BindingComponentProps) => {
                 className={'app-bar__icon'}
                 onClick={submitAppCall}
             >
-                <img src={binding.icon} />
+                <div className={'app-bar__icon-inner'}>
+                    <img src={binding.icon} />
+                </div>
             </div>
         </OverlayTrigger>
     );
