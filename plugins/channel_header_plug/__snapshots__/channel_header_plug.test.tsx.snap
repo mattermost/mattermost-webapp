@@ -212,6 +212,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid"
             onClick={[Function]}
@@ -528,6 +529,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid"
             onClick={[Function]}
@@ -637,6 +639,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid2"
             onClick={[Function]}
@@ -746,6 +749,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid3"
             onClick={[Function]}
@@ -855,6 +859,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid4"
             onClick={[Function]}
@@ -964,6 +969,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid5"
             onClick={[Function]}
@@ -1073,6 +1079,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid6"
             onClick={[Function]}
@@ -1182,6 +1189,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid7"
             onClick={[Function]}
@@ -1291,6 +1299,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid8"
             onClick={[Function]}
@@ -1400,6 +1409,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid9"
             onClick={[Function]}
@@ -1509,6 +1519,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid10"
             onClick={[Function]}
@@ -1618,6 +1629,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid11"
             onClick={[Function]}
@@ -1727,6 +1739,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid12"
             onClick={[Function]}
@@ -1836,6 +1849,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid13"
             onClick={[Function]}
@@ -1945,6 +1959,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid14"
             onClick={[Function]}
@@ -2054,6 +2069,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           }
         >
           <button
+            aria-label="some tooltip text"
             className="channel-header__icon"
             id="someid15"
             onClick={[Function]}

@@ -196,6 +196,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     }
   >
     <button
+      aria-label="plugin_tooltip_text"
       className="button_class"
       id="button_id"
       onClick={[Function]}
