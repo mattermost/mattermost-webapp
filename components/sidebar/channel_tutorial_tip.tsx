@@ -74,8 +74,8 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                     </h4>
                     <div className='handSvg svg-wrapper'>
                         <HandsSvg
-                            width={200}
-                            height={200}
+                            width={60}
+                            height={60}
                         />
                     </div>
                     <p>

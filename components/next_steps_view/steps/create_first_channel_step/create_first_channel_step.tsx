@@ -30,10 +30,8 @@ import {isKeyPressed} from 'utils/utils.jsx';
 import {GlobalState} from 'types/store';
 
 const CreateFirstChannelStep = (props: StepComponentProps) => {
-    const [channelNameError, setChannelNameError] = useState(false);
     const [channelCreateError, setChannelCreateError] = useState(false);
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [displayNameClass, setDisplayNameClass] = useState('');
     const [channelNameValue, setChannelNameValue] = useState('');
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
     const userId = useSelector((state: GlobalState) => getCurrentUserId(state));
@@ -54,24 +52,8 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         }
     }, [(channelNameValue.length > Constants.MIN_CHANNELNAME_LENGTH)]);
 
-    const displayNameError = () => {
-        if (channelNameError) {
-            setDisplayNameClass(' has-error');
-            return (
-                <p className='input__help error'>
-                    <FormattedMessage
-                        id='first_channel.displayNameError'
-                        defaultMessage='Display name must have at least 2 characters.'
-                    />
-                </p>
-            );
-        }
-        return null;
-    };
-
     const channelCreationError = () => {
         if (channelCreateError) {
-            setDisplayNameClass(' has-error');
             return (
                 <p className='input__help error'>
                     <FormattedMessage
@@ -87,7 +69,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
     const onSubmitChannel = (displayName: string) => {
         const channel: Channel = {
             team_id: currentTeam.id,
-            name: displayName.toLowerCase().replace(' ', '-'),
+            name: displayName.split(' ').join('-').toLowerCase(),
             display_name: displayName,
             purpose: '',
             header: '',
@@ -108,8 +90,9 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         result.then(({data, error}) => {
             if (error) {
                 setChannelCreateError(true);
-
-                //there seems to be a problem here
+                setTimeout(() => {
+                    setChannelCreateError(false);
+                }, 5000);
             } else if (data) {
                 // dispatch the first channel name value
                 dispatch(setFirstChannelName(data.name));
@@ -135,7 +118,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             if (channelNameValue.length < Constants.MIN_CHANNELNAME_LENGTH) {
-                setChannelNameError(true);
+                // setChannelNameError(true);
                 return;
             }
 
@@ -144,7 +127,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
     };
 
     return (
-        <div className={`${displayNameClass} NextStepsView__createFirstChannel`}>
+        <div className='NextStepsView__createFirstChannel`'>
             <div
                 className='channelNameLegend'
             >
@@ -165,7 +148,6 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
                     onKeyDown={onEnterKeyDown}
                     value={channelNameValue}
                 />
-                {displayNameError()}
                 {channelCreationError()}
                 <div className='NextStepsView__wizardButtons'>
                     <button
