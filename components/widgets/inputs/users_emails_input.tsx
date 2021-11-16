@@ -320,6 +320,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                         'UsersEmailsInput',
                         this.props.showError ? 'error' : '',
                         {empty: this.props.inputValue === ''},
+                        {'no-selections': values.length === 0},
                     )}
                     classNamePrefix='users-emails-input'
                     placeholder={this.props.placeholder}

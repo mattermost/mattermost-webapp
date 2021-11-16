@@ -52,15 +52,20 @@ $less-than-6-user-lines-height: 227px;
 
 .modal-body {
     .UsersEmailsInput {
+        &.no-selections {
+            // placeholder and input position is difficult to change.
+            // This overrides the default positioning of the input & placeholders
+            // to make the taller than normal input look ok when nothing has yet been selected
+            .users-emails-input__value-container {
+                margin-top: 6px;
+            }
+        }
+
         .users-emails-input__control {
             overflow: auto;
             min-height: 84px;
             max-height: $less-than-6-user-lines-height;
             align-items: flex-start;
-        }
-
-        .users-emails-input__value-container {
-            margin-top: 1px;
         }
     }
 }
