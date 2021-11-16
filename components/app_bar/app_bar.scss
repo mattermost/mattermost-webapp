@@ -1,3 +1,7 @@
+$app-bar-icon-size: 32px;
+$app-bar-width: 60px;
+$channel-view-padding: 75px;
+
 .app-bar {
     // Do not show App Bar if on mobile
     @media (max-width: 768px) {
@@ -9,14 +13,14 @@
     right: 0;
     top: 0;
     bottom: 0;
-    width: 60px;
+    width: $app-bar-width;
     text-align: center;
     border-left: solid 1px rgba(var(--center-channel-color-rgb),.12);
     background-color: rgba(var(--center-channel-color-rgb),.04);
 
     .app-bar__icon--active::before {
         width: 3px;
-        height: 24px;
+        height: $app-bar-icon-size;
         background-color: var(--sidebar-text-active-border);
         content: '';
         position: absolute;
@@ -25,23 +29,29 @@
         border-radius: 0 2px 2px 0;
     }
 
-    .fa, i {
-        font-size: 30px;
-        display: block;
+    .fa, i, svg {
+        font-size: 20px;
+        width: $app-bar-icon-size;
+        height: $app-bar-icon-size;
+        background-color: white;
+        border-radius: 50%;
+        padding: 4px;
+        color: #3F4350;
     }
 
     .app-bar__icon {
         border-left:none;
         width: 100%;
-        cursor: pointer;
         position: relative;
         margin-bottom: 20px;
         cursor: pointer;
 
         img {
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: $app-bar-icon-size;
+            height: $app-bar-icon-size;
+            padding: 4px;
+            background-color: white;
         }
     }
 
@@ -54,12 +64,12 @@
 
 .app-bar-enabled .sidebar--right {
     @media screen and (min-width: 769px) {
-        right: 60px;
+        right: $app-bar-width;
     }
 }
 
 .channel-view-inner.app-bar-enabled {
     @media screen and (min-width: 769px) {
-        padding-right: 80px;
+        padding-right: $channel-view-padding;
     }
 }
