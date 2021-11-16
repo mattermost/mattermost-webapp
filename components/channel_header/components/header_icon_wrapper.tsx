@@ -22,7 +22,7 @@ type Props = {
     iconComponent: React.ReactNode;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     tooltipKey: string;
-    tooltipText?: React.ReactNode;
+    tooltipText?: string;
     isRhsOpen?: boolean;
 }
 
@@ -135,7 +135,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                 >
                     <button
                         id={buttonId}
-                        aria-label={ariaLabelText}
+                        aria-label={ariaLabelText || tooltipText}
                         className={buttonClass || 'channel-header__icon'}
                         onClick={onClick}
                     >
