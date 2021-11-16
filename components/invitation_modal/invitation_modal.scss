@@ -1,4 +1,12 @@
 .InvitationModal {
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) !important;
+        margin: auto;
+    }
+
     .modal-header,
     .modal-footer {
         padding: 24px;
@@ -57,5 +65,20 @@
 
     &__footer {
         border-top: none;
+    }
+
+    .btn {
+        border-radius: 4px;
+    }
+
+    .btn.btn-primary:disabled {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.32);
+
+        &:hover {
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            border-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+        }
     }
 }
