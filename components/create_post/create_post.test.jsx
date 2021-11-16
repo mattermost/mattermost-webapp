@@ -22,8 +22,6 @@ import Textbox from 'components/textbox';
 jest.mock('actions/global_actions', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelNameUpdateModal: jest.fn(),
-    toggleShortcutsModal: jest.fn(),
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
@@ -654,18 +652,6 @@ describe('components/create_post', () => {
         expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
     });
 
-    it('onSubmit test for "/rename" message', () => {
-        const wrapper = shallowWithIntl(createPost());
-
-        wrapper.setState({
-            message: '/rename',
-        });
-
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
-    });
-
     it('onSubmit test for "/unknown" message ', async () => {
         jest.mock('actions/channel_actions.jsx', () => ({
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
@@ -885,19 +871,6 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledTimes(1);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
-    });
-
-    it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
-        const wrapper = shallowWithIntl(createPost());
-        const instance = wrapper.instance();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
