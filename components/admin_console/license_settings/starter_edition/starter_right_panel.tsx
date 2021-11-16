@@ -37,8 +37,8 @@ const StarterRightPanel: React.FC = () => {
         <div className='StarterEditionRightPannel'>
             <div className='svg-image'>
                 <WomanUpArrowsAndCloudsSvg
-                    width={100}
-                    height={100}
+                    width={200}
+                    height={200}
                 />
             </div>
             <div className='upgrade-title'>

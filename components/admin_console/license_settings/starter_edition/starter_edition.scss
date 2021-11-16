@@ -18,13 +18,19 @@
 
     .advantages-list {
         margin: 7px 0;
+        font-size: 12px;
+        line-height: 16px;
 
         .item {
-            margin: 3px 0;
+            margin: 10px 0;
 
             i {
                 margin-right: 5px;
             }
+        }
+
+        span {
+            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         }
     }
 
@@ -66,6 +72,11 @@
         line-height: 16px;
     }
 
+    .content {
+        margin: 25px 0;
+        font-size: 12px;
+    }
+
     .licenseInformation {
         .licenseKeyTitle {
             font-family: Metropolis;
@@ -87,6 +98,10 @@
                 &.btn-upload {
                     margin-left: 10px;
                 }
+            }
+
+            .help-text {
+                font-size: 12px;
             }
         }
     }

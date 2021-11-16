@@ -37,7 +37,6 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
         'AD?LDAP Group Sync',
         'High Availability',
         'Advanced compliance',
-        'And more...',
     ];
     if (upgradingPercentage !== 100) {
         upgradeButton = (
@@ -166,6 +165,10 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                         </div>
                     );
                 })}
+                <FormattedMessage
+                    id='admin.license.andMore'
+                    defaultMessage='And more...'
+                />
             </div>
             {upgradeButton}
         </div>

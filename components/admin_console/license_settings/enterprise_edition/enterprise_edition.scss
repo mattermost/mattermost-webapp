@@ -19,13 +19,19 @@
 
     .advantages-list {
         margin: 7px 0;
+        font-size: 12px;
+        line-height: 16px;
 
         .item {
-            margin: 3px 0;
+            margin: 10px 0;
 
             i {
                 margin-right: 5px;
             }
+        }
+
+        span {
+            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         }
     }
 
@@ -63,9 +69,11 @@
 
     .subtitle {
         margin-top: 15px;
+        font-size: 12px;
     }
 
     .license-notices {
+        font-size: 12px;
         text-align: justify;
     }
 
@@ -116,7 +124,7 @@
                     display: inline-block;
                     min-width: 150px;
                     color: rgba(var(--secondary-blue-rgb), 0.4);
-                    font-weight: 700;
+                    font-weight: 600;
                 }
 
                 span.value {

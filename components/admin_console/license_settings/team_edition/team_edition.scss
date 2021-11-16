@@ -18,13 +18,19 @@
 
     .advantages-list {
         margin: 7px 0;
+        font-size: 12px;
+        line-height: 16px;
 
         .item {
-            margin: 3px 0;
+            margin: 10px 0;
 
             i {
                 margin-right: 5px;
             }
+        }
+
+        span {
+            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
         }
     }
 

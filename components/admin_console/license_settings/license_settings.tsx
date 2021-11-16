@@ -415,7 +415,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <div className='admin-console__banner_section'>
-                            {!license.id && this.props.prevTrialLicense?.IsLicensed !== 'true' &&
+                            {(license.IsLicensed !== 'true') && (this.props.prevTrialLicense?.IsLicensed !== 'true') &&
                                 free30DayTrial(
                                     isDisabled,
                                     gettingTrialError,
