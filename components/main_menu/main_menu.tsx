@@ -76,11 +76,6 @@ export class MainMenu extends React.PureComponent<Props> {
         pluginMenuItems: [],
     };
 
-    toggleShortcutsModal = (e: Event): void => {
-        e.preventDefault();
-        GlobalActions.toggleShortcutsModal();
-    }
-
     async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
     }
@@ -208,7 +203,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         modalId={ModalIdentifiers.USER_SETTINGS}
                         dialogType={UserSettingsModal}
                         dialogProps={{isContentProductSettings: true}}
-                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Account Settings'})}
+                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Profile'})}
                         icon={<i className='fa fa-cog'/>}
                     />
                 </Menu.Group>

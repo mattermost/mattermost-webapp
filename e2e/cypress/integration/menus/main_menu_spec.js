@@ -25,7 +25,7 @@ describe('Main menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.uiOpenAccountSettingsModal();
+        cy.uiOpenProfileModal();
         cy.findByRole('set status').should('not.exist');
     });
 

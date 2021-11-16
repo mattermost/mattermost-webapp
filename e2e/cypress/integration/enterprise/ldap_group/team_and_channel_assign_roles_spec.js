@@ -176,7 +176,7 @@ describe('System Console', () => {
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Add the first group in the group list then save
-        cy.findByTestId('addGroupsToChannelToggle').click();
+        cy.get('#addGroupsToChannelToggle').click();
         cy.get('#multiSelectList').should('be.visible');
         cy.get('#multiSelectList>div').children().eq(0).click();
         cy.get('#saveItems').click();
@@ -208,7 +208,7 @@ describe('System Console', () => {
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Add the first group in the group list then save
-        cy.findByTestId('addGroupsToChannelToggle').click();
+        cy.get('#addGroupsToChannelToggle').click();
         cy.get('#multiSelectList').should('be.visible');
         cy.get('#multiSelectList>div').children().eq(0).click();
         cy.get('#saveItems').click();
