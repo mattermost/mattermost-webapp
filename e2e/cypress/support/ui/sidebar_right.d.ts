@@ -52,6 +52,14 @@ declare namespace Cypress {
         isExpanded(): Chainable;
 
         /**
+         * Get "Reply" button
+         *
+         * @example
+         *   cy.uiGetReply();
+         */
+        uiGetReply(): Chainable;
+
+        /**
          * Reply by clicking "Reply" button
          *
          * @example
