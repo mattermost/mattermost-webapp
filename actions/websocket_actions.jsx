@@ -94,6 +94,7 @@ import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {fetchListing} from 'actions/marketplace';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -1245,7 +1246,9 @@ function handleChannelViewedEvent(msg) {
 
 export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
-    loadPlugin(manifest).catch((error) => {
+    loadPlugin(manifest).then(() => {
+        dispatch(fetchListing(true));
+    }).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
 }
