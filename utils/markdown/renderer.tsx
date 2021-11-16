@@ -61,18 +61,7 @@ export default class Renderer extends marked.Renderer {
 
         return '<div data-codeblock-code="' + TextFormatting.escapeHtml(code) + '"' +
                     'data-codeblock-language="' + TextFormatting.escapeHtml(language) + '"' +
-                    'data-codeblock-searchedContent="' + TextFormatting.escapeHtml(searchedContent) + '"></div>';
-    }
-
-    // eslint-disable-next-line
-    private makeOnClickFunction = (func: Function, ...params: string[]) => {
-        //The backtick is used in this situation to maintain the newlines.
-        //Quotation marks are replaced with apostrophe so it doesn't break the DOM
-        const sanitizedParams = params.map((param) => '`' + param.replaceAll('"', "'") + '`');
-
-        const sanitizedFunction = func.toString().trim().replaceAll('\n', '');
-        const functionString = `(${sanitizedFunction})(event, ${sanitizedParams.join(',')})`;
-        return functionString;
+                    'data-codeblock-searchedcontent="' + TextFormatting.escapeHtml(searchedContent) + '"></div>';
     }
 
     public codespan(text: string) {

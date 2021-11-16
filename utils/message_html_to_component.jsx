@@ -191,7 +191,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     <CodeBlock
                         code={node.attribs['data-codeblock-code']}
                         language={node.attribs['data-codeblock-language']}
-                        searchedContent={node.attribs['data-codeblock-searchedContent']}
+                        searchedContent={node.attribs['data-codeblock-searchedcontent']}
                     />
                 );
             },

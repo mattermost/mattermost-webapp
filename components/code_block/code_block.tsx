@@ -64,7 +64,7 @@ const CodeBlock: React.FC<Props> = ({code, language, searchedContent}: Props) =>
 
     let htmlContent = content;
     if (searchedContent) {
-        htmlContent = `${searchedContent} ${content}`;
+        htmlContent = `${TextFormatting.convertEntityToCharacter(searchedContent)} ${content}`;
     }
 
     return (
