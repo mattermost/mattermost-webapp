@@ -17,11 +17,9 @@ const CodeBlock: React.FC<Props> = ({code, language, searchedContent}: Props) =>
     let usedLanguage = language || '';
     usedLanguage = usedLanguage.toLowerCase();
 
-    const unescapedCode = TextFormatting.convertEntityToCharacter(code);
-
     if (usedLanguage === 'tex' || usedLanguage === 'latex') {
         return (
-            <div data-latex={TextFormatting.escapeHtml(unescapedCode)}/>
+            <div data-latex={TextFormatting.escapeHtml(code)}/>
         );
     }
 
@@ -52,7 +50,7 @@ const CodeBlock: React.FC<Props> = ({code, language, searchedContent}: Props) =>
     if (SyntaxHighlighting.canHighlight(usedLanguage)) {
         lineNumbers = (
             <div className='post-code__line-numbers'>
-                {SyntaxHighlighting.renderLineNumbers(unescapedCode)}
+                {SyntaxHighlighting.renderLineNumbers(code)}
             </div>
         );
     }
@@ -60,17 +58,17 @@ const CodeBlock: React.FC<Props> = ({code, language, searchedContent}: Props) =>
     // If we have to apply syntax highlighting AND highlighting of search terms, create two copies
     // of the code block, one with syntax highlighting applied and another with invisible text, but
     // search term highlighting and overlap them
-    const content = SyntaxHighlighting.highlight(usedLanguage, unescapedCode);
+    const content = SyntaxHighlighting.highlight(usedLanguage, code);
 
     let htmlContent = content;
     if (searchedContent) {
-        htmlContent = `${TextFormatting.convertEntityToCharacter(searchedContent)} ${content}`;
+        htmlContent = `${searchedContent} ${content}`;
     }
 
     return (
         <div className={className}>
             <div className='post-code__overlay'>
-                <CopyButton content={unescapedCode}/>
+                <CopyButton content={TextFormatting.convertEntityToCharacter(code)}/>
                 {header}
             </div>
             <div className='hljs'>
