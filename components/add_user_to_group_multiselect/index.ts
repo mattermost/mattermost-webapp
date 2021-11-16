@@ -29,7 +29,6 @@ function makeMapStateToProps() {
 
         if (props.groupId) {
             profiles = getProfilesNotInCurrentGroup(state, props.groupId) as UserProfileValue[];
-            console.log(profiles);
         } else {
             profiles = getUsers(state) as UserProfileValue[];
         }

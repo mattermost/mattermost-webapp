@@ -52,6 +52,10 @@ export type Props = {
     profiles: UserProfileValue[];
 
     savingEnabled: boolean;
+    buttonSubmitText?: string;
+    buttonSubmitLoadingText?: string;
+    backButtonClick?: () => void;
+    backButtonClass?: string;
 
     actions: {
         getProfiles: (page?: number, perPage?: number) => Promise<ActionResult>;
@@ -269,8 +273,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
         }
 
-        const buttonSubmitText = localizeMessage('multiselect.createGroup', 'Create Group');
-        const buttonSubmitLoadingText = localizeMessage('multiselect.creating', 'Creating...');
+        const buttonSubmitText = this.props.buttonSubmitText || localizeMessage('multiselect.createGroup', 'Create Group');
+        const buttonSubmitLoadingText = this.props.buttonSubmitLoadingText || localizeMessage('multiselect.creating', 'Creating...');
 
         let users = filterProfilesStartingWithTerm(this.props.profiles, this.state.term).filter((user) => {
             return user.delete_at === 0 &&
@@ -306,6 +310,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 valueWithImage={true}
                 focusOnLoad={this.props.focusOnLoad}
                 savingEnabled={this.props.savingEnabled}
+                backButtonClick={this.props.backButtonClick}
+                backButtonClass={this.props.backButtonClass}
             />
         );
     }

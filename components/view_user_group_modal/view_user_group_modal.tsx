@@ -12,6 +12,7 @@ import * as UserAgent from 'utils/user_agent';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import FaSuccessIcon from 'components/widgets/icons/fa_success_icon';
+import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import { Group } from 'mattermost-redux/types/groups';
@@ -24,7 +25,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
 import { ModalData } from 'types/actions';
-import CreateUserGroupsModal from 'components/create_user_groups_modal';
+import AddUsersToGroupModal from 'components/add_users_to_group_modal';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -131,11 +132,14 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     };
 
     goToCreateModal = () => {
-        const {actions} = this.props;
+        const {actions, groupId} = this.props;
 
         actions.openModal({
-            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
-            dialogType: CreateUserGroupsModal,
+            modalId: ModalIdentifiers.ADD_USERS_TO_GROUP,
+            dialogType: AddUsersToGroupModal,
+            dialogProps: {
+                groupId: groupId,
+            },
         });
 
         this.props.onExited();
@@ -151,9 +155,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
     render() {
         const {group, users} = this.props;
-        if (this.state.loading) {
-            return (<LoadingScreen/>);
-        }
 
         return (
             <Modal
@@ -209,15 +210,29 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                             />
                         </div>
                     </div>
-                    <div className='user-groups-modal__content user-groups-list'>
+                    <div className='user-groups-modal__content group-member-list'>
+                        <h2 className='group-member-count'>
+                            {'14 Members'}
+                        </h2>
                         {users.map((user) => {
                             return (
                                 <div 
                                     key={user.id}
-                                    className='group-row'
+                                    className='group-member-row'
                                 >
-                                    <div className='group-display-name'>
-                                        {user.username}
+                                    <>
+                                        <Avatar
+                                            username={user.username}
+                                            size={'sm'}
+                                            url={Utils.imageURLForUser(user?.id ?? '')}
+                                            className={'avatar-post-preview'}
+                                        />
+                                    </>
+                                    <div className='group-member-name'>
+                                        {Utils.getFullName(user)}
+                                    </div>
+                                    <div className='group-member-username'>
+                                        {`@${user.username}`}
                                     </div>
                                     {/* <div className='group-name'>
                                         {'@'}{group.name}
@@ -265,6 +280,10 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                 </div>
                             );
                         })}
+                        {
+                            this.state.loading && 
+                            <LoadingScreen/>
+                        }
                     </div>
                 </Modal.Body>
             </Modal>

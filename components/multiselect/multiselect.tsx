@@ -14,9 +14,10 @@ import SaveButton from 'components/save_button';
 import Avatar from 'components/widgets/users/avatar';
 
 import {Constants, A11yCustomEventTypes} from 'utils/constants';
-import {imageURLForUser, getDisplayName} from 'utils/utils';
+import {imageURLForUser, getDisplayName, localizeMessage} from 'utils/utils';
 
 import MultiSelectList from './multiselect_list';
+import classNames from 'classnames';
 
 export type Value = {
     deleteAt?: number;
@@ -29,6 +30,8 @@ export type Value = {
 
 export type Props<T extends Value> = {
     ariaLabelRenderer: getOptionValue<T>;
+    backButtonClick?: () => void;
+    backButtonClass?: string;
     buttonSubmitLoadingText?: ReactNode;
     buttonSubmitText?: ReactNode;
     handleAdd: (value: T) => void;
@@ -502,6 +505,18 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                 </div>
                 {this.props.saveButtonPosition === 'bottom' &&
                 <div className='multi-select__footer'>
+                    {
+                        typeof this.props.backButtonClick === 'function' &&
+                        <button
+                            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                e.preventDefault();
+                                this.props.backButtonClick && this.props.backButtonClick();
+                            }}
+                            className={classNames('btn', this.props.backButtonClass)}
+                        >
+                            {localizeMessage('multiselect.backButton', 'Back')}
+                        </button>
+                    }
                     <SaveButton
                         id='saveItems'
                         saving={this.props.saving}

@@ -3409,6 +3409,13 @@ export default class Client4 {
         );
     }
 
+    addUsersToGroup = (groupId: string, userIds: string[]) => {
+        return this.doFetch<UserProfile[]>(
+            `${this.getGroupRoute(groupId)}/members`,
+            {method: 'post', body: JSON.stringify({user_ids: userIds})},
+        );
+    }
+
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.

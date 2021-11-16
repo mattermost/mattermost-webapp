@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {GroupTypes} from 'mattermost-redux/action_types';
+import {GroupTypes, UserTypes} from 'mattermost-redux/action_types';
 import {General, Groups} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
@@ -317,6 +317,28 @@ export function createGroupWithUserIds(group: GroupCreateWithUserIds): ActionFun
 
         dispatch(
             {type: GroupTypes.CREATE_GROUP_SUCCESS, data},
+        );
+
+        return {data};
+    };
+}
+
+export function addUsersToGroup(groupId: string, userIds: string[]): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.addUsersToGroup(groupId, userIds);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST_IN_GROUP,
+                data: data,
+                id: groupId,
+            },
         );
 
         return {data};

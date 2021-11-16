@@ -343,6 +343,7 @@ export const ModalIdentifiers = {
     USER_GROUPS:'user_groups',
     USER_GROUPS_CREATE: 'user_groups_create',
     VIEW_USER_GROUP: 'view_user_group',
+    ADD_USERS_TO_GROUP: 'add_users_to_group',
 };
 
 export const UserStatuses = {
