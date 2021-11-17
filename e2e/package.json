@@ -20,6 +20,7 @@
     "deepmerge": "4.2.2",
     "dotenv": "10.0.0",
     "express": "4.17.1",
+    "extract-zip": "2.0.1",
     "knex": "0.21.5",
     "localforage": "1.10.0",
     "lodash.intersection": "4.4.0",

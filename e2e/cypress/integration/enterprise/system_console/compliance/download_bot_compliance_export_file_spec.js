@@ -11,8 +11,7 @@
 
 import {
     downloadAndUnzipExportFile,
-    getXMLFile,
-    deleteExportFolder,
+    verifyActianceXMLFile,
 } from './helpers';
 
 describe('Compliance Export', () => {
@@ -52,8 +51,8 @@ describe('Compliance Export', () => {
         });
     });
 
-    afterEach(() => {
-        deleteExportFolder(downloadsFolder);
+    after(() => {
+        cy.shellRm('-rf', downloadsFolder);
     });
 
     it('MM-T1175_1 - UserType identifies that the message is posted by a bot', () => {
@@ -66,10 +65,13 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and Unzip exported file
-        downloadAndUnzipExportFile(downloadsFolder);
+        const targetFolder = `${downloadsFolder}/${Date.now().toString()}`;
+        downloadAndUnzipExportFile(targetFolder);
 
         // * Export file should contain bot messages
-        cy.readFile(`${downloadsFolder}/posts.csv`).should('exist').and('have.string', `This is CSV bot message ${botName},message,bot`);
+        cy.readFile(`${downloadsFolder}/posts.csv`).
+            should('exist').
+            and('have.string', `This is CSV bot message ${botName},message,bot`);
     });
 
     it('MM-T1175_2 - UserType identifies that the message is posted by a bot', () => {
@@ -82,14 +84,20 @@ describe('Compliance Export', () => {
         cy.uiExportCompliance();
 
         // # Download and Unzip exported File
-        downloadAndUnzipExportFile(downloadsFolder);
+        const targetFolder = `${downloadsFolder}/${Date.now().toString()}`;
+        downloadAndUnzipExportFile(targetFolder);
 
-        // * Export file should contain Delete text
-        getXMLFile(downloadsFolder).then((result) => {
-            cy.readFile(result.stdout).should('exist').
-                and('have.string', `This is XML bot message ${botName}`).
-                and('have.string', '<UserType>bot</UserType>');
-        });
+        // * Export file should message from bot
+        verifyActianceXMLFile(
+            targetFolder,
+            'have.string',
+            `This is XML bot message ${botName}`,
+        );
+        verifyActianceXMLFile(
+            targetFolder,
+            'have.string',
+            '<UserType>bot</UserType>',
+        );
     });
 });
 

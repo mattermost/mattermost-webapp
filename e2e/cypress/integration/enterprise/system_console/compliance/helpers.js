@@ -5,38 +5,39 @@ import path from 'path';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-export function downloadAndUnzipExportFile(downloadsFolder = '') {
+export function downloadAndUnzipExportFile(targetFolder = '') {
     // # Get the download link
     cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
         // # Getting export file url
         const fileURL = fileAttachment.attr('href');
+        const targetFilePath = path.join(targetFolder);
+        const zipFile = targetFilePath + '.zip';
 
-        const zipFilePath = path.join(downloadsFolder, 'export.zip');
-
-        // # Downloading zip file
+        // # Download zip file
         cy.request({url: fileURL, encoding: 'binary'}).then((response) => {
             expect(response.status).to.equal(200);
-            cy.writeFile(zipFilePath, response.body, 'binary');
+            cy.writeFile(zipFile, response.body, 'binary');
         });
 
-        // # Unzipping exported file
-        cy.exec(`unzip ${zipFilePath} -d ${downloadsFolder}`);
-        cy.exec(`find ${downloadsFolder}/export -name '*.zip' | xargs unzip -d ${downloadsFolder}`);
+        // # Unzip exported file then "csv_export.zip"
+        cy.shellUnzip(zipFile, targetFilePath);
+        cy.shellFind(targetFilePath, /csv_export.zip/).then((files) => {
+            cy.shellUnzip(files[files.length - 1], targetFilePath);
+        });
     });
 }
 
-export function getXMLFile(downloadsFolder) {
-    // Finding xml file location
-    return cy.exec(`find ${downloadsFolder} -name '*.xml'`);
-}
-
-export function deleteExportFolder(downloadsFolder) {
-    // Delete local download folder
-    cy.exec(`rm -rf ${downloadsFolder}`);
+export function verifyActianceXMLFile(targetFolder, type, match) {
+    cy.shellFind(targetFolder, /actiance_export.xml/).
+        then((files) => {
+            cy.readFile(files[files.length - 1]).
+                should('exist').
+                and(type, match);
+        });
 }
 
 export function verifyExportedMessagesCount(expectedNumber) {
-    // * Verifying no of exported messages
+    // * Verifying number of exported messages
     cy.get('@firstRow').find('td:eq(5)').should('have.text', `${expectedNumber} messages exported.`);
 }
 
