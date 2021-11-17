@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import throttle from 'lodash/throttle';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -92,6 +93,7 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            emitBrowserWindowResized: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
     }
@@ -134,6 +136,9 @@ export default class Root extends React.PureComponent {
         if (!UserAgent.isInternetExplorer()) {
             this.a11yController = new A11yController();
         }
+
+        // set initial window size state
+        this.props.actions.emitBrowserWindowResized();
     }
 
     onConfigLoaded = () => {
@@ -237,11 +242,15 @@ export default class Root extends React.PureComponent {
             this.onConfigLoaded();
         });
         trackLoadTime();
+
+        window.addEventListener('resize', this.handleWindowResizeEvent);
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
+
+        window.removeEventListener('resize', this.handleWindowResizeEvent);
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -268,6 +277,10 @@ export default class Root extends React.PureComponent {
             document.addEventListener('visibilitychange', onVisibilityChange, false);
         }
     }
+
+    handleWindowResizeEvent = throttle(() => {
+        this.props.actions.emitBrowserWindowResized();
+    }, 100);
 
     render() {
         if (!this.state.configLoaded) {
