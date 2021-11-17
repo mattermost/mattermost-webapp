@@ -10,7 +10,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {Posts} from 'mattermost-redux/constants';
 import {isDateLine, isStartOfNewMessages, isCreateComment} from 'mattermost-redux/utils/post_list';
 
 import DelayedAction from 'utils/delayed_action';
@@ -373,12 +372,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         if (isCreateComment(itemId)) {
             return (
                 <CreateComment
-                    channelId={this.props.channel.id}
-                    channelIsArchived={this.props.channel.delete_at !== 0}
-                    channelType={this.props.channel.type}
                     focusOnMount={!this.props.isThreadView && (this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0))}
-                    isDeleted={(this.props.selected as Post).state === Posts.POST_DELETED}
-                    isFakeDeletedPost={this.props.selected.type === Constants.PostTypes.FAKE_PARENT_DELETED}
                     isThreadView={this.props.isThreadView}
                     latestPostId={this.props.lastPost.id}
                     onHeightChange={this.handleCreateCommentHeightChange}
