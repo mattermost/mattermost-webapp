@@ -12,6 +12,7 @@
 import {
     downloadAndUnzipExportFile,
     verifyActianceXMLFile,
+    verifyPostsCSVFile,
 } from './helpers';
 
 describe('Compliance Export', () => {
@@ -69,9 +70,11 @@ describe('Compliance Export', () => {
         downloadAndUnzipExportFile(targetFolder);
 
         // * Export file should contain bot messages
-        cy.readFile(`${downloadsFolder}/posts.csv`).
-            should('exist').
-            and('have.string', `This is CSV bot message ${botName},message,bot`);
+        verifyPostsCSVFile(
+            targetFolder,
+            'have.string',
+            `This is CSV bot message ${botName},message,bot`,
+        );
     });
 
     it('MM-T1175_2 - UserType identifies that the message is posted by a bot', () => {

@@ -27,6 +27,12 @@ export function downloadAndUnzipExportFile(targetFolder = '') {
     });
 }
 
+export function verifyPostsCSVFile(targetFolder, type, match) {
+    cy.readFile(`${targetFolder}/posts.csv`).
+        should('exist').
+        and(type, match);
+}
+
 export function verifyActianceXMLFile(targetFolder, type, match) {
     cy.shellFind(targetFolder, /actiance_export.xml/).
         then((files) => {

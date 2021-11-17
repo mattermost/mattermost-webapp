@@ -14,6 +14,7 @@ import {
     editLastPost,
     gotoTeamAndPostImage,
     verifyActianceXMLFile,
+    verifyPostsCSVFile,
 } from './helpers';
 
 describe('Compliance Export', () => {
@@ -75,9 +76,11 @@ describe('Compliance Export', () => {
         downloadAndUnzipExportFile(targetFolder);
 
         // * Verifying if export file contains delete
-        cy.readFile(`${targetFolder}/posts.csv`).
-            should('exist').
-            and('have.string', 'deleted attachment');
+        verifyPostsCSVFile(
+            targetFolder,
+            'have.string',
+            'deleted attachment',
+        );
     });
 
     it('MM-T1173 - Compliance Export - Deleted file is indicated in Actiance XML File Export', () => {
