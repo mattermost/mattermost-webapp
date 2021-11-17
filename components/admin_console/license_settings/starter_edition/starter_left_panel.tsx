@@ -36,10 +36,16 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
 }: StarterEditionProps) => {
     return (
         <div className='StarterLeftPanel'>
+            <div className='pre-title'>
+                <FormattedMessage
+                    id='admin.license.enterpriseEdition'
+                    defaultMessage='Enterprise Edition'
+                />
+            </div>
             <div className='title'>
                 <FormattedMessage
                     id='admin.license.starterEdition.title'
-                    defaultMessage='Starter Edition'
+                    defaultMessage='Starter'
                 />
             </div>
             <div className='currentPlanLegend'>

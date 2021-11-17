@@ -29,8 +29,8 @@
             }
         }
 
-        span {
-            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
+        :last-child {
+            color: rgba(63, 69, 80, 0.72);
         }
     }
 
@@ -56,6 +56,14 @@
 }
 
 .StarterLeftPanel {
+    .pre-title {
+        margin-bottom: 10px;
+        color: rgba(63, 67, 80, 0.56) !important;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+    }
+
     .title {
         color: #3f4350;
         font-family: Metropolis;
