@@ -9,13 +9,20 @@
 
 // Group: @enterprise @onboarding
 
+import {fileSizeToString} from '../../utils';
+
 describe('Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
+    let maxFileSize;
 
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {EnableOnboardingFlow: true},
+        });
+
+        cy.apiGetConfig(true).then(({config}) => {
+            maxFileSize = config.MaxFileSize;
         });
 
         cy.apiInitSetup().then(({team}) => {
@@ -108,7 +115,7 @@ describe('Onboarding - Sysadmin', () => {
         cy.findByTestId('PictureSelector__input-CompleteProfileStep__profilePicture').attachFile('saml_users.json');
 
         // * Verify error message is displayed
-        cy.get('.CompleteProfileStep__pictureError').should('contain', 'Photos must be in BMP, JPG or PNG format. Maximum file size is 50MB.');
+        cy.get('.CompleteProfileStep__pictureError').should('contain', `Photos must be in BMP, JPG or PNG format. Maximum file size is ${fileSizeToString(maxFileSize)}.`);
     });
 
     it('MM-T3331_1 Sysadmin - Set team name and team icon', () => {
@@ -171,6 +178,6 @@ describe('Onboarding - Sysadmin', () => {
         cy.findByTestId('PictureSelector__input-TeamProfileStep__teamIcon').attachFile('saml_users.json');
 
         // * Verify error message is displayed
-        cy.get('.TeamProfileStep__pictureError').should('contain', 'Photos must be in BMP, JPG or PNG format. Maximum file size is 50MB.');
+        cy.get('.TeamProfileStep__pictureError').should('contain', `Photos must be in BMP, JPG or PNG format. Maximum file size is ${fileSizeToString(maxFileSize)}.`);
     });
 });
