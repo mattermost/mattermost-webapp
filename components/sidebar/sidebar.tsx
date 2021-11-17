@@ -36,6 +36,7 @@ type Props = {
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
+    isMobileView: boolean;
 };
 
 type State = {
@@ -170,7 +171,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             <div
                 id='SidebarContainer'
                 className={classNames({
-                    'move--right': this.props.isOpen && Utils.isMobile(),
+                    'move--right': this.props.isOpen && this.props.isMobileView,
                     dragging: this.state.isDragging,
                 })}
             >

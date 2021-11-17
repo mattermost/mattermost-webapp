@@ -9,7 +9,7 @@ import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 import {Preferences, TutorialSteps} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import SidebarHeader from './sidebar_header';
 
@@ -19,7 +19,8 @@ function mapStateToProps(state: GlobalState) {
 
     const enableTutorial = config.EnableTutorial === 'true';
 
-    const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
+    const isMobile = getIsMobileView(state);
+    const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !isMobile;
 
     return {
         enableTutorial,
