@@ -19,7 +19,7 @@ const Toggle: React.FC<Props> = (props: Props) => {
             data-testid={`${id}-button`}
             type='button'
             onClick={onToggle}
-            className={`btn btn-lg btn-toggle ${toggled && 'active'} ${disabled && 'disabled'}`}
+            className={`btn btn-lg btn-toggle ${toggled ? 'active' : ''} ${disabled ? 'disabled' : ''}`}
             aria-pressed={toggled ? 'true' : 'false'}
             disabled={disabled}
         >
