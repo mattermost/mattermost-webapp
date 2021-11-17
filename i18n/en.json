@@ -3089,7 +3089,6 @@
   "filtered_user_list.userStatus": "User Status:",
   "first_channel.createChannelError": "There was a problem during the channel creation.",
   "first_channel.createNew": "Create Channel",
-  "first_channel.displayNameError": "Display name must have at least 2 characters.",
   "first_channel.nameEx": "E.g.: \"Bugs\", \"Marketing\", \"客户支持\"",
   "first_channel.nameYourChannel": "What project are you working on right now?",
   "flag_post.flag": "Save",
