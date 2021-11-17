@@ -22,8 +22,8 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
           className="handSvg svg-wrapper"
         >
           <HandsSvg
-            height={100}
-            width={100}
+            height={60}
+            width={60}
           />
         </div>
         <p>
