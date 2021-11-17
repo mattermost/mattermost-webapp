@@ -224,8 +224,7 @@ h6.markdown__heading {
     color: $white;
     opacity: 0;
     transition: opacity, 0.6s;
-
-    @include unselectable;
+    user-select: none;
 }
 
 .post-code__search-highlighting {

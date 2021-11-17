@@ -268,7 +268,6 @@
                     .group--code {
                         select {
                             padding-right: 25px;
-                            -webkit-appearance: none;
                             appearance: none;
                         }
 
@@ -369,12 +368,12 @@
                         max-height: 0;
                         padding: 0 0 0 24px;
                         margin: 0 20px 0 0;
+                        background-color: rgba(255, 255, 255, 0.05);
                         border-radius: 0 0 3px 3px;
                         overflow-y: hidden;
                         transition: all 0.4s ease-out;
 
                         @include pie-clearfix;
-                        @include alpha-property(background-color, $white, 0.05);
 
                         &.open {
                             max-height: 1200px;
