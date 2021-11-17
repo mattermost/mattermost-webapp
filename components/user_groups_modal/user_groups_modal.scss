@@ -12,6 +12,7 @@
             border-radius: 8px;
 
             .modal-header {
+                display: flex;
                 align-items: center;
                 padding: 20px 24px;
                 border: none;
@@ -22,7 +23,14 @@
                 button.modal-header-back-button {
                     color: rgba(var(--center-channel-color-rgb), 0.56);
                     float: left;
-                    padding: 4px 18px 4px 8px;
+                    width: 3rem;
+                    height: 3rem;
+                    margin-right: 16px;
+
+                    i {
+                        display: inline;
+                        font-size: 20px;
+                    }
                 }
 
                 a {
@@ -30,16 +38,22 @@
                     background-color: var(--center-channel-bg);
                     border-radius: 4px;
                     color: var(--button-bg);
+                    margin: auto;
+                    margin-right: 42px;
                 }
 
                 .close {
-                    right: 15px;
+                    right: 24px;
                     color: inherit;
                     font-size: 30px;
                     font-weight: normal;
                     opacity: 0.5;
-                    // height: 24px;
-                    // width: 24px;
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.1);
+                        fill: rgba(var(--center-channel-color-rgb), 0.72);
+                        border-radius: 4px;
+                    }
                 }
 
                 .modal-title {

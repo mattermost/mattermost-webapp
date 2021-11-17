@@ -31,6 +31,8 @@ import { ActionResult } from 'mattermost-redux/types/actions';
 import { RelationOneToOne } from 'mattermost-redux/types/utilities';
 import ViewUserGroupModal from 'components/view_user_group_modal';
 import IconButton from '@mattermost/compass-components/components/icon-button';
+import LocalizedIcon from 'components/localized_icon';
+import { t } from 'utils/i18n';
 
 export type Props = {
     onExited: () => void;
@@ -162,17 +164,19 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                 id='createUserGroupsModal'
             >
                 <Modal.Header closeButton={true}>
-                    <IconButton
-                        icon={'arrow-left'}
+                    <button
+                        type='button'
+                        className='modal-header-back-button btn-icon'
+                        aria-label='Close'
                         onClick={() => {
                             this.goToViewGroupModal();
                         }}
-                        size={'md'}
-                        compact={true}
-                        inverted={true}
-                        className='modal-header-back-button'
-                        aria-label={Utils.localizeMessage('user_groups_modal.goBackLabel', 'Back')}
-                    />
+                    >
+                        <LocalizedIcon
+                            className='icon icon-arrow-left'
+                            ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                        />
+                    </button>
                     <Modal.Title
                         componentClass='h1'
                         id='userGroupsModalLabel'

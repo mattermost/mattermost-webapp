@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { createRef, RefObject } from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -26,6 +26,7 @@ import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
 import { ModalData } from 'types/actions';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import ViewUserGroupModal from 'components/view_user_group_modal';
+import { debounce } from 'mattermost-redux/actions/helpers';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -49,20 +50,22 @@ export type Props = {
 }
 
 type State = {
+    page: number;
     loading: boolean;
     show: boolean;
     selectedFilter: string;
 }
 
 export default class UserGroupsModal extends React.PureComponent<Props, State> {
-    private searchTimeoutId: number;
+    private divScrollRef: RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
         super(props);
 
-        this.searchTimeoutId = 0;
+        this.divScrollRef = createRef();
 
         this.state = {
+            page: 0,
             loading: true,
             show: true,
             selectedFilter: 'all',
@@ -79,7 +82,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         } = this.props;
 
         await Promise.all([
-            actions.getGroups(false, 0, GROUPS_PER_PAGE, true),
+            actions.getGroups(false, this.state.page, GROUPS_PER_PAGE, true),
             actions.getGroupsByUserId(this.props.currentUserId)
         ]);
         this.loadComplete();
@@ -122,6 +125,10 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         // }
     }
 
+    startLoad = () => {
+        this.setState({loading: true});
+    }
+
     loadComplete = () => {
         this.setState({loading: false});
     }
@@ -160,13 +167,34 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         this.props.onExited();
     }
 
-    // nextPage = (page: number) => {
-    //     this.props.actions.loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE, undefined, undefined, {active: true});
-    // }
+    getGroups = debounce(
+        async () => {
+            const {actions} = this.props;
+            const {page} = this.state;
+            const newPage = page+1;
 
-    // handleSearch = (term: string) => {
-    //     this.props.actions.setModalSearchTerm(term);
-    // }
+            this.setState({page: newPage})
+
+            this.startLoad();
+            await actions.getGroups(false, newPage, GROUPS_PER_PAGE, true);
+            this.loadComplete();
+        },
+        500,
+        false,
+        (): void => {},
+    );
+
+    onScroll = () => {
+        const scrollHeight = this.divScrollRef.current?.scrollHeight || 0;
+        const scrollTop = this.divScrollRef.current?.scrollTop || 0;
+        const clientHeight = this.divScrollRef.current?.clientHeight || 0;
+
+        if ((scrollTop + clientHeight + 30) >= scrollHeight) {
+            if (this.props.groups.length%GROUPS_PER_PAGE === 0 && this.state.loading === false) {
+                this.getGroups();
+            }
+        }
+    }
 
     render() {
         let groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
@@ -261,7 +289,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         </MenuWrapper>
                     </div>
 
-                    <div className='user-groups-modal__content user-groups-list'>
+                    <div 
+                        className='user-groups-modal__content user-groups-list'
+                        onScroll={this.onScroll}
+                        ref={this.divScrollRef}
+                    >
                         {groups.map((group) => {
                             return (
                                 <div 

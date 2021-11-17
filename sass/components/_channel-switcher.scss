@@ -2,8 +2,7 @@
 
 .modal {
     .channel-switcher,
-    .channel-invite,
-    .user-groups-modal {
+    .channel-invite {
         &.modal-dialog {
             margin-top: calc(50vh - 240px);
         }
