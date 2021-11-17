@@ -119,7 +119,7 @@ const renderStarterContent = (
 
     let btnClass = '';
     if (fileSelected) {
-        btnClass = 'btn-primary';
+        btnClass = 'light-blue-btn';
     }
 
     let fileName;
