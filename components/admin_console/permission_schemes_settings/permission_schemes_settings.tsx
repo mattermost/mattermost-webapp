@@ -26,7 +26,7 @@ import PermissionsSchemeSummary from './permissions_scheme_summary';
 const PAGE_SIZE = 30;
 const PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE = 501;
 
-type Props = {
+export type Props = {
     schemes: SchemesState['schemes'];
     jobsAreEnabled?: boolean;
     clusterIsEnabled?: boolean;
