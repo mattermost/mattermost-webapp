@@ -10,7 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
@@ -31,6 +31,7 @@ function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     const channelId = editingPost?.post?.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
+
     let canDeletePost = false;
     let canEditPost = false;
 
@@ -42,6 +43,7 @@ function mapStateToProps(state: GlobalState) {
         canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_OTHERS_POSTS);
     }
 
+    const channel = state.entities.channels.channels[channelId] || {};
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
 
     return {
@@ -54,6 +56,7 @@ function mapStateToProps(state: GlobalState) {
         channelId,
         shouldShowPreview: showPreviewOnEditPostModal(state),
         maxPostSize: config.MaxPostSize ? parseInt(config.MaxPostSize, 10) : Constants.DEFAULT_CHARACTER_LIMIT,
+        readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
         useChannelMentions,
     };
 }

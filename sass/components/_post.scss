@@ -382,7 +382,8 @@
     padding: 15px;
 }
 
-.post-create__container {
+.post-create__container,
+.post__body {
     @include flex(0 0 auto);
 
     z-index: 12;
