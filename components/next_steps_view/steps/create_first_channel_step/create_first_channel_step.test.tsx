@@ -20,7 +20,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     createChannel: jest.fn(),
 }));
 
-describe('components/sidebar/invite_members_button', () => {
+describe('components/next_steps_view/steps/create_first_channel_step', () => {
     // required state to mount using the provider
     const state = {
         entities: {
