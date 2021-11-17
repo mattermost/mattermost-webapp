@@ -19,7 +19,7 @@ import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_wit
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {Scheme} from 'mattermost-redux/types/schemes';
+import {Scheme, SchemesState} from 'mattermost-redux/types/schemes';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
@@ -27,7 +27,7 @@ const PAGE_SIZE = 30;
 const PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE = 501;
 
 type Props = {
-    schemes: Scheme[];
+    schemes: SchemesState['schemes'];
     jobsAreEnabled?: boolean;
     clusterIsEnabled?: boolean;
     license: {
@@ -38,7 +38,6 @@ type Props = {
         loadSchemeTeams: (id: string) => Promise<ActionResult>;
     };
     isDisabled?: boolean;
-    history?: string[];
 };
 
 type State = {

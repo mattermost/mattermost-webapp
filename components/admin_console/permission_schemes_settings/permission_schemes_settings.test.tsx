@@ -1,28 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
+import {RouteComponentProps} from 'react-router-dom';
+
 import PermissionSchemesSettings from 'components/admin_console/permission_schemes_settings/permission_schemes_settings';
+import {Scheme} from 'mattermost-redux/types/schemes';
 
 describe('components/admin_console/permission_schemes_settings/permission_schemes_settings', () => {
-    const defaultProps = {
-        schemes: [
-            {id: 'id-1', name: 'Test 1', description: 'Test description 1'},
-            {id: 'id-2', name: 'Test 2', description: 'Test description 2'},
-            {id: 'id-3', name: 'Test 3', description: 'Test description 3'},
-        ],
+    const defaultProps: ComponentProps<typeof PermissionSchemesSettings> = {
+        schemes: {
+            'id-1': {id: 'id-1', name: 'Test 1', description: 'Test description 1'} as Scheme,
+            'id-2': {id: 'id-2', name: 'Test 2', description: 'Test description 2'} as Scheme,
+            'id-3': {id: 'id-3', name: 'Test 3', description: 'Test description 3'} as Scheme,
+        },
         jobsAreEnabled: true,
         clusterIsEnabled: false,
         actions: {
-            loadSchemes: jest.fn(() => Promise.resolve([])),
+            loadSchemes: jest.fn(() => Promise.resolve({})),
             loadSchemeTeams: jest.fn(),
         },
         license: {
             CustomPermissionsSchemes: 'true',
         },
-    } as any;
+        ...{} as RouteComponentProps,
+    };
 
     test('should match snapshot loading', () => {
         const wrapper = shallow(
@@ -35,7 +39,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
         const wrapper = shallow(
             <PermissionSchemesSettings
                 {...defaultProps}
-                schemes={[]}
+                schemes={{}}
             />,
         );
         wrapper.setState({loading: false, phase2MigrationIsComplete: true});
