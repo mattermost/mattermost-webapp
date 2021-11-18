@@ -4,7 +4,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getAutoTourTreatment, getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    getAutoTourTreatment,
+    getCreateGuidedFirstChannelCTATreatment,
+    getInt,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {AutoTourTreatments} from 'mattermost-redux/constants/config';
@@ -21,6 +25,7 @@ function mapStateToProps(state: GlobalState) {
         currentUserId,
         currentStep: getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0),
         autoTour: getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
+        createFirstChannel: getCreateGuidedFirstChannelCTATreatment(state),
     };
 }
 

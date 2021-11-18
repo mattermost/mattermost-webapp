@@ -42,6 +42,7 @@ type Props = {
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
     };
     autoTour: boolean;
+    createFirstChannel: boolean;
     punchOut?: TutorialTipPunchout | null;
     pulsatingDotPosition?: Coords | undefined;
 }
@@ -116,10 +117,11 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private autoShow(couldAutoShow: boolean) {
+        const {autoTour, currentStep, step, createFirstChannel} = this.props;
         if (!couldAutoShow) {
             return;
         }
-        const isShowable = this.props.autoTour && !this.state.hasShown && this.props.currentStep === this.props.step;
+        const isShowable = createFirstChannel || (autoTour && !this.state.hasShown && currentStep === step);
         if (isShowable) {
             // POST_POPOVER is the only tip that is not automatically rendered if it is the currentStep.
             // This is because tips and next steps may display.
@@ -127,7 +129,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             // and then tips and next steps determines it should display.
             // So this is tutorial_tip's way of being polite to the user and not flashing its tip
             // in the user's face right before showing tips and next steps.
-            if (this.props.step === TutorialSteps.POST_POPOVER) {
+            if (step === TutorialSteps.POST_POPOVER) {
                 this.showPendingTimeout = setTimeout(() => {
                     this.show();
                 }, COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME);

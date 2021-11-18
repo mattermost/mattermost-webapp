@@ -51,20 +51,6 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         }
     }, [(channelNameValue.length > Constants.MIN_CHANNELNAME_LENGTH)]);
 
-    const channelCreationError = () => {
-        if (channelCreateError) {
-            return (
-                <p className='input__help error'>
-                    <FormattedMessage
-                        id='first_channel.createChannelError'
-                        defaultMessage='There was a problem during the channel creation.'
-                    />
-                </p>
-            );
-        }
-        return null;
-    };
-
     const onSubmitChannel = async (displayName: string) => {
         const channel: Channel = {
             team_id: currentTeam.id,
@@ -93,7 +79,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         } else if (data) {
             // dispatch the first channel name value
             dispatch(setFirstChannelName(data.name));
-            dispatch(switchToChannel(data));
+            // dispatch(switchToChannel(data));
         }
     };
 
@@ -118,7 +104,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
     };
 
     return (
-        <div className='NextStepsView__createFirstChannel`'>
+        <div className='NextStepsView__createFirstChannel'>
             <div
                 className='channelNameLegend'
             >
@@ -139,7 +125,14 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
                     onKeyDown={onEnterKeyDown}
                     value={channelNameValue}
                 />
-                {channelCreationError()}
+                {channelCreateError &&
+                    <p className='input__help error'>
+                        <FormattedMessage
+                            id='first_channel.createChannelError'
+                            defaultMessage='There was a problem during the channel creation.'
+                        />
+                    </p>
+                }
                 <div className='NextStepsView__wizardButtons'>
                     <button
                         id='submitNewChannel'

@@ -73,7 +73,7 @@ exports[`components/next_steps_view/steps/create_first_channel_step should match
     onSkip={[Function]}
   >
     <div
-      className="NextStepsView__createFirstChannel\`"
+      className="NextStepsView__createFirstChannel"
     >
       <div
         className="channelNameLegend"
