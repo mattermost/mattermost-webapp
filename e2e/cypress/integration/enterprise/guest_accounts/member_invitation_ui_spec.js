@@ -227,8 +227,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
             // * Verify the content and message in the Invitation Modal
             cy.findByTestId('invitationModal').within(() => {
-                cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
-                cy.get('h2.subtitle > span').should('have.text', '1 person has been invited, and 1 invitation was not sent');
+                cy.get('h1').should('have.text', `Members invited to ${team.display_name}`);
                 cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
                     cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
                     cy.get('.people-header').should('have.text', 'People');
@@ -256,10 +255,11 @@ function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
     // # Search and add a member
     cy.get('.users-emails-input__control').should('be.visible').within(() => {
         cy.get('input').type(typeText, {force: true});
-        cy.get('input').tab();
     });
+
     cy.get('.users-emails-input__menu').
         children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
+
     cy.get('.users-emails-input__control').should('be.visible').within(() => {
         cy.get('input').tab();
     });
@@ -273,9 +273,9 @@ function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
 function verifyInvitationError(user, team, errorText) {
     // * Verify the content and error message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
-        cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
-        cy.get('div.invitation-modal-confirm-sent').should('not.exist');
-        cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+        cy.get('h1').should('have.text', `Members invited to ${team.display_name}`);
+        cy.get('div.invitation-modal-confirm--sent').should('not.exist');
+        cy.get('div.invitation-modal-confirm--not-sent').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
             cy.get('.people-header').should('have.text', 'People');
             cy.get('.details-header').should('have.text', 'Details');
@@ -292,9 +292,9 @@ function verifyInvitationError(user, team, errorText) {
 function verifyInvitationSuccess(user, team, successText) {
     // * Verify the content and success message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
-        cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
-        cy.get('div.invitation-modal-confirm-not-sent').should('not.exist');
-        cy.get('div.invitation-modal-confirm-sent').should('be.visible').within(() => {
+        cy.get('h1').should('have.text', `Members invited to ${team.display_name}`);
+        cy.get('div.invitation-modal-confirm--not-sent').should('not.exist');
+        cy.get('div.invitation-modal-confirm--sent').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Successful Invites');
             cy.get('.people-header').should('have.text', 'People');
             cy.get('.details-header').should('have.text', 'Details');

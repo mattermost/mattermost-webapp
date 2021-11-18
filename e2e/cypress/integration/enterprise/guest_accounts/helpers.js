@@ -45,7 +45,7 @@ export function invitePeople(typeText, resultsCount, verifyText, channelName = '
 export function verifyInvitationError(user, team, errorText, verifyGuestBadge = false) {
     // * Verify the content and error message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
-        cy.get('h1').should('have.text', `Guests Invited to ${team.display_name}`);
+        cy.get('h1').should('have.text', `Guests invited to ${team.display_name}`);
         cy.get('div.invitation-modal-confirm--sent').should('not.exist');
         cy.get('div.invitation-modal-confirm--not-sent').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
@@ -67,7 +67,7 @@ export function verifyInvitationError(user, team, errorText, verifyGuestBadge = 
 export function verifyInvitationSuccess(user, team, successText, verifyGuestBadge = false) {
     // * Verify the content and success message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
-        cy.get('h1').should('have.text', `Guests Invited to ${team.display_name}`);
+        cy.get('h1').should('have.text', `Guests invited to ${team.display_name}`);
         cy.get('div.invitation-modal-confirm--not-sent').should('not.exist');
         cy.get('div.invitation-modal-confirm--sent').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Successful Invites');
