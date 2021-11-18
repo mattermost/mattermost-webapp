@@ -40,9 +40,9 @@ Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
     cy.checkInvitePeoplePage();
     cy.findByTestId('InviteView__copyInviteLink').click();
     cy.get('@clipboard').its('contents').then((text) => {
-            // # Close Invite People modal
-            cy.uiClose();
-            return cy.wrap(text);
+        // # Close Invite People modal
+        cy.uiClose();
+        return cy.wrap(text);
     });
 });
 
