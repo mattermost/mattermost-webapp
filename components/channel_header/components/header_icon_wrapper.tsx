@@ -22,7 +22,7 @@ type Props = {
     iconComponent: React.ReactNode;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     tooltipKey: string;
-    tooltipText?: string;
+    tooltipText?: React.ReactNode;
     isRhsOpen?: boolean;
 }
 
@@ -105,6 +105,11 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
         );
     }
 
+    let ariaLabelText;
+    if (ariaLabel) {
+        ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)}`;
+    }
+
     let tooltip;
     if (tooltipKey === 'plugin' && tooltipText) {
         tooltip = (
@@ -115,13 +120,12 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                 <span>{tooltipText}</span>
             </Tooltip>
         );
+
+        if (typeof tooltipText === 'string') {
+            ariaLabelText = tooltipText;
+        }
     } else {
         tooltip = getTooltip(tooltipKey);
-    }
-
-    let ariaLabelText;
-    if (ariaLabel) {
-        ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)}`;
     }
 
     if (tooltip) {
@@ -135,7 +139,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                 >
                     <button
                         id={buttonId}
-                        aria-label={ariaLabelText || tooltipText}
+                        aria-label={ariaLabelText}
                         className={buttonClass || 'channel-header__icon'}
                         onClick={onClick}
                     >
