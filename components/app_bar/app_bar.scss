@@ -36,7 +36,10 @@ $channel-view-padding: 75px;
         margin-bottom: 20px;
         cursor: pointer;
 
-        .app-bar__icon-inner, .fa, i, svg {
+        // We don't have control over the class names on these components, so we cast a net on the known variants.
+        $app-bar-plugin-component: '.fa, i, svg';
+
+        .app-bar__icon-inner, #{$app-bar-plugin-component} {
             width: $app-bar-icon-size;
             height: $app-bar-icon-size;
             background-color: white;
@@ -44,13 +47,14 @@ $channel-view-padding: 75px;
             padding: 4px;
         }
 
-        .fa, i, svg {
+        #{$app-bar-plugin-component} {
             font-size: 20px;
             color: #3F4350;
         }
 
         .app-bar__icon-inner {
             margin: 0 auto;
+            overflow: hidden;
         }
     }
 
