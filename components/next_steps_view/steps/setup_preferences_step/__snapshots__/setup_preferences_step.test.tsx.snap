@@ -79,7 +79,7 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
       }
     }
     expanded={true}
-    finishButtonText={
+    completeStepButtonText={
       Object {
         "defaultMessage": "defaultMessage",
         "id": "tID",

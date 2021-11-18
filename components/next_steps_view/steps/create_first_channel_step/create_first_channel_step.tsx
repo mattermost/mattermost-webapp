@@ -18,7 +18,6 @@ import {
     setFirstChannelName,
 } from 'actions/views/channel_sidebar';
 
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import LocalizedInput from 'components/localized_input/localized_input';
 import {StepComponentProps} from '../../steps';
 
@@ -40,7 +39,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
 
     useEffect(() => {
         if (props.expanded) {
-            pageVisited(getAnalyticsCategory(props.isAdmin), 'pageview_create_first_channel');
+            pageVisited('cloud_first_user_onboarding', 'pageview_create_first_channel');
         }
     }, [props.expanded]);
 
@@ -101,24 +100,19 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         });
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onEnterKeyDown = (e: any) => {
+    const onEnterKeyDown = (e: React.KeyboardEvent) => {
         const enterPressed = isKeyPressed(e, Constants.KeyCodes.ENTER);
 
         // Enter pressed alone without required cmd or ctrl key
         if (enterPressed) {
-            handleSubmit(e);
+            handleSubmit();
         }
     };
 
-    const handleSubmit = (e: React.MouseEvent) => {
-        e.preventDefault();
-        trackEvent(getAnalyticsCategory(props.isAdmin), 'click_create_first_channel');
+    const handleSubmit = () => {
+        trackEvent('cloud_first_user_onboarding', 'click_create_first_channel');
         if (channelNameValue) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             if (channelNameValue.length < Constants.MIN_CHANNELNAME_LENGTH) {
-                // setChannelNameError(true);
                 return;
             }
 
@@ -158,8 +152,8 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
                         className='btn btn-primary'
                     >
                         <FormattedMessage
-                            id='first_channel.createNew'
-                            defaultMessage='Create Channel'
+                            id={props.completeStepButtonText.id}
+                            defaultMessage={props.completeStepButtonText.defaultMessage}
                         />
                     </button>
                 </div>
@@ -168,4 +162,4 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
     );
 };
 
-export default React.memo(CreateFirstChannelStep);
+export default CreateFirstChannelStep;

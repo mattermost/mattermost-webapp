@@ -132,8 +132,8 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
 
         let finishMessage = (
             <FormattedMessage
-                id={this.props.finishButtonText?.id}
-                defaultMessage={this.props.finishButtonText?.defaultMessage}
+                id={this.props.completeStepButtonText.id}
+                defaultMessage={this.props.completeStepButtonText.defaultMessage}
             />);
 
         if (this.props.isLastStep) {

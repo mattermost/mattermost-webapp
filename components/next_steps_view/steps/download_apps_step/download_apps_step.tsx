@@ -21,8 +21,8 @@ export default function DownloadAppsStep(props: StepComponentProps) {
 
     let finishMessage = (
         <FormattedMessage
-            id={props.finishButtonText?.id}
-            defaultMessage={props.finishButtonText?.defaultMessage}
+            id={props.completeStepButtonText.id}
+            defaultMessage={props.completeStepButtonText.defaultMessage}
         />);
 
     if (props.isLastStep) {

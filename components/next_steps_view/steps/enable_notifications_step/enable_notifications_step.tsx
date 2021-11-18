@@ -73,8 +73,8 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
         );
     }
 
-    let buttonMessageId = props.finishButtonText?.id;
-    let buttonDefaultMessage = props.finishButtonText?.defaultMessage;
+    let buttonMessageId = props.completeStepButtonText.id;
+    let buttonDefaultMessage = props.completeStepButtonText.defaultMessage;
 
     if (props.isLastStep) {
         buttonMessageId = t('next_steps_view.invite_members_step.finish');
