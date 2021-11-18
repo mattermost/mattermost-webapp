@@ -20,14 +20,11 @@ export function modalState(state: ViewsState['modals']['modalState'] = {}, actio
                 dialogType: action.dialogType,
             },
         };
-    case ActionTypes.MODAL_CLOSE:
-        return Object.keys(state).reduce((previousModalState: ViewsState['modals']['modalState'], currentModalId) => {
-            if (currentModalId !== action.modalId) {
-                previousModalState[currentModalId] = state[currentModalId];
-            }
-
-            return previousModalState;
-        }, {});
+    case ActionTypes.MODAL_CLOSE: {
+        const newState = Object.assign({}, state);
+        Reflect.deleteProperty(newState, action.modalId);
+        return newState;
+    }
     default:
         return state;
     }
