@@ -19,6 +19,8 @@ import {ModalData} from 'types/actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
+
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
@@ -63,7 +65,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         }
 
         window.addEventListener('click', this.handleClickClearChannelSelection);
-        window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
+        window.addEventListener('keydown', this.handleKeyDownEvent);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -74,7 +76,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     componentWillUnmount() {
         window.removeEventListener('click', this.handleClickClearChannelSelection);
-        window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
+        window.removeEventListener('keydown', this.handleKeyDownEvent);
     }
 
     handleClickClearChannelSelection = (event: MouseEvent) => {
@@ -85,9 +87,19 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.props.actions.clearChannelSelection();
     }
 
-    handleKeyDownClearChannelSelection = (event: KeyboardEvent) => {
+    handleKeyDownEvent = (event: KeyboardEvent) => {
         if (Utils.isKeyPressed(event, Constants.KeyCodes.ESCAPE)) {
             this.props.actions.clearChannelSelection();
+            return;
+        }
+        const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
+        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH);
+        if (shortcutModalKeyCombo) {
+            event.preventDefault();
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+                dialogType: KeyboardShortcutsModal,
+            });
         }
     }
 
