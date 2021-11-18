@@ -2544,7 +2544,7 @@ const AdminDefinition = {
                         label: t('admin.customization.enableLatexTitle'),
                         label_default: 'Enable Latex Rendering:',
                         help_text: t('admin.customization.enableLatexDesc'),
-                        help_text_default: 'Enable rendering of Latex code in code blocks. If false, Latex code will be highlighted only.',
+                        help_text_default: 'Enable rendering of Latex in code blocks. If false, Latex code will be highlighted only.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
