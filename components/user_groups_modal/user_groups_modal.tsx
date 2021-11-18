@@ -44,13 +44,20 @@ export type Props = {
             includeMemberCount?: boolean
         ) => Promise<{data: Group[]}>;
         setModalSearchTerm: (term: string) => void;
-        getGroupsByUserId: (userId: string) => Promise<{data: Group[]}>;
+        getGroupsByUserIdPaginated: (
+            userId: string,
+            filterAllowReference?: boolean, 
+            page?: number, 
+            perPage?:number, 
+            includeMemberCount?: boolean
+        ) => Promise<{data: Group[]}>;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 
 type State = {
     page: number;
+    myGroupsPage: number;
     loading: boolean;
     show: boolean;
     selectedFilter: string;
@@ -66,6 +73,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
         this.state = {
             page: 0,
+            myGroupsPage: 0,
             loading: true,
             show: true,
             selectedFilter: 'all',
@@ -83,7 +91,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
         await Promise.all([
             actions.getGroups(false, this.state.page, GROUPS_PER_PAGE, true),
-            actions.getGroupsByUserId(this.props.currentUserId)
+            actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, this.state.myGroupsPage, GROUPS_PER_PAGE, true)
         ]);
         this.loadComplete();
     }
@@ -148,6 +156,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         actions.openModal({
             modalId: ModalIdentifiers.USER_GROUPS_CREATE,
             dialogType: CreateUserGroupsModal,
+            dialogProps: {
+                showBackButton: true,
+            }
         });
 
         this.props.onExited();
@@ -183,6 +194,22 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         false,
         (): void => {},
     );
+    getMyGroups = debounce(
+        async () => {
+            const {actions} = this.props;
+            const {myGroupsPage} = this.state;
+            const newPage = myGroupsPage+1;
+
+            this.setState({myGroupsPage: newPage})
+
+            this.startLoad();
+            await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, newPage, GROUPS_PER_PAGE, true);
+            this.loadComplete();
+        },
+        500,
+        false,
+        (): void => {},
+    );
 
     onScroll = () => {
         const scrollHeight = this.divScrollRef.current?.scrollHeight || 0;
@@ -190,8 +217,12 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         const clientHeight = this.divScrollRef.current?.clientHeight || 0;
 
         if ((scrollTop + clientHeight + 30) >= scrollHeight) {
-            if (this.props.groups.length%GROUPS_PER_PAGE === 0 && this.state.loading === false) {
+            if (this.state.selectedFilter === 'all' && this.props.groups.length%GROUPS_PER_PAGE === 0 && this.state.loading === false) {
                 this.getGroups();
+            }
+
+            if (this.state.selectedFilter !== 'all' && this.props.myGroups.length%GROUPS_PER_PAGE === 0 && this.state.loading === false) {
+                this.getMyGroups();
             }
         }
     }

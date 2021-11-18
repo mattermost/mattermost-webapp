@@ -133,7 +133,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
         if (data.error) {
             
         } else {
-            this.doHide();
+            this.goToViewGroupModal();
         }
     }
 

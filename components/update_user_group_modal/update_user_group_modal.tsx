@@ -8,12 +8,12 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {ModalIdentifiers} from 'utils/constants';
 
 import * as Utils from 'utils/utils.jsx';
-import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
+import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
-import './create_user_groups_modal.scss';
+import './update_user_group_modal.scss';
 import {ModalData} from 'types/actions';
 import Input from 'components/input';
 import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect';
@@ -21,34 +21,39 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
+import ViewUserGroupModal from 'components/view_user_group_modal';
+import classNames from 'classnames';
+import SaveButton from 'components/save_button';
 
 export type Props = {
     onExited: () => void;
+    groupId: string;
+    group: Group;
     showBackButton?: boolean;
     actions: {
-        createGroupWithUserIds :(group: GroupCreateWithUserIds) => Promise<ActionResult>;
+        patchGroup: (groupId: string, group: CustomGroupPatch) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
     },
 }
 
 type State = {
+    saving: boolean;
     show: boolean;
     name: string;
     mention: string;
-    savingEnabled: boolean;
-    usersToAdd: UserProfile[];
+    hasUpdated: boolean;
 }
 
-export default class CreateUserGroupsModal extends React.PureComponent<Props, State> {
+export default class UpdateUserGroupModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
+            saving: false,
             show: true,
-            name: '',
-            mention: '',
-            savingEnabled: false,
-            usersToAdd: [],
+            name: this.props.group.display_name,
+            mention: this.props.group.name,
+            hasUpdated: false,
         };
     }
 
@@ -56,60 +61,44 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         this.setState({show: false});
     }
     isSaveEnabled = () => {
-        return this.state.name.length > 0 && this.state.mention.length > 0 && this.state.usersToAdd.length > 0;
+        return this.state.name.length > 0 && this.state.mention.length > 0 && this.state.hasUpdated;
     }
     updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        this.setState({name: value});
+        console.log('test');
+        this.setState({name: value, hasUpdated: true});
     }
 
     updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        this.setState({mention: value});
+        console.log('test');
+        this.setState({mention: value, hasUpdated: true});
     }
 
-    private addUserCallback = (usersToAdd: UserProfile[]): void => {
-        this.setState({usersToAdd});
-    };
-
-    private deleteUserCallback = (usersToAdd: UserProfile[]): void => {
-        this.setState({usersToAdd});
-    };
-
-    createGroup = async (users?: UserProfile[]) => {
-        if (!users || users.length === 0) {
-            return;
-        }
-        const userIds = users.map((user) => {
-            return user.id;
-        });
-
-        const group = {
+    patchGroup = async () => {
+        this.setState({saving: true});
+        const group: CustomGroupPatch = {
             name: this.state.mention,
             display_name: this.state.name,
-            allow_reference: true,
-            source: 'custom',
-            user_ids: userIds,
         };
-        const data = await this.props.actions.createGroupWithUserIds(group);
+        const data = await this.props.actions.patchGroup(this.props.groupId, group);
 
         if (data.error) {
             
         } else {
-            if (this.props.showBackButton) {
-                this.goToGroupsModal();
-            } else {
-                this.doHide();
-            }
+            this.goToGroupModal();
         }
     }
 
-    goToGroupsModal = () => {
-        const {actions} = this.props;
+    goToGroupModal = () => {
+        const {actions, groupId} = this.props;
 
         actions.openModal({
-            modalId: ModalIdentifiers.USER_GROUPS,
-            dialogType: UserGroupsModal,
+            modalId: ModalIdentifiers.VIEW_USER_GROUP,
+            dialogType: ViewUserGroupModal,
+            dialogProps: {
+                groupId: groupId,
+            }
         });
 
         this.props.onExited();
@@ -118,7 +107,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
     render() {
         return (
             <Modal
-                dialogClassName='a11y__modal user-groups-modal-create'
+                dialogClassName='a11y__modal user-groups-modal-update'
                 show={this.state.show}
                 onHide={this.doHide}
                 onExited={this.props.onExited}
@@ -127,30 +116,26 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                 id='createUserGroupsModal'
             >
                 <Modal.Header closeButton={true}>
-                    {
-                        this.props.showBackButton &&
-                        <button
-                            type='button'
-                            className='modal-header-back-button btn-icon'
-                            aria-label='Close'
-                            onClick={() => {
-                                this.goToGroupsModal();
-                            }}
-                        >
-                            <LocalizedIcon
-                                className='icon icon-arrow-left'
-                                ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                            />
-                        </button>
-                    }
-                    
+                    <button
+                        type='button'
+                        className='modal-header-back-button btn-icon'
+                        aria-label='Close'
+                        onClick={() => {
+                            this.goToGroupModal();
+                        }}
+                    >
+                        <LocalizedIcon
+                            className='icon icon-arrow-left'
+                            ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                        />
+                    </button>
                     <Modal.Title
                         componentClass='h1'
                         id='userGroupsModalLabel'
                     >
                         <FormattedMessage
                             id='user_groups_modal.createTitle'
-                            defaultMessage='Create Group'
+                            defaultMessage='Edit Group Details'
                         />
                     </Modal.Title>
                 </Modal.Header>
@@ -178,30 +163,30 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                     data-testid='nameInput'
                                 />
                             </div>
-                            <h2>
-                                <FormattedMessage
-                                    id='user_groups_modal.addPeople'
-                                    defaultMessage='Add People'
-                                />
-                            </h2>
-                            <div className='group-add-user'>
-                                <AddUserToGroupMultiSelect 
-                                    multilSelectKey={'addUsersToGroupKey'}
-                                    onSubmitCallback={this.createGroup}
-                                    skipCommit={true}
-                                    focusOnLoad={false}
-                                    savingEnabled={this.isSaveEnabled()}
-                                    addUserCallback={this.addUserCallback}
-                                    deleteUserCallback={this.deleteUserCallback}
-                                    // groupId={'c75btzjxfpywp8adikr96q3iur'}
-                                    // searchOptions={{
-                                    //     not_in_group_id: 'c75btzjxfpywp8adikr96q3iur'
-                                    // }}
+                            <div className='update-buttons-wrapper'>
+                                <button
+                                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                        e.preventDefault();
+                                        this.goToGroupModal();
+                                    }}
+                                    className='btn update-group-back'
+                                >
+                                    {Utils.localizeMessage('multiselect.backButton', 'Back')}
+                                </button>
+                                <SaveButton
+                                    id='saveItems'
+                                    saving={this.state.saving}
+                                    disabled={!this.isSaveEnabled()}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        this.patchGroup();
+                                    }}
+                                    defaultMessage={Utils.localizeMessage('multiselect.saveDetailsButton', 'Save Details')}
+                                    savingMessage={Utils.localizeMessage('multiselect.savingDetailsButton', 'Saving...')}
                                 />
                             </div>
-
+                            
                         </form>
-                        
                     </div>
                 </Modal.Body>
             </Modal>

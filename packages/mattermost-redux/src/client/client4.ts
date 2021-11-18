@@ -3350,9 +3350,9 @@ export default class Client4 {
         );
     };
 
-    getGroup = (groupID: string) => {
+    getGroup = (groupID: string, includeMemberCount = false) => {
         return this.doFetch<Group>(
-            this.getGroupRoute(groupID),
+            `${this.getGroupRoute(groupID)}${buildQueryString({include_member_count: includeMemberCount})}`,
             {method: 'get'},
         );
     };
@@ -3364,9 +3364,19 @@ export default class Client4 {
         );
     };
 
-    getGroups = (filterAllowReference = false, page = 0, perPage = PER_PAGE_DEFAULT, includeMemberCount = false) => {
+    getGroups = (filterAllowReference = false, page = 0, perPage = PER_PAGE_DEFAULT, includeMemberCount = false, hasFilterMember = false) => {
+        let qs: any = {
+            filter_allow_reference: filterAllowReference, 
+            page, 
+            per_page: perPage, 
+            include_member_count: includeMemberCount
+        };
+
+        if (hasFilterMember) {
+            qs.filter_has_member = hasFilterMember;
+        }
         return this.doFetch<Group[]>(
-            `${this.getGroupsRoute()}${buildQueryString({filter_allow_reference: filterAllowReference, page, per_page: perPage, include_member_count: includeMemberCount})}`,
+            `${this.getGroupsRoute()}${buildQueryString(qs)}`,
             {method: 'get'},
         );
     };
@@ -3505,7 +3515,7 @@ export default class Client4 {
         );
     };
 
-    patchGroup = (groupID: string, patch: GroupPatch) => {
+    patchGroup = (groupID: string, patch: GroupPatch | CustomGroupPatch) => {
         return this.doFetch<Group>(
             `${this.getGroupRoute(groupID)}/patch`,
             {method: 'put', body: JSON.stringify(patch)},

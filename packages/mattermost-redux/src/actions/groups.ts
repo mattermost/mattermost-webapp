@@ -5,7 +5,7 @@ import {General, Groups} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
+import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch} from 'mattermost-redux/types/groups';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -141,12 +141,13 @@ export function patchGroupSyncable(groupID: string, syncableID: string, syncable
     };
 }
 
-export function getGroup(id: string): ActionFunc {
+export function getGroup(id: string, includeMemberCount = false): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroup,
         onSuccess: [GroupTypes.RECEIVED_GROUP],
         params: [
             id,
+            includeMemberCount,
         ],
     });
 }
@@ -274,7 +275,7 @@ export function getGroupsAssociatedToChannel(channelID: string, q = '', page = 0
     });
 }
 
-export function patchGroup(groupID: string, patch: GroupPatch): ActionFunc {
+export function patchGroup(groupID: string, patch: GroupPatch | CustomGroupPatch): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.patchGroup,
         onSuccess: [GroupTypes.PATCHED_GROUP],
@@ -291,6 +292,23 @@ export function getGroupsByUserId(userID: string): ActionFunc {
         onSuccess: [GroupTypes.RECEIVED_MY_GROUPS],
         params: [
             userID,
+        ],
+    });
+}
+
+export function getGroupsByUserIdPaginated(userId: string, filterAllowReference: false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
+    return bindClientFunc({
+        clientFunc: async (param1, param2, param3, param4, param5) => {
+            const result = await Client4.getGroups(param1, param2, param3, param4, param5);
+            return result;
+        },
+        onSuccess: [GroupTypes.RECEIVED_MY_GROUPS],
+        params: [
+            filterAllowReference,
+            page,
+            perPage,
+            includeMemberCount,
+            userId,
         ],
     });
 }

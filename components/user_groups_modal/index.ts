@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 import UserGroupsModal, {Props} from './user_groups_modal';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getAllAssociatedGroupsForReference, getMyAllowReferencedGroups} from 'mattermost-redux/selectors/entities/groups';
-import {getGroups, getGroupsByUserId} from 'mattermost-redux/actions/groups';
+import {getGroups, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
@@ -27,7 +27,13 @@ type Actions = {
         includeMemberCount?: boolean
     ) => Promise<{data: Group[]}>;
     setModalSearchTerm: (term: string) => void;
-    getGroupsByUserId: (userId: string) => Promise<{data: Group[]}>;
+    getGroupsByUserIdPaginated: (
+        userId: string,
+        filterAllowReference?: boolean, 
+        page?: number, 
+        perPage?:number, 
+        includeMemberCount?: boolean
+    ) => Promise<{data: Group[]}>;
     openModal: <P>(modalData: ModalData<P>) => void;
 };
 
@@ -59,9 +65,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getGroups,
             setModalSearchTerm,
-            getGroupsByUserId,
+            getGroupsByUserIdPaginated,
             openModal,
-            // closeModal,
         }, dispatch),
     };
 }

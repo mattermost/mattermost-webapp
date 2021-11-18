@@ -33,8 +33,9 @@ import OverlayTrigger from 'components/overlay_trigger';
 import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
 import { t } from 'utils/i18n';
+import UpdateUserGroupModal from 'components/update_user_group_modal';
 
-const USERS_PER_PAGE = 12;
+const USERS_PER_PAGE = 60;
 
 export type Props = {
     onExited: () => void;
@@ -43,7 +44,7 @@ export type Props = {
     group: Group;
     users: UserProfile[];
     actions: {
-        getGroup: (groupId: string) => Promise<{data: Group}>;
+        getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
         setModalSearchTerm: (term: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -84,7 +85,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         } = this.props;
 
         await Promise.all([
-            actions.getGroup(groupId),
+            actions.getGroup(groupId, true),
             actions.getUsersInGroup(groupId,  0, USERS_PER_PAGE)
         ]);
         this.loadComplete();
@@ -169,6 +170,20 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         this.props.onExited();
     }
 
+    goToEditGroupModal = () => {
+        const {actions, groupId} = this.props;
+
+        actions.openModal({
+            modalId: ModalIdentifiers.EDIT_GROUP_MODAL,
+            dialogType: UpdateUserGroupModal,
+            dialogProps: {
+                groupId: groupId,
+            },
+        });
+
+        this.props.onExited();
+    }
+
     getGroupMembers = debounce(
         async () => {
             const {actions, groupId} = this.props;
@@ -201,15 +216,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
     render() {
         const {group, users} = this.props;
-
-        const tooltip = (
-            <Tooltip id='recentMentions'>
-                <FormattedMessage
-                    id='channel_header.flagged'
-                    defaultMessage='Saved posts'
-                />
-            </Tooltip>
-        );
 
         return (
             <Modal
@@ -251,10 +257,38 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                             defaultMessage='AddPeople'
                         />
                     </a>
-
-                    
+                    <div className='details-action'>
+                        <MenuWrapper
+                            isDisabled={false}
+                            stopPropagationOnToggle={false}
+                            id={`detailsCustomWrapper-${group.id}`}
+                        >
+                            <div className='text-right'>
+                                <button className='action-wrapper'>
+                                    <i className='icon icon-dots-vertical'/>
+                                </button>
+                            </div>
+                            <Menu
+                                openLeft={false}
+                                openUp={false}
+                                ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                            >
+                                <Menu.ItemAction
+                                    show={true}
+                                    onClick={() => {
+                                        this.goToEditGroupModal()
+                                    }}
+                                    text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
+                                    disabled={false}
+                                />
+                            </Menu>
+                        </MenuWrapper>
+                    </div>
                 </Modal.Header>
                 <Modal.Body>
+                    <div className='group-mention-name'>
+                        <p>{`@${group.name}`}</p>
+                    </div>
                     <div className='user-groups-search'>
                         <div className='user-groups-searchbar'>
                             <span
@@ -284,7 +318,13 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         ref={this.divScrollRef}
                     >
                         <h2 className='group-member-count'>
-                            {'14 Members'}
+                            <FormattedMessage
+                                id='view_user_group_modal.memberCount'
+                                defaultMessage='{member_count} {member_count, plural, one {Member} other {Members}}'
+                                values={{
+                                    member_count: group.member_count,
+                                }}
+                            />
                         </h2>
                         {users.map((user) => {
                             return (

@@ -17,6 +17,11 @@ export type GroupPatch = {
     name?: string;
 };
 
+export type CustomGroupPatch = {
+    name: string;
+    display_name: string;
+};
+
 export type Group = {
     id: string;
     name: string;

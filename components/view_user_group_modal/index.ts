@@ -22,7 +22,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {getProfilesInGroup as getUsersInGroup} from 'mattermost-redux/actions/users';
 
 type Actions = {
-    getGroup: (groupId: string) => Promise<{data: Group}>;
+    getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
     getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
     setModalSearchTerm: (term: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
