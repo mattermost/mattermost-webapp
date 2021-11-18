@@ -13,7 +13,13 @@ exports[`components/next_steps_view/steps/create_first_channel_step should match
     }
   }
 >
-  <Memo(CreateFirstChannelStep)
+  <CreateFirstChannelStep
+    completeStepButtonText={
+      Object {
+        "defaultMessage": "defaultMessage",
+        "id": "tID",
+      }
+    }
     currentUser={
       Object {
         "allow_marketing": false,
@@ -123,17 +129,17 @@ exports[`components/next_steps_view/steps/create_first_channel_step should match
             type="submit"
           >
             <FormattedMessage
-              defaultMessage="Create Channel"
-              id="first_channel.createNew"
+              defaultMessage="defaultMessage"
+              id="tID"
             >
               <span>
-                Create Channel
+                defaultMessage
               </span>
             </FormattedMessage>
           </button>
         </div>
       </div>
     </div>
-  </Memo(CreateFirstChannelStep)>
+  </CreateFirstChannelStep>
 </Provider>
 `;

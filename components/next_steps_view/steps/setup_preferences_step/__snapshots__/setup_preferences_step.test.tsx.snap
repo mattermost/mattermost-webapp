@@ -33,6 +33,12 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
   }
 >
   <SetupPreferencesStep
+    completeStepButtonText={
+      Object {
+        "defaultMessage": "defaultMessage",
+        "id": "tID",
+      }
+    }
     currentUser={
       Object {
         "allow_marketing": false,
@@ -79,12 +85,6 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
       }
     }
     expanded={true}
-    completeStepButtonText={
-      Object {
-        "defaultMessage": "defaultMessage",
-        "id": "tID",
-      }
-    }
     id="test"
     isAdmin={false}
     isLastStep={false}
