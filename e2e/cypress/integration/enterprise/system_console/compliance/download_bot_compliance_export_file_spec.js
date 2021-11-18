@@ -39,15 +39,19 @@ describe('Compliance Export', () => {
 
         cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             cy.apiLogin(sysadmin);
-            cy.apiInitSetup().then(({team, channel}) => {
-                newTeam = team;
-                newChannel = channel;
-            });
 
             //# Create a test bot
             cy.apiCreateBot().then(({bot}) => {
                 ({user_id: botId, display_name: botName} = bot);
                 cy.apiPatchUserRoles(bot.user_id, ['system_admin', 'system_user']);
+            });
+
+            cy.apiInitSetup().then(({team, channel}) => {
+                newTeam = team;
+                newChannel = channel;
+
+                // # Do initial export
+                exportCompliance();
             });
         });
     });
@@ -57,13 +61,13 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1175_1 - UserType identifies that the message is posted by a bot', () => {
-        // # Post bot message
-        postBOTMessage(newTeam, newChannel, botId, botName, 'This is CSV bot message');
+        const message = `This is CSV bot message from ${botName} at ${Date.now()}`;
 
-        // # Go to Compliance page and Run report
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
+        // # Post bot message
+        postBotMessage(newTeam, newChannel, botId, message);
+
+        // # Go to Compliance page and run report
+        exportCompliance();
 
         // # Download and Unzip exported file
         const targetFolder = `${downloadsFolder}/${Date.now().toString()}`;
@@ -73,18 +77,18 @@ describe('Compliance Export', () => {
         verifyPostsCSVFile(
             targetFolder,
             'have.string',
-            `This is CSV bot message ${botName},message,bot`,
+            `${message},message,bot`,
         );
     });
 
     it('MM-T1175_2 - UserType identifies that the message is posted by a bot', () => {
-        // # Post bot message
-        postBOTMessage(newTeam, newChannel, botId, botName, 'This is XML bot message');
+        const message = `This is XML bot message from ${botName} at ${Date.now()}`;
 
-        // # Go to Compliance and enable Run export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport('Actiance XML');
-        cy.uiExportCompliance();
+        // # Post bot message
+        postBotMessage(newTeam, newChannel, botId, message);
+
+        // # Go to Compliance and enable run export
+        exportCompliance('Actiance XML');
 
         // # Download and Unzip exported File
         const targetFolder = `${downloadsFolder}/${Date.now().toString()}`;
@@ -94,7 +98,7 @@ describe('Compliance Export', () => {
         verifyActianceXMLFile(
             targetFolder,
             'have.string',
-            `This is XML bot message ${botName}`,
+            message,
         );
         verifyActianceXMLFile(
             targetFolder,
@@ -104,18 +108,23 @@ describe('Compliance Export', () => {
     });
 });
 
-function postBOTMessage(newTeam, newChannel, botId, botName, message) {
+function postBotMessage(newTeam, newChannel, botId, message) {
     cy.apiCreateToken(botId).then(({token}) => {
         // # Logout to allow posting as bot
         cy.apiLogout();
-        const msg1 = `${message} ${botName}`;
-        cy.apiCreatePost(newChannel.id, msg1, '', {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token);
+        cy.apiCreatePost(newChannel.id, message, '', {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token);
 
         // # Re-login to validate post presence
         cy.apiAdminLogin();
-        cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
+        cy.visit(`/${newTeam.name}/channels/${newChannel.name}`);
 
         // * Validate post was created
-        cy.findByText(msg1).should('be.visible');
+        cy.findByText(message).should('be.visible');
     });
+}
+
+function exportCompliance(type) {
+    cy.uiGoToCompliancePage();
+    cy.uiEnableComplianceExport(type);
+    cy.uiExportCompliance();
 }
