@@ -76,10 +76,10 @@ describe('Guest Account - Member Invitation Flow', () => {
 
             // # Type the email of the new user
             cy.get('input').type(email, {force: true});
-            cy.get('.users-emails-input__menu').
-                children().should('have.length', 1).
-                eq(0).should('contain', `Invite ${email} as a team member`).click();
         });
+        cy.get('.users-emails-input__menu').
+            children().should('have.length', 1).
+            eq(0).should('contain', `Invite ${email} as a team member`).click();
 
         // * Verify the clicking the close icon closes the modal
         cy.get('#closeIcon').should('be.visible').click();
@@ -256,8 +256,11 @@ function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
     // # Search and add a member
     cy.get('.users-emails-input__control').should('be.visible').within(() => {
         cy.get('input').type(typeText, {force: true});
-        cy.get('.users-emails-input__menu').
-            children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
+        cy.get('input').tab();
+    });
+    cy.get('.users-emails-input__menu').
+        children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
+    cy.get('.users-emails-input__control').should('be.visible').within(() => {
         cy.get('input').tab();
     });
 

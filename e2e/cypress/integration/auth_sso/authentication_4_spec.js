@@ -274,7 +274,7 @@ describe('Authentication', () => {
         cy.uiOpenTeamMenu('Invite People');
 
         // # Click invite members
-        cy.findByText('Member').click();
+        cy.findByTestId('inviteMembersLink').click();
 
         // # Input email, select member
         cy.findByText('Enter a name or email address').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');

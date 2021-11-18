@@ -75,10 +75,10 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
             // # Type the email of the new user
             cy.get('input').type(email, {force: true});
-            cy.get('.users-emails-input__menu').
-                children().should('have.length', 1).
-                eq(0).should('contain', `Invite ${email} as a guest`).click();
         });
+        cy.get('.users-emails-input__menu').
+            children().should('have.length', 1).
+            eq(0).should('contain', `Invite ${email} as a guest`).click();
 
         cy.get('.channels-input__control').should('be.visible').within(() => {
             // * Verify the input placeholder text
@@ -86,10 +86,11 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
             // # Type the channel name
             cy.get('input').type('town sq', {force: true});
-            cy.get('.channels-input__menu').
-                children().should('have.length', 1).
-                eq(0).should('contain', 'Town Square').click();
         });
+
+        cy.get('.channels-input__menu').
+            children().should('have.length', 1).
+            eq(0).should('contain', 'Town Square').click();
 
         // * Verify Set Custom Message before clicking on the link
         cy.get('.AddToChannels').should('be.visible').within(() => {
@@ -172,9 +173,9 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Search and add a member
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
             cy.get('input').type(newUser.username, {force: true});
-            cy.get('.users-emails-input__menu').
-                children().should('have.length', 1).eq(0).should('contain', newUser.username).click();
         });
+        cy.get('.users-emails-input__menu').
+            children().should('have.length', 1).eq(0).should('contain', newUser.username).click();
 
         // # Click Invite Members
         cy.get('#inviteMembersButton').scrollIntoView().click();
@@ -210,12 +211,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
 
         // * Verify the email field is empty
+        const email = `temp-${getRandomId()}@mattermost.com`;
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
             cy.get('.users-emails-input__multi-value').should('not.exist');
-            const email = `temp-${getRandomId()}@mattermost.com`;
             cy.get('input').type(email, {force: true});
-            cy.get('.users-emails-input__menu').children().should('have.length', 1).eq(0).should('contain', email).click();
         });
+        cy.get('.users-emails-input__menu').children().should('have.length', 1).eq(0).should('contain', email).click();
 
         // # Click Invite Guests Button
         cy.get('#inviteGuestButton').scrollIntoView().click();

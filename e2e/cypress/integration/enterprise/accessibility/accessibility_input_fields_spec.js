@@ -40,7 +40,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.findByTestId('inviteMembersLink').should('be.visible').click();
 
         // * Verify Accessibility support in Share this link input field
-        cy.findByTestId('shareLinkInput').should('have.attr', 'aria-label', 'team invite link');
+        cy.findByTestId('InviteView__copyInviteLink').should('have.attr', 'aria-label', 'team invite link');
 
         // * Verify Accessibility Support in Add or Invite People input field
         cy.get('.users-emails-input__control').should('be.visible').within(() => {

@@ -393,6 +393,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 onHide={this.handleHide}
                 role='dialog'
                 backdrop={this.getBackdrop()}
+                aria-modal='true'
                 aria-labelledby='invitation_modal_title'
             >
                 {view}
