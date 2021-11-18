@@ -57,12 +57,12 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
 
     return (
         <div className='EnterpriseEditionLeftPanel'>
-            {isTrialLicense && <div className='pre-title'>
+            <div className='pre-title'>
                 <FormattedMessage
                     id='admin.license.enterpriseEdition'
                     defaultMessage='Enterprise Edition'
                 />
-            </div>}
+            </div>
             <div className='title'>
                 {`Mattermost ${skuName}`}{freeTrialBadge(isTrialLicense)}
             </div>
