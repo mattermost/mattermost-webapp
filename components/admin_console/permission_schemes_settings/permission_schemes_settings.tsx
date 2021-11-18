@@ -19,7 +19,7 @@ import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_wit
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {Scheme, SchemesState} from 'mattermost-redux/types/schemes';
+import {Scheme, SchemeScope, SchemesState} from 'mattermost-redux/types/schemes';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
@@ -34,7 +34,7 @@ export type Props = {
         CustomPermissionsSchemes: string;
     };
     actions: {
-        loadSchemes: (a: string, b: number, c: number) => Promise<ActionResult>;
+        loadSchemes: (scope: SchemeScope, page: number, perPage: number) => Promise<ActionResult>;
         loadSchemeTeams: (id: string) => Promise<ActionResult>;
     };
     isDisabled?: boolean;
