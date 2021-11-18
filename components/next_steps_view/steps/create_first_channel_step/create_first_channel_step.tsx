@@ -65,7 +65,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
         return null;
     };
 
-    const onSubmitChannel = (displayName: string) => {
+    const onSubmitChannel = async (displayName: string) => {
         const channel: Channel = {
             team_id: currentTeam.id,
             name: displayName.split(' ').join('-').toLowerCase(),
@@ -84,20 +84,17 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
             update_at: 0,
         };
 
-        const result = dispatch(createChannel(channel, userId)) as unknown as Promise<ActionResult>;
-
-        result.then(({data, error}) => {
-            if (error) {
-                setChannelCreateError(true);
-                setTimeout(() => {
-                    setChannelCreateError(false);
-                }, 5000);
-            } else if (data) {
-                // dispatch the first channel name value
-                dispatch(setFirstChannelName(data.name));
-                dispatch(switchToChannel(data));
-            }
-        });
+        const {data, error} = await dispatch(createChannel(channel, userId)) as ActionResult;
+        if (error) {
+            setChannelCreateError(true);
+            setTimeout(() => {
+                setChannelCreateError(false);
+            }, 5000);
+        } else if (data) {
+            // dispatch the first channel name value
+            dispatch(setFirstChannelName(data.name));
+            dispatch(switchToChannel(data));
+        }
     };
 
     const onEnterKeyDown = (e: React.KeyboardEvent) => {

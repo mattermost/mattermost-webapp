@@ -185,6 +185,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             <Card
                 className={classNames({complete: this.isStepComplete(id)})}
                 expanded={expandedKey === id}
+                key={`key_${id}_${index}`}
             >
                 <Card.Header>
                     <button
