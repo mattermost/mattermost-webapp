@@ -47,7 +47,7 @@ exports[`components/AnnouncementBar should match snapshot, "Don't ask again" but
     className="announcement-bar__overlay"
   >
     <button
-      className="announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again"
+      className="announcement-bar__btn announcement-bar__btn--tertiary announcement-bar__dont-ask-again"
       type="button"
     >
       <MemoizedFormattedMessage
