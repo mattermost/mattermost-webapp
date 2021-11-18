@@ -2480,19 +2480,7 @@ const AdminDefinition = {
                         label: t('admin.customization.enableCustomEmojiTitle'),
                         label_default: 'Enable Custom Emoji:',
                         help_text: t('admin.customization.enableCustomEmojiDesc'),
-                        help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, custom emoji settings can be accessed from {customEmojiLink}, or in Channels through the emoji picker.',
-                        help_text_values: {
-                            customEmojiLink: (
-                                <a href={`${getSiteURL()}//emoji`}>
-                                    <b>
-                                        <FormattedMessage
-                                            id='admin.customization.enableCustomEmojiLink'
-                                            defaultMessage='here'
-                                        />
-                                    </b>
-                                </a>
-                            ),
-                        },
+                        help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, custom emoji settings can be accessed in Channels through the emoji picker.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.EMOJI)),
                     },
                 ],
