@@ -71,6 +71,10 @@ describe('components/next_steps_view/steps/create_first_channel_step', () => {
         isLastStep: false,
         onSkip: () => {},
         onFinish: () => {},
+        completeStepButtonText: {
+            id: 'tID',
+            defaultMessage: 'defaultMessage',
+        },
     };
 
     const mockStore = configureStore([thunk]);
