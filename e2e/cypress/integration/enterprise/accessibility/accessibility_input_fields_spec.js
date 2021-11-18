@@ -48,8 +48,6 @@ describe('Verify Accessibility Support in different input fields', () => {
             cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
         });
 
-        cy.get('#backIcon').click();
-
         // # Click on Invite Guests link
         cy.findByTestId('inviteGuestLink').should('be.visible').click();
 

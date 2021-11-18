@@ -218,7 +218,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
             // # Add a random username without proper email address format
             const username = `temp-${getRandomId()}`;
-            cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
+            cy.get('.users-emails-input__control').should('be.visible').within(() => {
                 cy.get('input').type(username, {force: true});
             });
 
@@ -228,7 +228,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             // * Verify the content and message in the Invitation Modal
             cy.findByTestId('invitationModal').within(() => {
                 cy.get('h1').should('have.text', `Members invited to ${team.display_name}`);
-                cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+                cy.get('div.invitation-modal-confirm--not-sent').should('be.visible').within(() => {
                     cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
                     cy.get('.people-header').should('have.text', 'People');
                     cy.get('.details-header').should('have.text', 'Details');
@@ -236,7 +236,7 @@ describe('Guest Account - Member Invitation Flow', () => {
                     cy.get('.reason').should('have.text', 'Does not match a valid user or email.');
                 });
 
-                cy.get('div.invitation-modal-confirm-sent').should('be.visible').within(() => {
+                cy.get('div.invitation-modal-confirm--sent').should('be.visible').within(() => {
                     cy.get('h2 > span').should('have.text', 'Successful Invites');
                     cy.get('.people-header').should('have.text', 'People');
                     cy.get('.details-header').should('have.text', 'Details');

@@ -71,7 +71,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         const email = `temp-${getRandomId()}@mattermost.com`;
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
             // * Verify the input placeholder text
-            cy.get('.users-emails-input__placeholder').should('have.text', 'Add guests or email addresses');
+            cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
 
             // # Type the email of the new user
             cy.get('input').type(email, {force: true});
@@ -142,7 +142,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         invitePeople(email, 1, email, 'Town Square', false);
 
         // * Verify Invite Guests button is disabled
-        cy.get('.InviteAs').should('not.exist');
+        cy.get('#inviteGuestButton').should('be.disabled');
     });
 
     it('MM-22037 Invite Guest via Email containing upper case letters', () => {
@@ -182,8 +182,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the content and error message in the Invitation Modal
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('div.invitation-modal--confirm-sent').should('not.exist');
-            cy.get('div.invitation-modal--confirm-not-sent').should('be.visible').within(() => {
+            cy.get('div.invitation-modal-confirm--sent').should('not.exist');
+            cy.get('div.invitation-modal-confirm--not-sent').should('be.visible').within(() => {
                 cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
                 cy.get('.people-header').should('have.text', 'People');
                 cy.get('.details-header').should('have.text', 'Details');
