@@ -50,6 +50,7 @@ export default function InviteAs(props: Props) {
                             />
                         ),
                         value: InviteType.MEMBER,
+                        testId: 'inviteMembersLink',
                     },
                     {
                         key: (
@@ -68,6 +69,7 @@ export default function InviteAs(props: Props) {
                             </span>
                         ),
                         value: InviteType.GUEST,
+                        testId: 'inviteGuestLink',
                     },
                 ]}
             />
@@ -103,6 +105,7 @@ export default function InviteAs(props: Props) {
                     onToggle={() => {
                         props.setInviteAs(props.inviteType === InviteType.GUEST ? InviteType.MEMBER : InviteType.GUEST);
                     }}
+                    testId={props.inviteType === InviteType.GUEST ? 'inviteMembersLink' : 'inviteGuestLink'}
                 />
             </div>
         );

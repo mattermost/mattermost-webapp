@@ -13,7 +13,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {getRandomId} from '../../../utils';
+import {getRandomId, stubClipboard} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -56,41 +56,23 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify UI Elements in initial step
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', `Invite people to ${testTeam.display_name}`);
-        });
-        cy.findByTestId('inviteMembersLink').should('be.visible').within(() => {
-            cy.findByTestId('inviteMembersSection').find('h2 > span').should('have.text', 'Invite Members');
-            cy.findByTestId('inviteMembersSection').find('span').last().should('have.text', 'Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.');
-            cy.get('.arrow').click();
+            cy.get('h1').should('have.text', `Invite members to ${testTeam.display_name}`);
         });
 
-        // * Verify the header has changed in the modal
-        cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', `Invite Members to ${testTeam.display_name}`);
-        });
+        stubClipboard().as('clipboard');
 
-        // * Verify Share Link Header and helper text
-        cy.findByTestId('shareLink').should('be.visible').within(() => {
-            cy.findByRole('heading', {name: /share this link/i}).should('be.visible');
-            cy.get('.help-text > span').should('have.text', 'Share this link to invite people to this team.');
-        });
+        // * Verify share link button
+        cy.findByTestId('InviteView__copyInviteLink').should('be.visible').should('have.text', 'Copy invite link').click();
 
-        // * Verify Share Link Input field
+        // * Verify share link url
         const baseUrl = Cypress.config('baseUrl');
-        cy.findByTestId('shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${testTeam.invite_id}`);
 
-        // * Verify Copy Link button text
-        cy.findByTestId('shareLinkInputButton').should('be.visible').and('have.text', 'Copy Link');
+        cy.get('@clipboard').its('contents').should('eq', `${baseUrl}/signup_user_complete/?id=${testTeam.invite_id}`);
 
-        // * Verify Invite People field
-        cy.findByTestId('searchAdd').should('be.visible').within(() => {
-            cy.findByText(/add or invite people/i).should('be.visible');
-            cy.get('.help-text > span').should('have.text', 'Add existing members or send email invites to new members.');
-        });
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('be.disabled');
-        cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
+        cy.get('.users-emails-input__control').should('be.visible').within(() => {
             // * Verify the input placeholder text
-            cy.get('.users-emails-input__placeholder').should('have.text', 'Add members or email addresses');
+            cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
 
             // # Type the email of the new user
             cy.get('input').type(email, {force: true});
@@ -99,21 +81,8 @@ describe('Guest Account - Member Invitation Flow', () => {
                 eq(0).should('contain', `Invite ${email} as a team member`).click();
         });
 
-        // * Verify if invite members button is not disabled when an email is added
-        cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('not.be.disabled');
-
-        // * Verify the confirmation message when users clicks on the Close button
+        // * Verify the clicking the close icon closes the modal
         cy.get('#closeIcon').should('be.visible').click();
-        cy.get('#confirmModalLabel').should('be.visible').and('have.text', 'Discard Changes');
-        cy.get('.modal-body').should('be.visible').and('have.text', 'You have unsent invitations, are you sure you want to discard them?');
-
-        // * Verify the behavior when Cancel button in the confirmation message is clicked
-        cy.get('#cancelModalButton').click();
-        cy.get('#confirmModal').should('not.exist');
-
-        // * Verify the behavior when Yes, Discard button in the confirmation message is clicked
-        cy.get('#closeIcon').should('be.visible').click();
-        cy.get('#confirmModalButton').should('be.visible').and('have.text', 'Yes, Discard').click();
         cy.get('.InvitationModal').should('not.exist');
     });
 
@@ -285,7 +254,7 @@ function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
     cy.uiOpenTeamMenu('Invite People');
 
     // # Search and add a member
-    cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
+    cy.get('.users-emails-input__control').should('be.visible').within(() => {
         cy.get('input').type(typeText, {force: true});
         cy.get('.users-emails-input__menu').
             children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
@@ -302,7 +271,6 @@ function verifyInvitationError(user, team, errorText) {
     // * Verify the content and error message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
         cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
-        cy.get('h2.subtitle > span').should('have.text', '1 invitation was not sent');
         cy.get('div.invitation-modal-confirm-sent').should('not.exist');
         cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
@@ -311,7 +279,7 @@ function verifyInvitationError(user, team, errorText) {
             cy.get('.username-or-icon').should('contain', user);
             cy.get('.reason').should('have.text', errorText);
         });
-        cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
+        cy.findByTestId('confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -322,7 +290,6 @@ function verifyInvitationSuccess(user, team, successText) {
     // * Verify the content and success message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
         cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
-        cy.get('h2.subtitle > span').should('have.text', '1 person has been invited');
         cy.get('div.invitation-modal-confirm-not-sent').should('not.exist');
         cy.get('div.invitation-modal-confirm-sent').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Successful Invites');
@@ -331,7 +298,7 @@ function verifyInvitationSuccess(user, team, successText) {
             cy.get('.username-or-icon').should('contain', user);
             cy.get('.reason').should('have.text', successText);
         });
-        cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
+        cy.findByTestId('confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed

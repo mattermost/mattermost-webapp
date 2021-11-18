@@ -10,13 +10,18 @@ type Props = {
     onText?: React.ReactNode;
     offText?: React.ReactNode;
     id?: string;
+    testId?: string;
 }
 
 const Toggle: React.FC<Props> = (props: Props) => {
-    const {onToggle, toggled, disabled, onText, offText, id} = props;
+    const {onToggle, toggled, disabled, onText, offText, id, testId} = props;
+    let dataTestId = `${id}-button`;
+    if (testId) {
+        dataTestId = testId;
+    }
     return (
         <button
-            data-testid={`${id}-button`}
+            data-testid={dataTestId}
             type='button'
             onClick={onToggle}
             className={`btn btn-lg btn-toggle ${toggled ? 'active' : ''} ${disabled ? 'disabled' : ''}`}

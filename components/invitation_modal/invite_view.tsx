@@ -50,7 +50,7 @@ export type Props = InviteState & {
     onChannelsInputChange: (channelsInputValue: string) => void;
     onClose: () => void;
     currentTeam: Team;
-    currentChannelName: string;
+    currentChannel: Channel;
     inviteToTeamTreatment: InviteToTeamTreatments;
     setCustomMessage: (message: string) => void;
     toggleCustomMessage: () => void;
@@ -68,6 +68,7 @@ export type Props = InviteState & {
     footerClass: string;
     canInviteGuests: boolean;
     canAddUsers: boolean;
+    townSquareDisplayName: string;
 }
 
 export default function InviteView(props: Props) {
@@ -190,7 +191,7 @@ export default function InviteView(props: Props) {
     return (
         <>
             <Modal.Header className={props.headerClass}>
-                <h1>
+                <h1 id='invitation_modal_title'>
                     <FormattedMessage
                         id='invite_modal.title'
                         defaultMessage={'Invite {inviteType} to {team_name}'}
@@ -211,6 +212,7 @@ export default function InviteView(props: Props) {
                     />
                 </h1>
                 <button
+                    id='closeIcon'
                     className='icon icon-close'
                     aria-label='Close'
                     title='Close'
@@ -263,7 +265,8 @@ export default function InviteView(props: Props) {
                         onChannelsInputChange={props.onChannelsInputChange}
                         inviteChannels={props.inviteChannels}
                         channelsLoader={props.channelsLoader}
-                        currentChannelName={props.currentChannelName}
+                        currentChannel={props.currentChannel}
+                        townSquareDisplayName={props.townSquareDisplayName}
                         titleClass='InviteView__sectionTitle'
                     />
                 )}
@@ -274,7 +277,7 @@ export default function InviteView(props: Props) {
                     disabled={!isInviteValid}
                     onClick={props.invite}
                     className={'btn btn-primary'}
-                    id='inviteMembersButton'
+                    id={props.inviteType === InviteType.MEMBER ? 'inviteMembersButton' : 'inviteGuestButton'}
                 >
                     <FormattedMessage
                         id='invite_modal.invite'

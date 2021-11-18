@@ -274,13 +274,13 @@ describe('Authentication', () => {
         cy.uiOpenTeamMenu('Invite People');
 
         // # Click invite members
-        cy.findByText('Members').click();
+        cy.findByText('Member').click();
 
         // # Input email, select member
-        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');
+        cy.findByText('Enter a name or email address').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');
 
         // # Click invite members button
-        cy.findByRole('button', {name: 'Invite Members'}).click({force: true});
+        cy.findByRole('button', {name: 'Invite'}).click({force: true});
 
         // * Verify message is what you expect it to be
         cy.contains('The following email addresses do not belong to an accepted domain:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
