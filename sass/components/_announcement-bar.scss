@@ -18,6 +18,7 @@
     .announcement-bar__text {
         display: flex;
         overflow: hidden;
+        min-height: $announcement-bar-content-min-height;
         flex-grow: 1;
         align-items: center;
         justify-content: center;
@@ -87,34 +88,75 @@
         font-size: 16px;
     }
 
-    .announcement-bar__button {
-        &:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-        }
-
+    .announcement-bar__btn {
         height: 24px;
         box-sizing: border-box;
-        padding: 4px 8px;
+        padding: 6px 10px;
         border: 1px solid #fff;
-        margin-left: 8px;
-        background-color: inherit !important;
+        background-color: inherit;
         border-radius: 4px;
         font-family: Open Sans;
-        font-size: 12px;
+        font-size: 11px;
         font-style: normal;
         font-weight: 600;
-        line-height: 16px;
+        line-height: 10px;
 
-        &--text {
+        &.announcement-bar__btn--secondary {
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.08);
+            }
+
+            &:active {
+                background-color: rgba(255, 255, 255, 0.16);
+            }
+
+            &:focus {
+                border-color: transparent;
+                outline: 2px solid var(--sidebar-text-active-border);
+            }
+        }
+
+        &.announcement-bar__btn--tertiary {
             border: none;
+            color: var(--sidebar-text-rgb);
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.16);
+            }
+
+            &:active {
+                background-color: rgba(255, 255, 255, 0.24);
+            }
+
+            &:focus {
+                outline: 2px solid var(--sidebar-text-active-border);
+            }
         }
 
-        &.announcement-bar__button--text {
-            padding-right: 0;
-            padding-left: 0;
-            color: rgba(var(--sidebar-text-rgb), 0.56);
-            font-size: 12px;
+        &.announcement-bar__btn--icon {
+            padding: 6px;
+            border: none;
+            color: rgba(var(--sidebar-text-rgb), 0.64);
+            font-size: 14.4px;
+            line-height: 14px;
+            text-decoration: none;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.08);
+            }
+
+            &:active {
+                background-color: rgba(255, 255, 255, 0.16);
+            }
+
+            &:focus {
+                outline: 2px solid var(--sidebar-text-active-border);
+            }
         }
+    }
+
+    .announcement-bar__upgrade-btn {
+        margin-left: 8px;
     }
 
     .announcement-bar__dont-ask-again {
@@ -133,6 +175,7 @@
         position: absolute;
         right: 0;
         display: flex;
+        min-height: $announcement-bar-content-min-height;
         align-items: center;
     }
 }

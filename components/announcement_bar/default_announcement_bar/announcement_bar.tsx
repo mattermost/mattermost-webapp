@@ -98,14 +98,13 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         let closeButton;
         if (this.props.showCloseButton) {
             closeButton = (
-                <a
-                    href='#'
-                    className='announcement-bar__close'
+                <button
+                    className='announcement-bar__btn announcement-bar__btn--icon'
                     style={linkStyle}
                     onClick={this.handleClose}
                 >
                     {'×'}
-                </a>
+                </button>
             );
         }
 
@@ -114,7 +113,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
             dontAskAgainButton = (
                 <button
                     onClick={this.props.onDontAskAgainButtonClick}
-                    className='announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again'
+                    className='announcement-bar__btn announcement-bar__btn--tertiary announcement-bar__dont-ask-again'
                     type='button'
                 >
                     <FormattedMessage
@@ -185,7 +184,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                         {
                             this.props.showLinkAsButton &&
                             <button
-                                className='announcement-bar__button upgrade-button'
+                                className='announcement-bar__btn announcement-bar__btn--secondary announcement-bar__upgrade-btn'
                                 onClick={this.props.onButtonClick}
                             >
                                 <FormattedMessage
