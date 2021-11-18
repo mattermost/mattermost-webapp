@@ -51,10 +51,10 @@ export function doTestUserChannelSection(prefix, testTeam, testUsers) {
         type(`@${prefix}odinson`);
 
     // * Thor should be a channel member
-    cy.uiVerifyAtMentionInSuggestionList('Channel Members', thor, true);
+    cy.uiVerifyAtMentionInSuggestionList(thor, true);
 
     // * Loki should NOT be a channel member
-    cy.uiVerifyAtMentionInSuggestionList('Not in Channel', loki, false);
+    cy.uiVerifyAtMentionInSuggestionList(loki, false);
 }
 
 export function doTestDMChannelSidebar(testUsers) {
