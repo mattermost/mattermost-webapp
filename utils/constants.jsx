@@ -334,6 +334,7 @@ export const ModalIdentifiers = {
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM: 'confirm',
+    FILE_PREVIEW_MODAL: 'file_preview_modal',
     IMPORT_THEME_MODAL: 'import_theme_modal',
     LEAVE_PRIVATE_CHANNEL_MODAL: 'leave_private_channel_modal',
     GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
