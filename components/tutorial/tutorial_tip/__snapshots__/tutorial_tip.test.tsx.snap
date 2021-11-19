@@ -37,14 +37,34 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
         className="arrow"
       />
       <div
-        className="tutorial__footer"
+        className="tutorial-tip__header"
+      >
+        <h4
+          className="tutorial-tip__header__title"
+        >
+          title
+        </h4>
+        <button
+          className="tutorial-tip__header__close"
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-close"
+          />
+        </button>
+      </div>
+      <div
+        className="tutorial-tip__body"
+      />
+      <div
+        className="tutorial-tip__footer"
       >
         <div
-          className="tutorial__circles"
-        />
-        <div
-          className="text-right"
+          className="tutorial-tip__footer-buttons"
         >
+          <div
+            className="tutorial-tip__circles-ctr"
+          />
           <div
             className="tutorial-tip__btn-ctr"
           >

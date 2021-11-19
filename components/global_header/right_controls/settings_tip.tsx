@@ -20,22 +20,22 @@ const noBarPunchout = {
 };
 
 export default function SettingsTip() {
-    const screens = [
-        <div key='first-screen'>
-            <h4>
-                <FormattedMessage
-                    id='sidebar.tutorialSettings.title'
-                    defaultMessage='Customize your experience'
-                />
-            </h4>
+    const title = (
+        <FormattedMessage
+            id='sidebar.tutorialSettings.title'
+            defaultMessage='Customize your experience'
+        />
+    );
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar.tutorialSettings.settings'
                     defaultMessage={'Under Profile, set your availability, add a custom status, and set your profile picture. Select **Settings** to customize your experience, including notification preferences, custom theme colors, and more.'}
                 />
             </p>
-        </div>,
-    ];
+        </>
+    );
     const isAnnouncementBarOpen = useSelector(getAnnouncementBarCount) > 0;
     const globalHeaderPunchout = useMemo(() => {
         const headerRect = document.getElementById('global-header')?.getBoundingClientRect();
@@ -49,9 +49,10 @@ export default function SettingsTip() {
 
     return (
         <TutorialTip
+            title={title}
             showOptOut={true}
             placement='bottom'
-            screens={screens}
+            screen={screen}
             step={TutorialSteps.SETTINGS}
             overlayClass='tip-overlay--settings'
             telemetryTag='tutorial_tip_settings'

@@ -18,6 +18,9 @@ const TutorialSteps = {
     [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
 };
+const TutorialAutoTourStatus = {
+    [Preferences.CRT_TUTORIAL_STEP]: Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS,
+};
 
 type Preference = {
     user_id: string;
@@ -37,7 +40,8 @@ type Props = {
     step: ValueOf<typeof OnBoardingTutorialStep>;
     singleTip?: boolean;
     showOptOut?: boolean;
-    screens: JSX.Element[];
+    screen: JSX.Element;
+    title: JSX.Element;
     placement: string;
     overlayClass: string;
     telemetryTag?: string;
@@ -99,6 +103,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     private dismiss = (e: React.MouseEvent | React.KeyboardEvent): void => {
         this.hide();
+        this.handleSavePreferences(false, true, false);
         const wasEscapeDismissal = e.type === 'keyup';
         const tag = this.props.telemetryTag + '_dismiss';
         if (wasEscapeDismissal) {
@@ -127,8 +132,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         if (!couldAutoShow) {
             return;
         }
-        const isShowable = (this.props.autoTour || this.props.tutorialCategory) && !this.state.hasShown && this.props.currentStep === this.props.step;
-        if (isShowable) {
+        const canShow = this.props.autoTour && !this.state.hasShown && this.props.currentStep === this.props.step;
+        if (canShow) {
             // POST_POPOVER is the only tip that is not automatically rendered if it is the currentStep.
             // This is because tips and next steps may display.
             // It can further happen that the post popover gets the first chance to display,
@@ -145,16 +150,35 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
-    public handlePrev = (): void => {
-        const {currentUserId, tutorialCategory, actions} = this.props;
+    private handleSavePreferences = (autoTour: boolean, isNextStep?: boolean, isPrevStep?: boolean, jumpToStep?: number): void => {
+        const {currentUserId, tutorialCategory, actions, singleTip} = this.props;
         const {closeRhsMenu, savePreferences} = actions;
 
-        const preferences = [{
-            user_id: currentUserId,
-            category: tutorialCategory || Preferences.TUTORIAL_STEP,
-            name: currentUserId,
-            value: (this.props.currentStep - 1).toString(),
-        }];
+        let stepValue = this.props.currentStep;
+        if (isNextStep) {
+            stepValue = (this.props.currentStep + 1);
+        } else if (isPrevStep) {
+            stepValue = (this.props.currentStep - 1);
+        }
+        if (jumpToStep !== undefined) {
+            stepValue = jumpToStep;
+        }
+        const preferences = [
+            {
+                user_id: currentUserId,
+                category: tutorialCategory || Preferences.TUTORIAL_STEP,
+                name: currentUserId,
+                value: stepValue.toString(),
+            },
+        ];
+        if (tutorialCategory && !singleTip) {
+            preferences.push({
+                user_id: currentUserId,
+                category: TutorialAutoTourStatus[tutorialCategory],
+                name: currentUserId,
+                value: autoTour ? Constants.AutoTourStatus.ENABLED.toString() : Constants.AutoTourStatus.DISABLED.toString(),
+            });
+        }
 
         if (!tutorialCategory) {
             closeRhsMenu();
@@ -162,65 +186,31 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.hide();
 
         savePreferences(currentUserId, preferences);
-        const {onPrevNavigateTo} = this.props;
-        if (onPrevNavigateTo) {
+        const {onNextNavigateTo, onPrevNavigateTo} = this.props;
+        if (onNextNavigateTo && isNextStep && autoTour) {
+            onNextNavigateTo();
+        } else if (onPrevNavigateTo && isPrevStep && autoTour) {
             onPrevNavigateTo();
         }
     }
 
+    public handlePrev = (): void => {
+        this.handleSavePreferences(true, false, true);
+    }
+
     public handleNext = (): void => {
-        if (this.state.currentScreen < this.props.screens.length - 1) {
-            this.setState({currentScreen: this.state.currentScreen + 1});
-            return;
-        }
-
         if (this.props.telemetryTag) {
-            let tag = this.props.telemetryTag;
-
-            if (this.props.screens.length > 1) {
-                tag += '_' + (this.state.currentScreen + 1).toString();
-            }
-
-            if (this.state.currentScreen === this.props.screens.length - 1) {
-                tag += '_okay';
-            } else {
-                tag += '_next';
-            }
-
+            const tag = this.props.telemetryTag + '_next';
             trackEvent('tutorial', tag);
         }
-
-        const {currentUserId, tutorialCategory, actions} = this.props;
-        const {closeRhsMenu, savePreferences} = actions;
-
-        const preferences = [{
-            user_id: currentUserId,
-            category: tutorialCategory || Preferences.TUTORIAL_STEP,
-            name: currentUserId,
-            value: (this.props.currentStep + 1).toString(),
-        }];
-
-        if (!tutorialCategory) {
-            closeRhsMenu();
-        }
-        this.hide();
-
-        savePreferences(currentUserId, preferences);
-        const {onNextNavigateTo} = this.props;
-        if (onNextNavigateTo) {
-            onNextNavigateTo();
-        }
+        this.handleSavePreferences(true, true, false);
     }
 
     public skipTutorial = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
 
         if (this.props.telemetryTag) {
-            let tag = this.props.telemetryTag;
-            if (this.props.screens.length > 1) {
-                tag += '_' + this.state.currentScreen;
-            }
-            tag += '_skip';
+            const tag = this.props.telemetryTag + '_skip';
             trackEvent('tutorial', tag);
         }
 
@@ -233,11 +223,6 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }];
 
         actions.savePreferences(currentUserId, preferences);
-    }
-
-    private handleCircleClick = (e: React.MouseEvent<HTMLAnchorElement>, screen: number): void => {
-        e.preventDefault();
-        this.setState({currentScreen: screen});
     }
 
     private getTarget = (): HTMLImageElement | null => {
@@ -308,20 +293,24 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         const tourSteps = this.props.tutorialCategory ? TutorialSteps[this.props.tutorialCategory] : null;
         if (!this.props.singleTip && tourSteps) {
             for (let i = 0; i < (Object.values(tourSteps).length - 1); i++) {
-                let className = 'circle';
+                let className = 'tutorial-tip__circle';
+                let circularRing = 'tutorial-tip__circular-ring';
 
                 if (i === this.props.currentStep) {
                     className += ' active';
+                    circularRing += ' tutorial-tip__circular-ring-active';
                 }
 
                 dots.push(
-                    <a
-                        href='#'
-                        key={'dotactive' + i}
-                        className={className}
-                        data-screen={i}
-                        onClick={(e) => this.handleCircleClick(e, i)}
-                    />,
+                    <div className={circularRing}>
+                        <a
+                            href='#'
+                            key={'dotactive' + i}
+                            className={className}
+                            data-screen={i}
+                            onClick={() => this.handleSavePreferences(true, false, false, i)}
+                        />
+                    </div>,
                 );
             }
         }
@@ -357,10 +346,23 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 >
                     <div className={'tip-overlay ' + this.props.overlayClass}>
                         <div className='arrow'/>
-                        {this.props.screens[this.state.currentScreen]}
-                        <div className='tutorial__footer'>
-                            <div className='tutorial__circles'>{dots}</div>
-                            <div className='text-right'>
+                        <div className='tutorial-tip__header'>
+                            <h4 className='tutorial-tip__header__title'>
+                                {this.props.title}
+                            </h4>
+                            <button
+                                className='tutorial-tip__header__close'
+                                onClick={this.dismiss}
+                            >
+                                <i className='icon icon-close'/>
+                            </button>
+                        </div>
+                        <div className='tutorial-tip__body'>
+                            {this.props.screen}
+                        </div>
+                        <div className='tutorial-tip__footer'>
+                            <div className='tutorial-tip__footer-buttons'>
+                                <div className='tutorial-tip__circles-ctr'>{dots}</div>
                                 <div className={'tutorial-tip__btn-ctr'}>
                                     { (this.props.currentStep !== 0) &&
                                     <button
@@ -382,22 +384,22 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                                         {this.getButtonText(this.props.tutorialCategory || Preferences.TUTORIAL_STEP)}
                                     </button>
                                 </div>
-                                {this.props.showOptOut && <div className='tip-opt'>
-                                    <FormattedMessage
-                                        id='tutorial_tip.seen'
-                                        defaultMessage='Seen this before? '
-                                    />
-                                    <a
-                                        href='#'
-                                        onClick={this.skipTutorial}
-                                    >
-                                        <FormattedMessage
-                                            id='tutorial_tip.out'
-                                            defaultMessage='Opt out of these tips.'
-                                        />
-                                    </a>
-                                </div>}
                             </div>
+                            {this.props.showOptOut && <div className='tutorial-tip__opt'>
+                                <FormattedMessage
+                                    id='tutorial_tip.seen'
+                                    defaultMessage='Seen this before? '
+                                />
+                                <a
+                                    href='#'
+                                    onClick={this.skipTutorial}
+                                >
+                                    <FormattedMessage
+                                        id='tutorial_tip.out'
+                                        defaultMessage='Opt out of these tips.'
+                                    />
+                                </a>
+                            </div>}
                         </div>
                     </div>
                 </Overlay>

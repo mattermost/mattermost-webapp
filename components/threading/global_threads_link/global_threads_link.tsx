@@ -24,7 +24,6 @@ import CRTWelcomeTutorialTip
     from '../../collapsed_reply_threads_tour/crt_welcome_tutorial_tip/crt_welcome_tutorial_tip';
 import {GlobalState} from 'types/store';
 import {isAnyModalOpen} from 'selectors/views/modals';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import Constants, {CrtTutorialSteps, CrtTutorialTriggerSteps, ModalIdentifiers, Preferences} from 'utils/constants';
 import './global_threads_link.scss';
 import CollapsedReplyThreadsModal
@@ -48,19 +47,20 @@ const GlobalThreadsLink = () => {
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const unreadsOnly = useSelector(isUnreadFilterEnabled);
     const someUnreadThreads = counts?.total_unread_threads;
-    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const appHaveOpenModal = useSelector((state: GlobalState) => isAnyModalOpen(state));
-    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUser.id, CrtTutorialSteps.WELCOME_POPOVER));
-    const crtTutorialTrigger = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_TRIGGERED, getCurrentUserId(state), Constants.CrtTutorialTriggerSteps.START));
-    const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER;
-    const threadsCount = useSelector((state: GlobalState) => getThreadsInCurrentTeam(state).length);
-    const showTutorialTrigger = crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount >= 1;
+    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId, CrtTutorialSteps.WELCOME_POPOVER));
+    const crtTutorialTrigger = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_TRIGGERED, currentUserId, Constants.CrtTutorialTriggerSteps.START));
+    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
+    const threads = useSelector((state: GlobalState) => getThreadsInCurrentTeam(state));
+    const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER && threads.length >= 1;
+    const threadsCount = useSelector((state: GlobalState) => getThreadCountsInCurrentTeam(state));
+    const showTutorialTrigger = isFeatureEnabled && crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount.total >= 1;
     const openThreads = useCallback((e) => {
         e.stopPropagation();
         if (showTutorialTrigger) {
             dispatch(openModal({modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL, dialogType: CollapsedReplyThreadsModal, dialogProps: {}}));
         }
-    }, [showTutorialTrigger, threadsCount]);
+    }, [showTutorialTrigger, threadsCount, threads]);
 
     useEffect(() => {
         // load counts if necessary
@@ -109,7 +109,7 @@ const GlobalThreadsLink = () => {
                     )}
                     {showTutorialTrigger && <PulsatingDot/>}
                 </Link>
-                {showTutorialTip && <CRTWelcomeTutorialTip/>}
+                {showTutorialTip && <CRTWelcomeTutorialTip autoTour={tutorialTipAutoTour}/>}
             </li>
         </ul>
     );

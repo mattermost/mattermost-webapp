@@ -33,14 +33,14 @@ export default function ChannelTutorialTip(props: Props) {
 
     const isAnnouncementBarOpen = useSelector(getAnnouncementBarCount) > 0;
 
-    const screens = [
-        <div key='first-screen'>
-            <h4>
-                <FormattedMessage
-                    id='sidebar.tutorialAddChannel.title'
-                    defaultMessage='Create and join channels'
-                />
-            </h4>
+    const title = (
+        <FormattedMessage
+            id='sidebar.tutorialAddChannel.title'
+            defaultMessage='Create and join channels'
+        />
+    );
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar.tutorialAddChannel.channelDiscovery'
@@ -71,8 +71,7 @@ export default function ChannelTutorialTip(props: Props) {
                     }}
                 />
             </p>
-        </div>,
-    ];
+        </>);
 
     let overlayClass = 'tip-overlay--add-channels';
     if (props.addChannelButton === AddChannelButtonTreatments.BY_TEAM_NAME || props.addChannelButton === AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR) {
@@ -81,10 +80,11 @@ export default function ChannelTutorialTip(props: Props) {
 
     return (
         <TutorialTip
+            title={title}
             showOptOut={true}
             placement='right'
             step={Constants.TutorialSteps.ADD_CHANNEL_POPOVER}
-            screens={screens}
+            screen={screen}
             stopPropagation={true}
             overlayClass={overlayClass}
             punchOut={useMeasurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}

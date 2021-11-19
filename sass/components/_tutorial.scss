@@ -9,8 +9,79 @@ $backdrop-index: 999;
 $tip-index: 1000;
 
 .tutorial-tip {
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        &__title {
+            flex: none;
+            flex-grow: 1;
+            order: 0;
+            margin: 0;
+            font-family: inherit;
+            font-size: 1.4rem;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 2rem;
+        }
+
+        &__close {
+            display: flex;
+            overflow: hidden;
+            width: 1.8rem;
+            height: 1.8rem;
+            align-items: center;
+            justify-content: center;
+            border: unset;
+            margin-left: 1.2rem;
+            background: transparent;
+            border-radius: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            font-weight: 600;
+
+            &:hover {
+                background: rgba(var(--button-bg-rgb), 0.04);
+            }
+
+            &.active {
+                background: rgba(var(--button-bg-rgb), 0.04);
+            }
+
+            i {
+                font-size: 1.8rem;
+                line-height: 1.8rem;
+
+                ::before {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        margin-top: 1.2rem;
+
+        p {
+            margin: 0 0 0.8rem;
+            font-size: 1.4rem;
+            line-height: 2rem;
+
+            strong {
+                font-weight: 600;
+            }
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+    }
+
     &__btn-ctr {
         display: flex;
+        flex-grow: 1;
         justify-content: flex-end;
     }
 
@@ -18,10 +89,10 @@ $tip-index: 1000;
         @include border-radius(4px);
 
         display: inline-flex;
+        height: 3.2rem;
         align-items: center;
         padding: 10px 16px;
         border: none;
-        margin: 10px 0;
         font-size: 12px;
         font-weight: 600;
         line-height: 12px;
@@ -63,7 +134,7 @@ $tip-index: 1000;
     &__cancel-btn {
         display: inline-flex;
         align-items: center;
-        margin-right: 12px;
+        margin-right: 4px;
         background: rgba(var(--button-bg-rgb), 0.08);
         border-radius: 4px;
         color: var(--button-bg);
@@ -85,6 +156,70 @@ $tip-index: 1000;
             margin-left: -7px;
         }
     }
+
+    &__circles-ctr {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    &__circular-ring {
+        position: relative;
+        display: flex;
+        width: 12px;
+        height: 12px;
+        align-items: center;
+        justify-content: center;
+        margin-right: 4px;
+        background: transparent;
+        border-radius: 50%;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &__circular-ring-active {
+        background: rgba(var(--button-bg-rgb), 0.16);
+    }
+
+    &__circle {
+        @include border-radius(6px);
+
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 6px;
+        height: 6px;
+        background: rgba(var(--button-bg-rgb), 0.32);
+
+        &.active {
+            background: rgba(var(--button-bg-rgb), 1);
+        }
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: column;
+        margin-top: 2.4rem;
+
+        &-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
+    }
+
+    &__opt {
+        display: flex;
+        align-self: flex-end;
+        margin-top: 1.2rem;
+        font-size: 12px;
+
+        span {
+            @include opacity(0.9);
+        }
+    }
 }
 
 .tip-backdrop {
@@ -97,37 +232,34 @@ $tip-index: 1000;
     background: alpha-color($black, 0.5);
 }
 
-.tutorial__footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .tip-overlay {
     @include border-radius(4px);
 
     position: absolute;
     z-index: $tip-index;
-    width: 350px;
+    width: 32rem;
     max-width: 90%;
-    padding: 20px;
+    padding: 2.4rem;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     background: var(--center-channel-bg);
     filter: drop-shadow(0 12px 32px rgba($black, 0.12));
 
     .arrow {
         position: absolute;
         display: block;
-        width: 0;
-        height: 0;
-        border-width: 10px;
+        width: 24px;
+        height: 24px;
+        border-width: 1px 0 0 1px;
         border-style: solid;
-        border-color: transparent;
+        border-color: rgba(var(--center-channel-color-rgb), 0.16);
+        background: var(--center-channel-bg);
+        transform: rotate(-45deg);
     }
 
     &.tip-overlay--sidebar {
         max-width: 75%;
-        min-height: 330px;
-        margin: 50px 0 0 10px;
+        min-height: 360px;
+        margin: 51px 0 0 10px;
 
         .tutorial__footer {
             position: absolute;
@@ -138,17 +270,9 @@ $tip-index: 1000;
         }
 
         .arrow {
-            top: 115px;
-            left: -10px;
-            border-right-color: var(--center-channel-bg);
-            border-left-width: 0;
+            top: 132px;
+            left: -13px;
             margin-top: -10px;
-        }
-    }
-
-    &.tip-overlay--header {
-        .arrow {
-            border-right-color: var(--center-channel-bg);
         }
     }
 
@@ -156,15 +280,14 @@ $tip-index: 1000;
         margin: 10px 0 0 10px;
 
         .arrow {
-            top: 34px;
-            left: -10px;
-            border-right-color: $white;
+            top: 31px;
+            left: -13px;
             border-left-width: 0;
         }
 
         &.tip-overlay--header--heading {
             .arrow {
-                top: 40px;
+                top: 37px;
             }
         }
     }
@@ -173,10 +296,9 @@ $tip-index: 1000;
         margin-top: -10px;
 
         .arrow {
-            top: -10px;
+            top: -13px;
             left: 50%;
             border-top-width: 0;
-            border-bottom-color: $white;
             margin-left: -10px;
         }
     }
@@ -186,17 +308,9 @@ $tip-index: 1000;
         box-shadow: var(--elevation-2);
 
         .arrow {
-            bottom: -10px;
-            left: 50%;
-            border-top-color: var(--center-channel-bg);
-            border-bottom-width: 0;
-            margin-left: -10px;
-            // given the tip can be placed over a which punchout, this provides
-            // the needed shadow. Can't do it with ordinary box-shadow because
-            // we're missing with the box definitions by making a triangle.
-            // Thanks, https://stackoverflow.com/a/39439751 !
-            -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.12));
-            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.12));
+            bottom: -13px;
+            left: calc(50% - 12px);
+            transform: rotate(-135deg);
         }
     }
 
@@ -204,74 +318,63 @@ $tip-index: 1000;
         margin-left: 10px;
 
         .arrow {
-            top: 82px;
-            left: -10px;
-            border-right-color: $white;
-            border-left-width: 0;
+            top: 78px;
+            left: -13px;
         }
 
         &.tip-overlay--top-row-placement {
             .arrow {
-                top: 41px;
+                top: 38px;
             }
         }
     }
 
     &.tip-overlay--threads-welcome {
-        margin: 75px 0 0 10px;
+        margin: 82px 0 0 10px;
 
         .arrow {
             top: 24px;
-            left: -10px;
-            border-right-color: $white;
-            border-left-width: 0;
+            left: -13px;
         }
     }
 
     &.tip-overlay--threads-list {
-        margin: 86px 0 0 10px;
+        margin: 96px 0 0 10px;
 
         .arrow {
             top: 24px;
-            left: -10px;
-            border-right-color: $white;
-            border-left-width: 0;
+            left: -13px;
         }
     }
 
     &.tip-overlay--threads-unread {
-        margin: 10px 0 0 146px;
+        margin: 10px 0 0 123px;
 
         .arrow {
-            top: -15px;
+            top: -13px;
             left: 24px;
-            border-right-color: white;
-            border-left-width: 0;
-            transform: rotate(90deg);
+            transform: rotate(45deg);
         }
     }
 
     &.tip-overlay--threads-pane {
-        margin: 38px 0 0 -10px;
+        margin: 34px 0 0 -10px;
 
         .arrow {
             top: 24px;
-            right: -10px;
-            border-right-color: white;
-            border-left-width: 0;
-            transform: rotate(180deg);
+            right: -13px;
+            transform: rotate(135deg);
         }
     }
 
     &.tip-overlay--product-switcher {
-        margin-top: 10px;
-        margin-left: 10px;
+        margin-top: 9px;
+        margin-left: 7px;
 
         .arrow {
-            top: -10px;
+            top: -12px;
             left: 18px;
-            border-top-width: 0;
-            border-bottom-color: $white;
+            transform: rotate(45deg);
         }
     }
 
@@ -279,58 +382,10 @@ $tip-index: 1000;
         margin: 10px 10px 0 0;
 
         .arrow {
-            top: -10px;
-            right: 44px;
+            top: -13px;
+            right: 41px;
             border-top-width: 0;
-            border-bottom-color: $white;
-        }
-    }
-
-    h4 {
-        margin: 5px 0 15px;
-        font-size: em(16px);
-        font-weight: 600;
-    }
-
-    p {
-        font-size: 13px;
-        line-height: 1.6;
-
-        strong {
-            font-weight: 600;
-        }
-    }
-
-    .btn {
-        @include border-radius(3px);
-
-        border: none;
-        margin: 10px 0;
-        background: alpha-color($black, 0.3);
-        color: $white;
-
-        &:hover,
-        &:active,
-        &:focus {
-            border: none;
-            background: alpha-color($black, 0.4);
-            color: $white;
-        }
-    }
-
-    .tip-opt {
-        font-size: 12px;
-
-        span {
-            @include opacity(0.9);
-        }
-    }
-
-    .tutorial__circles {
-        .circle {
-            width: 7px;
-            height: 7px;
-            margin: 0 4px;
+            transform: rotate(45deg);
         }
     }
 }
@@ -412,9 +467,9 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--threads-pane {
-        top: 27px;
+        top: 25px;
         right: unset;
-        left: 6px;
+        left: 4px;
         cursor: pointer;
     }
 
@@ -426,10 +481,8 @@ $tip-index: 1000;
         cursor: pointer;
 
         .arrow {
-            top: -10px;
+            top: -13px;
             right: 44px;
-            border-top-width: 0;
-            border-bottom-color: $white;
         }
     }
 
@@ -444,75 +497,6 @@ $tip-index: 1000;
         padding: 10px;
         margin: 0;
     }
-}
-
-.tutorial-steps__container {
-    display: flex;
-    overflow: auto;
-    height: 100vh;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-
-    .tutorial__content {
-        .tutorial__steps {
-            position: relative;
-            display: inline-block;
-            max-width: 310px;
-            min-height: 480px;
-            margin-bottom: 50px;
-            text-align: left;
-        }
-    }
-
-    .tutorial__footer {
-        position: absolute;
-        bottom: 0;
-    }
-
-    h1 {
-        margin: 20px 0 30px 0;
-        font-size: em(40px);
-        font-weight: 600;
-    }
-
-    h3 {
-        margin-bottom: 30px;
-        font-size: em(24px);
-        font-weight: 600;
-    }
-
-    .tutorial__circles {
-        position: absolute;
-        bottom: 25px;
-    }
-
-    .tutorial-skip {
-        margin-left: 13px;
-    }
-}
-
-.tutorial__circles {
-    .circle {
-        @include border-radius(9px);
-        @include opacity(0.2);
-
-        display: inline-block;
-        width: 9px;
-        height: 9px;
-        margin: 0 5px;
-        background: $black;
-
-        &.active {
-            @include opacity(1);
-
-            background: $primary-color;
-        }
-    }
-}
-
-.tutorial__app-icons {
-    margin: 2em 0;
 }
 
 body.announcement-bar--fixed {

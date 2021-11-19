@@ -13,37 +13,41 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 import {browserHistory} from 'utils/browser_history';
 
-const CRTWelcomeTutorialTip = () => {
+type Props = {
+    autoTour: boolean;
+};
+const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const nextUrl = `${teamUrl}/threads`;
     const onNextNavigateTo = () => browserHistory.push(nextUrl);
-    const screens = [
-        <div key='first-screen'>
-            <h4>
-                <FormattedMessage
-                    id='tutorial_threads.welcome.title'
-                    defaultMessage='Welcome to the Threads view!'
-                />
-            </h4>
+    const title = (
+        <FormattedMessage
+            id='tutorial_threads.welcome.title'
+            defaultMessage='Welcome to the Threads view!'
+        />
+    );
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='tutorial_threads.welcome.description'
                     defaultMessage={'All the conversations that you’re participating in or following will show here. If you have unread messages or mentions within your threads, you’ll see that here too.'}
                 />
             </p>
-        </div>,
-    ];
+        </>
+    );
 
     return (
         <TutorialTip
+            title={title}
             onNextNavigateTo={onNextNavigateTo}
             placement='right'
-            showOptOut={true}
+            showOptOut={false}
             step={Constants.CrtTutorialSteps.WELCOME_POPOVER}
             tutorialCategory={Constants.Preferences.CRT_TUTORIAL_STEP}
-            screens={screens}
+            screen={screen}
             overlayClass='tip-overlay--threads-welcome '
-            autoTour={true}
+            autoTour={autoTour}
             punchOut={useMeasurePunchouts(['sidebar-threads-button'], [])}
             telemetryTag='tutorial_tip_threads-welcome'
         />

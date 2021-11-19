@@ -22,14 +22,14 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
     }
 
     render = () => {
-        const screens = [
-            <div key='first-screen'>
-                <h4>
-                    <FormattedMessage
-                        id='sidebar.tutorialChannelTypes.title'
-                        defaultMessage='Organize conversations in channels'
-                    />
-                </h4>
+        const title = (
+            <FormattedMessage
+                id='sidebar.tutorialChannelTypes.title'
+                defaultMessage='Organize conversations in channels'
+            />
+        );
+        const screen = (
+            <>
                 <p>
                     <FormattedMarkdownMessage
                         id='sidebar.tutorialChannelTypes.channels'
@@ -54,8 +54,8 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                         defaultMessage={'**Direct messages** are for private conversations between individuals or small groups.'}
                     />
                 </p>
-            </div>,
-        ];
+            </>
+        );
 
         const sidebarContainer = document.getElementById('sidebar-left');
         const sidebarContainerPosition = sidebarContainer && sidebarContainer.getBoundingClientRect();
@@ -69,10 +69,11 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
 
         return (
             <TutorialTip
+                title={title}
                 showOptOut={true}
                 placement='right'
                 step={TutorialSteps.CHANNEL_POPOVER}
-                screens={screens}
+                screen={screen}
                 overlayClass='tip-overlay--sidebar'
                 telemetryTag='tutorial_tip_2_channels'
                 punchOut={tutorialTipPunchout}

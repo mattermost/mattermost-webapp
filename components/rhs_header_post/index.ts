@@ -45,7 +45,8 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
     const currentUserId = getCurrentUserId(state) as string;
     const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
-    const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER;
+
+    const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER && isCollapsedThreadsEnabled(state);
     return {
         isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),

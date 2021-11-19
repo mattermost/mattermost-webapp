@@ -18,6 +18,7 @@ import {Constants, ModalIdentifiers, Preferences} from 'utils/constants';
 
 import './collapsed_reply_threads_modal.scss';
 import NextIcon from '../../widgets/icons/fa_next_icon';
+import FormattedMarkdownMessage from '../../formatted_markdown_message';
 
 function CollapsedReplyThreadsModal() {
     const dispatch = useDispatch();
@@ -81,12 +82,12 @@ function CollapsedReplyThreadsModal() {
             }
         >
             <div>
-                <span className='productNotices__helpText'>
-                    <FormattedMessage
+                <p className='productNotices__helpText'>
+                    <FormattedMarkdownMessage
                         id={'collapsed_reply_threads_modal.description'}
-                        defaultMessage='We’ve now introduced a revised view for threads within channels and a new “Threads” view to more easily follow threads that are important to you. Within a channel, all reply messages are collapsed under their parent message. You can open the full thread in the right sidebar by clicking anywhere on a message.'
+                        defaultMessage={'Threads have been revamped to help you create organized conversation around specific messages. Now, channels will appear less cluttered as replies are collapsed under the original message, and all the conversations you\'re following are available in your **Threads** view. Take the tour to see what\'s new.'}
                     />
-                </span>
+                </p>
                 <img
                     src={crtBetaImg}
                     className='CollapsedReplyThreadsModal__img'

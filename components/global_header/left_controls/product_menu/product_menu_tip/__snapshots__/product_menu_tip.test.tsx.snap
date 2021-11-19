@@ -5,33 +5,31 @@ exports[`components/product_switcher/product_switcher_tip matches snapshot with 
   overlayClass="tip-overlay--product-switcher"
   placement="bottom"
   punchOut={null}
-  screens={
-    Array [
-      <div>
-        <h4>
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Try Boards and Playbooks"
-            id="sidebar.tutorialProductSwitcher.title"
-          />
-        </h4>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Launch other Mattermost products from here, including **Boards** and **Playbooks**."
-            id="sidebar.tutorialProductSwitcher.switchProducts"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="System Admins can also configure and customize Mattermost using the **System Console** and install Mattermost Apps from the **Marketplace**."
-            id="sidebar.tutorialProductSwitcher.admin"
-          />
-        </p>
-      </div>,
-    ]
+  screen={
+    <React.Fragment>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Launch other Mattermost products from here, including **Boards** and **Playbooks**."
+          id="sidebar.tutorialProductSwitcher.switchProducts"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="System Admins can also configure and customize Mattermost using the **System Console** and install Mattermost Apps from the **Marketplace**."
+          id="sidebar.tutorialProductSwitcher.admin"
+        />
+      </p>
+    </React.Fragment>
   }
   showOptOut={true}
   step={4}
   stopPropagation={true}
   telemetryTag="tutorial_tip_product_switcher"
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Try Boards and Playbooks"
+      id="sidebar.tutorialProductSwitcher.title"
+    />
+  }
 />
 `;

@@ -29,14 +29,14 @@ function CreatePostTip(props: Props) {
             currentChannelTeammateUsername={props.currentChannelTeammateUsername}
         />
     );
-    const screens = [
-        <div key='screen'>
-            <h4>
-                <FormattedMessage
-                    id='create_post.tutorialTip.title'
-                    defaultMessage='Send a message'
-                />
-            </h4>
+    const title = (
+        <FormattedMessage
+            id='create_post.tutorialTip.title'
+            defaultMessage='Send a message'
+        />
+    );
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='create_post.tutorialTip1'
@@ -50,15 +50,16 @@ function CreatePostTip(props: Props) {
                 />
             </p>
             {chips}
-        </div>,
-    ];
+        </>
+    );
 
     return (
         <TutorialTip
+            title={title}
             showOptOut={true}
             step={TutorialSteps.POST_POPOVER}
             placement='top'
-            screens={screens}
+            screen={screen}
             overlayClass='tip-overlay--chat'
             telemetryTag='tutorial_tip_1_sending_messages'
             punchOut={useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0})}

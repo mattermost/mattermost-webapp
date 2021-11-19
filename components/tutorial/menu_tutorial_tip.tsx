@@ -22,22 +22,22 @@ type Props = {
 }
 
 const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Props) => {
-    const screens = [
-        <div key='screen-one'>
-            <h4>
-                <FormattedMessage
-                    id='sidebar_header.tutorial.title'
-                    defaultMessage='Invite people'
-                />
-            </h4>
+    const title = (
+        <FormattedMessage
+            id='sidebar_header.tutorial.title'
+            defaultMessage='Invite people'
+        />
+    );
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar_header.tutorial.body1'
                     defaultMessage='Use this menu to **Invite People** to your team and access **Team Settings** if you’re an Admin.'
                 />
             </p>
-        </div>,
-    ];
+        </>
+    );
 
     const isAnnouncementBarOpen = useSelector(getAnnouncementBarCount) > 0;
 
@@ -59,11 +59,12 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
             onClick={toggleFunc}
         >
             <TutorialTip
+                title={title}
                 showOptOut={true}
                 step={TutorialSteps.MENU_POPOVER}
                 stopPropagation={stopPropagation}
                 placement={placement}
-                screens={screens}
+                screen={screen}
                 overlayClass={'tip-overlay--header--' + arrow + headerClass}
                 telemetryTag='tutorial_tip_3_main_menu'
                 punchOut={useMeasurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}

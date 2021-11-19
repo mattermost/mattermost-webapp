@@ -17,6 +17,7 @@ import TutorialTip from './tutorial_tip';
 
 type OwnProps = {
     tutorialCategory?: string;
+    autoTour: boolean;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
@@ -25,7 +26,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
         currentUserId,
         currentStep: getInt(state, categoryStep, currentUserId, 0),
-        autoTour: getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
+        autoTour: ownProps.tutorialCategory ? ownProps.autoTour : getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
     };
 }
 

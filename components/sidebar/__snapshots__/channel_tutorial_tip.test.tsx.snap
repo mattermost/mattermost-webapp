@@ -4,45 +4,43 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
-  screens={
-    Array [
-      <div>
-        <h4>
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Organize conversations in channels"
-            id="sidebar.tutorialChannelTypes.title"
-          />
-        </h4>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics."
-            id="sidebar.tutorialChannelTypes.channels"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Public channels** are open to everyone on your team."
-            id="sidebar.tutorialChannelTypes.public"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between invited members."
-            id="sidebar.tutorialChannelTypes.private"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
-            id="sidebar.tutorialChannelTypes.direct"
-          />
-        </p>
-      </div>,
-    ]
+  screen={
+    <React.Fragment>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Channels organize conversations across different topics."
+          id="sidebar.tutorialChannelTypes.channels"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Public channels** are open to everyone on your team."
+          id="sidebar.tutorialChannelTypes.public"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Private channels** are for sensitive conversations between invited members."
+          id="sidebar.tutorialChannelTypes.private"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+          id="sidebar.tutorialChannelTypes.direct"
+        />
+      </p>
+    </React.Fragment>
   }
   showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Organize conversations in channels"
+      id="sidebar.tutorialChannelTypes.title"
+    />
+  }
 />
 `;
 
@@ -50,45 +48,43 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
-  screens={
-    Array [
-      <div>
-        <h4>
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Organize conversations in channels"
-            id="sidebar.tutorialChannelTypes.title"
-          />
-        </h4>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics."
-            id="sidebar.tutorialChannelTypes.channels"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Public channels** are open to everyone on your team."
-            id="sidebar.tutorialChannelTypes.public"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between invited members."
-            id="sidebar.tutorialChannelTypes.private"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
-            id="sidebar.tutorialChannelTypes.direct"
-          />
-        </p>
-      </div>,
-    ]
+  screen={
+    <React.Fragment>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Channels organize conversations across different topics."
+          id="sidebar.tutorialChannelTypes.channels"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Public channels** are open to everyone on your team."
+          id="sidebar.tutorialChannelTypes.public"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Private channels** are for sensitive conversations between invited members."
+          id="sidebar.tutorialChannelTypes.private"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+          id="sidebar.tutorialChannelTypes.direct"
+        />
+      </p>
+    </React.Fragment>
   }
   showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Organize conversations in channels"
+      id="sidebar.tutorialChannelTypes.title"
+    />
+  }
 />
 `;
 
@@ -96,45 +92,43 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
-  screens={
-    Array [
-      <div>
-        <h4>
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Organize conversations in channels"
-            id="sidebar.tutorialChannelTypes.title"
-          />
-        </h4>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics."
-            id="sidebar.tutorialChannelTypes.channels"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Public channels** are open to everyone on your team."
-            id="sidebar.tutorialChannelTypes.public"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between invited members."
-            id="sidebar.tutorialChannelTypes.private"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
-            id="sidebar.tutorialChannelTypes.direct"
-          />
-        </p>
-      </div>,
-    ]
+  screen={
+    <React.Fragment>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Channels organize conversations across different topics."
+          id="sidebar.tutorialChannelTypes.channels"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Public channels** are open to everyone on your team."
+          id="sidebar.tutorialChannelTypes.public"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Private channels** are for sensitive conversations between invited members."
+          id="sidebar.tutorialChannelTypes.private"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+          id="sidebar.tutorialChannelTypes.direct"
+        />
+      </p>
+    </React.Fragment>
   }
   showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Organize conversations in channels"
+      id="sidebar.tutorialChannelTypes.title"
+    />
+  }
 />
 `;
 
@@ -142,44 +136,42 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
-  screens={
-    Array [
-      <div>
-        <h4>
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Organize conversations in channels"
-            id="sidebar.tutorialChannelTypes.title"
-          />
-        </h4>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics."
-            id="sidebar.tutorialChannelTypes.channels"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Public channels** are open to everyone on your team."
-            id="sidebar.tutorialChannelTypes.public"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between invited members."
-            id="sidebar.tutorialChannelTypes.private"
-          />
-        </p>
-        <p>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
-            id="sidebar.tutorialChannelTypes.direct"
-          />
-        </p>
-      </div>,
-    ]
+  screen={
+    <React.Fragment>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Channels organize conversations across different topics."
+          id="sidebar.tutorialChannelTypes.channels"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Public channels** are open to everyone on your team."
+          id="sidebar.tutorialChannelTypes.public"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Private channels** are for sensitive conversations between invited members."
+          id="sidebar.tutorialChannelTypes.private"
+        />
+      </p>
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+          id="sidebar.tutorialChannelTypes.direct"
+        />
+      </p>
+    </React.Fragment>
   }
   showOptOut={true}
   step={1}
   telemetryTag="tutorial_tip_2_channels"
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Organize conversations in channels"
+      id="sidebar.tutorialChannelTypes.title"
+    />
+  }
 />
 `;

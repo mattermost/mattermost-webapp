@@ -8,27 +8,29 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import {Constants, Preferences} from 'utils/constants';
 import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
-
+type Props = {
+    autoTour: boolean;
+};
 export const UpShortcut = () => {
     return (
-        <ShortcutKey variant={ShortcutKeyVariant.Contrast}>{'Up'}</ShortcutKey>
+        <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'UP'}</ShortcutKey>
     );
 };
 export const DownShortcut = () => {
     return (
-        <ShortcutKey variant={ShortcutKeyVariant.Contrast}>{'Down'}</ShortcutKey>
+        <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'DOWN'}</ShortcutKey>
     );
 };
 
-const CRTListTutorialTip = () => {
-    const screens = [
-        <div key='first-screen'>
-            <h4>
-                <FormattedMessage
-                    id='tutorial_threads.list.title'
-                    defaultMessage='Threads List'
-                />
-            </h4>
+const CRTListTutorialTip = ({autoTour}: Props) => {
+    const title = (
+        <FormattedMessage
+            id='tutorial_threads.list.title'
+            defaultMessage='Threads List'
+        />
+    );
+    const screen =
+        (<>
             <p>
                 <FormattedMarkdownMessage
                     id='tutorial_threads.list.description-p1'
@@ -38,25 +40,25 @@ const CRTListTutorialTip = () => {
             <p>
                 <FormattedMessage
                     id='tutorial_threads.list.description-p2'
-                    defaultMessage='Use {upKey} / {downKey} to navigate the thread list'
+                    defaultMessage='Use {upKey} / {downKey} to navigate the thread list.'
                     values={{
                         upKey: <UpShortcut/>,
                         downKey: <DownShortcut/>,
                     }}
                 />
             </p>
-        </div>,
-    ];
+        </>);
 
     return (
         <TutorialTip
+            title={title}
             placement='right'
-            showOptOut={true}
+            showOptOut={false}
             step={Constants.CrtTutorialSteps.LIST_POPOVER}
             tutorialCategory={Preferences.CRT_TUTORIAL_STEP}
-            screens={screens}
+            screen={screen}
             overlayClass='tip-overlay--threads-list'
-            autoTour={true}
+            autoTour={autoTour}
             punchOut={useMeasurePunchouts(['threads-list-container'], [])}
         />
     );

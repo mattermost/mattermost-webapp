@@ -28,7 +28,6 @@ import './thread_list.scss';
 import CRTListTutorialTip from 'components/collapsed_reply_threads_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
 import {GlobalState} from 'types/store';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import CRTUnreadTutorialTip
     from 'components/collapsed_reply_threads_tour/crt_unread_tutorial_tip/crt_unread_tutorial_tip';
 
@@ -61,14 +60,13 @@ const ThreadList = ({
     const unread = ThreadFilter.unread === currentFilter;
     const data = unread ? unreadIds : ids;
     const ref = React.useRef<HTMLDivElement>(null);
-    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
-    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUser.id));
+    const {currentTeamId, currentUserId, clear, select} = useThreadRouting();
+    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
     const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const showUnreadTutorialTip = tipStep === CrtTutorialSteps.UNREAD_POPOVER;
-
+    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {currentTeamId, currentUserId, clear, select} = useThreadRouting();
 
     const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam);
 
@@ -182,7 +180,7 @@ const ThreadList = ({
                                     defaultMessage='Unreads'
                                 />
                             </Button>
-                            {showUnreadTutorialTip && <CRTUnreadTutorialTip/>}
+                            {showUnreadTutorialTip && <CRTUnreadTutorialTip autoTour={tutorialTipAutoTour}/>}
                         </div>
                     </>
                 )}
@@ -215,7 +213,7 @@ const ThreadList = ({
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
                 />
-                {showListTutorialTip && <CRTListTutorialTip/>}
+                {showListTutorialTip && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (
                     <NoResultsIndicator
                         expanded={true}

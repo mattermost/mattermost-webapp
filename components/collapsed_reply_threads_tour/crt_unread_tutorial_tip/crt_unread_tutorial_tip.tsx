@@ -7,34 +7,37 @@ import FormattedMarkdownMessage from '../../formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import {Constants, Preferences} from '../../../utils/constants';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
-
-const CRTUnreadTutorialTip = () => {
-    const screens = [
-        <div key='first-screen'>
-            <h4>
-                <FormattedMessage
-                    id='tutorial_threads.unread.title'
-                    defaultMessage='Unread threads'
-                />
-            </h4>
+type Props = {
+    autoTour: boolean;
+};
+const CRTUnreadTutorialTip = ({autoTour}: Props) => {
+    const title = (
+        <FormattedMessage
+            id='tutorial_threads.unread.title'
+            defaultMessage='Unread threads'
+        />
+    );
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='tutorial_threads.unread.description'
-                    defaultMessage={'You can switch to ‘Unreads’ to show only threads that are unread.'}
+                    defaultMessage={'You can switch to **Unreads** to show only threads that are unread.'}
                 />
             </p>
-        </div>,
-    ];
+        </>
+    );
 
     return (
         <TutorialTip
+            title={title}
             placement='bottom'
-            showOptOut={true}
+            showOptOut={false}
             step={Constants.CrtTutorialSteps.UNREAD_POPOVER}
             tutorialCategory={Preferences.CRT_TUTORIAL_STEP}
-            screens={screens}
+            screen={screen}
             overlayClass='tip-overlay--threads-unread'
-            autoTour={true}
+            autoTour={autoTour}
             punchOut={useMeasurePunchouts(['threads-list-unread-button'], [])}
         />
     );
