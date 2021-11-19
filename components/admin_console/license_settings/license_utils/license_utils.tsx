@@ -10,7 +10,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import {localizeMessage} from 'utils/utils';
 
-export const free30DayTrial = (
+export const free30DayTrialBanner = (
     isDisabled: boolean,
     gettingTrialError: JSX.Element | null,
     requestLicense: (e: any) => Promise<void>,
