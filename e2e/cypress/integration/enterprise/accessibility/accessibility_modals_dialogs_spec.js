@@ -42,8 +42,8 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     });
 
     it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
-        // * Verify the accessibility support in Account Settings Dialog
-        verifyUserMenuModal('Account Settings');
+        // * Verify the accessibility support in Profile Dialog
+        verifyUserMenuModal('Profile');
 
         // * Verify the accessibility support in Team Settings Dialog
         verifyMainMenuModal('Team Settings');

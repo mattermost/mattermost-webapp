@@ -51,10 +51,10 @@ export function doTestUserChannelSection(prefix, testTeam, testUsers) {
         type(`@${prefix}odinson`);
 
     // * Thor should be a channel member
-    cy.uiVerifyAtMentionInSuggestionList('Channel Members', thor, true);
+    cy.uiVerifyAtMentionInSuggestionList(thor, true);
 
     // * Loki should NOT be a channel member
-    cy.uiVerifyAtMentionInSuggestionList('Not in Channel', loki, false);
+    cy.uiVerifyAtMentionInSuggestionList(loki, false);
 }
 
 export function doTestDMChannelSidebar(testUsers) {
@@ -96,8 +96,8 @@ export function doTestDMChannelSidebar(testUsers) {
     // # Click on the result to add user
     cy.get('@result').click({force: true});
 
-    // # Click on save
-    cy.get('#saveItems').click();
+    // # Click "Go"
+    cy.uiGetButton('Go').click();
 
     // # Should land on direct message channel for that user
     cy.get('#channelHeaderTitle').should('have.text', thor.username + ' ');

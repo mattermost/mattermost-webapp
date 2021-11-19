@@ -1,15 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, PropsWithChildren} from 'react';
+import React, {memo, useCallback, PropsWithChildren, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
+
+import * as Utils from 'utils/utils';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import {Constants} from 'utils/constants';
 
@@ -52,28 +55,81 @@ const ThreadList = ({
 }: PropsWithChildren<Props>) => {
     const unread = ThreadFilter.unread === currentFilter;
     const data = unread ? unreadIds : ids;
+    const ref = React.useRef<HTMLDivElement>(null);
 
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {currentTeamId, currentUserId, clear} = useThreadRouting();
+    const {currentTeamId, currentUserId, clear, select} = useThreadRouting();
 
     const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam);
+
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        // Ensure that arrow keys navigation is not triggered if the textbox is focused
+        const target = e.target as HTMLElement;
+        if (target?.id === 'reply_textbox') {
+            return;
+        }
+
+        if (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+            return;
+        }
+
+        let threadIdToSelect = 0;
+        if (selectedThreadId) {
+            const selectedThreadIndex = data.indexOf(selectedThreadId);
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+                if (selectedThreadIndex < data.length - 1) {
+                    threadIdToSelect = selectedThreadIndex + 1;
+                }
+
+                if (selectedThreadIndex === data.length - 1) {
+                    return;
+                }
+            }
+
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+                if (selectedThreadIndex > 0) {
+                    threadIdToSelect = selectedThreadIndex - 1;
+                } else {
+                    return;
+                }
+            }
+        }
+        select(data[threadIdToSelect]);
+
+        // hacky way to ensure the thread item loses focus.
+        ref.current?.focus();
+    }, [selectedThreadId, data]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     const handleRead = useCallback(() => {
         setFilter(ThreadFilter.none);
     }, [setFilter]);
 
     const handleUnread = useCallback(() => {
+        trackEvent('crt', 'filter_threads_by_unread');
         setFilter(ThreadFilter.unread);
     }, [setFilter]);
 
     const handleLoadMoreItems = useCallback(async (startIndex) => {
-        const before = data[startIndex - 1];
+        let before = data[startIndex - 1];
+
+        if (before === selectedThreadId) {
+            before = data[startIndex - 2];
+        }
+
         await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: Constants.THREADS_PAGE_SIZE, before}));
         return {data: true};
-    }, [currentTeamId, data, unread]);
+    }, [currentTeamId, data, unread, selectedThreadId]);
 
     const handleAllMarkedRead = useCallback(() => {
+        trackEvent('crt', 'mark_all_threads_read');
         dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
         if (currentFilter === ThreadFilter.unread) {
             clear();
@@ -81,7 +137,11 @@ const ThreadList = ({
     }, [currentTeamId, currentUserId, currentFilter]);
 
     return (
-        <div className={'ThreadList'}>
+        <div
+            tabIndex={0}
+            ref={ref}
+            className={'ThreadList'}
+        >
             <Header
                 heading={(
                     <>

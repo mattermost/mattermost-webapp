@@ -25,7 +25,7 @@ import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup
 import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
-import {get, getInt, getBool, getPrewrittenMessagesTreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
@@ -55,10 +55,9 @@ import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {openModal, closeModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 
 import CreatePost from './create_post';
 
@@ -89,9 +88,8 @@ function makeMapStateToProps() {
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
-        const prewrittenMessages = getPrewrittenMessagesTreatment(state);
         const enableTutorial = config.EnableTutorial === 'true';
-        const showTutorialTip = enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER && prewrittenMessages !== PrewrittenMessagesTreatments.AROUND_INPUT;
+        const showTutorialTip = enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER;
 
         return {
             currentTeamId,
@@ -126,7 +124,6 @@ function makeMapStateToProps() {
             useGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
-            prewrittenMessages,
             tutorialStep,
         };
     };
@@ -198,7 +195,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setEditingPost,
             emitShortcutReactToLastPostFrom,
             openModal,
-            closeModal,
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,

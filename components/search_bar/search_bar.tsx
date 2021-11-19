@@ -9,7 +9,8 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Provider from 'components/suggestion/provider';
 
@@ -50,7 +51,7 @@ const defaultProps: Partial<Props> = {
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
     const {isFocused, keepFocused, searchTerms, suggestionProviders} = props;
 
-    const searchRef = useRef<SuggestionBox>();
+    const searchRef = useRef<SuggestionBoxComponent>();
     const intl = useIntl();
 
     useEffect((): void => {
@@ -97,7 +98,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         }
     };
 
-    const getSearch = (node: SuggestionBox): void => {
+    const getSearch = (node: SuggestionBoxComponent): void => {
         searchRef.current = node;
         if (props.getFocus) {
             props.getFocus(props.handleFocus);

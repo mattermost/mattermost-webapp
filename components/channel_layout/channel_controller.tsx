@@ -11,13 +11,10 @@ import Pluggable from 'plugins/pluggable';
 import SystemNotice from 'components/system_notice';
 import EditPostModal from 'components/edit_post_modal';
 
-import GetPublicLinkModal from 'components/get_public_link_modal';
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import AppBar from 'components/app_bar/app_bar';
-import ImportThemeModal from 'components/user_settings/import_theme_modal';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as UserAgent from 'utils/user_agent';
@@ -25,7 +22,6 @@ import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
-import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 interface Props {
     shouldShowAppBar: boolean;
@@ -75,12 +71,8 @@ export default class ChannelController extends React.PureComponent<Props> {
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
-                    <GetPublicLinkModal/>
-                    <ImportThemeModal/>
                     <EditPostModal/>
                     <ResetStatusModal/>
-                    <LeavePrivateChannelModal/>
-                    <KeyboardShortcutsModal/>
                 </div>
                 <AppBar/>
             </div>
