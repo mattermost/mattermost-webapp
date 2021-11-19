@@ -8,6 +8,8 @@ import ReactSelect, {components} from 'react-select';
 import {InputActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
 
+import classNames from 'classnames';
+
 import LocalizedIcon from 'components/localized_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import SaveButton from 'components/save_button';
@@ -17,7 +19,6 @@ import {Constants, A11yCustomEventTypes} from 'utils/constants';
 import {imageURLForUser, getDisplayName, localizeMessage} from 'utils/utils';
 
 import MultiSelectList from './multiselect_list';
-import classNames from 'classnames';
 
 export type Value = {
     deleteAt?: number;

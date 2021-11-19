@@ -179,7 +179,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 inviteError: undefined,
             });
             this.onHide();
-            return;
         }
 
         // this.setState({saving: true});
@@ -214,7 +213,7 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         } else {
-            return;
+
         }
     };
 

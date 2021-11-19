@@ -19,12 +19,13 @@ import {ModalData} from 'types/actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import CreateUserGroupsModal from 'components/create_user_groups_modal';
+
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import LegacySidebarHeader from './legacy_sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
-import CreateUserGroupsModal from 'components/create_user_groups_modal';
 
 type Props = {
     teamId: string;

@@ -8,7 +8,6 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import UserGroupsModal, {Props} from './user_groups_modal';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getAllAssociatedGroupsForReference, getMyAllowReferencedGroups} from 'mattermost-redux/selectors/entities/groups';
 import {getGroups, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
@@ -19,19 +18,21 @@ import {isModalOpen} from 'selectors/views/modals';
 import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
 
+import UserGroupsModal, {Props} from './user_groups_modal';
+
 type Actions = {
     getGroups: (
-        filterAllowReference?: boolean, 
-        page?: number, 
-        perPage?:number, 
+        filterAllowReference?: boolean,
+        page?: number,
+        perPage?: number,
         includeMemberCount?: boolean
     ) => Promise<{data: Group[]}>;
     setModalSearchTerm: (term: string) => void;
     getGroupsByUserIdPaginated: (
         userId: string,
-        filterAllowReference?: boolean, 
-        page?: number, 
-        perPage?:number, 
+        filterAllowReference?: boolean,
+        page?: number,
+        perPage?: number,
         includeMemberCount?: boolean
     ) => Promise<{data: Group[]}>;
     openModal: <P>(modalData: ModalData<P>) => void;
@@ -40,7 +41,7 @@ type Actions = {
 function mapStateToProps(state: GlobalState) {
     const searchTerm = state.views.search.modalSearch;
 
-    let groups, myGroups: Group[] = [];
+    let groups; let myGroups: Group[] = [];
     if (searchTerm) {
         // Do some redux search
         // groups = searchProfilesInCurrentChannel(state, searchTerm);

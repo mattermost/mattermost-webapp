@@ -3365,11 +3365,11 @@ export default class Client4 {
     };
 
     getGroups = (filterAllowReference = false, page = 0, perPage = PER_PAGE_DEFAULT, includeMemberCount = false, hasFilterMember = false) => {
-        let qs: any = {
-            filter_allow_reference: filterAllowReference, 
-            page, 
-            per_page: perPage, 
-            include_member_count: includeMemberCount
+        const qs: any = {
+            filter_allow_reference: filterAllowReference,
+            page,
+            per_page: perPage,
+            include_member_count: includeMemberCount,
         };
 
         if (hasFilterMember) {

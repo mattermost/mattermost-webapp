@@ -3,36 +3,26 @@
 
 import React from 'react';
 
+import {Modal} from 'react-bootstrap';
+
+import {FormattedMessage} from 'react-intl';
+
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
 
-import Constants, { ModalIdentifiers } from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
+import {ModalIdentifiers} from 'utils/constants';
 
-import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import FaSuccessIcon from 'components/widgets/icons/fa_success_icon';
+
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen';
-import { Group, GroupCreateWithUserIds } from 'mattermost-redux/types/groups';
-import { Modal } from 'react-bootstrap';
-import {browserHistory} from 'utils/browser_history';
-import { FormattedMessage } from 'react-intl';
+import {Group} from 'mattermost-redux/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
-// import './create_user_groups_modal.scss';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import Menu from 'components/widgets/menu/menu';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
-import { ModalData } from 'types/actions';
-import Input from 'components/input';
+import {ModalData} from 'types/actions';
 import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect';
-import { ActionResult } from 'mattermost-redux/types/actions';
-import { RelationOneToOne } from 'mattermost-redux/types/utilities';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import ViewUserGroupModal from 'components/view_user_group_modal';
-import IconButton from '@mattermost/compass-components/components/icon-button';
+
 import LocalizedIcon from 'components/localized_icon';
-import { t } from 'utils/i18n';
+import {t} from 'utils/i18n';
 
 export type Props = {
     onExited: () => void;
@@ -41,7 +31,7 @@ export type Props = {
     actions: {
         addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
-    },
+    };
 }
 
 type State = {
@@ -131,7 +121,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
         const data = await this.props.actions.addUsersToGroup(this.props.groupId, userIds);
 
         if (data.error) {
-            
+
         } else {
             this.goToViewGroupModal();
         }
@@ -144,7 +134,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
             modalId: ModalIdentifiers.VIEW_USER_GROUP,
             dialogType: ViewUserGroupModal,
             dialogProps: {
-                groupId: groupId,
+                groupId,
             },
         });
 
@@ -196,7 +186,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                     <div className='user-groups-modal__content'>
                         <form role='form'>
                             <div className='group-add-user'>
-                                <AddUserToGroupMultiSelect 
+                                <AddUserToGroupMultiSelect
                                     multilSelectKey={'addUsersToGroupKey'}
                                     onSubmitCallback={this.addUsersToGroup}
                                     skipCommit={true}
@@ -216,7 +206,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                             </div>
 
                         </form>
-                        
+
                     </div>
                 </Modal.Body>
             </Modal>

@@ -3,14 +3,16 @@
 
 import React from 'react';
 
+import {Modal} from 'react-bootstrap';
+
+import {FormattedMessage} from 'react-intl';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {ModalIdentifiers} from 'utils/constants';
 
 import * as Utils from 'utils/utils.jsx';
 import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './create_user_groups_modal.scss';
@@ -26,9 +28,9 @@ export type Props = {
     onExited: () => void;
     showBackButton?: boolean;
     actions: {
-        createGroupWithUserIds :(group: GroupCreateWithUserIds) => Promise<ActionResult>;
+        createGroupWithUserIds: (group: GroupCreateWithUserIds) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
-    },
+    };
 }
 
 type State = {
@@ -94,13 +96,11 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         const data = await this.props.actions.createGroupWithUserIds(group);
 
         if (data.error) {
-            
+
+        } else if (this.props.showBackButton) {
+            this.goToGroupsModal();
         } else {
-            if (this.props.showBackButton) {
-                this.goToGroupsModal();
-            } else {
-                this.doHide();
-            }
+            this.doHide();
         }
     }
 
@@ -143,7 +143,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                             />
                         </button>
                     }
-                    
+
                     <Modal.Title
                         componentClass='h1'
                         id='userGroupsModalLabel'
@@ -185,7 +185,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                 />
                             </h2>
                             <div className='group-add-user'>
-                                <AddUserToGroupMultiSelect 
+                                <AddUserToGroupMultiSelect
                                     multilSelectKey={'addUsersToGroupKey'}
                                     onSubmitCallback={this.createGroup}
                                     skipCommit={true}
@@ -193,6 +193,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                     savingEnabled={this.isSaveEnabled()}
                                     addUserCallback={this.addUserCallback}
                                     deleteUserCallback={this.deleteUserCallback}
+
                                     // groupId={'c75btzjxfpywp8adikr96q3iur'}
                                     // searchOptions={{
                                     //     not_in_group_id: 'c75btzjxfpywp8adikr96q3iur'
@@ -201,7 +202,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                             </div>
 
                         </form>
-                        
+
                     </div>
                 </Modal.Body>
             </Modal>

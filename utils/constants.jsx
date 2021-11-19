@@ -340,7 +340,7 @@ export const ModalIdentifiers = {
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM: 'confirm',
-    USER_GROUPS:'user_groups',
+    USER_GROUPS: 'user_groups',
     USER_GROUPS_CREATE: 'user_groups_create',
     VIEW_USER_GROUP: 'view_user_group',
     ADD_USERS_TO_GROUP: 'add_users_to_group',

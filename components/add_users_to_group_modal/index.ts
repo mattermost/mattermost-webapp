@@ -3,15 +3,17 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import AddUsersToGroupModal from './add_users_to_group_modal';
 import {addUsersToGroup} from 'mattermost-redux/actions/groups';
 import {getGroup} from 'mattermost-redux/selectors/entities/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
+
+import AddUsersToGroupModal from './add_users_to_group_modal';
 
 type Actions = {
     addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
@@ -24,7 +26,7 @@ type OwnProps = {
 
 function makeMapStateToProps() {
     return (state: GlobalState, props: OwnProps) => {
-        const group = getGroup(state, props.groupId);  
+        const group = getGroup(state, props.groupId);
 
         return {
             group,

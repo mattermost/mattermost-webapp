@@ -1,12 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { createRef, RefObject } from 'react';
+import React, {createRef, RefObject} from 'react';
+
+import {Modal} from 'react-bootstrap';
+
+import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
 
-import Constants, { ModalIdentifiers } from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
@@ -14,19 +18,17 @@ import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import FaSuccessIcon from 'components/widgets/icons/fa_success_icon';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
-import { Group } from 'mattermost-redux/types/groups';
-import { Modal } from 'react-bootstrap';
+import {Group} from 'mattermost-redux/types/groups';
 import {browserHistory} from 'utils/browser_history';
-import { FormattedMessage } from 'react-intl';
 
 import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
-import { ModalData } from 'types/actions';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {ModalData} from 'types/actions';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import ViewUserGroupModal from 'components/view_user_group_modal';
-import { debounce } from 'mattermost-redux/actions/helpers';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -38,17 +40,17 @@ export type Props = {
     currentUserId: string;
     actions: {
         getGroups: (
-            filterAllowReference?: boolean, 
-            page?: number, 
-            perPage?:number, 
+            filterAllowReference?: boolean,
+            page?: number,
+            perPage?: number,
             includeMemberCount?: boolean
         ) => Promise<{data: Group[]}>;
         setModalSearchTerm: (term: string) => void;
         getGroupsByUserIdPaginated: (
             userId: string,
-            filterAllowReference?: boolean, 
-            page?: number, 
-            perPage?:number, 
+            filterAllowReference?: boolean,
+            page?: number,
+            perPage?: number,
             includeMemberCount?: boolean
         ) => Promise<{data: Group[]}>;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -91,7 +93,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
         await Promise.all([
             actions.getGroups(false, this.state.page, GROUPS_PER_PAGE, true),
-            actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, this.state.myGroupsPage, GROUPS_PER_PAGE, true)
+            actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, this.state.myGroupsPage, GROUPS_PER_PAGE, true),
         ]);
         this.loadComplete();
     }
@@ -158,7 +160,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             dialogType: CreateUserGroupsModal,
             dialogProps: {
                 showBackButton: true,
-            }
+            },
         });
 
         this.props.onExited();
@@ -172,7 +174,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             dialogType: ViewUserGroupModal,
             dialogProps: {
                 groupId: group.id,
-            }
+            },
         });
 
         this.props.onExited();
@@ -182,9 +184,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         async () => {
             const {actions} = this.props;
             const {page} = this.state;
-            const newPage = page+1;
+            const newPage = page + 1;
 
-            this.setState({page: newPage})
+            this.setState({page: newPage});
 
             this.startLoad();
             await actions.getGroups(false, newPage, GROUPS_PER_PAGE, true);
@@ -198,9 +200,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         async () => {
             const {actions} = this.props;
             const {myGroupsPage} = this.state;
-            const newPage = myGroupsPage+1;
+            const newPage = myGroupsPage + 1;
 
-            this.setState({myGroupsPage: newPage})
+            this.setState({myGroupsPage: newPage});
 
             this.startLoad();
             await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, newPage, GROUPS_PER_PAGE, true);
@@ -217,18 +219,18 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         const clientHeight = this.divScrollRef.current?.clientHeight || 0;
 
         if ((scrollTop + clientHeight + 30) >= scrollHeight) {
-            if (this.state.selectedFilter === 'all' && this.props.groups.length%GROUPS_PER_PAGE === 0 && this.state.loading === false) {
+            if (this.state.selectedFilter === 'all' && this.props.groups.length % GROUPS_PER_PAGE === 0 && this.state.loading === false) {
                 this.getGroups();
             }
 
-            if (this.state.selectedFilter !== 'all' && this.props.myGroups.length%GROUPS_PER_PAGE === 0 && this.state.loading === false) {
+            if (this.state.selectedFilter !== 'all' && this.props.myGroups.length % GROUPS_PER_PAGE === 0 && this.state.loading === false) {
                 this.getMyGroups();
             }
         }
     }
 
     render() {
-        let groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
+        const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
 
         return (
             <Modal
@@ -262,7 +264,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         />
                     </a>
 
-                    
                 </Modal.Header>
                 <Modal.Body>
                     <div className='user-groups-search'>
@@ -271,7 +272,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                 className='user-groups-search-icon'
                                 aria-hidden='true'
                             >
-                                <FaSearchIcon />
+                                <FaSearchIcon/>
                             </span>
 
                             <input
@@ -302,7 +303,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     id='groupsDropdownAll'
                                     buttonClass='groups-filter-btn'
                                     onClick={() => {
-                                        this.setState({selectedFilter: 'all'})
+                                        this.setState({selectedFilter: 'all'});
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
                                     rightDecorator={this.state.selectedFilter === 'all' ? <i className='icon icon-check'/> : ''}
@@ -311,7 +312,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     id='groupsDropdownMy'
                                     buttonClass='groups-filter-btn'
                                     onClick={() => {
-                                        this.setState({selectedFilter: 'my'})
+                                        this.setState({selectedFilter: 'my'});
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
                                     rightDecorator={this.state.selectedFilter !== 'all' ? <i className='icon icon-check'/> : ''}
@@ -320,17 +321,19 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         </MenuWrapper>
                     </div>
 
-                    <div 
+                    <div
                         className='user-groups-modal__content user-groups-list'
                         onScroll={this.onScroll}
                         ref={this.divScrollRef}
                     >
                         {groups.map((group) => {
                             return (
-                                <div 
+                                <div
                                     className='group-row'
                                     key={group.id}
-                                    onClick={() => {this.goToViewGroupModal(group)}}
+                                    onClick={() => {
+                                        this.goToViewGroupModal(group);
+                                    }}
                                 >
                                     <div className='group-display-name'>
                                         {group.display_name}
@@ -383,7 +386,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         })}
                         {
                             this.state.loading &&
-                            <LoadingScreen/> 
+                            <LoadingScreen/>
                         }
                     </div>
                 </Modal.Body>

@@ -8,7 +8,6 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import ViewUserGroupModal from './view_user_group_modal';
 import {getCurrentUserId, getProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
 import {getGroup} from 'mattermost-redux/actions/groups';
@@ -20,6 +19,8 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getProfilesInGroup as getUsersInGroup} from 'mattermost-redux/actions/users';
+
+import ViewUserGroupModal from './view_user_group_modal';
 
 type Actions = {
     getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;

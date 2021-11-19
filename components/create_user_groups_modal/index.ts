@@ -1,18 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getProfiles, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import {getProfiles, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import CreateUserGroupsModal from './create_user_groups_modal';
 import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
 import {createGroupWithUserIds} from 'mattermost-redux/actions/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
+
+import CreateUserGroupsModal from './create_user_groups_modal';
 
 function makeMapStateToProps() {
     return (state: GlobalState) => {
@@ -28,7 +30,7 @@ function makeMapStateToProps() {
 }
 
 type Actions = {
-    createGroupWithUserIds :(group: GroupCreateWithUserIds) => Promise<ActionResult>;
+    createGroupWithUserIds: (group: GroupCreateWithUserIds) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
 }
 

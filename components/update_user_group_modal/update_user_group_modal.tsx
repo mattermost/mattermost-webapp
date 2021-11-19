@@ -3,14 +3,18 @@
 
 import React from 'react';
 
+import {Modal} from 'react-bootstrap';
+
+import {FormattedMessage} from 'react-intl';
+
+import classNames from 'classnames';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {ModalIdentifiers} from 'utils/constants';
 
 import * as Utils from 'utils/utils.jsx';
 import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './update_user_group_modal.scss';
@@ -22,7 +26,7 @@ import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import ViewUserGroupModal from 'components/view_user_group_modal';
-import classNames from 'classnames';
+
 import SaveButton from 'components/save_button';
 
 export type Props = {
@@ -33,7 +37,7 @@ export type Props = {
     actions: {
         patchGroup: (groupId: string, group: CustomGroupPatch) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
-    },
+    };
 }
 
 type State = {
@@ -84,7 +88,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
         const data = await this.props.actions.patchGroup(this.props.groupId, group);
 
         if (data.error) {
-            
+
         } else {
             this.goToGroupModal();
         }
@@ -97,8 +101,8 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
             modalId: ModalIdentifiers.VIEW_USER_GROUP,
             dialogType: ViewUserGroupModal,
             dialogProps: {
-                groupId: groupId,
-            }
+                groupId,
+            },
         });
 
         this.props.onExited();
@@ -185,7 +189,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                                     savingMessage={Utils.localizeMessage('multiselect.savingDetailsButton', 'Saving...')}
                                 />
                             </div>
-                            
+
                         </form>
                     </div>
                 </Modal.Body>

@@ -1,13 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { createRef, RefObject } from 'react';
+import React, {createRef, RefObject} from 'react';
 import {Tooltip} from 'react-bootstrap';
+
+import {Modal} from 'react-bootstrap';
+
+import {FormattedMessage} from 'react-intl';
+
+import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
 
-import Constants, { ModalIdentifiers } from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
@@ -16,23 +22,21 @@ import FaSuccessIcon from 'components/widgets/icons/fa_success_icon';
 import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
-import { Group } from 'mattermost-redux/types/groups';
-import {Modal} from 'react-bootstrap';
+import {Group} from 'mattermost-redux/types/groups';
 import {browserHistory} from 'utils/browser_history';
-import { FormattedMessage } from 'react-intl';
 
 import './view_user_group_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
-import { ModalData } from 'types/actions';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {ModalData} from 'types/actions';
 import AddUsersToGroupModal from 'components/add_users_to_group_modal';
-import { debounce } from 'mattermost-redux/actions/helpers';
-import IconButton from '@mattermost/compass-components/components/icon-button';
+import {debounce} from 'mattermost-redux/actions/helpers';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
-import { t } from 'utils/i18n';
+import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 
 const USERS_PER_PAGE = 60;
@@ -86,7 +90,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
         await Promise.all([
             actions.getGroup(groupId, true),
-            actions.getUsersInGroup(groupId,  0, USERS_PER_PAGE)
+            actions.getUsersInGroup(groupId, 0, USERS_PER_PAGE),
         ]);
         this.loadComplete();
     }
@@ -163,7 +167,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             modalId: ModalIdentifiers.ADD_USERS_TO_GROUP,
             dialogType: AddUsersToGroupModal,
             dialogProps: {
-                groupId: groupId,
+                groupId,
             },
         });
 
@@ -177,7 +181,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             modalId: ModalIdentifiers.EDIT_GROUP_MODAL,
             dialogType: UpdateUserGroupModal,
             dialogProps: {
-                groupId: groupId,
+                groupId,
             },
         });
 
@@ -188,9 +192,9 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         async () => {
             const {actions, groupId} = this.props;
             const {page} = this.state;
-            const newPage = page+1;
+            const newPage = page + 1;
 
-            this.setState({page: newPage})
+            this.setState({page: newPage});
 
             this.startLoad();
             await actions.getUsersInGroup(groupId, newPage, USERS_PER_PAGE);
@@ -208,7 +212,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
         if ((scrollTop + clientHeight + 30) >= scrollHeight) {
             // TODO: Need to check against number of group users. Can do once field is added to request
-            if (this.props.users.length%USERS_PER_PAGE === 0 && this.state.loading === false) {
+            if (this.props.users.length % USERS_PER_PAGE === 0 && this.state.loading === false) {
                 this.getGroupMembers();
             }
         }
@@ -276,7 +280,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                 <Menu.ItemAction
                                     show={true}
                                     onClick={() => {
-                                        this.goToEditGroupModal()
+                                        this.goToEditGroupModal();
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
                                     disabled={false}
@@ -295,7 +299,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                 className='user-groups-search-icon'
                                 aria-hidden='true'
                             >
-                                <FaSearchIcon />
+                                <FaSearchIcon/>
                             </span>
 
                             <input
@@ -312,7 +316,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                             />
                         </div>
                     </div>
-                    <div 
+                    <div
                         className='user-groups-modal__content group-member-list'
                         onScroll={this.onScroll}
                         ref={this.divScrollRef}
@@ -328,7 +332,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         </h2>
                         {users.map((user) => {
                             return (
-                                <div 
+                                <div
                                     key={user.id}
                                     className='group-member-row'
                                 >
@@ -393,7 +397,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                             );
                         })}
                         {
-                            this.state.loading && 
+                            this.state.loading &&
                             <LoadingScreen/>
                         }
                     </div>
