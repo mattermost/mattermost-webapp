@@ -26,6 +26,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         'High Availability',
         'Advanced compliance',
         'Advanced roles and permissions',
+        'And more...',
     ];
 
     const skuShortName = license.SkuShortName;
@@ -118,10 +119,6 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                         </div>
                     );
                 })}
-                <FormattedMessage
-                    id='admin.license.andMore'
-                    defaultMessage='And more...'
-                />
             </div>
         );
     };

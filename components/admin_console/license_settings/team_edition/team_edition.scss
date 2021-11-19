@@ -29,8 +29,8 @@
             }
         }
 
-        span {
-            color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
+        :last-child {
+            color: rgba(63, 69, 80, 0.72);
         }
     }
 
