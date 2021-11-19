@@ -9,7 +9,6 @@ import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilitie
 
 import {Theme} from 'mattermost-redux/types/themes';
 import Constants from '../../utils/constants';
-import * as UserAgent from '../../utils/user_agent';
 
 const updateCodeTheme = (userTheme: string): void => {
     let cssPath = '';
@@ -25,21 +24,11 @@ const updateCodeTheme = (userTheme: string): void => {
 
     const link = document.querySelector<HTMLLinkElement>('link.code_theme');
     if (link && cssPath !== link.href) {
-        // changeCss('code.hljs', 'visibility: hidden');
-
         const xmlHTTP = new XMLHttpRequest();
 
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
             link.href = cssPath;
-
-            if (UserAgent.isFirefox()) {
-                link.addEventListener('load', () => {
-                    // changeCss('code.hljs', 'visibility: visible');
-                }, {once: true});
-            } else {
-                // changeCss('code.hljs', 'visibility: visible');
-            }
         };
 
         xmlHTTP.send();
