@@ -11,7 +11,7 @@ import {appsEnabled, makeGetPostOptionBinding} from 'mattermost-redux/selectors/
 
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-import {isSystemAdmin} from 'utils/utils';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 

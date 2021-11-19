@@ -481,7 +481,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...isFollowingThread ? {
+                        {...this.props.isFollowingThread ? {
                             icon: Utils.getMenuItemIcon('icon-message-minus-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                         } : {
