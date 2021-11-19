@@ -3,21 +3,12 @@
 
 import {mount} from 'enzyme';
 import React from 'react';
-import {createIntl, useIntl} from 'react-intl';
-
-import enMessages from 'i18n/en.json';
-import esMessages from 'i18n/es.json';
 
 import {mockStore} from 'tests/test_store';
 
 import {TestHelper} from 'utils/test_helper';
 
 import PostAriaLabelDiv from './post_aria_label_div';
-
-jest.mock('react-intl', () => ({
-    ...jest.requireActual('react-intl'),
-    useIntl: jest.fn(),
-}));
 
 describe('PostAriaLabelDiv', () => {
     const author = TestHelper.getUserMock({
@@ -56,15 +47,11 @@ describe('PostAriaLabelDiv', () => {
     test('should render aria-label in the given locale', () => {
         const {mountOptions} = mockStore(baseState);
 
-        useIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
-
         let wrapper = mount(<PostAriaLabelDiv {...baseProps}/>, mountOptions);
         let div = wrapper.childAt(0);
 
         expect(div.prop('aria-label')).toContain(author.username);
         expect(div.prop('aria-label')).toContain('January');
-
-        useIntl.mockImplementation(() => createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'}));
 
         wrapper = mount(<PostAriaLabelDiv {...baseProps}/>, mountOptions);
         div = wrapper.childAt(0);
@@ -75,8 +62,6 @@ describe('PostAriaLabelDiv', () => {
 
     test('should pass other props through to the rendered div', () => {
         const {mountOptions} = mockStore(baseState);
-
-        useIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
 
         let props = baseProps;
 

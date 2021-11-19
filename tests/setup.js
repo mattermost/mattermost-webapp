@@ -109,3 +109,21 @@ expect.extend({
         };
     },
 });
+
+jest.mock('react-intl', () => {
+    const reactIntl = jest.requireActual('react-intl');
+    const enMessages = require('i18n/es.json');
+
+    const intl = reactIntl.createIntl({
+        locale: 'en',
+        messages: enMessages,
+        defaultLocale: 'en',
+        timeZone: 'Etc/UTC',
+        textComponent: 'span',
+    });
+
+    return {
+        ...reactIntl,
+        useIntl: () => intl,
+    };
+});
