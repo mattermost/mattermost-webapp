@@ -1,5 +1,5 @@
-@import 'compass/css3';
-@import '../../../../sass/utils/module';
+@import "compass/css3";
+@import "../../../../sass/utils/module";
 
 .Menu {
     .MenuItem {
@@ -115,6 +115,11 @@
                         color: var(--sidebar-text) !important;
                     }
                 }
+            }
+
+            &:hover,
+            &:focus {
+                background: rgba(var(--center-channel-color-rgb), 0.1);
             }
         }
 

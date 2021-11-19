@@ -395,6 +395,7 @@
     z-index: 12;
     width: 100%;
     background: var(--center-channel-bg);
+    color: var(--center-channel-color);
 
     label {
         font-weight: normal;
@@ -559,6 +560,44 @@
                 }
             }
         }
+
+        .btn-file {
+            color: var(--center-channel-color);
+
+            svg {
+                fill: var(--center-channel-color);
+            }
+        }
+    }
+
+    .post-create-footer {
+        position: relative;
+        padding: 6px 0 0;
+        font-size: 13px;
+
+        .help__text {
+            text-align: right;
+
+            a,
+            button {
+                margin-left: 10px;
+            }
+        }
+
+        .post-error {
+            @include opacity(0.55);
+
+            position: absolute;
+            top: 4px;
+            display: inline-block;
+            margin-bottom: 0;
+            font-size: 0.85em;
+            font-weight: normal;
+        }
+
+        .msg-typing {
+            color: var(--center-channel-color);
+        }
     }
 
     .msg-typing {
@@ -653,32 +692,6 @@
             font-size: 23px;
             pointer-events: none;
         }
-    }
-}
-
-.post-create-footer {
-    position: relative;
-    padding: 6px 0 0;
-    font-size: 13px;
-
-    .help__text {
-        text-align: right;
-
-        a,
-        button {
-            margin-left: 10px;
-        }
-    }
-
-    .post-error {
-        @include opacity(0.55);
-
-        position: absolute;
-        top: 4px;
-        display: inline-block;
-        margin-bottom: 0;
-        font-size: 0.85em;
-        font-weight: normal;
     }
 }
 
@@ -1048,6 +1061,7 @@
                 svg {
                     position: relative;
                     top: 2px;
+                    fill: var(--center-channel-color);
                 }
 
                 .icon {
@@ -1454,33 +1468,6 @@
 
         &[hidden] {
             max-height: 0;
-        }
-    }
-
-    .dropdown {
-        top: -1px;
-        display: inline-block;
-        vertical-align: middle;
-        visibility: hidden;
-
-        &:last-child {
-            margin-right: 0;
-        }
-
-        .dropdown-menu {
-            top: 20px;
-            right: 0;
-            left: auto;
-            min-width: 130px;
-            padding: 2px 0;
-
-            li {
-                display: block;
-            }
-
-            a {
-                padding: 5px 15px;
-            }
         }
     }
 

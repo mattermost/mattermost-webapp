@@ -16,6 +16,11 @@
         border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
     }
 
+    .table > tbody > tr > td,
+    .table > thead > tr > th {
+        border-color: rgba(var(--center-channel-color-rgb), 0.12);
+    }
+
     .help-text {
         padding: 10px 16px;
         background: rgba(var(--sys-center-channel-color-rgb), 0.04);

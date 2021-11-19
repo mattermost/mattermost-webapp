@@ -87,10 +87,6 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
         noFontFaces: true,
     });
 
-    //     if (!UserAgent.isFirefox() && !UserAgent.isInternetExplorer() && !UserAgent.isEdge()) {
-    //         changeCss('body.app__body ::-webkit-scrollbar-thumb', 'background:' + changeOpacity(theme.centerChannelColor, 0.4));
-    //     }
-
     const CssVariables = createGlobalStyle`
         :root {
             // RGB values derived from theme hex values i.e. '255, 255, 255'

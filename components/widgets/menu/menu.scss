@@ -106,6 +106,10 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        &:hover {
+            background: rgba(var(--center-channel-color-rgb), 0.1);
+        }
     }
 
     .styleSelectableItem {
