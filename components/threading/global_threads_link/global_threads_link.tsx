@@ -57,6 +57,7 @@ const GlobalThreadsLink = () => {
     const showTutorialTrigger = isFeatureEnabled && crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount.total >= 1;
     const openThreads = useCallback((e) => {
         e.stopPropagation();
+        trackEvent('crt', 'go_to_global_threads');
         if (showTutorialTrigger) {
             dispatch(openModal({modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL, dialogType: CollapsedReplyThreadsModal, dialogProps: {}}));
         }
@@ -94,7 +95,6 @@ const GlobalThreadsLink = () => {
                     })}
                     role='listitem'
                     tabIndex={0}
-                    onClick={() => trackEvent('crt', 'go_to_global_threads')}
                 >
                     <span className='icon'>
                         <ThreadsIcon/>

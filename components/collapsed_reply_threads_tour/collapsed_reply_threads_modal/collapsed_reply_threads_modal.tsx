@@ -19,8 +19,10 @@ import {Constants, ModalIdentifiers, Preferences} from 'utils/constants';
 import './collapsed_reply_threads_modal.scss';
 import NextIcon from '../../widgets/icons/fa_next_icon';
 import FormattedMarkdownMessage from '../../formatted_markdown_message';
-
-function CollapsedReplyThreadsModal() {
+type Props = {
+    onExited: () => void;
+}
+function CollapsedReplyThreadsModal(props: Props) {
     const dispatch = useDispatch();
     const currentUserId = useSelector((state: GlobalState) => getCurrentUser(state)).id;
 
@@ -53,7 +55,7 @@ function CollapsedReplyThreadsModal() {
             className='CollapsedReplyThreadsModal productNotices'
             id={ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL}
             enforceFocus={false}
-            onHide={() => onHide(true)}
+            onExited={props.onExited}
             handleConfirm={onNext}
             autoCloseOnConfirmButton={true}
             handleCancel={() => onHide(true)}
