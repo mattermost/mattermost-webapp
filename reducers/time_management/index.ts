@@ -80,32 +80,34 @@ const testWorkItemsByDay = {
                     complete: false,
                 },
             ],
+            min_time: 60,
+            reoccurring_id: '2',
         },
         {
             id: '2.1',
-            start: getTodayAtHour(11, 0),
+            start: getTodayAtHour(11, 15),
             tags: [{title: 'break', color: '#CC8F00'}],
             tasks: [{
                 id: '6.2',
                 title: 'Take a break',
-                time: 20,
+                time: 30,
                 complete: false,
             }],
         },
         {
             id: '2.2',
-            start: getTodayAtHour(11, 20),
+            start: getTodayAtHour(11, 45),
             tags: [{title: 'sprint-work', color: '#1592E0'}],
             tasks: [{
                 id: '6.1',
                 title: 'Work on card [MM-321]()',
-                time: 40,
+                time: 60,
                 complete: false,
             }],
         },
         {
             id: '3',
-            start: getTodayAtHour(12),
+            start: getTodayAtHour(12, 45),
             tags: [{title: 'break', color: '#CC8F00'}],
             tasks: [{
                 id: '5',
@@ -150,6 +152,13 @@ const testReoccurringBlocks = [
         min_time: 120,
         frequency: 'daily',
     },
+    {
+        id: '2',
+        start: getTodayAtHour(10, 15),
+        tags: [{title: 'pr-reviews', color: '#3DB887'}],
+        min_time: 60,
+        frequency: 'daily',
+    },
 ];
 
 export function workBlocksByDay(state: Dictionary<WorkBlock[]> = testWorkItemsByDay, action: GenericAction) {
@@ -175,7 +184,6 @@ export function workBlocksByDay(state: Dictionary<WorkBlock[]> = testWorkItemsBy
             addBlockAndResolveTimeOverlaps(newBlocks, block);
         } else {
             const start = findAvailableSlot(block, newBlocks);
-            console.log(start);
             if (start) {
                 block.start = start;
             }
