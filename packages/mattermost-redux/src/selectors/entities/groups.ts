@@ -245,3 +245,12 @@ export const getMyGroupMentionKeysForChannel: (state: GlobalState, teamId: strin
         return keys;
     },
 );
+
+export const searchAllowReferencedGroups: (state: GlobalState, term: string) => Group[] = createSelector(
+    'searchAllowReferencedGroups',
+    getAllAssociatedGroupsForReference,
+    (state: GlobalState, term: string) => term,
+    (groups, term) => {
+        return filterGroupsMatchingTerm(groups, term);
+    },
+);

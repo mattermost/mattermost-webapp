@@ -362,3 +362,20 @@ export function addUsersToGroup(groupId: string, userIds: string[]): ActionFunc 
         return {data};
     };
 }
+
+export function searchGroups(term: string, filterAllowReference = false, page = 0, perPage = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
+    return bindClientFunc({
+        clientFunc: async (term, filterAllowReference, page, perPage, includeMemberCount) => {
+            const result = await Client4.searchGroups(term, filterAllowReference, page, perPage, includeMemberCount);
+            return result;
+        },
+        onSuccess: [GroupTypes.RECEIVED_GROUPS],
+        params: [
+            term,
+            filterAllowReference,
+            page,
+            perPage,
+            includeMemberCount,
+        ],
+    });
+}

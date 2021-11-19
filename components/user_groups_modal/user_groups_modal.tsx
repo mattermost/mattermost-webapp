@@ -54,6 +54,13 @@ export type Props = {
             includeMemberCount?: boolean
         ) => Promise<{data: Group[]}>;
         openModal: <P>(modalData: ModalData<P>) => void;
+        searchGroups: (
+            term: string,
+            filterAllowReference?: boolean,
+            page?: number,
+            perPage?: number,
+            includeMemberCount?: boolean
+        ) => Promise<{data: Group[]}>;
     };
 }
 
@@ -67,11 +74,13 @@ type State = {
 
 export default class UserGroupsModal extends React.PureComponent<Props, State> {
     private divScrollRef: RefObject<HTMLDivElement>;
+    private searchTimeoutId: number
 
     constructor(props: Props) {
         super(props);
 
         this.divScrollRef = createRef();
+        this.searchTimeoutId = 0;
 
         this.state = {
             page: 0,
@@ -99,40 +108,33 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
-        // this.props.actions.setModalSearchTerm('');
+        this.props.actions.setModalSearchTerm('');
     }
 
     componentDidUpdate(prevProps: Props) {
-        // if (prevProps.searchTerm !== this.props.searchTerm) {
-        //     clearTimeout(this.searchTimeoutId);
-        //     const searchTerm = this.props.searchTerm;
+        if (prevProps.searchTerm !== this.props.searchTerm) {
+            clearTimeout(this.searchTimeoutId);
+            const searchTerm = this.props.searchTerm;
 
-        //     if (searchTerm === '') {
-        //         this.loadComplete();
-        //         this.searchTimeoutId = 0;
-        //         return;
-        //     }
+            if (searchTerm === '') {
+                this.loadComplete();
+                this.searchTimeoutId = 0;
+                return;
+            }
 
-        //     const searchTimeoutId = window.setTimeout(
-        //         async () => {
-        //             const {data} = await prevProps.actions.searchProfiles(searchTerm, {team_id: this.props.currentTeamId, in_channel_id: this.props.currentChannelId});
+            const searchTimeoutId = window.setTimeout(
+                async () => {
+                    await prevProps.actions.searchGroups(searchTerm, false, this.state.page, GROUPS_PER_PAGE, true);
 
-        //             if (searchTimeoutId !== this.searchTimeoutId) {
-        //                 return;
-        //             }
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
+            );
 
-        //             this.props.actions.loadStatusesForProfilesList(data);
-        //             this.props.actions.loadTeamMembersAndChannelMembersForProfilesList(data, this.props.currentTeamId, this.props.currentChannelId).then(({data: membersLoaded}) => {
-        //                 if (membersLoaded) {
-        //                     this.loadComplete();
-        //                 }
-        //             });
-        //         },
-        //         Constants.SEARCH_TIMEOUT_MILLISECONDS,
-        //     );
-
-        //     this.searchTimeoutId = searchTimeoutId;
-        // }
+            this.searchTimeoutId = searchTimeoutId;
+        }
     }
 
     startLoad = () => {

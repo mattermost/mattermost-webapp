@@ -3426,6 +3426,21 @@ export default class Client4 {
         );
     }
 
+    searchGroups = (term: string, filterAllowReference = false, page = 0, perPage = PER_PAGE_DEFAULT, includeMemberCount = false) => {
+        const qs: any = {
+            filter_allow_reference: filterAllowReference,
+            page,
+            per_page: perPage,
+            include_member_count: includeMemberCount,
+            q: term,
+        };
+
+        return this.doFetch<Group[]>(
+            `${this.getGroupsRoute()}${buildQueryString(qs)}`,
+            {method: 'get'},
+        );
+    }
+
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
