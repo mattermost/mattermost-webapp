@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 
 import TimeManagementTypes from 'utils/time_management/action_types';
-import {addBlockAndResolveTimeOverlaps, dateToWorkDateString, findAndRemoveTaskFromBlock} from 'utils/time_management/utils';
+import {addBlockAndResolveTimeOverlaps, dateToWorkDateString, findAndRemoveTaskFromBlock, findAvailableSlot} from 'utils/time_management/utils';
 import {WorkItem, WorkBlock, ReoccurringBlock} from 'types/time_management';
 
 import {generateId} from 'utils/utils';
@@ -168,9 +168,19 @@ export function workBlocksByDay(state: Dictionary<WorkBlock[]> = testWorkItemsBy
             id: generateId(),
             start: date,
             tasks: [task],
+            tags: task.tags,
         };
 
-        addBlockAndResolveTimeOverlaps(newBlocks, block);
+        if (action.dateIsTimeSpecific) {
+            addBlockAndResolveTimeOverlaps(newBlocks, block);
+        } else {
+            const start = findAvailableSlot(block, newBlocks);
+            console.log(start);
+            if (start) {
+                block.start = start;
+            }
+            newBlocks.push(block);
+        }
 
         if (action.sourceId) {
             findAndRemoveTaskFromBlock(newBlocks, task.id, action.sourceId);

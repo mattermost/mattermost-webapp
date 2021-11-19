@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import Select, {ValueType} from 'react-select';
 
 import GenericModal from 'components/generic_modal';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
@@ -50,16 +51,23 @@ const timeMenuList = [
     },
 ];
 
+type Value = ValueType<{label: string; value: string}>;
+
 const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
     const {task, currentDate} = props;
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const [text, setText] = useState<string>(task);
+    const [tags, setTags] = useState<Value[]>([]);
     const [selectedDate, setDate] = useState<Date|null>(null);
     const [selectedTime, setTime] = useState<MenuTime>(timeMenuList[0]);
 
     const handleAddTask = () => {
-        dispatch(createNewTask(text, selectedTime.minutes, selectedDate, 'sprint-work'));
+        let tag = null;
+        if (tags && tags.length > 0) {
+            tag = tags[0]?.value;
+        }
+        dispatch(createNewTask(text, selectedTime.minutes, selectedDate, tag));
     };
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
     const handleClearText = () => setText('');
@@ -85,6 +93,25 @@ const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
         );
     });
 
+    const optionsForTags = [
+        {
+            label: 'sprint-work',
+            value: 'sprint-work',
+        },
+        {
+            label: 'adhoc',
+            value: 'adhoc',
+        },
+        {
+            label: 'pr-review',
+            value: 'pr-review',
+        },
+    ];
+
+    const handleChange = (values: Value) => {
+        setTags(values as Value[]);
+    };
+
     return (
         <GenericModal
             enforceFocus={false}
@@ -103,7 +130,7 @@ const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
             }
             isConfirmDisabled={text === ''}
             id='add_task_modal'
-            className='AddTaskModal'
+            className='AddTaskModal a11y__modal more-modal more-direct-channels'
             handleConfirm={handleAddTask}
             confirmButtonClassName='btn btn-primary'
         >
@@ -120,6 +147,14 @@ const CustomAddTaskModal: React.FC<Props> = (props: Props) => {
                             placeholder={formatMessage({id: 'task.write_task', defaultMessage: 'Write your task here'})}
                         />
                     </div>
+                </div>
+                <div style={{marginRight: '15px'}}>
+                    <Select
+                        options={optionsForTags}
+                        isMulti={true}
+                        placeholder={formatMessage({id: 'task.add_tags', defaultMessage: 'Add your tags here'})}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div className='row'>
                     <div>

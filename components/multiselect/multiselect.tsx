@@ -41,7 +41,7 @@ export type Props<T extends Value> = {
     maxValues?: number;
     noteText?: ReactNode;
     numRemainingText?: ReactNode;
-    optionRenderer: (
+    optionRenderer?: (
         option: T,
         isSelected: boolean,
         add: (value: T) => void,

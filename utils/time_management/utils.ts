@@ -187,7 +187,7 @@ function moveBlockToNewSlot(blockId: string, blocks: WorkBlock[]): boolean {
 const dayStartHour = 9;
 
 export function findAvailableSlot(block: WorkBlock, blocks: WorkBlock[]): Date | null {
-    const dayStart = new Date();
+    const dayStart = new Date(block.start);
     dayStart.setHours(dayStartHour, 0, 0, 0);
 
     if (blocks.length === 0) {

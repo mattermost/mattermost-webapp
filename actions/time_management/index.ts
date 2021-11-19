@@ -8,7 +8,7 @@ import {findBlockWithMatchingTagAndAddTask} from 'utils/time_management/utils';
 import {WorkBlock, WorkItem} from 'types/time_management';
 import {generateId} from 'utils/utils';
 
-export function createNewTask(text: string, minutes: number, date?: Date | null, tag?: string): ActionFunc {
+export function createNewTask(text: string, minutes: number, date?: Date | null, tag?: string, dateIsTimeSpecific?: boolean): ActionFunc {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const task: WorkItem = {
             id: generateId(),
@@ -17,10 +17,16 @@ export function createNewTask(text: string, minutes: number, date?: Date | null,
             complete: false,
         };
 
-        if (tag) {
+        let block: WorkBlock | null | undefined;
+
+        // TODO what to do if tag and date are both set
+        if (tag && date && !dateIsTimeSpecific) {
             task.tags = [{title: tag, color: ''}];
             const state = getState();
-            const block = findBlockWithMatchingTagAndAddTask(state.time.workBlocksByDay, state.time.reoccurringBlocks, task);
+            block = findBlockWithMatchingTagAndAddTask(state.time.workBlocksByDay, state.time.reoccurringBlocks, task);
+        }
+
+        if (block) {
             dispatch({
                 type: TimeManagementTypes.RECEIVED_WORK_BLOCK,
                 block,
@@ -30,6 +36,7 @@ export function createNewTask(text: string, minutes: number, date?: Date | null,
                 type: TimeManagementTypes.RECEIVED_WORK_ITEM,
                 task,
                 date,
+                dateIsTimeSpecific,
             });
         }
 
@@ -43,6 +50,7 @@ export function createBlockFromTask(task: WorkItem, date: Date, sourceId?: strin
         task,
         date,
         sourceId,
+        dateIsTimeSpecific: true,
     };
 }
 

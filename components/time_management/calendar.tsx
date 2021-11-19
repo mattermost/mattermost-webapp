@@ -184,7 +184,7 @@ const Calendar = (props: Props) => {
         while (dayEnd.getHours() - cursor.getHours() > 0) {
             hours.push(
                 <Hour
-                    key={cursor.toDateString()}
+                    key={`hour_${cursor.getTime()}`}
                     date={cursor}
                 />,
             );
@@ -195,7 +195,7 @@ const Calendar = (props: Props) => {
                 ref={ref}
                 data-handler-id={handlerId}
             >
-                <HourContainer key={date.toDateString()}>
+                <HourContainer key={`hourcontainer_${date.getTime()}`}>
                     {hours}
                     {blocks.map((block) => (
                         <Block
