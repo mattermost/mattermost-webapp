@@ -164,15 +164,7 @@ export const ActionTypes = keyMirror({
     CANCEL_NAVIGATION: null,
     CONFIRM_NAVIGATION: null,
 
-    TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
-    TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
-    TOGGLE_GET_PUBLIC_LINK_MODAL: null,
-    TOGGLE_QUICK_SWITCH_MODAL: null,
-    TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
-    TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
-    TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
@@ -296,6 +288,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_ROLE: 'add_user_to_role',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
@@ -327,6 +320,7 @@ export const ModalIdentifiers = {
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
     TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
@@ -340,6 +334,13 @@ export const ModalIdentifiers = {
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM: 'confirm',
+    POST_DELETED_MODAL: 'post_deleted_modal',
+    FILE_PREVIEW_MODAL: 'file_preview_modal',
+    IMPORT_THEME_MODAL: 'import_theme_modal',
+    LEAVE_PRIVATE_CHANNEL_MODAL: 'leave_private_channel_modal',
+    GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
+    KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
+    USERS_TO_BE_REMOVED: 'users_to_be_removed',
 };
 
 export const UserStatuses = {

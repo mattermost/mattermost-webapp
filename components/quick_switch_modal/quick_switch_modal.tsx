@@ -34,9 +34,9 @@ type ProviderSuggestions = {
 export type Props = {
 
     /**
-     * The function called to hide the modal
+     * The function called to immediately hide the modal
      */
-    onHide: () => void;
+    onExited: () => void;
 
     actions: {
         joinChannelById: (channelId: string) => Promise<ActionResult>;
@@ -94,7 +94,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         this.setState({
             text: '',
         });
-        this.props.onHide();
+        this.props.onExited();
     };
 
     private focusPostTextbox = (): void => {
@@ -151,7 +151,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             <h1>
                 <FormattedMessage
                     id='quick_switch_modal.switchChannels'
-                    defaultMessage='Switch Channels'
+                    defaultMessage='Find Channels'
                 />
             </h1>
         );

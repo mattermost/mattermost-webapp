@@ -5,5 +5,5 @@ import {UserThread, ThreadsState} from 'mattermost-redux/types/threads';
 
 export type ExtraData = {
     threadsToDelete?: UserThread[];
-    threads?: ThreadsState['threads'];
+    threads: ThreadsState['threads'];
 }

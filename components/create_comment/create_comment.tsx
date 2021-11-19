@@ -245,15 +245,9 @@ type Props = {
       * Function to open a modal
       */
     openModal: <P>(modalData: ModalData<P>) => void;
-
-    /**
-      * Function to close a modal
-      */
-    closeModal: (modalId: string) => void;
 }
 
 type State = {
-    showPostDeletedModal: boolean;
     showEmojiPicker: boolean;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
@@ -297,10 +291,6 @@ class CreateComment extends React.PureComponent<Props, State> {
             updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
         }
 
-        if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.createPostErrorId) {
-            updatedState = {...updatedState, showPostDeletedModal: true};
-        }
-
         return updatedState;
     }
 
@@ -308,7 +298,6 @@ class CreateComment extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            showPostDeletedModal: false,
             showEmojiPicker: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -382,6 +371,10 @@ class CreateComment extends React.PureComponent<Props, State> {
                 this.props.scrollToBottom();
             }
             this.doInitialScrollToBottom = false;
+        }
+
+        if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
+            this.showPostDeletedModal();
         }
     }
 
@@ -462,7 +455,6 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleNotifyAllConfirmation = () => {
-        this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL);
         this.doSubmit();
     }
 
@@ -475,7 +467,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                 channelTimezoneCount,
                 memberNotifyCount,
                 onConfirm: () => this.handleNotifyAllConfirmation(),
-                onCancel: () => this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL),
             },
         });
     }
@@ -1065,17 +1056,10 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     showPostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: true,
+        this.props.openModal({
+            modalId: ModalIdentifiers.POST_DELETED_MODAL,
+            dialogType: PostDeletedModal,
         });
-    }
-
-    hidePostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: false,
-        });
-
-        this.props.resetCreatePostRequest?.();
     }
 
     handleBlur = () => {
@@ -1209,7 +1193,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         if (readOnlyChannel) {
             createMessage = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
         } else {
-            createMessage = Utils.localizeMessage('create_comment.addComment', 'Add a comment...');
+            createMessage = Utils.localizeMessage('create_comment.addComment', 'Reply to this thread...');
         }
 
         let scrollbarClass = '';
@@ -1294,7 +1278,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 disabled={!enableAddButton}
                                 id='addCommentButton'
                                 className={addButtonClass}
-                                value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
+                                value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Reply'})}
                                 onClick={this.handleSubmit}
                             />
                             {preview}
@@ -1302,10 +1286,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                         </div>
                     </div>
                 </div>
-                <PostDeletedModal
-                    show={this.state.showPostDeletedModal}
-                    onHide={this.hidePostDeletedModal}
-                />
             </form>
         );
     }

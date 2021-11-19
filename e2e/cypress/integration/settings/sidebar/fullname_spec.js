@@ -29,10 +29,10 @@ describe('Settings > Sidebar > General', () => {
                 cy.apiAddUserToTeam(team.id, otherUser.id);
             });
 
-            // # Login as test user, visit off-topic and go to the Account Settings
+            // # Login as test user, visit off-topic and go to the Profile
             cy.apiLogin(testUser);
             cy.visit(offTopicUrl);
-            cy.uiOpenAccountSettingsModal();
+            cy.uiOpenProfileModal();
 
             // # Open Full Name section
             cy.get('#nameDesc').click();
@@ -55,7 +55,7 @@ describe('Settings > Sidebar > General', () => {
         cy.get('#post_textbox').clear().type(`@${newFirstName.substring(0, 11)}`);
 
         // * Verify that the testUser is selected from mention autocomplete
-        cy.uiVerifyAtMentionInSuggestionList('Channel Members', {...testUser, first_name: newFirstName}, true);
+        cy.uiVerifyAtMentionInSuggestionList({...testUser, first_name: newFirstName}, true);
 
         // # Press tab on text input
         cy.get('#post_textbox').tab();

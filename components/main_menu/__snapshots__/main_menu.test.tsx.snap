@@ -45,7 +45,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -247,7 +247,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -485,7 +485,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>
@@ -533,7 +533,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -857,7 +857,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -1095,7 +1095,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1143,7 +1143,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -1469,7 +1469,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -1707,7 +1707,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1755,7 +1755,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
