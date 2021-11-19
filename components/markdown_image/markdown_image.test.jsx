@@ -7,9 +7,10 @@ import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants';
 
+import SizeAwareImage from 'components/size_aware_image';
+import FilePreviewModal from 'components/file_preview_modal';
+
 import MarkdownImage from './markdown_image';
-import SizeAwareImage from './size_aware_image';
-import FilePreviewModal from './file_preview_modal';
 
 describe('components/MarkdownImage', () => {
     const baseProps = {
@@ -24,6 +25,9 @@ describe('components/MarkdownImage', () => {
         postId: 'post_id',
         imageIsLink: false,
         onImageLoaded: jest.fn(),
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -167,7 +171,6 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
         expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active`);
-        expect(childrenWrapper.find(FilePreviewModal)).toHaveLength(1);
         expect(childrenWrapper).toMatchSnapshot();
     });
 
@@ -190,22 +193,14 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper).toMatchSnapshot();
     });
 
-    test('should handle showModal state properly', () => {
+    test('should call openModal when showModal is called', () => {
         const props = {...baseProps, src: 'https://example.com/image.png'};
         const wrapper = shallow(
             <MarkdownImage {...props}/>,
         );
-        wrapper.instance().showModal({preventDefault: () => {}});
-        expect(wrapper.state('showModal')).toEqual(true);
-    });
 
-    test('should handle showModal state properly in case the image is a link', () => {
-        const props = {...baseProps, src: 'https://example.com/image.png', imageIsLink: true};
-        const wrapper = shallow(
-            <MarkdownImage {...props}/>,
-        );
-        wrapper.instance().showModal();
-        expect(wrapper.state('showModal')).toEqual(false);
+        wrapper.instance().showModal({preventDefault: () => {}}, 'https://example.com/image.png');
+        expect(props.actions.openModal).toHaveBeenCalledTimes(1);
     });
 
     test('should properly scale down the image in case of a header change system message', () => {
@@ -235,6 +230,7 @@ describe('components/MarkdownImage', () => {
             imageIsLink: false,
             height: '76',
             width: '50',
+            actions: baseProps.actions,
         };
 
         const wrapper = shallow(
@@ -268,6 +264,7 @@ describe('components/MarkdownImage', () => {
             imageIsLink: false,
             height: '250',
             width: '50',
+            actions: baseProps.actions,
         };
 
         const wrapper = shallow(
@@ -292,6 +289,7 @@ describe('components/MarkdownImage', () => {
             imageIsLink: false,
             height: '250',
             width: '50',
+            actions: baseProps.actions,
         };
 
         const wrapper = shallow(
