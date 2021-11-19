@@ -84,7 +84,10 @@ export default function InviteAs(props: Props) {
             />
         );
         control = (
-            <div className='InviteAs__toggle'>
+            <div
+                className='InviteAs__toggle'
+                data-testid='invite-as-toggle-control'
+            >
                 <div className='InviteAs__toggleDescription'>
                     {props.inviteType === InviteType.GUEST &&
                     <>

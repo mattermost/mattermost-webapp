@@ -103,7 +103,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // * Verify Set Custom Message after clicking on the link
         cy.get('.AddToChannels').should('be.visible').within(() => {
             cy.get('a').should('not.exist');
-            cy.get('div > span').first().should('be.visible').and('have.text', 'Custom message');
+            cy.get('.AddToChannels__customMessageTitle').findByText('Custom message');
             cy.get('textarea').should('be.visible');
             cy.get('.help-text').should('have.text', 'Create a custom message to make your invite more personal.');
         });
@@ -167,8 +167,19 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Open team menu and click 'Invite People'
         cy.uiOpenTeamMenu('Invite People');
 
-        // # Click on the next icon to invite members
-        cy.findByTestId('inviteMembersLink').click();
+        // # Click invite members if needed
+        cy.get('.InviteAs').then(($inviteAs) => {
+            const hasABToggleTreatment = $inviteAs.findByTestId('invite-as-toggle-control').length > 0;
+            if (hasABToggleTreatment) {
+                if ($inviteAs.findByTestId('inviteMembersLink').length > 0) {
+                    // Has A/B test toggle treatment and is in guest mode.
+                    cy.findByTestId('inviteMembersLink').click();
+                }
+            } else {
+                // Has A/B test radio treatment, so inviteMembersLink is always visible.
+                cy.findByTestId('inviteMembersLink').click();
+            }
+        });
 
         // # Search and add a member
         cy.get('.users-emails-input__control').should('be.visible').within(() => {

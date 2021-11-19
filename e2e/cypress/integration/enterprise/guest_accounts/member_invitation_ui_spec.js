@@ -219,7 +219,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             // # Add a random username without proper email address format
             const username = `temp-${getRandomId()}`;
             cy.get('.users-emails-input__control').should('be.visible').within(() => {
-                cy.get('input').type(username, {force: true});
+                cy.get('input').type(username, {force: true}).tab();
             });
 
             // # Click Invite Members
