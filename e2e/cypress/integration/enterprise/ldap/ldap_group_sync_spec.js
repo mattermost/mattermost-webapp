@@ -398,8 +398,8 @@ context('ldap', () => {
 
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-                // # Click the sidebar switcher button
-                cy.uiGetChannelSwitcher().click();
+                // # Open Find Channels
+                cy.uiOpenFindChannels();
 
                 // * Channel switcher hint should be visible
                 cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
@@ -423,8 +423,8 @@ context('ldap', () => {
                 cy.apiLogin(testUser);
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-                // # Click the sidebar switcher button
-                cy.uiGetChannelSwitcher().click();
+                // # Open Find Channels
+                cy.uiOpenFindChannels();
 
                 // * Channel switcher hint should be visible
                 cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');

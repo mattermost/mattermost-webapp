@@ -21,8 +21,12 @@ Cypress.Commands.add('isExpanded', {prevSubject: true}, (subject) => {
     return cy.get(subject).should('have.class', 'sidebar--right--expanded');
 });
 
-Cypress.Commands.add('uiAddComment', () => {
-    cy.findByRole('button', {name: 'Add Comment'}).click();
+Cypress.Commands.add('uiGetReply', () => {
+    return cy.findByRole('button', {name: 'Reply'});
+});
+
+Cypress.Commands.add('uiReply', () => {
+    cy.uiGetReply().click();
 });
 
 // Sidebar search container

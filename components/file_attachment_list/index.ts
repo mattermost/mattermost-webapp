@@ -1,20 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Post} from 'mattermost-redux/types/posts';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
+
 import {getCurrentLocale} from 'selectors/i18n';
 import {isEmbedVisible} from 'selectors/posts';
 
+import {openModal} from 'actions/views/modals';
+
 import FileAttachmentList from './file_attachment_list';
 
-type OwnProps = {
+export type OwnProps = {
     post: Post;
+    compactDisplay?: boolean;
+    handleFileDropdownOpened: (open: boolean) => void;
 }
 
 function makeMapStateToProps() {
@@ -43,4 +50,16 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(FileAttachmentList);
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators({
+            openModal,
+        }, dispatch),
+    };
+}
+
+const connector = connect(makeMapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(FileAttachmentList);
