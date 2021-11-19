@@ -4,6 +4,7 @@
     "defaultCommandTimeout": 20000,
     "ignoreTestFiles": "**/node_modules/**/*",
     "integrationFolder": "..",
+    "numTestsKeptInMemory": 0,
     "taskTimeout": 20000,
     "testFiles": "**/*_spec.js",
     "video": false,

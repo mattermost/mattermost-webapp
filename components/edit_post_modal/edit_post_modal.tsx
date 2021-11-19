@@ -29,19 +29,11 @@ import TextboxLinks from 'components/textbox/textbox_links';
 import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 import {Post} from 'mattermost-redux/types/posts';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {ModalData} from 'types/actions';
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
-
-type OpenModal = {
-    ModalId: string;
-    dialogType: typeof React.Component;
-    dialogProps: {
-        post: Post;
-        isRHS?: boolean;
-    };
-};
 
 export type Props = {
     canEditPost?: boolean;
@@ -69,7 +61,7 @@ export type Props = {
         addMessageIntoHistory: (message: string) => void;
         editPost: (input: Partial<Post>) => Promise<Post>;
         hideEditPostModal: () => void;
-        openModal: (input: OpenModal) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
         setShowPreview: (newPreview: boolean) => void;
         runMessageWillBeUpdatedHooks: (newPost: Post, oldPost: Post) => Promise<ActionResult>;
     };
@@ -185,12 +177,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 
             // check whether the first piece of the message is empty when cursor
             // is placed at beginning of message and avoid adding an empty string at the beginning of the message
-            const newMessage = firstPiece === '' ?
-                `:${emojiAlias}: ${lastPiece}` :
-                `${firstPiece} :${emojiAlias}: ${lastPiece}`;
-            const newCaretPosition = firstPiece === '' ?
-                `:${emojiAlias}: `.length :
-                `${firstPiece} :${emojiAlias}: `.length;
+            const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
+            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
 
             const textbox = this.editbox && this.editbox.getInputBox();
 
@@ -214,9 +202,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         if (this.state.editText === '') {
             this.setState({editText: gif});
         } else {
-            const newMessage = (/\s+$/).test(this.state.editText) ?
-                this.state.editText + gif :
-                this.state.editText + ' ' + gif;
+            const newMessage = (/\s+$/).test(this.state.editText) ? this.state.editText + gif : this.state.editText + ' ' + gif;
             this.setState({editText: newMessage});
         }
         this.setState({showEmojiPicker: false});
@@ -272,7 +258,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             this.handleHide(false);
 
             const deletePostModalData = {
-                ModalId: ModalIdentifiers.DELETE_POST,
+                modalId: ModalIdentifiers.DELETE_POST,
                 dialogType: DeletePostModal,
                 dialogProps: {
                     post: editingPost.post,

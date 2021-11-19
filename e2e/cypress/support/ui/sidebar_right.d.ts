@@ -25,7 +25,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiGetRHS();
          */
-        uiGetRHS(option: Record<string, boolean>): Chainable;
+        uiGetRHS(option?: Record<string, boolean>): Chainable;
 
         /**
          * Close RHS
@@ -52,12 +52,20 @@ declare namespace Cypress {
         isExpanded(): Chainable;
 
         /**
-         * Add comment by clicking "Add Comment" button
+         * Get "Reply" button
          *
          * @example
-         *   cy.uiAddComment();
+         *   cy.uiGetReply();
          */
-        uiAddComment(): Chainable;
+        uiGetReply(): Chainable;
+
+        /**
+         * Reply by clicking "Reply" button
+         *
+         * @example
+         *   cy.uiReply();
+         */
+        uiReply(): Chainable;
 
         /**
          * Get RHS container

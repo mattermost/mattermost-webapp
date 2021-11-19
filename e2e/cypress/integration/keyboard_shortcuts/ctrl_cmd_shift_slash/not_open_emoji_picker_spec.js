@@ -106,13 +106,13 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     });
 
     it('MM-T4059_3 Do not open emoji picker if any modal is open', () => {
-        cy.uiOpenProductSwitchMenu('About Mattermost');
+        cy.uiOpenProductMenu('About Mattermost');
         verifyEmojiPickerNotOpen();
 
         cy.uiOpenTeamMenu('View Members');
         verifyEmojiPickerNotOpen();
 
-        cy.uiOpenAccountSettingsModal();
+        cy.uiOpenProfileModal();
         verifyEmojiPickerNotOpen();
 
         ['Edit Channel Header', 'Manage Members', 'Rename Channel'].forEach((modal) => {

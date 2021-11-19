@@ -11,6 +11,7 @@ import './contact_us.scss';
 export interface Props {
     buttonTextElement?: JSX.Element;
     eventID?: string;
+    customClass?: string;
 }
 
 const ContactUsButton: React.FC<Props> = (props: Props) => {
@@ -22,7 +23,7 @@ const ContactUsButton: React.FC<Props> = (props: Props) => {
 
     return (
         <button
-            className='contact-us'
+            className={`contact-us ${props.customClass}`}
             onClick={(e) => handleContactUsLinkClick(e)}
         >
             {props.buttonTextElement || (

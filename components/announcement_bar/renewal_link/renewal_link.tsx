@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 
 import {trackEvent} from 'actions/telemetry_actions';
+
+import {ModalData} from 'types/actions';
+
 import {
     ModalIdentifiers,
 } from 'utils/constants';
@@ -18,9 +20,10 @@ import './renew_link.scss';
 export interface RenewalLinkProps {
     telemetryInfo?: {success: string; error: string};
     actions: {
-        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
     isDisabled?: boolean;
+    customBtnText?: JSX.Element;
 }
 
 const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
@@ -64,6 +67,13 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
         });
     };
 
+    const btnText = props.customBtnText ? props.customBtnText : (
+        <FormattedMessage
+            id='announcement_bar.warn.renew_license_now'
+            defaultMessage='Renew license now'
+        />
+    );
+
     return (
         <>
             <button
@@ -71,10 +81,7 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
                 disabled={props.isDisabled}
                 onClick={(e) => handleLinkClick(e)}
             >
-                <FormattedMessage
-                    id='announcement_bar.warn.renew_license_now'
-                    defaultMessage='Renew license now'
-                />
+                {btnText}
             </button>
         </>
     );

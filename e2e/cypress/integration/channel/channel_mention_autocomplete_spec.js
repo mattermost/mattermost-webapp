@@ -41,14 +41,12 @@ describe('Channel', () => {
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
-        // * Should match each channel item and group label
+        // * Should match each channel item
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
-            cy.wrap(el).eq(0).should('contain', 'My Channels');
-            cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
-            cy.wrap(el).eq(2).should('contain', 'Off-Topic');
-            cy.wrap(el).eq(3).should('contain', 'Town Square');
-            cy.wrap(el).eq(4).should('contain', 'Other Channels');
-            cy.wrap(el).eq(5).should('contain', otherChannel.display_name);
+            cy.wrap(el).eq(0).should('contain', ownChannel.display_name);
+            cy.wrap(el).eq(1).should('contain', 'Off-Topic');
+            cy.wrap(el).eq(2).should('contain', 'Town Square');
+            cy.wrap(el).eq(3).should('contain', otherChannel.display_name);
         });
     });
 
@@ -64,13 +62,12 @@ describe('Channel', () => {
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
-        // * Should match each channel item and group label
+        // * Should match each channel
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
-            cy.wrap(el).eq(0).should('contain', 'My Channels');
-            cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
-            cy.wrap(el).eq(2).should('contain', otherChannel.display_name);
-            cy.wrap(el).eq(3).should('contain', 'Off-Topic');
-            cy.wrap(el).eq(4).should('contain', 'Town Square');
+            cy.wrap(el).eq(0).should('contain', ownChannel.display_name);
+            cy.wrap(el).eq(1).should('contain', otherChannel.display_name);
+            cy.wrap(el).eq(2).should('contain', 'Off-Topic');
+            cy.wrap(el).eq(3).should('contain', 'Town Square');
         });
     });
 
@@ -89,14 +86,12 @@ describe('Channel', () => {
             cy.get('#loadingSpinner').should('not.exist');
 
             // * Should open up suggestion list for channels
-            // * Should match each channel item and group label
+            // * Should match each channel item
             cy.get('#suggestionList').should('be.visible').children().within((el) => {
-                cy.wrap(el).eq(0).should('contain', 'My Channels');
-                cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
-                cy.wrap(el).eq(2).should('contain', 'Off-Topic');
-                cy.wrap(el).eq(3).should('contain', 'Town Square');
-                cy.wrap(el).eq(4).should('contain', 'Other Channels');
-                cy.wrap(el).eq(5).should('contain', otherChannel.display_name);
+                cy.wrap(el).eq(0).should('contain', ownChannel.display_name);
+                cy.wrap(el).eq(1).should('contain', 'Off-Topic');
+                cy.wrap(el).eq(2).should('contain', 'Town Square');
+                cy.wrap(el).eq(3).should('contain', otherChannel.display_name);
             });
         });
     });

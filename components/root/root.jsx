@@ -62,6 +62,8 @@ import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
 
+import {applyLuxonDefaults} from './effects';
+
 import RootRedirect from './root_redirect';
 
 const CreateTeam = makeAsyncComponent(LazyCreateTeam);
@@ -133,8 +135,10 @@ export default class Root extends React.PureComponent {
         });
 
         document.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            if (!document.body.classList.contains('focalboard-body')) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         });
 
         // Fastclick
@@ -151,6 +155,8 @@ export default class Root extends React.PureComponent {
 
         // set initial window size state
         this.props.actions.emitBrowserWindowResized();
+
+        store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
 
     onConfigLoaded = () => {
@@ -421,6 +427,7 @@ export default class Root extends React.PureComponent {
                             />
                             <RootRedirect/>
                         </Switch>
+                        <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
             </IntlProvider>

@@ -14,11 +14,9 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {toggleSideBarRightMenuAction} from 'actions/global_actions';
 
-import {isModalOpen} from 'selectors/views/modals';
-
 import {GlobalState} from 'types/store';
 
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants} from 'utils/constants';
 
 import LeaveTeamModal from './leave_team_modal';
 
@@ -35,16 +33,13 @@ function getNumOfPublicChannels(state: GlobalState) {
 }
 
 function mapStateToProps(state: GlobalState) {
-    const modalId = ModalIdentifiers.LEAVE_TEAM;
     const currentUserId = getCurrentUserId(state);
     const currentTeamId = getCurrentTeamId(state);
-    const show = isModalOpen(state, modalId);
     const currentUser = getCurrentUser(state);
 
     return {
         currentUserId,
         currentTeamId,
-        show,
         currentUser,
         numOfPrivateChannels: getNumOfPrivateChannels(state),
         numOfPublicChannels: getNumOfPublicChannels(state),

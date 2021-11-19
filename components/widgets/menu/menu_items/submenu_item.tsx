@@ -49,6 +49,7 @@ export type Props = {
     openUp?: boolean;
     styleSelectableItem?: boolean;
     extraText?: string;
+    rightDecorator?: React.ReactNode;
 }
 
 type State = {
@@ -86,11 +87,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         event.preventDefault();
         const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
-        const pathPair = Object.entries(event.nativeEvent).find(([key]) => key === 'path');
-        let path: HTMLElement[] | undefined;
-        if (pathPair) {
-            path = pathPair[1];
-        }
         if (isMobile) {
             if (subMenu && subMenu.length) { // if contains a submenu, call openModal with it
                 if (!root) { //required to close only the original menu
@@ -100,23 +96,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
             } else if (action) { // leaf node in the tree handles action only
                 action(postId);
             }
-        } else if (
-            path && // the first 2 elements in path match original event id
-            path.slice(0, 2).find((e) => e.id === id) &&
-            action
-        ) {
-            action(postId);
-        } else if (
-            !path &&
-            !event.nativeEvent.composedPath &&
-            action
-        ) { //for tests only that don't contain `path` or `composedPath`
-            action(postId);
-        } else if (
-            !path &&
-            (event.nativeEvent.composedPath() as HTMLElement[]).slice(0, 2).find((e) => e.id === id) &&
-            action
-        ) {
+        } else if (event.currentTarget.id === id && action) {
             action(postId);
         }
     }
@@ -148,14 +128,12 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
             return ('');
         }
-
-        const selectedValueElement = typeof selectedValueText === 'string' ? <span className='selected'>{selectedValueText}</span> : selectedValueText;
 
         let textProp = text;
         if (icon) {
@@ -235,9 +213,9 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     onKeyDown={this.handleKeyDown}
                 >
-                    <span className='MenuItem__primary-text'>
-                        {textProp}
-                        {renderSelected && selectedValueElement}
+                    <div className={icon ? 'grid' : 'flex'}>
+                        {textProp}{rightDecorator}
+                        {renderSelected && <span className='selected'>{selectedValueText}</span>}
                         {id !== 'ChannelMenu-moveToDivider' &&
                             <span
                                 id={'channelHeaderDropdownIconRight_' + id}
@@ -245,7 +223,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                             />
                         }
-                    </span>
+                    </div>
                     {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
                     {subMenuContent}
                 </div>
