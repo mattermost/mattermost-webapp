@@ -3,14 +3,27 @@
 
 import {combineReducers} from 'redux';
 
+import {findKey} from 'lodash';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ViewsState} from 'types/store/views';
 
 import {Threads} from 'utils/constants';
+import {PostTypes} from 'mattermost-redux/action_types';
 
 export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThreadIdInTeam'] | null = null, action: GenericAction) => {
     switch (action.type) {
+    case PostTypes.POST_REMOVED: {
+        const key = findKey(state, (id) => id === action.data.id);
+        if (key) {
+            return {
+                ...state,
+                [key]: '',
+            };
+        }
+        return state;
+    }
     case Threads.CHANGED_SELECTED_THREAD:
         return {
             ...state,
