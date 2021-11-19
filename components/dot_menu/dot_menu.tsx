@@ -24,7 +24,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -47,7 +46,6 @@ type Props = {
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings: AppBinding[] | null;
     appsEnabled: boolean;
 
     /**
@@ -172,13 +170,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             window.removeEventListener('keydown', this.onShortcutKeyDown);
             window.removeEventListener('keyup', this.onShortcutKeyUp);
         }
-    }
-
-    static getDerivedStateFromProps(props: Props) {
-        const state: Partial<State> = {
-            canEdit: props.canEdit && !props.isReadOnly,
-            canDelete: props.canDelete && !props.isReadOnly,
-        };
     }
 
     componentWillUnmount(): void {
