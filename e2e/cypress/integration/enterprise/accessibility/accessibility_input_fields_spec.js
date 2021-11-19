@@ -199,7 +199,7 @@ describe('Verify Accessibility Support in different input fields', () => {
 
         cy.get('#rhsContainer').within(() => {
             // * Verify Accessibility Support in RHS input
-            cy.get('#reply_textbox').should('have.attr', 'aria-label', 'add a comment...').and('have.attr', 'role', 'textbox').focus().type('test').tab({shift: true}).tab().tab();
+            cy.get('#reply_textbox').should('have.attr', 'aria-label', 'reply to this thread...').and('have.attr', 'role', 'textbox').focus().type('test').tab({shift: true}).tab().tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();
@@ -210,8 +210,8 @@ describe('Verify Accessibility Support in different input fields', () => {
             // * Verify if the focus is on the help link
             cy.get('.textbox-help-link').should('have.class', 'a11y--active a11y--focused').tab();
 
-            // * Verify if the focus is on the Add Comment button
-            cy.get('#addCommentButton').should('have.class', 'a11y--active a11y--focused');
+            // * Verify if the focus is on the Reply button
+            cy.uiGetReply().should('have.class', 'a11y--active a11y--focused');
         });
     });
 });
