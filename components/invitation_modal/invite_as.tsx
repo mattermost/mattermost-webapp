@@ -86,7 +86,7 @@ export default function InviteAs(props: Props) {
         control = (
             <div
                 className='InviteAs__toggle'
-                data-testid='invite-as-toggle-control'
+                id='inviteAsToggleControl'
             >
                 <div className='InviteAs__toggleDescription'>
                     {props.inviteType === InviteType.GUEST &&
@@ -109,6 +109,7 @@ export default function InviteAs(props: Props) {
                         props.setInviteAs(props.inviteType === InviteType.GUEST ? InviteType.MEMBER : InviteType.GUEST);
                     }}
                     testId={props.inviteType === InviteType.GUEST ? 'inviteMembersLink' : 'inviteGuestLink'}
+                    id={props.inviteType === InviteType.GUEST ? 'inviteMembersLink' : 'inviteGuestLink'}
                 />
             </div>
         );

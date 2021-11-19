@@ -22,6 +22,7 @@ const Toggle: React.FC<Props> = (props: Props) => {
     return (
         <button
             data-testid={dataTestId}
+            id={id}
             type='button'
             onClick={onToggle}
             className={`btn btn-lg btn-toggle ${toggled ? 'active' : ''} ${disabled ? 'disabled' : ''}`}

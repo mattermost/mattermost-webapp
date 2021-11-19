@@ -38,9 +38,9 @@ describe('Verify Accessibility Support in different input fields', () => {
 
         // # Click invite members if needed
         cy.get('.InviteAs').then(($inviteAs) => {
-            const hasABToggleTreatment = $inviteAs.findByTestId('invite-as-toggle-control').length > 0;
+            const hasABToggleTreatment = $inviteAs.find('#inviteAsToggleControl').length > 0;
             if (hasABToggleTreatment) {
-                if ($inviteAs.findByTestId('inviteMembersLink').length > 0) {
+                if ($inviteAs.find('#inviteMembersLink').length > 0) {
                     // Has A/B test toggle treatment and is in guest mode.
                     cy.findByTestId('inviteMembersLink').click();
                 }
