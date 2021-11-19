@@ -22,15 +22,17 @@ import {getThreadsInChannel} from 'mattermost-redux/selectors/entities/threads';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
-export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false} = {}) {
+export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false} = {}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let userThreadList: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread});
+            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread, totalsOnly});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -63,6 +65,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     const state = getState();
     const currentUserId = getCurrentUserId(state);
     const currentTeamId = getCurrentTeamId(state);
+    const crtEnabled = isCollapsedThreadsEnabled(state);
     const thread = {...threadData, is_following: true};
 
     dispatch({
@@ -73,6 +76,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     dispatch({
         type: PostTypes.RECEIVED_POST,
         data: {...thread.post, update_at: 0},
+        features: {crtEnabled},
     });
 
     dispatch({

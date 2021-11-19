@@ -25,7 +25,7 @@ describe('Group Mentions', () => {
         // * Check if server has license for LDAP Groups
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -176,7 +176,7 @@ describe('Group Mentions', () => {
         // # Trigger DM with a user
         cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
-        cy.get('#saveItems').click();
+        cy.uiGetButton('Go').click();
 
         // # Type the Group Name to check if Autocomplete dropdown is displayed
         cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -217,7 +217,7 @@ describe('Group Mentions', () => {
         // # Trigger DM with couple of users
         cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
-        cy.get('#saveItems').click();
+        cy.uiGetButton('Go').click();
 
         // # Type the Group Name to check if Autocomplete dropdown is displayed
         cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);

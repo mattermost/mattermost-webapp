@@ -16,6 +16,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
+import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getIsMobileView} from 'selectors/views/browser';
@@ -56,9 +57,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     fetchMyCategories: (teamId: string) => {data: boolean};
     createCategory: (teamId: string, categoryName: string) => {data: string};
-    openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
-        data: boolean;
-    }>;
+    openModal: <P>(modalData: ModalData<P>) => void;
     clearChannelSelection: () => void;
 }
 

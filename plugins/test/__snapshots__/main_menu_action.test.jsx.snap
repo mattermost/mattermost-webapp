@@ -3,7 +3,6 @@
 exports[`plugins/MainMenuActions should match snapshot in mobile view with some plugin and ability to click plugin 1`] = `
 <Menu
   ariaLabel="main menu"
-  mobile={true}
 >
   <MenuGroup>
     <Connect(SystemPermissionGate)
@@ -81,7 +80,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text="Profile"
     />
   </MenuGroup>
   <MenuGroup>
@@ -129,7 +128,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -378,6 +377,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
       id="nativeAppLink"
       show={true}
       text="Download Apps"
+      url=""
     />
     <MenuItemToggleModalRedux
       dialogType={
@@ -418,8 +418,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
 
 exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
 <Menu
-  ariaLabel="main menu"
-  mobile={false}
+  ariaLabel="team menu"
 >
   <MenuGroup>
     <Connect(TeamPermissionGate)
@@ -461,7 +460,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }

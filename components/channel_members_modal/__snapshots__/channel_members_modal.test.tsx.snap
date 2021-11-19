@@ -25,7 +25,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         "remove": [Function],
       }
     }
-    onExited={[Function]}
+    onExited={[MockFunction]}
     onHide={[Function]}
     renderBackdrop={[Function]}
     restoreFocus={true}
@@ -79,6 +79,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
             "header": "",
             "id": "channel_id",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "",
             "purpose": "",
             "scheme_id": "",
@@ -118,7 +119,7 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
         "remove": [Function],
       }
     }
-    onExited={[Function]}
+    onExited={[MockFunction]}
     onHide={[Function]}
     renderBackdrop={[Function]}
     restoreFocus={true}
@@ -161,6 +162,7 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
             "header": "",
             "id": "channel_id",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "",
             "purpose": "",
             "scheme_id": "",

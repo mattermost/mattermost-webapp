@@ -88,7 +88,11 @@ function stepThroughStatuses(statusTestCases = []) {
     // * Verify the user's status icon changes correctly every time
     statusTestCases.forEach((tc) => {
         // # Open user menu and click option
-        cy.uiOpenUserMenu(tc.text);
+        if (tc.text === 'Do Not Disturb') {
+            cy.uiOpenDndStatusSubMenu().find('#dndTime-thirty_minutes_menuitem').click();
+        } else {
+            cy.uiOpenUserMenu(tc.text);
+        }
 
         // # Verify correct status icon is shown on user's profile picture
         cy.uiGetProfileHeader().

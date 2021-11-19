@@ -45,7 +45,7 @@ describe('components/dot_menu/DotMenu', () => {
         canEdit: false,
         canDelete: false,
         isReadOnly: false,
-        currentTeamId: 'team_id_1',
+        teamId: 'team_id_1',
         isFollowingThread: false,
         isCollapsedThreadsEnabled: false,
         threadId: 'post_id_1',

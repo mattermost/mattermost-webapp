@@ -68,6 +68,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
           "add_reaction",
         ]
       }
+      teamId="team_id_1"
     >
       <MenuItemAction
         onClick={[Function]}
@@ -252,6 +253,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
           "add_reaction",
         ]
       }
+      teamId="team_id_1"
     >
       <MenuItemAction
         onClick={[Function]}

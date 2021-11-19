@@ -9,7 +9,6 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -23,6 +22,9 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import {ModalData} from 'types/actions';
+import {PluginComponent} from 'types/store/plugins';
+import {createCallContext, createCallRequest} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -31,7 +33,7 @@ type ChangeEvent = React.KeyboardEvent | React.MouseEvent;
 type Props = {
     intl: IntlShape;
     post: Post;
-    teamId?: string;
+    teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
     handleCommentClick: React.EventHandler<ChangeEvent>;
@@ -44,6 +46,16 @@ type Props = {
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    appBindings: AppBinding[] | null;
+    appsEnabled: boolean;
+
+    /**
+     * Components for overriding provided by plugins
+     */
+    components: {
+        [componentName: string]: PluginComponent[];
+    };
 
     actions: {
 
@@ -75,9 +87,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (modalData: {ModalId: string; dialogType: React.ComponentClass; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         /**
          * Function to set the unread mark at given post
@@ -94,10 +104,10 @@ type Props = {
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    currentTeamId: $ID<Team>;
     threadId: $ID<UserThread>;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
+    isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
 }
 
@@ -199,8 +209,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    copyLink = (): void => {
-        Utils.copyToClipboard(`${this.props.currentTeamUrl}/pl/${this.props.post.id}`);
+    copyLink = () => {
+        Utils.copyToClipboard(`${this.props.teamUrl}/pl/${this.props.post.id}`);
     }
 
     handlePinMenuItemActivated = (): void => {
@@ -220,7 +230,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         e.preventDefault();
 
         const deletePostModalData = {
-            ModalId: ModalIdentifiers.DELETE_POST,
+            modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
                 post: this.props.post,
@@ -240,13 +250,19 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    handleSetThreadFollow = (): void => {
-        const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
+    handleSetThreadFollow = () => {
+        const {actions, teamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
+        let followingThread: boolean;
+        if (isFollowingThread === null) {
+            followingThread = !isMentionedInRootPost;
+        } else {
+            followingThread = !isFollowingThread;
+        }
         actions.setThreadFollow(
             userId,
-            currentTeamId,
+            teamId,
             threadId,
-            !isFollowingThread,
+            followingThread,
         );
     }
 
@@ -465,7 +481,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...this.props.isFollowingThread ? {
+                        {...isFollowingThread ? {
                             icon: Utils.getMenuItemIcon('icon-message-minus-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                         } : {
