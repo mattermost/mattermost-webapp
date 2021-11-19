@@ -197,10 +197,9 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         const updatedUser = {
             ...user,
             props: {
-                show_last_active: lastActiveDisplay,
                 ...user.props,
+                show_last_active: lastActiveDisplay,
             },
-
         };
 
         actions.updateMe(updatedUser).
@@ -1073,6 +1072,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {clockSection}
                     {teammateNameDisplaySection}
                     {availabilityStatusOnPostsSection}
+                    {lastActiveSection}
                     {timezoneSelection}
                     {linkPreviewSection}
                     {collapseSection}
@@ -1082,7 +1082,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {channelDisplayModeSection}
                     {oneClickReactionsOnPostsSection}
                     {languagesSection}
-                    {lastActiveSection}
                 </div>
             </div>
         );

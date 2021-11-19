@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {displayUsername, displayLastActiveLabel, isGuest} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, displayLastActiveLabel, isGuest, getLastActiveTimestampUnits} from 'mattermost-redux/utils/user_utils';
 
 import 'bootstrap';
 
@@ -408,6 +408,7 @@ class ChannelHeader extends React.PureComponent {
                 </span>
             );
             if (displayLastActiveLabel(channel.status, this.props.lastActivityTimestamp, this.props.dmUser.props?.show_last_active)) {
+                const timestampUnits = getLastActiveTimestampUnits(this.props.lastActivityTimestamp);
                 dmHeaderTextStatus = (
                     <span className='header-status__text'>
                         <span className='last-active__text'>
@@ -418,14 +419,9 @@ class ChannelHeader extends React.PureComponent {
                                     timestamp: (
                                         <Timestamp
                                             value={this.props.lastActivityTimestamp}
-                                            units={[
-                                                'now',
-                                                'minute',
-                                                'hour',
-                                                'day',
-                                            ]}
+                                            units={timestampUnits}
                                             useTime={false}
-                                            day={'numeric'}
+                                            style={'short'}
                                         />
                                     ),
                                 }}

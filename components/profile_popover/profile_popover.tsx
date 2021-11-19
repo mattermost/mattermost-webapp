@@ -14,7 +14,7 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
-import {isGuest, isSystemAdmin, displayLastActiveLabel} from 'mattermost-redux/utils/user_utils';
+import {isGuest, isSystemAdmin, displayLastActiveLabel, getLastActiveTimestampUnits} from 'mattermost-redux/utils/user_utils';
 import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
@@ -361,6 +361,7 @@ ProfilePopoverState
             </div>,
         );
         if (this.props.status && !this.props.user.is_bot && displayLastActiveLabel(this.props.status, this.props.lastActivityTimestamp, this.props.user.props?.show_last_active)) {
+            const timestampUnits = getLastActiveTimestampUnits(this.props.lastActivityTimestamp);
             dataContent.push(
                 <div
                     className='user-popover-last-active'
@@ -373,14 +374,9 @@ ProfilePopoverState
                             timestamp: (
                                 <Timestamp
                                     value={this.props.lastActivityTimestamp}
-                                    units={[
-                                        'now',
-                                        'minute',
-                                        'hour',
-                                        'day',
-                                    ]}
+                                    units={timestampUnits}
                                     useTime={false}
-                                    day={'numeric'}
+                                    style={'short'}
                                 />
                             ),
                         }}

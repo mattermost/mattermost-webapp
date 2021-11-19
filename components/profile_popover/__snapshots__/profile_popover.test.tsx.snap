@@ -48,13 +48,12 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -242,13 +241,12 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -521,13 +519,12 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -850,13 +847,12 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -1181,13 +1177,12 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -1460,13 +1455,12 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -1678,13 +1672,12 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -1957,13 +1950,12 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}
@@ -2236,13 +2228,12 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       values={
         Object {
           "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-            day="numeric"
+            style="short"
             units={
               Array [
                 "now",
                 "minute",
                 "hour",
-                "day",
               ]
             }
             useTime={false}

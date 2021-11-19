@@ -95,13 +95,12 @@ exports[`components/ChannelHeader should match snapshot with last active display
                 values={
                   Object {
                     "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-                      day="numeric"
+                      style="short"
                       units={
                         Array [
                           "now",
                           "minute",
                           "hour",
-                          "day",
                         ]
                       }
                       useTime={false}
@@ -326,13 +325,12 @@ exports[`components/ChannelHeader should match snapshot with last active display
                 values={
                   Object {
                     "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-                      day="numeric"
+                      style="short"
                       units={
                         Array [
                           "now",
                           "minute",
                           "hour",
-                          "day",
                         ]
                       }
                       useTime={false}
@@ -2207,13 +2205,12 @@ exports[`components/ChannelHeader should render properly when custom status is e
                 values={
                   Object {
                     "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-                      day="numeric"
+                      style="short"
                       units={
                         Array [
                           "now",
                           "minute",
                           "hour",
-                          "day",
                         ]
                       }
                       useTime={false}
@@ -2438,13 +2435,12 @@ exports[`components/ChannelHeader should render properly when custom status is s
                 values={
                   Object {
                     "timestamp": <Memo(Connect(injectIntl(Timestamp)))
-                      day="numeric"
+                      style="short"
                       units={
                         Array [
                           "now",
                           "minute",
                           "hour",
-                          "day",
                         ]
                       }
                       useTime={false}
