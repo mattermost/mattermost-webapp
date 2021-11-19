@@ -59,9 +59,13 @@ export default function AddToChannels(props: Props) {
 
     const {formatMessage} = useIntl();
 
-    let sampleChannelName = props.currentChannel.display_name;
+    let placeholderChannelName = props.currentChannel.display_name;
+
+    // If the user is in a direct or group message, then we want to say
+    // 'e.g. Town Square' rather than e.g {username},
+    // as inviting to direct or group message channels on a team is not currently supported.
     if (props.currentChannel.type !== 'O' && props.currentChannel.type !== 'P') {
-        sampleChannelName = props.townSquareDisplayName;
+        placeholderChannelName = props.townSquareDisplayName;
     }
 
     return (<div className='AddToChannels'>
@@ -84,7 +88,7 @@ export default function AddToChannels(props: Props) {
                     id='invite_modal.example_channel'
                     defaultMessage='e.g. {channel_name}'
                     values={{
-                        channel_name: sampleChannelName,
+                        channel_name: placeholderChannelName,
                     }}
                 />
             }

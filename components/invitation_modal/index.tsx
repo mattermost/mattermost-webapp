@@ -71,8 +71,6 @@ export function mapStateToProps(state: GlobalState) {
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
     const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.NONE;
 
-    // components/sidebar/sidebar_header/sidebar_header.tsx
-
     return {
         invitableChannels,
         currentTeam,

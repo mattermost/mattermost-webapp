@@ -10,14 +10,14 @@ type Props = {
     onText?: React.ReactNode;
     offText?: React.ReactNode;
     id?: string;
-    testId?: string;
+    overrideTestId?: boolean;
 }
 
 const Toggle: React.FC<Props> = (props: Props) => {
-    const {onToggle, toggled, disabled, onText, offText, id, testId} = props;
+    const {onToggle, toggled, disabled, onText, offText, id, overrideTestId} = props;
     let dataTestId = `${id}-button`;
-    if (testId) {
-        dataTestId = testId;
+    if (overrideTestId) {
+        dataTestId = id || '';
     }
     return (
         <button

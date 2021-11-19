@@ -108,8 +108,8 @@ export default function InviteAs(props: Props) {
                     onToggle={() => {
                         props.setInviteAs(props.inviteType === InviteType.GUEST ? InviteType.MEMBER : InviteType.GUEST);
                     }}
-                    testId={props.inviteType === InviteType.GUEST ? 'inviteMembersLink' : 'inviteGuestLink'}
                     id={props.inviteType === InviteType.GUEST ? 'inviteMembersLink' : 'inviteGuestLink'}
+                    overrideTestId={true}
                 />
             </div>
         );
