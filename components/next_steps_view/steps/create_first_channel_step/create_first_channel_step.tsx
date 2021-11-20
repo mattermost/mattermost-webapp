@@ -11,6 +11,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {switchToChannel} from 'actions/views/channel';
@@ -23,7 +24,7 @@ import {StepComponentProps} from '../../steps';
 
 import {t} from 'utils/i18n';
 
-import Constants from 'utils/constants';
+import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils.jsx';
 
 import {GlobalState} from 'types/store';
@@ -77,9 +78,16 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
                 setChannelCreateError(false);
             }, 5000);
         } else if (data) {
+            const category = Preferences.AB_TEST_PREFERENCE_VALUE;
+            const name = RecommendedNextSteps.CREATE_FIRST_CHANNEL;
+
             // dispatch the first channel name value
             dispatch(setFirstChannelName(data.name));
-            // dispatch(switchToChannel(data));
+            dispatch(savePreferences(userId, [{category, name, user_id: userId, value: data.name}]));
+            dispatch(switchToChannel(data));
+            if (typeof props.onFinish === 'function') {
+                props.onFinish(props.id);
+            }
         }
     };
 

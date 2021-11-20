@@ -5,10 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getChannelsNameMapInCurrentTeam, makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -17,7 +18,7 @@ import {open as openLhs} from 'actions/views/lhs.js';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
-import Constants from 'utils/constants';
+import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -33,7 +34,11 @@ function makeMapStateToProps() {
 
         const unreadCount = getUnreadCount(state, ownProps.channel.id);
 
-        const firstChannelName = state.views.channelSidebar.firstChannelName;
+        const getCategory = makeGetCategory();
+        const preferences = getCategory(state, Preferences.AB_TEST_PREFERENCE_VALUE);
+        const firstChannelNameFromPref = preferences.find((pref: PreferenceType) => pref.name === RecommendedNextSteps.CREATE_FIRST_CHANNEL);
+        const firstChannelNameFromRedux = state.views.channelSidebar.firstChannelName;
+        const firstChannelName = firstChannelNameFromRedux || firstChannelNameFromPref?.value;
 
         const channelsByName = getChannelsNameMapInCurrentTeam(state);
         const config = getConfig(state);

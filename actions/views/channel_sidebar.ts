@@ -172,17 +172,11 @@ export function multiSelectChannelAdd(channelId: string) {
 }
 
 export function setFirstChannelName(channelName: string) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
-        const firstChannelName = state.views.channelSidebar.firstChannelName;
-
-        // No first channel already added
-        if (!firstChannelName?.length) {
-            dispatch({
-                type: ActionTypes.FIRST_CHANNEL_NAME,
-                data: channelName,
-            });
-        }
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.FIRST_CHANNEL_NAME,
+            data: channelName,
+        });
     };
 }
 
