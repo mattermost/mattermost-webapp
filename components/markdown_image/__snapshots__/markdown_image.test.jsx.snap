@@ -17,25 +17,23 @@ exports[`components/MarkdownImage should match snapshot 1`] = `
 `;
 
 exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimensions 1`] = `
-<React.Fragment>
-  <SizeAwareImage
-    alt="test image"
-    className="markdown-inline-img markdown-inline-img--hover markdown-inline-img--no-border"
-    dimensions={
-      Object {
-        "format": "jpg",
-        "frame_count": 0,
-        "height": 90,
-        "width": 100,
-      }
+<SizeAwareImage
+  alt="test image"
+  className="markdown-inline-img markdown-inline-img--hover markdown-inline-img--no-border"
+  dimensions={
+    Object {
+      "format": "jpg",
+      "frame_count": 0,
+      "height": 90,
+      "width": 100,
     }
-    onClick={[Function]}
-    onImageLoadFail={[Function]}
-    onImageLoaded={[Function]}
-    showLoader={false}
-    src="safeSrc"
-  />
-</React.Fragment>
+  }
+  onClick={[Function]}
+  onImageLoadFail={[Function]}
+  onImageLoaded={[Function]}
+  showLoader={false}
+  src="safeSrc"
+/>
 `;
 
 exports[`components/MarkdownImage should match snapshot for broken link 1`] = `
@@ -66,22 +64,6 @@ exports[`components/MarkdownImage should provide image src as an alt text for Ma
       src="https://example.com/image.png"
       title="test title"
       width="50"
-    />
-    <Connect(FilePreviewModal)
-      fileInfos={
-        Array [
-          Object {
-            "extension": "png",
-            "has_preview_image": false,
-            "link": "https://example.com/image.png",
-            "name": null,
-          },
-        ]
-      }
-      onModalDismissed={[Function]}
-      postId="post_id"
-      show={false}
-      startIndex={0}
     />
   </Connect(MarkdownImageExpand)>
 </div>
@@ -144,22 +126,6 @@ exports[`components/MarkdownImage should render an image with preview modal if t
     showLoader={false}
     src="https://example.com/image.png"
   />
-  <Connect(FilePreviewModal)
-    fileInfos={
-      Array [
-        Object {
-          "extension": "png",
-          "has_preview_image": false,
-          "link": "https://example.com/image.png",
-          "name": "test image",
-        },
-      ]
-    }
-    onModalDismissed={[Function]}
-    postId="post_id"
-    show={false}
-    startIndex={0}
-  />
 </div>
 `;
 
@@ -182,22 +148,6 @@ exports[`components/MarkdownImage should render image with MarkdownImageExpand i
       src="https://example.com/image.png"
       title="test title"
       width="50"
-    />
-    <Connect(FilePreviewModal)
-      fileInfos={
-        Array [
-          Object {
-            "extension": "png",
-            "has_preview_image": false,
-            "link": "https://example.com/image.png",
-            "name": "test image",
-          },
-        ]
-      }
-      onModalDismissed={[Function]}
-      postId="post_id"
-      show={false}
-      startIndex={0}
     />
   </Connect(MarkdownImageExpand)>
 </div>

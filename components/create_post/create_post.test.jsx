@@ -967,16 +967,6 @@ describe('components/create_post', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('Toggle showPostDeletedModal state', () => {
-        const wrapper = shallowWithIntl(createPost());
-        const instance = wrapper.instance();
-        instance.showPostDeletedModal();
-        expect(wrapper.state('showPostDeletedModal')).toBe(true);
-
-        instance.hidePostDeletedModal();
-        expect(wrapper.state('showPostDeletedModal')).toBe(false);
-    });
-
     it('Should have called actions.onSubmitPost on sendMessage', async () => {
         const onSubmitPost = jest.fn();
         const wrapper = shallowWithIntl(createPost({
