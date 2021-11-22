@@ -417,9 +417,7 @@ if (targetIsDevServer) {
         devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
-            injectHot: true,
             liveReload: false,
-            overlay: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {
@@ -442,8 +440,9 @@ if (targetIsDevServer) {
                 ws: true,
             }],
             port: 9005,
-            watchContentBase: true,
-            writeToDisk: false,
+            devMiddleware: {
+                writeToDisk: true,
+            },
         },
         performance: false,
         optimization: {
