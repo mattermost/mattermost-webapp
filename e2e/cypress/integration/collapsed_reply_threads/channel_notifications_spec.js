@@ -48,7 +48,7 @@ describe('CRT Desktop notifications', () => {
         });
     });
 
-    it('Trigger notifications on all replies when channel setting is checked', () => {
+    it('MM-T4417_1 Trigger notifications on all replies when channel setting is checked', () => {
         // # Visit channel
         cy.visit(testChannelUrl);
 
@@ -96,7 +96,7 @@ describe('CRT Desktop notifications', () => {
         });
     });
 
-    it('Trigger notifications only on mention replies when channel setting is unchecked', () => {
+    it('MM-T4417_2 Trigger notifications only on mention replies when channel setting is unchecked', () => {
         cy.visit(testChannelUrl);
 
         // Setup notification spy
