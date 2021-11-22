@@ -46,7 +46,6 @@ type Props = {
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appsEnabled: boolean;
 
     /**
      * Components for overriding provided by plugins

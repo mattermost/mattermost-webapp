@@ -16,6 +16,7 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {ModalData} from 'types/actions';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
@@ -70,15 +71,13 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     doAppCall: DoAppCall;
     fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
-    openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
-        data: boolean;
-    }>;
+    openModal: <P>(modalData: ModalData<P>) => void;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             doAppCall,
             fetchBindings,
             openModal,

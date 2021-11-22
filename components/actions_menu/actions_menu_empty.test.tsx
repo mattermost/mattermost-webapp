@@ -27,7 +27,7 @@ describe('components/actions_menu/ActionsMenu returning empty ("")', () => {
         const baseProps = {
             post: TestHelper.getPostMock({id: 'post_id_1'}),
             components: {},
-            currentTeamId: 'team_id_1',
+            teamId: 'team_id_1',
             actions: {
                 openModal: jest.fn(),
                 doAppCall: jest.fn(),

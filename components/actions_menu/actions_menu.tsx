@@ -18,6 +18,7 @@ import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
 import ActionsTutorialTip from 'components/actions_menu/actions_menu_tutorial_tip';
+import {ModalData} from 'types/actions';
 import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as PostUtils from 'utils/post_utils';
@@ -63,9 +64,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         /**
          * Function to post the ephemeral message for a call response

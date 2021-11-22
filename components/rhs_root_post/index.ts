@@ -20,7 +20,6 @@ import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from '
 import {isEmbedVisible} from 'selectors/posts';
 
 import {GlobalState} from 'types/store';
-import {FakePost} from 'types/store/rhs';
 
 import {shouldShowActionsMenu} from 'utils/post_utils';
 import {isArchivedChannel} from 'utils/channel_utils';
@@ -29,7 +28,7 @@ import {Preferences} from 'utils/constants';
 import RhsRootPost from './rhs_root_post.jsx';
 
 interface OwnProps {
-    post: Post | FakePost;
+    post: Post ;
     teamId: string;
 }
 

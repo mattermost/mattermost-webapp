@@ -24,7 +24,7 @@ describe('components/actions_menu/ActionsMenu', () => {
     const baseProps = {
         appBindings: [],
         appsEnabled: false,
-        currentTeamId: 'team_id_1',
+        teamId: 'team_id_1',
         handleDropdownOpened: jest.fn(),
         isMenuOpen: true,
         isSysAdmin: true,
