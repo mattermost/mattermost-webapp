@@ -271,7 +271,7 @@ describe('Actions.Posts', () => {
         expect(data).toEqual(true);
 
         expect(testStore.getActions()).toEqual(
-            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.TOGGLE_EDITING_POST}],
         );
 
         const general = {
@@ -287,7 +287,7 @@ describe('Actions.Posts', () => {
         const {data: withLicenseData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
         expect(withLicenseData).toEqual(true);
         expect(testStore.getActions()).toEqual(
-            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.TOGGLE_EDITING_POST}],
         );
 
         // should not allow edit for pending post

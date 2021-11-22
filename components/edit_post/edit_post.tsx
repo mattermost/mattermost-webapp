@@ -320,7 +320,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
     };
 
     const handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) =>
-        setCaretPosition(Utils.getCaretPosition(e.target));
+        setCaretPosition(Utils.getCaretPosition(e.target as HTMLElement));
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditText(e.target.value);
 
