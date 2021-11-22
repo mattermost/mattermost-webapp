@@ -20,6 +20,7 @@ import {Preferences} from 'utils/constants';
 import {shouldShowDotMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
+import {getEditingPost} from '../../../selectors/posts';
 
 import PostInfo from './post_info';
 
@@ -38,6 +39,7 @@ function makeMapStateToProps() {
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+        const editingPost = getEditingPost(state);
 
         return {
             teamId,
@@ -45,6 +47,7 @@ function makeMapStateToProps() {
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
             enableEmojiPicker,
+            editingPost,
             isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),
             shortcutReactToLastPostEmittedFrom,

@@ -632,8 +632,8 @@
 .post-body__helper-text {
     display: inline-block;
     margin-top: 8px;
-    font-family: 'Open Sans', sans-serif;
     color: rgba(var(--center-channel-color-rgb), 0.64);
+    font-family: 'Open Sans', sans-serif;
 }
 
 .post-create-footer {
@@ -1377,7 +1377,7 @@
         }
 
         path {
-            fill: inherit;
+            fill: currentColor;
         }
 
         .profile-icon {
@@ -1733,7 +1733,7 @@
             position: relative;
             top: 3px;
             width: 18px;
-            fill: inherit;
+            fill: currentColor;
         }
     }
 
@@ -1767,12 +1767,12 @@
             top: 1px;
             display: inline-block;
             margin: 0 1px 0 5px;
-            fill: inherit;
+            fill: currentColor;
             vertical-align: top;
         }
 
         path {
-            fill: inherit;
+            fill: currentColor;
         }
     }
 
@@ -2188,5 +2188,6 @@
 }
 
 .post--editing {
+    overflow: visible;
     background-color: rgba(var(--button-bg-rgb), 0.08);
 }

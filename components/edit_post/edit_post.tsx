@@ -18,9 +18,9 @@ import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from '../../uti
 import * as Utils from '../../utils/utils';
 import DeletePostModal from '../delete_post_modal';
 import EmojiPickerOverlay from '../emoji_picker/emoji_picker_overlay';
-import FileUpload from '../file_upload';
 import FormattedMarkdownMessage from '../formatted_markdown_message';
 import Textbox from '../textbox';
+import TextboxClass from '../textbox/textbox';
 import EmojiIcon from '../widgets/icons/emoji_icon';
 
 type OpenModal = {
@@ -92,7 +92,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
     const [renderScrollbar, setRenderScrollbar] = useState<boolean>(false);
     const [scrollbarWidth, setScrollbarWidth] = useState<number>(0);
 
-    const textboxRef = useRef<HTMLInputElement>(null);
+    const textboxRef = useRef<TextboxClass>(null);
     const emojiButtonRef = useRef<null>(null);
 
     const {formatMessage} = useIntl();
@@ -148,8 +148,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             document.removeEventListener('paste', handlePaste);
         };
     });
-
-    const readOnlyChannel = rest.readOnlyChannel || !rest.canEditPost;
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
@@ -397,25 +395,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         }
     };
 
-    let fileUpload;
-    if (!readOnlyChannel && !rest.shouldShowPreview) {
-        fileUpload = (
-            <FileUpload
-                ref={fileUploadRef}
-                fileCount={this.getFileCount()}
-                getTarget={this.getFileUploadTarget}
-                onFileUploadChange={this.handleFileUploadChange}
-                onUploadStart={this.handleUploadStart}
-                onFileUpload={this.handleFileUploadComplete}
-                onUploadError={this.handleUploadError}
-                onUploadProgress={this.handleUploadProgress}
-                rootId={this.props.rootId}
-                channelId={this.props.channelId}
-                postType='comment'
-            />
-        );
-    }
-
     let emojiPicker = null;
     const emojiButtonAriaLabel = formatMessage({
         id: 'emoji_picker.emojiPicker',
@@ -447,8 +426,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             </div>
         );
     }
-
-    console.log('##### rest props', rest);
 
     return (
         <div
@@ -483,7 +460,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
                 useChannelMentions={rest.useChannelMentions}
             />
             <div className='post-body__actions'>
-                {fileUpload}
                 {emojiPicker}
             </div>
             <div className='post-body__helper-text'>
