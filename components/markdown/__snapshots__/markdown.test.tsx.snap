@@ -14,13 +14,13 @@ exports[`components/Markdown should render properly 1`] = `
 <p
   key="0"
 >
-  This
+  This 
   <em
     key="1"
   >
     is
   </em>
-   some
+   some 
   <strong
     key="3"
   >

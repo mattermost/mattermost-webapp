@@ -124,7 +124,7 @@ type Props = {
         emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
     };
 
-    editingPost: {
+    editingPost?: {
         post?: Post;
         postId?: string;
         refocusId?: string;
@@ -163,7 +163,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.dotMenuRef = React.createRef();
     }
 
-    isPostBeingEdited = (): boolean => this.props.post.id === this.props.editingPost.postId;
+    isPostBeingEdited = (): boolean => this.props.post.id === this.props.editingPost?.postId;
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         if (e) {

@@ -302,13 +302,6 @@ describe('Actions.Posts', () => {
         expect(testStore.getActions()).toEqual([]);
     });
 
-    test('hideEditPostModal', async () => {
-        const testStore = await mockStore(initialState);
-
-        await testStore.dispatch(Actions.hideEditPostModal());
-        expect(testStore.getActions()).toEqual([{type: ActionTypes.HIDE_EDIT_POST_MODAL}]);
-    });
-
     test('searchForTerm', async () => {
         const testStore = await mockStore(initialState);
 

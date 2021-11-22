@@ -119,6 +119,7 @@ export type ClientConfig = {
     ExperimentalGroupUnreadChannels: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
+    ExperimentalTownSquareIsReadOnly: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
     GfycatAPIKey: string;

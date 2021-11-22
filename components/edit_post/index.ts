@@ -14,8 +14,6 @@ import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selec
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
-import {setShowPreviewOnEditPostModal} from 'actions/views/textbox';
 import {unsetEditingPost} from 'actions/post_actions';
 import {openModal} from 'actions/views/modals';
 import {editPost} from 'actions/views/posts';
@@ -32,29 +30,20 @@ function mapStateToProps(state: GlobalState) {
     const channelId = editingPost?.post?.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
 
-    let canDeletePost = false;
-    let canEditPost = false;
-
-    if (editingPost && editingPost.post && editingPost.post.user_id === currentUserId) {
-        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
-        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_POST);
-    } else {
-        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
-        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_OTHERS_POSTS);
-    }
+    const deletePermission = editingPost?.post?.user_id === currentUserId ? Permissions.DELETE_POST : Permissions.DELETE_OTHERS_POSTS;
+    const editPermission = editingPost?.post?.user_id === currentUserId ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
 
     const channel = state.entities.channels.channels[channelId] || {};
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
 
     return {
-        canEditPost,
-        canDeletePost,
+        canEditPost: haveIChannelPermission(state, teamId, channelId, deletePermission),
+        canDeletePost: haveIChannelPermission(state, teamId, channelId, editPermission),
         codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config,
         editingPost,
         channelId,
-        shouldShowPreview: showPreviewOnEditPostModal(state),
         maxPostSize: config.MaxPostSize ? parseInt(config.MaxPostSize, 10) : Constants.DEFAULT_CHARACTER_LIMIT,
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
         useChannelMentions,
@@ -68,7 +57,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             editPost,
             unsetEditingPost,
             openModal,
-            setShowPreview: setShowPreviewOnEditPostModal,
         }, dispatch),
     };
 }

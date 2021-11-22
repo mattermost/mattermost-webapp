@@ -12,7 +12,3 @@ export function showPreviewOnCreatePost(state) {
 export function showPreviewOnEditChannelHeaderModal(state) {
     return state.views.textbox.shouldShowPreviewOnEditChannelHeaderModal;
 }
-
-export function showPreviewOnEditPostModal(state) {
-    return state.views.textbox.shouldShowPreviewOnEditPostModal;
-}
