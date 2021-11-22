@@ -104,4 +104,18 @@ That was some latex!`;
         expect(component).toMatchSnapshot();
         expect(shallow(component).find(AtMention).prop('disableGroupHighlight')).toBe(true);
     });
+
+    test('typescript', () => {
+        const input = `Text before typescript codeblock
+            \`\`\`typescript
+            const myFunction = () => {
+                console.log('This is a test function');
+            };
+            \`\`\`
+            text after typescript block`;
+
+        const html = TextFormatting.formatText(input);
+
+        expect(messageHtmlToComponent(html)).toMatchSnapshot();
+    });
 });

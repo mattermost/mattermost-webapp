@@ -188,3 +188,22 @@ exports[`messageHtmlToComponent plain text 1`] = `
   Hello, world!
 </p>
 `;
+
+exports[`messageHtmlToComponent typescript 1`] = `
+<p>
+  Text before typescript codeblock
+            
+  <span
+    className="codespan__pre-wrap"
+  >
+    <code>
+      typescript
+            const myFunction = () =&gt; {
+                console.log('This is a test function');
+            };
+    </code>
+  </span>
+  
+            text after typescript block
+</p>
+`;

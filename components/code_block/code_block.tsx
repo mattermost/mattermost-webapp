@@ -1,19 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useCallback} from 'react';
+
+import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
+
+import {FormattedMessage} from 'react-intl';
 
 import CopyButton from 'components/copy_button';
 
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
-import * as TextFormatting from 'utils/text_formatting';
+
+import RootPortal from 'components/root_portal';
+import {copyToClipboard} from 'utils/utils.jsx';
 
 type Props = {
+    id: string;
     code: string;
     language: string;
     searchedContent?: string;
 }
 
-const CodeBlock: React.FC<Props> = ({code, language, searchedContent}: Props) => {
+const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props) => {
     let usedLanguage = language || '';
     usedLanguage = usedLanguage.toLowerCase();
 
@@ -59,16 +66,54 @@ const CodeBlock: React.FC<Props> = ({code, language, searchedContent}: Props) =>
         htmlContent = `${searchedContent} ${content}`;
     }
 
+    const copyText = () => {
+        copyToClipboard(code);
+    };
+
+    const copyMarkdown = useCallback(() => {
+        const markdown = `~~~${language}\n${code}\n~~~`;
+        copyToClipboard(markdown);
+    }, [language, code]);
+
+    const contextMenu = (
+        <RootPortal>
+            <ContextMenu
+                className='post-code__context-menu'
+                id={`copy-code-block-context-menu-${id}`}
+            >
+                <MenuItem onClick={copyText}>
+                    <FormattedMessage
+                        id='copy.message'
+                        defaultMessage='Copy'
+                    />
+                </MenuItem>
+                <MenuItem divider={true}/>
+                <MenuItem onClick={copyMarkdown}>
+                    <FormattedMessage
+                        id='copy.block.message'
+                        defaultMessage='Copy code block'
+                    />
+                </MenuItem>
+            </ContextMenu>
+        </RootPortal>
+    );
+
     return (
         <div className={className}>
             <div className='post-code__overlay'>
-                <CopyButton content={TextFormatting.convertEntityToCharacter(code)}/>
+                <CopyButton content={code}/>
                 {header}
             </div>
-            <div className='hljs'>
-                {lineNumbers}
-                <code dangerouslySetInnerHTML={{__html: htmlContent}}/>
-            </div>
+            {contextMenu}
+            <ContextMenuTrigger
+                id={`copy-code-block-context-menu-${id}`}
+                holdToDisplay={1000}
+            >
+                <div className='hljs'>
+                    {lineNumbers}
+                    <code dangerouslySetInnerHTML={{__html: htmlContent}}/>
+                </div>
+            </ContextMenuTrigger>
         </div>
     );
 };

@@ -14,7 +14,6 @@ type Props = {
     content: string;
     beforeCopyText?: string;
     afterCopyText?: string;
-    idMessage?: string;
 };
 
 const CopyButton: React.FC<Props> = (props: Props) => {
@@ -34,7 +33,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
     const tooltip = (
         <Tooltip id='copyButton'>
             <FormattedMessage
-                id={props.idMessage}
+                id={isCopied ? 'copied.message' : 'copy.block.message'}
                 defaultMessage={isCopied ? props.afterCopyText : props.beforeCopyText}
             />
         </Tooltip>
@@ -70,7 +69,6 @@ const CopyButton: React.FC<Props> = (props: Props) => {
 CopyButton.defaultProps = {
     beforeCopyText: 'Copy code block',
     afterCopyText: 'Copied',
-    idMessage: 'copyButtonTooltip',
 };
 
 export default CopyButton;
