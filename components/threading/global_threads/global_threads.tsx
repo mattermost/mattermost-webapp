@@ -210,18 +210,7 @@ const GlobalThreads = () => {
                             }, {numUnread})}
                             subtitle={formatMessage({
                                 id: 'globalThreads.threadPane.unreadMessageLink',
-                                defaultMessage: `
-                                    You have
-                                    {numUnread, plural,
-                                        =0 {no unread threads}
-                                        =1 {<link>{numUnread} thread</link>}
-                                        other {<link>{numUnread} threads</link>}
-                                    }
-                                    {numUnread, plural,
-                                        =0 {}
-                                        other {with unread messages}
-                                    }
-                                `,
+                                defaultMessage: 'You have {numUnread, plural, =0 {no unread threads} =1 {<link>{numUnread} thread</link>} other {<link>{numUnread} threads</link>}} {numUnread, plural, =0 {} other {with unread messages}}',
                             }, {
                                 numUnread,
                                 link: (chunks) => (

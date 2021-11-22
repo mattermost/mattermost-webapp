@@ -9,29 +9,27 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import SizeAwareImage from 'components/size_aware_image';
-import {FileTypes} from 'utils/constants';
+import {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {
     getFileType,
 } from 'utils/utils';
 
 import FilePreviewModal from 'components/file_preview_modal';
 
+import type {PropsFromRedux} from './index';
+
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
-type Props = {
+interface Props extends PropsFromRedux {
     postId: string;
     fileInfo?: FileInfo;
     isRhsOpen: boolean;
     compactDisplay?: boolean;
     isEmbedVisible?: boolean;
-    actions: {
-        toggleEmbedVisibility: (postId: string) => void;
-    };
 }
 
 type State = {
     loaded: boolean;
-    showPreviewModal: boolean;
     dimensions: {
         width: number;
         height: number;
@@ -49,7 +47,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         this.mounted = true;
         this.state = {
             loaded: false,
-            showPreviewModal: false,
             dimensions: {
                 width: props.fileInfo?.width || 0,
                 height: props.fileInfo?.height || 0,
@@ -85,11 +82,15 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
     handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
-        this.setState({showPreviewModal: true});
-    }
 
-    hidePreviewModal = () => {
-        this.setState({showPreviewModal: false});
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                fileInfos: [this.props.fileInfo],
+                postId: this.props.postId,
+            },
+        });
     }
 
     toggleEmbedVisibility = () => {
@@ -169,7 +170,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             </div>
         );
 
-        let viewImageModal;
         let fadeInClass = '';
 
         const fileType = getFileType(fileInfo.extension);
@@ -191,15 +191,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         }
 
         if (loaded) {
-            viewImageModal = (
-                <FilePreviewModal
-                    show={this.state.showPreviewModal}
-                    onModalDismissed={this.hidePreviewModal}
-                    fileInfos={[fileInfo]}
-                    postId={this.props.postId}
-                />
-            );
-
             fadeInClass = 'image-fade-in';
         }
 
@@ -233,7 +224,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                         </div>
                     </div>
                     }
-                    {viewImageModal}
                 </div>
             </div>
         );
