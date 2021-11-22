@@ -211,7 +211,6 @@ $tip-index: 1000;
     }
 
     &__opt {
-        display: flex;
         align-self: flex-end;
         margin-top: 1.2rem;
         font-size: 12px;
@@ -247,8 +246,8 @@ $tip-index: 1000;
     .arrow {
         position: absolute;
         display: block;
-        width: 24px;
-        height: 24px;
+        width: 1.8rem;
+        height: 1.8rem;
         border-width: 1px 0 0 1px;
         border-style: solid;
         border-color: rgba(var(--center-channel-color-rgb), 0.16);
@@ -259,7 +258,7 @@ $tip-index: 1000;
     &.tip-overlay--sidebar {
         max-width: 75%;
         min-height: 360px;
-        margin: 51px 0 0 10px;
+        margin: 54px 0 0 7px;
 
         .tutorial__footer {
             position: absolute;
@@ -271,23 +270,22 @@ $tip-index: 1000;
 
         .arrow {
             top: 132px;
-            left: -13px;
+            left: -10px;
             margin-top: -10px;
         }
     }
 
     &.tip-overlay--header--left {
-        margin: 10px 0 0 10px;
+        margin: 10px 0 0 7px;
 
         .arrow {
-            top: 31px;
-            left: -13px;
-            border-left-width: 0;
+            top: 34px;
+            left: -10px;
         }
 
         &.tip-overlay--header--heading {
             .arrow {
-                top: 37px;
+                top: 40px;
             }
         }
     }
@@ -296,95 +294,93 @@ $tip-index: 1000;
         margin-top: -10px;
 
         .arrow {
-            top: -13px;
+            top: -10px;
             left: 50%;
-            border-top-width: 0;
             margin-left: -10px;
         }
     }
 
     &.tip-overlay--chat {
-        margin-top: -10px;
+        margin-top: -7px;
         box-shadow: var(--elevation-2);
 
         .arrow {
-            bottom: -13px;
-            left: calc(50% - 12px);
+            bottom: -10px;
+            left: calc(50% - 9px);
             transform: rotate(-135deg);
         }
     }
 
     &.tip-overlay--add-channels {
-        margin-left: 10px;
+        margin-left: 6px;
 
         .arrow {
-            top: 78px;
-            left: -13px;
+            top: 81px;
+            left: -10px;
         }
 
         &.tip-overlay--top-row-placement {
             .arrow {
-                top: 38px;
+                top: 41px;
             }
         }
     }
 
     &.tip-overlay--threads-welcome {
-        margin: 82px 0 0 10px;
+        margin: 85px 0 0 6px;
 
         .arrow {
             top: 24px;
-            left: -13px;
+            left: -10px;
         }
     }
 
     &.tip-overlay--threads-list {
-        margin: 96px 0 0 10px;
+        margin: 99px 0 0 6px;
 
         .arrow {
             top: 24px;
-            left: -13px;
+            left: -10px;
         }
     }
 
     &.tip-overlay--threads-unread {
-        margin: 10px 0 0 123px;
+        margin: 6px 0 0 126px;
 
         .arrow {
-            top: -13px;
+            top: -10px;
             left: 24px;
             transform: rotate(45deg);
         }
     }
 
     &.tip-overlay--threads-pane {
-        margin: 34px 0 0 -10px;
+        margin: 37px 0 0 -6px;
 
         .arrow {
             top: 24px;
-            right: -13px;
+            right: -10px;
             transform: rotate(135deg);
         }
     }
 
     &.tip-overlay--product-switcher {
-        margin-top: 9px;
-        margin-left: 7px;
+        margin-top: 6px;
+        margin-left: 4px;
 
         .arrow {
-            top: -12px;
-            left: 18px;
+            top: -10px;
+            left: 24px;
             transform: rotate(45deg);
         }
     }
 
     &.tip-overlay--settings {
-        margin: 10px 10px 0 0;
+        margin: 7px 10px 0 0;
 
         .arrow {
-            top: -13px;
-            right: 41px;
-            border-top-width: 0;
+            top: -10px;
+            right: 44px;
             transform: rotate(45deg);
         }
     }

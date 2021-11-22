@@ -103,7 +103,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     private dismiss = (e: React.MouseEvent | React.KeyboardEvent): void => {
         this.hide();
-        this.handleSavePreferences(false, true, false);
+        this.handleNext(false);
         const wasEscapeDismissal = e.type === 'keyup';
         const tag = this.props.telemetryTag + '_dismiss';
         if (wasEscapeDismissal) {
@@ -198,15 +198,15 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.handleSavePreferences(true, false, true);
     }
 
-    public handleNext = (): void => {
+    public handleNext = (auto = true): void => {
         if (this.props.telemetryTag) {
             const tag = this.props.telemetryTag + '_next';
             trackEvent('tutorial', tag);
         }
         if (this.getLastStep(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
-            this.handleSavePreferences(true, false, false, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
+            this.handleSavePreferences(auto, false, false, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
         } else {
-            this.handleSavePreferences(true, true, false);
+            this.handleSavePreferences(auto, true, false);
         }
     }
 
