@@ -203,7 +203,11 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             const tag = this.props.telemetryTag + '_next';
             trackEvent('tutorial', tag);
         }
-        this.handleSavePreferences(true, true, false);
+        if (this.getLastStep(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
+            this.handleSavePreferences(true, false, false, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
+        } else {
+            this.handleSavePreferences(true, true, false);
+        }
     }
 
     public skipTutorial = (e: React.MouseEvent<HTMLAnchorElement>): void => {
