@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset "utf-8";
 
 @media screen and (max-width: 768px) {
     #navbar_wrapper {
@@ -97,9 +97,12 @@
 
                 >li {
                     >a,
-                    >button {
+                    >button,
+                    >.styleSelectableItemDiv {
+                        display: flex;
                         width: 100%;
                         height: auto;
+                        justify-content: center;
                         padding: 0.4rem 2rem;
                         margin: 0 auto;
                         color: $white;
@@ -109,6 +112,10 @@
 
                         &:hover {
                             background: transparent;
+                        }
+
+                        .SubMenu__icon-right {
+                            color: rgba(255, 255, 255, 0.56);
                         }
                     }
 
@@ -1006,6 +1013,10 @@
         }
 
         .post-menu__item--reactions {
+            display: none;
+        }
+
+        .emoticon--post-menu {
             display: none;
         }
 

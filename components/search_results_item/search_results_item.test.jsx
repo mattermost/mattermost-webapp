@@ -67,7 +67,7 @@ describe('components/SearchResultsItem', () => {
             compactDisplay: true,
             post,
             user,
-            currentTeamName: 'test',
+            teamName: 'test',
             term: 'test',
             isMentionSearch: false,
             isFlagged: true,
@@ -83,6 +83,7 @@ describe('components/SearchResultsItem', () => {
             },
             directTeammate: '',
             displayName: 'Other guy',
+            canReply: true,
         };
     });
 
@@ -201,7 +202,7 @@ describe('components/SearchResultsItem', () => {
         wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
         expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
-        expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);
+        expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.teamName}/pl/${post.id}`);
     });
 
     test('should match snapshot for archived channel', () => {
@@ -247,5 +248,31 @@ describe('components/SearchResultsItem', () => {
         expect(postPreHeader.prop('skipPinned')).toEqual(props.isPinnedPosts);
         expect(postPreHeader.prop('skipFlagged')).toEqual(props.isFlaggedPosts);
         expect(postPreHeader.prop('channelId')).toEqual(defaultProps.post.channel_id);
+    });
+
+    test('should show team name when provided', () => {
+        const props = {
+            ...defaultProps,
+            teamDisplayName: 'teamname',
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should hide reply button when said so', () => {
+        const props = {
+            ...defaultProps,
+            canReply: false,
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

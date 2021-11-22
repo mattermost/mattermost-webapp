@@ -3,7 +3,7 @@
 exports[`components/Markdown should not render markdown when formatting is disabled 1`] = `
 <span>
   This _is_ some **Markdown**
-  <PostEditedIndicator
+  <Connect(PostEditedIndicator)
     editedAt={0}
     postId=""
   />
@@ -14,13 +14,13 @@ exports[`components/Markdown should render properly 1`] = `
 <p
   key="0"
 >
-  This 
+  This
   <em
     key="1"
   >
     is
   </em>
-   some 
+   some
   <strong
     key="3"
   >

@@ -18,7 +18,7 @@ describe('Custom emojis', () => {
     let testTeam;
     let testUser;
     let otherUser;
-    let townsquareLink;
+    let offTopicUrl;
 
     const largeEmojiFile = 'gif-image-file.gif';
     const largeEmojiFileResized = 'gif-image-file-resized.gif';
@@ -40,7 +40,7 @@ describe('Custom emojis', () => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
-            townsquareLink = `/${team.name}/channels/town-square`;
+            offTopicUrl = `/${team.name}/channels/off-topic`;
         });
 
         cy.apiCreateUser().then(({user: user1}) => {
@@ -48,7 +48,7 @@ describe('Custom emojis', () => {
             cy.apiAddUserToTeam(testTeam.id, otherUser.id);
         }).then(() => {
             cy.apiLogin(testUser);
-            cy.visit(townsquareLink);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -106,21 +106,21 @@ describe('Custom emojis', () => {
         // # Open custom emoji
         cy.uiOpenCustomEmoji();
 
-        // # Click on add new emoji
-        cy.findByText('Add Custom Emoji').should('be.visible').click();
+        // # Click on add custom emoji
+        cy.findByRole('button', {name: 'Add Custom Emoji'}).should('be.visible').click();
 
         // # Type emoji name
         cy.get('#name').type(customEmojiWithColons);
 
-        // # Select emoji image
+        // # Attached image file and wait to be loaded
         cy.get('input#select-emoji').attachFile(largeEmojiFile);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
-        // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
-        cy.findByText('Add Custom Emoji').should('be.visible');
+        // # Save custom emoji
+        saveCustomEmoji(testTeam.name);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.findByText('Back to Mattermost').click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
@@ -160,30 +160,21 @@ describe('Custom emojis', () => {
         // # Open custom emoji
         cy.uiOpenCustomEmoji();
 
-        // # Click on add new emoji
-        cy.findByText('Add Custom Emoji').should('be.visible').click();
+        // # Click on add custom emoji
+        cy.findByRole('button', {name: 'Add Custom Emoji'}).should('be.visible').click();
 
         // # Type emoji name
         cy.get('#name').should('be.visible').type(customEmojiWithColons);
 
-        // # Select emoji image
+        // # Attached image file and wait to be loaded
         cy.get('input#select-emoji').attachFile(animatedGifEmojiFile);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
-        // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
-
-        // # Wait until new custom emoji has been added
-        cy.waitUntil(() => cy.url().then((url) => {
-            return !url.includes('/emoji/add');
-        }, {
-            timeout: TIMEOUTS.ONE_MIN,
-            interval: TIMEOUTS.FIVE_SEC,
-        }));
-
-        cy.findByText('Add Custom Emoji').should('be.visible');
+        // # Save custom emoji
+        saveCustomEmoji(testTeam.name);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.findByText('Back to Mattermost').click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
@@ -225,3 +216,25 @@ describe('Custom emojis', () => {
         });
     });
 });
+
+function saveCustomEmoji(teamName) {
+    // # Click on Save
+    cy.findByText('Save').click();
+
+    // # Wait until new custom emoji has been added
+    const checkFn = () => {
+        return cy.url().then((url) => {
+            return !url.includes('/emoji/add');
+        });
+    };
+    const options = {
+        timeout: TIMEOUTS.ONE_MIN,
+        interval: TIMEOUTS.FIVE_SEC,
+        errorMsg: 'Timeout error waiting for custom emoji to be saved',
+    };
+    cy.waitUntil(checkFn, options);
+
+    // * Should return to list of custom emojis
+    cy.url().should('include', `${teamName}/emoji`);
+    cy.findByRole('button', {name: 'Add Custom Emoji'}).should('be.visible');
+}

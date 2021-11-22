@@ -21,16 +21,18 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
     const admin = getAdminAccount();
     let testTeam;
     let testUser;
+    let offTopicUrl;
 
     before(() => {
         cy.shouldHaveElasticsearchDisabled();
 
-        // # Login as test user and go to town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
-            testUser = user;
-            testTeam = team;
+        // # Login as test user and go to off-topic
+        cy.apiInitSetup({loginAfter: true}).then((out) => {
+            testUser = out.user;
+            testTeam = out.team;
+            offTopicUrl = out.offTopicUrl;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -108,8 +110,8 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
         let channelId;
 
         before(() => {
-            // // # Visit town-square
-            cy.visit(`/${testTeam.name}`);
+            // // # Visit off-topic
+            cy.visit(offTopicUrl);
 
             const name = 'hellothere';
 

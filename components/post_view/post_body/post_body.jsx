@@ -76,16 +76,6 @@ export default class PostBody extends React.PureComponent {
         isEmbedVisible: PropTypes.bool,
 
         /**
-         * Whether or not the post username can be overridden.
-         */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
-
-        /**
-         * Set not to allow edits on post
-         */
-        isReadOnly: PropTypes.bool,
-
-        /**
          * check if the current post is being edited at the moment
          */
         isPostBeingEdited: PropTypes.bool,
@@ -239,10 +229,7 @@ export default class PostBody extends React.PureComponent {
                 >
                     {isPostBeingEdited && !isPostBeingEditedInRHS ? <EditPost/> : messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionList
-                        post={post}
-                        isReadOnly={this.props.isReadOnly}
-                    />
+                    <ReactionList post={post}/>
                 </div>
             </div>
         );

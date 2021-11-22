@@ -6,6 +6,8 @@ import {shallow} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {PasswordConfig} from 'utils/utils';
+
 import UserSettingsSecurity from './user_settings_security';
 
 jest.mock('utils/utils.jsx', () => {
@@ -41,7 +43,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableSaml: true,
         enableSignUpWithOffice365: false,
         experimentalEnableAuthenticationTransfer: true,
-        passwordConfig: {},
+        passwordConfig: {} as PasswordConfig,
         militaryTime: false,
     };
 

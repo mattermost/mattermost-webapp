@@ -82,6 +82,7 @@ function makeMapStateToProps() {
             channelIsArchived: isArchivedChannel(channel),
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
         };
     };
 }

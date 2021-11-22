@@ -18,6 +18,7 @@ import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import {trackEvent} from 'actions/telemetry_actions';
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
@@ -105,6 +106,8 @@ export default class Post extends React.PureComponent {
         isFlagged: PropTypes.bool.isRequired,
 
         isCollapsedThreadsEnabled: PropTypes.bool,
+
+        clickToReply: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -180,7 +183,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        const {post, isCollapsedThreadsEnabled} = this.props;
+        const {post, clickToReply} = this.props;
 
         if (!post) {
             return;
@@ -191,10 +194,11 @@ export default class Post extends React.PureComponent {
 
         if (
             !e.altKey &&
-            isCollapsedThreadsEnabled &&
+            clickToReply &&
             (fromAutoResponder || !isSystemMessage) &&
             isEligibleForClick(e)
         ) {
+            trackEvent('crt', 'clicked_to_reply');
             this.props.actions.selectPost(post);
         }
 
@@ -310,10 +314,7 @@ export default class Post extends React.PureComponent {
             className += ' post--editing';
         }
 
-        if (
-            (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) ||
-            (this.props.isCollapsedThreadsEnabled && (fromAutoResponder || !isSystemMessage))
-        ) {
+        if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
             className += ' cursor--pointer';
         }
 

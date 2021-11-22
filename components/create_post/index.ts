@@ -10,7 +10,7 @@ import {Post} from 'mattermost-redux/types/posts.js';
 
 import {FileInfo} from 'mattermost-redux/types/files.js';
 
-import {ActionResult, GenericAction} from 'mattermost-redux/types/actions.js';
+import {ActionResult} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from 'mattermost-redux/types/integrations.js';
 
@@ -22,10 +22,12 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
@@ -59,21 +61,17 @@ import {canUploadFiles} from 'utils/file_utils';
 
 import CreatePost from './create_post';
 
-type OwnProps = {
-    readOnlyChannel?: boolean;
-}
-
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
 
-    return (state: GlobalState, ownProps: OwnProps) => {
+    return (state: GlobalState) => {
         const config = getConfig(state);
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
+        const currentChannelTeammateUsername = getUser(state, currentChannel.teammate_id || '')?.username;
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
         const latestReplyablePostId = getLatestReplyablePostId(state);
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
-        const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
         const enableGifPicker = config.EnableGifPicker === 'true';
@@ -90,22 +88,24 @@ function makeMapStateToProps() {
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
+        const enableTutorial = config.EnableTutorial === 'true';
+        const showTutorialTip = enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER;
 
         return {
             currentTeamId,
             currentChannel,
+            currentChannelTeammateUsername,
             currentChannelMembersCount,
             currentUserId,
             codeBlockOnCtrlEnter: getBool(state, PreferencesRedux.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
-            showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,
+            showTutorialTip,
             messageInHistoryItem: getMessageInHistoryItem(state),
             draft,
             latestReplyablePostId,
             locale: getCurrentLocale(state),
             currentUsersLatestPost: getCurrentUsersLatestPost(state, ''),
-            readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL),
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
             enableGifPicker,
@@ -124,12 +124,13 @@ function makeMapStateToProps() {
             useGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
+            tutorialStep,
         };
     };
 }
 
 function onSubmitPost(post: Post, fileInfos: FileInfo[]) {
-    return (dispatch: Dispatch<GenericAction>) => {
+    return (dispatch: Dispatch) => {
         dispatch(createPost(post, fileInfos) as any);
     };
 }
@@ -142,18 +143,20 @@ type Actions = {
     addReaction: (postId: string, emojiName: string) => void;
     onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
     removeReaction: (postId: string, emojiName: string) => void;
-    clearDraftUploads: (prefix: string, action: (key: string, value?: PostDraft) => PostDraft | undefined) => void;
+    clearDraftUploads: () => void;
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
     setDraft: (name: string, value: PostDraft | null) => void;
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
-    openModal: (modalData: ModalData) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
+    closeModal: (modalId: string) => void;
     executeCommand: (message: string, args: CommandArgs) => ActionResult;
     getChannelTimezones: (channelId: string) => ActionResult;
     scrollPostListToBottom: () => void;
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
+    savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
 }
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
@@ -167,7 +170,17 @@ function setDraft(key: string, value: PostDraft) {
     return setGlobalItem(key, value);
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function clearDraftUploads() {
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.DRAFT, (_key: string, draft: PostDraft) => {
+        if (!draft || !draft.uploadsInProgress || draft.uploadsInProgress.length === 0) {
+            return draft;
+        }
+
+        return {...draft, uploadsInProgress: []};
+    });
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             addMessageIntoHistory,
@@ -177,7 +190,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             addReaction,
             removeReaction,
             setDraft,
-            clearDraftUploads: actionOnGlobalItemsWithPrefix,
+            clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
             emitShortcutReactToLastPostFrom,
@@ -189,6 +202,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             scrollPostListToBottom,
             setShowPreview: setShowPreviewOnCreatePost,
             getChannelMemberCountsByGroup,
+            savePreferences,
         }, dispatch),
     };
 }

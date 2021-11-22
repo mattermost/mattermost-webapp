@@ -33,7 +33,7 @@ import 'components/category_modal.scss';
 import './custom_status.scss';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
 };
 
 // This is the same limit set
@@ -136,12 +136,15 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     }, []);
 
     const handleSetStatus = () => {
-        const customStatus = {
+        const expiresAt = calculateExpiryTime();
+        const customStatus: UserCustomStatus = {
             emoji: emoji || 'speech_balloon',
             text: text.trim(),
             duration: duration === CUSTOM_DATE_TIME ? DATE_AND_TIME : duration,
-            expires_at: calculateExpiryTime(),
         };
+        if (expiresAt) {
+            customStatus.expires_at = expiresAt;
+        }
         dispatch(setCustomStatus(customStatus));
     };
 
@@ -292,7 +295,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     return (
         <GenericModal
             enforceFocus={false}
-            onHide={props.onHide}
+            onExited={props.onExited}
             modalHeaderText={
                 <FormattedMessage
                     id='custom_status.set_status'

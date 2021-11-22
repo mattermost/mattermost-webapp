@@ -14,7 +14,7 @@ describe('components/RemoveFromChannelModal', () => {
         currentUserId: 'current_user_id',
         channelName: 'test-channel',
         remover: 'Administrator',
-        onHide: jest.fn(),
+        onExited: jest.fn(),
     };
 
     test('should match snapshot', () => {

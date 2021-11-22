@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import {ModalIdentifiers} from 'utils/constants';
 
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
@@ -13,24 +15,28 @@ export default class PostImage extends React.PureComponent {
         imageMetadata: PropTypes.object.isRequired,
         link: PropTypes.string.isRequired,
         post: PropTypes.object.isRequired,
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showModal: false,
-        };
-    }
-
-    showModal = (e) => {
+    showModal = (e, link) => {
         e.preventDefault();
 
-        this.setState({showModal: true});
-    }
-
-    hideModal = () => {
-        this.setState({showModal: false});
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                post: this.props.post,
+                startIndex: 0,
+                fileInfos: [{
+                    has_preview_image: false,
+                    link,
+                    extension: this.props.imageMetadata.format,
+                    name: this.props.link,
+                }],
+            },
+        });
     }
 
     render() {
@@ -48,17 +54,6 @@ export default class PostImage extends React.PureComponent {
                                 dimensions={this.props.imageMetadata}
                                 showLoader={true}
                                 onClick={this.showModal}
-                            />
-                            <FilePreviewModal
-                                show={this.state.showModal}
-                                onModalDismissed={this.hideModal}
-                                post={this.props.post}
-                                startIndex={0}
-                                fileInfos={[{
-                                    has_preview_image: false,
-                                    link: safeLink,
-                                    extension: this.props.imageMetadata.format,
-                                }]}
                             />
                         </React.Fragment>
                     )}

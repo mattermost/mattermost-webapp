@@ -19,8 +19,8 @@ type Actions = {
 };
 
 type Props = {
-    channelName: string;
-    teamName: string;
+    channelName?: string;
+    teamName?: string;
     post: Post;
     commentCount: number;
     isRHS: boolean;

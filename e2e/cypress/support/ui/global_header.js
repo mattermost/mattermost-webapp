@@ -1,25 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('uiGetProductSwitchButton', () => {
+Cypress.Commands.add('uiGetProductMenuButton', () => {
     return cy.findByRole('button', {name: 'Select to open product switch menu.'}).should('be.visible');
 });
 
-Cypress.Commands.add('uiGetProductSwitchMenu', () => {
+Cypress.Commands.add('uiGetProductMenu', () => {
     return cy.get('.product-switcher-menu').should('be.visible');
 });
 
-Cypress.Commands.add('uiOpenProductSwitchMenu', (item = '') => {
+Cypress.Commands.add('uiOpenProductMenu', (item = '') => {
     // # Click on product switch button
-    cy.uiGetProductSwitchButton().click();
+    cy.uiGetProductMenuButton().click();
 
     if (!item) {
         // # Return the menu if no item is passed
-        return cy.uiGetProductSwitchMenu();
+        return cy.uiGetProductMenu();
     }
 
     // # Click on a particular item
-    return cy.uiGetProductSwitchMenu().
+    return cy.uiGetProductMenu().
         findByText(item).
         scrollIntoView().
         should('be.visible').
@@ -36,21 +36,21 @@ Cypress.Commands.add('uiGetProfileHeader', () => {
 
 Cypress.Commands.add('uiGetStatusMenuContainer', (options = {exist: true}) => {
     if (options.exist) {
-        return cy.get('#statusDropdownMenu').should('exist');
+        return cy.findByRole('menu').should('exist');
     }
 
-    return cy.get('#statusDropdownMenu').should('not.exist');
+    return cy.findByRole('menu').should('not.exist');
 });
 
 Cypress.Commands.add('uiGetStatusMenu', (options = {visible: true}) => {
     if (options.visible) {
         return cy.uiGetStatusMenuContainer().
-            find('.dropdown-menu').
+            find('ul').
             should('be.visible');
     }
 
     return cy.uiGetStatusMenuContainer().
-        find('.dropdown-menu').
+        find('ul').
         should('not.be.visible');
 });
 
@@ -102,8 +102,20 @@ Cypress.Commands.add('uiOpenUserMenu', (item = '') => {
         click();
 });
 
-Cypress.Commands.add('uiGetAtMentionButton', () => {
+Cypress.Commands.add('uiGetSearchContainer', () => {
+    return cy.get('#searchFormContainer').should('be.visible');
+});
+
+Cypress.Commands.add('uiGetSearchBox', () => {
+    return cy.get('#searchBox').should('be.visible');
+});
+
+Cypress.Commands.add('uiGetRecentMentionButton', () => {
     return cy.findByRole('button', {name: 'Select to toggle a list of recent mentions.'}).should('be.visible');
+});
+
+Cypress.Commands.add('uiGetSavedPostButton', () => {
+    return cy.findByRole('button', {name: 'Select to toggle a list of saved posts.'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetSettingsButton', () => {

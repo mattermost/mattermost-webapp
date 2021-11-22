@@ -275,9 +275,9 @@ export function formatText(
         // unwrap the output from the closing p tag and add a span that will serve as a
         // palceholder for `messageToHtmlComponent` function later on
         if (output.endsWith('</p>')) {
-            output = `${output.slice(0, -4)} <span data-edited-post-id='${options.postId}'></span></p>`;
+            output = `${output.slice(0, -4)}<span data-edited-post-id='${options.postId}'></span></p>`;
         } else {
-            output += ` <span data-edited-post-id='${options.postId}'></span>`;
+            output += `<span data-edited-post-id='${options.postId}'></span>`;
         }
     }
 

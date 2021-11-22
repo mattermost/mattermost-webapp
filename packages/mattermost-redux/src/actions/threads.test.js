@@ -79,6 +79,7 @@ describe('Actions.Threads', () => {
 
     const currentTeamId = 'currentTeamId'.padEnd(26, ID_PAD);
     const currentUserId = 'currentUserId'.padEnd(26, ID_PAD);
+    const channel = TestHelper.fakeChannelWithId(currentTeamId);
 
     beforeEach(() => {
         store = configureStore({
@@ -89,6 +90,17 @@ describe('Actions.Threads', () => {
                 users: {
                     currentUserId,
                 },
+                channels: {
+                    channelsInTeam: {
+                        [currentTeamId]: [channel.id],
+                    },
+                    channels: {
+                        [channel.id]: channel,
+                    },
+                    myMembers: {
+                        [channel.id]: {},
+                    },
+                },
             },
         });
     });
@@ -98,7 +110,7 @@ describe('Actions.Threads', () => {
     });
 
     test('getThread', async () => {
-        const [mockThread, {threadId}] = mockUserThread();
+        const [mockThread, {threadId}] = mockUserThread({channelId: channel.id});
 
         nock(Client4.getBaseRoute()).
             get((uri) => uri.includes(`/users/${currentUserId}/teams/${currentTeamId}/threads/${threadId}`)).

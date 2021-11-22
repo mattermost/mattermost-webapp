@@ -8,8 +8,6 @@ import {General} from 'mattermost-redux/constants';
 import {StorageTypes} from 'utils/constants';
 
 function storage(state = {}, action) {
-    var key;
-
     switch (action.type) {
     case StorageTypes.SET_ITEM: {
         if (!state[action.data.prefix + action.data.name] ||
@@ -62,30 +60,27 @@ function storage(state = {}, action) {
     }
     case StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: {
         const nextState = {...state};
-        for (key in state) {
-            if (key.lastIndexOf(action.data.prefix, 0) === 0) {
-                nextState[key] = {
-                    timestamp: new Date(),
-                    value: action.data.action(key, state[key].value),
-                };
+        let changed = false;
+
+        for (const key of Object.keys(nextState)) {
+            if (!key.startsWith(action.data.prefix)) {
+                continue;
             }
-        }
-        return nextState;
-    }
-    case StorageTypes.ACTION_ON_ITEMS_WITH_PREFIX: {
-        const nextState = {...state};
-        var globalPrefix = action.data.globalPrefix;
-        var globalPrefixLen = action.data.globalPrefix.length;
-        for (key in state) {
-            if (key.lastIndexOf(globalPrefix + action.data.prefix, 0) === 0) {
-                var userkey = key.substring(globalPrefixLen);
-                nextState[key] = {
-                    timestamp: new Date(),
-                    value: action.data.action(userkey, state[key].value),
-                };
+
+            const value = nextState[key].value;
+            const nextValue = action.data.action(key, value);
+            if (value === nextValue) {
+                continue;
             }
+
+            nextState[key] = {
+                timestamp: new Date(),
+                value: action.data.action(key, state[key].value),
+            };
+            changed = true;
         }
-        return nextState;
+
+        return changed ? nextState : state;
     }
     case StorageTypes.STORAGE_REHYDRATE: {
         return {...state, ...action.data};

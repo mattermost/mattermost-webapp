@@ -4,9 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selectors/posts';
 
@@ -20,18 +18,10 @@ function mapStateToProps(state, ownProps) {
         parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
     }
 
-    const config = getConfig(state);
-    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
-
-    const currentChannel = getCurrentChannel(state) || {};
-    const channelIsArchived = currentChannel.delete_at !== 0;
-
     return {
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
-        enablePostUsernameOverride,
-        isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
         isPostBeingEditedInRHS: getIsPostBeingEditedInRHS(state, ownProps.post.id),
     };

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
@@ -23,14 +23,14 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
+import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {showNextSteps} from 'components/next_steps_view/steps';
 
-import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
@@ -59,16 +59,16 @@ const GlobalThreads = () => {
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
+    const showSteps = useSelector((state: GlobalState) => showNextSteps(state));
     const config = useSelector(getConfig);
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
-    const isLoading = counts?.total == null;
-    const globalHeaderEnabled = useSelector((state: GlobalState) => getGlobalHeaderEnabled(state));
 
     useEffect(() => {
         dispatch(suppressRHS);
         dispatch(selectChannel(''));
+        dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 
         // unsuppresses RHS on navigating away (unmount)
@@ -83,12 +83,46 @@ const GlobalThreads = () => {
         }
     }, [currentTeamId, selectedThreadId, threadIdentifier]);
 
-    useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
-    }, [currentUserId, currentTeamId, filter]);
+    const isEmptyList = isEmpty(threadIds) && isEmpty(unreadThreadIds);
+
+    const [isLoading, setLoading] = useState(isEmptyList);
+
+    const fetchThreads = useCallback(async (unread): Promise<{data: any}> => {
+        await dispatch(getThreads(
+            currentUserId,
+            currentTeamId,
+            {
+                unread,
+                perPage: 25,
+            },
+        ));
+
+        return {data: true};
+    }, [currentUserId, currentTeamId]);
+
+    const isOnlySelectedThreadInList = (list: string[]) => {
+        return selectedThreadId && list.length === 1 && list.includes(selectedThreadId);
+    };
 
     useEffect(() => {
-        if ((!selectedThread || !selectedPost) && !isLoading) {
+        const promises = [];
+
+        // this is needed to jump start threads fetching
+        if (isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds)) {
+            promises.push(fetchThreads(false));
+        }
+
+        if (filter === ThreadFilter.unread && (isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds))) {
+            promises.push(fetchThreads(true));
+        }
+
+        Promise.all(promises).then(() => {
+            setLoading(false);
+        });
+    }, [fetchThreads, filter, threadIds, unreadThreadIds]);
+
+    useEffect(() => {
+        if (!selectedThread && !selectedPost && !isLoading) {
             clear();
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
@@ -105,7 +139,7 @@ const GlobalThreads = () => {
     }, []);
 
     const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
-    if (showNextStepsEphemeral && enableOnboardingFlow) {
+    if (showNextStepsEphemeral && enableOnboardingFlow && showSteps) {
         return <NextStepsView/>;
     }
 
@@ -125,10 +159,9 @@ const GlobalThreads = () => {
                     id: 'globalThreads.subtitle',
                     defaultMessage: 'Threads you’re participating in will automatically show here',
                 })}
-                right={globalHeaderEnabled ? null : <RHSSearchNav/>}
             />
 
-            {isEmpty(threadIds) ? (
+            {isLoading || isEmptyList ? (
                 <div className='no-results__holder'>
                     {isLoading ? (
                         <LoadingScreen/>
@@ -164,6 +197,7 @@ const GlobalThreads = () => {
                             <ThreadViewer
                                 rootPostId={selectedThread.id}
                                 useRelativeTimestamp={true}
+                                isThreadView={true}
                             />
                         </ThreadPane>
                     ) : (
@@ -176,18 +210,7 @@ const GlobalThreads = () => {
                             }, {numUnread})}
                             subtitle={formatMessage({
                                 id: 'globalThreads.threadPane.unreadMessageLink',
-                                defaultMessage: `
-                                    You have
-                                    {numUnread, plural,
-                                        =0 {no unread threads}
-                                        =1 {<link>{numUnread} thread</link>}
-                                        other {<link>{numUnread} threads</link>}
-                                    }
-                                    {numUnread, plural,
-                                        =0 {}
-                                        other {with unread messages}
-                                    }
-                                `,
+                                defaultMessage: 'You have {numUnread, plural, =0 {no unread threads} =1 {<link>{numUnread} thread</link>} other {<link>{numUnread} threads</link>}} {numUnread, plural, =0 {} other {with unread messages}}',
                             }, {
                                 numUnread,
                                 link: (chunks) => (

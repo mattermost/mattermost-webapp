@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
+import {t} from 'utils/i18n';
 import {ModalIdentifiers} from 'utils/constants';
 import UserSettingsModal from '../../../user_settings/modal';
 import {StepComponentProps} from '../../steps';
@@ -32,22 +33,29 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
             dialogProps: {
-                onExit: onFinish,
-                dialogProps: {isContentProductSettings: true},
+                isContentProductSettings: true,
+                onExited: onFinish,
             },
         }));
     };
 
+    let buttonMessageId = props.finishButtonText.id;
+    let buttonDefaultMessage = props.finishButtonText.defaultMessage;
+
+    if (props.isLastStep) {
+        buttonMessageId = t('next_steps_view.invite_members_step.finish');
+        buttonDefaultMessage = 'Finish';
+    }
+
     return (
         <>
             <TextCardWithAction
-                cardBodyMessageId={'next_steps_view.preferenceSetup'}
-                cardBodyDefaultMessage={'You can change how you receive notifications, update your profile, customize display settings and more. Preferences can be accessed through the Main Menu.'}
-                buttonMessageId={'next_steps_view.preferenceSetup.setPreferences'}
-                buttonDefaultMessage={'Set Preferences'}
+                cardBodyMessageId={t('next_steps_view.preferenceSetup')}
+                cardBodyDefaultMessage={'From your Avatar, set your availability, add a custom status, and manage your profile. Access customize notification preferences, custom theme colors, and more in **Settings**.'}
+                buttonMessageId={buttonMessageId}
+                buttonDefaultMessage={buttonDefaultMessage}
                 onClick={onClick}
             />
         </>
     );
 }
-

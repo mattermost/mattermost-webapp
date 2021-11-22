@@ -469,18 +469,28 @@
     }
 
     .more-modal__header {
+        display: flex;
         padding: 14px 20px;
 
         .icon {
             @include opacity(0.8);
 
             position: relative;
-            top: 2px;
             margin: 0 38px 0 24px;
         }
 
         span {
+            align-self: center;
             font-weight: 600;
+        }
+
+        button {
+            width: 70px;
+            margin-left: auto;
+
+            i {
+                margin: 0 5px !important;
+            }
         }
 
         .subhead {
@@ -494,8 +504,13 @@
     }
 
     .more-modal__button {
+        display: flex;
+
         .btn {
+            width: 100px;
             height: 42px;
+            padding: 0;
+            margin: 0 auto;
         }
     }
 

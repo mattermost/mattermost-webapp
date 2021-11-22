@@ -50,7 +50,7 @@ describe('Customization', () => {
         cy.get('#site_description').should('have.text', siteDescription);
     });
 
-    it('MM-T1025 - Site Name - Main Menu ➜ About and About Modal show custom name', () => {
+    it('MM-T1025 - Site Name - Product Menu ➜ About and About Modal show custom name', () => {
         // * Verify that setting is visible and matches text content
         cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
 
@@ -65,11 +65,7 @@ describe('Customization', () => {
         cy.visit('/');
 
         // # Open About Mattermost menu option
-        cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
-        cy.findByLabelText('main menu').click();
-
-        // * Find the about menu entry, which contains the new site name
-        cy.findByText(`About ${siteName}`).scrollIntoView().click();
+        cy.uiOpenProductMenu(`About ${siteName}`);
 
         // * Verify in the about modal that the new site name is being shown
         cy.get('#aboutModalLabel').should('be.visible').and('have.text', `About ${siteName}`);
