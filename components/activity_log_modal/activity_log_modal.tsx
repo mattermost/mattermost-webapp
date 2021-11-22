@@ -65,7 +65,7 @@ export default class ActivityLogModal extends React.PureComponent<Props, State> 
 
     submitRevoke = (altId: string, e: React.MouseEvent) => {
         e.preventDefault();
-        const modalContent = (e.target as Element).closest('.modal-content');
+        const modalContent = (e.target as Element)?.closest('.modal-content');
         modalContent?.classList.add('animation--highlight');
         setTimeout(() => {
             modalContent?.classList.remove('animation--highlight');

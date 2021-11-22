@@ -288,11 +288,11 @@ export default class GeneralTab extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.getElementById('team_settings').addEventListener('hidden.bs.modal', this.handleClose);
+        document.getElementById('team_settings')?.addEventListener('hidden.bs.modal', this.handleClose);
     }
 
     componentWillUnmount() {
-        document.getElementById('team_settings').addEventListener('hidden.bs.modal', this.handleClose);
+        document.getElementById('team_settings')?.removeEventListener('hidden.bs.modal', this.handleClose);
     }
 
     handleUpdateSection = (section) => {
