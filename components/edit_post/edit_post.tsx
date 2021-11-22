@@ -465,7 +465,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             </div>
             <div className='post-body__helper-text'>
                 <FormattedMarkdownMessage
-                    id='create_post.helper_text'
+                    id='edit_post.helper_text'
                     defaultMessage='**ENTER** to Save, **ESC** to Cancel'
                 />
             </div>
