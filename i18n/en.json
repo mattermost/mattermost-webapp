@@ -2973,7 +2973,6 @@
   "edit_channel_purpose_modal.title2": "Edit Purpose for ",
   "edit_command.update": "Update",
   "edit_command.updating": "Updating...",
-  "edit_post.edit": "Edit {title}",
   "edit_post.editPost": "Edit the post...",
   "edit_post.helper_text": "**ENTER** to Save, **ESC** to Cancel",
   "edit_post.time_limit_button.for_n_seconds": "For {n} seconds",
