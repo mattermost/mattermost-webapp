@@ -37,7 +37,6 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import CallButton from 'components/call_button';
 import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
-import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
@@ -310,7 +309,6 @@ type State = {
     message: string;
     caretPosition: number;
     submitting: boolean;
-    showPostDeletedModal: boolean;
     showEmojiPicker: boolean;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
@@ -356,7 +354,6 @@ class CreatePost extends React.PureComponent<Props, State> {
             message: this.props.draft.message,
             caretPosition: this.props.draft.message.length,
             submitting: false,
-            showPostDeletedModal: false,
             showEmojiPicker: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -1203,18 +1200,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.lastBlurAt = Date.now();
     }
 
-    showPostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: true,
-        });
-    }
-
-    hidePostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: false,
-        });
-    }
-
     handleEmojiClose = () => {
         this.setState({showEmojiPicker: false});
     }
@@ -1559,10 +1544,6 @@ class CreatePost extends React.PureComponent<Props, State> {
                         </div>
                     </div>
                 </div>
-                <PostDeletedModal
-                    show={this.state.showPostDeletedModal}
-                    onHide={this.hidePostDeletedModal}
-                />
             </form>
         );
     }

@@ -9,7 +9,7 @@ import EditCategoryModal from './edit_category_modal';
 describe('components/EditCategoryModal', () => {
     describe('isConfirmDisabled', () => {
         const requiredProps = {
-            onHide: jest.fn(),
+            onExited: jest.fn(),
             currentTeamId: '42',
             actions: {
                 createCategory: jest.fn(),
