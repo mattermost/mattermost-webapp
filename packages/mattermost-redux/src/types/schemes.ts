@@ -16,6 +16,7 @@ export type Scheme = {
     default_channel_admin_role: string;
     default_channel_user_role: string;
     default_channel_guest_role: string;
+    default_playbook_admin_role: string;
 };
 export type SchemesState = {
     schemes: {

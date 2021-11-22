@@ -188,11 +188,11 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
             },
             playbook_member: {
                 ...this.props.roles.playbook_member,
-                permissions: role.permissions.filter((p) => PermissionsScope[p] === 'playbook_scope'),
+                permissions: role.permissions?.filter((p) => PermissionsScope[p] === 'playbook_scope'),
             },
             run_member: {
                 ...this.props.roles.run_member,
-                permissions: role.permissions.filter((p) => PermissionsScope[p] === 'run_scope'),
+                permissions: role.permissions?.filter((p) => PermissionsScope[p] === 'run_scope'),
             },
         };
     }
