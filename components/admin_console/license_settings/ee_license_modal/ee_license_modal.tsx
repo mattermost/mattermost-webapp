@@ -42,7 +42,7 @@ const EELicenseModal: React.FC<Props> = (props: Props): JSX.Element | null => {
             className={'EELicenseModal'}
             show={show}
             id='EELicenseModal'
-            onHide={handleOnClose}
+            onExited={handleOnClose}
         >
             <>
                 <div
