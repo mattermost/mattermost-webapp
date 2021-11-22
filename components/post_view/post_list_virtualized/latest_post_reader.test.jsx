@@ -3,12 +3,21 @@
 
 import {mount} from 'enzyme';
 import React from 'react';
+import {createIntl, useIntl} from 'react-intl';
+
+import enMessages from 'i18n/en.json';
+import esMessages from 'i18n/es.json';
 
 import {mockStore} from 'tests/test_store';
 
 import {TestHelper} from 'utils/test_helper';
 
 import LatestPostReader from './latest_post_reader';
+
+jest.mock('react-intl', () => ({
+    ...jest.requireActual('react-intl'),
+    useIntl: jest.fn(),
+}));
 
 describe('LatestPostReader', () => {
     const author = TestHelper.getUserMock({
@@ -49,37 +58,21 @@ describe('LatestPostReader', () => {
         postIds: [post.id],
     };
 
-    test('should render aria-label as a child in the default locale', () => {
+    test('should render aria-label as a child in the given locale', () => {
         const {mountOptions} = mockStore(baseState);
 
-        const wrapper = mount(<LatestPostReader {...baseProps}/>, mountOptions);
-        const span = wrapper.childAt(0);
+        useIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
+
+        let wrapper = mount(<LatestPostReader {...baseProps}/>, mountOptions);
+        let span = wrapper.childAt(0);
 
         expect(span.prop('children')).toContain(author.username);
         expect(span.prop('children')).toContain('January');
-    });
 
-    test('should render aria-label as a child in the given locale', () => {
-        jest.mock('react-intl', () => {
-            const reactIntl = jest.requireActual('react-intl');
-            const esMessages = require('i18n/es.json');
+        useIntl.mockImplementation(() => createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'}));
 
-            const intl = reactIntl.createIntl({
-                locale: 'es',
-                messages: esMessages,
-                defaultLocale: 'es',
-            });
-
-            return {
-                ...reactIntl,
-                useIntl: () => intl,
-            };
-        });
-
-        const {mountOptions} = mockStore(baseState);
-
-        const wrapper = mount(<LatestPostReader {...baseProps}/>, mountOptions);
-        const span = wrapper.childAt(0);
+        wrapper = mount(<LatestPostReader {...baseProps}/>, mountOptions);
+        span = wrapper.childAt(0);
 
         expect(span.prop('children')).toContain(author.username);
         expect(span.prop('children')).toContain('enero');

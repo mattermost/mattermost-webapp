@@ -8,6 +8,7 @@ import $ from 'jquery';
 import '@testing-library/jest-dom';
 
 import './redux-persist_mock';
+import './react-intl_mock';
 
 global.$ = $;
 global.jQuery = $;
@@ -108,22 +109,4 @@ expect.extend({
             pass: false,
         };
     },
-});
-
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    const enMessages = require('i18n/es.json');
-
-    const intl = reactIntl.createIntl({
-        locale: 'en',
-        messages: enMessages,
-        defaultLocale: 'en',
-        timeZone: 'Etc/UTC',
-        textComponent: 'span',
-    });
-
-    return {
-        ...reactIntl,
-        useIntl: () => intl,
-    };
 });
