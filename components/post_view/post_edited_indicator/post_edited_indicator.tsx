@@ -18,7 +18,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: P
     }
 
     const {formatMessage, formatDate, formatTime} = useIntl();
-    const editedDate = new Date(editedAt);
+    const editedDate = timeZone ? getDateForTimezone(new Date(editedAt), timeZone) : new Date(editedAt);
 
     let date;
     switch (true) {

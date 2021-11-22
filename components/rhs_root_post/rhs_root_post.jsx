@@ -23,6 +23,9 @@ import PostTime from 'components/post_view/post_time';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
