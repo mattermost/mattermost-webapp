@@ -14,7 +14,7 @@ import Menu from 'components/widgets/menu/menu';
 import GetPublicModal from 'components/get_public_link_modal';
 
 import {Constants, FileTypes, ModalIdentifiers} from 'utils/constants';
-import {trimFilename} from 'utils/file_utils';
+
 import {
     fileSizeToString,
     getFileType,
@@ -265,7 +265,6 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
             fileInfo,
         } = this.props;
 
-        const trimmedFilename = trimFilename(fileInfo.name);
         let fileThumbnail;
         let fileDetail;
         let fileActions;
@@ -294,7 +293,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 >
                     <div className='post-image__detail'>
                         <span className={'post-image__name'}>
-                            {trimmedFilename}
+                            {fileInfo.name}
                         </span>
                         <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
                         <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>

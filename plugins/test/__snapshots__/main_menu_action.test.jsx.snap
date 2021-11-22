@@ -128,7 +128,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
@@ -460,7 +460,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
+            "displayName": "Connect(injectIntl(InvitationModal))",
             "type": [Function],
           }
         }
