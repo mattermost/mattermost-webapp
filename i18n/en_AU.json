@@ -1238,7 +1238,6 @@
   "admin.ldap_feature_discovery.title": "Integrate Active Directory/LDAP with Mattermost Professional",
   "admin.ldap_feature_discovery_cloud.call_to_action.primary": "Subscribe now",
   "admin.license.Trial": "Trial",
-  "admin.license.andMore": "And more...",
   "admin.license.choose": "Choose File",
   "admin.license.enterprise.restart": "Restart Server",
   "admin.license.enterprise.restarting": "Restarting",
