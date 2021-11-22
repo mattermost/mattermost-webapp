@@ -7,21 +7,22 @@ import {useIntl} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
-import {Constants, ModalIdentifiers} from '../../utils/constants';
+
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import {
     formatGithubCodePaste,
     formatMarkdownTableMessage,
     getTable,
     isGitHubCodeBlock,
-} from '../../utils/paste';
-import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from '../../utils/post_utils';
-import * as Utils from '../../utils/utils';
-import DeletePostModal from '../delete_post_modal';
-import EmojiPickerOverlay from '../emoji_picker/emoji_picker_overlay';
-import FormattedMarkdownMessage from '../formatted_markdown_message';
-import Textbox from '../textbox';
-import TextboxClass from '../textbox/textbox';
-import EmojiIcon from '../widgets/icons/emoji_icon';
+} from 'utils/paste';
+import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
+import * as Utils from 'utils/utils';
+
+import DeletePostModal from 'components/delete_post_modal';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import Textbox, {TextboxClass} from 'components/textbox';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 
 type OpenModal = {
     ModalId: string;

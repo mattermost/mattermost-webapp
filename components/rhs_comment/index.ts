@@ -17,7 +17,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {isEmbedVisible} from 'selectors/posts';
+import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
 import {getHighlightedPostId} from 'selectors/rhs';
 
 import {GlobalState} from 'types/store';
@@ -73,6 +73,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         shouldHighlight: highlightedPostId === ownProps.post.id,
+        isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
     };
 }
 

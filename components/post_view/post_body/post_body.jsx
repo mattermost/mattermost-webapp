@@ -89,6 +89,11 @@ export default class PostBody extends React.PureComponent {
          * check if the current post is being edited at the moment
          */
         isPostBeingEdited: PropTypes.bool,
+
+        /**
+         * check if the current post is being edited in the RHS
+         */
+        isPostBeingEditedInRHS: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -137,9 +142,7 @@ export default class PostBody extends React.PureComponent {
     }
 
     render() {
-        const post = this.props.post;
-        const parentPost = this.props.parentPost;
-        const parentPostUser = this.props.parentPostUser;
+        const {post, parentPost, parentPostUser, isPostBeingEdited, isPostBeingEditedInRHS} = this.props;
 
         let comment;
         let postClass = '';
@@ -234,7 +237,7 @@ export default class PostBody extends React.PureComponent {
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    {this.props.isPostBeingEdited ? <EditPost/> : messageWithAdditionalContent}
+                    {isPostBeingEdited && !isPostBeingEditedInRHS ? <EditPost/> : messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionList
                         post={post}

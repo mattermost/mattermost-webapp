@@ -22,12 +22,13 @@ import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
-
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import EditPost from 'components/edit_post';
+
+import BotBadge from 'components/widgets/badges/bot_badge';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -68,6 +69,11 @@ export default class RhsRootPost extends React.PureComponent {
         timestampProps: PropTypes.object,
         isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,
+
+        /**
+         * check if the current post is being edited at the moment
+         */
+        isPostBeingEdited: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -176,6 +182,10 @@ export default class RhsRootPost extends React.PureComponent {
             className += ' current--user';
         }
 
+        if (this.props.isPostBeingEdited) {
+            className += ' post--editing';
+        }
+
         if (isSystemMessage || isMeMessage) {
             className += ' post--system';
         }
@@ -228,7 +238,7 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot, isPostBeingEdited} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -445,17 +455,19 @@ export default class RhsRootPost extends React.PureComponent {
                                 {this.renderPostTime(isEphemeral)}
                                 {postInfoIcon}
                             </div>
-                            {dotMenuContainer}
+                            {!isPostBeingEdited && dotMenuContainer}
                         </div>
                         <div className='post__body'>
                             <div className={postClass}>
-                                <MessageWithAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                    pluginPostTypes={this.props.pluginPostTypes}
-                                />
+                                {isPostBeingEdited ? <EditPost/> : (
+                                    <MessageWithAdditionalContent
+                                        post={post}
+                                        previewCollapsed={this.props.previewCollapsed}
+                                        previewEnabled={this.props.previewEnabled}
+                                        isEmbedVisible={this.props.isEmbedVisible}
+                                        pluginPostTypes={this.props.pluginPostTypes}
+                                    />
+                                )}
                             </div>
                             {fileAttachment}
                             <ReactionList

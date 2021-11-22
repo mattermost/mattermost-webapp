@@ -16,7 +16,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {isEmbedVisible} from 'selectors/posts';
+import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
 
 import {GlobalState} from 'types/store';
 import {FakePost} from 'types/store/rhs';
@@ -55,6 +55,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
     };
 }
 

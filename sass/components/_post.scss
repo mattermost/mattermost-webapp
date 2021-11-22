@@ -556,6 +556,19 @@
     .channel-archived__close-btn {
         margin: 10px;
     }
+
+    &.post--editing {
+        overflow: visible;
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+
+        .post__body {
+            background: transparent;
+
+            .custom-textarea {
+                background-color: var(--center-channel-bg);
+            }
+        }
+    }
 }
 
 .post-body__actions {
@@ -631,7 +644,7 @@
 
 .post-body__helper-text {
     display: inline-block;
-    margin-top: 8px;
+    margin: 8px 0 4px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-family: 'Open Sans', sans-serif;
 }
@@ -2185,9 +2198,4 @@
             pointer-events: auto;
         }
     }
-}
-
-.post--editing {
-    overflow: visible;
-    background-color: rgba(var(--button-bg-rgb), 0.08);
 }

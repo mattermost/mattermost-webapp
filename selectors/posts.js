@@ -14,6 +14,11 @@ import {Preferences, StoragePrefixes} from 'utils/constants';
 export function getIsPostBeingEdited(state, postId) {
     return state.views.posts.editingPost.postId === postId;
 }
+export function getIsPostBeingEditedInRHS(state, postId) {
+    const editingPost = getEditingPost(state);
+
+    return editingPost.isRHS && state.views.posts.editingPost.postId === postId;
+}
 
 export const getEditingPost = createSelector(
     'getEditingPost',

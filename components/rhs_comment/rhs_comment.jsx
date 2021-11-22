@@ -34,6 +34,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import EditPost from 'components/edit_post';
 
 export default class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -85,6 +86,11 @@ export default class RhsComment extends React.PureComponent {
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
          */
         shouldHighlight: PropTypes.bool,
+
+        /**
+         * check if the current post is being edited at the moment
+         */
+        isPostBeingEdited: PropTypes.bool,
     };
 
     constructor(props) {
@@ -217,6 +223,10 @@ export default class RhsComment extends React.PureComponent {
             className += ' post--highlight';
         }
 
+        if (this.props.isPostBeingEdited) {
+            className += ' post--editing';
+        }
+
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
@@ -293,7 +303,7 @@ export default class RhsComment extends React.PureComponent {
     }
 
     render() {
-        const {post, isConsecutivePost, isReadOnly, channelIsArchived, collapsedThreadsEnabled} = this.props;
+        const {post, isConsecutivePost, isReadOnly, channelIsArchived, collapsedThreadsEnabled, isPostBeingEdited} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = isPostEphemeral(post);
@@ -600,18 +610,20 @@ export default class RhsComment extends React.PureComponent {
                                 {postInfoIcon}
                                 {visibleMessage}
                             </div>
-                            {options}
+                            {!isPostBeingEdited && options}
                         </div>
                         <div className='post__body' >
                             <div className={postClass}>
                                 {failedPostOptions}
-                                <MessageWithAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                    pluginPostTypes={this.props.pluginPostTypes}
-                                />
+                                {isPostBeingEdited ? <EditPost/> : (
+                                    <MessageWithAdditionalContent
+                                        post={post}
+                                        previewCollapsed={this.props.previewCollapsed}
+                                        previewEnabled={this.props.previewEnabled}
+                                        isEmbedVisible={this.props.isEmbedVisible}
+                                        pluginPostTypes={this.props.pluginPostTypes}
+                                    />
+                                )}
                             </div>
                             {fileAttachment}
                             <ReactionList
