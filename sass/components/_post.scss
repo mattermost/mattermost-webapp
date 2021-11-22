@@ -319,10 +319,6 @@
         transform: translateY(0);
     }
 
-    &.rhs {
-        top: 98px;
-    }
-
     &.toastAdjustment {
         top: 50px;
     }
@@ -386,14 +382,6 @@
         width: 100%;
         padding: 0 15px 0;
         margin: 0 auto;
-
-        &.prewritten {
-            background: rgba(var(--button-bg-rgb), 0.08);
-
-            .custom-textarea {
-                background: var(--center-channel-bg);
-            }
-        }
     }
 
     .center {
@@ -448,13 +436,6 @@
                 padding-right: 90px;
             }
         }
-    }
-
-    .post-create-prewritten-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 18px 0;
     }
 
     .post-create-body {
