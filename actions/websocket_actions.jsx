@@ -103,6 +103,8 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
+import {createNewTask} from './time_management';
+
 const dispatch = store.dispatch;
 const getState = store.getState;
 
@@ -614,6 +616,7 @@ function debouncePostEvent(wait) {
 }
 
 const handleNewPostEventDebounced = debouncePostEvent(100);
+const regex = /(\[[A-Za-z0-9/\-#]+\]\([A-Za-z0-9./\-#:]+\))/gm;
 
 export function handleNewPostEvent(msg) {
     return (myDispatch, myGetState) => {
@@ -636,6 +639,20 @@ export function handleNewPostEvent(msg) {
                 type: UserTypes.RECEIVED_STATUSES,
                 data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
             });
+        }
+
+        // TODO properly add this to github plugin
+        if (post.type === 'custom_git_review_request') {
+            const m = post.message.match(regex);
+            if (m && m.length === 2) {
+                const text = `Code review ${m[1]}`;
+                myDispatch(createNewTask(
+                    text,
+                    15,
+                    null,
+                    'pr-reviews',
+                ));
+            }
         }
     };
 }

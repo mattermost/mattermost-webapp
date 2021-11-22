@@ -19,9 +19,12 @@ export function createNewTask(text: string, minutes: number, date?: Date | null,
 
         let block: WorkBlock | null | undefined;
 
-        // TODO what to do if tag and date are both set
-        if (tag && date && !dateIsTimeSpecific) {
+        if (tag) {
             task.tags = [{title: tag, color: ''}];
+        }
+
+        // TODO what to do if tag and date are both set
+        if (tag && !date) {
             const state = getState();
             block = findBlockWithMatchingTagAndAddTask(state.time.workBlocksByDay, state.time.reoccurringBlocks, task);
         }
