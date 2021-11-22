@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import semver from 'semver';
 import classNames from 'classnames';
 
-import {OverlayTrigger, Tooltip} from 'react-bootstrap/lib';
+import {Tooltip} from 'react-bootstrap';
 
 import {MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -16,6 +16,8 @@ import {getActivePluginId} from 'selectors/rhs';
 
 import {PluginComponent} from 'types/store/plugins';
 import Constants from 'utils/constants';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 type PluginComponentProps = {
     component: PluginComponent;
@@ -42,38 +44,28 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
         return latestEntry;
     };
 
-    const getIconForPluginComponent = (component: PluginComponent): React.ReactNode => {
-        const entry = getMarketplaceEntryForPlugin(component.pluginId);
-        if (entry) {
-            return (
-                <div className={'app-bar__icon-inner'}>
-                    <img src={entry.icon_data} />
-                </div>
-            );
-        }
+    const entry = getMarketplaceEntryForPlugin(component.pluginId);
 
-        return component.icon;
-    };
+    let displayName = component.pluginId;
+    if (entry) {
+        displayName = entry.manifest.name;
+    }
 
-    const getPluginDisplayName = (component: PluginComponent): React.ReactNode => {
-        const text = component.tooltipText || component.text;
-        if (text) {
-            return text;
-        }
+    let icon = component.icon;
+    if (entry) {
+        icon = (
+            <div className={'app-bar__icon-inner'}>
+                <img src={entry.icon_data} />
+            </div>
+        );
+    }
 
-        const entry = getMarketplaceEntryForPlugin(component.pluginId);
-        if (entry) {
-            return entry.manifest.name;
-        }
-
-        return component.pluginId;
-    };
-
-    const label = getPluginDisplayName(component);
     const buttonId = component.id;
+    const tooltipText = component.tooltipText || displayName;
+
     const tooltip = (
         <Tooltip id={'pluginTooltip-' + buttonId}>
-            <span>{label}</span>
+            <span>{tooltipText}</span>
         </Tooltip>
     );
 
@@ -82,18 +74,18 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
             <OverlayTrigger
                 trigger={['hover']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='bottom'
+                placement='left'
                 overlay={tooltip}
             >
                 <div
                     id={buttonId}
-                    aria-label={component.pluginId}
+                    aria-label={displayName}
                     className={classNames('app-bar__icon', { 'app-bar__icon--active': component.pluginId === activePluginId })}
                     onClick={() => {
                         component.action?.(channel);
                     }}
                 >
-                    {getIconForPluginComponent(component)}
+                    {icon}
                 </div>
             </OverlayTrigger>
         </div>
