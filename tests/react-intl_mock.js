@@ -3,7 +3,7 @@
 
 jest.mock('react-intl', function() {
     const reactIntl = jest.requireActual('react-intl');
-    const enMessages = require('i18n/es.json');
+    const enMessages = require('i18n/en.json');
 
     const intl = reactIntl.createIntl({
         locale: 'en',
