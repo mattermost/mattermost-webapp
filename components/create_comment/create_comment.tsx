@@ -248,7 +248,6 @@ type Props = {
 }
 
 type State = {
-    showPostDeletedModal: boolean;
     showEmojiPicker: boolean;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
@@ -292,10 +291,6 @@ class CreateComment extends React.PureComponent<Props, State> {
             updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
         }
 
-        if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.createPostErrorId) {
-            updatedState = {...updatedState, showPostDeletedModal: true};
-        }
-
         return updatedState;
     }
 
@@ -303,7 +298,6 @@ class CreateComment extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            showPostDeletedModal: false,
             showEmojiPicker: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -377,6 +371,10 @@ class CreateComment extends React.PureComponent<Props, State> {
                 this.props.scrollToBottom();
             }
             this.doInitialScrollToBottom = false;
+        }
+
+        if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
+            this.showPostDeletedModal();
         }
     }
 
@@ -1058,17 +1056,10 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     showPostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: true,
+        this.props.openModal({
+            modalId: ModalIdentifiers.POST_DELETED_MODAL,
+            dialogType: PostDeletedModal,
         });
-    }
-
-    hidePostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: false,
-        });
-
-        this.props.resetCreatePostRequest?.();
     }
 
     handleBlur = () => {
@@ -1295,10 +1286,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                         </div>
                     </div>
                 </div>
-                <PostDeletedModal
-                    show={this.state.showPostDeletedModal}
-                    onHide={this.hidePostDeletedModal}
-                />
             </form>
         );
     }
