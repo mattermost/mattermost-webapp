@@ -1237,6 +1237,7 @@
   "admin.ldap_feature_discovery.copy": "Mattermost sunucusunu kuruluşunuzun Active Directory/LDAP dizini ile bağlandığınızda, kullanıcılar, yeni kullanıcı adı ve parola oluşturması gerekmeden oturum açabilir.",
   "admin.ldap_feature_discovery.title": "Mattermost Professional, Aktif Dizin/LDAP bütünleştirmesi",
   "admin.ldap_feature_discovery_cloud.call_to_action.primary": "Abone olun",
+  "admin.license.Trial": "Deneme",
   "admin.license.choose": "Dosyayı seçin",
   "admin.license.edition": "Sürüm: ",
   "admin.license.enterprise-edition-license": "Enterprise sürüm lisansı:",
