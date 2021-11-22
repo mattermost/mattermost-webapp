@@ -35,7 +35,7 @@ type Props = {
     teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
-    handleCommentClick: React.EventHandler<ChangeEvent>;
+    handleCommentClick: React.EventHandler<any>;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
@@ -216,7 +216,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.markPostAsUnread(this.props.post, this.props.location);
     }
 
-    handleDeleteMenuItemActivated = (e: ChangeEvent): void => {
+    handleDeleteMenuItemActivated = (e: KeyboardEvent): void => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -307,7 +307,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.CLICK + '_' + suffix);
     }
 
-    handleOnClick = (suffix: string, cb: (e?: ChangeEvent) => void, e?: ChangeEvent): void => {
+    handleOnClick = (suffix: string, cb: (e?: any) => void, e?: ChangeEvent): void => {
         this.trackClickEvent(suffix);
         if (e) {
             cb(e);
@@ -315,11 +315,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         cb();
     }
 
-    isKeyboardEvent = (e: ChangeEvent): e is React.KeyboardEvent => {
-        return (e as React.KeyboardEvent).getModifierState !== undefined;
+    isKeyboardEvent = (e: KeyboardEvent): any => {
+        return (e).getModifierState !== undefined;
     }
 
-    onShortcutKeyDown = (e: ChangeEvent): void => {
+    onShortcutKeyDown = (e: KeyboardEvent): void => {
         e.preventDefault();
         if (!this.isKeyboardEvent(e)) {
             return;
