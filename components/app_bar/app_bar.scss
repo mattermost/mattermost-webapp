@@ -42,7 +42,7 @@ $app-bar-plugin-component: '.fa, i, svg';
 
             .app-bar__icon-inner, #{$app-bar-plugin-component} {
                 outline: solid 2px var(--sidebar-text-active-border);
-                
+
                 &:hover {
                     outline: solid 2px rgba(var(--sidebar-text-active-border-rgb),.92) !important;
                 }
@@ -63,13 +63,11 @@ $app-bar-plugin-component: '.fa, i, svg';
 
             &:hover {
                 outline: solid 2px rgba(var(--center-channel-color-rgb),.16);
-
             }
 
             img {
                 border-radius: 50%;
             }
-
         }
 
         #{$app-bar-plugin-component} {
@@ -79,7 +77,7 @@ $app-bar-plugin-component: '.fa, i, svg';
             vertical-align: middle;
 
             &.CompassIcon {
-                font-size: 20px;    
+                font-size: 20px;
                 &::before {
                     margin: 0 0 0 0.5px;
                 }

@@ -43,10 +43,6 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
 
                 cleanForm(res.form);
 
-                if (type === AppCallTypes.SUBMIT) {
-                    dispatch(openAppsModal(res.form, call));
-                }
-
                 return {data: res};
             case AppCallResponseTypes.NAVIGATE:
                 if (!res.navigate_to_url) {

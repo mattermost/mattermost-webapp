@@ -6,15 +6,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import {AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallResponse} from 'mattermost-redux/types/apps';
 
-import {doAppCall, openAppsModal} from 'actions/apps';
+import {doAppCall, openAppsModal, postEphemeralCallResponseForContext} from 'actions/apps';
 
 import {createCallContext, createCallRequest} from 'utils/apps';
 import Constants from 'utils/constants';
+import {DoAppCallResult} from 'types/apps';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -55,7 +56,39 @@ const AppBarBinding = (props: BindingComponentProps) => {
             return;
         }
 
-        dispatch(doAppCall(callRequest, AppCallTypes.SUBMIT, intl));
+        const result = await dispatch(doAppCall(callRequest, AppCallTypes.SUBMIT, intl)) as DoAppCallResult;
+
+        if (result.error) {
+            const errMsg = result.error.error || 'An error occurred';
+            dispatch(postEphemeralCallResponseForContext(result.error, errMsg, context));
+            return;
+        }
+
+        const callResp = result.data as AppCallResponse;
+
+        switch (callResp.type) {
+            case AppCallResponseTypes.OK:
+                if (callResp.markdown) {
+                    dispatch(postEphemeralCallResponseForContext(callResp, callResp.markdown, context));
+                }
+                return;
+            case AppCallResponseTypes.FORM:
+                if (callResp.form) {
+                    dispatch(openAppsModal(callResp.form, callRequest));
+                }
+                return;
+            case AppCallResponseTypes.NAVIGATE:
+                return;
+            default: {
+                const errorMessage = intl.formatMessage({
+                    id: 'apps.error.responses.unknown_type',
+                    defaultMessage: 'App response type not supported. Response type: {type}.',
+                }, {
+                    type: callResp.type,
+                });
+                dispatch(postEphemeralCallResponseForContext(callResp, errorMessage, context));
+            }
+        }
     }, [binding, teamId, channelId]);
 
     const id = `app-bar-icon-${binding.app_id}`;

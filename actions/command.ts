@@ -36,7 +36,7 @@ import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
 
-import {doAppCall, postEphemeralCallResponseForCommandArgs} from './apps';
+import {doAppCall, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -146,6 +146,10 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         }
                         return {data: true};
                     case AppCallResponseTypes.FORM:
+                        if (callResp.form) {
+                            dispatch(openAppsModal(callResp.form, call));
+                        }
+                        return {data: true};
                     case AppCallResponseTypes.NAVIGATE:
                         return {data: true};
                     default:

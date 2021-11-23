@@ -164,6 +164,9 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
         }
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, callRequest);
+            }
             break;
         default: {
             const errorMessage = this.props.intl.formatMessage(

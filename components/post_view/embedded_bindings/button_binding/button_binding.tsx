@@ -100,6 +100,9 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             break;
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, callRequest);
+            }
             break;
         default: {
             const errorMessage = intl.formatMessage({
