@@ -2480,7 +2480,7 @@ const AdminDefinition = {
                         label: t('admin.customization.enableCustomEmojiTitle'),
                         label_default: 'Enable Custom Emoji:',
                         help_text: t('admin.customization.enableCustomEmojiDesc'),
-                        help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, Custom Emoji settings can be accessed by switching to a team and clicking the three dots above the channel sidebar, and selecting "Custom Emoji".',
+                        help_text_default: 'Enable users to create custom emoji for use in messages. When enabled, custom emoji settings can be accessed in Channels through the emoji picker.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.EMOJI)),
                     },
                 ],
