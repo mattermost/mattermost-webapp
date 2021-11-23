@@ -4,7 +4,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap/lib';
+import {Tooltip} from 'react-bootstrap';
 
 import {AppCallTypes} from 'mattermost-redux/constants/apps';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
@@ -15,6 +15,8 @@ import {doAppCall, openAppsModal} from 'actions/apps';
 
 import {createCallContext, createCallRequest} from 'utils/apps';
 import Constants from 'utils/constants';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 type BindingComponentProps = {
     binding: AppBinding;
@@ -69,7 +71,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
         <OverlayTrigger
             trigger={['hover']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='bottom'
+            placement='left'
             overlay={tooltip}
         >
             <div
