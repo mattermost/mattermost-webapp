@@ -140,7 +140,7 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
 
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
@@ -151,6 +151,10 @@ export default class RhsComment extends React.PureComponent {
         if (shortcutReactToLastPostEmittedFromRHS) {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
+        }
+
+        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
+            this.handleDropdownOpened(false);
         }
     }
 
@@ -444,16 +448,12 @@ export default class RhsComment extends React.PureComponent {
         }
 
         let failedPostOptions;
-        let postClass = '';
 
         if (post.failed) {
-            postClass += ' post-failed';
             failedPostOptions = <FailedPostOptions post={this.props.post}/>;
         }
 
-        if (PostUtils.isEdited(this.props.post)) {
-            postClass += ' post--edited';
-        }
+        const postClass = PostUtils.isEdited(this.props.post) ? ' post--edited' : '';
 
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
@@ -635,19 +635,17 @@ export default class RhsComment extends React.PureComponent {
                             </div>
                             {!isPostBeingEdited && options}
                         </div>
-                        <div className='post__body' >
-                            <div className={postClass}>
-                                {failedPostOptions}
-                                {isPostBeingEdited ? <EditPost/> : (
-                                    <MessageWithAdditionalContent
-                                        post={post}
-                                        previewCollapsed={this.props.previewCollapsed}
-                                        previewEnabled={this.props.previewEnabled}
-                                        isEmbedVisible={this.props.isEmbedVisible}
-                                        pluginPostTypes={this.props.pluginPostTypes}
-                                    />
-                                )}
-                            </div>
+                        <div className={`post__body${postClass}`} >
+                            {failedPostOptions}
+                            {isPostBeingEdited ? <EditPost/> : (
+                                <MessageWithAdditionalContent
+                                    post={post}
+                                    previewCollapsed={this.props.previewCollapsed}
+                                    previewEnabled={this.props.previewEnabled}
+                                    isEmbedVisible={this.props.isEmbedVisible}
+                                    pluginPostTypes={this.props.pluginPostTypes}
+                                />
+                            )}
                             {fileAttachment}
                             <ReactionList
                                 post={post}

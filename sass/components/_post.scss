@@ -552,17 +552,21 @@
     .channel-archived__close-btn {
         margin: 10px;
     }
+}
 
-    &.post--editing {
-        overflow: visible;
-        background-color: rgba(var(--button-bg-rgb), 0.08);
+.post--editing {
+    overflow: visible;
+    background-color: rgba(var(--button-bg-rgb), 0.08);
 
-        .post__body {
-            background: transparent;
+    .post__body {
+        background: transparent;
 
-            .custom-textarea {
-                background-color: var(--center-channel-bg);
-            }
+        > .textarea-wrapper {
+            padding: 8px 0 0;
+        }
+
+        .custom-textarea {
+            background-color: var(--center-channel-bg);
         }
     }
 }
@@ -967,11 +971,6 @@
             padding: 2px 0 0;
             background: transparent !important;
             line-height: 1.5;
-
-            .post--edited {
-                position: relative;
-                top: -1px;
-            }
 
             .img-div {
                 max-width: 150px;

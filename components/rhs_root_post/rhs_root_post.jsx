@@ -143,12 +143,16 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
             shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
         if (shortcutReactToLastPostEmittedFromRHS) {
             this.handleShortcutReactToLastPost(isLastPost);
+        }
+
+        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
+            this.handleDropdownOpened(false);
         }
     }
 
@@ -342,10 +346,7 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
-        let postClass = '';
-        if (PostUtils.isEdited(this.props.post)) {
-            postClass += ' post--edited';
-        }
+        const postClass = PostUtils.isEdited(this.props.post) ? ' post--edited' : '';
 
         const dotMenu = (
             <DotMenu

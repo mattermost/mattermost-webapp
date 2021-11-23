@@ -183,7 +183,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        const {post, clickToReply} = this.props;
+        const {post, clickToReply, isBeingEdited} = this.props;
 
         if (!post) {
             return;
@@ -196,7 +196,8 @@ export default class Post extends React.PureComponent {
             !e.altKey &&
             clickToReply &&
             (fromAutoResponder || !isSystemMessage) &&
-            isEligibleForClick(e)
+            isEligibleForClick(e) &&
+            !isBeingEdited
         ) {
             trackEvent('crt', 'clicked_to_reply');
             this.props.actions.selectPost(post);
