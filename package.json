@@ -22,7 +22,7 @@
     "core-js": "3.15.2",
     "country-list": "2.2.0",
     "crypto-browserify": "3.12.0",
-    "css-vars-ponyfill": "2.4.5",
+    "css-vars-ponyfill": "2.4.7",
     "dynamic-virtualized-list": "github:mattermost/dynamic-virtualized-list#119db968c96643c7106d4d2c965f05b2e251bc83",
     "emoji-datasource": "6.1.1",
     "emoji-datasource-apple": "6.0.1",
@@ -37,13 +37,13 @@
     "gfycat-sdk": "1.4.18",
     "highlight.js": "11.0.1",
     "hoist-non-react-statics": "3.3.2",
-    "html-to-react": "1.4.5",
+    "html-to-react": "1.4.7",
     "inobounce": "0.2.0",
     "jasny-bootstrap": "3.1.3",
     "jquery": "3.6.0",
     "katex": "0.13.11",
     "key-mirror": "1.0.1",
-    "localforage": "1.9.0",
+    "localforage": "1.10.0",
     "localforage-observable": "2.1.1",
     "lodash": "4.17.21",
     "luxon": "2.0.2",
@@ -93,7 +93,7 @@
     "timezones.json": "1.5.2",
     "tinycolor2": "1.4.2",
     "typescript": "4.3.4",
-    "xregexp": "5.0.2",
+    "xregexp": "5.1.0",
     "zen-observable": "0.8.15"
   },
   "devDependencies": {
@@ -188,7 +188,7 @@
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "2.0.0",
     "mmjstool": "github:mattermost/mattermost-utilities#40d7640e85385248773504548ef962037ac842ea",
-    "nock": "13.1.0",
+    "nock": "13.2.1",
     "react-router-enzyme-context": "1.2.0",
     "redux-devtools-extension": "2.13.9",
     "redux-mock-store": "1.5.4",
@@ -210,7 +210,7 @@
     "webpack-livereload-plugin": "3.0.1",
     "webpack-node-externals": "3.0.0",
     "webpack-pwa-manifest": "4.3.0",
-    "yup": "0.32.9"
+    "yup": "0.32.11"
   },
   "jest": {
     "snapshotSerializers": [
