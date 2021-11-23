@@ -24,6 +24,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Textbox, {TextboxClass} from 'components/textbox';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
+import {isInternetExplorer, isSafari} from '../../utils/user_agent';
 
 type OpenModal = {
     ModalId: string;
@@ -99,8 +100,10 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
     const {formatMessage} = useIntl();
 
+    const scrollOptions: boolean|ScrollIntoViewOptions = isInternetExplorer() || isSafari() ? false : {behavior: 'smooth', block: 'end'};
+
     useEffect(() => textboxRef?.current?.focus(), []);
-    useEffect(() => document.getElementById(`post_${editingPost.postId}`)?.scrollIntoView?.(false), []);
+    useEffect(() => document.getElementById(`post_${editingPost.postId}`)?.scrollIntoView?.(scrollOptions), []);
     useEffect(() => {
         const handlePaste = (e: ClipboardEvent) => {
             if (
@@ -196,8 +199,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         setShowEmojiPicker(false);
         setRenderScrollbar(false);
         setScrollbarWidth(0);
-
-        rest.scrollPostListToBottom();
     };
 
     const handleHide = (doRefocus = true) => {
