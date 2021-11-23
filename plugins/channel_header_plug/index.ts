@@ -27,6 +27,7 @@ function mapStateToProps(state: GlobalState) {
         appBindings: getChannelHeaderBindings(state),
         appsEnabled: apps,
         theme: getTheme(state),
+        sidebarOpen: state.views.rhs.isSidebarOpen,
     };
 }
 

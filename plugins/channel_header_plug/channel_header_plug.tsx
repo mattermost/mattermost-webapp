@@ -102,6 +102,7 @@ type ChannelHeaderPlugProps = {
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
+    sidebarOpen: boolean;
     actions: {
         doAppCall: DoAppCall;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
@@ -111,7 +112,10 @@ type ChannelHeaderPlugProps = {
 
 type ChannelHeaderPlugState = {
     dropdownOpen: boolean;
+    disableButtonsClosingRHS: boolean;
 }
+
+const CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT = 500;
 
 class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
     public static defaultProps: Partial<ChannelHeaderPlugProps> = {
@@ -123,7 +127,18 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         super(props);
         this.state = {
             dropdownOpen: false,
+            disableButtonsClosingRHS: false,
         };
+    }
+
+    componentDidUpdate(prevProps: ChannelHeaderPlugProps) {
+        if (prevProps.sidebarOpen && !this.props.sidebarOpen) {
+            this.setState({disableButtonsClosingRHS: true});
+
+            setTimeout(() => {
+                this.setState({disableButtonsClosingRHS: false});
+            }, CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT);
+        }
     }
 
     toggleDropdown = (dropdownOpen: boolean) => {
@@ -134,7 +149,19 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         this.toggleDropdown(false);
     }
 
+    fireAction = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+        if (this.state.disableButtonsClosingRHS) {
+            return;
+        }
+
+        action(this.props.channel, this.props.channelMember);
+    }
+
     fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+        if (this.state.disableButtonsClosingRHS) {
+            return;
+        }
+
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
@@ -145,7 +172,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                 key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon'
                 iconComponent={plug.icon!}
-                onClick={() => plug.action!(this.props.channel, this.props.channelMember)}
+                onClick={() => this.fireAction(plug.action!)}
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
                 tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
@@ -154,6 +181,10 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     }
 
     onBindingClick = async (binding: AppBinding) => {
+        if (this.state.disableButtonsClosingRHS) {
+            return;
+        }
+
         const {channel, intl} = this.props;
 
         const call = binding.form?.call || binding.call;
