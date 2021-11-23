@@ -84,7 +84,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
             status="offline"
           />
           <span
-            className="header-status__text last-active__wrapper"
+            className="header-status__text"
           >
             <span
               className="last-active__text"
@@ -314,7 +314,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
             status="offline"
           />
           <span
-            className="header-status__text last-active__wrapper"
+            className="header-status__text"
           >
             <span
               className="last-active__text"
@@ -2194,7 +2194,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
             status="offline"
           />
           <span
-            className="header-status__text last-active__wrapper"
+            className="header-status__text"
           >
             <span
               className="last-active__text"
@@ -2424,7 +2424,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
             status="offline"
           />
           <span
-            className="header-status__text last-active__wrapper"
+            className="header-status__text"
           >
             <span
               className="last-active__text"
