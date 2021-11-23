@@ -66,6 +66,10 @@ $app-bar-plugin-component: '.fa, i, svg';
 
             }
 
+            img {
+                border-radius: 50%;
+            }
+
         }
 
         #{$app-bar-plugin-component} {
