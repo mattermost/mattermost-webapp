@@ -147,7 +147,6 @@
     "@types/shallow-equals": "1.0.0",
     "@types/styled-components": "5.1.10",
     "@types/tinycolor2": "1.4.2",
-    "@types/webpack-env": "1.16.0",
     "@typescript-eslint/eslint-plugin": "4.28.1",
     "@typescript-eslint/parser": "4.28.1",
     "babel-eslint": "10.1.0",
