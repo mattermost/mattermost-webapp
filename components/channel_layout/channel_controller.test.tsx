@@ -9,7 +9,13 @@ import ChannelController from './channel_controller';
 describe('components/channel_layout/ChannelController', () => {
     const props = {
         fetchingChannels: false,
+        shouldShowAppBar: true,
     };
+
+    test('Should match snapshot', () => {
+        const wrapper = shallow(<ChannelController {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
 
     test('Should have app__body and channel-view classes on body after mount', () => {
         Object.defineProperty(window.navigator, 'platform', {
@@ -72,5 +78,13 @@ describe('components/channel_layout/ChannelController', () => {
         wrapper.unmount();
         expect(document.body.classList.contains('app__body')).toBe(false);
         expect(document.body.classList.contains('channel-view')).toBe(false);
+    });
+
+    test('Should add .app-bar-enabled class when app bar is enabled', () => {
+        let wrapper = shallow(<ChannelController {...props} shouldShowAppBar={true}/>);
+        expect(wrapper.find('.channel-view-inner').hasClass('app-bar-enabled')).toBe(true);
+
+        wrapper = shallow(<ChannelController {...props} shouldShowAppBar={false}/>);
+        expect(wrapper.find('.channel-view-inner').hasClass('app-bar-enabled')).toBe(false);
     });
 });

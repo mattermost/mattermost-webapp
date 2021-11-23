@@ -9,10 +9,24 @@ import {MarketplacePlugin, MarketplaceApp} from 'mattermost-redux/types/marketpl
 import {Theme} from 'mattermost-redux/types/themes';
 
 import {PluginComponent} from 'types/store/plugins';
+import {GlobalState} from 'types/store';
 
-import AppBar, {Props} from './app_bar';
+import AppBar from './app_bar';
+
+const mockDispatch = jest.fn();
+let mockState: GlobalState;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
 
 describe('components/app_bar/app_bar', () => {
+    beforeEach(() => {
+        mockState = {views: {rhs: {isSidebarOpen: true}}} as GlobalState;
+    });
+
     const marketplaceListing: Array<MarketplacePlugin | MarketplaceApp> = [
         {
             icon_data: 'playbooks_icon_data',
