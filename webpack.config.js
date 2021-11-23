@@ -441,7 +441,7 @@ if (targetIsDevServer) {
             }],
             port: 9005,
             devMiddleware: {
-                writeToDisk: true,
+                writeToDisk: false,
             },
         },
         performance: false,
