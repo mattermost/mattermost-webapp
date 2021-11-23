@@ -133,9 +133,11 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
     componentDidUpdate(prevProps: ChannelHeaderPlugProps) {
         if (prevProps.sidebarOpen && !this.props.sidebarOpen) {
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({disableButtonsClosingRHS: true});
 
             setTimeout(() => {
+                // eslint-disable-next-line react/no-did-update-set-state
                 this.setState({disableButtonsClosingRHS: false});
             }, CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT);
         }
