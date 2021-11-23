@@ -41,6 +41,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Close invite members full-page screen
-        cy.get('#closeIcon > svg').click();
+        cy.uiClose();
     });
 });

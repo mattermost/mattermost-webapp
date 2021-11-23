@@ -56,7 +56,8 @@ export type Props = {
         ) => Promise<{data: InviteResults}>;
     };
     currentTeam: Team;
-    currentChannelName: string;
+    currentChannel: Channel;
+    townSquareDisplayName: string;
     invitableChannels: Channel[];
     emailInvitationsEnabled: boolean;
     isAdmin: boolean;
@@ -211,6 +212,8 @@ export class InvitationModal extends React.PureComponent<Props, State> {
             invite: {
                 ...defaultInviteState,
                 inviteType: state.invite.inviteType,
+                customMessage: state.invite.customMessage,
+                inviteChannels: state.invite.inviteChannels,
             },
             result: defaultResultState,
             termWithoutResults: null,
@@ -340,7 +343,8 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 currentTeam={this.props.currentTeam}
                 onChannelsInputChange={this.onChannelsInputChange}
                 onChannelsChange={this.onChannelsChange}
-                currentChannelName={this.props.currentChannelName}
+                currentChannel={this.props.currentChannel}
+                townSquareDisplayName={this.props.townSquareDisplayName}
                 isAdmin={this.props.isAdmin}
                 usersLoader={this.usersLoader}
                 emailInvitationsEnabled={this.props.emailInvitationsEnabled}
@@ -389,7 +393,8 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 onHide={this.handleHide}
                 role='dialog'
                 backdrop={this.getBackdrop()}
-                aria-labelledby='invitationModalLabel'
+                aria-modal='true'
+                aria-labelledby='invitation_modal_title'
             >
                 {view}
             </Modal>
