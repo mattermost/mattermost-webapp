@@ -40,6 +40,7 @@ export type Actions = {
     unsetEditingPost: () => void;
     openModal: (input: OpenModal) => void;
     setShowPreview: (newPreview: boolean) => void;
+    scrollPostListToBottom: () => void;
 }
 
 export type Props = {
@@ -99,6 +100,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
     const {formatMessage} = useIntl();
 
     useEffect(() => textboxRef?.current?.focus(), []);
+    useEffect(() => document.getElementById(`post_${editingPost.postId}`)?.scrollIntoView?.(false), []);
     useEffect(() => {
         const handlePaste = (e: ClipboardEvent) => {
             if (
@@ -194,6 +196,8 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         setShowEmojiPicker(false);
         setRenderScrollbar(false);
         setScrollbarWidth(0);
+
+        rest.scrollPostListToBottom();
     };
 
     const handleHide = (doRefocus = true) => {

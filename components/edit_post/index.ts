@@ -12,10 +12,10 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {unsetEditingPost} from 'actions/post_actions';
 import {openModal} from 'actions/views/modals';
+import {scrollPostListToBottom} from 'actions/views/channel';
 import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import {GlobalState} from 'types/store';
@@ -52,7 +52,8 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
+            scrollPostListToBottom,
             addMessageIntoHistory,
             editPost,
             unsetEditingPost,
