@@ -169,6 +169,11 @@ export function sendDesktopNotification(post, msgProps) {
         }
         notify = notify || !state.views.browser.focused;
 
+        // If focalboard is open, do not sent mattermost desktop notifications
+        if (document.body.classList.indexOf('focalboard-body') !== -1) {
+            notify = false;
+        }
+
         const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
 
         if (notify) {
