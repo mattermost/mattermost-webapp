@@ -49,7 +49,6 @@ import InfoIcon from './info_icon';
 import InfoSmallIcon from './info_small_icon';
 import InviteIcon from './invite_icon';
 import LeaveTeamIcon from './leave_team_icon';
-import LinkIcon from './link_icon';
 import LockIcon from './lock_icon';
 import MailIcon from './mail_icon';
 import MailPlusIcon from './mail_plus_icon';
