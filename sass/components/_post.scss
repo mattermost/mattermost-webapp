@@ -962,7 +962,7 @@
         .post-preview__header {
             display: flex;
             width: auto;
-            height: 22px;
+            max-height: 22px;
             padding: 0;
             margin-bottom: 0;
         }

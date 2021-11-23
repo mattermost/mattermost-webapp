@@ -88,7 +88,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
     const [caretPosition, setCaretPosition] = useState<number>(0);
     const [postError, setPostError] = useState<React.ReactNode | null>(null);
     const [errorClass, setErrorClass] = useState<string>('');
-    const [refocusId, setRefocusId] = useState<string | null>(null);
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [renderScrollbar, setRenderScrollbar] = useState<boolean>(false);
     const [scrollbarWidth, setScrollbarWidth] = useState<number>(0);
@@ -178,7 +177,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         }
     };
 
-    const handleRefocusAndExit = () => {
+    const handleRefocusAndExit = (refocusId: string|null) => {
         if (refocusId) {
             setTimeout(() => {
                 const element = document.getElementById(refocusId);
@@ -188,21 +187,18 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             });
         }
 
-        setRefocusId(null);
         setCaretPosition(0);
         setPostError(null);
         setErrorClass('');
-        setRefocusId(null);
         setShowEmojiPicker(false);
         setRenderScrollbar(false);
         setScrollbarWidth(0);
     };
 
     const handleHide = (doRefocus = true) => {
-        setRefocusId(doRefocus && editingPost.refocusId ? editingPost.refocusId : null);
         setEditText(editingPost.post?.message || '');
         actions.unsetEditingPost();
-        handleRefocusAndExit();
+        handleRefocusAndExit(doRefocus && editingPost.refocusId ? editingPost.refocusId : null);
     };
 
     const handleEdit = async () => {
@@ -222,10 +218,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             return;
         }
 
-        if (
-            updatedPost.message === (editingPost.post?.message_source || editingPost.post?.message)
-        ) {
-            // no changes so just close the modal
+        if (updatedPost.message === (editingPost.post?.message_source || editingPost.post?.message)) {
             handleHide();
             return;
         }
