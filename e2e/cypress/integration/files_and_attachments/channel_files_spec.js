@@ -10,48 +10,76 @@
 // Stage: @prod
 // Group: @filesearch
 
+import {interceptFileUpload, waitUntilUploadComplete} from './helpers';
+
 describe('Channel files', () => {
+    const wordFile = 'word-file.doc';
+    const wordxFile = 'wordx-file.docx';
+    const imageFile = 'jpg-image-file.jpg';
+
     before(() => {
         // # Create new team and new user and visit off-topic channel
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             cy.visit(offTopicUrl);
+            interceptFileUpload();
         });
     });
 
-    it('Click channel file should show the list of files in the channel', () => {
+    it('MM-T4418 Channel files search', () => {
         // # Ensure Direct Message is visible in LHS sidebar
         cy.uiGetLhsSection('DIRECT MESSAGES').should('be.visible');
 
-        // # Post file to user
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile('word-file.doc');
-        cy.get('.post-image__thumbnail').should('be.visible');
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
-
-        // # Post file to user
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile('wordx-file.docx');
-        cy.get('.post-image__thumbnail').should('be.visible');
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
-
-        // # Post file to user
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile('jpg-image-file.jpg');
-        cy.get('.post-image__thumbnail').should('be.visible');
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
-
-        // # Click the channel files icon
-        cy.get('#channelHeaderFilesButton').should('be.visible').click();
-
-        // # Search message in each filtered result
-        cy.get('#search-items-container').find('.fileDataName').each(($el) => {
-            cy.wrap($el).should('contain.text', '-file');
+        // # Post with word and image files
+        [wordFile, wordxFile, imageFile].forEach((file) => {
+            attachFile(file);
         });
 
-        // # Filter by Images
-        cy.get('.FilesFilterMenu .icon').should('be.visible').click();
-        cy.get('.FilesFilterMenu .MenuItem').contains('Images').should('be.visible').click();
+        // # Click the channel files icon
+        cy.uiGetChannelFileButton().click();
 
-        // # Search message in each filtered result
-        cy.get('#search-items-container').find('.fileDataName').each(($el) => {
-            cy.wrap($el).should('have.text', 'jpg-image-file.jpg');
+        // * Showed all files by default
+        verifySearchResult([imageFile, wordxFile, wordFile]);
+
+        // # Filter by option
+        [
+            {option: 'Documents', returnedFiles: [wordxFile, wordFile]},
+            {option: 'Spreadsheets', returnedFiles: null},
+            {option: 'Presentations', returnedFiles: null},
+            {option: 'Code', returnedFiles: null},
+            {option: 'Images', returnedFiles: [imageFile]},
+            {option: 'Audio', returnedFiles: null},
+            {option: 'Videos', returnedFiles: null},
+        ].forEach(({option, returnedFiles}) => {
+            filterSearchBy(option, returnedFiles);
         });
     });
 });
+
+function attachFile(file) {
+    // # Post file to user
+    cy.get('#centerChannelFooter').
+        find('#fileUploadInput').
+        attachFile(file);
+    waitUntilUploadComplete();
+    cy.get('.post-image__thumbnail').should('be.visible');
+    cy.get('#post_textbox').clear().type('{enter}');
+}
+
+function filterSearchBy(option, returnedFiles) {
+    // # Filter by option
+    cy.uiOpenFileFilterMenu(option);
+
+    verifySearchResult(returnedFiles);
+}
+
+function verifySearchResult(files) {
+    if (files) {
+        cy.get('#search-items-container').should('be.visible').within(() => {
+            cy.get('.fileDataName').each((el, i) => {
+                cy.wrap(el).should('have.text', files[i]);
+            });
+        });
+    } else {
+        cy.get('#search-items-container').findByText('No files found').should('be.visible');
+    }
+}
