@@ -63,7 +63,7 @@ export default class ChannelController extends React.PureComponent<Props> {
                 <SystemNotice/>
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
-                <div className={classNames('container-fluid channel-view-inner',  { 'app-bar-enabled': shouldShowAppBar })}>
+                <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': shouldShowAppBar})}>
                     <SidebarRight/>
                     <SidebarRightMenu/>
                     <TeamSidebar/>

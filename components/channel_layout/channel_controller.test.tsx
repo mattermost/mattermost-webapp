@@ -81,10 +81,20 @@ describe('components/channel_layout/ChannelController', () => {
     });
 
     test('Should add .app-bar-enabled class when app bar is enabled', () => {
-        let wrapper = shallow(<ChannelController {...props} shouldShowAppBar={true}/>);
+        let wrapper = shallow(
+            <ChannelController
+                {...props}
+                shouldShowAppBar={true}
+            />
+        );
         expect(wrapper.find('.channel-view-inner').hasClass('app-bar-enabled')).toBe(true);
 
-        wrapper = shallow(<ChannelController {...props} shouldShowAppBar={false}/>);
+        wrapper = shallow(
+            <ChannelController
+                {...props}
+                shouldShowAppBar={false}
+            />
+        );
         expect(wrapper.find('.channel-view-inner').hasClass('app-bar-enabled')).toBe(false);
     });
 });

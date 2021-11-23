@@ -22,7 +22,7 @@ import {cleanForm} from 'mattermost-redux/utils/apps';
 import {sendEphemeralPost} from './global_actions';
 
 export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, intl: any): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
+    return async () => {
         try {
             const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;

@@ -67,27 +67,27 @@ const AppBarBinding = (props: BindingComponentProps) => {
         const callResp = result.data as AppCallResponse;
 
         switch (callResp.type) {
-            case AppCallResponseTypes.OK:
-                if (callResp.markdown) {
-                    dispatch(postEphemeralCallResponseForContext(callResp, callResp.markdown, context));
-                }
-                return;
-            case AppCallResponseTypes.FORM:
-                if (callResp.form) {
-                    dispatch(openAppsModal(callResp.form, callRequest));
-                }
-                return;
-            case AppCallResponseTypes.NAVIGATE:
-                return;
-            default: {
-                const errorMessage = intl.formatMessage({
-                    id: 'apps.error.responses.unknown_type',
-                    defaultMessage: 'App response type not supported. Response type: {type}.',
-                }, {
-                    type: callResp.type,
-                });
-                dispatch(postEphemeralCallResponseForContext(callResp, errorMessage, context));
+        case AppCallResponseTypes.OK:
+            if (callResp.markdown) {
+                dispatch(postEphemeralCallResponseForContext(callResp, callResp.markdown, context));
             }
+            return;
+        case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                dispatch(openAppsModal(callResp.form, callRequest));
+            }
+            return;
+        case AppCallResponseTypes.NAVIGATE:
+            return;
+        default: {
+            const errorMessage = intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            });
+            dispatch(postEphemeralCallResponseForContext(callResp, errorMessage, context));
+        }
         }
     }, [binding, teamId, channelId]);
 
@@ -114,7 +114,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
                 onClick={submitAppCall}
             >
                 <div className={'app-bar__icon-inner'}>
-                    <img src={binding.icon} />
+                    <img src={binding.icon}/>
                 </div>
             </div>
         </OverlayTrigger>

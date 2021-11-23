@@ -55,7 +55,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
     if (entry) {
         icon = (
             <div className={'app-bar__icon-inner'}>
-                <img src={entry.icon_data} />
+                <img src={entry.icon_data}/>
             </div>
         );
     }
@@ -80,7 +80,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
                 <div
                     id={buttonId}
                     aria-label={displayName}
-                    className={classNames('app-bar__icon', { 'app-bar__icon--active': component.pluginId === activePluginId })}
+                    className={classNames('app-bar__icon', {'app-bar__icon--active': component.pluginId === activePluginId})}
                     onClick={() => {
                         component.action?.(channel);
                     }}
@@ -89,7 +89,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
                 </div>
             </OverlayTrigger>
         </div>
-    )
+    );
 };
 
 export default AppBarPluginComponent;
