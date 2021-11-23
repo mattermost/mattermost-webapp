@@ -84,7 +84,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
             status="offline"
           />
           <span
-            className="header-status__text"
+            className="header-status__text last-active__wrapper"
           >
             <span
               className="last-active__text"
@@ -314,7 +314,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
             status="offline"
           />
           <span
-            className="header-status__text"
+            className="header-status__text last-active__wrapper"
           >
             <span
               className="last-active__text"
@@ -2194,7 +2194,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
             status="offline"
           />
           <span
-            className="header-status__text"
+            className="header-status__text last-active__wrapper"
           >
             <span
               className="last-active__text"
@@ -2424,7 +2424,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
             status="offline"
           />
           <span
-            className="header-status__text"
+            className="header-status__text last-active__wrapper"
           >
             <span
               className="last-active__text"
@@ -2450,24 +2450,28 @@ exports[`components/ChannelHeader should render properly when custom status is s
                 }
               />
             </span>
-            <CustomStatusEmoji
-              emojiSize={16}
-              emojiStyle={
-                Object {
-                  "margin": "0 4px 1px",
-                  "verticalAlign": "top",
+            <div
+              className="custom-emoji__wrapper"
+            >
+              <CustomStatusEmoji
+                emojiSize={16}
+                emojiStyle={
+                  Object {
+                    "margin": "0 4px 1px",
+                    "verticalAlign": "top",
+                  }
                 }
-              }
-              showTooltip={true}
-              spanStyle={Object {}}
-              tooltipDirection="bottom"
-              userID="user_id"
-            />
-            <CustomStatusText
-              className=""
-              text="In a meeting"
-              tooltipDirection="bottom"
-            />
+                showTooltip={true}
+                spanStyle={Object {}}
+                tooltipDirection="bottom"
+                userID="user_id"
+              />
+              <CustomStatusText
+                className=""
+                text="In a meeting"
+                tooltipDirection="bottom"
+              />
+            </div>
           </span>
           <HeaderIconWrapper
             ariaLabel={true}

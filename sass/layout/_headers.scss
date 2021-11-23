@@ -484,13 +484,17 @@
         margin-right: 7px;
         line-height: 16px;
 
-        p {
-            margin: 0;
+        &.last-active__wrapper {
+            span.last-active__text {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
+            .custom-emoji__wrapper {
+                padding-left: 8px;
+            }
         }
 
-        span.last-active__text {
-            padding-right: 8px;
-            color: rgba(var(--center-channel-color-rgb), 0.72);
+        p {
+            margin: 0;
         }
     }
 

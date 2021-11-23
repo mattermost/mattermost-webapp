@@ -231,7 +231,7 @@ class ChannelHeader extends React.PureComponent {
         }
 
         return (
-            <>
+            <div className='custom-emoji__wrapper'>
                 <CustomStatusEmoji
                     userID={this.props.dmUser.id}
                     showTooltip={true}
@@ -244,7 +244,7 @@ class ChannelHeader extends React.PureComponent {
                 <CustomStatusText
                     text={customStatus.text}
                 />
-            </>
+            </div>
         );
     }
 
@@ -410,7 +410,7 @@ class ChannelHeader extends React.PureComponent {
             if (displayLastActiveLabel(channel.status, this.props.lastActivityTimestamp, this.props.dmUser.props?.show_last_active)) {
                 const timestampUnits = getLastActiveTimestampUnits(this.props.lastActivityTimestamp);
                 dmHeaderTextStatus = (
-                    <span className='header-status__text'>
+                    <span className='header-status__text last-active__wrapper'>
                         <span className='last-active__text'>
                             <FormattedMessage
                                 id='channel_header.lastActive'
