@@ -37,7 +37,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         this.handleFileInfoChanged(this.props.fileInfo);
 
         if (this.sourceRef.current) {
-            this.sourceRef.current.addEventListener('error', this.handleLoadeError, {once: true});
+            this.sourceRef.current.addEventListener('error', this.handleLoadError, {once: true});
         }
     }
 
@@ -47,7 +47,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         }
 
         if (this.sourceRef.current) {
-            this.sourceRef.current.addEventListener('error', this.handleLoadeError, {once: true});
+            this.sourceRef.current.addEventListener('error', this.handleLoadError, {once: true});
         }
     }
 
