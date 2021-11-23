@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import AbstractList from './abstract_list';
-import ChannelRow from './channel/list/channel_row';
+import GroupRow from './group/group_row';
 
 describe('admin_console/team_channel_settings/AbstractList', () => {
     const header = (
@@ -88,10 +88,12 @@ describe('admin_console/team_channel_settings/AbstractList', () => {
 
     const renderRow = jest.fn((item) => {
         return (
-            <ChannelRow
+            <GroupRow
                 key={item.id}
-                channel={item.display_name}
-                onRowClick={jest.fn()}
+                group={item}
+                removeGroup={jest.fn()}
+                setNewGroupRole={jest.fn()}
+                type='channel'
             />
         );
     });
