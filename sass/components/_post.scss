@@ -1412,18 +1412,11 @@
     .post__remove {
         position: relative;
         right: -10px;
-        display: inline-block;
-        width: 20px;
-        height: 20px;
         color: inherit;
-        float: right;
-        font-family: 'Open Sans', sans-serif;
         font-size: 20px;
         font-weight: 600;
         line-height: 20px;
         opacity: 0.5;
-        text-decoration: none;
-        vertical-align: top;
         visibility: hidden;
 
         &:hover {

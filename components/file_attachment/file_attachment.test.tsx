@@ -120,18 +120,6 @@ describe('FileAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, file with long name', () => {
-        const fileInfo = {
-            ...baseFileInfo,
-            extension: 'pdf',
-            name: 'a-quite-long-filename-to-test-the-filename-shortener.pdf',
-
-        };
-        const props = {...baseProps, fileInfo};
-        const wrapper = shallow(<FileAttachment {...props}/>);
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should match snapshot, when file is not loaded', () => {
         const wrapper = shallow(<FileAttachment {...baseProps}/>);
         wrapper.setState({loaded: false});
