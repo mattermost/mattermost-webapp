@@ -16,6 +16,7 @@ import {
     isGitHubCodeBlock,
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
+import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 
 import DeletePostModal from 'components/delete_post_modal';
@@ -394,6 +395,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         id: 'emoji_picker.emojiPicker',
         defaultMessage: 'Emoji Picker',
     }).toLowerCase();
+
     if (rest.config.EnableEmojiPicker === 'true' && !rest.shouldShowPreview) {
         emojiPicker = (
             <div>
@@ -420,6 +422,8 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             </div>
         );
     }
+
+    const ctrlSendKey = isMac() ? '⌘+' : 'CTRL+';
 
     return (
         <div
@@ -459,7 +463,10 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             <div className='post-body__helper-text'>
                 <FormattedMarkdownMessage
                     id='edit_post.helper_text'
-                    defaultMessage='**ENTER** to Save, **ESC** to Cancel'
+                    defaultMessage='**{key}ENTER** to Save, **ESC** to Cancel'
+                    values={{
+                        key: rest.ctrlSend ? ctrlSendKey : '',
+                    }}
                 />
             </div>
             {postError && (
