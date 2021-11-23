@@ -492,11 +492,11 @@
             }
 
             .post-image__type {
-                opacity: 0.6;
                 display: inline-block;
                 overflow: hidden;
                 max-width: 134px;
                 float: left;
+                opacity: 0.6;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
