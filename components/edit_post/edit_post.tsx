@@ -93,7 +93,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
     const [errorClass, setErrorClass] = useState<string>('');
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [renderScrollbar, setRenderScrollbar] = useState<boolean>(false);
-    const [scrollbarWidth, setScrollbarWidth] = useState<number>(0);
 
     const textboxRef = useRef<TextboxClass>(null);
     const emojiButtonRef = useRef<null>(null);
@@ -103,7 +102,12 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
     const scrollOptions: boolean|ScrollIntoViewOptions = isInternetExplorer() || isSafari() ? false : {behavior: 'smooth', block: 'end'};
 
     useEffect(() => textboxRef?.current?.focus(), []);
-    useEffect(() => document.getElementById(`post_${editingPost.postId}`)?.scrollIntoView?.(scrollOptions), []);
+    useEffect(() => {
+        const parentId = `${editingPost.isRHS ? 'rhsP' : 'p'}ost_${editingPost.postId}`;
+        const parentElement = document.getElementById(parentId);
+
+        parentElement?.scrollIntoView?.(scrollOptions);
+    }, []);
     useEffect(() => {
         const handlePaste = (e: ClipboardEvent) => {
             if (
@@ -198,7 +202,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         setErrorClass('');
         setShowEmojiPicker(false);
         setRenderScrollbar(false);
-        setScrollbarWidth(0);
     };
 
     const handleHide = (doRefocus = true) => {
@@ -323,12 +326,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditText(e.target.value);
 
-    const handleHeightChange = (height: number, maxHeight: number) => {
-        if (textboxRef.current) {
-            setRenderScrollbar(height > maxHeight);
-            setScrollbarWidth(Utils.scrollbarWidth(textboxRef.current.getInputBox()));
-        }
-    };
+    const handleHeightChange = (height: number, maxHeight: number) => setRenderScrollbar(height > maxHeight);
 
     const handlePostError = (_postError: React.ReactNode) => {
         if (_postError !== postError) {
@@ -432,12 +430,9 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
     return (
         <div
-            className={classNames('textarea-wrapper', {
+            className={classNames('post--editing__wrapper', {
                 scroll: renderScrollbar,
             })}
-            style={
-                renderScrollbar && scrollbarWidth ? ({'--detected-scrollbar-width': `${scrollbarWidth}px`} as React.CSSProperties) : undefined
-            }
         >
             <Textbox
                 tabIndex={0}
