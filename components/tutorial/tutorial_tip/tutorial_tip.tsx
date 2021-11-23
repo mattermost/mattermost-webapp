@@ -17,6 +17,7 @@ const OnBoardingTutorialStep = Constants.TutorialSteps;
 const TutorialSteps = {
     [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
+    [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
 };
 const TutorialAutoTourStatus = {
     [Preferences.CRT_TUTORIAL_STEP]: Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS,
@@ -383,7 +384,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                                     <button
                                         id='tipNextButton'
                                         className='tutorial-tip__btn tutorial-tip__confirm-btn'
-                                        onClick={this.handleNext}
+                                        onClick={() => this.handleNext()}
                                     >
                                         {this.getButtonText(this.props.tutorialCategory || Preferences.TUTORIAL_STEP)}
                                     </button>

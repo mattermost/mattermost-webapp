@@ -29,8 +29,8 @@ $tip-index: 1000;
         &__close {
             display: flex;
             overflow: hidden;
-            width: 1.8rem;
-            height: 1.8rem;
+            width: 3.2rem;
+            height: 3.2rem;
             align-items: center;
             justify-content: center;
             border: unset;
@@ -41,11 +41,11 @@ $tip-index: 1000;
             font-weight: 600;
 
             &:hover {
-                background: rgba(var(--button-bg-rgb), 0.04);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
             }
 
             &.active {
-                background: rgba(var(--button-bg-rgb), 0.04);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
             }
 
             i {
@@ -62,7 +62,7 @@ $tip-index: 1000;
     &__body {
         display: flex;
         flex-direction: column;
-        margin-top: 1.2rem;
+        margin-top: .6rem;
 
         p {
             margin: 0 0 0.8rem;
@@ -238,7 +238,7 @@ $tip-index: 1000;
     z-index: $tip-index;
     width: 32rem;
     max-width: 90%;
-    padding: 2.4rem;
+    padding: 1.8rem 2.4rem 2.4rem;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     background: var(--center-channel-bg);
     filter: drop-shadow(0 12px 32px rgba($black, 0.12));
@@ -301,6 +301,7 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--chat {
+        width: 40.8rem;
         margin-top: -7px;
         box-shadow: var(--elevation-2);
 
