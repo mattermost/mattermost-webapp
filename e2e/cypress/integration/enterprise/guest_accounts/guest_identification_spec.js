@@ -118,26 +118,26 @@ describe('Guest Accounts', () => {
 
         // # Open team menu, click Invite People, then invite guest
         cy.uiOpenTeamMenu('Invite People');
-        cy.findByTestId('inviteGuestLink').find('.arrow').click();
+        cy.findByTestId('inviteGuestLink').click();
 
         // # Type guest user e-mail address.
-        cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
+        cy.get('.users-emails-input__control').should('be.visible').within(() => {
             cy.get('input').type(guestEmail + '{enter}', {force: true});
-            cy.get('.users-emails-input__menu').
-                children().should('have.length', 1).
-                eq(0).should('contain', `Invite ${guestEmail} as a guest`).click();
         });
+        cy.get('.users-emails-input__menu').
+            children().should('have.length', 1).
+            eq(0).should('contain', `Invite ${guestEmail} as a guest`).click();
 
         // # Search and add to a Channel.
-        cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
+        cy.get('.channels-input__control').should('be.visible').within(() => {
             cy.get('input').type(testChannel.name, {force: true});
-            cy.get('.channels-input__menu').
-                children().should('have.length', 1).
-                eq(0).should('contain', testChannel.name).click();
         });
+        cy.get('.channels-input__menu').
+            children().should('have.length', 1).
+            eq(0).should('contain', testChannel.name).click();
 
         cy.get('#inviteGuestButton').scrollIntoView().click();
-        cy.get('#closeIcon').should('be.visible').click();
+        cy.findByTestId('confirm-done').should('be.visible').click();
 
         // # Get invitation link.
         cy.getRecentEmail({username, email: guestEmail}).then((data) => {

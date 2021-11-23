@@ -50,6 +50,7 @@ export default function InviteAs(props: Props) {
                             />
                         ),
                         value: InviteType.MEMBER,
+                        testId: 'inviteMembersLink',
                     },
                     {
                         key: (
@@ -68,6 +69,7 @@ export default function InviteAs(props: Props) {
                             </span>
                         ),
                         value: InviteType.GUEST,
+                        testId: 'inviteGuestLink',
                     },
                 ]}
             />
@@ -82,7 +84,10 @@ export default function InviteAs(props: Props) {
             />
         );
         control = (
-            <div className='InviteAs__toggle'>
+            <div
+                className='InviteAs__toggle'
+                id='inviteAsToggleControl'
+            >
                 <div className='InviteAs__toggleDescription'>
                     {props.inviteType === InviteType.GUEST &&
                     <>
@@ -103,6 +108,8 @@ export default function InviteAs(props: Props) {
                     onToggle={() => {
                         props.setInviteAs(props.inviteType === InviteType.GUEST ? InviteType.MEMBER : InviteType.GUEST);
                     }}
+                    id={props.inviteType === InviteType.GUEST ? 'inviteMembersLink' : 'inviteGuestLink'}
+                    overrideTestId={true}
                 />
             </div>
         );
