@@ -151,6 +151,7 @@
             &.user-groups-list {
                 margin-bottom: 16px;
                 max-height: 450px;
+                position: relative;
 
                 .group-row {
                     display: flex;
@@ -210,6 +211,12 @@
                     .group-action button.action-wrapper:hover {
                         background: rgba(var(--sys-center-channel-color-rgb), 0.08);
                     }
+                }
+
+                .loading-screen {
+                    position: fixed;
+                    bottom: 0;
+                    height: 60px;
                 }
             }
 

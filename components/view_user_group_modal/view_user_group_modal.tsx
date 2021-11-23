@@ -2,42 +2,34 @@
 // See LICENSE.txt for license information.
 
 import React, {createRef, RefObject} from 'react';
-import {Tooltip} from 'react-bootstrap';
 
 import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
 
-import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import FaSuccessIcon from 'components/widgets/icons/fa_success_icon';
 import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import {Group} from 'mattermost-redux/types/groups';
-import {browserHistory} from 'utils/browser_history';
 
 import './view_user_group_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {ModalData} from 'types/actions';
 import AddUsersToGroupModal from 'components/add_users_to_group_modal';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import OverlayTrigger from 'components/overlay_trigger';
 import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 const USERS_PER_PAGE = 60;
 
@@ -52,6 +44,7 @@ export type Props = {
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
         setModalSearchTerm: (term: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
+        searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     };
 }
 
@@ -64,11 +57,13 @@ type State = {
 
 export default class ViewUserGroupModal extends React.PureComponent<Props, State> {
     private divScrollRef: RefObject<HTMLDivElement>;
+    private searchTimeoutId: number
 
     constructor(props: Props) {
         super(props);
 
         this.divScrollRef = createRef();
+        this.searchTimeoutId = 0;
 
         this.state = {
             page: 0,
@@ -96,40 +91,33 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     }
 
     componentWillUnmount() {
-        // this.props.actions.setModalSearchTerm('');
+        this.props.actions.setModalSearchTerm('');
     }
 
     componentDidUpdate(prevProps: Props) {
-        // if (prevProps.searchTerm !== this.props.searchTerm) {
-        //     clearTimeout(this.searchTimeoutId);
-        //     const searchTerm = this.props.searchTerm;
+        if (prevProps.searchTerm !== this.props.searchTerm) {
+            clearTimeout(this.searchTimeoutId);
+            const searchTerm = this.props.searchTerm;
 
-        //     if (searchTerm === '') {
-        //         this.loadComplete();
-        //         this.searchTimeoutId = 0;
-        //         return;
-        //     }
+            if (searchTerm === '') {
+                this.loadComplete();
+                this.searchTimeoutId = 0;
+                return;
+            }
 
-        //     const searchTimeoutId = window.setTimeout(
-        //         async () => {
-        //             const {data} = await prevProps.actions.searchProfiles(searchTerm, {team_id: this.props.currentTeamId, in_channel_id: this.props.currentChannelId});
+            const searchTimeoutId = window.setTimeout(
+                async () => {
+                    await prevProps.actions.searchProfiles(searchTerm, {in_group_id: this.props.groupId})
 
-        //             if (searchTimeoutId !== this.searchTimeoutId) {
-        //                 return;
-        //             }
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
+            );
 
-        //             this.props.actions.loadStatusesForProfilesList(data);
-        //             this.props.actions.loadTeamMembersAndChannelMembersForProfilesList(data, this.props.currentTeamId, this.props.currentChannelId).then(({data: membersLoaded}) => {
-        //                 if (membersLoaded) {
-        //                     this.loadComplete();
-        //                 }
-        //             });
-        //         },
-        //         Constants.SEARCH_TIMEOUT_MILLISECONDS,
-        //     );
-
-        //     this.searchTimeoutId = searchTimeoutId;
-        // }
+            this.searchTimeoutId = searchTimeoutId;
+        }
     }
 
     startLoad = () => {
@@ -250,48 +238,63 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                     >
                         {group.display_name}
                     </Modal.Title>
-                    <a
-                        id='test'
-                        className='btn btn-md btn-primary'
-                        href='#'
-                        onClick={this.goToAddPeopleModal}
-                    >
-                        <FormattedMessage
-                            id='user_groups_modal.addPeople'
-                            defaultMessage='AddPeople'
-                        />
-                    </a>
-                    <div className='details-action'>
-                        <MenuWrapper
-                            isDisabled={false}
-                            stopPropagationOnToggle={false}
-                            id={`detailsCustomWrapper-${group.id}`}
+                    {
+                        group.source.toLowerCase() !== 'ldap' && 
+                        <a
+                            id='test'
+                            className='btn btn-md btn-primary'
+                            href='#'
+                            onClick={this.goToAddPeopleModal}
                         >
-                            <div className='text-right'>
-                                <button className='action-wrapper'>
-                                    <i className='icon icon-dots-vertical'/>
-                                </button>
-                            </div>
-                            <Menu
-                                openLeft={false}
-                                openUp={false}
-                                ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                            <FormattedMessage
+                                id='user_groups_modal.addPeople'
+                                defaultMessage='AddPeople'
+                            />
+                        </a>
+                    }
+                    {
+                        group.source.toLowerCase() !== 'ldap' && 
+                        <div className='details-action'>
+                            <MenuWrapper
+                                isDisabled={false}
+                                stopPropagationOnToggle={false}
+                                id={`detailsCustomWrapper-${group.id}`}
                             >
-                                <Menu.ItemAction
-                                    show={true}
-                                    onClick={() => {
-                                        this.goToEditGroupModal();
-                                    }}
-                                    text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
-                                    disabled={false}
-                                />
-                            </Menu>
-                        </MenuWrapper>
-                    </div>
+                                <div className='text-right'>
+                                    <button className='action-wrapper'>
+                                        <i className='icon icon-dots-vertical'/>
+                                    </button>
+                                </div>
+                                <Menu
+                                    openLeft={false}
+                                    openUp={false}
+                                    ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                                >
+                                    <Menu.ItemAction
+                                        show={true}
+                                        onClick={() => {
+                                            this.goToEditGroupModal();
+                                        }}
+                                        text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
+                                        disabled={false}
+                                    />
+                                </Menu>
+                            </MenuWrapper>
+                        </div>
+                    }
                 </Modal.Header>
                 <Modal.Body>
                     <div className='group-mention-name'>
-                        <p>{`@${group.name}`}</p>
+                        <span className='group-name'>{`@${group.name}`}</span>
+                        {
+                            group.source.toLowerCase() === 'ldap' && 
+                            <span className='group-source'>
+                                <FormattedMessage
+                                    id='view_user_group_modal.ldapSynced'
+                                    defaultMessage='AD/LDAP SYNCED'
+                                />
+                            </span>
+                        }
                     </div>
                     <div className='user-groups-search'>
                         <div className='user-groups-searchbar'>

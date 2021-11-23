@@ -5,7 +5,7 @@ import {General, Groups} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch} from 'mattermost-redux/types/groups';
+import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams} from 'mattermost-redux/types/groups';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -152,7 +152,7 @@ export function getGroup(id: string, includeMemberCount = false): ActionFunc {
     });
 }
 
-export function getGroups(filterAllowReference: false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
+export function getGroups(filterAllowReference: false, page = 0, perPage: number = 10, includeMemberCount = false): ActionFunc {
     return bindClientFunc({
         clientFunc: async (param1, param2, param3, param4) => {
             const result = await Client4.getGroups(param1, param2, param3, param4);
@@ -302,7 +302,7 @@ export function getGroupsByUserIdPaginated(userId: string, filterAllowReference:
             const result = await Client4.getGroups(param1, param2, param3, param4, param5);
             return result;
         },
-        onSuccess: [GroupTypes.RECEIVED_MY_GROUPS],
+        onSuccess: [GroupTypes.RECEIVED_MY_GROUPS, GroupTypes.RECEIVED_GROUPS],
         params: [
             filterAllowReference,
             page,
@@ -363,19 +363,24 @@ export function addUsersToGroup(groupId: string, userIds: string[]): ActionFunc 
     };
 }
 
-export function searchGroups(term: string, filterAllowReference = false, page = 0, perPage = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
-    return bindClientFunc({
-        clientFunc: async (term, filterAllowReference, page, perPage, includeMemberCount) => {
-            const result = await Client4.searchGroups(term, filterAllowReference, page, perPage, includeMemberCount);
-            return result;
-        },
-        onSuccess: [GroupTypes.RECEIVED_GROUPS],
-        params: [
-            term,
-            filterAllowReference,
-            page,
-            perPage,
-            includeMemberCount,
-        ],
-    });
+export function searchGroups(params: GroupSearachParams): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.searchGroups(params);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const dispatches: Action[] = [{type: GroupTypes.RECEIVED_GROUPS, data: data}];
+
+        if (params.user_id) {
+            dispatches.push({type: GroupTypes.RECEIVED_MY_GROUPS, data: data})
+        }
+        dispatch(batchActions(dispatches));
+
+        return {data: true};
+    };
 }

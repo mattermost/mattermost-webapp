@@ -27,7 +27,7 @@ export type Group = {
     name: string;
     display_name: string;
     description: string;
-    type: string;
+    source: string;
     remote_id: string;
     create_at: number;
     update_at: number;
@@ -138,4 +138,13 @@ export type GroupCreateWithUserIds = {
     source: string;
     user_ids: string[];
     description?: string;
+}
+
+export type GroupSearachParams = {
+    q: string; 
+    filter_allow_reference: boolean; 
+    page: number; 
+    per_page: number;
+    include_member_count: boolean;
+    user_id?: string;
 }

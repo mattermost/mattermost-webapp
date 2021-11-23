@@ -50,6 +50,7 @@ import {
     UsersWithGroupsAndCount,
     GroupsWithCount,
     GroupCreateWithUserIds,
+    GroupSearachParams,
 } from 'mattermost-redux/types/groups';
 import {PostActionResponse} from 'mattermost-redux/types/integration_actions';
 import {
@@ -3364,7 +3365,7 @@ export default class Client4 {
         );
     };
 
-    getGroups = (filterAllowReference = false, page = 0, perPage = PER_PAGE_DEFAULT, includeMemberCount = false, hasFilterMember = false) => {
+    getGroups = (filterAllowReference = false, page = 0, perPage = 10, includeMemberCount = false, hasFilterMember = false) => {
         const qs: any = {
             filter_allow_reference: filterAllowReference,
             page,
@@ -3426,17 +3427,9 @@ export default class Client4 {
         );
     }
 
-    searchGroups = (term: string, filterAllowReference = false, page = 0, perPage = PER_PAGE_DEFAULT, includeMemberCount = false) => {
-        const qs: any = {
-            filter_allow_reference: filterAllowReference,
-            page,
-            per_page: perPage,
-            include_member_count: includeMemberCount,
-            q: term,
-        };
-
+    searchGroups = (params: GroupSearachParams) => {
         return this.doFetch<Group[]>(
-            `${this.getGroupsRoute()}${buildQueryString(qs)}`,
+            `${this.getGroupsRoute()}${buildQueryString(params)}`,
             {method: 'get'},
         );
     }

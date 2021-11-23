@@ -9,16 +9,16 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getAllAssociatedGroupsForReference, getMyAllowReferencedGroups, searchAllowReferencedGroups} from 'mattermost-redux/selectors/entities/groups';
+import {getAllAssociatedGroupsForReference, getMyAllowReferencedGroups, searchAllowReferencedGroups, searchMyAllowReferencedGroups} from 'mattermost-redux/selectors/entities/groups';
 import {getGroups, getGroupsByUserIdPaginated, searchGroups} from 'mattermost-redux/actions/groups';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
 
-import UserGroupsModal, {Props} from './user_groups_modal';
+import UserGroupsModal from './user_groups_modal';
 
 type Actions = {
     getGroups: (
@@ -37,11 +37,7 @@ type Actions = {
     ) => Promise<{data: Group[]}>;
     openModal: <P>(modalData: ModalData<P>) => void;
     searchGroups: (
-        term: string,
-        filterAllowReference?: boolean,
-        page?: number,
-        perPage?: number,
-        includeMemberCount?: boolean
+        params: GroupSearachParams,
     ) => Promise<{data: Group[]}>;
 };
 
@@ -50,9 +46,8 @@ function mapStateToProps(state: GlobalState) {
 
     let groups; let myGroups: Group[] = [];
     if (searchTerm) {
-        // Do some redux search
         groups = searchAllowReferencedGroups(state, searchTerm);
-        myGroups = getMyAllowReferencedGroups(state);
+        myGroups = searchMyAllowReferencedGroups(state, searchTerm);
     } else {
         groups = getAllAssociatedGroupsForReference(state);
         myGroups = getMyAllowReferencedGroups(state);

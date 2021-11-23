@@ -3,7 +3,7 @@
 import {createSelector} from 'reselect';
 
 import {Group} from 'mattermost-redux/types/groups';
-import {filterGroupsMatchingTerm} from 'mattermost-redux/utils/group_utils';
+import {filterGroupsMatchingTerm, sortGroups} from 'mattermost-redux/utils/group_utils';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
@@ -11,6 +11,7 @@ import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {Dictionary, NameMappedObjects} from 'mattermost-redux/types/utilities';
+import { getCurrentUserLocale } from './i18n';
 
 const emptyList: any[] = [];
 const emptySyncables = {
@@ -187,8 +188,11 @@ export const getGroupsAssociatedToChannelForReference: (state: GlobalState, chan
 export const getAllAssociatedGroupsForReference: (state: GlobalState) => Group[] = createSelector(
     'getAllAssociatedGroupsForReference',
     getAllGroups,
-    (allGroups) => {
-        return Object.entries(allGroups).filter((entry) => (entry[1].allow_reference && entry[1].delete_at === 0)).map((entry) => entry[1]);
+    getCurrentUserLocale,
+    (allGroups, locale) => {
+        const groups =  Object.entries(allGroups).filter((entry) => (entry[1].allow_reference && entry[1].delete_at === 0)).map((entry) => entry[1]);
+
+        return sortGroups(groups, locale);
     },
 );
 
@@ -212,8 +216,11 @@ export const getAllGroupsForReferenceByName: (state: GlobalState) => NameMappedO
 export const getMyAllowReferencedGroups: (state: GlobalState) => Group[] = createSelector(
     'getMyAllowReferencedGroups',
     getMyGroups,
-    (myGroups) => {
-        return Object.values(myGroups).filter((group) => group.allow_reference && group.delete_at === 0);
+    getCurrentUserLocale,
+    (myGroups, locale) => {
+        const groups = Object.values(myGroups).filter((group) => group.allow_reference && group.delete_at === 0);
+
+        return sortGroups(groups, locale);
     },
 );
 
@@ -249,6 +256,15 @@ export const getMyGroupMentionKeysForChannel: (state: GlobalState, teamId: strin
 export const searchAllowReferencedGroups: (state: GlobalState, term: string) => Group[] = createSelector(
     'searchAllowReferencedGroups',
     getAllAssociatedGroupsForReference,
+    (state: GlobalState, term: string) => term,
+    (groups, term) => {
+        return filterGroupsMatchingTerm(groups, term);
+    },
+);
+
+export const searchMyAllowReferencedGroups: (state: GlobalState, term: string) => Group[] = createSelector(
+    'searchMyAllowReferencedGroups',
+    getMyAllowReferencedGroups,
     (state: GlobalState, term: string) => term,
     (groups, term) => {
         return filterGroupsMatchingTerm(groups, term);

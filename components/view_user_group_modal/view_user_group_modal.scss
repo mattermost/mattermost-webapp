@@ -42,12 +42,23 @@
             }
         }
         .modal-body {
-            .group-mention-name p {
-                margin-left: 70px;
-                font-size: 12px;
-                line-height: 12px;
-                color: rgba(var(--center-channel-color-rgb), 0.72);
+            .group-mention-name {
                 margin-bottom: 25px;
+
+                span.group-name {
+                    margin-left: 70px;
+                    font-size: 12px;
+                    line-height: 12px;
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                }
+                span.group-source span {
+                    background: rgba(var(--center-channel-color-rgb), 0.08);
+                    border-radius: 4px;
+                    font-size: 10px;
+                    line-height: 16px;
+                    padding: 0px 4px;
+                    margin-left: 8px;
+                }
             }
 
             .user-groups-search {
