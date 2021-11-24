@@ -19,9 +19,12 @@ import Timestamp, {Props as TimestampProps, supportsHourCycle} from './timestamp
 
 type Props = {
     userTimezone?: UserTimezone;
+    hour12?: TimestampProps['hour12'];
+    timeZone?: TimestampProps['timeZone'];
+    hourCycle?: TimestampProps['hourCycle'];
 }
 
-function mapStateToProps(state: GlobalState, {userTimezone}: Props) {
+export function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentUserId = getCurrentUserId(state);
 
     let timeZone: TimestampProps['timeZone'];
@@ -29,15 +32,15 @@ function mapStateToProps(state: GlobalState, {userTimezone}: Props) {
     let hour12: TimestampProps['hour12'];
 
     if (areTimezonesEnabledAndSupported(state)) {
-        timeZone = getUserCurrentTimezone(userTimezone ?? getUserTimezone(state, currentUserId)) ?? undefined;
+        timeZone = ownProps.timeZone || (getUserCurrentTimezone(ownProps.userTimezone ?? getUserTimezone(state, currentUserId)) ?? undefined);
     }
 
     const useMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
 
     if (supportsHourCycle) {
-        hourCycle = useMilitaryTime ? 'h23' : 'h12';
+        hourCycle = ownProps.hourCycle || (useMilitaryTime ? 'h23' : 'h12');
     } else {
-        hour12 = !useMilitaryTime;
+        hour12 = ownProps.hour12 || (!useMilitaryTime);
     }
 
     return {timeZone, hourCycle, hour12};
