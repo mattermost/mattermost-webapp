@@ -187,7 +187,7 @@ describe('AppsFormComponent', () => {
             const fields = [selectField];
             const props = {
                 ...baseProps,
-                call: {},
+                context: {},
                 form: {
                     fields,
                 },

@@ -5,18 +5,18 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppCall, AppField, AppForm, AppFormValues, AppCallRequest, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
+import {AppContext, AppField, AppForm, AppFormValues, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {DoAppSubmit, DoAppFetchForm, DoAppLookup, DoAppCallResult, PostEphemeralCallResponseForContext} from 'types/apps';
-import {makeCallErrorResponse} from 'utils/apps';
+import {createCallRequest, makeCallErrorResponse} from 'utils/apps';
 
 import AppsForm from './apps_form_component';
 
 type Props = {
     intl: IntlShape;
     form?: AppForm;
-    creq?: AppCallRequest;
+    context?: AppContext;
     onHide: () => void;
     actions: {
         doAppSubmit: DoAppSubmit<any>;
@@ -52,18 +52,16 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_form', defaultMessage: '`form` is not defined'});
             return {error: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
-
-        const creq = this.getCall(form.submit);
-        if (!creq) {
-            const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_call', defaultMessage: '`call` is not defined'});
+        if (!form.submit) {
+            const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_submit', defaultMessage: '`submit` is not defined'});
             return {error: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
+        if (!this.props.context) {
+            return {error: makeCallErrorResponse('unreachable: empty context')};
+        }
 
-        const res = await this.props.actions.doAppSubmit({
-            ...creq,
-            values: submission.values,
-        }, this.props.intl) as DoAppCallResult<FormResponseData>;
-
+        const creq = createCallRequest(form.submit, this.props.context, {}, submission.values);
+        const res = await this.props.actions.doAppSubmit(creq, this.props.intl) as DoAppCallResult<FormResponseData>;
         if (res.error) {
             return res;
         }
@@ -104,6 +102,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             },
             {details: message},
         );
+
         const {form} = this.state;
         if (!form) {
             return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
@@ -111,15 +110,12 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
                 defaultMessage: '`form` is not defined.',
             })))};
         }
-
-        const creq = this.getCall(form.source);
-        if (!creq) {
+        if (!form.source) {
             return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
-                id: 'apps.error.form.no_call',
-                defaultMessage: '`call` is not defined.',
+                id: 'apps.error.form.no_source',
+                defaultMessage: '`source` is not defined.',
             })))};
         }
-
         if (!field.refresh) {
             // Should never happen
             return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
@@ -127,13 +123,12 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
                 defaultMessage: 'Called refresh on no refresh field.',
             })))};
         }
+        if (!this.props.context) {
+            return {error: makeCallErrorResponse('unreachable: empty context')};
+        }
 
-        const res = await this.props.actions.doAppFetchForm({
-            ...creq,
-            selected_field: field.name,
-            values,
-        }, this.props.intl);
-
+        const creq = createCallRequest(form.source, this.props.context, {}, values);
+        const res = await this.props.actions.doAppFetchForm(creq, this.props.intl);
         if (res.error) {
             return res;
         }
@@ -173,36 +168,21 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             },
             {details: message},
         );
-        const call = this.getCall(field.lookup);
-        if (!call) {
+        if (!field.lookup) {
             return {error: makeCallErrorResponse(makeErrorMsg(intl.formatMessage({
-                id: 'apps.error.form.no_call',
-                defaultMessage: '`call` is not defined.',
+                id: 'apps.error.form.no_lookup',
+                defaultMessage: '`lookup` is not defined.',
             })))};
         }
-
-        return this.props.actions.doAppLookup({
-            ...call,
-            values,
-            selected_field: field.name,
-            query: userInput,
-        }, intl);
-    }
-
-    getCall = (call: AppCall | undefined): AppCallRequest | null => {
-        const {creq} = this.props;
-        if (!creq || !call) {
-            return null;
+        if (!this.props.context) {
+            return {error: makeCallErrorResponse('unreachable: empty context')};
         }
 
-        return {
-            ...creq,
-            ...call,
-            expand: {
-                ...creq.expand,
-                ...call.expand,
-            },
-        };
+        const creq = createCallRequest(field.lookup, this.props.context, {}, {
+            ...values,
+            query: userInput,
+        });
+        return this.props.actions.doAppLookup(creq, intl);
     }
 
     onHide = () => {
@@ -211,7 +191,8 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
 
     render() {
         const {form} = this.state;
-        if (!form || !this.getCall(form.submit)) {
+
+        if (!form || !form.submit || !this.props.context) {
             return null;
         }
 
