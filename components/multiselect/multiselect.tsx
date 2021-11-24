@@ -511,7 +511,9 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                         <button
                             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                 e.preventDefault();
-                                this.props.backButtonClick && this.props.backButtonClick();
+                                if (typeof this.props.backButtonClick === 'function') {
+                                    this.props.backButtonClick();
+                                }
                             }}
                             className={classNames('btn', this.props.backButtonClass)}
                         >

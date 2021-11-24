@@ -8,14 +8,12 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 
 import {GlobalState} from 'types/store';
 
-import {getCurrentUserId, getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
-import {getGroup, removeUsersFromGroup, searchGroups} from 'mattermost-redux/actions/groups';
-import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
+import {getGroup, removeUsersFromGroup} from 'mattermost-redux/actions/groups';
+import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
-import {ModalIdentifiers} from 'utils/constants';
-import {isModalOpen} from 'selectors/views/modals';
-import {closeModal, openModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getProfilesInGroup as getUsersInGroup, searchProfiles} from 'mattermost-redux/actions/users';
@@ -31,11 +29,11 @@ type Actions = {
     removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
 };
 
-type ownProps = {
+type OwnProps = {
     groupId: string;
 };
 
-function mapStateToProps(state: GlobalState, ownProps: ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const searchTerm = state.views.search.modalSearch;
 
     const group = getGroupById(state, ownProps.groupId);

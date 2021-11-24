@@ -14,19 +14,19 @@
 
             .modal-header {
                 display: flex;
+                min-height: 0;
                 align-items: center;
                 padding: 20px 24px;
                 border: none;
                 background: transparent;
                 color: inherit;
-                min-height: 0;
 
                 button.modal-header-back-button {
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
-                    float: left;
                     width: 3rem;
                     height: 3rem;
                     margin-right: 16px;
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                    float: left;
 
                     i {
                         display: inline;
@@ -36,11 +36,11 @@
 
                 a {
                     border: 1px solid var(--button-bg);
+                    margin: auto;
+                    margin-right: 42px;
                     background-color: var(--center-channel-bg);
                     border-radius: 4px;
                     color: var(--button-bg);
-                    margin: auto;
-                    margin-right: 42px;
                 }
 
                 .close {
@@ -52,8 +52,8 @@
 
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.1);
-                        fill: rgba(var(--center-channel-color-rgb), 0.72);
                         border-radius: 4px;
+                        fill: rgba(var(--center-channel-color-rgb), 0.72);
                     }
                 }
 
@@ -62,59 +62,59 @@
                     font-size: 22px;
                     line-height: 28px;
                 }
-
             }
         }
+
         .modal-body {
-            padding: 0px;
             max-height: 100%;
+            padding: 0;
         }
 
         .user-groups-search {
             height: 48px;
-            background: #ffffff;
+            margin: 0 23px 14px;
+            background: #fff;
             clear: both;
-            margin: 0px 23px 14px;
-    
+
             .user-groups-searchbar {
                 position: relative;
                 display: flex;
-                align-items: center;
                 width: 100%;
                 height: 48px;
                 box-sizing: border-box;
+                align-items: center;
                 border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
                 border-radius: 4px;
-    
+
                 input {
                     width: 100%;
                     border: 0;
                     margin-right: 16px;
                 }
-    
+
                 input:focus {
                     outline: none;
                 }
-    
+
                 .user-groups-search-icon {
-                    color: rgba(var(--center-channel-color-rgb), 0.64);
-                    pointer-events: none;
-                    font-size: 18px;
                     display: flex;
-                    justify-content: center;
                     flex-basis: 40px;
                     flex-grow: 0;
                     flex-shrink: 0;
-                }
-    
-                .user-groups-clear-button {
+                    justify-content: center;
                     color: rgba(var(--center-channel-color-rgb), 0.64);
+                    font-size: 18px;
+                    pointer-events: none;
+                }
+
+                .user-groups-clear-button {
                     display: flex;
+                    flex-basis: 40px;
+                    flex-grow: 0;
+                    flex-shrink: 0;
                     align-items: center;
                     justify-content: center;
-                    flex-basis: 40px;
-                    flex-grow: 0;
-                    flex-shrink: 0;
+                    color: rgba(var(--center-channel-color-rgb), 0.64);
                     font-size: 18px;
 
                     &:hover {
@@ -123,9 +123,10 @@
                 }
             }
         }
+
         .more-modal__dropdown {
-            padding: 0 30px 30px;
             width: 100%;
+            padding: 0 30px 30px;
             border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
             margin-bottom: 16px;
 
@@ -137,86 +138,87 @@
                 width: 100%;
 
                 i {
-                    color: var(--button-bg);
                     display: flex;
                     align-items: center;
                     margin-left: auto;
+                    color: var(--button-bg);
                 }
             }
-        }    
+        }
 
         .user-groups-modal__content {
             overflow: auto;
 
             &.user-groups-list {
-                margin-bottom: 16px;
-                max-height: 450px;
                 position: relative;
+                max-height: 450px;
+                margin-bottom: 16px;
 
                 .group-row {
                     display: flex;
                     align-items: center;
                     padding: 18px 32px;
-    
+
                     &:hover {
-                        cursor: pointer;
                         background: rgba(var(--center-channel-color-rgb), 0.1);
+                        cursor: pointer;
                     }
 
                     .group-display-name,
                     .group-name {
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        max-width: 200px;
                         display: block;
+                        overflow: hidden;
+                        max-width: 200px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
-    
+
                     .group-name {
-                        color: rgba(var(--center-channel-color-rgb), 0.64);
                         padding-left: 8px;
+                        color: rgba(var(--center-channel-color-rgb), 0.64);
                     }
-    
+
                     .group-member-count {
+                        margin-right: 8px;
+                        margin-left: auto;
                         color: rgba(var(--center-channel-color-rgb), 0.64);
                         font-size: 12px;
                         line-height: 16px;
-                        margin-left: auto;
-                        margin-right: 8px;
                     }
+
                     .group-action {
                         width: 24px;
-        
+
                         .MenuWrapper {
                             width: 24px;
                             margin-left: auto;
                         }
                     }
-        
+
                     .group-action button.action-wrapper {
-                        border: none;
                         display: flex;
                         width: 24px;
                         height: 24px;
                         flex-direction: column;
                         align-items: center;
                         padding: 6px;
+                        border: none;
                         margin-left: auto;
                         background: transparent;
                         border-radius: 4px;
                         color: rgba(var(--center-channel-color-rgb), 0.56);
                         text-decoration: none;
-    
+
                         i.icon {
                             font-size: 14px;
                             line-height: 14px;
                         }
                     }
-        
+
                     &:hover .group-action button.action-wrapper i {
                         display: flex;
                     }
-        
+
                     .group-action button.action-wrapper:hover {
                         background: rgba(var(--sys-center-channel-color-rgb), 0.08);
                     }
@@ -232,16 +234,19 @@
             .group-name-input-wrapper {
                 padding: 2px 24px 12px;
             }
+
             .group-mention-input-wrapper {
                 padding: 12px 24px 24px;
             }
+
             h2 {
-                font-size: 18px;
-                line-height: 24px;
-                font-weight: 600;
+                padding: 0 24px;
                 color: inherit;
-                padding: 0px 24px;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 24px;
             }
+
             .group-add-user {
                 .multi-select__footer {
                     padding-top: 8px;
@@ -253,18 +258,19 @@
                         font-size: 14px;
                         font-weight: 600;
                     }
+
                     button[disabled] {
                         color: rgba(var(--center-channel-color-rgb), 0.32);
                     }
+
                     button.multiselect-back {
+                        padding: 13px 20px;
+                        margin-right: 8px;
                         background: rgba(var(--button-bg-rgb), 0.08);
                         color: rgb(var(--button-bg-rgb));
                         line-height: 14px;
-                        padding: 13px 20px;
-                        margin-right: 8px;
                     }
                 }
-                
             }
         }
     }

@@ -73,13 +73,14 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
             return user.id;
         });
 
-        const data = await this.props.actions.addUsersToGroup(this.props.groupId, userIds);
+        await this.props.actions.addUsersToGroup(this.props.groupId, userIds);
 
-        if (data.error) {
+        // if (data.error) {
 
-        } else {
-            this.goToViewGroupModal();
-        }
+        // } else {
+        this.goToViewGroupModal();
+
+        // }
     }
 
     goToViewGroupModal = () => {

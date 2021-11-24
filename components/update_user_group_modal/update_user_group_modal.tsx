@@ -7,10 +7,6 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import classNames from 'classnames';
-
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import {ModalIdentifiers} from 'utils/constants';
 
 import * as Utils from 'utils/utils.jsx';
@@ -20,9 +16,7 @@ import 'components/user_groups_modal/user_groups_modal.scss';
 import './update_user_group_modal.scss';
 import {ModalData} from 'types/actions';
 import Input from 'components/input';
-import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import ViewUserGroupModal from 'components/view_user_group_modal';

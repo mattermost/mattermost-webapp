@@ -108,10 +108,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             const searchTimeoutId = window.setTimeout(
                 async () => {
                     await prevProps.actions.searchProfiles(searchTerm, {in_group_id: this.props.groupId});
-
-                    if (searchTimeoutId !== this.searchTimeoutId) {
-
-                    }
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );

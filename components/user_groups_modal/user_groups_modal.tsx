@@ -7,24 +7,16 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
-
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
 
-import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import FaSuccessIcon from 'components/widgets/icons/fa_success_icon';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
-import {browserHistory} from 'utils/browser_history';
 
 import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {ModalData} from 'types/actions';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import ViewUserGroupModal from 'components/view_user_group_modal';
@@ -100,7 +92,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             actions,
         } = this.props;
 
-        const data = await Promise.all([
+        await Promise.all([
             actions.getGroups(false, this.state.page, GROUPS_PER_PAGE, true),
             actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, this.state.myGroupsPage, GROUPS_PER_PAGE, true),
         ]);
@@ -136,10 +128,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                     } else {
                         params.user_id = this.props.currentUserId;
                         await prevProps.actions.searchGroups(params);
-                    }
-
-                    if (searchTimeoutId !== this.searchTimeoutId) {
-
                     }
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
@@ -326,7 +314,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                         this.setState({selectedFilter: 'all'});
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
-                                    rightDecorator={this.state.selectedFilter === 'all' ? <i className='icon icon-check'/> : ''}
+                                    rightDecorator={this.state.selectedFilter === 'all' && <i className='icon icon-check'/>}
                                 />
                                 <Menu.ItemAction
                                     id='groupsDropdownMy'
@@ -335,7 +323,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                         this.setState({selectedFilter: 'my'});
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
-                                    rightDecorator={this.state.selectedFilter !== 'all' ? <i className='icon icon-check'/> : ''}
+                                    rightDecorator={this.state.selectedFilter !== 'all' && <i className='icon icon-check'/>}
                                 />
                             </Menu>
                         </MenuWrapper>

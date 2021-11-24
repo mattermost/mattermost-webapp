@@ -2,13 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
@@ -71,7 +68,6 @@ type State = {
     show: boolean;
     saving: boolean;
     loadingUsers: boolean;
-    inviteError?: string;
 }
 
 export default class AddUserToGroupMultiSelect extends React.PureComponent<Props, State> {
@@ -132,7 +128,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         if (err) {
             this.setState({
                 saving: false,
-                inviteError: err.message,
             });
         }
     };
@@ -176,24 +171,9 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             this.props.onSubmitCallback(this.state.values);
             this.setState({
                 saving: false,
-                inviteError: undefined,
             });
             this.onHide();
         }
-
-        // this.setState({saving: true});
-
-        // actions.addUsersToChannel(channel.id, userIds).then((result: any) => {
-        //     if (result.error) {
-        //         this.handleInviteError(result.error);
-        //     } else {
-        //         this.setState({
-        //             saving: false,
-        //             inviteError: undefined,
-        //         });
-        //         this.onHide();
-        //     }
-        // });
     };
 
     public search = (searchTerm: string): void => {
@@ -212,8 +192,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
-        } else {
-
         }
     };
 
@@ -267,11 +245,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
     };
 
     public render = (): JSX.Element => {
-        let inviteError = null;
-        if (this.state.inviteError) {
-            inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
-        }
-
         const buttonSubmitText = this.props.buttonSubmitText || localizeMessage('multiselect.createGroup', 'Create Group');
         const buttonSubmitLoadingText = this.props.buttonSubmitLoadingText || localizeMessage('multiselect.creating', 'Creating...');
 

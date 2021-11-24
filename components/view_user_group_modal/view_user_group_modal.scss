@@ -1,8 +1,8 @@
 .modal {
     .view-user-groups-modal {
         .modal-content .modal-header {
-            padding-bottom: 8.5px;
             overflow: visible;
+            padding-bottom: 8.5px;
 
             a {
                 margin-right: 24px;
@@ -11,19 +11,19 @@
             .details-action {
                 width: 24px;
                 margin-right: 48px;
-        
+
                 .MenuWrapper {
                     width: 24px;
                     margin-left: auto;
                 }
 
                 button.action-wrapper {
-                    border: none;
                     display: flex;
                     width: 24px;
                     height: 24px;
                     flex-direction: column;
                     align-items: center;
+                    border: none;
                     margin-left: auto;
                     background: transparent;
                     border-radius: 4px;
@@ -35,73 +35,77 @@
                         line-height: 24px;
                     }
                 }
-    
+
                 &:hover button.action-wrapper i {
                     display: flex;
                 }
             }
         }
+
         .modal-body {
             .group-mention-name {
                 margin-bottom: 25px;
 
                 span.group-name {
                     margin-left: 70px;
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
                     font-size: 12px;
                     line-height: 12px;
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
                 }
+
                 span.group-source span {
+                    padding: 0 4px;
+                    margin-left: 8px;
                     background: rgba(var(--center-channel-color-rgb), 0.08);
                     border-radius: 4px;
                     font-size: 10px;
                     line-height: 16px;
-                    padding: 0px 4px;
-                    margin-left: 8px;
                 }
             }
 
             .user-groups-search {
                 margin-bottom: 16px;
             }
-    
+
             .user-groups-modal__content {
                 &.group-member-list {
+                    max-height: 450px;
                     border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                     margin-bottom: 16px;
-                    max-height: 450px;
-    
+
                     h2.group-member-count {
-                        font-size: 16px;
-                        line-height: 24px;
                         padding: 0 32px;
                         margin: 16px 0;
+                        font-size: 16px;
+                        line-height: 24px;
                     }
-    
+
                     .group-member-row {
                         display: flex;
                         align-items: center;
                         padding: 8px 32px;
-    
+
                         &:hover {
                             background: rgba(var(--center-channel-color-rgb), 0.1);
                         }
-    
+
                         .group-member-name {
-                            padding-left: 12px
+                            padding-left: 12px;
                         }
+
                         .group-member-username {
                             padding-left: 8px;
                             color: rgba(var(--center-channel-color-rgb), 0.64);
                             font-size: 12px;
                             line-height: 18px;
                         }
+
                         button.remove-group-member {
-                            font-size: inherit;
                             width: 2.4rem;
                             height: 2.4rem;
+                            margin-right: 0;
                             margin-left: auto;
-                            margin-right: 0px;
+                            font-size: inherit;
 
                             i {
                                 font-size: 14px;
