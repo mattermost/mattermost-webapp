@@ -18,14 +18,12 @@ const CRTUnreadTutorialTip = ({autoTour}: Props) => {
         />
     );
     const screen = (
-        <>
-            <p>
-                <FormattedMarkdownMessage
-                    id='tutorial_threads.unread.description'
-                    defaultMessage={'You can switch to **Unreads** to show only threads that are unread.'}
-                />
-            </p>
-        </>
+        <p>
+            <FormattedMarkdownMessage
+                id='tutorial_threads.unread.description'
+                defaultMessage={'You can switch to **Unreads** to show only threads that are unread.'}
+            />
+        </p>
     );
 
     return (

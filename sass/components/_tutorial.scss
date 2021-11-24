@@ -62,7 +62,7 @@ $tip-index: 1000;
     &__body {
         display: flex;
         flex-direction: column;
-        margin-top: .6rem;
+        margin-top: 0.6rem;
 
         p {
             margin: 0 0 0.8rem;
@@ -236,7 +236,7 @@ $tip-index: 1000;
 
     position: absolute;
     z-index: $tip-index;
-    width: 32rem;
+    width: 35.2rem;
     max-width: 90%;
     padding: 1.8rem 2.4rem 2.4rem;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -258,7 +258,7 @@ $tip-index: 1000;
     &.tip-overlay--sidebar {
         max-width: 75%;
         min-height: 360px;
-        margin: 54px 0 0 7px;
+        margin: 48px 0 0 6px;
 
         .tutorial__footer {
             position: absolute;
@@ -328,7 +328,7 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--threads-welcome {
-        margin: 85px 0 0 6px;
+        margin: 75px 0 0 6px;
 
         .arrow {
             top: 24px;
@@ -337,7 +337,7 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--threads-list {
-        margin: 99px 0 0 6px;
+        margin: 89px 0 0 6px;
 
         .arrow {
             top: 24px;
@@ -346,7 +346,7 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--threads-unread {
-        margin: 6px 0 0 126px;
+        margin: 6px 0 0 142px;
 
         .arrow {
             top: -10px;
@@ -450,8 +450,8 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--threads-list {
-        top: 6px;
-        right: 6px;
+        top: 58px;
+        right: -2px;
         padding: 0 8px 24px 24px;
         cursor: pointer;
     }

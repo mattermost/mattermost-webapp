@@ -7,7 +7,6 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'types/store';
 import {Action} from 'mattermost-redux/types/actions';
 
@@ -18,13 +17,11 @@ function mapStateToProps(state: GlobalState) {
 
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
-    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     return {
         currentUser: getCurrentUser(state),
         sendEmailNotifications,
         requireEmailVerification,
-        collapsedThreads,
     };
 }
 

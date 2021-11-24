@@ -10,6 +10,8 @@ import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
+import * as Utils from 'utils/utils';
+
 import TutorialTipBackdrop, {TutorialTipPunchout} from './tutorial_tip_backdrop';
 
 const Preferences = Constants.Preferences;
@@ -279,6 +281,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         this.autoShow(true);
+        document.addEventListener('keydown', this.handleKeyDown);
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -290,6 +293,13 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     public componentWillUnmount() {
         if (this.showPendingTimeout) {
             clearTimeout(this.showPendingTimeout);
+        }
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (e: KeyboardEvent): void => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            this.handleNext();
         }
     }
 
@@ -369,7 +379,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                             <div className='tutorial-tip__footer-buttons'>
                                 <div className='tutorial-tip__circles-ctr'>{dots}</div>
                                 <div className={'tutorial-tip__btn-ctr'}>
-                                    { (this.props.currentStep !== 0) &&
+                                    {(this.props.currentStep !== 0) &&
                                     <button
                                         id='tipPreviousButton'
                                         className='tutorial-tip__btn tutorial-tip__cancel-btn'

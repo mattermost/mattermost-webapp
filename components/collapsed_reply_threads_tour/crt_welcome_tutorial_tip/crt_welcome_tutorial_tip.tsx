@@ -27,14 +27,12 @@ const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
         />
     );
     const screen = (
-        <>
-            <p>
-                <FormattedMarkdownMessage
-                    id='tutorial_threads.welcome.description'
-                    defaultMessage={'All the conversations that you’re participating in or following will show here. If you have unread messages or mentions within your threads, you’ll see that here too.'}
-                />
-            </p>
-        </>
+        <p>
+            <FormattedMarkdownMessage
+                id='tutorial_threads.welcome.description'
+                defaultMessage={'All the conversations that you’re participating in or following will show here. If you have unread messages or mentions within your threads, you’ll see that here too.'}
+            />
+        </p>
     );
 
     return (

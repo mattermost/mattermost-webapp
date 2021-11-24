@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
-import {GlobalState} from 'types/store';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import crtBetaImg from 'images/crt-beta.gif';
@@ -19,12 +17,25 @@ import {Constants, ModalIdentifiers, Preferences} from 'utils/constants';
 import './collapsed_reply_threads_modal.scss';
 import NextIcon from '../../widgets/icons/fa_next_icon';
 import FormattedMarkdownMessage from '../../formatted_markdown_message';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import * as Utils from 'utils/utils';
 type Props = {
     onExited: () => void;
 }
 function CollapsedReplyThreadsModal(props: Props) {
     const dispatch = useDispatch();
-    const currentUserId = useSelector((state: GlobalState) => getCurrentUser(state)).id;
+    const currentUserId = useSelector(getCurrentUserId);
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            onNext();
+        }
+    }, []);
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     const onHide = useCallback((skipTour: boolean) => {
         dispatch(closeModal(ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL));
