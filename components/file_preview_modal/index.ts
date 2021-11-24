@@ -8,6 +8,8 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {Post} from 'mattermost-redux/types/posts';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
 import {GlobalState} from 'types/store';
 import {FilePreviewComponent} from 'types/store/plugins';
 
@@ -26,6 +28,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
         canDownloadFiles: canDownloadFiles(config),
         enablePublicLink: config.EnablePublicLink === 'true',
+        isMobileView: getIsMobileView(state),
         pluginFilePreviewComponents: state.plugins.components.FilePreview as unknown as FilePreviewComponent[],
         post: ownProps.post || getPost(state, ownProps.postId || ''),
     };

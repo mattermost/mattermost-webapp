@@ -15,7 +15,7 @@ import {LinkInfo} from '../types';
 import './file_preview_modal_header.scss';
 
 interface Props {
-    isMobile: boolean;
+    isMobileView: boolean;
     fileIndex: number;
     fileInfo: FileInfo | LinkInfo;
     totalFiles: number;
@@ -46,13 +46,13 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, .
     const actions = (
         <FilePreviewModalMainActions
             {...actionProps}
-            showOnlyClose={actionProps.isMobile}
+            showOnlyClose={actionProps.isMobileView}
             usedInside='Header'
         />);
     return (
         <div className='file-preview-modal-header'>
-            {actionProps.isMobile && actions}
-            {!actionProps.isMobile &&
+            {actionProps.isMobileView && actions}
+            {!actionProps.isMobileView &&
             <FilePreviewModalInfo
                 showFileName={true}
                 post={post}
@@ -60,7 +60,7 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, .
             />
             }
             {mainActions}
-            {!actionProps.isMobile && actions}
+            {!actionProps.isMobileView && actions}
         </div>
     );
 };

@@ -16,6 +16,7 @@ describe('components/FilePreviewModal', () => {
         startIndex: 0,
         canDownloadFiles: true,
         enablePublicLink: true,
+        isMobileView: false,
         post: TestHelper.getPostMock(),
         onExited: jest.fn(),
     };

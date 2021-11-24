@@ -37,6 +37,7 @@ type Props = {
      **/
     fileInfos: Array<FileInfo | LinkInfo>;
 
+    isMobileView: boolean;
     pluginFilePreviewComponents: FilePreviewComponent[];
     onExited: () => void;
 
@@ -59,7 +60,6 @@ type Props = {
 
 type State = {
     show: boolean;
-    isMobile: boolean;
     imageIndex: number;
     imageHeight: number | string;
     loaded: boolean[];
@@ -79,11 +79,9 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
 
     constructor(props: Props) {
         super(props);
-        const isMobile = Utils.isMobile();
 
         this.state = {
             show: true,
-            isMobile,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
@@ -119,25 +117,13 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         }
     }
 
-    handleWindowResize = () => {
-        const isMobile = Utils.isMobile();
-        if (isMobile !== this.state.isMobile) {
-            this.setState({
-                isMobile,
-            });
-        }
-    }
-
     componentDidMount() {
         document.addEventListener('keyup', this.handleKeyPress);
-
-        window.addEventListener('resize', this.handleWindowResize);
 
         this.showImage(this.props.startIndex);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.handleWindowResize);
         document.removeEventListener('keyup', this.handleKeyPress);
     }
 
@@ -406,7 +392,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                                 className='file-preview-modal__title'
                             >
                                 <FilePreviewModalHeader
-                                    isMobile={this.state.isMobile}
+                                    isMobileView={this.props.isMobileView}
                                     post={this.props.post}
                                     showPublicLink={showPublicLink}
                                     fileIndex={this.state.imageIndex}
@@ -429,7 +415,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                             >
                                 {content}
                             </div>
-                            { this.state.isMobile &&
+                            { this.props.isMobileView &&
                                 <FilePreviewModalFooter
                                     post={this.props.post}
                                     showPublicLink={showPublicLink}
