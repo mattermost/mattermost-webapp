@@ -1,36 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 import FileInfoPreview from 'components/file_info_preview';
 
-export default class AudioVideoPreview extends React.PureComponent {
-    static propTypes = {
+import Constants from 'utils/constants';
 
-        /**
-        * Compare file types
-        */
-        fileInfo: PropTypes.object.isRequired,
+type Props = {
+    fileInfo: FileInfo;
+    fileUrl: string;
+    isMobileView: boolean;
+}
 
-        /**
-        *  URL of pdf file to output and compare to update props url
-        */
-        fileUrl: PropTypes.string.isRequired,
-    }
+type State = {
+    canPlay: boolean;
+}
 
-    constructor(props) {
+export default class AudioVideoPreview extends React.PureComponent<Props, State> {
+    sourceRef = React.createRef<HTMLSourceElement>();
+    videoRef = React.createRef<HTMLVideoElement>();
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             canPlay: true,
         };
-        this.videoRef = React.createRef();
-        this.sourceRef = React.createRef();
     }
 
     componentDidMount() {
@@ -41,7 +39,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.fileUrl !== prevProps.fileUrl) {
             this.handleFileInfoChanged(this.props.fileInfo);
         }
@@ -51,7 +49,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         }
     }
 
-    handleFileInfoChanged = (fileInfo) => {
+    handleFileInfoChanged = (fileInfo: FileInfo) => {
         let video = this.videoRef.current;
         if (!video) {
             video = document.createElement('video');
@@ -90,7 +88,7 @@ export default class AudioVideoPreview extends React.PureComponent {
 
         let width = Constants.WEB_VIDEO_WIDTH;
         let height = Constants.WEB_VIDEO_HEIGHT;
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             width = Constants.MOBILE_VIDEO_WIDTH;
             height = Constants.MOBILE_VIDEO_HEIGHT;
         }
@@ -101,7 +99,7 @@ export default class AudioVideoPreview extends React.PureComponent {
                 key={this.props.fileInfo.id}
                 ref={this.videoRef}
                 data-setup='{}'
-                controls='controls'
+                controls={true}
                 width={width}
                 height={height}
             >
