@@ -76,11 +76,11 @@ describe('LDAP Group Sync - Test channel public/private toggle', () => {
             cy.get('#channel_manage').scrollIntoView().should('be.visible').within(() => {
                 cy.get('.line-switch').first().within(() => {
                     cy.findByText('Sync Group Members').should('be.visible');
-                    cy.get('#syncGroupSwitch').should('be.disabled');
+                    cy.findByTestId('syncGroupSwitch-button').should('be.disabled');
                 });
                 cy.get('.line-switch').last().within(() => {
                     cy.findByText('Public channel or private channel').should('be.visible');
-                    cy.get('#allow-all-toggle').should('be.disabled');
+                    cy.findByTestId('allow-all-toggle-button').should('be.disabled');
                 });
             });
         });
