@@ -13,6 +13,11 @@ export const CLOUD = 'Cloud';
 export const E20 = 'E20';
 export const TEAM = 'Team';
 
+export const FixedPublicLinks = {
+    TermsOfService: 'https://about.mattermost.com/default-terms/',
+    PrivacyPolicy: 'https://about.mattermost.com/default-privacy-policy/',
+};
+
 export const SupportSettings = {
     ABOUT_LINK,
     ASK_COMMUNITY_LINK,
