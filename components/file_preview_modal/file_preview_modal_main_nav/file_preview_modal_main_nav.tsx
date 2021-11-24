@@ -5,9 +5,9 @@ import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import './file_preview_modal_main_nav.scss';
-import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from '../../overlay_trigger';
+import Tooltip from '../../tooltip';
 import Constants from '../../../utils/constants';
 
 interface Props {

@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode, ComponentProps, useState, CSSProperties, useMemo} from 'react';
-import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 type Props = {
     id: string;

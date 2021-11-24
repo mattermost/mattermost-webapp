@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import * as Utils from 'utils/utils';
 

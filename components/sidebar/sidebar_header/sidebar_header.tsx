@@ -4,7 +4,6 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {Tooltip} from 'react-bootstrap';
 
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 import Heading from '@mattermost/compass-components/components/heading';
@@ -21,6 +20,7 @@ import Constants, {Preferences, TutorialSteps} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';

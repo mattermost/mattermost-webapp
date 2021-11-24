@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
@@ -11,6 +10,7 @@ import {getSiteURL} from 'utils/url';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import Menu from 'components/widgets/menu/menu';
 import Badge from 'components/widgets/badges/badge';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

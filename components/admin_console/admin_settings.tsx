@@ -2,12 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 
 import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button';
+import Tooltip from 'components/tooltip';
 import FormError from 'components/form_error';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header';

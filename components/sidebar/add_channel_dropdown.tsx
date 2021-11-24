@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -10,6 +9,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 

@@ -3,9 +3,9 @@
 
 import React from 'react';
 import {injectIntl, FormattedMessage, IntlShape} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import {Constants} from 'utils/constants';
 
 type Category = {

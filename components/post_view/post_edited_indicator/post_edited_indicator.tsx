@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {getDateForTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {isSameDay, isWithinLastWeek, isYesterday} from 'utils/datetime';
 import OverlayTrigger from '../../overlay_trigger';
+import Tooltip from '../../tooltip';
 
 import {Props} from './index';
 

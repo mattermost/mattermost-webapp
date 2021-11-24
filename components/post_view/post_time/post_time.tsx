@@ -4,13 +4,12 @@
 import React, {ComponentProps} from 'react';
 import {Link} from 'react-router-dom';
 
-import {Tooltip} from 'react-bootstrap';
-
 import * as GlobalActions from 'actions/global_actions';
 import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 

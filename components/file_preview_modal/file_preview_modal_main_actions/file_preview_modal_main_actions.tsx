@@ -3,11 +3,10 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {FormattedMessage} from 'react-intl';
 
 import OverlayTrigger from '../../overlay_trigger';
+import Tooltip from '../../tooltip';
 import Constants from '../../../utils/constants';
 
 import './file_preview_modal_main_actions.scss';

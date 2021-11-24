@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useState} from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import {isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';

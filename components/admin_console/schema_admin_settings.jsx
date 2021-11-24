@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import * as I18n from 'i18n/i18n.jsx';
@@ -28,6 +28,7 @@ import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx'
 import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
+import Tooltip from 'components/tooltip';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
