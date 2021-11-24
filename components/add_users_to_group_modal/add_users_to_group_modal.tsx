@@ -11,7 +11,6 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-
 import * as Utils from 'utils/utils.jsx';
 import {Group} from 'mattermost-redux/types/groups';
 

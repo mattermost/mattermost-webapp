@@ -141,9 +141,9 @@ export type GroupCreateWithUserIds = {
 }
 
 export type GroupSearachParams = {
-    q: string; 
-    filter_allow_reference: boolean; 
-    page: number; 
+    q: string;
+    filter_allow_reference: boolean;
+    page: number;
     per_page: number;
     include_member_count: boolean;
     user_id?: string;

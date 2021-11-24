@@ -152,7 +152,7 @@ export function getGroup(id: string, includeMemberCount = false): ActionFunc {
     });
 }
 
-export function getGroups(filterAllowReference: false, page = 0, perPage: number = 10, includeMemberCount = false): ActionFunc {
+export function getGroups(filterAllowReference: false, page = 0, perPage = 10, includeMemberCount = false): ActionFunc {
     return bindClientFunc({
         clientFunc: async (param1, param2, param3, param4) => {
             const result = await Client4.getGroups(param1, param2, param3, param4);
@@ -396,10 +396,10 @@ export function searchGroups(params: GroupSearachParams): ActionFunc {
             return {error};
         }
 
-        const dispatches: Action[] = [{type: GroupTypes.RECEIVED_GROUPS, data: data}];
+        const dispatches: Action[] = [{type: GroupTypes.RECEIVED_GROUPS, data}];
 
         if (params.user_id) {
-            dispatches.push({type: GroupTypes.RECEIVED_MY_GROUPS, data: data})
+            dispatches.push({type: GroupTypes.RECEIVED_MY_GROUPS, data});
         }
         dispatch(batchActions(dispatches));
 

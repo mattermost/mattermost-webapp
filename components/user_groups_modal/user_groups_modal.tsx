@@ -129,8 +129,8 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         filter_allow_reference: false,
                         page: this.state.page,
                         per_page: GROUPS_PER_PAGE,
-                        include_member_count: true
-                    }
+                        include_member_count: true,
+                    };
                     if (this.state.selectedFilter === 'all') {
                         await prevProps.actions.searchGroups(params);
                     } else {
@@ -139,7 +139,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                     }
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
-                        return;
+
                     }
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
@@ -204,7 +204,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
             const data = await actions.getGroups(false, newPage, GROUPS_PER_PAGE, true);
             if (data.data.length === 0) {
-                this.setState({allGroupsFull: true})
+                this.setState({allGroupsFull: true});
             }
             this.loadComplete();
         },
@@ -222,7 +222,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
             const data = await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, newPage, GROUPS_PER_PAGE, true);
             if (data.data.length === 0) {
-                this.setState({myGroupsFull: true})
+                this.setState({myGroupsFull: true});
             }
             this.loadComplete();
         },

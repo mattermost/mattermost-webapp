@@ -11,7 +11,8 @@ import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {Dictionary, NameMappedObjects} from 'mattermost-redux/types/utilities';
-import { getCurrentUserLocale } from './i18n';
+
+import {getCurrentUserLocale} from './i18n';
 
 const emptyList: any[] = [];
 const emptySyncables = {
@@ -190,7 +191,7 @@ export const getAllAssociatedGroupsForReference: (state: GlobalState) => Group[]
     getAllGroups,
     getCurrentUserLocale,
     (allGroups, locale) => {
-        const groups =  Object.entries(allGroups).filter((entry) => (entry[1].allow_reference && entry[1].delete_at === 0)).map((entry) => entry[1]);
+        const groups = Object.entries(allGroups).filter((entry) => (entry[1].allow_reference && entry[1].delete_at === 0)).map((entry) => entry[1]);
 
         return sortGroups(groups, locale);
     },

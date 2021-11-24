@@ -42,7 +42,7 @@ function mapStateToProps(state: GlobalState, ownProps: ownProps) {
 
     let users: UserProfile[] = [];
     if (searchTerm) {
-        users = searchProfilesInGroup(state, ownProps.groupId, searchTerm)
+        users = searchProfilesInGroup(state, ownProps.groupId, searchTerm);
     } else {
         users = getProfilesInGroup(state, ownProps.groupId);
     }

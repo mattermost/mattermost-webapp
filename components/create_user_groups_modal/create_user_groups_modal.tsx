@@ -103,7 +103,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         if (mention.substring(0, 1) === '@') {
             mention = mention.substring(1, mention.length);
         }
-        
+
         const mentionRegEx = new RegExp(/[^A-Za-z0-9@]/g);
         if (mentionRegEx.test(mention)) {
             this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.')});
@@ -128,12 +128,10 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             } else {
                 this.setState({showUnknownError: true});
             }
+        } else if (this.props.showBackButton) {
+            this.goToGroupsModal();
         } else {
-            if (this.props.showBackButton) {
-                this.goToGroupsModal();
-            } else {
-                this.doHide();
-            }
+            this.doHide();
         }
     }
 
@@ -233,9 +231,9 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                 />
                             </div>
                             {
-                                this.state.showUnknownError && 
-                                <div className="Input___error group-error">
-                                    <i className="icon icon-alert-outline" />
+                                this.state.showUnknownError &&
+                                <div className='Input___error group-error'>
+                                    <i className='icon icon-alert-outline'/>
                                     <FormattedMessage
                                         id='user_groups_modal.unknownError'
                                         defaultMessage='An unknown error has occurred.'

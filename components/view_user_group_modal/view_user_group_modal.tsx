@@ -7,7 +7,6 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -108,10 +107,10 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchProfiles(searchTerm, {in_group_id: this.props.groupId})
+                    await prevProps.actions.searchProfiles(searchTerm, {in_group_id: this.props.groupId});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
-                        return;
+
                     }
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
@@ -209,7 +208,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     removeUserFromGroup = async (userId: string) => {
         const {groupId, actions} = this.props;
 
-        await actions.removeUsersFromGroup(groupId, [userId])
+        await actions.removeUsersFromGroup(groupId, [userId]);
     }
 
     render() {
@@ -245,7 +244,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         {group.display_name}
                     </Modal.Title>
                     {
-                        group.source.toLowerCase() !== 'ldap' && 
+                        group.source.toLowerCase() !== 'ldap' &&
                         <a
                             id='test'
                             className='btn btn-md btn-primary'
@@ -259,7 +258,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         </a>
                     }
                     {
-                        group.source.toLowerCase() !== 'ldap' && 
+                        group.source.toLowerCase() !== 'ldap' &&
                         <div className='details-action'>
                             <MenuWrapper
                                 isDisabled={false}
@@ -293,7 +292,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                     <div className='group-mention-name'>
                         <span className='group-name'>{`@${group.name}`}</span>
                         {
-                            group.source.toLowerCase() === 'ldap' && 
+                            group.source.toLowerCase() === 'ldap' &&
                             <span className='group-source'>
                                 <FormattedMessage
                                     id='view_user_group_modal.ldapSynced'
@@ -360,7 +359,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                         {`@${user.username}`}
                                     </div>
                                     {
-                                        group.source.toLowerCase() !== 'ldap' && 
+                                        group.source.toLowerCase() !== 'ldap' &&
                                         <button
                                             type='button'
                                             className='remove-group-member btn-icon'

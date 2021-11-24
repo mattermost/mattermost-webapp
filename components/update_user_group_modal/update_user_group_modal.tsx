@@ -83,7 +83,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
     updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         this.setState({mention: value, hasUpdated: true});
-    }  
+    }
 
     goToGroupModal = () => {
         const {actions, groupId} = this.props;
@@ -180,9 +180,9 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                             </div>
                             <div className='update-buttons-wrapper'>
                                 {
-                                    this.state.showUnknownError && 
-                                    <div className="Input___error group-error">
-                                        <i className="icon icon-alert-outline" />
+                                    this.state.showUnknownError &&
+                                    <div className='Input___error group-error'>
+                                        <i className='icon icon-alert-outline'/>
                                         <FormattedMessage
                                             id='user_groups_modal.unknownError'
                                             defaultMessage='An unknown error has occurred.'
