@@ -106,8 +106,6 @@
     "ClientRequirements": {
         "AndroidLatestVersion": "",
         "AndroidMinVersion": "",
-        "DesktopLatestVersion": "",
-        "DesktopMinVersion": "",
         "IosLatestVersion": "",
         "IosMinVersion": ""
     },
@@ -170,7 +168,7 @@
         "EnableFileAttachments": true,
         "EnableMobileUpload": true,
         "EnableMobileDownload": true,
-        "MaxFileSize": 52428800,
+        "MaxFileSize": 104857600,
         "DriverName": "local",
         "Directory": "./data/",
         "EnablePublicLink": false,

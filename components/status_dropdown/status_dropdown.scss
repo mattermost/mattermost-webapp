@@ -51,6 +51,15 @@
             background-color: unset;
         }
     }
+
+    #dndTime-tomorrow .dndTime-tomorrow_timestamp {
+        &::before {
+            content: "\00a0";
+        }
+
+        margin-left: auto;
+        opacity: 0.7;
+    }
 }
 
 button.custom_status__row {
@@ -200,6 +209,10 @@ button.custom_status__row {
     .MenuItem > button,
     #status-menu-dnd {
         padding: 1px 16px;
+
+        .flex {
+            display: flex;
+        }
 
         .MenuItem__primary-text,
         .grid {
