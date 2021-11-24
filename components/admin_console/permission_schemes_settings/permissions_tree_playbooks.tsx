@@ -6,10 +6,12 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {Role} from 'mattermost-redux/types/roles';
+
 import PermissionGroup from './permission_group';
 
 interface Props {
-    role: Record<string, string>;
+    role: Partial<Role>;
     parentRole: any;
     scope: string;
     selectRow: any;
@@ -46,7 +48,7 @@ const PermissionsTreePlaybooks = (props: Props) => {
         if (props.readOnly) {
             return;
         }
-        props.onToggle(props.role.name, ids);
+        props.onToggle(props.role.name || '', ids);
     };
 
     return (

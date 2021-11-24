@@ -230,6 +230,11 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                 roles.channel_user.permissions?.push(permission);
             }
         }
+        for (const permission of this.props.roles.playbook_member.permissions) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
+                roles.playbook_member.permissions?.push(permission);
+            }
+        }
         return roles;
     }
 
@@ -447,7 +452,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                                 scope={'playbook_scope'}
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
-                                readOnly={this.props.isDisabled}
+                                readOnly={this.props.isDisabled || false}
                             />
                         </AdminPanelTogglable>
 
