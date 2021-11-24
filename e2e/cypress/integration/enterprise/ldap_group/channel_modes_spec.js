@@ -73,10 +73,16 @@ describe('LDAP Group Sync - Test channel public/private toggle', () => {
         cy.getCurrentChannelId().then((id) => {
             cy.visit(`/admin_console/user_management/channels/${id}`);
             cy.get('#channel_profile').contains('Town Square');
-            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(0).should('have.class', 'false');
-            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(1).contains('Public');
-            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(0).should('have.class', 'disabled');
-            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(1).should('have.class', 'disabled');
+            cy.get('#channel_manage').scrollIntoView().should('be.visible').within(() => {
+                cy.get('.line-switch').first().within(() => {
+                    cy.findByText('Sync Group Members').should('be.visible');
+                    cy.get('#syncGroupSwitch').should('be.disabled');
+                });
+                cy.get('.line-switch').last().within(() => {
+                    cy.findByText('Public channel or private channel').should('be.visible');
+                    cy.get('#allow-all-toggle').should('be.disabled');
+                });
+            });
         });
     });
 });
