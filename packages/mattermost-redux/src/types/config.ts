@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments, AutoTourTreatments} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads, AutoTourTreatments} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -157,7 +157,6 @@ export type ClientConfig = {
     PasswordRequireNumber: string;
     PasswordRequireSymbol: string;
     PasswordRequireUppercase: string;
-    PrewrittenMessages: PrewrittenMessagesTreatments;
     PluginsEnabled: string;
     PostEditTimeLimit: string;
     PrivacyPolicyLink: string;
@@ -183,6 +182,7 @@ export type ClientConfig = {
     TeammateNameDisplay: string;
     TermsOfServiceLink: string;
     TimeBetweenUserTypingUpdatesMilliseconds: string;
+    UpgradedFromTE: string;
     Version: string;
     WebsocketPort: string;
     WebsocketSecurePort: string;

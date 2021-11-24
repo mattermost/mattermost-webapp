@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import FilePreviewModal from 'components/file_preview_modal/file_preview_modal';
@@ -11,31 +10,19 @@ import Constants from 'utils/constants';
 import {generateId} from 'utils/utils';
 
 describe('components/FilePreviewModal', () => {
-    const onModalDismissed = jest.fn();
     const baseProps = {
-        show: true,
         fileInfos: [{id: 'file_id', extension: 'jpg'}],
         startIndex: 0,
-        onModalDismissed,
         canDownloadFiles: true,
         enablePublicLink: true,
         post: {},
+        onExited: jest.fn(),
     };
 
-    test('should match snapshot, modal not shown', () => {
-        const show = false;
-        const props = {...baseProps, show};
-        const wrapper = shallow(<FilePreviewModal {...props}/>);
-
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(Modal).prop('show')).toBe(false);
-    });
-
-    test('should match snapshot, loading', () => {
+    test('should match snapshot', () => {
         const wrapper = shallow(<FilePreviewModal {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(Modal).prop('show')).toBe(true);
     });
 
     test('should match snapshot, loaded with image', () => {
@@ -144,36 +131,14 @@ describe('components/FilePreviewModal', () => {
         expect(wrapper.state('showCloseBtn')).toBe(false);
     });
 
-    test('should have called onModalDismissed', () => {
-        const newOnModalDismissed = jest.fn();
-        const props = {...baseProps, onModalDismissed: newOnModalDismissed};
-        const wrapper = shallow(<FilePreviewModal {...props}/>);
+    test('should handle on modal close', () => {
+        const wrapper = shallow(<FilePreviewModal {...baseProps}/>);
         wrapper.setState({
             loaded: [true],
-            showCloseBtn: true,
         });
+
         wrapper.instance().handleModalClose();
-
-        expect(newOnModalDismissed).toHaveBeenCalledTimes(1);
-    });
-
-    test('should match snapshot on onModalShown and onModalHidden', () => {
-        const fileInfos = [
-            {id: 'file_id_1', extension: 'gif'},
-            {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'},
-        ];
-        const props = {...baseProps, fileInfos};
-        const wrapper = shallow(<FilePreviewModal {...props}/>);
-        const nextProps = {
-            startIndex: 1,
-        };
-        wrapper.setState({loaded: [true]});
-
-        wrapper.instance().onModalHidden();
-        expect(wrapper).toMatchSnapshot();
-        wrapper.instance().onModalShown(nextProps);
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.state('show')).toBe(false);
     });
 
     test('should match snapshot for external file', () => {
@@ -252,9 +217,7 @@ describe('components/FilePreviewModal', () => {
             show: false,
         };
         const wrapper = shallow(<FilePreviewModal {...baseProps}/>);
-        expect(wrapper.find(Modal).prop('show')).toBe(true);
         wrapper.setProps(nextProps);
-        expect(wrapper.find(Modal).prop('show')).toBe(false);
 
         expect(wrapper.state('loaded').length).toBe(1);
         expect(wrapper.state('progress').length).toBe(1);

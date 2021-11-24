@@ -9,9 +9,9 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 
 import {
     AddChannelButtonTreatments,
-    PrewrittenMessagesTreatments,
     AutoTourTreatments,
     AddMembersToChanneltreatments,
+    InviteToTeamTreatments,
 } from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -212,14 +212,14 @@ export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButt
     return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
 }
 
-export function getPrewrittenMessagesTreatment(state: GlobalState): PrewrittenMessagesTreatments | undefined {
-    return getFeatureFlagValue(state, 'PrewrittenMessages') as PrewrittenMessagesTreatments | undefined;
-}
-
 export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | undefined {
     return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
 }
 
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
+}
+
+export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
+    return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
 }
