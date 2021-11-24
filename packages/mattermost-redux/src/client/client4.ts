@@ -968,6 +968,7 @@ export default class Client4 {
     };
 
     getStatus = (userId: string) => {
+        console.log('Fetching user status');
         return this.doFetch<UserStatus>(
             `${this.getUserRoute(userId)}/status`,
             {method: 'get'},

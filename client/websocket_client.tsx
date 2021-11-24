@@ -5,6 +5,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import store from 'stores/redux_store.jsx';
 import {SocketEvents} from 'utils/constants';
+import {dispatch} from 'jest-circus/build/state';
+import {getStatus} from 'mattermost-redux/actions/users';
+import {getCurrentUserId, getCurrentUserStatus} from 'mattermost-redux/selectors/entities/users';
 
 const MAX_WEBSOCKET_FAILS = 7;
 const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
@@ -75,6 +78,7 @@ export default class WebSocketClient {
         const reliableWebSockets = config.EnableReliableWebSockets === 'true';
 
         this.conn.onopen = () => {
+            console.log('this.conn.onopen called');
             // No need to reset sequence number here.
             if (!reliableWebSockets) {
                 this.serverSequence = 0;
@@ -84,12 +88,14 @@ export default class WebSocketClient {
                 this.sendMessage('authentication_challenge', {token});
             }
 
+            console.log(`this.connectFailCount: ${this.connectFailCount}`);
             if (this.connectFailCount > 0) {
                 console.log('websocket re-established connection'); //eslint-disable-line no-console
                 if (this.reconnectCallback) {
                     this.reconnectCallback();
                 }
             } else if (this.firstConnectCallback) {
+                console.log('calling firstConnectCallback');
                 this.firstConnectCallback();
             }
 

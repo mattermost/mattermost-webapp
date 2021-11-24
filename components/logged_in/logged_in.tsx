@@ -18,6 +18,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
+import {getStatus} from 'mattermost-redux/actions/users';
 
 const dispatch = store.dispatch;
 const getState = store.getState;

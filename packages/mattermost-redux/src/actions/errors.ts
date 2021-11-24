@@ -68,6 +68,7 @@ export function logError(error: ServerError, displayable = false): ActionFunc {
 }
 
 export function clearErrors(): ActionFunc {
+    console.log('B');
     return async (dispatch: DispatchFunc) => {
         dispatch({type: ErrorTypes.CLEAR_ERRORS, data: null});
 

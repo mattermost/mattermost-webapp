@@ -19,7 +19,7 @@ const state: GlobalState = {
         },
         users: {
             currentUserId: '',
-            currentUserStatus: {user_id: '', status: General.OFFLINE},
+            currentUserStatus: {user_id: '', status: ''},
             isManualStatus: {},
             mySessions: [],
             myAudits: [],

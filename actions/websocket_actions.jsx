@@ -61,7 +61,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
     checkForModifiedUsers,
     getMe,
-    getMissingProfilesByIds,
+    getMissingProfilesByIds, getStatus,
     getStatusesByIds,
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
@@ -270,6 +270,7 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 }
 
 function handleFirstConnect() {
+    console.log('handleFirstConnect');
     dispatch(batchActions([
         {
             type: GeneralTypes.WEBSOCKET_SUCCESS,
@@ -277,6 +278,7 @@ function handleFirstConnect() {
         },
         clearErrors(),
     ]));
+    dispatch(getStatus(getCurrentUserId(getState())))
 }
 
 function handleClose(failCount) {

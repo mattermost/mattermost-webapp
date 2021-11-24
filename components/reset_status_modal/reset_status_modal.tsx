@@ -12,6 +12,7 @@ import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {UserStatus} from 'mattermost-redux/types/users';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {dispatch} from 'jest-circus/build/state';
 
 t('modal.manual_status.auto_responder.message_');
 t('modal.manual_status.auto_responder.message_away');
@@ -103,17 +104,37 @@ export default class ResetStatusModal extends React.PureComponent<Props, State> 
     }
 
     public componentDidMount(): void {
-        this.props.actions.autoResetStatus().then(
-            (status: UserStatus) => {
-                const statusIsManual = status.manual;
-                const autoResetPrefNotSet = this.props.autoResetPref === '';
+        console.log(`currentUserStatus: ${this.props.currentUserStatus}`);
+        // this.props.actions.autoResetStatus().then(
+        //     (status: UserStatus) => {
+        //         const statusIsManual = status.manual;
+        //         const autoResetPrefNotSet = this.props.autoResetPref === '';
+        //
+        //         this.setState({
+        //             currentUserStatus: status, // Set in state until status refactor where we store 'manual' field in redux
+        //             show: Boolean(status.status === UserStatuses.OUT_OF_OFFICE || (statusIsManual && autoResetPrefNotSet)),
+        //         });
+        //     },
+        // );
+    }
 
-                this.setState({
-                    currentUserStatus: status, // Set in state until status refactor where we store 'manual' field in redux
-                    show: Boolean(status.status === UserStatuses.OUT_OF_OFFICE || (statusIsManual && autoResetPrefNotSet)),
-                });
-            },
-        );
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
+        console.log(`prev ${prevProps.currentUserStatus}, now: ${this.props.currentUserStatus}`);
+
+
+        if (prevProps.currentUserStatus === '' && this.props.currentUserStatus != '') {
+            this.props.actions.autoResetStatus().then(
+                (status: UserStatus) => {
+                    const statusIsManual = status.manual;
+                    const autoResetPrefNotSet = this.props.autoResetPref === '';
+
+                    this.setState({
+                        currentUserStatus: status, // Set in state until status refactor where we store 'manual' field in redux
+                        show: Boolean(status.status === UserStatuses.OUT_OF_OFFICE || (statusIsManual && autoResetPrefNotSet)),
+                    });
+                },
+            );
+        }
     }
 
     private hideModal = (): void => this.setState({show: false});

@@ -424,9 +424,12 @@ export function autocompleteUsers(username) {
 
 export function autoResetStatus() {
     return async (doDispatch, doGetState) => {
+        console.log('autoResetStatus called');
         const {currentUserId} = getState().entities.users;
         const userStatus = Selectors.getCurrentUserStatus(doGetState());
-        if (userStatus.status === UserStatuses.OUT_OF_OFFICE || !userStatus.manual) {
+        console.log('userStatus');
+        console.log(userStatus);
+        if (userStatus.status === UserStatuses.OUT_OF_OFFICE || !userStatus.manual || userStatus.status === '') {
             return userStatus;
         }
 
