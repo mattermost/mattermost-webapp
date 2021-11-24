@@ -111,6 +111,27 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       text="Integrations"
       to="//integrations"
     />
+    <MenuItemToggleModalRedux
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(UserGroupsModal)",
+          "type": [Function],
+        }
+      }
+      icon={
+        <Icon
+          glyph="information-outline"
+          size={16}
+        />
+      }
+      id="userGroups"
+      modalId="user_groups"
+      show={true}
+      text="User Groups"
+    />
     <Connect(TeamPermissionGate)
       permissions={
         Array [
@@ -288,6 +309,27 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       show={true}
       text="Integrations"
       to="//integrations"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(UserGroupsModal)",
+          "type": [Function],
+        }
+      }
+      icon={
+        <Icon
+          glyph="information-outline"
+          size={16}
+        />
+      }
+      id="userGroups"
+      modalId="user_groups"
+      show={true}
+      text="User Groups"
     />
     <Connect(TeamPermissionGate)
       permissions={
@@ -470,6 +512,27 @@ exports[`components/global/product_switcher_menu should show integrations should
       show={true}
       text="Integrations"
       to="//integrations"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(UserGroupsModal)",
+          "type": [Function],
+        }
+      }
+      icon={
+        <Icon
+          glyph="information-outline"
+          size={16}
+        />
+      }
+      id="userGroups"
+      modalId="user_groups"
+      show={true}
+      text="User Groups"
     />
     <Connect(TeamPermissionGate)
       permissions={

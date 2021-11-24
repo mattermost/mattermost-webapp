@@ -65,6 +65,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         ariaLabelRenderer={[Function]}
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        focusOnLoad={true}
         handleAdd={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
@@ -94,6 +95,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         placeholderText="Search for people"
         saveButtonPosition="bottom"
         saving={false}
+        savingEnabled={true}
         selectedItemRef={
           Object {
             "current": null,
@@ -225,6 +227,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         ariaLabelRenderer={[Function]}
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        focusOnLoad={true}
         handleAdd={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
@@ -254,6 +257,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         placeholderText="Search for people"
         saveButtonPosition="bottom"
         saving={false}
+        savingEnabled={true}
         selectedItemRef={
           Object {
             "current": null,

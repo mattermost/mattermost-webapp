@@ -78,6 +78,7 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
     <MultiSelect
       ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
+      focusOnLoad={true}
       handleAdd={[Function]}
       handleDelete={[Function]}
       handleInput={[Function]}
@@ -138,6 +139,7 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
       placeholderText="Search and add teams"
       saveButtonPosition="top"
       saving={false}
+      savingEnabled={true}
       selectedItemRef={
         Object {
           "current": null,
@@ -229,6 +231,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
     <MultiSelect
       ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
+      focusOnLoad={true}
       handleAdd={[Function]}
       handleDelete={[Function]}
       handleInput={[Function]}
@@ -308,6 +311,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       placeholderText="Search and add teams"
       saveButtonPosition="top"
       saving={false}
+      savingEnabled={true}
       selectedItemRef={
         Object {
           "current": null,
