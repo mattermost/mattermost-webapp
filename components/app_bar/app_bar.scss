@@ -104,3 +104,16 @@ $app-bar-plugin-component: '.fa, i, svg';
         padding-right: $channel-view-padding;
     }
 }
+
+.app-bar {
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+// This style is defined outside the .app-bar block above because it wasn't working work when defined there
+.app-bar::-webkit-scrollbar {
+    display: none;
+}
