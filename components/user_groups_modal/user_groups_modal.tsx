@@ -30,7 +30,7 @@ import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import ViewUserGroupModal from 'components/view_user_group_modal';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-const GROUPS_PER_PAGE = 10;
+const GROUPS_PER_PAGE = 60;
 
 export type Props = {
     onExited: () => void;
@@ -355,12 +355,12 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                         this.goToViewGroupModal(group);
                                     }}
                                 >
-                                    <div className='group-display-name'>
+                                    <span className='group-display-name'>
                                         {group.display_name}
-                                    </div>
-                                    <div className='group-name'>
+                                    </span>
+                                    <span className='group-name'>
                                         {'@'}{group.name}
-                                    </div>
+                                    </span>
                                     <div className='group-member-count'>
                                         <FormattedMessage
                                             id='user_groups_modal.memberCount'

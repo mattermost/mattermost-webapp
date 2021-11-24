@@ -3427,6 +3427,13 @@ export default class Client4 {
         );
     }
 
+    removeUsersFromGroup = (groupId: string, userIds: string[]) => {
+        return this.doFetch<UserProfile[]>(
+            `${this.getGroupRoute(groupId)}/members`,
+            {method: 'delete', body: JSON.stringify({user_ids: userIds})},
+        );
+    }
+
     searchGroups = (params: GroupSearachParams) => {
         return this.doFetch<Group[]>(
             `${this.getGroupsRoute()}${buildQueryString(params)}`,

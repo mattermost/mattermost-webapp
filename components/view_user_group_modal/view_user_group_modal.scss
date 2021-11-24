@@ -96,6 +96,18 @@
                             font-size: 12px;
                             line-height: 18px;
                         }
+                        button.remove-group-member {
+                            font-size: inherit;
+                            width: 2.4rem;
+                            height: 2.4rem;
+                            margin-left: auto;
+                            margin-right: 0px;
+
+                            i {
+                                font-size: 14px;
+                                line-height: 14px;
+                            }
+                        }
                     }
                 }
             }

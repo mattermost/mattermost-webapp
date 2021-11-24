@@ -46,6 +46,9 @@ type State = {
     name: string;
     mention: string;
     hasUpdated: boolean;
+    mentionInputErrorText: string;
+    nameInputErrorText: string;
+    showUnknownError: boolean;
 }
 
 export default class UpdateUserGroupModal extends React.PureComponent<Props, State> {
@@ -57,42 +60,30 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
             show: true,
             name: this.props.group.display_name,
             mention: this.props.group.name,
+            mentionInputErrorText: '',
+            nameInputErrorText: '',
             hasUpdated: false,
+            showUnknownError: false,
         };
     }
 
     doHide = () => {
         this.setState({show: false});
     }
+
     isSaveEnabled = () => {
-        return this.state.name.length > 0 && this.state.mention.length > 0 && this.state.hasUpdated;
+        return this.state.name.length > 0 && this.state.mention.length > 0 && this.state.hasUpdated && !this.state.saving;
     }
+
     updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        console.log('test');
         this.setState({name: value, hasUpdated: true});
     }
 
     updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        console.log('test');
         this.setState({mention: value, hasUpdated: true});
-    }
-
-    patchGroup = async () => {
-        this.setState({saving: true});
-        const group: CustomGroupPatch = {
-            name: this.state.mention,
-            display_name: this.state.name,
-        };
-        const data = await this.props.actions.patchGroup(this.props.groupId, group);
-
-        if (data.error) {
-
-        } else {
-            this.goToGroupModal();
-        }
-    }
+    }  
 
     goToGroupModal = () => {
         const {actions, groupId} = this.props;
@@ -106,6 +97,24 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
         });
 
         this.props.onExited();
+    }
+
+    patchGroup = async () => {
+        this.setState({saving: true, showUnknownError: false, mentionInputErrorText: ''});
+        const group: CustomGroupPatch = {
+            name: this.state.mention,
+            display_name: this.state.name,
+        };
+        const data = await this.props.actions.patchGroup(this.props.groupId, group);
+        if (data.error) {
+            if (data.error.server_error_id === 'app.group.save_not_unique.name_error') {
+                this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.')});
+            } else {
+                this.setState({showUnknownError: true});
+            }
+        } else {
+            this.goToGroupModal();
+        }
     }
 
     render() {
@@ -156,6 +165,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                                     value={this.state.name}
                                     data-testid='nameInput'
                                     autoFocus={true}
+                                    error={this.state.nameInputErrorText}
                                 />
                             </div>
                             <div className='group-mention-input-wrapper'>
@@ -165,9 +175,20 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                                     onChange={this.updateMentionState}
                                     value={this.state.mention}
                                     data-testid='nameInput'
+                                    error={this.state.mentionInputErrorText}
                                 />
                             </div>
                             <div className='update-buttons-wrapper'>
+                                {
+                                    this.state.showUnknownError && 
+                                    <div className="Input___error group-error">
+                                        <i className="icon icon-alert-outline" />
+                                        <FormattedMessage
+                                            id='user_groups_modal.unknownError'
+                                            defaultMessage='An unknown error has occurred.'
+                                        />
+                                    </div>
+                                }
                                 <button
                                     onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                         e.preventDefault();

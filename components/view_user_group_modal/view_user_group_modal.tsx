@@ -31,7 +31,7 @@ import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-const USERS_PER_PAGE = 60;
+const USERS_PER_PAGE = 10;
 
 export type Props = {
     onExited: () => void;
@@ -45,6 +45,7 @@ export type Props = {
         setModalSearchTerm: (term: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
         searchProfiles: (term: string, options: any) => Promise<ActionResult>;
+        removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
     };
 }
 
@@ -199,11 +200,16 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         const clientHeight = this.divScrollRef.current?.clientHeight || 0;
 
         if ((scrollTop + clientHeight + 30) >= scrollHeight) {
-            // TODO: Need to check against number of group users. Can do once field is added to request
-            if (this.props.users.length % USERS_PER_PAGE === 0 && this.state.loading === false) {
+            if (this.props.users.length !== this.props.group.member_count && this.state.loading === false) {
                 this.getGroupMembers();
             }
         }
+    }
+
+    removeUserFromGroup = async (userId: string) => {
+        const {groupId, actions} = this.props;
+
+        await actions.removeUsersFromGroup(groupId, [userId])
     }
 
     render() {
@@ -353,49 +359,22 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                     <div className='group-member-username'>
                                         {`@${user.username}`}
                                     </div>
-                                    {/* <div className='group-name'>
-                                        {'@'}{group.name}
-                                    </div>
-                                    <div className='group-member-count'>
-                                        <FormattedMessage
-                                            id='user_groups_modal.memberCount'
-                                            defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
-                                            values={{
-                                                member_count: group.member_count,
+                                    {
+                                        group.source.toLowerCase() !== 'ldap' && 
+                                        <button
+                                            type='button'
+                                            className='remove-group-member btn-icon'
+                                            aria-label='Close'
+                                            onClick={() => {
+                                                this.removeUserFromGroup(user.id);
                                             }}
-                                        />
-                                    </div>
-                                    <div className='group-action'>
-                                        <MenuWrapper
-                                            isDisabled={false}
-                                            stopPropagationOnToggle={true}
-                                            id={`customWrapper-${group.id}`}
                                         >
-                                            <div className='text-right'>
-                                                <button className='action-wrapper'>
-                                                    <i className='icon icon-dots-vertical'/>
-                                                </button>
-                                            </div>
-                                            <Menu
-                                                openLeft={true}
-                                                openUp={false}
-                                                ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
-                                            >
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
-                                                    disabled={false}
-                                                />
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
-                                                    disabled={false}
-                                                />
-                                            </Menu>
-                                        </MenuWrapper>
-                                    </div> */}
+                                            <LocalizedIcon
+                                                className='icon icon-trash-can-outline'
+                                                ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                                            />
+                                        </button>
+                                    }
                                 </div>
                             );
                         })}

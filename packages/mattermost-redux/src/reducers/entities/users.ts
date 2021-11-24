@@ -413,6 +413,21 @@ function profilesInGroup(state: RelationOneToMany<Group, UserProfile> = {}, acti
     case UserTypes.RECEIVED_PROFILES_LIST_IN_GROUP: {
         return profileListToSet(state, action);
     }
+    case UserTypes.RECEIVED_PROFILES_LIST_TO_REMOVE_FROM_GROUP: {
+        const id = action.id;
+        const nextSet = new Set(state[id]);
+        if (action.data) {
+            action.data.forEach((profile: any) => {
+                nextSet.delete(profile.user_id);
+            });
+
+            return {
+                ...state,
+                [id]: nextSet,
+            };
+        }
+        return state;
+    }
     default:
         return state;
     }

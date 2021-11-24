@@ -39,6 +39,10 @@ type State = {
     mention: string;
     savingEnabled: boolean;
     usersToAdd: UserProfile[];
+    mentionUpdatedManually: boolean;
+    mentionInputErrorText: string;
+    nameInputErrorText: string;
+    showUnknownError: boolean;
 }
 
 export default class CreateUserGroupsModal extends React.PureComponent<Props, State> {
@@ -51,6 +55,10 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             mention: '',
             savingEnabled: false,
             usersToAdd: [],
+            mentionUpdatedManually: false,
+            mentionInputErrorText: '',
+            nameInputErrorText: '',
+            showUnknownError: false,
         };
     }
 
@@ -62,12 +70,20 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
     }
     updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        this.setState({name: value});
+        let mention = this.state.mention;
+        if (!this.state.mentionUpdatedManually) {
+            mention = value.replace(/[^A-Za-z0-9@]/g, '-').toLowerCase();
+            if (mention.substring(0, 1) !== '@') {
+                mention = `@${mention}`;
+            }
+        }
+
+        this.setState({name: value, mention});
     }
 
     updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        this.setState({mention: value});
+        this.setState({mention: value, mentionUpdatedManually: true});
     }
 
     private addUserCallback = (usersToAdd: UserProfile[]): void => {
@@ -79,28 +95,45 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
     };
 
     createGroup = async (users?: UserProfile[]) => {
+        this.setState({showUnknownError: false, mentionInputErrorText: ''});
+        let mention = this.state.mention;
         if (!users || users.length === 0) {
             return;
         }
-        const userIds = users.map((user) => {
-            return user.id;
-        });
+        if (mention.substring(0, 1) === '@') {
+            mention = mention.substring(1, mention.length);
+        }
+        
+        const mentionRegEx = new RegExp(/[^A-Za-z0-9@]/g);
+        if (mentionRegEx.test(mention)) {
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.')});
+            return;
+        }
 
         const group = {
-            name: this.state.mention,
+            name: mention,
             display_name: this.state.name,
             allow_reference: true,
             source: 'custom',
-            user_ids: userIds,
+            user_ids: users.map((user) => {
+                return user.id;
+            }),
         };
+
         const data = await this.props.actions.createGroupWithUserIds(group);
 
         if (data.error) {
-
-        } else if (this.props.showBackButton) {
-            this.goToGroupsModal();
+            if (data.error.server_error_id === 'app.group.save_not_unique.name_error') {
+                this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.')});
+            } else {
+                this.setState({showUnknownError: true});
+            }
         } else {
-            this.doHide();
+            if (this.props.showBackButton) {
+                this.goToGroupsModal();
+            } else {
+                this.doHide();
+            }
         }
     }
 
@@ -166,7 +199,9 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                     onChange={this.updateNameState}
                                     value={this.state.name}
                                     data-testid='nameInput'
+                                    maxLength={64}
                                     autoFocus={true}
+                                    error={this.state.nameInputErrorText}
                                 />
                             </div>
                             <div className='group-mention-input-wrapper'>
@@ -175,7 +210,9 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                     placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
                                     onChange={this.updateMentionState}
                                     value={this.state.mention}
-                                    data-testid='nameInput'
+                                    maxLength={64}
+                                    data-testid='mentionInput'
+                                    error={this.state.mentionInputErrorText}
                                 />
                             </div>
                             <h2>
@@ -193,14 +230,18 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                     savingEnabled={this.isSaveEnabled()}
                                     addUserCallback={this.addUserCallback}
                                     deleteUserCallback={this.deleteUserCallback}
-
-                                    // groupId={'c75btzjxfpywp8adikr96q3iur'}
-                                    // searchOptions={{
-                                    //     not_in_group_id: 'c75btzjxfpywp8adikr96q3iur'
-                                    // }}
                                 />
                             </div>
-
+                            {
+                                this.state.showUnknownError && 
+                                <div className="Input___error group-error">
+                                    <i className="icon icon-alert-outline" />
+                                    <FormattedMessage
+                                        id='user_groups_modal.unknownError'
+                                        defaultMessage='An unknown error has occurred.'
+                                    />
+                                </div>
+                            }
                         </form>
 
                     </div>

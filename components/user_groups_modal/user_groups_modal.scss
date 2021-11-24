@@ -162,6 +162,15 @@
                         cursor: pointer;
                         background: rgba(var(--center-channel-color-rgb), 0.1);
                     }
+
+                    .group-display-name,
+                    .group-name {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 200px;
+                        display: block;
+                    }
     
                     .group-name {
                         color: rgba(var(--center-channel-color-rgb), 0.64);

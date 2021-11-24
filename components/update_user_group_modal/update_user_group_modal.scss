@@ -4,6 +4,13 @@
             .update-buttons-wrapper {
                 padding: 12px 24px 24px;
                 float: right;
+                display: flex;
+                align-items: center;
+
+                .Input___error {
+                    margin-top: 0;
+                    margin-right: 12px;
+                }
 
                 button {
                     height: 40px;

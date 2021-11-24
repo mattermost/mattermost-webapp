@@ -10,7 +10,7 @@ import {GlobalState} from 'types/store';
 
 import {getCurrentUserId, getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
-import {getGroup, searchGroups} from 'mattermost-redux/actions/groups';
+import {getGroup, removeUsersFromGroup, searchGroups} from 'mattermost-redux/actions/groups';
 import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
@@ -28,6 +28,7 @@ type Actions = {
     setModalSearchTerm: (term: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
+    removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
 };
 
 type ownProps = {
@@ -61,6 +62,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setModalSearchTerm,
             openModal,
             searchProfiles,
+            removeUsersFromGroup,
         }, dispatch),
     };
 }

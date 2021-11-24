@@ -58,50 +58,6 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
         return this.state.usersToAdd.length > 0;
     }
 
-    async componentDidMount() {
-    }
-
-    componentWillUnmount() {
-        // this.props.actions.setModalSearchTerm('');
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        // if (prevProps.searchTerm !== this.props.searchTerm) {
-        //     clearTimeout(this.searchTimeoutId);
-        //     const searchTerm = this.props.searchTerm;
-
-        //     if (searchTerm === '') {
-        //         this.loadComplete();
-        //         this.searchTimeoutId = 0;
-        //         return;
-        //     }
-
-        //     const searchTimeoutId = window.setTimeout(
-        //         async () => {
-        //             const {data} = await prevProps.actions.searchProfiles(searchTerm, {team_id: this.props.currentTeamId, in_channel_id: this.props.currentChannelId});
-
-        //             if (searchTimeoutId !== this.searchTimeoutId) {
-        //                 return;
-        //             }
-
-        //             this.props.actions.loadStatusesForProfilesList(data);
-        //             this.props.actions.loadTeamMembersAndChannelMembersForProfilesList(data, this.props.currentTeamId, this.props.currentChannelId).then(({data: membersLoaded}) => {
-        //                 if (membersLoaded) {
-        //                     this.loadComplete();
-        //                 }
-        //             });
-        //         },
-        //         Constants.SEARCH_TIMEOUT_MILLISECONDS,
-        //     );
-
-        //     this.searchTimeoutId = searchTimeoutId;
-        // }
-    }
-
-    searchUsers = () => {
-
-    }
-
     private addUserCallback = (usersToAdd: UserProfile[]): void => {
         this.setState({usersToAdd});
     };

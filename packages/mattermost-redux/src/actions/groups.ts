@@ -363,6 +363,28 @@ export function addUsersToGroup(groupId: string, userIds: string[]): ActionFunc 
     };
 }
 
+export function removeUsersFromGroup(groupId: string, userIds: string[]): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.removeUsersFromGroup(groupId, userIds);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST_TO_REMOVE_FROM_GROUP,
+                data,
+                id: groupId,
+            },
+        );
+
+        return {data};
+    };
+}
+
 export function searchGroups(params: GroupSearachParams): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data;
