@@ -79,9 +79,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           More Actions
         </Tooltip>
@@ -132,9 +130,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           Download
         </Tooltip>
@@ -248,9 +244,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           More Actions
         </Tooltip>
@@ -301,9 +295,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           Download
         </Tooltip>
@@ -417,9 +409,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           More Actions
         </Tooltip>
@@ -470,9 +460,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           Download
         </Tooltip>
@@ -583,9 +571,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           More Actions
         </Tooltip>
@@ -636,9 +622,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       delayShow={1000}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="file-name__tooltip"
-          placement="right"
         >
           Download
         </Tooltip>

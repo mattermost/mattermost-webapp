@@ -169,9 +169,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
       show={false}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>
@@ -408,9 +406,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
       show={false}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>
@@ -654,9 +650,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
       show={false}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>
@@ -894,9 +888,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
       show={false}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>
@@ -1133,9 +1125,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
       show={false}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>
@@ -1372,9 +1362,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
       show={false}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>

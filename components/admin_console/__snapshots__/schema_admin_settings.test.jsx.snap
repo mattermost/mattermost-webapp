@@ -717,9 +717,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       target={null}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>

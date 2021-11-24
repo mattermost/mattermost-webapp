@@ -54,9 +54,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -118,9 +116,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -182,9 +178,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -246,9 +240,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

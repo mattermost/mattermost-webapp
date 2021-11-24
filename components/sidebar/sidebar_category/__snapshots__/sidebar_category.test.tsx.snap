@@ -314,10 +314,8 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
       delayShow={500}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           className="hidden-xs"
           id="new-group-tooltip"
-          placement="right"
         >
           Create new direct message
           <Memo(KeyboardShortcutSequence)
@@ -444,10 +442,8 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
       delayShow={500}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           className="hidden-xs"
           id="new-group-tooltip"
-          placement="right"
         >
           Create new direct message
           <Memo(KeyboardShortcutSequence)

@@ -26,9 +26,7 @@ exports[`components/analytics/table_chart.tsx should match snapshot, loaded with
                 delayShow={400}
                 overlay={
                   <Tooltip
-                    bsClass="tooltip"
                     id="tip-table-entry-test1"
-                    placement="right"
                   >
                     test-tip1
                   </Tooltip>
@@ -61,9 +59,7 @@ exports[`components/analytics/table_chart.tsx should match snapshot, loaded with
                 delayShow={400}
                 overlay={
                   <Tooltip
-                    bsClass="tooltip"
                     id="tip-table-entry-test2"
-                    placement="right"
                   >
                     test-tip2
                   </Tooltip>

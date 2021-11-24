@@ -164,9 +164,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -435,9 +433,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -609,9 +605,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -880,9 +874,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

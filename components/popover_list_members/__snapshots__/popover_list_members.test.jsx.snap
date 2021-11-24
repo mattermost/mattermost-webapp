@@ -11,9 +11,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
     disabled={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="channelMembersTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
@@ -122,9 +120,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
     disabled={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="channelMembersTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
@@ -233,9 +229,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
     disabled={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="channelMembersTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"

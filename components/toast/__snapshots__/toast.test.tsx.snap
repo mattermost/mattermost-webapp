@@ -67,9 +67,7 @@ exports[`components/Toast should match snapshot for showing toast 1`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="toast-close__tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"
@@ -130,9 +128,7 @@ exports[`components/Toast should match snapshot for toast width less than 780px 
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="toast-close__tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"
@@ -193,9 +189,7 @@ exports[`components/Toast should match snapshot to have extraClasses 1`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="toast-close__tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"

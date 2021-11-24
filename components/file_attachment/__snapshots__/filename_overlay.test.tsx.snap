@@ -6,9 +6,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, compa
   delayShow={1000}
   overlay={
     <Tooltip
-      bsClass="tooltip"
       id="file-name__tooltip"
-      placement="right"
     >
       test_filename
     </Tooltip>
@@ -53,9 +51,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, stand
     delayShow={1000}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="file-name__tooltip"
-        placement="right"
       >
         Download
       </Tooltip>
@@ -90,9 +86,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, with 
     delayShow={1000}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="file-name__tooltip"
-        placement="right"
       >
         Download
       </Tooltip>

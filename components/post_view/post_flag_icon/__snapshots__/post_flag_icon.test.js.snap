@@ -8,10 +8,8 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
   key="flagtooltipkey"
   overlay={
     <Tooltip
-      bsClass="tooltip"
       className="hidden-xs"
       id="flagTooltip"
-      placement="right"
     >
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Save"
@@ -48,10 +46,8 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
   key="flagtooltipkeyflagged"
   overlay={
     <Tooltip
-      bsClass="tooltip"
       className="hidden-xs"
       id="flagTooltip"
-      placement="right"
     >
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove from Saved"

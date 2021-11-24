@@ -49,7 +49,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-1"
               placement="top"
@@ -72,7 +71,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-1"
                 intl={
@@ -191,7 +189,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-6"
               placement="top"
@@ -214,7 +211,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-6"
                 intl={
@@ -333,7 +329,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-7"
               placement="top"
@@ -356,7 +351,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-7"
                 intl={
@@ -457,7 +451,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
         onEntered={[Function]}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className="hidden-xs"
             id="names-overflow"
             placement="top"
@@ -480,7 +473,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           onEntered={[Function]}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className="hidden-xs"
               id="names-overflow"
               intl={
@@ -618,7 +610,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-1"
               placement="top"
@@ -641,7 +632,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-1"
                 intl={
@@ -760,7 +750,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-2"
               placement="top"
@@ -783,7 +772,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-2"
                 intl={
@@ -902,7 +890,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-3"
               placement="top"
@@ -925,7 +912,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-3"
                 intl={
@@ -1026,7 +1012,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         onEntered={[Function]}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className="hidden-xs"
             id="names-overflow"
             placement="top"
@@ -1049,7 +1034,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           onEntered={[Function]}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className="hidden-xs"
               id="names-overflow"
               intl={
@@ -1185,7 +1169,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-1"
               placement="top"
@@ -1208,7 +1191,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-1"
                 intl={
@@ -1327,7 +1309,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-2"
               placement="top"
@@ -1350,7 +1331,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-2"
                 intl={
@@ -1469,7 +1449,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           onEntered={[Function]}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               className="hidden-xs"
               id="name-3"
               placement="top"
@@ -1492,7 +1471,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
             onEntered={[Function]}
             overlay={
               <OverlayWrapper
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="name-3"
                 intl={

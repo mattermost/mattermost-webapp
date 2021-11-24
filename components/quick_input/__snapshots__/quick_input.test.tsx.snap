@@ -11,9 +11,7 @@ exports[`components/QuickInput should render clear button with customized toolti
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="InputClearTooltip"
-        placement="right"
       >
         <span>
           Custom
@@ -33,10 +31,8 @@ exports[`components/QuickInput should render clear button with customized toolti
       delayShow={400}
       overlay={
         <OverlayWrapper
-          bsClass="tooltip"
           id="InputClearTooltip"
           intl={null}
-          placement="right"
         >
           <span>
             Custom
@@ -80,9 +76,7 @@ exports[`components/QuickInput should render clear button with customized toolti
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="InputClearTooltip"
-        placement="right"
       >
         Custom
       </Tooltip>
@@ -100,10 +94,8 @@ exports[`components/QuickInput should render clear button with customized toolti
       delayShow={400}
       overlay={
         <OverlayWrapper
-          bsClass="tooltip"
           id="InputClearTooltip"
           intl={null}
-          placement="right"
         >
           Custom
         </OverlayWrapper>
@@ -145,9 +137,7 @@ exports[`components/QuickInput should render clear button with default tooltip t
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="InputClearTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Clear"
@@ -168,10 +158,8 @@ exports[`components/QuickInput should render clear button with default tooltip t
       delayShow={400}
       overlay={
         <OverlayWrapper
-          bsClass="tooltip"
           id="InputClearTooltip"
           intl={null}
-          placement="right"
         >
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Clear"

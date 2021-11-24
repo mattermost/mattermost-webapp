@@ -79,9 +79,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="sharedTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="From trusted organizations"

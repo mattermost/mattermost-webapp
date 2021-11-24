@@ -72,9 +72,7 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
               delayShow={400}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="urlTooltip"
-                  placement="right"
                 >
                   http://example.com/channel//channels
                 </Tooltip>
@@ -211,9 +209,7 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
               delayShow={400}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="urlTooltip"
-                  placement="right"
                 >
                   http://example.com/channel//channels
                 </Tooltip>
@@ -350,9 +346,7 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
               delayShow={400}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="urlTooltip"
-                  placement="right"
                 >
                   http://example.com/channel//channels
                 </Tooltip>
@@ -490,9 +484,7 @@ exports[`components/ChangeURLModal should match snapshot, on urlErrors 1`] = `
               delayShow={400}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="urlTooltip"
-                  placement="right"
                 >
                   http://example.com/channel//channels
                 </Tooltip>
@@ -630,9 +622,7 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
               delayShow={400}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="urlTooltip"
-                  placement="right"
                 >
                   http://example.com/channel//channels
                 </Tooltip>

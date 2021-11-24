@@ -351,9 +351,7 @@ exports[`components/DatabaseSettings should match snapshot 1`] = `
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

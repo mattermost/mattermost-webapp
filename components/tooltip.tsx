@@ -8,7 +8,7 @@ type Props = {
     id?: string;
     className?: string;
     style?: CSSProperties;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     positionLeft?: number;
     placement?: string;
 };

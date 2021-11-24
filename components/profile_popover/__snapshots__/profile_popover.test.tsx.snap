@@ -470,9 +470,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       delayShow={400}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="fullNameTooltip"
-          placement="right"
         >
           shared
         </Tooltip>
