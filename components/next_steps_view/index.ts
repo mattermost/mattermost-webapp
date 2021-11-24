@@ -12,6 +12,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
@@ -29,6 +30,7 @@ function makeMapStateToProps() {
             steps: getSteps(state),
             isFirstAdmin: isFirstAdmin(state),
             isCloud: getLicense(state).Cloud === 'true',
+            isMobileView: getIsMobileView(state),
         };
     };
 }
