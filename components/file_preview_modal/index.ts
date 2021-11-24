@@ -6,18 +6,28 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
-import {canDownloadFiles} from 'utils/file_utils.jsx';
+import {Post} from 'mattermost-redux/types/posts';
+
+import {GlobalState} from 'types/store';
+import {FilePreviewComponent} from 'types/store/plugins';
+
+import {canDownloadFiles} from 'utils/file_utils';
 
 import FilePreviewModal from './file_preview_modal';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    post?: Post;
+    postId?: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
 
     return {
         canDownloadFiles: canDownloadFiles(config),
         enablePublicLink: config.EnablePublicLink === 'true',
-        pluginFilePreviewComponents: state.plugins.components.FilePreview,
-        post: ownProps.post || getPost(state, ownProps.postId),
+        pluginFilePreviewComponents: state.plugins.components.FilePreview as unknown as FilePreviewComponent[],
+        post: ownProps.post || getPost(state, ownProps.postId || ''),
     };
 }
 
