@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import TextSetting from 'components/widgets/settings/text_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 
-import DialogElement from './dialog_element.jsx';
+import DialogElement from './dialog_element';
 
 describe('components/interactive_dialog/DialogElement', () => {
     const baseDialogProps = {
@@ -19,6 +19,7 @@ describe('components/interactive_dialog/DialogElement', () => {
             autocompleteChannels: jest.fn(),
             autocompleteUsers: jest.fn(),
         },
+        onChange: jest.fn(),
     };
     const baseTextSettingProps = {
         id: baseDialogProps.name,
@@ -104,7 +105,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -116,8 +116,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                 <DialogElement
                     {...baseDialogProps}
                     type='radio'
-                    options={null}
-                    onChange={jest.fn()}
+                    options={undefined}
                 />,
             );
 
@@ -129,9 +128,8 @@ describe('components/interactive_dialog/DialogElement', () => {
                 <DialogElement
                     {...baseDialogProps}
                     type='radio'
-                    options={null}
-                    value={null}
-                    onChange={jest.fn()}
+                    options={undefined}
+                    value={undefined}
                 />,
             );
 
@@ -143,9 +141,8 @@ describe('components/interactive_dialog/DialogElement', () => {
                 <DialogElement
                     {...baseDialogProps}
                     type='radio'
-                    options={null}
+                    options={undefined}
                     value={'a'}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -159,7 +156,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={radioOptions}
                     value={'a'}
-                    onChange={jest.fn()}
                 />,
             );
 
@@ -172,10 +168,10 @@ describe('components/interactive_dialog/DialogElement', () => {
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
-                    onChange={jest.fn()}
                 />,
             );
-            expect(wrapper.find({options: radioOptions}).props.value).toBeUndefined();
+            const instance = wrapper.instance() as DialogElement;
+            expect(instance.props.value).toBeUndefined();
         });
 
         test('The default value can be specified from the list', () => {
@@ -185,7 +181,6 @@ describe('components/interactive_dialog/DialogElement', () => {
                     type='radio'
                     options={radioOptions}
                     value={radioOptions[1].value}
-                    onChange={jest.fn()}
                 />,
             );
             expect(wrapper.find({options: radioOptions, value: radioOptions[1].value}).exists()).toBe(true);
