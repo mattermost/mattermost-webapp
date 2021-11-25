@@ -20,11 +20,16 @@ describe('comoponents/rhs_card/RhsCard', () => {
         display_name: 'Town Square',
     };
 
+    const baseProps = {
+        channel: currentChannel,
+        isMobileView: false,
+        selected: null,
+    };
+
     it('should match when no post is selected', () => {
         const wrapper = shallow(
             <RhsCard
-                selected={null}
-                channel={currentChannel}
+                {...baseProps}
             />,
         );
 
@@ -34,8 +39,8 @@ describe('comoponents/rhs_card/RhsCard', () => {
     it('should match on post when no plugin defining card types', () => {
         const wrapper = shallow(
             <RhsCard
+                {...baseProps}
                 selected={post}
-                channel={currentChannel}
             />,
         );
 
@@ -45,9 +50,9 @@ describe('comoponents/rhs_card/RhsCard', () => {
     it('should match on post when plugin defining card types don\'t match with the post type', () => {
         const wrapper = shallow(
             <RhsCard
+                {...baseProps}
                 selected={post}
                 pluginPostCardTypes={{notMatchingType: {component: () => <i/>}}}
-                channel={currentChannel}
             />,
         );
 
@@ -57,9 +62,9 @@ describe('comoponents/rhs_card/RhsCard', () => {
     it('should match on post when plugin defining card types match with the post type', () => {
         const wrapper = shallow(
             <RhsCard
+                {...baseProps}
                 selected={post}
                 pluginPostCardTypes={{test: {component: () => <i/>}}}
-                channel={currentChannel}
             />,
         );
 
