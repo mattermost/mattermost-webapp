@@ -59,8 +59,8 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
-        return '<div data-codeblock-code="' + TextFormatting.escapeHtml(code) + '"' +
-                    'data-codeblock-language="' + TextFormatting.escapeHtml(language) + '"' +
+        return '<div data-codeblock-code="' + TextFormatting.escapeHtml(code) + '" ' +
+                    'data-codeblock-language="' + TextFormatting.escapeHtml(language) + '" ' +
                     'data-codeblock-searchedcontent="' + TextFormatting.escapeHtml(searchedContent) + '"></div>';
     }
 

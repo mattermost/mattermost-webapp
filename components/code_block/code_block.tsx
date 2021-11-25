@@ -71,7 +71,7 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
     };
 
     const copyMarkdown = useCallback(() => {
-        const markdown = `~~~${language}\n${code}\n~~~`;
+        const markdown = `\`\`\`${language}\n${code}\n\`\`\``;
         copyToClipboard(markdown);
     }, [language, code]);
 

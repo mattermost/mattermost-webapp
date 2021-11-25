@@ -1,7 +1,4 @@
-<<<<<<< HEAD @charset "UTF-8";
-=======@charset "UTF-8";
->>>>>>>fixed search highlighting,
-fixed lint errors h1.markdown__heading {
+h1.markdown__heading {
     font-size: 28px;
 }
 
@@ -97,30 +94,42 @@ h6.markdown__heading {
                 transition: all 0.1s linear;
             }
         }
-        .markdown-inline-img--no-border {
-            border: unset;
-        }
-        .markdown-inline-img--scaled-down {
-            max-height: 18px;
-            margin: 2px;
-            border-radius: 2px;
-            &:hover {
-                z-index: 2;
-                box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
-                transition: all 0.1s linear;
-            }
-        }
-        .markdown-inline-img--scaled-down-loading {
-            height: 18px;
-            margin: 2px;
-            visibility: hidden;
-        }
-        .broken-image {
-            border-radius: unset;
-        }
-        .broken-image--scaled-down {
-            max-height: 18px;
-            margin: 2px;
+    }
+    .markdown-inline-img--no-border {
+        border: unset;
+    }
+    div.markdown__paragraph-inline {
+        display: inline-block;
+        line-height: 22px;
+    }
+    .broken-image {
+        max-height: 18px;
+        border-radius: unset;
+    }
+}
+
+.post-code {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    code {
+        position: relative;
+        display: block;
+        padding: 0;
+        background-color: inherit;
+        font-size: 13px;
+        text-align: left;
+        white-space: pre-wrap;
+    }
+    &:hover .post-code__clipboard {
+        @include opacity(1);
+    }
+    &:hover .post-code__language {
+        @include opacity(1);
+    }
+    &.post-code--wrap {
+        code {
+            white-space: pre-wrap;
         }
     }
     #channelHeaderDescription,
@@ -167,18 +176,15 @@ h6.markdown__heading {
     &.react-contextmenu {
         background-color: $white;
     }
-
     .react-contextmenu-item {
         .span {
             display: inline-block;
             padding: 3px 0;
         }
-
         &.react-contextmenu-item--divider {
             border-top: 1px solid rgba(63, 67, 80, 0.16);
             margin: 5px 15px;
         }
-
         &.react-contextmenu-item--divider:hover {
             background: unset;
             color: unset;

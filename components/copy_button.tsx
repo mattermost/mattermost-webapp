@@ -9,6 +9,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
 import {copyToClipboard} from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 type Props = {
     content: string;
@@ -33,7 +34,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
     const tooltip = (
         <Tooltip id='copyButton'>
             <FormattedMessage
-                id={isCopied ? 'copied.message' : 'copy.block.message'}
+                id={isCopied ? t('copied.message') : t('copy.block.message')}
                 defaultMessage={isCopied ? props.afterCopyText : props.beforeCopyText}
             />
         </Tooltip>
