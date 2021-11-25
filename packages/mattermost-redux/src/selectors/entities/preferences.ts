@@ -216,7 +216,7 @@ export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | u
     return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
 }
 
-export function getCreateGuidedFirstChannelCTATreatment(state: GlobalState): boolean {
+export function getCreateGuidedChannel(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
 }
 

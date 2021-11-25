@@ -6,7 +6,6 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {
     getAutoTourTreatment,
-    getCreateGuidedFirstChannelCTATreatment,
     getInt,
     makeGetCategory,
 } from 'mattermost-redux/selectors/entities/preferences';
@@ -24,7 +23,6 @@ import {GlobalState} from 'types/store';
 import TutorialTip from './tutorial_tip';
 
 function mapStateToProps(state: GlobalState) {
-    const createFirstChannel = getCreateGuidedFirstChannelCTATreatment(state);
     const getCategory = makeGetCategory();
     const currentUserId = getCurrentUserId(state);
     const preferences = getCategory(state, Preferences.AB_TEST_PREFERENCE_VALUE);
@@ -35,7 +33,7 @@ function mapStateToProps(state: GlobalState) {
         currentUserId,
         currentStep: getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0),
         autoTour: getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
-        firstChannelName: createFirstChannel ? (firstChannelNameFromRedux || firstChannelNameFromPref?.value) : '',
+        firstChannelName: (firstChannelNameFromRedux || firstChannelNameFromPref?.value) || '',
     };
 }
 

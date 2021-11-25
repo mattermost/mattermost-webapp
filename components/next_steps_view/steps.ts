@@ -4,7 +4,7 @@ import {createSelector} from 'reselect';
 
 import {
     makeGetCategory,
-    getCreateGuidedFirstChannelCTATreatment,
+    getCreateGuidedChannel,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -192,7 +192,7 @@ export const getSteps = createSelector(
     'getSteps',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (state: GlobalState) => getCreateGuidedFirstChannelCTATreatment(state),
+    (state: GlobalState) => getCreateGuidedChannel(state),
     (currentUser, firstAdmin, guidedFirstChannel) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>

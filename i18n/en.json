@@ -2846,7 +2846,7 @@
   "create_comment.commentTitle": "Comment",
   "create_comment.file": "File uploading",
   "create_comment.files": "Files uploading",
-  "create_first_channel.tutorialTip.title": "Welcome to {firstChannelName} , your first channel!",
+  "create_first_channel.tutorialTip.title": "Welcome to {firstChannelName}, your first channel!",
   "create_first_channel.tutorialTip1": "Start collaborating with your teammates and pull in your favorite plugins.",
   "create_post.comment": "Comment",
   "create_post.deactivated": "You are viewing an archived channel with a **deactivated user**. New messages cannot be posted.",

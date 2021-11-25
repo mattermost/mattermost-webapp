@@ -10,6 +10,8 @@ import {TutorialSteps} from 'utils/constants';
 
 import HandsSvg from 'components/common/svg_images_components/hands_svg';
 
+import {toTitleCase} from 'utils/utils';
+
 type Props = {
     townSquareDisplayName?: string;
     offTopicDisplayName?: string;
@@ -63,13 +65,14 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
         let sidebarContainer = document.getElementById('sidebar-left');
         let telemetryTagText = 'tutorial_tip_2_channels';
         if (this.props.firstChannelName) {
+            const displayFirstChannelName = this.props.firstChannelName.split('-').join(' ').trim();
             screens = [
                 <div key='screen'>
                     <h4>
                         <FormattedMessage
                             id='create_first_channel.tutorialTip.title'
-                            defaultMessage='Welcome to {firstChannelName} , your first channel!'
-                            values={{firstChannelName: this.props.firstChannelName}}
+                            defaultMessage='Welcome to {firstChannelName}, your first channel!'
+                            values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
                         />
                     </h4>
                     <div className='handSvg svg-wrapper'>

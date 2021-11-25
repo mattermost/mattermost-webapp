@@ -435,6 +435,15 @@
 
     button#submitNewChannel {
         border-radius: 4px;
+
+        &:disabled {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.52);
+
+            &:hover {
+                border: 1px solid rgba(var(--center-channel-color-rgb), 0.08) !important;
+            }
+        }
     }
 }
 
