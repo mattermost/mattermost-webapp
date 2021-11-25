@@ -178,7 +178,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Profile}"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -442,7 +442,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Profile}"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -690,7 +690,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Profile}"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -938,7 +938,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Profile}"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1187,7 +1187,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Profile}"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1412,7 +1412,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Profile}"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1633,7 +1633,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Profile}"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,

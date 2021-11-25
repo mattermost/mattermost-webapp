@@ -85,11 +85,11 @@ export const KEYBOARD_SHORTCUTS = {
     teamNavSwitcher: {
         default: {
             id: t('shortcuts.team_nav.switcher'),
-            defaultMessage: 'Switch to a specific team:\tCtrl|Alt|[1-9]',
+            defaultMessage: 'Navigate to a specific team:\tCtrl|Alt|[1-9]',
         },
         mac: {
             id: t('shortcuts.team_nav.switcher.mac'),
-            defaultMessage: 'Switch to a specific team:\t⌘|⌥|[1-9]',
+            defaultMessage: 'Navigate to a specific team:\t⌘|⌥|[1-9]',
         },
     },
     teamNavigation: {
@@ -105,11 +105,11 @@ export const KEYBOARD_SHORTCUTS = {
     navSwitcher: {
         default: {
             id: t('shortcuts.nav.switcher'),
-            defaultMessage: 'Quick channel switcher:\tCtrl|K',
+            defaultMessage: 'Quick channel navigation:\tCtrl|K',
         },
         mac: {
             id: t('shortcuts.nav.switcher.mac'),
-            defaultMessage: 'Quick channel switcher:\t⌘|K',
+            defaultMessage: 'Quick channel navigation:\t⌘|K',
         },
     },
     navDMMenu: {

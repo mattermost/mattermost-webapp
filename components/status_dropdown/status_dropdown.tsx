@@ -483,7 +483,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     <Menu.Group>
                         <Menu.ItemToggleModalRedux
                             id='accountSettings'
-                            ariaLabel='Profile}'
+                            ariaLabel='Profile'
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -24,15 +23,17 @@ export default class RemoveFileSetting extends Setting {
     constructor(props) {
         super(props);
 
-        this.removeButtonRef = React.createRef();
+        this.state = {
+            removing: false,
+        };
     }
 
     handleRemove = (e) => {
         e.preventDefault();
 
-        $(this.removeButtonRef.current).button('loading');
+        this.setState({removing: true});
         this.props.onSubmit(this.props.id, () => {
-            $(this.removeButtonRef.current).button('reset');
+            this.setState({removing: false});
         });
     }
 
@@ -53,9 +54,13 @@ export default class RemoveFileSetting extends Setting {
                         onClick={this.handleRemove}
                         ref={this.removeButtonRef}
                         disabled={this.props.disabled}
-                        data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this.props.removingText}`}
                     >
-                        {this.props.removeButtonText}
+                        {this.state.removing && (
+                            <>
+                                <span className='glyphicon glyphicon-refresh glyphicon-refresh-animate'/>
+                                {this.props.removingText}
+                            </>)}
+                        {!this.state.removing && this.props.removeButtonText}
                     </button>
                 </div>
             </Setting>

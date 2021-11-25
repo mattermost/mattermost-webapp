@@ -83,13 +83,13 @@ context('ldap', () => {
             cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Link first group
-            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#addGroupsToChannelToggle').click();
             cy.get('#multiSelectList').should('be.visible');
             cy.get('#multiSelectList>div').children().eq(0).click();
             cy.uiGetButton('Add').click();
 
             // # Link second group
-            cy.findByTestId('addGroupsToChannelToggle').click();
+            cy.get('#addGroupsToChannelToggle').click();
             cy.get('#multiSelectList').should('be.visible');
             cy.get('#multiSelectList>div').children().eq(0).click();
             cy.uiGetButton('Add').click();
@@ -133,7 +133,7 @@ context('ldap', () => {
                 click({force: true});
 
             // # Add board group to team
-            cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+            cy.get('#addGroupsToTeamToggle').scrollIntoView().click();
             cy.get('#multiSelectList').should('be.visible');
             cy.get('#multiSelectList>div').children().eq(0).click();
             cy.uiGetButton('Add').click();
@@ -398,8 +398,8 @@ context('ldap', () => {
 
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-                // # Click the sidebar switcher button
-                cy.uiGetChannelSwitcher().click();
+                // # Open Find Channels
+                cy.uiOpenFindChannels();
 
                 // * Channel switcher hint should be visible
                 cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
@@ -423,8 +423,8 @@ context('ldap', () => {
                 cy.apiLogin(testUser);
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-                // # Click the sidebar switcher button
-                cy.uiGetChannelSwitcher().click();
+                // # Open Find Channels
+                cy.uiOpenFindChannels();
 
                 // * Channel switcher hint should be visible
                 cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
