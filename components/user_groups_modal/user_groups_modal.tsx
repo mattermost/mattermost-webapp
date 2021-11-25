@@ -7,20 +7,20 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants, { ModalIdentifiers } from 'utils/constants';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen';
 import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
 
 import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {ModalData} from 'types/actions';
-import CreateUserGroupsModal from 'components/create_user_groups_modal';
-import ViewUserGroupModal from 'components/view_user_group_modal';
 import {debounce} from 'mattermost-redux/actions/helpers';
+import CreateButton from './create_button/create_button';
+import GroupList from './group_list/group_list';
+import user_groups_modal from '.';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -154,32 +154,15 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         this.props.actions.setModalSearchTerm('');
     };
 
-    goToCreateModal = () => {
-        const {actions} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
-            dialogType: CreateUserGroupsModal,
+    backButtonCallback = () => {
+        this.resetSearch();
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_GROUPS,
+            dialogType: UserGroupsModal,
             dialogProps: {
-                showBackButton: true,
-            },
+                ...this.props,
+            }
         });
-
-        this.props.onExited();
-    }
-
-    goToViewGroupModal = (group: Group) => {
-        const {actions} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.VIEW_USER_GROUP,
-            dialogType: ViewUserGroupModal,
-            dialogProps: {
-                groupId: group.id,
-            },
-        });
-
-        this.props.onExited();
     }
 
     getGroups = debounce(
@@ -260,18 +243,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                             defaultMessage='User Groups'
                         />
                     </Modal.Title>
-                    <a
-                        id='test'
-                        className='user-groups-create btn btn-md btn-primary'
-                        href='#'
-                        onClick={this.goToCreateModal}
-                    >
-                        <FormattedMessage
-                            id='user_groups_modal.createNew'
-                            defaultMessage='Create Group'
-                        />
-                    </a>
-
+                    <CreateButton
+                        onExited={this.props.onExited}
+                        openModal={this.props.actions.openModal}
+                        backButtonCallback={this.backButtonCallback}
+                    />
                 </Modal.Header>
                 <Modal.Body>
                     <div className='user-groups-search'>
@@ -328,75 +304,15 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                             </Menu>
                         </MenuWrapper>
                     </div>
-
-                    <div
-                        className='user-groups-modal__content user-groups-list'
+                    <GroupList
+                        groups={groups}
+                        onExited={this.props.onExited}
+                        openModal={this.props.actions.openModal}
                         onScroll={this.onScroll}
-                        ref={this.divScrollRef}
-                    >
-                        {groups.map((group) => {
-                            return (
-                                <div
-                                    className='group-row'
-                                    key={group.id}
-                                    onClick={() => {
-                                        this.goToViewGroupModal(group);
-                                    }}
-                                >
-                                    <span className='group-display-name'>
-                                        {group.display_name}
-                                    </span>
-                                    <span className='group-name'>
-                                        {'@'}{group.name}
-                                    </span>
-                                    <div className='group-member-count'>
-                                        <FormattedMessage
-                                            id='user_groups_modal.memberCount'
-                                            defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
-                                            values={{
-                                                member_count: group.member_count,
-                                            }}
-                                        />
-                                    </div>
-                                    <div className='group-action'>
-                                        <MenuWrapper
-                                            isDisabled={false}
-                                            stopPropagationOnToggle={true}
-                                            id={`customWrapper-${group.id}`}
-                                        >
-                                            <div className='text-right'>
-                                                <button className='action-wrapper'>
-                                                    <i className='icon icon-dots-vertical'/>
-                                                </button>
-                                            </div>
-                                            <Menu
-                                                openLeft={true}
-                                                openUp={false}
-                                                ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
-                                            >
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
-                                                    disabled={false}
-                                                />
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
-                                                    disabled={false}
-                                                />
-                                            </Menu>
-                                        </MenuWrapper>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                        {
-                            (this.state.loading) &&
-                            <LoadingScreen/>
-                        }
-                    </div>
+                        scrollRef={this.divScrollRef}
+                        loading={this.state.loading}
+                        backButtonCallback={this.backButtonCallback}
+                    />
                 </Modal.Body>
             </Modal>
         );

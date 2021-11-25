@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/user_groups_modal should match snapshot without groups 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="userGroupsModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal user-groups-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  id="userGroupsModal"
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="userGroupsModalLabel"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="User Groups"
+        id="user_groups_modal.title"
+      />
+    </ModalTitle>
+    <CreateButton
+      backButtonCallback={[Function]}
+      onExited={[Function]}
+      openModal={[MockFunction]}
+    />
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="user-groups-search"
+    >
+      <div
+        className="user-groups-searchbar"
+      >
+        <span
+          aria-hidden="true"
+          className="user-groups-search-icon"
+        >
+          <SearchIcon />
+        </span>
+        <input
+          data-testid="searchInput"
+          onChange={[Function]}
+          placeholder="Search"
+          type="text"
+          value=""
+        />
+        <i
+          className="user-groups-clear-button fa fa-times-circle hidden"
+          data-testid="clear-search"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="more-modal__dropdown"
+    >
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        id="groupsFilterDropdown"
+      >
+        <a>
+          <span>
+            Show: All Groups
+          </span>
+          <span
+            className="caret"
+          />
+        </a>
+        <Menu
+          ariaLabel="Groups Filter Menu"
+          openLeft={false}
+        >
+          <MenuItemAction
+            buttonClass="groups-filter-btn"
+            id="groupsDropdownAll"
+            onClick={[Function]}
+            rightDecorator={
+              <i
+                className="icon icon-check"
+              />
+            }
+            show={true}
+            text="All Groups"
+          />
+          <MenuItemAction
+            buttonClass="groups-filter-btn"
+            id="groupsDropdownMy"
+            onClick={[Function]}
+            rightDecorator={false}
+            show={true}
+            text="My Groups"
+          />
+        </Menu>
+      </MenuWrapper>
+    </div>
+    <GroupList
+      backButtonCallback={[Function]}
+      groups={Array []}
+      loading={true}
+      onExited={[Function]}
+      onScroll={[Function]}
+      openModal={[MockFunction]}
+      scrollRef={
+        Object {
+          "current": null,
+        }
+      }
+    />
+  </ModalBody>
+</Modal>
+`;

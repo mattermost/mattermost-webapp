@@ -24,7 +24,6 @@ import {ModalData} from 'types/actions';
 import AddUsersToGroupModal from 'components/add_users_to_group_modal';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
@@ -38,6 +37,7 @@ export type Props = {
     groupId: string;
     group: Group;
     users: UserProfile[];
+    backButtonCallback: () => void;
     actions: {
         getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
@@ -133,17 +133,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         this.props.actions.setModalSearchTerm('');
     };
 
-    goToGroupsModal = () => {
-        const {actions} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.USER_GROUPS,
-            dialogType: UserGroupsModal,
-        });
-
-        this.props.onExited();
-    }
-
     goToAddPeopleModal = () => {
         const {actions, groupId} = this.props;
 
@@ -225,7 +214,8 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         className='modal-header-back-button btn-icon'
                         aria-label='Close'
                         onClick={() => {
-                            this.goToGroupsModal();
+                            this.props.backButtonCallback();
+                            this.props.onExited();
                         }}
                     >
                         <LocalizedIcon

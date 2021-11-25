@@ -9,8 +9,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {ModalIdentifiers} from 'utils/constants';
-
 import * as Utils from 'utils/utils.jsx';
 import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
 
@@ -20,13 +18,12 @@ import {ModalData} from 'types/actions';
 import Input from 'components/input';
 import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import UserGroupsModal from 'components/user_groups_modal';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 
 export type Props = {
     onExited: () => void;
-    showBackButton?: boolean;
+    backButtonCallback?: () => void;
     actions: {
         createGroupWithUserIds: (group: GroupCreateWithUserIds) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -94,6 +91,13 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         this.setState({usersToAdd});
     };
 
+    goBack = () => {
+        if (typeof this.props.backButtonCallback === 'function') {
+            this.props.backButtonCallback();
+            this.props.onExited();
+        }
+    }
+
     createGroup = async (users?: UserProfile[]) => {
         this.setState({showUnknownError: false, mentionInputErrorText: ''});
         let mention = this.state.mention;
@@ -128,22 +132,11 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             } else {
                 this.setState({showUnknownError: true});
             }
-        } else if (this.props.showBackButton) {
-            this.goToGroupsModal();
+        } else if (typeof this.props.backButtonCallback === 'function') {
+            this.goBack();
         } else {
             this.doHide();
         }
-    }
-
-    goToGroupsModal = () => {
-        const {actions} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.USER_GROUPS,
-            dialogType: UserGroupsModal,
-        });
-
-        this.props.onExited();
     }
 
     render() {
@@ -159,13 +152,13 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             >
                 <Modal.Header closeButton={true}>
                     {
-                        this.props.showBackButton &&
+                        typeof this.props.backButtonCallback === 'function' &&
                         <button
                             type='button'
                             className='modal-header-back-button btn-icon'
                             aria-label='Close'
                             onClick={() => {
-                                this.goToGroupsModal();
+                                this.goBack();
                             }}
                         >
                             <LocalizedIcon
