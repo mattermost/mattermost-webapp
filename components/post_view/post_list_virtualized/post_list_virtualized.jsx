@@ -575,7 +575,6 @@ export default class PostList extends React.PureComponent {
                     <React.Fragment>
                         <FloatingTimestamp
                             isScrolling={this.state.isScrolling}
-                            isMobile={true}
                             postId={this.state.topPostId}
                         />
                         <ScrollToBottomArrows
