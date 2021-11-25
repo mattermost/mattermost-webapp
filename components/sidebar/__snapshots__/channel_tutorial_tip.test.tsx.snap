@@ -9,11 +9,11 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       <div>
         <h4>
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Welcome to {firstChannelName} , your first channel!"
+            defaultMessage="Welcome to {firstChannelName}, your first channel!"
             id="create_first_channel.tutorialTip.title"
             values={
               Object {
-                "firstChannelName": "firstChannelName",
+                "firstChannelName": "Firstchannelname",
               }
             }
           />
