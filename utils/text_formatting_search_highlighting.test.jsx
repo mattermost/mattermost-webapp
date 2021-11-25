@@ -45,7 +45,7 @@ describe('TextFormatting.searchHighlighting', () => {
         input: '```\nwords in a sentence\n```',
         searchTerm: 'words',
         expected:
-            '<div data-codeblock-code=\"words in a sentence\" data-codeblock-language=\"\" data-codeblock-searchedcontent=\"&lt;div class=&quot;post-code__search-highlighting&quot;&gt;&lt;span class=&quot;search-highlight&quot;&gt;words&lt;/span&gt; in a sentence&lt;/div&gt;\"></div>',
+            '<div data-codeblock-code="words in a sentence" data-codeblock-language="" data-codeblock-searchedcontent="&lt;div class=&quot;post-code__search-highlighting&quot;&gt;&lt;span class=&quot;search-highlight&quot;&gt;words&lt;/span&gt; in a sentence&lt;/div&gt;"></div>',
     }, {
         name: 'search term highlighting in link text',
         input: 'These are [words in a sentence](https://example.com).',
@@ -81,7 +81,7 @@ describe('TextFormatting.searchHighlighting', () => {
         input: '```\nwords in a sentence\n```',
         searchMatches: ['words'],
         expected:
-            '<div data-codeblock-code=\"words in a sentence\" data-codeblock-language=\"\" data-codeblock-searchedcontent=\"&lt;div class=&quot;post-code__search-highlighting&quot;&gt;&lt;span class=&quot;search-highlight&quot;&gt;words&lt;/span&gt; in a sentence&lt;/div&gt;\"></div>',
+            '<div data-codeblock-code="words in a sentence" data-codeblock-language="" data-codeblock-searchedcontent="&lt;div class=&quot;post-code__search-highlighting&quot;&gt;&lt;span class=&quot;search-highlight&quot;&gt;words&lt;/span&gt; in a sentence&lt;/div&gt;"></div>',
     }, {
         name: 'search match highlighting in link text',
         input: 'These are [words in a sentence](https://example.com).',
