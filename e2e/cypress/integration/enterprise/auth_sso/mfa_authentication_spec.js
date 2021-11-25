@@ -50,45 +50,28 @@ describe('Authentication', () => {
         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
 
         // # Click "Save".
-        cy.findByText('Save').scrollIntoView().click();
+        cy.findByText('Save').click().wait(TIMEOUTS.ONE_SEC);
 
-        cy.url().then((url) => {
-            if (url.includes('mfa/setup')) {
-                // # Complete MFA setup if we are on token setup page /mfa/setup
-                cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
-                    const secretp = p.text();
-                    adminMFASecret = secretp.split(' ')[1];
+        // # Get MFA secret
+        cy.uiGetMFASecret(mfaSysAdmin.id).then((secret) => {
+            adminMFASecret = secret;
 
-                    const token = authenticator.generateToken(adminMFASecret);
-                    cy.findByPlaceholderText('MFA Code').type(token);
-                    cy.findByText('Save').click();
+            // # Navigate to System Console -> User Management -> Users
+            cy.visit('/admin_console/user_management/users');
+            cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
 
-                    cy.wait(TIMEOUTS.HALF_SEC);
-                    cy.findByText('Okay').click();
-                });
-            } else {
-                // # If the sysadmin already has MFA enabled, reset the secret.
-                cy.apiGenerateMfaSecret(mfaSysAdmin.id).then((res) => {
-                    adminMFASecret = res.code.secret;
-                });
-            }
+            // * Remove MFA option not available for the user
+            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+            cy.findByText('Remove MFA').should('not.exist');
+
+            // # Login as test user
+            cy.apiLogin(testUser);
+            cy.visit('/');
+
+            // * MFA page is shown
+            cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
         });
-
-        // # Navigate to System Console -> User Management -> Users
-        cy.visit('/admin_console/user_management/users');
-        cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
-
-        // * Remove MFA option not available for the user
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Remove MFA').should('not.exist');
-
-        // # Login as test user
-        cy.apiLogin(testUser);
-        cy.visit('/');
-
-        // * MFA page is shown
-        cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
     });
 
     // This test relies on the previous test for having MFA enabled (MM-T1778)
@@ -136,7 +119,7 @@ describe('Authentication', () => {
         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationfalse').check();
 
         // # Click "Save".
-        cy.findByText('Save').scrollIntoView().click();
+        cy.findByText('Save').click().wait(TIMEOUTS.ONE_SEC);
 
         // # Login as test user
         cy.apiLogin(testUser);

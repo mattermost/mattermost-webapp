@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import jqd from 'jquery-deferred';
-
 import {Client4} from 'mattermost-redux/client';
 
 import WebSocketClient from 'client/websocket_client';
@@ -136,7 +134,7 @@ class TestHelperClass {
             done.fail(new Error(err.message));
         }
 
-        var d1 = jqd.Deferred();
+        var d1 = new Promise();
         var email = this.fakeEmail();
         var user = this.fakeUser();
         var team = this.fakeTeam();
@@ -192,7 +190,7 @@ class TestHelperClass {
             throwerror,
         );
 
-        jqd.when(d1).done(() => {
+        d1.then(() => {
             callback();
         });
     }
