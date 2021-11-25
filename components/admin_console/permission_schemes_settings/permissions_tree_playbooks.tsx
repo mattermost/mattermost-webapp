@@ -11,7 +11,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import PermissionGroup from './permission_group';
 
 interface Props {
-    role: Partial<Role>;
+    role?: Partial<Role>;
     parentRole: any;
     scope: string;
     selectRow: any;
@@ -48,7 +48,7 @@ const PermissionsTreePlaybooks = (props: Props) => {
         if (props.readOnly) {
             return;
         }
-        props.onToggle(props.role.name || '', ids);
+        props.onToggle(props.role?.name || '', ids);
     };
 
     return (
@@ -72,7 +72,7 @@ const PermissionsTreePlaybooks = (props: Props) => {
                     key='all'
                     id='all'
                     parentRole={props.parentRole}
-                    uniqId={props.role.name}
+                    uniqId={props.role?.name}
                     selectRow={props.selectRow}
                     readOnly={props.readOnly}
                     permissions={playbooksGroups}

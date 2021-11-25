@@ -357,7 +357,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
 
         this.setState({saving: true});
 
-        if (roles && roles.team_user && roles.channel_user && allUsers) {
+        if (roles && roles.team_user && roles.channel_user && roles.playbook_member && roles.run_member && allUsers) {
             let derived = this.deriveRolesFromAllUsers(
                 roles.team_user,
                 roles.channel_user,
