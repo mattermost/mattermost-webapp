@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @menu @custom_status @status_menu
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import theme from '../../fixtures/theme.json';
 
 describe('Status dropdown menu', () => {
@@ -78,6 +79,16 @@ describe('Status dropdown menu', () => {
 
         // # Open user menu to verify it still open up and visible
         cy.uiOpenUserMenu();
+    });
+
+    it('MM-TXXX Should stay open when dnd sub-menu header is clicked', () => {
+        // # Open Dnd sub menu and click on header
+        cy.uiOpenDndStatusSubMenu().find('#dndSubMenu-header_menuitem').click().then(() => {
+            cy.wait(TIMEOUTS.HALF_SEC);
+
+            // * Verify that dnd submenu is still visible
+            cy.get('body').find('#dndSubMenu-header_menuitem').should('be.visible');
+        });
     });
 });
 
