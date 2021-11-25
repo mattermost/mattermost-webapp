@@ -32,7 +32,7 @@ export function mapStateToProps(state: GlobalState, ownProps: Props) {
     let hour12: TimestampProps['hour12'];
 
     if (areTimezonesEnabledAndSupported(state)) {
-        timeZone = ownProps.timeZone || (getUserCurrentTimezone(ownProps.userTimezone ?? getUserTimezone(state, currentUserId)) ?? undefined);
+        timeZone = getUserCurrentTimezone(ownProps.userTimezone ?? getUserTimezone(state, currentUserId)) ?? undefined;
     }
 
     const useMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
@@ -40,10 +40,10 @@ export function mapStateToProps(state: GlobalState, ownProps: Props) {
     if (supportsHourCycle) {
         hourCycle = ownProps.hourCycle || (useMilitaryTime ? 'h23' : 'h12');
     } else {
-        hour12 = ownProps.hour12 || (!useMilitaryTime);
+        hour12 = ownProps.hour12 ?? (!useMilitaryTime);
     }
 
-    return {timeZone, hourCycle, hour12};
+    return {timeZone: ownProps.timeZone || timeZone, hourCycle, hour12};
 }
 
 export default connect(mapStateToProps)(Timestamp);
