@@ -52,12 +52,20 @@ declare namespace Cypress {
         isExpanded(): Chainable;
 
         /**
-         * Add comment by clicking "Add Comment" button
+         * Get "Reply" button
          *
          * @example
-         *   cy.uiAddComment();
+         *   cy.uiGetReply();
          */
-        uiAddComment(): Chainable;
+        uiGetReply(): Chainable;
+
+        /**
+         * Reply by clicking "Reply" button
+         *
+         * @example
+         *   cy.uiReply();
+         */
+        uiReply(): Chainable;
 
         /**
          * Get RHS container
@@ -68,5 +76,33 @@ declare namespace Cypress {
          *   cy.uiGetRHSSearchContainer();
          */
         uiGetRHSSearchContainer(option: Record<string, boolean>): Chainable;
+
+        /**
+         * Get file filter button from RHS.
+         *
+         * @example
+         *   cy.uiGetFileFilterButton().click();
+         */
+        uiGetFileFilterButton(): Chainable;
+
+        /**
+         * Get file filter menu from RHS
+         *
+         * @param {bool} option.exist - Set to false to check whether file filter menu should not exist at RHS. Otherwise, true (default) to check visibility.
+         *
+         * @example
+         *   cy.uiGetFileFilterMenu();
+         */
+        uiGetFileFilterMenu(): Chainable;
+
+        /**
+         * Open file filter menu from RHS
+         * @param {string} item - such as `'Documents'`, `'Spreadsheets'`, `'Presentations'`, `'Code'`, `'Images'`, `'Audio'` and `'Videos'`.
+         * @return the file filter menu
+         *
+         * @example
+         *   cy.uiOpenFileFilterMenu();
+         */
+        uiOpenFileFilterMenu(): Chainable;
     }
 }

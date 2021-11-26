@@ -9,9 +9,9 @@ import {FormattedMessage} from 'react-intl';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import ImportThemeModal from 'components/user_settings/import_theme_modal.tsx';
 
-import {ActionTypes, Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import CustomThemeChooser from './custom_theme_chooser.jsx';
@@ -21,6 +21,7 @@ export default class ThemeSetting extends React.PureComponent {
         actions: PropTypes.shape({
             saveTheme: PropTypes.func.isRequired,
             deleteTeamSpecificThemes: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
         currentTeamId: PropTypes.string.isRequired,
         theme: PropTypes.object,
@@ -119,10 +120,12 @@ export default class ThemeSetting extends React.PureComponent {
     };
 
     handleImportModal = () => {
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.TOGGLE_IMPORT_THEME_MODAL,
-            value: true,
-            callback: this.updateTheme,
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.IMPORT_THEME_MODAL,
+            dialogType: ImportThemeModal,
+            dialogProps: {
+                callback: this.updateTheme,
+            },
         });
 
         this.props.setEnforceFocus(false);
@@ -309,4 +312,3 @@ export default class ThemeSetting extends React.PureComponent {
         return themeUI;
     }
 }
-/* eslint-enable react/no-string-refs */
