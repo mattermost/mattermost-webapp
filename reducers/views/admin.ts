@@ -3,6 +3,8 @@
 
 import {combineReducers} from 'redux';
 
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
 import {ActionTypes} from 'utils/constants';
 
 const initialState = {
@@ -11,7 +13,7 @@ const initialState = {
     showNavigationPrompt: false,
 };
 
-function navigationBlock(state = initialState, action) {
+function navigationBlock(state = initialState, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SET_NAVIGATION_BLOCKED:
         return {...state, blocked: action.blocked};

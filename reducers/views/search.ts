@@ -3,9 +3,11 @@
 
 import {combineReducers} from 'redux';
 
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
 import {SearchTypes} from 'utils/constants';
 
-function modalSearch(state = '', action) {
+function modalSearch(state = '', action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_SEARCH: {
         return action.data.trim();
@@ -15,7 +17,9 @@ function modalSearch(state = '', action) {
     }
 }
 
-function modalFilters(state = {}, action) {
+type ModalFiltersState = {roles?: string[]; channel_roles?: string[]; team_roles?: string[]};
+
+function modalFilters(state: ModalFiltersState = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_FILTERS: {
         const filters = action.data;
@@ -28,7 +32,9 @@ function modalFilters(state = {}, action) {
     }
 }
 
-function systemUsersSearch(state = {}, action) {
+type SystemUserSearchState = {term: string; team: string; filter: string};
+
+function systemUsersSearch(state: SystemUserSearchState = {term: '', team: '', filter: ''}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_SYSTEM_USERS_SEARCH: {
         return action.data;
@@ -38,7 +44,16 @@ function systemUsersSearch(state = {}, action) {
     }
 }
 
-function userGridSearch(state = {}, action) {
+type UserGridSearchState = {
+    term: string;
+    filters: {
+        roles?: string[];
+        channel_roles?: string[];
+        team_roles?: string[];
+    };
+};
+
+function userGridSearch(state: UserGridSearchState = {term: '', filters: {}}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_USER_GRID_SEARCH: {
         const term = action.data.trim();
@@ -59,7 +74,7 @@ function userGridSearch(state = {}, action) {
     }
 }
 
-function teamListSearch(state = '', action) {
+function teamListSearch(state = '', action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_TEAM_LIST_SEARCH: {
         return action.data.trim();
@@ -69,7 +84,17 @@ function teamListSearch(state = '', action) {
     }
 }
 
-function channelListSearch(state = {}, action) {
+type ChannelListSearchState = {
+    term: string;
+    filters: {
+        public?: boolean;
+        private?: boolean;
+        deleted?: boolean;
+        team_ids?: string[];
+    };
+};
+
+function channelListSearch(state: ChannelListSearchState = {term: '', filters: {}}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_CHANNEL_LIST_SEARCH: {
         const term = action.data.trim();
