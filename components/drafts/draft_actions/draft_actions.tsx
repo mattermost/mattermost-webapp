@@ -142,7 +142,7 @@ function DraftActions({
                 confirmButtonText={confirmButtonText}
                 handleConfirm={handleConfirm}
                 handleCancel={handleCancel}
-                onHide={handleCancel}
+                onExited={handleCancel}
             >
                 <div>{message}</div>
             </GenericModal>

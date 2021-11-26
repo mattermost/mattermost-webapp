@@ -390,7 +390,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
-            this.saveDraft(prevProps);
+            this.saveDraftWithShow(prevProps);
             if (useGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
@@ -418,9 +418,9 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.saveDraftWithShow();
     }
 
-    saveDraftWithShow = () => {
-        if (this.saveDraftFrame && this.props.currentChannel) {
-            const channelId = this.props.currentChannel.id;
+    saveDraftWithShow = (props = this.props) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
             const draft = this.draftsForChannel[channelId];
 
             if (draft) {
@@ -431,7 +431,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             }
         }
 
-        this.saveDraft();
+        this.saveDraft(props);
     }
 
     saveDraft = (props = this.props) => {
