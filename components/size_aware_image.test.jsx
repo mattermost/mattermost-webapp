@@ -7,10 +7,6 @@ import {mount, shallow} from 'enzyme';
 import SizeAwareImage from 'components/size_aware_image';
 import LoadingImagePreview from 'components/loading_image_preview';
 
-jest.mock('utils/image_utils');
-
-import {loadImage} from 'utils/image_utils';
-
 describe('components/SizeAwareImage', () => {
     const baseProps = {
         dimensions: {
@@ -22,8 +18,6 @@ describe('components/SizeAwareImage', () => {
         src: 'https://example.com/image.png',
         className: 'class',
     };
-
-    loadImage.mockReturnValue(() => ({}));
 
     test('should render an svg when first mounted with dimensions and img display set to none', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
