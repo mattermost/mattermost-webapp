@@ -10,26 +10,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   to="http://a.fake.link"
 >
   <SidebarChannelIcon
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
-      }
-    }
     icon={null}
+    isDeleted={false}
   />
   <div
     className="SidebarChannelLinkLabel_wrapper"
@@ -107,26 +89,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   to="http://a.fake.link"
 >
   <SidebarChannelIcon
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
-      }
-    }
     icon={null}
+    isDeleted={false}
   />
   <div
     className="SidebarChannelLinkLabel_wrapper"
@@ -204,26 +168,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   to="http://a.fake.link"
 >
   <SidebarChannelIcon
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
-      }
-    }
     icon={null}
+    isDeleted={false}
   />
   <div
     className="SidebarChannelLinkLabel_wrapper"
@@ -325,26 +271,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   to="http://a.fake.link"
 >
   <SidebarChannelIcon
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
-      }
-    }
     icon={null}
+    isDeleted={false}
   />
   <div
     className="SidebarChannelLinkLabel_wrapper"
