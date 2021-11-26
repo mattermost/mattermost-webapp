@@ -1,12 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useState} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import React, {memo, useCallback} from 'react';
+import {FormattedMessage} from 'react-intl';
+import {useDispatch} from 'react-redux';
 
-import GenericModal from 'components/generic_modal';
+import {openModal, closeModal} from 'actions/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
 
 import Action from './action';
+import SendDraftModal from './send_draft_modal';
+import DeleteDraftModal from './delete_draft_modal';
 
 import './draft_actions.scss';
 
@@ -25,77 +29,33 @@ function DraftActions({
     onEdit,
     onSend,
 }: Props) {
-    const {formatMessage} = useIntl();
-    const [confirm, setConfirm] = useState({show: false, type: ''});
+    const dispatch = useDispatch();
 
     const handleDelete = useCallback(() => {
-        setConfirm({show: true, type: 'delete'});
-    }, []);
+        const handleCancel = () => dispatch(closeModal(ModalIdentifiers.DELETE_DRAFT));
+        dispatch(openModal({
+            modalId: ModalIdentifiers.DELETE_DRAFT,
+            dialogType: DeleteDraftModal,
+            dialogProps: {
+                displayName,
+                onConfirm: () => onDelete(draftId),
+                onCancel: handleCancel,
+            },
+        }));
+    }, [displayName]);
 
     const handleSend = useCallback(() => {
-        setConfirm({show: true, type: 'send'});
-    }, []);
-
-    const handleCancel = useCallback(() => {
-        setConfirm({show: false, type: confirm.type});
-    }, []);
-
-    const handleConfirm = useCallback(() => {
-        if (confirm.type === 'delete') {
-            onDelete(draftId);
-        } else if (confirm.type === 'send') {
-            onSend(draftId);
-        }
-    }, [confirm.type, draftId]);
-
-    let title;
-    let confirmButtonText;
-    let confirmButtonClass;
-    let message;
-
-    if (confirm.type === 'send') {
-        title = formatMessage({
-            id: 'drafts.confirm.send.title',
-            defaultMessage: 'Send Message now',
-        });
-        confirmButtonText = formatMessage({
-            id: 'drafts.confirm.send.button',
-            defaultMessage: 'Yes, Send Now',
-        });
-        message = (
-            <FormattedMessage
-                id={'drafts.confirm.send.text'}
-                defaultMessage={'Are you sure you want to send this message to <strong>{displayName}</strong>?'}
-                values={{
-                    strong: (chunk: string) => <strong>{chunk}</strong>,
-                    displayName,
-                }}
-            />
-        );
-    }
-
-    if (confirm.type === 'delete') {
-        confirmButtonClass = 'delete';
-
-        title = formatMessage({
-            id: 'drafts.confirm.delete.title',
-            defaultMessage: 'Delete Draft',
-        });
-        confirmButtonText = formatMessage({
-            id: 'drafts.confirm.delete.button',
-            defaultMessage: 'Yes, Delete',
-        });
-        message = (
-            <FormattedMessage
-                id={'drafts.confirm.delete.text'}
-                defaultMessage={'Are you sure you want to delete this draft to <strong>{displayName}</strong>?'}
-                values={{
-                    strong: (chunk: string) => <strong>{chunk}</strong>,
-                    displayName,
-                }}
-            />
-        );
-    }
+        const handleCancel = () => dispatch(closeModal(ModalIdentifiers.SEND_DRAFT));
+        dispatch(openModal({
+            modalId: ModalIdentifiers.SEND_DRAFT,
+            dialogType: SendDraftModal,
+            dialogProps: {
+                displayName,
+                onConfirm: () => onSend(draftId),
+                onCancel: handleCancel,
+            },
+        }));
+    }, [displayName]);
 
     return (
         <>
@@ -135,17 +95,6 @@ function DraftActions({
                 )}
                 onClick={handleSend}
             />
-            <GenericModal
-                show={confirm.show}
-                modalHeaderText={title}
-                confirmButtonClassName={confirmButtonClass}
-                confirmButtonText={confirmButtonText}
-                handleConfirm={handleConfirm}
-                handleCancel={handleCancel}
-                onExited={handleCancel}
-            >
-                <div>{message}</div>
-            </GenericModal>
         </>
     );
 }

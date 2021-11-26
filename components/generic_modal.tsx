@@ -47,15 +47,6 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         };
     }
 
-    static getDerivedStateFromProps(props: Props, state: State) {
-        if (props.show !== state.show) {
-            return {
-                show: props.show,
-            };
-        }
-        return null;
-    }
-
     onHide = () => {
         this.setState({show: false});
     }
