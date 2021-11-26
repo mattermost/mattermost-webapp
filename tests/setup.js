@@ -8,6 +8,7 @@ import $ from 'jquery';
 import '@testing-library/jest-dom';
 
 import './redux-persist_mock';
+import './react-intl_mock';
 
 global.$ = $;
 global.jQuery = $;

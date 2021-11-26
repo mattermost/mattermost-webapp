@@ -81,20 +81,20 @@ describe('Teams Suite', () => {
             // * Check that the Invitation Modal opened up
             cy.findByTestId('invitationModal', {timeout: TIMEOUTS.HALF_SEC}).should('be.visible');
 
-            cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+            cy.get('.users-emails-input__control').should('be.visible').within(($el) => {
                 // # Type the first letters of a user
                 cy.wrap($el).get('input').type(otherUser.first_name, {force: true});
-
-                // * Verify user is on the list, then select by clicking on it
-                cy.wrap($el).get('.users-emails-input__menu').
-                    children().should('have.length', 1).
-                    eq(0).should('contain', `@${otherUser.username}`).and('contain', `${otherUser.first_name} ${otherUser.last_name}`).
-                    click();
             });
 
+            // * Verify user is on the list, then select by clicking on it
+            cy.get('.users-emails-input__menu').
+                children().should('have.length', 1).
+                eq(0).should('contain', `@${otherUser.username}`).and('contain', `${otherUser.first_name} ${otherUser.last_name}`).
+                click();
+
             // # Click "Invite Members" button, then "Done" button
-            cy.findByRole('button', {name: 'Invite Members'}).click();
-            cy.findByRole('button', {name: 'Done'}).click();
+            cy.get('#inviteMembersButton').click();
+            cy.findByTestId('confirm-done').click();
 
             // * As sysadmin, verify system message posts in Town Square and Off-Topic
             cy.getLastPost().wait(TIMEOUTS.HALF_SEC).then(($el) => {

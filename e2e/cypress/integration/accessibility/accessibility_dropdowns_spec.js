@@ -98,7 +98,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         // * Verify the first option is not selected by default
         cy.uiGetLHSTeamMenu().find('.MenuItem').
             children().eq(0).
-            should('not.have.class', 'a11y--active a11y--focused').
+            should('not.be.focused').
             focus();
 
         // * Verify the accessibility support in the Main Menu Dropdown items
@@ -138,7 +138,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
         // * Verify the aria-label in status menu button
         cy.uiGetSetStatusButton().
-            should('have.class', 'a11y--active a11y--focused').
+            should('be.focused').
             click();
 
         // * Verify the accessibility support in the Status Dropdown
@@ -148,7 +148,15 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
             and('have.attr', 'role', 'menu');
 
         // * Verify the first option is not selected by default
-        cy.uiGetStatusMenuContainer().find('.dropdown-menu').children().eq(0).should('not.have.class', 'a11y--active a11y--focused');
+        cy.uiGetStatusMenuContainer().find('.dropdown-menu').children().eq(0).should('not.be.focused');
+
+        // # Press tab
+        cy.focused().tab();
+
+        // * Verify first focus is on menu header which is the profile image
+        cy.uiGetStatusMenuContainer().within(() => {
+            cy.findByAltText('user profile image').should('be.focused');
+        });
 
         // # Press tab
         cy.focused().tab();
@@ -160,6 +168,8 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
             {id: 'status-menu-away', label: 'away'},
             {id: 'status-menu-dnd_menuitem', label: 'do not disturb. disables all notifications'},
             {id: 'status-menu-offline', label: 'offline'},
+            {id: 'accountSettings', label: 'Profile dialog'},
+            {id: 'logout', label: 'Log Out'},
         ];
 
         menuItems.forEach((item) => {
@@ -167,7 +177,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
             cy.uiGetStatusMenuContainer().find(`#${item.id}`).
                 should('be.visible').
                 findAllByLabelText(item.label).first().
-                should('have.class', 'a11y--active a11y--focused');
+                should('be.focused');
 
             // # Press tab for next item
             cy.focused().tab();

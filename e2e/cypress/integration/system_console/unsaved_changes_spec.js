@@ -10,14 +10,20 @@
 // Stage: @prod
 // Group: @not_cloud @system_console
 
+import {fileSizeToString} from '../../utils';
+
 describe('Unsaved Changes', () => {
+    let defaultMaxFileSize;
+
     before(() => {
         cy.shouldNotRunOnCloudEdition();
+
+        cy.apiGetConfig(true).then(({config}) => {
+            defaultMaxFileSize = config.MaxFileSize;
+        });
     });
 
     it('MM-T955 Warning leaving changed page without saving: Leave page, discard changes', () => {
-        const defaultValue = '50';
-
         // # Make a change on any page.
         cy.visit('/admin_console/environment/file_storage');
         cy.findByTestId('FileSettings.MaxFileSizenumber').clear().type('150');
@@ -32,7 +38,7 @@ describe('Unsaved Changes', () => {
         // * Opens other page, changes discarded.
         cy.url().should('include', '/environment/database');
         cy.visit('/admin_console/environment/file_storage');
-        cy.findByTestId('FileSettings.MaxFileSizenumber').should('have.value', defaultValue);
+        cy.findByTestId('FileSettings.MaxFileSizenumber').should('have.value', fileSizeToString(defaultMaxFileSize).replace('MB', ''));
     });
 
     it('MM-T956 Warning leaving changed page without saving: Cancel leaving page', () => {
