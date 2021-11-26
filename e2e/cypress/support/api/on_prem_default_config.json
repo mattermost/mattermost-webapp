@@ -229,7 +229,7 @@
         "ShowFullName": true
     },
     "SupportSettings": {
-        "TermsOfServiceLink": "https://mattermost.com/terms-of-service/",
+        "TermsOfServiceLink": "https://mattermost.com/terms-of-use/",
         "PrivacyPolicyLink": "https://mattermost.com/privacy-policy/",
         "AboutLink": "https://about.mattermost.com/default-about/",
         "HelpLink": "https://about.mattermost.com/default-help/",
