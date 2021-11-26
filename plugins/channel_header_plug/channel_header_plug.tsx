@@ -112,7 +112,6 @@ type ChannelHeaderPlugProps = {
 
 type ChannelHeaderPlugState = {
     dropdownOpen: boolean;
-    disableButtonsClosingRHS: boolean;
 }
 
 const CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT = 500;
@@ -123,22 +122,21 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         appBindings: [],
     }
 
+    private disableButtonsClosingRHS = false;
+
     constructor(props: ChannelHeaderPlugProps) {
         super(props);
         this.state = {
             dropdownOpen: false,
-            disableButtonsClosingRHS: false,
         };
     }
 
     componentDidUpdate(prevProps: ChannelHeaderPlugProps) {
         if (prevProps.sidebarOpen && !this.props.sidebarOpen) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({disableButtonsClosingRHS: true});
+            this.disableButtonsClosingRHS = true;
 
             setTimeout(() => {
-                // eslint-disable-next-line react/no-did-update-set-state
-                this.setState({disableButtonsClosingRHS: false});
+                this.disableButtonsClosingRHS = false;
             }, CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT);
         }
     }
@@ -152,7 +150,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     }
 
     fireAction = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
-        if (this.state.disableButtonsClosingRHS) {
+        if (this.disableButtonsClosingRHS) {
             return;
         }
 
@@ -160,10 +158,6 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     }
 
     fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
-        if (this.state.disableButtonsClosingRHS) {
-            return;
-        }
-
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
@@ -183,7 +177,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     }
 
     onBindingClick = async (binding: AppBinding) => {
-        if (this.state.disableButtonsClosingRHS) {
+        if (this.disableButtonsClosingRHS) {
             return;
         }
 
