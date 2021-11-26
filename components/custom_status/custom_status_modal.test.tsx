@@ -15,7 +15,7 @@ describe('components/custom_status/custom_status_modal', () => {
     const mockStore = configureStore();
     const store = mockStore({});
     const baseProps = {
-        onHide: jest.fn(),
+        onExited: jest.fn(),
     };
 
     it('should match snapshot', () => {

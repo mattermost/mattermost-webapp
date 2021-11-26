@@ -21,8 +21,12 @@ Cypress.Commands.add('isExpanded', {prevSubject: true}, (subject) => {
     return cy.get(subject).should('have.class', 'sidebar--right--expanded');
 });
 
-Cypress.Commands.add('uiAddComment', () => {
-    cy.findByRole('button', {name: 'Add Comment'}).click();
+Cypress.Commands.add('uiGetReply', () => {
+    return cy.findByRole('button', {name: 'Reply'});
+});
+
+Cypress.Commands.add('uiReply', () => {
+    cy.uiGetReply().click();
 });
 
 // Sidebar search container
@@ -33,4 +37,38 @@ Cypress.Commands.add('uiGetRHSSearchContainer', (options = {visible: true}) => {
     }
 
     return cy.get('#searchContainer').should('not.exist');
+});
+
+// Sidebar files search
+
+Cypress.Commands.add('uiGetFileFilterButton', () => {
+    return cy.get('.FilesFilterMenu').should('be.visible');
+});
+
+Cypress.Commands.add('uiGetFileFilterMenu', (option = {exist: true}) => {
+    if (option.exist) {
+        return cy.get('.FilesFilterMenu').
+            find('.dropdown-menu').
+            should('be.visible');
+    }
+
+    return cy.get('.FilesFilterMenu').
+        find('.dropdown-menu').
+        should('not.exist');
+});
+
+Cypress.Commands.add('uiOpenFileFilterMenu', (item = '') => {
+    // # Click on file filter button
+    cy.uiGetFileFilterButton().click();
+
+    if (!item) {
+        // # Return the menu if no item is passed
+        return cy.uiGetFileFilterMenu();
+    }
+
+    // # Click on a particular item
+    return cy.uiGetFileFilterMenu().
+        findByText(item).
+        should('be.visible').
+        click();
 });

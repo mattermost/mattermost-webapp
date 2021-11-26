@@ -28,6 +28,8 @@ import Button from 'components/threading/common/button';
 import FollowButton from 'components/threading/common/follow_button';
 
 import {THREADING_TIME} from 'components/threading/common/options';
+import {trackEvent} from 'actions/telemetry_actions';
+
 type Props = {
     threadId: $ID<UserThread>;
 };
@@ -59,6 +61,7 @@ function ThreadFooter({
     const participantIds = useMemo(() => (participants || []).map(({id}) => id).reverse(), [participants]);
 
     const handleReply = useCallback((e) => {
+        trackEvent('crt', 'replied_using_footer');
         e.stopPropagation();
         dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
     }, [threadId, channelId]);

@@ -4,14 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Group} from 'mattermost-redux/types/groups';
 import {Channel} from 'mattermost-redux/types/channels';
+import {Group} from 'mattermost-redux/types/groups';
 
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
+
+import {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import ToggleModalButton from 'components/toggle_modal_button';
-import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import GroupList from '../../group';
 
 interface ChannelGroupsProps {
@@ -36,9 +38,10 @@ export const ChannelGroups: React.FunctionComponent<ChannelGroupsProps> = (props
             subtitleId={synced ? t('admin.channel_settings.channel_detail.syncedGroupsDescription') : t('admin.channel_settings.channel_detail.groupsDescription')}
             subtitleDefault={synced ? 'Add and remove channel members based on their group membership.' : 'Select groups to be added to this channel.'}
             button={
-                <ToggleModalButton
+                <ToggleModalButtonRedux
                     id='addGroupsToChannelToggle'
                     className='btn btn-primary'
+                    modalId={ModalIdentifiers.ADD_GROUPS_TO_CHANNEL}
                     dialogType={AddGroupsToChannelModal}
                     dialogProps={{
                         channel,
@@ -47,13 +50,14 @@ export const ChannelGroups: React.FunctionComponent<ChannelGroupsProps> = (props
                         includeGroups: removedGroups,
                         excludeGroups: groups,
                     }}
-                    isDisabled={isDisabled}
+                    disabled={isDisabled}
                 >
                     <FormattedMessage
                         id='admin.channel_settings.channel_details.add_group'
                         defaultMessage='Add Group'
                     />
-                </ToggleModalButton>}
+                </ToggleModalButtonRedux>
+            }
         >
             {channel.id && (
                 <GroupList

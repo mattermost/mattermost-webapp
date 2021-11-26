@@ -3,28 +3,24 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import IconButton from '@mattermost/compass-components/components/icon-button';
+
+import {trackEvent} from 'actions/telemetry_actions';
+
+import * as Utils from 'utils/utils';
+import {ModalIdentifiers} from 'utils/constants';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
-import {toggleShortcutsModal} from 'actions/global_actions';
-import {trackEvent} from 'actions/telemetry_actions';
-import * as Utils from 'utils/utils';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
+
+import type {PropsFromRedux} from './index';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
-type Props = {
-    intl: IntlShape;
-    helpLink: string;
-    reportAProblemLink: string;
-    enableAskCommunityLink: string;
-    showGettingStarted: boolean;
-    actions: {
-        unhideNextSteps: () => void;
-    };
-};
+type Props = WrappedComponentProps & PropsFromRedux
 
 type State = {
     buttonActive: boolean;
@@ -38,9 +34,12 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         };
     }
 
-    toggleShortcutsModal = (e: MouseEvent) => {
+    openKeyboardShortcutsModal = (e: MouseEvent) => {
         e.preventDefault();
-        toggleShortcutsModal();
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+            dialogType: KeyboardShortcutsModal,
+        });
     }
 
     buttonToggleState = (menuActive: boolean) => {
@@ -85,7 +84,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 />
                 <Menu.ItemAction
                     id='keyboardShortcuts'
-                    onClick={this.toggleShortcutsModal}
+                    onClick={this.openKeyboardShortcutsModal}
                     text={intl.formatMessage({id: 'userGuideHelp.keyboardShortcuts', defaultMessage: 'Keyboard shortcuts'})}
                 />
             </Menu.Group>
