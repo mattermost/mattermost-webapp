@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
 
 import * as UserAgent from 'utils/user_agent';
@@ -23,12 +22,12 @@ export default class SettingsSidebar extends React.PureComponent<Props> {
     public handleClick = (tab: Tab, e: React.MouseEvent) => {
         e.preventDefault();
         this.props.updateTab(tab.name);
-        $(e.target).closest('.settings-modal').addClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
+        (e.target as Element).closest('.settings-modal')?.classList.add('display--content');
     }
 
     public componentDidMount() {
         if (UserAgent.isFirefox()) {
-            $('.settings-modal .settings-table .nav').addClass('position--top'); // eslint-disable-line jquery/no-closest, jquery/no-class
+            document.querySelector('.settings-modal .settings-table .nav')?.classList.add('position--top');
         }
     }
 
