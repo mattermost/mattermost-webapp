@@ -46,10 +46,13 @@ function DraftTitle({
     let you = null;
     if (selfDraft) {
         you = (
-            <FormattedMessage
-                id='drafts.draft_title.you'
-                defaultMessage={'(you)'}
-            />
+            <>
+                &nbsp;
+                <FormattedMessage
+                    id='drafts.draft_title.you'
+                    defaultMessage={'(you)'}
+                />
+            </>
         );
     }
 
@@ -94,7 +97,7 @@ function DraftTitle({
                             span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
                         }}
                     />
-                    &nbsp;{you}
+                    {you}
                 </>
             );
         }
@@ -110,7 +113,7 @@ function DraftTitle({
                         span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
                     }}
                 />
-                &nbsp;{you}
+                {you}
             </>
         );
     }
@@ -143,7 +146,7 @@ function DraftTitle({
                     span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
                 }}
             />
-            &nbsp;{you}
+            {you}
         </>
     );
 }

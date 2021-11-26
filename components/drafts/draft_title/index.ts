@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 
-import {getUserIdsInChannels} from 'mattermost-redux/selectors/entities/users';
+import {getUser, getUserIdsInChannels} from 'mattermost-redux/selectors/entities/users';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {Constants} from 'utils/constants';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -39,6 +40,11 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         if (membersCount === 0) {
             membersCount = channelName.split(',').length;
         }
+    }
+
+    if (channel.type === Constants.DM_CHANNEL) {
+        teammateId = getUserIdFromChannelName(userId, channel.name);
+        teammate = getUser(state, teammateId);
     }
 
     return {
