@@ -82,6 +82,8 @@ export default class SearchResultsItem extends React.PureComponent {
 
         a11yIndex: PropTypes.number,
 
+        isMobileView: PropTypes.bool.isRequired,
+
         /**
         *  Function used for closing LHS
         */
@@ -142,7 +144,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
     handleJumpClick = (e) => {
         e.preventDefault();
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             this.props.actions.closeRightHandSide();
         }
 
@@ -299,7 +301,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 </p>
             );
         } else {
-            if (!Utils.isMobile()) {
+            if (!this.props.isMobileView) {
                 flagContent = (
                     <PostFlagIcon
                         location={Locations.SEARCH}
