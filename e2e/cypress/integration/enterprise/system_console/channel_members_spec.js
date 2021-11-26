@@ -116,7 +116,7 @@ describe('Channel members test', () => {
         cy.get('#channelMembers .DataGrid_rows').should('contain', 'No users found');
 
         // # Open the add members modal
-        cy.findByTestId('addChannelMembers').click();
+        cy.get('#addChannelMembers').click();
 
         // # Enter user1 and user2 emails
         cy.get('#addUsersToChannelModal input').clear().type(`${user1.email}{enter}${user2.email}{enter}`);
