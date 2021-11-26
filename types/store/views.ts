@@ -21,6 +21,12 @@ export type ViewsState = {
         };
     };
 
+    announcementBar: {
+        announcementBarState: {
+            announcementBarCount: number;
+        };
+    };
+
     browser: {
         focused: boolean;
         windowSize: string;
@@ -45,6 +51,7 @@ export type ViewsState = {
         channelPrefetchStatus: {
             [channelId: string]: string;
         };
+        toastStatus: boolean;
     };
 
     rhs: RhsViewState;
@@ -124,11 +131,11 @@ export type ViewsState = {
     };
 
     system: {
-        websocketConnectErrorCount: number;
+        websocketConnectionErrorCount: number;
     };
 
     channelSelectorModal: {
-        channels: Channel[];
+        channels: string[];
     };
 
     settings: {
@@ -163,5 +170,12 @@ export type ViewsState = {
         lastViewedAt: {[id: string]: number};
         manuallyUnread: {[id: string]: boolean};
         toastStatus: boolean;
+    };
+
+    textbox: {
+        shouldShowPreviewOnCreateComment: boolean;
+        shouldShowPreviewOnCreatePost: boolean;
+        shouldShowPreviewOnEditChannelHeaderModal: boolean;
+        shouldShowPreviewOnEditPostModal: boolean;
     };
 };
