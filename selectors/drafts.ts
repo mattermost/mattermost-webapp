@@ -66,7 +66,8 @@ export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
                     key.startsWith(prefix) &&
                     item != null &&
                     item.value != null &&
-                    (item.value.message || item.value.fileInfos?.length > 0)
+                    (item.value.message || item.value.fileInfos?.length > 0) &&
+                    item.value.show
                 ) {
                     const info = getInfoFromKey(key, prefix);
 

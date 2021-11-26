@@ -323,7 +323,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
-        window.addEventListener('beforeunload', this.saveDraft);
+        window.addEventListener('beforeunload', this.saveDraftWithShow);
         if (useGroupMentions) {
             getChannelMemberCountsByGroup(channelId);
         }
@@ -340,8 +340,8 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.props.resetCreatePostRequest?.();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
-        window.removeEventListener('beforeunload', this.saveDraft);
-        this.saveDraft();
+        window.removeEventListener('beforeunload', this.saveDraftWithShow);
+        this.saveDraftWithShow();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -376,6 +376,23 @@ class CreateComment extends React.PureComponent<Props, State> {
         if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
             this.showPostDeletedModal();
         }
+    }
+
+    saveDraftWithShow = () => {
+        this.setState((prev) => {
+            if (prev.draft) {
+                return {
+                    draft: {
+                        ...prev.draft,
+                        show: Boolean(prev.draft.message),
+                    } as PostDraft,
+                };
+            }
+
+            return {
+                draft: prev.draft,
+            };
+        }, this.saveDraft);
     }
 
     saveDraft = () => {
@@ -779,7 +796,8 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
 
         const draft = this.state.draft!;
-        const updatedDraft = {...draft, message};
+        const show = this.state.draft!.message ? this.state.draft!.show : false;
+        const updatedDraft = {...draft, message, show};
 
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
@@ -1063,6 +1081,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
+        this.saveDraftWithShow();
         this.lastBlurAt = Date.now();
     }
 

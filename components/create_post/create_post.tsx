@@ -411,10 +411,26 @@ class CreatePost extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.documentKeyHandler);
         window.addEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        this.saveDraft();
+        this.saveDraftWithShow();
     }
 
     unloadHandler = () => {
+        this.saveDraftWithShow();
+    }
+
+    saveDraftWithShow = () => {
+        if (this.saveDraftFrame && this.props.currentChannel) {
+            const channelId = this.props.currentChannel.id;
+            const draft = this.draftsForChannel[channelId];
+
+            if (draft) {
+                this.draftsForChannel[channelId] = {
+                    ...draft,
+                    show: Boolean(draft.message),
+                } as PostDraft;
+            }
+        }
+
         this.saveDraft();
     }
 
@@ -874,9 +890,11 @@ class CreatePost extends React.PureComponent<Props, State> {
             serverError,
         });
 
+        const show = message ? this.props.draft.show : false;
         const draft = {
             ...this.props.draft,
             message,
+            show,
         };
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
@@ -1198,6 +1216,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
     handleBlur = () => {
         this.lastBlurAt = Date.now();
+        this.saveDraftWithShow();
     }
 
     handleEmojiClose = () => {

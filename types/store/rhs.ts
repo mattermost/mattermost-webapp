@@ -27,6 +27,7 @@ export type PostDraft = {
     channelId: string;
     createAt: Date;
     updateAt: Date;
+    show?: boolean;
 };
 
 export type RhsViewState = {
