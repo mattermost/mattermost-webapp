@@ -1215,7 +1215,7 @@
   "admin.license.enterprise.restart": "Restart Server",
   "admin.license.enterprise.restarting": "Restarting",
   "admin.license.enterprise.upgrade": "Upgrade to Enterprise Edition",
-  "admin.license.enterprise.upgrade.acceptTermsFinal": " .Upgrading will download the binary and update your team edition.",
+  "admin.license.enterprise.upgrade.acceptTermsFinal": ". Upgrading will download the binary and update your team edition.",
   "admin.license.enterprise.upgrade.acceptTermsInitial": "By clicking **Upgrade**, I agree to the terms of the Mattermost ",
   "admin.license.enterprise.upgrade.eeLicenseLink": "Enterprise Edition License",
   "admin.license.enterprise.upgrading": "Upgrading {percentage}%",

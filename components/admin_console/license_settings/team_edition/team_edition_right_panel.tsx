@@ -81,7 +81,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                     </a>
                     <FormattedMarkdownMessage
                         id='admin.license.enterprise.upgrade.acceptTermsFinal'
-                        defaultMessage=' .Upgrading will download the binary and update your team edition.'
+                        defaultMessage='. Upgrading will download the binary and update your team edition.'
                     />
                 </p>
                 {upgradeError && (
