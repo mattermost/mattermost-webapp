@@ -36,37 +36,42 @@ describe('Verify Accessibility Support in different input fields', () => {
         // # Open team menu and click 'Invite People'
         cy.uiOpenTeamMenu('Invite People');
 
-        // # Click on Invite Members link
-        cy.findByTestId('inviteMembersLink').should('be.visible').within(() => {
-            cy.get('.arrow').click();
+        // # Click invite members if needed
+        cy.get('.InviteAs').then(($inviteAs) => {
+            const hasABToggleTreatment = $inviteAs.find('#inviteAsToggleControl').length > 0;
+            if (hasABToggleTreatment) {
+                if ($inviteAs.find('#inviteMembersLink').length > 0) {
+                    // Has A/B test toggle treatment and is in guest mode.
+                    cy.findByTestId('inviteMembersLink').click();
+                }
+            } else {
+                // Has A/B test radio treatment, so inviteMembersLink is always visible.
+                cy.findByTestId('inviteMembersLink').click();
+            }
         });
 
         // * Verify Accessibility support in Share this link input field
-        cy.findByTestId('shareLinkInput').should('have.attr', 'aria-label', 'team invite link');
+        cy.findByTestId('InviteView__copyInviteLink').should('have.attr', 'aria-label', 'team invite link');
 
         // * Verify Accessibility Support in Add or Invite People input field
-        cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
+        cy.get('.users-emails-input__control').should('be.visible').within(() => {
             cy.get('input').should('have.attr', 'aria-label', 'Add or Invite People').and('have.attr', 'aria-autocomplete', 'list');
-            cy.get('.users-emails-input__placeholder').should('have.text', 'Add members or email addresses');
+            cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
         });
-
-        cy.get('#backIcon').click();
 
         // # Click on Invite Guests link
-        cy.findByTestId('inviteGuestLink').should('be.visible').within(() => {
-            cy.get('.arrow').click();
-        });
+        cy.findByTestId('inviteGuestLink').should('be.visible').click();
 
         // * Verify Accessibility Support in Invite People input field
-        cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
-            cy.get('input').as('inputEl').should('have.attr', 'aria-label', 'Invite People').and('have.attr', 'aria-autocomplete', 'list');
-            cy.get('.users-emails-input__placeholder').should('have.text', 'Add guests or email addresses');
+        cy.get('.users-emails-input__control').should('be.visible').within(() => {
+            cy.get('input').should('have.attr', 'aria-label', 'Add or Invite People').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
         });
 
         // * Verify Accessibility Support in Search and Add Channels input field
-        cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
+        cy.get('.channels-input__control').should('be.visible').within(() => {
             cy.get('input').should('have.attr', 'aria-label', 'Search and Add Channels').and('have.attr', 'aria-autocomplete', 'list');
-            cy.get('.channels-input__placeholder').should('have.text', 'Search and add channels');
+            cy.get('.channels-input__placeholder').should('have.text', `e.g. ${testChannel.display_name}`);
         });
     });
 
