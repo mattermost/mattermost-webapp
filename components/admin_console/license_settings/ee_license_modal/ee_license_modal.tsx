@@ -5,7 +5,8 @@ import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+
+import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
 

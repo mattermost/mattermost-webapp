@@ -60,6 +60,7 @@ export type ViewsState = {
 
     posts: {
         editingPost: {
+            postId: string;
             show: boolean;
         };
         menuActions: {
@@ -84,6 +85,7 @@ export type ViewsState = {
 
     emoji: {
         emojiPickerCustomPage: 0;
+        shortcutReactToLastPostEmittedFrom: string;
     };
 
     i18n: I18nState;
