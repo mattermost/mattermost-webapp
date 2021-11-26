@@ -81,7 +81,7 @@ describe('Status dropdown menu', () => {
         cy.uiOpenUserMenu();
     });
 
-    it('MM-TXXX Should stay open when dnd sub-menu header is clicked', () => {
+    it('MM-T4420 Should stay open when dnd sub-menu header is clicked', () => {
         // # Open Dnd sub menu and click on header
         cy.uiOpenDndStatusSubMenu().find('#dndSubMenu-header_menuitem').click().then(() => {
             cy.wait(TIMEOUTS.HALF_SEC);
