@@ -418,6 +418,10 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.saveDraftWithShow();
     }
 
+    isDraftEmpty = (draft: PostDraft): boolean => {
+        return !draft || (!draft.message && draft.fileInfos.length === 0);
+    }
+
     saveDraftWithShow = (props = this.props) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
@@ -426,7 +430,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             if (draft) {
                 this.draftsForChannel[channelId] = {
                     ...draft,
-                    show: Boolean(draft.message),
+                    show: !this.isDraftEmpty(draft),
                 } as PostDraft;
             }
         }
@@ -890,7 +894,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             serverError,
         });
 
-        const show = message ? this.props.draft.show : false;
+        const show = this.isDraftEmpty(this.props.draft) ? false : this.props.draft!.show;
         const draft = {
             ...this.props.draft,
             message,
@@ -980,7 +984,11 @@ class CreatePost extends React.PureComponent<Props, State> {
             draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
         }
 
-        this.draftsForChannel[channelId] = draft;
+        this.draftsForChannel[channelId] = {
+            ...draft,
+            show: true,
+        };
+
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 

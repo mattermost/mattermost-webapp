@@ -384,7 +384,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 return {
                     draft: {
                         ...prev.draft,
-                        show: Boolean(prev.draft.message),
+                        show: !this.isDraftEmpty(prev.draft),
                     } as PostDraft,
                 };
             }
@@ -787,6 +787,10 @@ class CreateComment extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
+    isDraftEmpty = (draft: PostDraft): boolean => {
+        return !draft || (!draft.message && draft.fileInfos.length === 0);
+    }
+
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const message = e.target.value;
 
@@ -796,7 +800,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
 
         const draft = this.state.draft!;
-        const show = this.state.draft!.message ? this.state.draft!.show : false;
+        const show = this.isDraftEmpty(draft) ? false : draft.show;
         const updatedDraft = {...draft, message, show};
 
         if (this.saveDraftFrame) {
@@ -960,6 +964,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             ...draft,
             fileInfos: newFileInfos,
             uploadsInProgress,
+            show: true,
         };
         this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
         this.draftsForPost[rootId] = modifiedDraft;
