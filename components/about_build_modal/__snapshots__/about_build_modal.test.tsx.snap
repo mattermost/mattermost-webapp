@@ -336,7 +336,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             target="_blank"
           >
             <MemoizedFormattedMessage
-              defaultMessage="Terms of Service"
+              defaultMessage="Terms of Use"
               id="about.tos"
             />
           </a>
@@ -564,7 +564,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             target="_blank"
           >
             <MemoizedFormattedMessage
-              defaultMessage="Terms of Service"
+              defaultMessage="Terms of Use"
               id="about.tos"
             />
           </a>
@@ -802,7 +802,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             target="_blank"
           >
             <MemoizedFormattedMessage
-              defaultMessage="Terms of Service"
+              defaultMessage="Terms of Use"
               id="about.tos"
             />
           </a>
@@ -1029,7 +1029,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
             target="_blank"
           >
             <MemoizedFormattedMessage
-              defaultMessage="Terms of Service"
+              defaultMessage="Terms of Use"
               id="about.tos"
             />
           </a>

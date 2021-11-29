@@ -2037,6 +2037,13 @@ export default class Client4 {
         );
     };
 
+    getPostsByIds = (postIds: string[]) => {
+        return this.doFetch<Post[]>(
+            `${this.getPostsRoute()}/ids`,
+            {method: 'post', body: JSON.stringify(postIds)},
+        );
+    };
+
     addReaction = (userId: string, postId: string, emojiName: string) => {
         this.trackEvent('api', 'api_reactions_save', {post_id: postId});
 
