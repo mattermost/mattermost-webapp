@@ -68,6 +68,8 @@ export type Props = {
      */
     clearableWithoutValue?: boolean;
 
+    forwardedRef?: ((instance: HTMLInputElement | HTMLTextAreaElement | null) => void) | React.MutableRefObject<HTMLInputElement | HTMLTextAreaElement | null> | null;
+
     maxLength?: number;
     className?: string;
     placeholder?: string | { id: string; defaultMessage: string };
@@ -79,7 +81,7 @@ export type Props = {
 
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
-export default class QuickInput extends React.PureComponent<Props> {
+export class QuickInput extends React.PureComponent<Props> {
     private input?: HTMLInputElement | HTMLTextAreaElement;
 
     static defaultProps = {
@@ -99,7 +101,7 @@ export default class QuickInput extends React.PureComponent<Props> {
         }
     }
 
-    updateInputFromProps = () => {
+    private updateInputFromProps = () => {
         if (!this.input || this.input.value === this.props.value) {
             return;
         }
@@ -107,37 +109,27 @@ export default class QuickInput extends React.PureComponent<Props> {
         this.input.value = this.props.value;
     }
 
-    get value(): string {
-        return this.input!.value;
-    }
+    private setInputRef = (input: HTMLInputElement) => {
+        if (this.props.forwardedRef) {
+            if (typeof this.props.forwardedRef === 'function') {
+                this.props.forwardedRef(input);
+            } else {
+                this.props.forwardedRef.current = input;
+            }
+        }
 
-    set value(value: string) {
-        this.input!.value = value;
-    }
-
-    focus() {
-        this.input!.focus();
-    }
-
-    blur() {
-        this.input!.blur();
-    }
-
-    getInput = () => {
-        return this.input;
-    };
-
-    setInput = (input: HTMLInputElement) => {
         this.input = input;
     }
 
-    onClear = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent) => {
+    private onClear = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
+
         if (this.props.onClear) {
             this.props.onClear();
         }
-        this.focus();
+
+        this.input?.focus();
     }
 
     render() {
@@ -173,6 +165,7 @@ export default class QuickInput extends React.PureComponent<Props> {
         Reflect.deleteProperty(props, 'channelId');
         Reflect.deleteProperty(props, 'clearClassName');
         Reflect.deleteProperty(props, 'tooltipPosition');
+        Reflect.deleteProperty(props, 'forwardedRef');
 
         if (inputComponent !== AutosizeTextarea) {
             Reflect.deleteProperty(props, 'onHeightChange');
@@ -182,7 +175,7 @@ export default class QuickInput extends React.PureComponent<Props> {
             inputComponent || 'input',
             {
                 ...props,
-                ref: this.setInput,
+                ref: this.setInputRef,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             },
         );
@@ -213,3 +206,15 @@ export default class QuickInput extends React.PureComponent<Props> {
         </div>);
     }
 }
+
+type ForwardedProps = Omit<React.ComponentPropsWithoutRef<typeof QuickInput>, 'forwardedRef'>;
+
+const forwarded = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, ForwardedProps>((props, ref) => (
+    <QuickInput
+        forwardedRef={ref}
+        {...props}
+    />
+));
+forwarded.displayName = 'QuickInput';
+
+export default forwarded;

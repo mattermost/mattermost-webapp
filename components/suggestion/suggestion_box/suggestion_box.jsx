@@ -254,7 +254,7 @@ export default class SuggestionBox extends React.PureComponent {
             return null;
         }
 
-        return this.inputRef.current.getInput();
+        return this.inputRef.current;
     }
 
     handleEmitClearSuggestions = (delay = 0) => {
