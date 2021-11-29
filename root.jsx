@@ -6,8 +6,6 @@ import './entry.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import PDFJS from 'pdfjs-dist';
-
 import {logError} from 'mattermost-redux/actions/errors';
 
 // Import our styles
@@ -19,8 +17,6 @@ import '@mattermost/compass-icons/css/compass-icons.css';
 import {isDevMode, setCSRFFromCookie} from 'utils/utils';
 import store from 'stores/redux_store.jsx';
 import App from 'components/app';
-
-PDFJS.disableWorker = true;
 
 // This is for anything that needs to be done for ALL react components.
 // This runs before we start to render anything.
