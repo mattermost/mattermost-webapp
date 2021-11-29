@@ -1,6 +1,6 @@
 .backstage {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 40px);
 }
 
 .backstage-navbar {
@@ -562,6 +562,5 @@
     .backstage {
         position: relative;
         z-index: 20;
-        margin-top: -40px;
     }
 }
