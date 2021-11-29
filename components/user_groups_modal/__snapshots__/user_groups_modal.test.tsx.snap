@@ -46,11 +46,17 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
         id="user_groups_modal.title"
       />
     </ModalTitle>
-    <CreateButton
-      backButtonCallback={[Function]}
-      onExited={[Function]}
-      openModal={[MockFunction]}
-    />
+    <a
+      className="user-groups-create btn btn-md btn-primary"
+      href="#"
+      id="test"
+      onClick={[Function]}
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Create Group"
+        id="user_groups_modal.createNew"
+      />
+    </a>
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"
@@ -125,19 +131,15 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
         </Menu>
       </MenuWrapper>
     </div>
-    <GroupList
-      backButtonCallback={[Function]}
-      groups={Array []}
-      loading={true}
-      onExited={[Function]}
+    <div
+      className="user-groups-modal__content user-groups-list"
       onScroll={[Function]}
-      openModal={[MockFunction]}
-      scrollRef={
-        Object {
-          "current": null,
-        }
-      }
-    />
+    >
+      <LoadingScreen
+        position="relative"
+        style={Object {}}
+      />
+    </div>
   </ModalBody>
 </Modal>
 `;

@@ -128,7 +128,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                         id='userGroupsModalLabel'
                     >
                         <FormattedMessage
-                            id='user_groups_modal.createTitle'
+                            id='user_groups_modal.addPeopleTitle'
                             defaultMessage='Add people to {group}'
                             values={{
                                 group: group.display_name,

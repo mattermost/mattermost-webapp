@@ -19,6 +19,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import UserGroupsModal from 'components/user_groups_modal';
+import {ModalData} from 'types/actions';
 
 export type Props = {
     isMobile: boolean;
@@ -36,6 +37,9 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
+    actions: {
+        openModal: <P>(modalData: ModalData<P>) => void;
+    }
 };
 
 const ProductMenuList = (props: Props): JSX.Element | null => {
@@ -60,6 +64,16 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
 
     if (!currentUser) {
         return null;
+    }
+
+    const openGroupsModal = () => {
+        props.actions.openModal({
+            modalId: ModalIdentifiers.USER_GROUPS,
+            dialogType: UserGroupsModal,
+            dialogProps: {
+                backButtonAction: openGroupsModal
+            },
+        });
     }
 
     const someIntegrationEnabled = enableIncomingWebhooks || enableOutgoingWebhooks || enableCommands || enableOAuthServiceProvider || canManageSystemBots;
@@ -108,6 +122,9 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
                     dialogType={UserGroupsModal}
+                    dialogProps={{
+                        backButtonAction: openGroupsModal,
+                    }}
                     text={formatMessage({id: 'navbar_dropdown.userGroups', defaultMessage: 'User Groups'})}
                     icon={
                         <Icon

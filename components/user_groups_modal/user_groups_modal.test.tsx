@@ -12,6 +12,7 @@ describe('component/user_groups_modal', () => {
         myGroups: [],
         searchTerm: '',
         currentUserId: '',
+        backButtonAction: () => {},
         actions: {
             openModal: jest.fn(),
             getGroups: jest.fn(),

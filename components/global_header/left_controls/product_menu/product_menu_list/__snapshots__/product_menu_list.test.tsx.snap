@@ -112,6 +112,11 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       to="//integrations"
     />
     <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "backButtonAction": [Function],
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -311,6 +316,11 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       to="//integrations"
     />
     <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "backButtonAction": [Function],
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -514,6 +524,11 @@ exports[`components/global/product_switcher_menu should show integrations should
       to="//integrations"
     />
     <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "backButtonAction": [Function],
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
