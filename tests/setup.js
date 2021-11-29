@@ -3,14 +3,12 @@
 
 import Adapter from 'enzyme-adapter-react-16';
 import {configure} from 'enzyme';
-import $ from 'jquery';
 
 import '@testing-library/jest-dom';
 
 import './redux-persist_mock';
+import './react-intl_mock';
 
-global.$ = $;
-global.jQuery = $;
 global.performance = {};
 require('isomorphic-fetch');
 

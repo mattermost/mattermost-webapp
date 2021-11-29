@@ -17,7 +17,7 @@ function selectedPostId(state = '', action) {
         return action.postId;
     case ActionTypes.SELECT_POST_CARD:
         return '';
-    case PostTypes.REMOVE_POST:
+    case PostTypes.POST_REMOVED:
         if (action.data && action.data.id === state) {
             return '';
         }

@@ -273,14 +273,25 @@ describe('Authentication', () => {
         // # Open team menu and click on "Invite People"
         cy.uiOpenTeamMenu('Invite People');
 
-        // # Click invite members
-        cy.findByText('Members').click();
+        // # Click invite members if needed
+        cy.get('.InviteAs').then(($inviteAs) => {
+            const hasABToggleTreatment = $inviteAs.find('#inviteAsToggleControl').length > 0;
+            if (hasABToggleTreatment) {
+                if ($inviteAs.find('#inviteMembersLink').length > 0) {
+                    // Has A/B test toggle treatment and is in guest mode.
+                    cy.findByTestId('inviteMembersLink').click();
+                }
+            } else {
+                // Has A/B test radio treatment, so inviteMembersLink is always visible.
+                cy.findByTestId('inviteMembersLink').click();
+            }
+        });
 
         // # Input email, select member
-        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');
+        cy.findByText('Enter a name or email address').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');
 
         // # Click invite members button
-        cy.findByRole('button', {name: 'Invite Members'}).click({force: true});
+        cy.findByRole('button', {name: 'Invite'}).click({force: true});
 
         // * Verify message is what you expect it to be
         cy.contains('The following email addresses do not belong to an accepted domain:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');

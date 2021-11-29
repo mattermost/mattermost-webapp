@@ -2,21 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 import {useHistory} from 'react-router-dom';
 
 import moment from 'moment';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
-import {closeModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Carousel from 'components/common/carousel/carousel';
@@ -32,6 +30,7 @@ import './trial_benefits_modal.scss';
 
 type Props = {
     onClose?: () => void;
+    onExited: () => void;
     trialJustStarted?: boolean;
 }
 
@@ -44,7 +43,6 @@ const ConsolePages = {
 };
 
 const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null => {
-    const dispatch = useDispatch<DispatchFunc>();
     const steps = [];
     const license = useSelector((state: GlobalState) => getLicense(state));
 
@@ -60,7 +58,7 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
         if (props.onClose) {
             props.onClose();
         }
-        dispatch(closeModal(ModalIdentifiers.TRIAL_BENEFITS_MODAL));
+        props.onExited();
     };
 
     const redirectToConsolePage = (route: string) => {
@@ -241,7 +239,7 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
             className={'TrialBenefitsModal'}
             show={show}
             id='trialBenefitsModal'
-            onHide={handleOnClose}
+            onExited={handleOnClose}
         >
             <Carousel
                 dataSlides={steps}
