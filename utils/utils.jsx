@@ -1311,10 +1311,6 @@ export function windowWidth() {
     return window.innerWidth;
 }
 
-export function windowHeight() {
-    return window.innerHeight;
-}
-
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
 export function isFeatureEnabled(feature, state) {
     return getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);

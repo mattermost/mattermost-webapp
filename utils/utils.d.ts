@@ -98,7 +98,6 @@ export function getUserIdFromChannelName(channel: Channel): string;
 export function getUserIdFromChannelId(channelId: string, currentUserId?: string): string;
 
 export function windowWidth(): number;
-export function windowHeight(): number;
 
 export function isFeatureEnabled(feature: {label: string}, state: GlobalState): boolean;
 
