@@ -9,8 +9,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {ModalIdentifiers} from 'utils/constants';
-
 import * as Utils from 'utils/utils.jsx';
 import {Group} from 'mattermost-redux/types/groups';
 
@@ -18,7 +16,6 @@ import 'components/user_groups_modal/user_groups_modal.scss';
 import {ModalData} from 'types/actions';
 import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import ViewUserGroupModal from 'components/view_user_group_modal';
 
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
@@ -27,6 +24,7 @@ export type Props = {
     onExited: () => void;
     groupId: string;
     group: Group;
+    backButtonCallback: () => void;
     actions: {
         addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -78,22 +76,12 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
         // if (data.error) {
 
         // } else {
-        this.goToViewGroupModal();
-
+        this.goBack();
         // }
     }
 
-    goToViewGroupModal = () => {
-        const {actions, groupId} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.VIEW_USER_GROUP,
-            dialogType: ViewUserGroupModal,
-            dialogProps: {
-                groupId,
-            },
-        });
-
+    goBack = () => {
+        this.props.backButtonCallback();
         this.props.onExited();
     }
 
@@ -115,7 +103,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                         className='modal-header-back-button btn-icon'
                         aria-label='Close'
                         onClick={() => {
-                            this.goToViewGroupModal();
+                            this.goBack();
                         }}
                     >
                         <LocalizedIcon
@@ -156,7 +144,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                                     }}
                                     buttonSubmitText={Utils.localizeMessage('multiselect.createGroup', 'Add People')}
                                     buttonSubmitLoadingText={Utils.localizeMessage('multiselect.createGroup', 'Adding...')}
-                                    backButtonClick={this.goToViewGroupModal}
+                                    backButtonClick={this.goBack}
                                     backButtonClass={'multiselect-back'}
                                 />
                             </div>

@@ -38,6 +38,7 @@ export type Props = {
     group: Group;
     users: UserProfile[];
     backButtonCallback: () => void;
+    backButtonAction: () => void;
     actions: {
         getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
@@ -141,6 +142,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             dialogType: AddUsersToGroupModal,
             dialogProps: {
                 groupId,
+                backButtonCallback: this.props.backButtonAction,
             },
         });
 
@@ -155,6 +157,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             dialogType: UpdateUserGroupModal,
             dialogProps: {
                 groupId,
+                backButtonCallback: this.props.backButtonAction,
             },
         });
 

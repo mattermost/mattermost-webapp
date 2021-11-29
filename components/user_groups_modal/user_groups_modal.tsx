@@ -237,6 +237,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             dialogProps: {
                 groupId: group.id,
                 backButtonCallback: this.props.backButtonAction,
+                backButtonAction: () => {this.goToViewGroupModal(group)},
             },
         });
 

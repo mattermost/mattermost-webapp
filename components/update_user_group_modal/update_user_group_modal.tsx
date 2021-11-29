@@ -19,7 +19,6 @@ import Input from 'components/input';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
-import ViewUserGroupModal from 'components/view_user_group_modal';
 
 import SaveButton from 'components/save_button';
 
@@ -28,6 +27,7 @@ export type Props = {
     groupId: string;
     group: Group;
     showBackButton?: boolean;
+    backButtonCallback: () => void;
     actions: {
         patchGroup: (groupId: string, group: CustomGroupPatch) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -79,20 +79,6 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
         this.setState({mention: value, hasUpdated: true});
     }
 
-    goToGroupModal = () => {
-        const {actions, groupId} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.VIEW_USER_GROUP,
-            dialogType: ViewUserGroupModal,
-            dialogProps: {
-                groupId,
-            },
-        });
-
-        this.props.onExited();
-    }
-
     patchGroup = async () => {
         this.setState({saving: true, showUnknownError: false, mentionInputErrorText: ''});
         const group: CustomGroupPatch = {
@@ -107,8 +93,12 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                 this.setState({showUnknownError: true});
             }
         } else {
-            this.goToGroupModal();
+            this.goBack();
         }
+    }
+    goBack = () => {
+        this.props.backButtonCallback();
+        this.props.onExited();
     }
 
     render() {
@@ -128,7 +118,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                         className='modal-header-back-button btn-icon'
                         aria-label='Close'
                         onClick={() => {
-                            this.goToGroupModal();
+                            this.goBack();
                         }}
                     >
                         <LocalizedIcon
@@ -186,7 +176,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                                 <button
                                     onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                         e.preventDefault();
-                                        this.goToGroupModal();
+                                        this.goBack();
                                     }}
                                     className='btn update-group-back'
                                 >
