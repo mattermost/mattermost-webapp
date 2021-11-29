@@ -249,23 +249,7 @@ export default class SuggestionBox extends React.PureComponent {
             return null;
         }
 
-        const input = this.inputRef.current.getInput();
-
-        if (input.getDOMNode) {
-            return input.getDOMNode();
-        }
-
-        return input;
-    }
-
-    recalculateSize = () => {
-        // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
-        // we're rendering as the input
-        const input = this.inputRef.current.getInput();
-
-        if (input.recalculateSize) {
-            input.recalculateSize();
-        }
+        return this.inputRef.current.getInput();
     }
 
     handleEmitClearSuggestions = (delay = 0) => {
@@ -784,7 +768,7 @@ export default class SuggestionBox extends React.PureComponent {
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
+                            open={true || this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
                             location={listStyle}
                             renderDividers={renderDividers}

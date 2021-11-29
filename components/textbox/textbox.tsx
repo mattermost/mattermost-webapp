@@ -223,10 +223,6 @@ export default class Textbox extends React.PureComponent<Props> {
         this.getInputBox()?.blur();
     };
 
-    recalculateSize = () => {
-        this.message.current?.recalculateSize();
-    }
-
     render() {
         let preview = null;
 
