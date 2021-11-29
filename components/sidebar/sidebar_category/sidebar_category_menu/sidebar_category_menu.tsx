@@ -14,8 +14,8 @@ import SidebarMenu from 'components/sidebar/sidebar_menu';
 import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
-import {Props as SubmenuItemProps} from 'components/widgets/menu/menu_items/submenu_item';
 import {ModalData} from 'types/actions';
+import {Menu as SubMenu} from 'types/store/plugins';
 
 type Props = {
     currentTeamId: string;
@@ -115,7 +115,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             );
         }
 
-        const sortMenuItems: SubmenuItemProps[] = [{
+        const sortMenuItems: SubMenu[] = [{
             id: 'sortAlphabetical',
             direction: 'right' as any,
             text: intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}),

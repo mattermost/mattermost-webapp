@@ -11,6 +11,12 @@ import * as UserAgent from 'utils/user_agent';
 
 import type {GlobalState} from 'types/store';
 
+declare global {
+    interface Window {
+        basename: string;
+    }
+}
+
 export function areTimezonesEnabledAndSupported(state: GlobalState) {
     if (UserAgent.isInternetExplorer()) {
         return false;
@@ -27,7 +33,7 @@ export function getBasePath(state: GlobalState) {
         return new URL(config.SiteURL).pathname;
     }
 
-    return (window as any).basename || '/';
+    return window.basename || '/';
 }
 
 export const getCurrentUserTimezone = createSelector(

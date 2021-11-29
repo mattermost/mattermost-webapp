@@ -9,11 +9,11 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
 
-import type {PluginComponent, ProductComponent, PostPluginComponent, AdminConsolePluginComponent} from 'types/store/plugins';
+import type {PluginComponent, ProductComponent, PostPluginComponent, AdminConsolePluginComponent, Menu} from 'types/store/plugins';
 
 import {ActionTypes} from 'utils/constants';
 
-function hasMenuId(menu: any, menuId: string) {
+function hasMenuId(menu: Menu|PluginComponent, menuId: string) {
     if (!menu.subMenu) {
         return false;
     }
@@ -30,16 +30,16 @@ function hasMenuId(menu: any, menuId: string) {
     return false;
 }
 
-function buildMenu(rootMenu: any, data: any) {
+function buildMenu(rootMenu: Menu|PluginComponent, data: Menu): Menu|PluginComponent {
     // Recursively build the full menu tree.
-    const subMenu = rootMenu.subMenu.map((m: any) => buildMenu(m, data));
+    const subMenu = rootMenu.subMenu?.map((m: Menu) => buildMenu(m, data));
     if (rootMenu.id === data.parentMenuId) {
-        subMenu.push(data);
+        subMenu?.push(data);
     }
 
     return {
         ...rootMenu,
-        subMenu,
+        subMenu: subMenu as Menu[],
     };
 }
 
@@ -298,7 +298,7 @@ function adminConsoleReducers(state: {[pluginId: string]: any} = {}, action: Gen
     }
 }
 
-function adminConsoleCustomComponents(state: {[pluginId: string]: AdminConsolePluginComponent} = {}, action: GenericAction) {
+function adminConsoleCustomComponents(state: {[pluginId: string]: Record<string, AdminConsolePluginComponent>} = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: {
         if (!action.data) {
@@ -309,7 +309,7 @@ function adminConsoleCustomComponents(state: {[pluginId: string]: AdminConsolePl
         const key = action.data.key.toLowerCase();
 
         const nextState = {...state};
-        let nextArray: any = {};
+        let nextArray: Record<string, AdminConsolePluginComponent> = {};
         if (nextState[pluginId]) {
             nextArray = {...nextState[pluginId]};
         }
