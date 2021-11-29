@@ -132,6 +132,8 @@ type Props = {
         isRHS?: boolean;
     };
 
+    isPostBeingEdited: boolean;
+
     shouldShowDotMenu: boolean;
 
     collapsedThreadsEnabled: boolean;
@@ -162,8 +164,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.postHeaderRef = React.createRef();
         this.dotMenuRef = React.createRef();
     }
-
-    isPostBeingEdited = (): boolean => this.props.post.id === this.props.editingPost?.postId;
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         if (e) {
@@ -200,7 +200,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
 
     buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean): null | JSX.Element => {
-        if (!this.props.shouldShowDotMenu || this.isPostBeingEdited()) {
+        if (!this.props.shouldShowDotMenu || this.props.isPostBeingEdited) {
             return null;
         }
 
@@ -327,12 +327,16 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props): void {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
         shortcutReactToLastPostEmittedFrom === Locations.CENTER;
         if (shortcutReactToLastPostEmittedFromCenter && isLastPost !== undefined) {
             this.handleShortcutReactToLastPost(isLastPost);
+        }
+
+        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
+            this.props.handleDropdownOpened(false);
         }
     }
 

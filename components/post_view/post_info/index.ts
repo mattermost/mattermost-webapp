@@ -51,6 +51,7 @@ function makeMapStateToProps() {
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
+            isPostBeingEdited: ownProps.post.id === editingPost?.postId,
             enableEmojiPicker,
             editingPost,
             isReadOnly: channelIsArchived,

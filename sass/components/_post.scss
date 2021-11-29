@@ -550,34 +550,6 @@
     }
 }
 
-.post--editing {
-    overflow: visible;
-    background-color: rgba(var(--button-bg-rgb), 0.08);
-
-    .post__body {
-        background: transparent;
-
-        > .post--editing__wrapper {
-            position: relative;
-            margin: 8px 0 0;
-
-            &.scroll {
-                .post-body__actions {
-                    right: 10px;
-                }
-            }
-        }
-
-        .custom-textarea {
-            background-color: var(--center-channel-bg);
-
-            &.custom-textarea--emoji-picker {
-                padding-right: 50px;
-            }
-        }
-    }
-}
-
 .post-body__actions {
     position: absolute;
     top: 0;
@@ -712,11 +684,39 @@
     padding: 8px 0.5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     word-wrap: break-word;
 
-    &:hover {
+    &:not(.post--editing):hover {
         background-color: rgba(v(center-channel-color-rgb), 0.04);
 
         .post__header {
             padding: 0 55px 0 0;
+        }
+    }
+
+    &.post--editing {
+        overflow: visible;
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+
+        .post__body {
+            background: transparent;
+
+            .post--editing__wrapper {
+                position: relative;
+                margin: 8px 0 0;
+
+                &.scroll {
+                    .post-body__actions {
+                        right: 10px;
+                    }
+                }
+            }
+
+            .custom-textarea {
+                background-color: var(--center-channel-bg);
+
+                &.custom-textarea--emoji-picker {
+                    padding-right: 50px;
+                }
+            }
         }
     }
 
