@@ -27,7 +27,7 @@ describe('Edition and License', () => {
         // * Find text and verify its corresponding public link
         [
             {text: 'Privacy Policy', link: FixedPublicLinks.PrivacyPolicy},
-            {text: 'Enterprise Edition Terms of Service', link: FixedPublicLinks.TermsOfService},
+            {text: 'Enterprise Edition Terms of Use', link: FixedPublicLinks.TermsOfService},
         ].forEach(({text, link}) => {
             cy.findByText(text).
                 scrollIntoView().
