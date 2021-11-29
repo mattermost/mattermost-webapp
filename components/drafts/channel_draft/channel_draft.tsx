@@ -52,15 +52,15 @@ function ChannelDraft({
         history.push(channelUrl);
     }, [channelUrl]);
 
-    const handleOnSend = useCallback(async (id: string) => {
-        await dispatch(onSubmit(value));
-        handleOnDelete(id);
-        handleOnEdit();
-    }, [value, onSubmit]);
-
     const handleOnDelete = useCallback((id: string) => {
         dispatch(removeDraft(id));
     }, []);
+
+    const handleOnSend = useCallback(async (id: string) => {
+        await dispatch(onSubmit(value));
+        dispatch(removeDraft(id));
+        history.push(channelUrl);
+    }, [value, onSubmit, channelUrl]);
 
     if (!channel) {
         return null;

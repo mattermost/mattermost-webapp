@@ -66,8 +66,8 @@ function DraftTitle({
         icon = (
             <Avatar
                 size='xs'
-                username={teammate?.username}
-                url={imageURLForUser(teammate?.id, teammate?.last_picture_update)}
+                username={teammate.username}
+                url={imageURLForUser(teammate.id, teammate.last_picture_update)}
                 className='DraftTitle__avatar'
             />
         );
