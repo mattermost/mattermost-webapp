@@ -191,10 +191,6 @@ export function reconnect(includeWebSocket = true) {
 
     loadPluginsIfNecessary();
 
-    if (appsConfiguredAsEnabled(state)) {
-        dispatch(pingAppsPlugin());
-    }
-
     Object.values(pluginReconnectHandlers).forEach((handler) => {
         if (handler && typeof handler === 'function') {
             handler();
@@ -207,6 +203,10 @@ export function reconnect(includeWebSocket = true) {
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
+
+        if (appsConfiguredAsEnabled(state)) {
+            dispatch(handleRefreshAppsBindings());
+        }
 
         dispatch(loadChannelsForCurrentUser());
 
