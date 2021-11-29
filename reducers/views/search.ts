@@ -32,9 +32,9 @@ function modalFilters(state: ModalFiltersState = {}, action: GenericAction) {
     }
 }
 
-type SystemUserSearchState = {term: string; team: string; filter: string};
+type SystemUserSearchState = {term?: string; team?: string; filter?: string};
 
-function systemUsersSearch(state: SystemUserSearchState = {term: '', team: '', filter: ''}, action: GenericAction) {
+function systemUsersSearch(state: SystemUserSearchState = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_SYSTEM_USERS_SEARCH: {
         return action.data;
@@ -45,15 +45,15 @@ function systemUsersSearch(state: SystemUserSearchState = {term: '', team: '', f
 }
 
 type UserGridSearchState = {
-    term: string;
-    filters: {
+    term?: string;
+    filters?: {
         roles?: string[];
         channel_roles?: string[];
         team_roles?: string[];
     };
 };
 
-function userGridSearch(state: UserGridSearchState = {term: '', filters: {}}, action: GenericAction) {
+function userGridSearch(state: UserGridSearchState = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_USER_GRID_SEARCH: {
         const term = action.data.trim();
@@ -85,8 +85,8 @@ function teamListSearch(state = '', action: GenericAction) {
 }
 
 type ChannelListSearchState = {
-    term: string;
-    filters: {
+    term?: string;
+    filters?: {
         public?: boolean;
         private?: boolean;
         deleted?: boolean;
@@ -94,7 +94,7 @@ type ChannelListSearchState = {
     };
 };
 
-function channelListSearch(state: ChannelListSearchState = {term: '', filters: {}}, action: GenericAction) {
+function channelListSearch(state: ChannelListSearchState = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_CHANNEL_LIST_SEARCH: {
         const term = action.data.trim();
