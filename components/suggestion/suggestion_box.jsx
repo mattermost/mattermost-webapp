@@ -768,7 +768,7 @@ export default class SuggestionBox extends React.PureComponent {
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
-                            open={true || this.state.focused || this.props.forceSuggestionsWhenBlur}
+                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
                             location={listStyle}
                             renderDividers={renderDividers}
