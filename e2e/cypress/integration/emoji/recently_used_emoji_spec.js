@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @emoji @timeout_error
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -26,7 +27,7 @@ describe('Recent Emoji', () => {
         const secondEmoji = 10;
 
         // # Show emoji list
-        cy.get('#emojiPickerButton').should('be.visible').click();
+        cy.uiOpenEmojiPicker();
 
         // # Click first emoji
         cy.get('#emojiPicker').should('be.visible');
@@ -44,7 +45,7 @@ describe('Recent Emoji', () => {
         cy.get('.emoji-picker__item').eq(secondEmoji).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Show emoji list
-        cy.get('#emojiPickerButton').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiOpenEmojiPicker().wait(TIMEOUTS.HALF_SEC);
 
         // * Assert first emoji should equal with second recent emoji
         cy.get('.emoji-picker__item').eq(firstEmoji + 2).find('img').then((first) => {

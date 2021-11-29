@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {ChannelTypes, PostTypes, UserTypes, GeneralTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes, Constants, NotificationLevels} from 'utils/constants';
+import {ActionTypes, Constants} from 'utils/constants';
 
 function postVisibility(state = {}, action) {
     switch (action.type) {
@@ -95,23 +95,19 @@ function mobileView(state = false, action) {
     }
 }
 
+// lastUnreadChannel tracks if the current channel was unread and if it had mentions when the user switched to it.
 function lastUnreadChannel(state = null, action) {
     switch (action.type) {
-    case ActionTypes.SELECT_CHANNEL_WITH_MEMBER: {
-        const member = action.member;
-        const channel = action.channel;
-
-        if (!member || !channel) {
-            return state;
-        }
-
-        const msgCount = channel.total_msg_count - member.msg_count;
-        const hadMentions = member.mention_count > 0;
-        const hadUnreads = member.notify_props && member.notify_props.mark_unread !== NotificationLevels.MENTION && msgCount > 0;
+    case ActionTypes.SET_LAST_UNREAD_CHANNEL: {
+        const {
+            channelId,
+            hadMentions,
+            hadUnreads,
+        } = action;
 
         if (hadMentions || hadUnreads) {
             return {
-                id: member.channel_id,
+                id: channelId,
                 hadMentions,
             };
         }

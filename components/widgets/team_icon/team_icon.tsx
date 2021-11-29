@@ -4,6 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import {imageURLForTeam} from 'utils/utils.jsx';
 
 import './team_icon.scss';
@@ -44,7 +46,7 @@ export class TeamIcon extends React.PureComponent<Props> {
         const hoverCss = withHover ? '' : 'no-hover';
 
         // FIXME Nowhere does imageURLForTeam seem to check for display_name.
-        const teamIconUrl = url || imageURLForTeam({display_name: content});
+        const teamIconUrl = url || imageURLForTeam({display_name: content} as Team);
         let icon;
         if (typeof content === 'string') {
             if (teamIconUrl) {

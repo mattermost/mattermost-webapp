@@ -16,7 +16,8 @@ import ChannelMentionProvider from 'components/suggestion/channel_mention_provid
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
@@ -34,8 +35,8 @@ type Props = {
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent) => void;
     onSelect?: (e: React.SyntheticEvent) => void;
-    onMouseUp?: (e: MouseEvent) => void;
-    onKeyUp?: (e: KeyboardEvent) => void;
+    onMouseUp?: (e: React.MouseEvent) => void;
+    onKeyUp?: (e: React.KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
@@ -66,7 +67,7 @@ type Props = {
 export default class Textbox extends React.PureComponent<Props> {
     private suggestionProviders: Provider[];
     private wrapper: React.RefObject<HTMLDivElement>;
-    private message: React.RefObject<SuggestionBox>;
+    private message: React.RefObject<SuggestionBoxComponent>;
     private preview: React.RefObject<HTMLDivElement>;
 
     static defaultProps = {

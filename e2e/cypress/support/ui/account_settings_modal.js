@@ -1,25 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('uiOpenAccountSettingsModal', (section = '') => {
-    // # Open account settings modal
-    cy.uiOpenMainMenu('Account Settings');
+Cypress.Commands.add('uiOpenProfileModal', (section = '') => {
+    // # Open profile settings modal
+    cy.uiOpenUserMenu('Profile');
 
-    const accountSettingsModal = () => cy.findByRole('dialog', {name: 'Account Settings'}).should('be.visible');
+    const profileSettingsModal = () => cy.findByRole('dialog', {name: 'Profile'}).should('be.visible');
 
     if (!section) {
-        return accountSettingsModal();
+        return profileSettingsModal();
     }
 
     // # Click on a particular section
     cy.findByRoleExtended('button', {name: section}).should('be.visible').click();
 
-    return accountSettingsModal();
+    return profileSettingsModal();
 });
 
 Cypress.Commands.add('verifyAccountNameSettings', (firstname, lastname) => {
-    // # Go to Account Settings
-    cy.uiOpenAccountSettingsModal();
+    // # Go to Profile
+    cy.uiOpenProfileModal();
 
     // * Check name value
     cy.get('#nameDesc').should('have.text', `${firstname} ${lastname}`);
@@ -27,15 +27,14 @@ Cypress.Commands.add('verifyAccountNameSettings', (firstname, lastname) => {
 });
 
 Cypress.Commands.add('uiChangeGenericDisplaySetting', (setting, option) => {
-    cy.uiOpenAccountSettingsModal('Display');
+    cy.uiOpenSettingsModal('Display');
     cy.get(setting).scrollIntoView();
     cy.get(setting).click();
     cy.get('.section-max').scrollIntoView();
 
     cy.get(option).check().should('be.checked');
 
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
+    cy.uiSaveAndClose();
 });
 
 /*

@@ -7,12 +7,9 @@ import {shallow} from 'enzyme';
 import Menu from 'components/widgets/menu/menu';
 
 import {TestHelper} from 'utils/test_helper';
+import {ModalIdentifiers} from 'utils/constants';
 
 import LeaveChannel from './leave_channel';
-
-jest.mock('actions/global_actions', () => ({
-    showLeavePrivateChannelModal: jest.fn(),
-}));
 
 describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
     const baseProps = {
@@ -20,9 +17,11 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             id: 'channel_id',
             type: 'O',
         }),
+        isGuestUser: false,
         isDefault: false,
         actions: {
             leaveChannel: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 
@@ -60,21 +59,28 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             channel: {...baseProps.channel},
             actions: {...baseProps.actions},
         };
-        const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
         const wrapper = shallow<LeaveChannel>(<LeaveChannel {...props}/>);
 
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).toHaveBeenCalledWith(props.channel.id);
-        expect(showLeavePrivateChannelModal).not.toHaveBeenCalled();
+        expect(props.actions.openModal).not.toHaveBeenCalled();
 
         props.channel.type = 'P';
         props.actions.leaveChannel = jest.fn();
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
+
         expect(props.actions.leaveChannel).not.toHaveBeenCalled();
-        expect(showLeavePrivateChannelModal).toHaveBeenCalledWith(props.channel);
+
+        expect(props.actions.openModal).toHaveBeenCalledWith(
+            expect.objectContaining({
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogProps: {
+                    channel: props.channel,
+                },
+            }));
     });
 });

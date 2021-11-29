@@ -20,6 +20,7 @@ import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
 import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
@@ -70,8 +71,7 @@ export function sendDesktopNotification(post, msgProps) {
 
         let notifyLevel = member?.notify_props?.desktop || NotificationLevels.DEFAULT;
 
-        // disregard channel notification settings on CRT 'on' replies
-        if (notifyLevel === NotificationLevels.DEFAULT || isCrtReply) {
+        if (notifyLevel === NotificationLevels.DEFAULT) {
             notifyLevel = user?.notify_props?.desktop || NotificationLevels.ALL;
         }
 
@@ -113,6 +113,10 @@ export function sendDesktopNotification(post, msgProps) {
             } else {
                 title = msgProps.channel_display_name;
             }
+        }
+
+        if (isCrtReply) {
+            title = Utils.localizeAndFormatMessage(t('notification.crt'), 'Reply in {title}', {title});
         }
 
         let notifyText = post.message;

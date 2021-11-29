@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -24,11 +23,35 @@ import * as Utils from 'utils/utils.jsx';
 const headerMarkdownOptions = {singleline: false, mentionHighlight: false};
 
 type Props = {
-    onHide: () => void;
+
+    /**
+     * Function that is called when modal is hidden
+     */
+    onExited: () => void;
+
+    /**
+     * Channel object
+     */
     channel: Channel;
+
+    /**
+     * Current channel object, used to determine if the current channel is different from the one this modal was instantiated with
+     */
     currentChannel: Channel;
+
+    /**
+     * Current team object
+     */
     currentTeam: Team;
+
+    /**
+     * Boolean whether the RHS is open, used to check if we need to hide the channel info modal
+     */
     isRHSOpen?: boolean;
+
+    /**
+     * Relative url for the team, used to redirect to another channel within the team from the modal
+     */
     currentRelativeTeamUrl?: string;
 };
 
@@ -37,39 +60,6 @@ type State = {
 };
 
 export default class ChannelInfoModal extends React.PureComponent<Props, State> {
-    static propTypes = {
-
-        /**
-         * Function that is called when modal is hidden
-         */
-        onHide: PropTypes.func.isRequired,
-
-        /**
-         * Channel object
-         */
-        channel: PropTypes.object.isRequired,
-
-        /**
-         * Current channel object, used to determine if the current channel is different from the one this modal was instantiated with
-         */
-        currentChannel: PropTypes.object.isRequired,
-
-        /**
-         * Current team object
-         */
-        currentTeam: PropTypes.object.isRequired,
-
-        /**
-         * Boolean whether the RHS is open, used to check if we need to hide the channel info modal
-         */
-        isRHSOpen: PropTypes.bool,
-
-        /**
-         * Relative url for the team, used to redirect to another channel within the team from the modal
-         */
-        currentRelativeTeamUrl: PropTypes.string,
-    };
-
     constructor(props: Props) {
         super(props);
 
@@ -107,13 +97,12 @@ export default class ChannelInfoModal extends React.PureComponent<Props, State> 
                 header: notFound,
                 id: notFound,
                 team_id: notFound,
-                type: notFound,
+                type: 'O',
                 delete_at: 0,
                 create_at: 0,
                 update_at: 0,
                 last_post_at: 0,
-                total_msg_count: 0,
-                total_msg_count_root: 0,
+                last_root_post_at: 0,
                 creator_id: notFound,
                 scheme_id: notFound,
                 group_constrained: false,
@@ -201,7 +190,7 @@ export default class ChannelInfoModal extends React.PureComponent<Props, State> 
                 dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='channelInfoModalLabel'
             >

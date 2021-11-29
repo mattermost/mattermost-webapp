@@ -8,8 +8,6 @@ import {shallow} from 'enzyme';
 import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 
-import {GlobalState} from 'types/store';
-
 import Header from 'components/widgets/header';
 
 import Button from '../../common/button';
@@ -29,21 +27,13 @@ jest.mock('../../hooks', () => {
 });
 
 const mockDispatch = jest.fn();
-let mockState: GlobalState;
+let mockState: any;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
     useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
     useDispatch: () => mockDispatch,
 }));
-
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
 
 describe('components/threading/global_threads/thread_list', () => {
     let props: ComponentProps<typeof ThreadList>;
@@ -57,7 +47,22 @@ describe('components/threading/global_threads/thread_list', () => {
             setFilter: jest.fn(),
         };
 
-        mockState = {} as GlobalState;
+        mockState = {
+            entities: {
+                threads: {
+                    countsIncludingDirect: {
+                        tid: {
+                            total: 0,
+                            total_unread_threads: 0,
+                            total_unread_mentions: 0,
+                        },
+                    },
+                },
+                teams: {
+                    currentTeamId: 'tid',
+                },
+            },
+        };
     });
 
     test('should match snapshot', () => {
@@ -94,4 +99,3 @@ describe('components/threading/global_threads/thread_list', () => {
         expect(markAllThreadsInTeamRead).toHaveBeenCalledWith('uid', 'tid');
     });
 });
-

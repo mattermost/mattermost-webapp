@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .status-wrapper {
     position: relative;
@@ -50,7 +50,7 @@
 
                 &.offline--icon,
                 .offline--icon {
-                    fill: var(--sidebar-text);
+                    fill: var(--offline-indicator);
                 }
             }
         }
@@ -105,7 +105,7 @@
         }
 
         .offline--icon {
-            fill: var(--center-channel-color);
+            fill: var(--offline-indicator);
         }
     }
 }
@@ -168,8 +168,6 @@
     i,
     path,
     ellipse {
-        @include opacity(0.5);
-
         &.online--icon,
         &.away--icon,
         &.dnd--icon {
@@ -201,7 +199,7 @@
     }
 
     .offline--icon {
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: var(--offline-indicator);
     }
 }
 
@@ -228,14 +226,14 @@
         }
 
         .offline--icon {
-            fill: var(--center-channel-color);
+            fill: var(--offline-indicator);
         }
     }
 
     .sidebar--left {
         .status {
             .offline--icon {
-                fill: var(--sidebar-text);
+                fill: var(--offline-indicator);
             }
         }
     }

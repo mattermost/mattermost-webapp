@@ -16,7 +16,6 @@ import {
     getMyChannelMemberships,
     getMyCurrentChannelMembership,
 } from 'mattermost-redux/selectors/entities/common';
-import {getConfig, getLicense, hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {
     getTeammateNameDisplaySetting,
     isCollapsedThreadsEnabled,
@@ -24,7 +23,6 @@ import {
 import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
     getCurrentTeamId,
-    getCurrentTeamMembership,
     getMyTeams,
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
@@ -36,21 +34,28 @@ import {
     isCurrentUserSystemAdmin,
 } from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup, ChannelSearchOpts} from 'mattermost-redux/types/channels';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {
+    Channel,
+    ChannelMemberCountsByGroup,
+    ChannelMembership,
+    ChannelMessageCount,
+    ChannelModeration,
+    ChannelSearchOpts,
+    ChannelStats,
+} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TeamMembership, Team} from 'mattermost-redux/types/teams';
+import {Team} from 'mattermost-redux/types/teams';
 import {UsersState, UserProfile} from 'mattermost-redux/types/users';
 import {
     IDMappedObjects,
     NameMappedObjects,
     RelationOneToMany,
+    RelationOneToManyUnique,
     RelationOneToOne,
     UserIDMappedObjects,
 } from 'mattermost-redux/types/utilities';
 
 import {
-    canManageMembersOldPermissions,
     completeDirectChannelInfo,
     completeDirectGroupInfo,
     newCompleteDirectChannelInfo,
@@ -62,13 +67,12 @@ import {
     isDefault,
     isDirectChannel,
     filterChannelsMatchingTerm,
-    getMsgCountInChannel,
+    calculateUnreadCount,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {Constants} from 'utils/constants';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
-import {getThreadCounts} from './threads';
+import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -165,6 +169,10 @@ export function getChannel(state: GlobalState, id: string) {
     return getAllChannels(state)[id];
 }
 
+export function getMyChannelMembership(state: GlobalState, channelId: string): ChannelMembership {
+    return getMyChannelMemberships(state)[channelId];
+}
+
 // makeGetChannelsForIds returns a selector that, given an array of channel IDs, returns a list of the corresponding
 // channels. Channels are returned in the same order as the given IDs with undefined entries replacing any invalid IDs.
 // Note that memoization will fail if an array literal is passed in.
@@ -205,13 +213,13 @@ export const getCurrentChannelNameForSearchShortcut: (state: GlobalState) => str
         const channel = allChannels[currentChannelId];
 
         // Only get the extra info from users if we need it
-        if (channel?.type === Constants.DM_CHANNEL) {
+        if (channel?.type === General.DM_CHANNEL) {
             const dmChannelWithInfo = completeDirectChannelInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel);
             return `@${dmChannelWithInfo.display_name}`;
         }
 
         // Replace spaces in GM channel names
-        if (channel?.type === Constants.GM_CHANNEL) {
+        if (channel?.type === General.GM_CHANNEL) {
             const gmChannelWithInfo = completeDirectGroupInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel, false);
             return `@${gmChannelWithInfo.display_name.replace(/\s/g, '')}`;
         }
@@ -277,21 +285,45 @@ export function isChannelReadOnlyById(state: GlobalState, channelId: string): bo
 }
 
 export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean {
-    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true';
+    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state);
+}
+
+export function getChannelMessageCounts(state: GlobalState): RelationOneToOne<Channel, ChannelMessageCount> {
+    return state.entities.channels.messageCounts;
+}
+
+export function getChannelMessageCount(state: GlobalState, channelId: string): ChannelMessageCount {
+    return getChannelMessageCounts(state)[channelId];
+}
+
+function getCurrentChannelMessageCount(state: GlobalState) {
+    return getChannelMessageCount(state, getCurrentChannelId(state));
 }
 
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(
     'countCurrentChannelUnreadMessages',
-    getCurrentChannel,
+    getCurrentChannelMessageCount,
     getMyCurrentChannelMembership,
     isCollapsedThreadsEnabled,
-    (channel: Channel, membership?: ChannelMembership, isCollapsed?: boolean): number => {
+    (messageCount: ChannelMessageCount, membership?: ChannelMembership, crtEnabled?: boolean): number => {
         if (!membership) {
             return 0;
         }
-        return isCollapsed ? channel.total_msg_count_root - membership.msg_count_root : channel.total_msg_count - membership.msg_count;
+        return crtEnabled ? messageCount.root - membership.msg_count_root : messageCount.total - membership.msg_count;
     },
 );
+
+export function makeGetChannelUnreadCount(): (state: GlobalState, channelId: string) => ReturnType<typeof calculateUnreadCount> {
+    return createSelector(
+        'makeGetChannelUnreadCount',
+        (state: GlobalState, channelId: string) => getChannelMessageCount(state, channelId),
+        (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
+        isCollapsedThreadsEnabled,
+        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled: boolean) => {
+            return calculateUnreadCount(messageCount, member, crtEnabled);
+        },
+    );
+}
 
 export function getChannelByName(state: GlobalState, channelName: string): Channel | undefined | null {
     return getChannelByNameHelper(getAllChannels(state), channelName);
@@ -477,6 +509,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     'getUnreadStatus',
     getAllChannels,
     getMyChannelMemberships,
+    getChannelMessageCounts,
     getUsers,
     getCurrentUserId,
     getCurrentTeamId,
@@ -484,9 +517,11 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     getTeamMemberships,
     isCollapsedThreadsEnabled,
     getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         channels,
         myMembers,
+        messageCounts,
         users,
         currentUserId,
         currentTeamId,
@@ -494,6 +529,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         myTeamMemberships,
         collapsedThreads,
         threadCounts,
+        threadCountsIncludingDirect,
     ) => {
         const {
             messages: currentTeamUnreadMessages,
@@ -524,8 +560,9 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
                 counts.mentions += mentions;
             }
 
-            if (membership.notify_props && membership.notify_props.mark_unread !== 'mention') {
-                counts.messages += getMsgCountInChannel(collapsedThreads, channel, membership);
+            const unreadCount = calculateUnreadCount(messageCounts[channelId], myMembers[channelId], collapsedThreads);
+            if (unreadCount.showUnread) {
+                counts.messages += unreadCount.messages;
             }
 
             return counts;
@@ -559,9 +596,16 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         // when collapsed threads are enabled, we start with root-post counts from channels, then
         // add the same thread-reply counts from the global threads view
         if (collapsedThreads) {
-            Object.values(threadCounts).forEach((c) => {
-                anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
-                totalUnreadMentions += c.total_unread_mentions;
+            Object.keys(threadCounts).forEach((teamId) => {
+                const c = threadCounts[teamId];
+                if (teamId === currentTeamId) {
+                    const currentTeamDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
+                    anyUnreadThreads = Boolean(currentTeamDirectCounts.total_unread_threads);
+                    totalUnreadMentions += currentTeamDirectCounts.total_unread_mentions;
+                } else {
+                    anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
+                    totalUnreadMentions += c.total_unread_mentions;
+                }
             });
         }
 
@@ -574,15 +618,17 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMemberships,
+    getChannelMessageCounts,
     getUsers,
     getCurrentUserId,
     getCurrentTeamId,
     isCollapsedThreadsEnabled,
-    getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         currentChannelId,
         channels,
         myMembers,
+        messageCounts,
         users,
         currentUserId,
         currentTeamId,
@@ -609,8 +655,9 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
                 counts.mentions += mentions;
             }
 
-            if (m.notify_props && m.notify_props.mark_unread !== 'mention') {
-                counts.messages += getMsgCountInChannel(collapsedThreads, channel, m);
+            const unreadCount = calculateUnreadCount(messageCounts[channel.id], m, collapsedThreads);
+            if (unreadCount.showUnread) {
+                counts.messages += unreadCount.messages;
             }
 
             return counts;
@@ -639,12 +686,6 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
 export const canManageChannelMembers: (state: GlobalState) => boolean = createSelector(
     'canManageChannelMembers',
     getCurrentChannel,
-    getCurrentUser,
-    getCurrentTeamMembership,
-    getMyCurrentChannelMembership,
-    getConfig,
-    getLicense,
-    hasNewPermissions,
     (state: GlobalState): boolean => haveICurrentChannelPermission(state,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
     ),
@@ -653,12 +694,6 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
     ),
     (
         channel: Channel,
-        user: UserProfile,
-        teamMembership: TeamMembership,
-        channelMembership: ChannelMembership | undefined,
-        config: Partial<ClientConfig>,
-        license: any,
-        newPermissions: boolean,
         managePrivateMembers: boolean,
         managePublicMembers: boolean,
     ): boolean => {
@@ -674,21 +709,13 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
             return false;
         }
 
-        if (newPermissions) {
-            if (channel.type === General.OPEN_CHANNEL) {
-                return managePublicMembers;
-            } else if (channel.type === General.PRIVATE_CHANNEL) {
-                return managePrivateMembers;
-            }
-
-            return true;
+        if (channel.type === General.OPEN_CHANNEL) {
+            return managePublicMembers;
+        } else if (channel.type === General.PRIVATE_CHANNEL) {
+            return managePrivateMembers;
         }
 
-        if (!channelMembership) {
-            return false;
-        }
-
-        return canManageMembersOldPermissions(channel, user, teamMembership, channelMembership, config, license);
+        return true;
     },
 );
 
@@ -754,31 +781,19 @@ export const getChannelIdsForCurrentTeam: (state: GlobalState) => string[] = cre
 export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Channel | null) => string[] = createIdsSelector(
     'getUnreadChannelIds',
     isCollapsedThreadsEnabled,
-    getAllChannels,
     getMyChannelMemberships,
+    getChannelMessageCounts,
     getChannelIdsForCurrentTeam,
     (state: GlobalState, lastUnreadChannel: Channel | undefined | null = null): Channel | undefined | null => lastUnreadChannel,
     (
         collapsedThreads,
-        channels: IDMappedObjects<Channel>,
         members: RelationOneToOne<Channel, ChannelMembership>,
+        messageCounts: RelationOneToOne<Channel, ChannelMessageCount>,
         teamChannelIds: string[],
         lastUnreadChannel?: Channel | null,
     ): string[] => {
         const unreadIds = teamChannelIds.filter((id) => {
-            const c = channels[id];
-            const m = members[id];
-
-            if (c && m) {
-                const chHasUnread = getMsgCountInChannel(collapsedThreads, c, m) > 0;
-                const chHasMention = (collapsedThreads ? m.mention_count_root : m.mention_count) > 0;
-
-                if ((m.notify_props && m.notify_props.mark_unread !== 'mention' && chHasUnread) || chHasMention) {
-                    return true;
-                }
-            }
-
-            return false;
+            return calculateUnreadCount(messageCounts[id], members[id], collapsedThreads).showUnread;
         });
 
         if (lastUnreadChannel && !unreadIds.includes(lastUnreadChannel.id)) {
@@ -844,7 +859,7 @@ export const getDirectAndGroupChannels: (a: GlobalState) => Channel[] = createSe
     },
 );
 
-const getProfiles = (currentUserId: string, usersIdsInChannel: string[], users: IDMappedObjects<UserProfile>): UserProfile[] => {
+const getProfiles = (currentUserId: string, usersIdsInChannel: Set<string>, users: IDMappedObjects<UserProfile>): UserProfile[] => {
     const profiles: UserProfile[] = [];
     usersIdsInChannel.forEach((userId) => {
         if (userId !== currentUserId) {
@@ -854,6 +869,9 @@ const getProfiles = (currentUserId: string, usersIdsInChannel: string[], users: 
     return profiles;
 };
 
+/**
+ * Returns an array of unsorted group channels, each with an array of the user profiles in the channel attached to them.
+ */
 export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     profiles: UserProfile[];
 } & Channel> = createSelector(
@@ -862,11 +880,11 @@ export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     getUsers,
     getGroupChannels,
     getCurrentUserId,
-    (channelUserMap: RelationOneToMany<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
+    (channelUserMap: RelationOneToManyUnique<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
         return channels.map((channel: Channel): {
             profiles: UserProfile[];
         } & Channel => {
-            const profiles = getProfiles(currentUserId, channelUserMap[channel.id] || [], users);
+            const profiles = getProfiles(currentUserId, channelUserMap[channel.id] || new Set(), users);
             return {
                 ...channel,
                 profiles,
@@ -919,7 +937,7 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string): string => {
     const defaultChannelForTeam = getDefaultChannelForTeams(state)[teamId];
     const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
-    const canIJoinPublicChannelsInTeam = !hasNewPermissions(state) || haveITeamPermission(state,
+    const canIJoinPublicChannelsInTeam = haveITeamPermission(state,
         teamId,
         Permissions.JOIN_PUBLIC_CHANNELS,
     );
@@ -973,13 +991,13 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
     const channelType: string[] = [];
     const channels = channelList;
     if (filters.public) {
-        channelType.push(Constants.OPEN_CHANNEL);
+        channelType.push(General.OPEN_CHANNEL);
     }
     if (filters.private) {
-        channelType.push(Constants.PRIVATE_CHANNEL);
+        channelType.push(General.PRIVATE_CHANNEL);
     }
     if (filters.deleted) {
-        channelType.push(Constants.ARCHIVED_CHANNEL);
+        channelType.push(General.ARCHIVED_CHANNEL);
     }
     channelType.forEach((type) => {
         result = result.concat(channels.filter((channel) => channel.type === type));

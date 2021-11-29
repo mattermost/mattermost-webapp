@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -17,20 +16,22 @@ describe('Channel', () => {
     let ownChannel;
     let otherChannel;
     let testUser;
+    let offTopicUrl;
 
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup().then(({team, channel, user, offTopicUrl: url}) => {
             testTeam = team;
             ownChannel = channel;
             testUser = user;
+            offTopicUrl = url;
 
             cy.apiCreateChannel(testTeam.id, 'delta-test', 'Delta Channel').then((out) => {
                 otherChannel = out.channel;
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -40,14 +41,12 @@ describe('Channel', () => {
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
-        // * Should match each channel item and group label
+        // * Should match each channel item
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
-            cy.wrap(el).eq(0).should('contain', 'My Channels');
-            cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
-            cy.wrap(el).eq(2).should('contain', 'Off-Topic');
-            cy.wrap(el).eq(3).should('contain', 'Town Square');
-            cy.wrap(el).eq(4).should('contain', 'Other Channels');
-            cy.wrap(el).eq(5).should('contain', otherChannel.display_name);
+            cy.wrap(el).eq(0).should('contain', ownChannel.display_name);
+            cy.wrap(el).eq(1).should('contain', 'Off-Topic');
+            cy.wrap(el).eq(2).should('contain', 'Town Square');
+            cy.wrap(el).eq(3).should('contain', otherChannel.display_name);
         });
     });
 
@@ -63,13 +62,12 @@ describe('Channel', () => {
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
-        // * Should match each channel item and group label
+        // * Should match each channel
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
-            cy.wrap(el).eq(0).should('contain', 'My Channels');
-            cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
-            cy.wrap(el).eq(2).should('contain', otherChannel.display_name);
-            cy.wrap(el).eq(3).should('contain', 'Off-Topic');
-            cy.wrap(el).eq(4).should('contain', 'Town Square');
+            cy.wrap(el).eq(0).should('contain', ownChannel.display_name);
+            cy.wrap(el).eq(1).should('contain', otherChannel.display_name);
+            cy.wrap(el).eq(2).should('contain', 'Off-Topic');
+            cy.wrap(el).eq(3).should('contain', 'Town Square');
         });
     });
 
@@ -81,21 +79,19 @@ describe('Channel', () => {
 
             // # Login as test user and visit the test team
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
 
             // # Type "~"
             cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.HALF_SEC);
             cy.get('#loadingSpinner').should('not.exist');
 
             // * Should open up suggestion list for channels
-            // * Should match each channel item and group label
+            // * Should match each channel item
             cy.get('#suggestionList').should('be.visible').children().within((el) => {
-                cy.wrap(el).eq(0).should('contain', 'My Channels');
-                cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
-                cy.wrap(el).eq(2).should('contain', 'Off-Topic');
-                cy.wrap(el).eq(3).should('contain', 'Town Square');
-                cy.wrap(el).eq(4).should('contain', 'Other Channels');
-                cy.wrap(el).eq(5).should('contain', otherChannel.display_name);
+                cy.wrap(el).eq(0).should('contain', ownChannel.display_name);
+                cy.wrap(el).eq(1).should('contain', 'Off-Topic');
+                cy.wrap(el).eq(2).should('contain', 'Town Square');
+                cy.wrap(el).eq(3).should('contain', otherChannel.display_name);
             });
         });
     });

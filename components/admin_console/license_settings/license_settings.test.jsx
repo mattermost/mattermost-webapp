@@ -4,10 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import expect from 'expect';
+import moment from 'moment';
 
 import {fakeDate} from 'tests/helpers/date';
 
-import LicenseSettings from './license_settings.jsx';
+import LicenseSettings from './license_settings.tsx';
 
 const flushPromises = () => new Promise(setImmediate);
 
@@ -49,6 +50,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             restartServer: jest.fn(),
             getPrevTrialLicense: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
+            openModal: jest.fn(),
         },
         stats: {
             TOTAL_USERS: 10,
@@ -121,8 +123,11 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         await instance.handleUpgrade({preventDefault: jest.fn()});
         expect(actions.upgradeToE0).toBeCalledTimes(1);
         expect(actions.upgradeToE0Status).toBeCalledTimes(1);
-        expect(wrapper.state('upgradingPercentage')).toBe(1);
-        expect(instance.interval).not.toBe(null);
+        wrapper.update();
+        jest.setTimeout(() => {
+            expect(wrapper.update().state('upgradingPercentage')).toBe(1);
+            expect(instance.interval).not.toBe(null);
+        }, 100);
     });
 
     test('load screen while upgrading', async () => {
@@ -195,6 +200,24 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
 
     test('should match snapshot enterprise build with E10 license', () => {
         const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: 'E10'}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with expiring license', () => {
+        // Set expiration date to 30 days from today
+        const expiringDate = moment().add(30, 'days').valueOf();
+
+        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate.toString()}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud expiring license', () => {
+        // Set expiration date to 30 days from today
+        const expiringDate = moment().add(30, 'days').valueOf();
+
+        const props = {...defaultProps, license: {...defaultProps.license, ExpiresAt: expiringDate.toString(), Cloud: 'true'}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

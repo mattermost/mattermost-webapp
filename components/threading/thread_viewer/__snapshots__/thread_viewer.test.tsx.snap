@@ -8,6 +8,9 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
     <div
       className="post-right-comments-container"
     >
+      <FileUploadOverlay
+        overlayType="right"
+      />
       <DeferredRenderWrapper
         channel={
           Object {
@@ -19,18 +22,18 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
             "header": "",
             "id": "channel_id",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "",
             "purpose": "",
             "scheme_id": "",
             "status": "",
             "team_id": "team_id",
             "teammate_id": "",
-            "total_msg_count": 0,
-            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
           }
         }
+        isThreadView={false}
         key="id"
         onCardClick={[Function]}
         onCardClickPost={[Function]}

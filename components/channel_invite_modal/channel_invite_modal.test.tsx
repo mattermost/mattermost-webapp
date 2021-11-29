@@ -44,7 +44,6 @@ describe('components/channel_invite_modal', () => {
         name: 'testing',
         purpose: 'test',
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
-        total_msg_count: 0,
         type: 'O',
         update_at: 1508265709607,
     } as Channel;
@@ -68,7 +67,7 @@ describe('components/channel_invite_modal', () => {
             loadStatusesForProfilesList: jest.fn(),
             searchProfiles: jest.fn(),
         },
-        onHide: jest.fn(),
+        onExited: jest.fn(),
     };
 
     test('should match snapshot for channel_invite_modal with profiles', () => {
@@ -142,7 +141,7 @@ describe('components/channel_invite_modal', () => {
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));
-        expect(props.onHide).toHaveBeenCalledTimes(1);
+        expect(props.onExited).toHaveBeenCalledTimes(1);
     });
 
     test('should fail to add users on handleSubmit', (done) => {

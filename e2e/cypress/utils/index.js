@@ -10,6 +10,7 @@ import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with
 
 export * from './constants';
 export * from './email';
+export * from './file';
 export * from './plugins';
 
 /**
@@ -64,9 +65,15 @@ export function rgbArrayToString(rgbArr) {
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
 
-export const isMac = () => {
-    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-};
+const userAgent = () => window.navigator.userAgent;
+
+export function isWindows() {
+    return userAgent().indexOf('Windows') !== -1;
+}
+
+export function isMac() {
+    return userAgent().indexOf('Macintosh') !== -1;
+}
 
 // Stubs out the clipboard so that we can intercept copy events. Note that this only stubs out calls to
 // navigator.clipboard.writeText and not document.execCommand.

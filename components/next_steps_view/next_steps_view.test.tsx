@@ -15,31 +15,53 @@ describe('components/next_steps_view', () => {
             {
                 id: 'step_1',
                 roles: [],
-                title: 'Step_1',
+                title: {
+                    titleId: 'Step_1',
+                    titleMessage: 'Step_1',
+                },
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_2',
-                title: 'Step_2',
+                title: {
+                    titleId: 'Step_2',
+                    titleMessage: 'Step_2',
+                },
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_3',
-                title: 'Step_3',
+                title: {
+                    titleId: 'Step_3',
+                    titleMessage: 'Step_3',
+                },
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                finishButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
         ],
         currentUser: TestHelper.getUserMock(),
         preferences: [],
         isFirstAdmin: true,
+        isAdmin: true,
         isCloud: false,
         team: {name: 'TestTeam'} as Team,
-        globalHeaderEnabled: true,
+        downloadAppsAsNextStep: false,
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
@@ -126,9 +148,7 @@ describe('components/next_steps_view', () => {
             <NextStepsView {...props}/>,
         );
 
-        wrapper.instance().transitionToFinalScreen = jest.fn();
         wrapper.instance().nextStep(jest.fn(), 'step_1');
         jest.runOnlyPendingTimers();
-        expect(wrapper.instance().transitionToFinalScreen).toBeCalled();
     });
 });

@@ -354,7 +354,7 @@
     &:hover {
         @extend %box-shadow-1;
 
-        color: default;
+        color: initial;
         text-decoration: none;
     }
 }
@@ -555,4 +555,13 @@
 
 .bot-token-has-error {
     color: #a94442;
+}
+
+// global header style adjustments
+@media screen and (min-width: 769px) {
+    .backstage {
+        position: relative;
+        z-index: 2;
+        margin-top: -40px;
+    }
 }

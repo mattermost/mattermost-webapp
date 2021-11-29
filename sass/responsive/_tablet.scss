@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 @media screen and (max-width: 960px) {
     .system-users__filter-row {
@@ -130,6 +130,28 @@
 
 // Tablet and desktop
 @media screen and (min-width: 769px) {
+    // ensure the global header always sits on top of it's immediate sibling
+    > header {
+        z-index: 2;
+
+        + * {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .channel__wrap {
+
+        // indicates the RHS is open
+        &.move--left {
+
+            // adjust channel header width
+            #channel-header {
+                width: calc(100% - 400px);
+            }
+        }
+    }
+
     .search-help-popover {
         width: 274px;
     }

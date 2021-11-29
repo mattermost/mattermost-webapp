@@ -46,7 +46,7 @@ type Props = {
     /**
      * Function that is called when modal is hidden
      */
-    onHide: () => void;
+    onExited: () => void;
 
     /**
      * Object with info about current channel
@@ -111,7 +111,9 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
     }
 
     handleEntering = () => {
-        Utils.placeCaretAtEnd(this.textbox);
+        if (this.textbox) {
+            Utils.placeCaretAtEnd(this.textbox);
+        }
     }
 
     handleHide = (e?: MouseEvent) => {
@@ -262,7 +264,7 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
                 show={this.state.show}
                 onHide={this.handleCancel}
                 onEntering={this.handleEntering}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='renameChannelModalLabel'
             >

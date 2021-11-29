@@ -23,6 +23,7 @@ export type ViewsState = {
 
     browser: {
         focused: boolean;
+        windowSize: string;
     };
 
     channel: {
@@ -65,10 +66,12 @@ export type ViewsState = {
     };
 
     modals: {
-        [modalId: string]: {
-            open: boolean;
-            dialogProps: Dictionary<any>;
-            dialogType: React.Component;
+        modalState: {
+            [modalId: string]: {
+                open: boolean;
+                dialogProps: Dictionary<any>;
+                dialogType: React.ComponentType;
+            };
         };
     };
 
@@ -159,5 +162,6 @@ export type ViewsState = {
         selectedThreadIdInTeam: RelationOneToOne<Team, $ID<UserThread> | null>;
         lastViewedAt: {[id: string]: number};
         manuallyUnread: {[id: string]: boolean};
+        toastStatus: boolean;
     };
 };

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useCallback, useEffect, MouseEvent, useMemo} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
 
@@ -30,6 +30,7 @@ import ThreadMenu from '../thread_menu';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
+import {Posts} from 'mattermost-redux/constants';
 
 export type OwnProps = {
     isSelected: boolean;
@@ -65,6 +66,10 @@ function ThreadItem({
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
     const {select, goToInChannel} = useThreadRouting();
+    const {formatMessage} = useIntl();
+
+    const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
+    const postAuthor = post.props?.override_username || displayName;
 
     useEffect(() => {
         if (channel?.teammate_id) {
@@ -79,7 +84,7 @@ function ThreadItem({
     }, [channel, thread?.post.channel_id]);
 
     const participantIds = useMemo(() => {
-        const ids = thread?.participants?.flatMap(({id}) => {
+        const ids = (thread?.participants || []).flatMap(({id}) => {
             if (id === post.user_id) {
                 return [];
             }
@@ -148,9 +153,12 @@ function ThreadItem({
                         )}
                     </div>
                 )}
-                <span>{displayName}</span>
+                <span>{postAuthor}</span>
                 {Boolean(channel) && (
                     <Badge
+                        className={classNames({
+                            Badge__hidden: postAuthor === channel?.display_name,
+                        })}
                         onClick={goToInChannelHandler}
                     >
                         {channel?.display_name}
@@ -192,7 +200,7 @@ function ThreadItem({
                 onClick={handleFormattedTextClick}
             >
                 <Markdown
-                    message={post?.message ?? '(message deleted)'}
+                    message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
                     options={markdownPreviewOptions}
                     imagesMetadata={post?.metadata && post?.metadata?.images}
                     imageProps={imageProps}

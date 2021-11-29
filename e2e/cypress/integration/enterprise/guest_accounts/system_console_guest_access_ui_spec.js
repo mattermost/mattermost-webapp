@@ -21,7 +21,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -54,7 +54,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
         cy.findByTestId('GuestAccountsSettings.EnforceMultifactorAuthenticationhelp-text').should('be.visible').and('have.text', 'Multi-factor authentication is currently not enabled.');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
@@ -102,12 +102,11 @@ describe('Guest Account - Verify Guest Access UI', () => {
             cy.findByText('Switch to eligendi').click();
         });
 
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // * Verify that an option to Invite via Guest should not be available
         cy.findByTestId('inviteGuestLink').should('not.exist');
-        cy.findByTestId('inputPlaceholder').should('be.visible');
+        cy.get('.users-emails-input__control').should('be.visible');
     });
 });

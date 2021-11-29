@@ -96,7 +96,7 @@ const ThreadPane = ({
                                 allowTextOverflow={true}
                                 onClick={goToInChannelHandler}
                             >
-                                {channel.display_name}
+                                {channel?.display_name}
                             </Button>
                         </h3>
                     </>

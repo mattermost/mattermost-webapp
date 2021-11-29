@@ -44,6 +44,7 @@ import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -140,7 +141,7 @@ class SwitchChannelSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                     <GuestBadge
-                        show={Boolean(teammate && Utils.isGuest(teammate))}
+                        show={Boolean(teammate && isGuest(teammate.roles))}
                         className='badge-autocomplete'
                     />
                 </React.Fragment>
@@ -166,6 +167,10 @@ class SwitchChannelSuggestion extends Suggestion {
                 description = '@' + userItem.username + deactivated;
             } else {
                 name = userItem.username;
+                const currentUserId = getCurrentUserId(getState());
+                if (userItem.id === currentUserId) {
+                    name += (' ' + Utils.localizeMessage('suggestion.user.isCurrent', '(you)'));
+                }
                 description = deactivated;
             }
         } else if (channel.type === Constants.GM_CHANNEL) {
@@ -450,15 +455,23 @@ export default class SwitchChannelProvider extends Provider {
 
     userWrappedChannel(user, channel) {
         let displayName = '';
+        const currentUserId = getCurrentUserId(getState());
 
         // The naming format is fullname (nickname)
         // username is shown seperately
         if ((user.first_name || user.last_name) && user.nickname) {
-            displayName += `${Utils.getFullName(user)} (${user.nickname})`;
+            displayName += Utils.getFullName(user);
+            if (user.id !== currentUserId) {
+                displayName += ` (${user.nickname})`;
+            }
         } else if (user.nickname && !user.first_name && !user.last_name) {
             displayName += `${user.nickname}`;
         } else if (user.first_name || user.last_name) {
             displayName += `${Utils.getFullName(user)}`;
+        }
+
+        if (user.id === currentUserId && displayName) {
+            displayName += (' ' + Utils.localizeMessage('suggestion.user.isCurrent', '(you)'));
         }
 
         return {
@@ -471,6 +484,7 @@ export default class SwitchChannelProvider extends Provider {
                 type: Constants.DM_CHANNEL,
                 last_picture_update: user.last_picture_update || 0,
             },
+            type: 'search.direct',
             name: user.username,
             deactivated: user.delete_at,
         };
@@ -511,11 +525,16 @@ export default class SwitchChannelProvider extends Provider {
                     continue;
                 } else if (channelIsArchived && members[channel.id]) {
                     wrappedChannel.type = Constants.ARCHIVED_CHANNEL;
+                } else if (newChannel.type === Constants.OPEN_CHANNEL) {
+                    wrappedChannel.type = Constants.MENTION_PUBLIC_CHANNELS;
+                } else if (newChannel.type === Constants.PRIVATE_CHANNEL) {
+                    wrappedChannel.type = Constants.MENTION_PRIVATE_CHANNELS;
                 } else if (channelIsArchived && !members[channel.id]) {
                     continue;
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
+                    wrappedChannel.type = Constants.MENTION_GROUPS;
                     const isGMVisible = isGroupChannelManuallyVisible(state, channel.id);
                     if (!isGMVisible && skipNotMember) {
                         continue;

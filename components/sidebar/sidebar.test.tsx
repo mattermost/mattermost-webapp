@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Sidebar from 'components/sidebar/sidebar';
+import Constants, {ModalIdentifiers} from '../../utils/constants';
 
 describe('components/sidebar', () => {
     const baseProps = {
@@ -16,7 +17,7 @@ describe('components/sidebar', () => {
         hasSeenModal: true,
         isCloud: false,
         unreadFilterEnabled: false,
-        globalHeaderEnabled: false,
+        isMobileView: false,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
@@ -49,6 +50,33 @@ describe('components/sidebar', () => {
 
         wrapper.instance().setState({showMoreChannelsModal: true});
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('Should call Shortcut modal on FORWARD_SLASH+ctrl/meta', () => {
+        const wrapper = shallow<Sidebar>(
+            <Sidebar {...baseProps}/>,
+        );
+        const instance = wrapper.instance();
+
+        let key = Constants.KeyCodes.BACK_SLASH[0] as string;
+        let keyCode = Constants.KeyCodes.BACK_SLASH[1] as number;
+        instance.handleKeyDownEvent({ctrlKey: true, preventDefault: jest.fn(), key, keyCode} as any);
+        expect(wrapper.instance().props.actions.openModal).not.toHaveBeenCalled();
+
+        key = 'ù';
+        keyCode = Constants.KeyCodes.FORWARD_SLASH[1] as number;
+        instance.handleKeyDownEvent({ctrlKey: true, preventDefault: jest.fn(), key, keyCode} as any);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledWith(expect.objectContaining({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL}));
+
+        key = '/';
+        keyCode = Constants.KeyCodes.SEVEN[1] as number;
+        instance.handleKeyDownEvent({ctrlKey: true, preventDefault: jest.fn(), key, keyCode} as any);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledWith(expect.objectContaining({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL}));
+
+        key = Constants.KeyCodes.FORWARD_SLASH[0] as string;
+        keyCode = Constants.KeyCodes.FORWARD_SLASH[1] as number;
+        instance.handleKeyDownEvent({ctrlKey: true, preventDefault: jest.fn(), key, keyCode} as any);
+        expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledWith(expect.objectContaining({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL}));
     });
 
     test('should toggle direct messages modal correctly', () => {

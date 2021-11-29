@@ -9,9 +9,10 @@ import {Group} from 'mattermost-redux/types/groups';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Command} from 'mattermost-redux/types/integrations';
+import {Command, IncomingWebhook} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Session} from 'mattermost-redux/types/sessions';
+import {ProductComponent} from 'types/store/plugins';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -99,8 +100,7 @@ export class TestHelper {
             header: 'header',
             purpose: 'purpose',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
+            last_root_post_at: 0,
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,
@@ -121,8 +121,7 @@ export class TestHelper {
             header: 'header',
             purpose: 'purpose',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
+            last_root_post_at: 0,
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,
@@ -206,8 +205,9 @@ export class TestHelper {
             user_id: 'user_id',
             roles: 'team_user',
             delete_at: 0,
-            scheme_user: true,
             scheme_admin: false,
+            scheme_guest: false,
+            scheme_user: true,
         };
         return Object.assign({}, defaultMembership, override);
     }
@@ -245,6 +245,24 @@ export class TestHelper {
             allow_reference: true,
         };
         return Object.assign({}, defaultGroup, override);
+    }
+
+    public static getIncomingWebhookMock(override: Partial<IncomingWebhook> = {}): IncomingWebhook {
+        const defaultIncomingWebhook: IncomingWebhook = {
+            id: 'id',
+            create_at: 1,
+            update_at: 1,
+            delete_at: 1,
+            user_id: '',
+            channel_id: '',
+            team_id: '',
+            display_name: '',
+            description: '',
+            username: '',
+            icon_url: '',
+            channel_locked: false,
+        };
+        return Object.assign({}, defaultIncomingWebhook, override);
     }
 
     public static getPostMock(override: Partial<Post> = {}): Post {
@@ -334,5 +352,19 @@ export class TestHelper {
             local: false,
         };
         return Object.assign({}, defaultSession, override);
+    }
+
+    public static makeProduct(name: string): ProductComponent {
+        return {
+            id: name,
+            pluginId: '',
+            switcherIcon: `product-${name.toLowerCase()}` as ProductComponent['switcherIcon'],
+            switcherText: name,
+            baseURL: '',
+            switcherLinkURL: '',
+            mainComponent: () => null,
+            headerCentreComponent: () => null,
+            headerRightComponent: () => null,
+        };
     }
 }

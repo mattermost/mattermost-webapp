@@ -18,7 +18,7 @@ describe('Authentication', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiCreateUser().then(({user: newUser}) => {
             testUser = newUser;
@@ -270,23 +270,28 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        // * Verify the side bar is visible
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        // # Open team menu and click on "Invite People"
+        cy.uiOpenTeamMenu('Invite People');
 
-        // # Click on the side bar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // * Verify Invite People button is visible and exist and then click it
-        cy.findByText('Invite People').should('be.visible').and('exist').click();
-
-        // # Click invite members
-        cy.findByText('Members').click();
+        // # Click invite members if needed
+        cy.get('.InviteAs').then(($inviteAs) => {
+            const hasABToggleTreatment = $inviteAs.find('#inviteAsToggleControl').length > 0;
+            if (hasABToggleTreatment) {
+                if ($inviteAs.find('#inviteMembersLink').length > 0) {
+                    // Has A/B test toggle treatment and is in guest mode.
+                    cy.findByTestId('inviteMembersLink').click();
+                }
+            } else {
+                // Has A/B test radio treatment, so inviteMembersLink is always visible.
+                cy.findByTestId('inviteMembersLink').click();
+            }
+        });
 
         // # Input email, select member
-        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{enter}{enter}');
+        cy.findByText('Enter a name or email address').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');
 
         // # Click invite members button
-        cy.findByText('Invite Members').click();
+        cy.findByRole('button', {name: 'Invite'}).click({force: true});
 
         // * Verify message is what you expect it to be
         cy.contains('The following email addresses do not belong to an accepted domain:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');

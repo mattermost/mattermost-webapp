@@ -7,7 +7,12 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
+import {
+    AddChannelButtonTreatments,
+    AutoTourTreatments,
+    AddMembersToChanneltreatments,
+    InviteToTeamTreatments,
+} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
@@ -199,20 +204,22 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
     return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads as string === 'always_on');
 }
 
-export function isTimedDNDEnabled(state: GlobalState): boolean {
-    return (
-        getFeatureFlagValue(state, 'TimedDND') === 'true'
-    );
-}
-
-export function getInviteMembersButtonLocation(state: GlobalState): string | undefined {
-    return getFeatureFlagValue(state, 'InviteMembersButton');
-}
-
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
 }
 
 export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButtonTreatments | undefined {
     return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
+}
+
+export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | undefined {
+    return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
+}
+
+export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
+    return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
+}
+
+export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
+    return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
 }

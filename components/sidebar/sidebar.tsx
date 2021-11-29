@@ -13,8 +13,13 @@ import NewChannelFlow from 'components/new_channel_flow';
 import InvitationModal from 'components/invitation_modal';
 
 import Pluggable from 'plugins/pluggable';
+
+import {ModalData} from 'types/actions';
+
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
+
+import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
@@ -32,20 +37,17 @@ type Props = {
     actions: {
         fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
         clearChannelSelection: () => void;
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
-    globalHeaderEnabled: boolean;
+    isMobileView: boolean;
 };
 
 type State = {
     showDirectChannelsModal: boolean;
     isDragging: boolean;
-    isMobile: boolean;
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
@@ -54,13 +56,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.state = {
             showDirectChannelsModal: false,
             isDragging: false,
-            isMobile: Utils.isMobile(),
         };
-    }
-
-    handleResize = () => {
-        const isMobile = Utils.isMobile();
-        this.setState({isMobile});
     }
 
     componentDidMount() {
@@ -69,8 +65,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         }
 
         window.addEventListener('click', this.handleClickClearChannelSelection);
-        window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
-        window.addEventListener('resize', this.handleResize);
+        window.addEventListener('keydown', this.handleKeyDownEvent);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -81,8 +76,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     componentWillUnmount() {
         window.removeEventListener('click', this.handleClickClearChannelSelection);
-        window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
-        window.removeEventListener('resize', this.handleResize);
+        window.removeEventListener('keydown', this.handleKeyDownEvent);
     }
 
     handleClickClearChannelSelection = (event: MouseEvent) => {
@@ -93,9 +87,19 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.props.actions.clearChannelSelection();
     }
 
-    handleKeyDownClearChannelSelection = (event: KeyboardEvent) => {
+    handleKeyDownEvent = (event: KeyboardEvent) => {
         if (Utils.isKeyPressed(event, Constants.KeyCodes.ESCAPE)) {
             this.props.actions.clearChannelSelection();
+            return;
+        }
+        const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
+        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH);
+        if (shortcutModalKeyCombo) {
+            event.preventDefault();
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+                dialogType: KeyboardShortcutsModal,
+            });
         }
     }
 
@@ -191,24 +195,22 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             <div
                 id='SidebarContainer'
                 className={classNames({
-                    'move--right': this.props.isOpen && Utils.isMobile(),
+                    'move--right': this.props.isOpen && this.props.isMobileView,
                     dragging: this.state.isDragging,
                 })}
             >
-                {
-                    this.props.globalHeaderEnabled && !this.state.isMobile ? (
-                        <SidebarHeader
-                            showNewChannelModal={this.showNewChannelModal}
-                            showMoreChannelsModal={this.showMoreChannelsModal}
-                            invitePeopleModal={this.invitePeopleModal}
-                            showCreateCategoryModal={this.showCreateCategoryModal}
-                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
-                            canJoinPublicChannel={this.props.canJoinPublicChannel}
-                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
-                            unreadFilterEnabled={this.props.unreadFilterEnabled}
-                        />
-                    ) : <LegacySidebarHeader/>
-                }
+                {this.props.isMobileView ? <LegacySidebarHeader/> : (
+                    <SidebarHeader
+                        showNewChannelModal={this.showNewChannelModal}
+                        showMoreChannelsModal={this.showMoreChannelsModal}
+                        invitePeopleModal={this.invitePeopleModal}
+                        showCreateCategoryModal={this.showCreateCategoryModal}
+                        canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                        canJoinPublicChannel={this.props.canJoinPublicChannel}
+                        handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                        unreadFilterEnabled={this.props.unreadFilterEnabled}
+                    />
+                )}
                 <div
                     id='lhsNavigator'
                     role='application'

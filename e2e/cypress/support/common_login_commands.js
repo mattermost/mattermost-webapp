@@ -31,32 +31,36 @@ Cypress.Commands.add('checkMemberNoChannels', () => {
 
 Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
     if (settings.teamName != null && settings.teamName.length > 0) {
-        cy.get('#headerTeamName').should('be.visible').and('contain', settings.teamName);
+        cy.uiGetLHSHeader().should('contain', settings.teamName);
     }
 
     if (settings.user.username.length > 0) {
-        cy.get('#headerUsername').should('be.visible').and('contain', settings.user.username);
+        // * Verify username info
+        cy.uiOpenUserMenu().findByText(`@${settings.user.username}`);
+
+        // # Close status menu
+        cy.uiGetSetStatusButton().click();
     }
 
     if (settings.user.userType === 'Admin' || settings.user.isAdmin) {
-        //check that he is an admin
-        cy.get('#sidebarHeaderDropdownButton').click().then(() => {
-            cy.findByText('System Console').should('be.visible');
-            cy.get('#sidebarHeaderDropdownButton').click();
-        });
+        // # Check that user is an admin
+        cy.uiOpenProductMenu().findByText('System Console');
     } else {
-        cy.get('#sidebarHeaderDropdownButton').click().then(() => {
-            cy.findByText('System Console').should('not.exist');
-            cy.get('#sidebarHeaderDropdownButton').click();
-        });
+        // # Check that user is not an admin
+        cy.uiOpenProductMenu().findByText('System Console').should('not.exist');
     }
+
+    // # Close product switch menu
+    cy.uiGetProductMenuButton().click();
+
     cy.get('#channel_view').should('be.visible');
 });
 
 Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
-    cy.findByText('Copy Link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+    cy.findByText('Copy invite link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     if (settings.teamName != null && settings.teamName.length > 0) {
-        cy.findByText('Invite people to ' + settings.teamName).should('be.visible');
+        const inviteRegexp = new RegExp(`Invite .* to ${settings.teamName}`);
+        cy.findByText(inviteRegexp).should('be.visible');
     }
 });
 

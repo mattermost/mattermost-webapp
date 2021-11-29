@@ -8,7 +8,9 @@ import * as PropTypes from 'prop-types';
 
 import FormError from 'components/form_error';
 
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+
+import {ModalIdentifiers} from 'utils/constants';
 
 import UsersToBeRemovedModal from './users_to_be_removed_modal';
 
@@ -88,8 +90,9 @@ export class UsersWillBeRemovedError extends React.PureComponent {
                 error={(
                     <span>
                         {error}
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             className='btn btn-link'
+                            modalId={ModalIdentifiers.USERS_TO_BE_REMOVED}
                             dialogType={UsersToBeRemovedModal}
                             dialogProps={{total, users, scope, scopeId}}
                         >
@@ -97,7 +100,7 @@ export class UsersWillBeRemovedError extends React.PureComponent {
                                 id='admin.team_channel_settings.view_removed_users'
                                 defaultMessage='View These Users'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </span>
                 )}
             />

@@ -27,7 +27,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -90,8 +90,9 @@ describe('Verify Guest User Identification in different screens', () => {
     });
 
     it('Verify Guest Badge in Team Members dialog', () => {
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#viewMembers').click().wait(TIMEOUTS.FIVE_SEC);
+        // # Open team menu and click 'View Members'
+        cy.uiOpenTeamMenu('View Members');
+
         cy.get('#teamMembersModal').should('be.visible').within(($el) => {
             cy.wrap($el).findAllByTestId('userListItemDetails').each(($elChild) => {
                 cy.wrap($elChild).invoke('text').then((username) => {
@@ -145,13 +146,13 @@ describe('Verify Guest User Identification in different screens', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
     it('Verify Guest Badge in Switch Channel Dialog', () => {
-        // # Click the sidebar switcher button
-        cy.uiGetChannelSwitcher().click();
+        // # Open Find Channels
+        cy.uiOpenFindChannels();
 
         // # Type the guest user name on Channel switcher input
         cy.findByRole('textbox', {name: 'quick switch input'}).type(guest.username).wait(TIMEOUTS.HALF_SEC);
@@ -188,7 +189,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
             type(guest.username).wait(TIMEOUTS.ONE_SEC).
             type('{enter}');
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
         cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');
@@ -205,7 +206,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
             type(admin.username).wait(TIMEOUTS.ONE_SEC).
             type('{enter}');
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
         cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');

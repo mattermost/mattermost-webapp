@@ -83,6 +83,8 @@ export const Preferences = {
     COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
     COLLAPSED_REPLY_THREADS_OFF: 'off',
     COLLAPSED_REPLY_THREADS_ON: 'on',
+    CLICK_TO_REPLY: 'click_to_reply',
+    CLICK_TO_REPLY_DEFAULT: 'true',
     COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT: 'off',
     LINK_PREVIEW_DISPLAY: 'link_previews',
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
@@ -106,9 +108,28 @@ export const Preferences = {
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
+    START_TRIAL_MODAL: 'start_trial_modal',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
+    ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
+    ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
+
+    // For one off things that have a special, attention-grabbing UI until you interact with them
+    TOUCHED: 'touched',
+
+    // Category for actions/interactions that will happen just once
+    UNIQUE: 'unique',
+};
+
+// For one off things that have a special, attention-grabbing UI until you interact with them
+export const Touched = {
+    INVITE_MEMBERS: 'invite_members',
+};
+
+// Category for actions/interactions that will happen just once
+export const Unique = {
+    HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
 };
 
 export const TrialPeriodDays = {
@@ -143,21 +164,14 @@ export const ActionTypes = keyMirror({
     CANCEL_NAVIGATION: null,
     CONFIRM_NAVIGATION: null,
 
-    TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
-    TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
-    TOGGLE_GET_PUBLIC_LINK_MODAL: null,
-    TOGGLE_QUICK_SWITCH_MODAL: null,
-    TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
-    TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
-    TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
+    BROWSER_WINDOW_RESIZED: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
@@ -176,6 +190,7 @@ export const ActionTypes = keyMirror({
     MODAL_CLOSE: null,
 
     SELECT_CHANNEL_WITH_MEMBER: null,
+    SET_LAST_UNREAD_CHANNEL: null,
     UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
@@ -224,6 +239,7 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+    UPDATE_THREAD_TOAST_STATUS: null,
 
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
@@ -273,6 +289,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_ROLE: 'add_user_to_role',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
@@ -303,6 +320,8 @@ export const ModalIdentifiers = {
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
+    TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
@@ -314,6 +333,15 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
+    NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM: 'confirm',
+    POST_DELETED_MODAL: 'post_deleted_modal',
+    FILE_PREVIEW_MODAL: 'file_preview_modal',
+    IMPORT_THEME_MODAL: 'import_theme_modal',
+    LEAVE_PRIVATE_CHANNEL_MODAL: 'leave_private_channel_modal',
+    GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
+    KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
+    USERS_TO_BE_REMOVED: 'users_to_be_removed',
 };
 
 export const UserStatuses = {
@@ -343,6 +371,7 @@ export const CloudProducts = {
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
+    LEGACY: 'cloud-legacy',
 };
 
 export const A11yClassNames = {
@@ -458,6 +487,7 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
+    DOWNLOAD_APPS: 'download_apps',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -476,6 +506,8 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
+    SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
 };
 
 export const PostTypes = {
@@ -582,7 +614,6 @@ export const StorageTypes = keyMirror({
     REMOVE_GLOBAL_ITEM: null,
     CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
-    ACTION_ON_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
 
@@ -754,14 +785,15 @@ export const AboutLinks = {
 
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
-    COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
-    CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
+    PRICING: 'https://mattermost.com/pricing/',
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
+    DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
 };
 
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
     PER_SEAT: 'per_seat',
+    SALES_SERVE: 'sales_serve',
 };
 
 export const RecurringIntervals = {
@@ -986,6 +1018,9 @@ export const Constants = {
         VIEW_ACTION: null,
     }),
 
+    // limit of users to show the lhs invite members button highlighted
+    USER_LIMIT: 10,
+
     StatTypes,
     STAT_MAX_ACTIVE_USERS: 20,
     STAT_MAX_NEW_USERS: 20,
@@ -1006,6 +1041,9 @@ export const Constants = {
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    ALL_MENTION_REGEX: /(?:\B|\b_+)@(all)(?!(\.|-|_)*[^\W_])/gi,
+    CHANNEL_MENTION_REGEX: /(?:\B|\b_+)@(channel)(?!(\.|-|_)*[^\W_])/gi,
+    HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
     ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
@@ -1056,7 +1094,11 @@ export const Constants = {
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
+
+    DESKTOP_SCREEN_WIDTH: 1679,
+    TABLET_SCREEN_WIDTH: 1020,
     MOBILE_SCREEN_WIDTH: 768,
+
     POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
@@ -1474,6 +1516,7 @@ export const Constants = {
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
+        OPEN_COMMAND_IN_MODAL_ITEM_ID: '_open_command_in_modal',
         COMMAND_SUGGESTION_ERROR: 'error',
         COMMAND_SUGGESTION_CHANNEL: 'channel',
         COMMAND_SUGGESTION_USER: 'user',
@@ -1539,9 +1582,10 @@ export const Constants = {
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_PRIVATE_CHANNELS: 'mention.private.channels',
     MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
-    MENTION_GROUPS: 'mention.groups',
+    MENTION_GROUPS: 'search.group',
     DEFAULT_NOTIFICATION_DURATION: 5000,
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
@@ -1562,6 +1606,8 @@ export const Constants = {
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
+    THREADS_PAGE_SIZE: 25,
+    TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
 };
 
 export const ValidationErrors = {
@@ -1571,6 +1617,13 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const WindowSizes = {
+    MOBILE_VIEW: 'mobileView',
+    TABLET_VIEW: 'tabletView',
+    SMALL_DESKTOP_VIEW: 'smallDesktopView',
+    DESKTOP_VIEW: 'desktopView',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
@@ -1594,17 +1647,20 @@ export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('se
     {searchTerm: '""', message: {id: t('search_files_list_option.phrases'), defaultMessage: 'Files with phrases'}},
 ];
 
+// adding these rtranslations here so the weblate CI step will not fail with empty translation strings
+t('suggestion.archive');
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
-t('suggestion.mention.public.channels');
+t('suggestion.mention.private.channels');
 t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
-t('suggestion.archive');
 t('suggestion.mention.groups');
+t('suggestion.search.public');
+t('suggestion.search.group');
 
 const {
     DONT_CLEAR,
