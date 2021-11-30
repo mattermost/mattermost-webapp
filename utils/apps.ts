@@ -30,8 +30,6 @@ export function createCallRequest(
     defaultExpand: AppExpand = {},
     values?: AppCallValues,
     rawCommand?: string,
-    query?: string,
-    selectedField?: string,
 ): AppCallRequest {
     return {
         ...call,
@@ -42,8 +40,6 @@ export function createCallRequest(
             ...call.expand,
         },
         raw_command: rawCommand,
-        query,
-        selected_field: selectedField,
     };
 }
 

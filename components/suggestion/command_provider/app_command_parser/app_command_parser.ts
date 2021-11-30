@@ -261,16 +261,34 @@ export class ParsedCommand {
         }
 
         if (!this.binding.bindings?.length) {
-            this.resolvedForm = this.binding?.form;
-            if (!this.resolvedForm || !this.resolvedForm.submit) {
-                const fetched = await this.formsCache.getSubmittableForm(this.location, this.binding);
-                if (fetched?.error) {
-                    return this.asError(fetched.error);
+            // No more sub-bindings, must be a submit or a form.
+            if (this.binding.submit && !this.binding.form) {
+                // Submit, no form in the binding, construct an empty form for
+                // submission.
+                this.resolvedForm = {
+                    submit: this.binding.submit,
+                };
+            } else if (this.binding.form && !this.binding.submit) {
+                // Form, no submit in the binding. Refresh the form from the
+                // source/cache as needed.
+                const form = this.binding.form;
+                if (!form.submit) {
+                    const fetched = await this.formsCache.getSubmittableForm(this.location, this.binding);
+                    if (fetched?.error) {
+                        return this.asError(fetched.error);
+                    }
+                    this.resolvedForm = fetched?.form;
                 }
-                this.resolvedForm = fetched?.form;
+                this.resolvedForm = this.binding?.form;
+            } else {
+                return this.asError(this.intl.formatMessage({
+                    id: 'apps.error.parser',
+                    defaultMessage: 'Parsing error: {error}',
+                }, {
+                    error: 'unreachable: invalid binding, neither or both Submit and Form',
+                }));
             }
         }
-
         return this;
     }
 
@@ -1157,8 +1175,8 @@ export class AppCommandParser {
         if (!call) {
             return {creq: null,
                 errorMessage: this.intl.formatMessage({
-                    id: 'apps.error.parser.missing_call',
-                    defaultMessage: 'No submittable form in binding.',
+                    id: 'apps.error.parser.missing_submit',
+                    defaultMessage: 'No submit call in binding or form.',
                 })};
         }
 
@@ -1493,20 +1511,9 @@ export class AppCommandParser {
         return context;
     }
 
-    // fetchForm unconditionaly retrieves the form for the given binding (subcommand)
-    private fetchForm = async (binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
-        if (!binding.form || !binding.form.source) {
-            return {error: this.intl.formatMessage({
-                id: 'apps.error.parser.missing_call',
-                defaultMessage: 'Missing binding call.',
-            })};
-        }
-
-        const payload = createCallRequest(
-            binding.form.source,
-            this.getAppContext(binding),
-        );
-
+    // fetchSubmittableForm unconditionaly retrieves the form for the given binding (subcommand)
+    private fetchSubmittableForm = async (source: AppCall, context: AppContext): Promise<{form?: AppForm; error?: string} | undefined> => {
+        const payload = createCallRequest(source, context);
         const res = await this.store.dispatch(doAppFetchForm(payload, this.intl)) as DoAppCallResult;
         if (res.error) {
             const errorResponse = res.error;
@@ -1539,8 +1546,8 @@ export class AppCommandParser {
 
         if (!callResponse.form?.submit) {
             return {error: this.intl.formatMessage({
-                id: 'apps.error.parser.missing_call',
-                defaultMessage: 'Missing binding call.',
+                id: 'apps.error.parser.missing_submit',
+                defaultMessage: 'No submit call in binding or form.',
             })};
         }
 
@@ -1555,7 +1562,14 @@ export class AppCommandParser {
             return {form: submittableForm};
         }
 
-        const fetched = await this.fetchForm(binding);
+        if (!binding.form?.source) {
+            return {error: this.intl.formatMessage({
+                id: 'apps.error.parser.missing_source',
+                defaultMessage: 'Form has neither submit nor source.',
+            })};
+        }
+        const context = this.getAppContext(binding);
+        const fetched = await this.fetchSubmittableForm(binding.form.source, context);
         if (fetched?.form) {
             let actionType: string = AppsTypes.RECEIVED_APP_COMMAND_FORM;
             if (this.rootPostID) {
@@ -1816,8 +1830,10 @@ export class AppCommandParser {
                 errorMessage,
             }));
         }
-        creq.selected_field = f.name;
-        creq.query = parsed.incomplete;
+        creq.values = {
+            ...creq.values,
+            [f.name]: parsed.incomplete,
+        };
 
         const res = await this.store.dispatch(doAppLookup(creq, this.intl)) as DoAppCallResult<AppLookupResponse>;
 

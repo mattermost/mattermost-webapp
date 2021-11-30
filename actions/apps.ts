@@ -45,12 +45,7 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
                 return {error: makeCallErrorResponse(errMsg)};
             }
 
-            const callRequest = createCallRequest(
-                binding.form.submit,
-                context,
-            );
-
-            dispatch(openAppsModal(binding.form, callRequest));
+            dispatch(openAppsModal(binding.form, context));
             const res: AppCallResponse = {
                 type: AppCallResponseTypes.FORM,
                 form: binding.form,
@@ -107,7 +102,7 @@ export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): Act
                 }
 
                 cleanForm(res.form);
-                dispatch(openAppsModal(res.form, call));
+                dispatch(openAppsModal(res.form, inCall.context));
                 return {data: res};
 
             case AppCallResponseTypes.NAVIGATE: {
@@ -165,7 +160,7 @@ export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any, ope
                 }
                 cleanForm(res.form);
                 if (openModal) {
-                    dispatch(openAppsModal(res.form, call));
+                    dispatch(openAppsModal(res.form, call.context));
                 }
                 return {data: res};
             default: {
@@ -231,13 +226,13 @@ export function makeFetchBindings(location: string): (userId: string, channelId:
     };
 }
 
-export function openAppsModal(form: AppForm, call: AppCallRequest): Action {
+export function openAppsModal(form: AppForm, context: AppContext): Action {
     return openModal({
         modalId: ModalIdentifiers.APPS_MODAL,
         dialogType: AppsForm,
         dialogProps: {
             form,
-            call,
+            context,
         },
     });
 }

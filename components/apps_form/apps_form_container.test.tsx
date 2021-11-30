@@ -52,10 +52,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 path: '/form_url',
             },
         },
-        call: {
-            path: '/form_url_old',
-            context,
-        },
+        context,
         actions: {
             doAppSubmit: jest.fn().mockResolvedValue({}),
             doAppFetchForm: jest.fn(),
@@ -166,14 +163,10 @@ describe('components/apps_form/AppsFormContainer', () => {
                 },
                 path: '/form_lookup',
                 expand: {},
-                query: 'My search',
-                selected_field: 'field2',
+                rawCommand: undefined,
                 values: {
                     field1: 'value1',
-                    field2: {
-                        label: 'label2',
-                        value: 'value2',
-                    },
+                    field2: 'My search',
                 },
             }, expect.any(Object));
 
