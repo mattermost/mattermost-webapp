@@ -110,7 +110,7 @@ export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): Act
                 dispatch(openAppsModal(res.form, call));
                 return {data: res};
 
-            case AppCallResponseTypes.NAVIGATE:
+            case AppCallResponseTypes.NAVIGATE: {
                 if (!res.navigate_to_url) {
                     const errMsg = intl.formatMessage({
                         id: 'apps.error.responses.navigate.no_url',
@@ -122,9 +122,12 @@ export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): Act
                     window.open(res.navigate_to_url);
                     return {data: res};
                 }
-                browserHistory.push(res.navigate_to_url.slice(getSiteURL().length));
+                const navigateURL = res.navigate_to_url.startsWith(getSiteURL()) ?
+                    res.navigate_to_url.slice(getSiteURL().length) :
+                    res.navigate_to_url;
+                browserHistory.push(navigateURL);
                 return {data: res};
-
+            }
             default: {
                 const errMsg = intl.formatMessage({
                     id: 'apps.error.responses.unknown_type',

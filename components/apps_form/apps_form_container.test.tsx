@@ -9,9 +9,7 @@ import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
-import AppsFormContainer, {RawAppsFormContainer} from './apps_form_container';
+import {RawAppsFormContainer} from './apps_form_container';
 
 describe('components/apps_form/AppsFormContainer', () => {
     const emojiMap = new EmojiMap(new Map());

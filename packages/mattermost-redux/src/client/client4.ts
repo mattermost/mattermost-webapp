@@ -1,5 +1,3 @@
-/* eslint-disable header/header */
-/* eslint-disable max-lines */
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 

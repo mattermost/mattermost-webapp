@@ -1696,7 +1696,7 @@ export class AppCommandParser {
 
     // getFlagNameSuggestions returns suggestions for flag names
     private getFlagNameSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        if (!parsed.resolvedForm || !parsed.resolvedForm.fields || !parsed.resolvedForm.fields.length) {
+        if (!parsed.resolvedForm?.fields?.length) {
             return [];
         }
 
