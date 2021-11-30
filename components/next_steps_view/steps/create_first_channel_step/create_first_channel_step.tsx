@@ -84,10 +84,11 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
             // dispatch the first channel name value
             dispatch(setFirstChannelName(data.name));
             dispatch(savePreferences(userId, [{category, name, user_id: userId, value: data.name}]));
-            dispatch(switchToChannel(data));
-            if (typeof props.onFinish === 'function') {
-                props.onFinish(props.id);
-            }
+
+            // dispatch(switchToChannel(data));
+            // if (typeof props.onFinish === 'function') {
+            //     props.onFinish(props.id);
+            // }
         }
     };
 

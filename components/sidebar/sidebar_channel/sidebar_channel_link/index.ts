@@ -44,7 +44,7 @@ function makeMapStateToProps() {
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
         const currentUserId = getCurrentUserId(state);
-        const tutorialStep = getInt(state, Constants.Preferences.TUTORIAL_STEP, currentUserId, Constants.TutorialSteps.FINISHED);
+        const tutorialStep = firstChannelNameFromRedux || firstChannelNameFromPref?.value ? -1 : getInt(state, Constants.Preferences.TUTORIAL_STEP, currentUserId, Constants.TutorialSteps.FINISHED);
 
         return {
             unreadMentions: unreadCount.mentions,

@@ -28,10 +28,10 @@ function mapStateToProps(state: GlobalState) {
     const preferences = getCategory(state, Preferences.AB_TEST_PREFERENCE_VALUE);
     const firstChannelNameFromPref = preferences.find((pref: PreferenceType) => pref.name === RecommendedNextSteps.CREATE_FIRST_CHANNEL);
     const firstChannelNameFromRedux = state.views.channelSidebar.firstChannelName;
-
+    const currentStep = firstChannelNameFromRedux || firstChannelNameFromPref?.value ? -1 : getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0);
     return {
         currentUserId,
-        currentStep: getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0),
+        currentStep,
         autoTour: getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
         firstChannelName: (firstChannelNameFromRedux || firstChannelNameFromPref?.value) || '',
     };

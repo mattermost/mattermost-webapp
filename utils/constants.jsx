@@ -467,13 +467,13 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
-    ADD_FIRST_CHANNEL: 0,
-    POST_POPOVER: 1,
-    CHANNEL_POPOVER: 2,
-    ADD_CHANNEL_POPOVER: 3,
-    MENU_POPOVER: 4,
-    PRODUCT_SWITCHER: 5,
-    SETTINGS: 6,
+    ADD_FIRST_CHANNEL: -1,
+    POST_POPOVER: 0,
+    CHANNEL_POPOVER: 1,
+    ADD_CHANNEL_POPOVER: 2,
+    MENU_POPOVER: 3,
+    PRODUCT_SWITCHER: 4,
+    SETTINGS: 5,
     FINISHED: 999,
 };
 

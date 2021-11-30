@@ -134,7 +134,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             // and then tips and next steps determines it should display.
             // So this is tutorial_tip's way of being polite to the user and not flashing its tip
             // in the user's face right before showing tips and next steps.
-            if (step === (firstChannelName ? TutorialSteps.ADD_FIRST_CHANNEL : TutorialSteps.POST_POPOVER)) {
+            if (step === TutorialSteps.POST_POPOVER) {
                 this.showPendingTimeout = setTimeout(() => {
                     this.show();
                 }, COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME);
