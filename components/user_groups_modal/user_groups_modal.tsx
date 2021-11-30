@@ -92,7 +92,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         const {
             actions,
         } = this.props;
-        this.resetSearch();
         await Promise.all([
             actions.getGroups(false, this.state.page, GROUPS_PER_PAGE, true),
             actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, this.state.myGroupsPage, GROUPS_PER_PAGE, true),
@@ -101,6 +100,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
+        console.log('unmounting');
         this.props.actions.setModalSearchTerm('');
     }
 
@@ -147,7 +147,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     }
 
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
         const term = e.target.value;
         this.props.actions.setModalSearchTerm(term);
     }
@@ -340,7 +339,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         onScroll={this.onScroll}
                         ref={this.divScrollRef}
                     >
-                        {this.props.groups.map((group) => {
+                        {groups.map((group) => {
                             return (
                                 <div
                                     className='group-row'

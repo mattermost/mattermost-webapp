@@ -28,7 +28,7 @@ export type Group = {
     display_name: string;
     description: string;
     source: string;
-    remote_id: string;
+    remote_id: string | null;
     create_at: number;
     update_at: number;
     delete_at: number;

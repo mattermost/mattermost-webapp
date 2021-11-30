@@ -16,19 +16,6 @@ import {openModal} from 'actions/views/modals';
 
 import CreateUserGroupsModal from './create_user_groups_modal';
 
-function makeMapStateToProps() {
-    return (state: GlobalState) => {
-        const profiles = getProfiles(state, {active: true});
-
-        const userStatuses = getUserStatuses(state);
-
-        return {
-            profiles,
-            userStatuses,
-        };
-    };
-}
-
 type Actions = {
     createGroupWithUserIds: (group: GroupCreateWithUserIds) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
@@ -43,4 +30,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(CreateUserGroupsModal);
+export default connect(null, mapDispatchToProps)(CreateUserGroupsModal);

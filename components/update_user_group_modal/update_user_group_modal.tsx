@@ -7,8 +7,6 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import {ModalIdentifiers} from 'utils/constants';
-
 import * as Utils from 'utils/utils.jsx';
 import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
 

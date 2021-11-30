@@ -1,5 +1,577 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`component/user_groups_modal should match snapshot with groups 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="userGroupsModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal user-groups-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  id="userGroupsModal"
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[MockFunction]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="userGroupsModalLabel"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="User Groups"
+        id="user_groups_modal.title"
+      />
+    </ModalTitle>
+    <a
+      className="user-groups-create btn btn-md btn-primary"
+      href="#"
+      id="test"
+      onClick={[Function]}
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Create Group"
+        id="user_groups_modal.createNew"
+      />
+    </a>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="user-groups-search"
+    >
+      <div
+        className="user-groups-searchbar"
+      >
+        <span
+          aria-hidden="true"
+          className="user-groups-search-icon"
+        >
+          <SearchIcon />
+        </span>
+        <input
+          data-testid="searchInput"
+          onChange={[Function]}
+          placeholder="Search"
+          type="text"
+          value=""
+        />
+        <i
+          className="user-groups-clear-button fa fa-times-circle hidden"
+          data-testid="clear-search"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="more-modal__dropdown"
+    >
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        id="groupsFilterDropdown"
+      >
+        <a>
+          <span>
+            Show: All Groups
+          </span>
+          <span
+            className="caret"
+          />
+        </a>
+        <Menu
+          ariaLabel="Groups Filter Menu"
+          openLeft={false}
+        >
+          <MenuItemAction
+            buttonClass="groups-filter-btn"
+            id="groupsDropdownAll"
+            onClick={[Function]}
+            rightDecorator={
+              <i
+                className="icon icon-check"
+              />
+            }
+            show={true}
+            text="All Groups"
+          />
+          <MenuItemAction
+            buttonClass="groups-filter-btn"
+            id="groupsDropdownMy"
+            onClick={[Function]}
+            rightDecorator={false}
+            show={true}
+            text="My Groups"
+          />
+        </Menu>
+      </MenuWrapper>
+    </div>
+    <div
+      className="user-groups-modal__content user-groups-list"
+      onScroll={[Function]}
+    >
+      <div
+        className="group-row"
+        key="group0"
+        onClick={[Function]}
+      >
+        <span
+          className="group-display-name"
+        >
+          Group 0
+        </span>
+        <span
+          className="group-name"
+        >
+          @
+          group0
+        </span>
+        <div
+          className="group-member-count"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="{member_count} {member_count, plural, one {member} other {members}}"
+            id="user_groups_modal.memberCount"
+            values={
+              Object {
+                "member_count": 1,
+              }
+            }
+          />
+        </div>
+        <div
+          className="group-action"
+        >
+          <MenuWrapper
+            animationComponent={[Function]}
+            className=""
+            id="customWrapper-group0"
+            isDisabled={false}
+            stopPropagationOnToggle={true}
+          >
+            <div
+              className="text-right"
+            >
+              <button
+                className="action-wrapper"
+              >
+                <i
+                  className="icon icon-dots-vertical"
+                />
+              </button>
+            </div>
+            <Menu
+              ariaLabel="User Actions Menu"
+              openLeft={true}
+              openUp={false}
+            >
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="View Group"
+              />
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="Join Group"
+              />
+            </Menu>
+          </MenuWrapper>
+        </div>
+      </div>
+      <div
+        className="group-row"
+        key="group1"
+        onClick={[Function]}
+      >
+        <span
+          className="group-display-name"
+        >
+          Group 1
+        </span>
+        <span
+          className="group-name"
+        >
+          @
+          group1
+        </span>
+        <div
+          className="group-member-count"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="{member_count} {member_count, plural, one {member} other {members}}"
+            id="user_groups_modal.memberCount"
+            values={
+              Object {
+                "member_count": 2,
+              }
+            }
+          />
+        </div>
+        <div
+          className="group-action"
+        >
+          <MenuWrapper
+            animationComponent={[Function]}
+            className=""
+            id="customWrapper-group1"
+            isDisabled={false}
+            stopPropagationOnToggle={true}
+          >
+            <div
+              className="text-right"
+            >
+              <button
+                className="action-wrapper"
+              >
+                <i
+                  className="icon icon-dots-vertical"
+                />
+              </button>
+            </div>
+            <Menu
+              ariaLabel="User Actions Menu"
+              openLeft={true}
+              openUp={false}
+            >
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="View Group"
+              />
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="Join Group"
+              />
+            </Menu>
+          </MenuWrapper>
+        </div>
+      </div>
+      <div
+        className="group-row"
+        key="group2"
+        onClick={[Function]}
+      >
+        <span
+          className="group-display-name"
+        >
+          Group 2
+        </span>
+        <span
+          className="group-name"
+        >
+          @
+          group2
+        </span>
+        <div
+          className="group-member-count"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="{member_count} {member_count, plural, one {member} other {members}}"
+            id="user_groups_modal.memberCount"
+            values={
+              Object {
+                "member_count": 3,
+              }
+            }
+          />
+        </div>
+        <div
+          className="group-action"
+        >
+          <MenuWrapper
+            animationComponent={[Function]}
+            className=""
+            id="customWrapper-group2"
+            isDisabled={false}
+            stopPropagationOnToggle={true}
+          >
+            <div
+              className="text-right"
+            >
+              <button
+                className="action-wrapper"
+              >
+                <i
+                  className="icon icon-dots-vertical"
+                />
+              </button>
+            </div>
+            <Menu
+              ariaLabel="User Actions Menu"
+              openLeft={true}
+              openUp={false}
+            >
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="View Group"
+              />
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="Join Group"
+              />
+            </Menu>
+          </MenuWrapper>
+        </div>
+      </div>
+      <LoadingScreen
+        position="relative"
+        style={Object {}}
+      />
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`component/user_groups_modal should match snapshot with groups, myGroups selected 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="userGroupsModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal user-groups-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  id="userGroupsModal"
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[MockFunction]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="userGroupsModalLabel"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="User Groups"
+        id="user_groups_modal.title"
+      />
+    </ModalTitle>
+    <a
+      className="user-groups-create btn btn-md btn-primary"
+      href="#"
+      id="test"
+      onClick={[Function]}
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Create Group"
+        id="user_groups_modal.createNew"
+      />
+    </a>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="user-groups-search"
+    >
+      <div
+        className="user-groups-searchbar"
+      >
+        <span
+          aria-hidden="true"
+          className="user-groups-search-icon"
+        >
+          <SearchIcon />
+        </span>
+        <input
+          data-testid="searchInput"
+          onChange={[Function]}
+          placeholder="Search"
+          type="text"
+          value=""
+        />
+        <i
+          className="user-groups-clear-button fa fa-times-circle hidden"
+          data-testid="clear-search"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="more-modal__dropdown"
+    >
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        id="groupsFilterDropdown"
+      >
+        <a>
+          <span>
+            Show: My Groups
+          </span>
+          <span
+            className="caret"
+          />
+        </a>
+        <Menu
+          ariaLabel="Groups Filter Menu"
+          openLeft={false}
+        >
+          <MenuItemAction
+            buttonClass="groups-filter-btn"
+            id="groupsDropdownAll"
+            onClick={[Function]}
+            rightDecorator={false}
+            show={true}
+            text="All Groups"
+          />
+          <MenuItemAction
+            buttonClass="groups-filter-btn"
+            id="groupsDropdownMy"
+            onClick={[Function]}
+            rightDecorator={
+              <i
+                className="icon icon-check"
+              />
+            }
+            show={true}
+            text="My Groups"
+          />
+        </Menu>
+      </MenuWrapper>
+    </div>
+    <div
+      className="user-groups-modal__content user-groups-list"
+      onScroll={[Function]}
+    >
+      <div
+        className="group-row"
+        key="group0"
+        onClick={[Function]}
+      >
+        <span
+          className="group-display-name"
+        >
+          Group 0
+        </span>
+        <span
+          className="group-name"
+        >
+          @
+          group0
+        </span>
+        <div
+          className="group-member-count"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="{member_count} {member_count, plural, one {member} other {members}}"
+            id="user_groups_modal.memberCount"
+            values={
+              Object {
+                "member_count": 1,
+              }
+            }
+          />
+        </div>
+        <div
+          className="group-action"
+        >
+          <MenuWrapper
+            animationComponent={[Function]}
+            className=""
+            id="customWrapper-group0"
+            isDisabled={false}
+            stopPropagationOnToggle={true}
+          >
+            <div
+              className="text-right"
+            >
+              <button
+                className="action-wrapper"
+              >
+                <i
+                  className="icon icon-dots-vertical"
+                />
+              </button>
+            </div>
+            <Menu
+              ariaLabel="User Actions Menu"
+              openLeft={true}
+              openUp={false}
+            >
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="View Group"
+              />
+              <MenuItemAction
+                disabled={false}
+                onClick={[Function]}
+                show={true}
+                text="Join Group"
+              />
+            </Menu>
+          </MenuWrapper>
+        </div>
+      </div>
+      <LoadingScreen
+        position="relative"
+        style={Object {}}
+      />
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
 exports[`component/user_groups_modal should match snapshot without groups 1`] = `
 <Modal
   animation={true}
@@ -24,7 +596,7 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
