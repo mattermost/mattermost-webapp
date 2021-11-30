@@ -25,11 +25,12 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       "remove": [Function],
     }
   }
-  onHide={[MockFunction]}
+  onExited={[MockFunction]}
+  onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -69,7 +70,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
     <button
       className="btn btn-link"
       id="leaveTeamNo"
-      onClick={[MockFunction]}
+      onClick={[Function]}
       type="button"
     >
       <MemoizedFormattedMessage

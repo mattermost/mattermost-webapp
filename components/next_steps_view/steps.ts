@@ -175,13 +175,13 @@ export const getSteps = createSelector(
 );
 
 const getCategory = makeGetCategory();
+
 export const showOnboarding = createSelector(
     'getCategory',
     (state: GlobalState) => showNextSteps(state),
-    (state: GlobalState) => showNextStepsTips(state),
     (state: GlobalState) => state.views.nextSteps.show,
-    (showNextSteps, showNextStepsTips, showNextStepsEphemeral) => {
-        return !showNextStepsEphemeral && (showNextSteps || showNextStepsTips);
+    (showNextSteps, showNextStepsEphemeral) => {
+        return !showNextStepsEphemeral && showNextSteps;
     });
 
 export const isOnboardingHidden = createSelector(
@@ -208,20 +208,6 @@ export const showNextSteps = createSelector(
         }
 
         return nextStepsNotFinished;
-    },
-);
-
-// Only show tips if they have been skipped, or there are no unfinished steps
-export const showNextStepsTips = createSelector(
-    'showNextStepsTips',
-    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (state: GlobalState) => nextStepsNotFinished(state),
-    (stepPreferences, nextStepsNotFinished) => {
-        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
-            return true;
-        }
-
-        return !nextStepsNotFinished;
     },
 );
 

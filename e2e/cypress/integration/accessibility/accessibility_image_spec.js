@@ -59,7 +59,7 @@ describe('Verify Accessibility Support in Different Images', () => {
             });
         });
 
-        // # Open Account Settings > Display > Themes
+        // # Open Settings > Display > Themes
         cy.uiOpenSettingsModal('Display').within(() => {
             cy.get('#displayButton').click();
             cy.get('#displaySettingsTitle').should('exist');

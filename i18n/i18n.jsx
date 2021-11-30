@@ -78,7 +78,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski (Alpha)',
+        name: 'Polski',
         order: 8,
         url: pl,
     },

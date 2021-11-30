@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@cypress/request": "2.88.7",
     "@testing-library/cypress": "7.0.6",
     "@types/lodash": "4.14.175",
     "async": "3.2.1",
@@ -20,6 +21,7 @@
     "deepmerge": "4.2.2",
     "dotenv": "10.0.0",
     "express": "4.17.1",
+    "extract-zip": "2.0.1",
     "knex": "0.21.5",
     "localforage": "1.10.0",
     "lodash.intersection": "4.4.0",
