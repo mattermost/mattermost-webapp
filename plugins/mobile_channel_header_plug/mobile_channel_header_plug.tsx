@@ -66,6 +66,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
         return (
             <li className='flex-parent--center'>
                 <button
+                    id={`${binding.app_id}_${binding.location}`}
                     className='navbar-toggle navbar-right__icon'
                     onClick={onClick}
                 >

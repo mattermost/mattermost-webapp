@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @team_settings
 
-import {getRandomId} from '../../utils';
+import {getRandomId, stubClipboard} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Team Settings', () => {
@@ -40,6 +40,8 @@ describe('Team Settings', () => {
     });
 
     it('MM-T387 - Try to join a closed team from a NON-mattermost email address via "Get Team Invite Link" while "Allow only users with a specific email domain to join this team" set to "sample.mattermost.com"', () => {
+        stubClipboard().as('clipboard');
+
         // # Open team menu and click 'Team Settings'
         cy.uiOpenTeamMenu('Team Settings');
 
@@ -58,7 +60,8 @@ describe('Team Settings', () => {
         cy.uiOpenTeamMenu('Invite People');
 
         // # Get the invite URL
-        cy.get('.share-link-input').invoke('val').then((val) => {
+        cy.findByTestId('InviteView__copyInviteLink').should('be.visible').click();
+        cy.get('@clipboard').its('contents').then((val) => {
             const inviteLink = val;
 
             // # Logout from admin account and visit the invite url

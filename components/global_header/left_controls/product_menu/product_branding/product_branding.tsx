@@ -23,7 +23,7 @@ const ProductBranding = (): JSX.Element => {
     const currentProduct = products?.find((product) => product.id === currentProductID);
 
     return (
-        <ProductBrandingContainer>
+        <ProductBrandingContainer tabIndex={0}>
             <Icon
                 size={20}
                 glyph={currentProduct && typeof currentProduct.switcherIcon === 'string' ? currentProduct.switcherIcon : 'product-channels'}

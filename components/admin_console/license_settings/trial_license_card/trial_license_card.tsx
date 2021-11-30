@@ -15,6 +15,7 @@ import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_lin
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import './trial_license_card.scss';
+import AlertBanner from 'components/alert_banner';
 
 export interface Props {
     license: any;
@@ -25,7 +26,7 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
     const endDate = new Date(parseInt(license?.ExpiresAt, 10));
     const daysToEndLicense = daysToLicenseExpire(license);
 
-    const message = () => {
+    const messageBody = () => {
         if (currentDate.toDateString() === endDate.toDateString()) {
             return (
                 <FormattedMarkdownMessage
@@ -49,29 +50,41 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
         );
     };
 
-    return (
+    const message = (
         <div className='RenewLicenseCard TrialLicense'>
             <div className='RenewLicenseCard__text'>
-                <div className='TrialLicenseCard__text-title'>
-                    <FormattedMessage
-                        id='admin.license.trialCard.licenseExpiring'
-                        defaultMessage='You’re currently on a free trial of our Mattermost Enterprise license.'
+                <div className='RenewLicenseCard__text-description'>
+                    {messageBody()}
+                </div>
+                <div className='RenewLicenseCard__buttons'>
+                    <PurchaseLink
+                        buttonTextElement={
+                            <FormattedMessage
+                                id='admin.license.trialCard.purchase_license'
+                                defaultMessage='Purchase a license'
+                            />
+                        }
+                    />
+                    <ContactUsButton
+                        customClass='light-blue-btn'
                     />
                 </div>
-                <div className='RenewLicenseCard__text-description'>
-                    {message()}
-                </div>
-                <PurchaseLink
-                    buttonTextElement={
-                        <FormattedMessage
-                            id='admin.license.trialCard.purchase_license'
-                            defaultMessage='Purchase a license'
-                        />
-                    }
-                />
-                <ContactUsButton/>
             </div>
         </div>
+    );
+
+    const cardTitle = (
+        <FormattedMessage
+            id='admin.license.trialCard.licenseExpiring'
+            defaultMessage='You’re currently on a free trial of our Mattermost Enterprise license.'
+        />
+    );
+    return (
+        <AlertBanner
+            mode={'info'}
+            title={cardTitle}
+            message={message}
+        />
     );
 };
 

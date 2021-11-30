@@ -52,7 +52,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             appsEnabled: false,
             isReadOnly: false,
             isCollapsedThreadsEnabled: false,
-            currentTeamId: '',
+            teamId: '',
             threadId: 'post_id_1',
             userId: 'user_id_1',
         };

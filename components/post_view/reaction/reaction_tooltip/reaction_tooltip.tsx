@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 
 type Props = {
-    canAddReaction: boolean;
-    canRemoveReaction: boolean;
+    canAddReactions: boolean;
+    canRemoveReactions: boolean;
     currentUserReacted: boolean;
     emojiName: string;
     reactions: ReactionType[];
@@ -17,8 +17,8 @@ type Props = {
 
 const ReactionTooltip: React.FC<Props> = (props: Props) => {
     const {
-        canAddReaction,
-        canRemoveReaction,
+        canAddReactions,
+        canRemoveReactions,
         currentUserReacted,
         emojiName,
         reactions,
@@ -112,14 +112,14 @@ const ReactionTooltip: React.FC<Props> = (props: Props) => {
     );
 
     let clickTooltip: React.ReactNode;
-    if (currentUserReacted && canRemoveReaction) {
+    if (currentUserReacted && canRemoveReactions) {
         clickTooltip = (
             <FormattedMessage
                 id='reaction.clickToRemove'
                 defaultMessage='(click to remove)'
             />
         );
-    } else if (!currentUserReacted && canAddReaction) {
+    } else if (!currentUserReacted && canAddReactions) {
         clickTooltip = (
             <FormattedMessage
                 id='reaction.clickToAdd'

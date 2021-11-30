@@ -36,7 +36,7 @@ export type PluginsState = {
 export type PluginComponent = {
     id: string;
     pluginId: string;
-    component?: React.Component;
+    component?: React.ComponentType;
     subMenu?: any[]; // TODO Add more concrete type
     text?: string;
     dropdownText?: string;
@@ -86,7 +86,7 @@ export type ProductComponent = {
     switcherText: string;
     baseURL: string;
     switcherLinkURL: string;
-    mainComponent: React.ReactNode;
-    headerCentreComponent?: React.ReactNode;
-    headerRightComponent?: React.ReactNode;
+    mainComponent: React.ComponentType;
+    headerCentreComponent?: React.ComponentType;
+    headerRightComponent?: React.ComponentType;
 };

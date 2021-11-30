@@ -201,9 +201,9 @@ describe('Customization', () => {
         });
     });
 
-    it('MM-T1211 - Can change Terms of Service Link setting', () => {
+    it('MM-T1211 - Can change Terms of Use Link setting', () => {
         // * Verify site name's setting name for is visible and matches the text
-        cy.findByTestId('SupportSettings.TermsOfServiceLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Terms of Service Link:');
+        cy.findByTestId('SupportSettings.TermsOfServiceLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Terms of Use Link:');
 
         // * Verify the site name input box has default value. The default value depends on the setup before running the test.
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').should('have.value', origConfig.SupportSettings.TermsOfServiceLink);
@@ -211,10 +211,10 @@ describe('Customization', () => {
         // * Verify the site name's help text is visible and matches the text
         cy.findByTestId('SupportSettings.TermsOfServiceLinkhelp-text').find('span').should('be.visible').and('have.text',
             'Link to the terms under which users may use your online service. By default, this includes the ' +
-            '"Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is ' +
+            '"Mattermost Acceptable Use Policy" explaining the terms under which Mattermost software is ' +
             'provided to end users. If you change the default link to add your own terms for using the service you ' +
             'provide, your new terms must include a link to the default terms so end users are aware of the Mattermost ' +
-            'Conditions of Use (End User) for Mattermost software.');
+            'Acceptable Use Policy for Mattermost software.');
 
         // # Enter a new help link
         const newValue = 'https://test.com';

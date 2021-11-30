@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
+import {shallow, ShallowWrapper} from 'enzyme';
+
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import Constants from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
@@ -11,11 +13,15 @@ import FileSearchResultItem from './file_search_result_item';
 
 describe('components/file_search_result/FileSearchResultItem', () => {
     const baseProps = {
+        channelId: 'channel_id',
         fileInfo: TestHelper.getFileInfoMock({}),
         channelDisplayName: '',
-        channelType: Constants.OPEN_CHANNEL,
+        channelType: Constants.OPEN_CHANNEL as ChannelType,
         teamName: 'test-team-name',
         onClick: jest.fn(),
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -43,7 +49,7 @@ describe('components/file_search_result/FileSearchResultItem', () => {
         const props = {
             ...baseProps,
             channelDisplayName: 'test',
-            channelType: Constants.DM_CHANNEL,
+            channelType: Constants.DM_CHANNEL as ChannelType,
         };
 
         const wrapper: ShallowWrapper<any, any, FileSearchResultItem> = shallow(
@@ -57,7 +63,7 @@ describe('components/file_search_result/FileSearchResultItem', () => {
         const props = {
             ...baseProps,
             channelDisplayName: 'test',
-            channelType: Constants.GM_CHANNEL,
+            channelType: Constants.GM_CHANNEL as ChannelType,
         };
 
         const wrapper: ShallowWrapper<any, any, FileSearchResultItem> = shallow(

@@ -23,6 +23,12 @@ describe('components/apps_form/AppsFormContainer', () => {
         post_id: 'post',
     };
 
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
+
     const baseProps = {
         emojiMap,
         form: {
@@ -48,7 +54,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 path: '/form_url',
             },
         },
-        creq: {
+        call: {
             path: '/form_url_old',
             context,
         },
@@ -58,19 +64,14 @@ describe('components/apps_form/AppsFormContainer', () => {
             doAppLookup: jest.fn(),
             postEphemeralCallResponseForContext: jest.fn(),
         },
-        onHide: jest.fn(),
+        onExited: jest.fn(),
+        intl,
     };
-
-    const intl = {
-        formatMessage: (message: {id: string; defaultMessage: string}) => {
-            return message.defaultMessage;
-        },
-    } as any;
 
     test('should match snapshot', () => {
         const props = baseProps;
 
-        const wrapper = shallowWithIntl(<AppsFormContainer {...props}/>);
+        const wrapper = shallow(<RawAppsFormContainer {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -88,7 +89,6 @@ describe('components/apps_form/AppsFormContainer', () => {
                     ...baseProps.actions,
                     doAppSubmit: jest.fn().mockResolvedValue(response),
                 },
-                intl,
             };
 
             const wrapper = shallow<RawAppsFormContainer>(<RawAppsFormContainer {...props}/>);
@@ -145,7 +145,6 @@ describe('components/apps_form/AppsFormContainer', () => {
                     ...baseProps.actions,
                     doAppLookup: jest.fn().mockResolvedValue(response),
                 },
-                intl,
             };
 
             const form = props.form;

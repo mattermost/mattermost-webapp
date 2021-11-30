@@ -12,7 +12,7 @@
 
 import {getRandomId} from '../../../utils';
 
-describe('Account Settings > Sidebar > General > Edit', () => {
+describe('Settings > Sidebar > General > Edit', () => {
     let testTeam;
     let testUser;
     let testChannel;
@@ -40,21 +40,21 @@ describe('Account Settings > Sidebar > General > Edit', () => {
     });
 
     beforeEach(() => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal();
     });
 
     it('MM-T2050 Username cannot be blank', () => {
         // # Clear the username textfield contents
         cy.get('#usernameEdit').click();
         cy.get('#username').clear();
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Check if element is present and contains expected text values
         cy.get('#clientError').should('be.visible').should('contain', 'Username must begin with a letter, and contain between 3 to 22 lowercase characters made up of numbers, letters, and the symbols \'.\', \'-\', and \'_\'.');
 
-        // # Click "x" button to close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
+        // # Click "x" button to close Profile modal
+        cy.uiClose();
     });
 
     it('MM-T2051 Username min 3 characters', () => {
@@ -63,13 +63,13 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
         // # Add the username to textfield contents
         cy.get('#username').clear().type('te');
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Check if element is present and contains expected text values
         cy.get('#clientError').should('be.visible').should('contain', 'Username must begin with a letter, and contain between 3 to 22 lowercase characters made up of numbers, letters, and the symbols \'.\', \'-\', and \'_\'.');
 
-        // # Click "x" button to close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
+        // # Click "x" button to close Profile modal
+        cy.uiClose();
     });
 
     it('MM-T2052 Username already taken', () => {
@@ -78,12 +78,12 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
         // # Add the username to textfield contents
         cy.get('#username').clear().type(otherUser.username);
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Check if element is present and contains expected text values
         cy.get('#serverError').should('be.visible').should('contain', 'An account with that username already exists.');
 
-        // # Click "x" button to close Account Settings modal
+        // # Click "x" button to close Profile modal
         cy.uiClose();
     });
 
@@ -101,7 +101,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             // # Login the temporary user
             cy.apiLogin(tempUser);
             cy.visit(offTopicUrl);
-            cy.uiOpenAccountSettingsModal();
+            cy.uiOpenProfileModal();
 
             // # Step 1
             // # Edit the username field
@@ -151,13 +151,13 @@ describe('Account Settings > Sidebar > General > Edit', () => {
         for (const prefix of prefixes) {
             // # Add  username to textfield contents
             cy.get('#username').clear().type(prefix).type('{backspace}.').type(`${otherUser.username}`);
-            cy.get('#saveSetting').click();
+            cy.uiSave();
 
             // * Check if element is present and contains expected text values
             cy.get('#clientError').should('be.visible').should('contain', 'Username must begin with a letter, and contain between 3 to 22 lowercase characters made up of numbers, letters, and the symbols \'.\', \'-\', and \'_\'.');
         }
 
-        // # Click "x" button to close Account Settings modal
+        // # Click "x" button to close Profile modal
         cy.uiClose();
     });
 
@@ -181,7 +181,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             cy.get('#clientError').should('be.visible').should('contain', 'This username is reserved, please choose a new one.');
         }
 
-        // # Click "x" button to close Account Settings modal
+        // # Click "x" button to close Profile modal
         cy.uiClose();
     });
 
@@ -214,7 +214,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
         cy.visit(offTopicUrl);
 
         // # Open account settings modal
-        cy.uiOpenAccountSettingsModal();
+        cy.uiOpenProfileModal();
 
         // # Open Full Name section
         cy.get('#usernameDesc').click();

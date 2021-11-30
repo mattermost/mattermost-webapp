@@ -253,6 +253,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding 
   >
     <button
       className="navbar-toggle navbar-right__icon"
+      id="appid_test"
       onClick={[Function]}
     >
       <span
