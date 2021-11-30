@@ -303,7 +303,7 @@ export default class Post extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened || (this.state.a11yActive && !this.props.isBeingEdited)) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) && !this.props.isBeingEdited) {
             className += ' post--hovered';
         }
 
@@ -430,7 +430,7 @@ export default class Post extends React.PureComponent {
                                 compactDisplay={this.props.compactDisplay}
                                 isFirstReply={this.props.isFirstReply}
                                 showTimeWithoutHover={!hideProfilePicture}
-                                hover={this.state.hover || (this.state.a11yActive && !this.props.isBeingEdited) || this.state.fileDropdownOpened}
+                                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
                                 isLastPost={this.props.isLastPost}
                             />
                             <PostBody

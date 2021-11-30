@@ -23,6 +23,7 @@ export default class A11yController {
         this.mouseIsPressed = false;
 
         this.lastInputEventIsKeyboard = false;
+        this.lastKeyPressed = false;
 
         this.enterKeyIsPressed = false;
         this.f6KeyIsPressed = false;
@@ -704,8 +705,12 @@ export default class A11yController {
             altIsPressed: event.altKey,
             shiftIsPressed: event.shiftKey,
         };
+
+        this.lastKeyPressed = false;
+
         switch (true) {
         case isKeyPressed(event, Constants.KeyCodes.TAB):
+            this.lastKeyPressed = Constants.KeyCodes.TAB;
             this.lastInputEventIsKeyboard = true;
             if ((!isMac() && modifierKeys.altIsPressed) || cmdOrCtrlPressed(event)) {
                 return;
@@ -713,6 +718,7 @@ export default class A11yController {
             this.tabKeyIsPressed = true;
             break;
         case isKeyPressed(event, Constants.KeyCodes.TILDE):
+            this.lastKeyPressed = Constants.KeyCodes.TILDE;
             this.lastInputEventIsKeyboard = true;
             if (!this.regions || !this.regions.length) {
                 return;
@@ -730,6 +736,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.F6):
+            this.lastKeyPressed = Constants.KeyCodes.F6;
             this.lastInputEventIsKeyboard = true;
             if (!isDesktopApp() && !cmdOrCtrlPressed(event)) {
                 return;
@@ -743,6 +750,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.UP):
+            this.lastKeyPressed = Constants.KeyCodes.UP;
             this.lastInputEventIsKeyboard = true;
             if (!this.navigationInProgress || !this.sections || !this.sections.length) {
                 return;
@@ -756,6 +764,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.DOWN):
+            this.lastKeyPressed = Constants.KeyCodes.DOWN;
             this.lastInputEventIsKeyboard = true;
             if (!this.navigationInProgress || !this.sections || !this.sections.length) {
                 return;
@@ -769,6 +778,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.ESCAPE):
+            this.lastKeyPressed = Constants.KeyCodes.ESCAPE;
             if (!this.navigationInProgress) {
                 return;
             }
@@ -776,9 +786,11 @@ export default class A11yController {
             this.cancelNavigation();
             break;
         case isKeyPressed(event, Constants.KeyCodes.ENTER):
+            this.lastKeyPressed = Constants.KeyCodes.ENTER;
             this.enterKeyIsPressed = true;
             break;
         case isKeyPressed(event, Constants.KeyCodes.SPACE):
+            this.lastKeyPressed = Constants.KeyCodes.SPACE;
             if (event.target.nodeName === 'BUTTON') {
                 event.preventDefault();
                 event.stopPropagation();
@@ -786,6 +798,8 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.L):
+            this.lastKeyPressed = Constants.KeyCodes.L;
+
             // For the Ctrl+Shift+L keyboard shortcut
             this.lastInputEventIsKeyboard = true;
             this.lKeyIsPressed = true;
@@ -817,7 +831,7 @@ export default class A11yController {
     }
 
     handleFocus = (event) => {
-        if (this.lastInputEventIsKeyboard && this.windowIsFocused) {
+        if (this.lastInputEventIsKeyboard && this.lastKeyPressed !== Constants.KeyCodes.UP && this.windowIsFocused) {
             this.nextElement(event.target, event.path || true);
         }
 

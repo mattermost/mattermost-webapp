@@ -340,8 +340,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
     }
 
-    render(): JSX.Element {
-        const post = this.props.post;
+    render(): React.ReactNode {
+        const {post} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
