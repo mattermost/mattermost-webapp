@@ -197,9 +197,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
-    getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
+    getDotMenu = (): HTMLDivElement | null => this.dotMenuRef.current;
 
-    buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean): null | JSX.Element => {
+    buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean): React.ReactNode => {
         if (!this.props.shouldShowDotMenu || this.props.isPostBeingEdited) {
             return null;
         }

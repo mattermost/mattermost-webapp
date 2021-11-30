@@ -103,11 +103,12 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
     useEffect(() => textboxRef?.current?.focus(), []);
     useEffect(() => {
-        const parentId = `${editingPost.isRHS ? 'rhsP' : 'p'}ost_${editingPost.postId}`;
+        const parentId = `${editingPost.isRHS ? 'rhsPost' : 'post'}_${editingPost.postId}`;
         const parentElement = document.getElementById(parentId);
 
         parentElement?.scrollIntoView?.(scrollOptions);
     }, []);
+
     useEffect(() => {
         const handlePaste = (e: ClipboardEvent) => {
             if (
@@ -157,7 +158,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         return () => {
             document.removeEventListener('paste', handlePaste);
         };
-    });
+    }, []);
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
@@ -273,7 +274,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             Date.now(),
             0,
             caretPosition,
-        ) as {allowSending: boolean; ignoreKeyPress?: boolean};
+        );
 
         if (ignoreKeyPress) {
             e.preventDefault();

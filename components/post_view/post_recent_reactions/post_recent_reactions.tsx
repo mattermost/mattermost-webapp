@@ -19,7 +19,7 @@ type Props = {
     channelId?: string;
     postId: string;
     teamId: string;
-    getDotMenuRef: () => HTMLDivElement;
+    getDotMenuRef: () => HTMLDivElement | null;
     location: LocationTypes;
     locale: string;
     emojis: Emoji[];

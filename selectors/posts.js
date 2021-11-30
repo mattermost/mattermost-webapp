@@ -17,7 +17,7 @@ export function getIsPostBeingEdited(state, postId) {
 export function getIsPostBeingEditedInRHS(state, postId) {
     const editingPost = getEditingPost(state);
 
-    return editingPost.isRHS && state.views.posts.editingPost.postId === postId;
+    return editingPost.isRHS && editingPost.postId === postId;
 }
 
 export const getEditingPost = createSelector(

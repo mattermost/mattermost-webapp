@@ -30,8 +30,9 @@ function mapStateToProps(state: GlobalState) {
     const channelId = editingPost?.post?.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
 
-    const deletePermission = editingPost?.post?.user_id === currentUserId ? Permissions.DELETE_POST : Permissions.DELETE_OTHERS_POSTS;
-    const editPermission = editingPost?.post?.user_id === currentUserId ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
+    const isAuthor = editingPost?.post?.user_id === currentUserId;
+    const deletePermission = isAuthor ? Permissions.DELETE_POST : Permissions.DELETE_OTHERS_POSTS;
+    const editPermission = isAuthor ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
 
     const channel = state.entities.channels.channels[channelId] || {};
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
@@ -44,7 +45,7 @@ function mapStateToProps(state: GlobalState) {
         config,
         editingPost,
         channelId,
-        maxPostSize: config.MaxPostSize ? parseInt(config.MaxPostSize, 10) : Constants.DEFAULT_CHARACTER_LIMIT,
+        maxPostSize: parseInt(config.MaxPostSize || '0', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
         useChannelMentions,
     };
