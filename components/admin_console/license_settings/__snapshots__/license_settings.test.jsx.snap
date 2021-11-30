@@ -69,7 +69,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -187,7 +187,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -348,7 +348,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -486,7 +486,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -638,7 +638,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -790,7 +790,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -942,7 +942,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -1094,7 +1094,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -1376,7 +1376,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -1529,7 +1529,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -1639,7 +1639,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -1705,55 +1705,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     >
       <div
         className="admin-console__banner_section"
-      >
-        <AlertBanner
-          message={
-            <div
-              className="banner-start-trial"
-            >
-              <p
-                className="license-trial-legal-terms"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
-                  id="admin.license.trial-request.title"
-                />
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-                  id="admin.license.trial-request.accept-terms"
-                />
-              </p>
-              <div
-                className="trial"
-              >
-                <button
-                  className="btn btn-primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <LoadingWrapper
-                    loading={false}
-                    text="Getting trial"
-                  >
-                    <Memo(MemoizedFormattedMessage)
-                      defaultMessage="Start trial"
-                      id="admin.license.trial-request.submit"
-                    />
-                  </LoadingWrapper>
-                </button>
-              </div>
-            </div>
-          }
-          mode="info"
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Free 30 day trial!"
-              id="licensingPage.infoBanner.startTrialTitle"
-            />
-          }
-        />
-      </div>
+      />
       <div
         className="top-wrapper"
       >
@@ -1787,7 +1739,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -1900,7 +1852,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -2021,7 +1973,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
@@ -2174,7 +2126,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               rel="noopener noreferrer"
               target="_blank"
             >
-              Enterprise Edition Terms of Service
+              Enterprise Edition Terms of Use
             </a>
              and 
             <a
