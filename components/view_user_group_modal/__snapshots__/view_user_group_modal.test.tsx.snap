@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/update_user_group_modal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="viewUserGroupModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal view-user-groups-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[MockFunction]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <button
+      aria-label="Close"
+      className="modal-header-back-button btn-icon"
+      onClick={[Function]}
+      type="button"
+    >
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Back",
+            "id": "user_groups_modal.goBackLabel",
+          }
+        }
+        className="icon icon-arrow-left"
+      />
+    </button>
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="userGroupsModalLabel"
+    >
+      Group Name
+    </ModalTitle>
+    <a
+      className="btn btn-md btn-primary"
+      href="#"
+      id="test"
+      onClick={[Function]}
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="AddPeople"
+        id="user_groups_modal.addPeople"
+      />
+    </a>
+    <div
+      className="details-action"
+    >
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        id="detailsCustomWrapper-groupid123"
+        isDisabled={false}
+        stopPropagationOnToggle={false}
+      >
+        <div
+          className="text-right"
+        >
+          <button
+            className="action-wrapper"
+          >
+            <i
+              className="icon icon-dots-vertical"
+            />
+          </button>
+        </div>
+        <Menu
+          ariaLabel="User Actions Menu"
+          openLeft={false}
+          openUp={false}
+        >
+          <MenuItemAction
+            disabled={false}
+            onClick={[Function]}
+            show={true}
+            text="Edit Details"
+          />
+        </Menu>
+      </MenuWrapper>
+    </div>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="group-mention-name"
+    >
+      <span
+        className="group-name"
+      >
+        @group
+      </span>
+    </div>
+    <div
+      className="user-groups-search"
+    >
+      <div
+        className="user-groups-searchbar"
+      >
+        <span
+          aria-hidden="true"
+          className="user-groups-search-icon"
+        >
+          <SearchIcon />
+        </span>
+        <input
+          data-testid="searchInput"
+          onChange={[Function]}
+          placeholder="Search group members"
+          type="text"
+          value=""
+        />
+        <i
+          className="user-groups-clear-button fa fa-times-circle hidden"
+          data-testid="clear-search"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="user-groups-modal__content group-member-list"
+      onScroll={[Function]}
+    >
+      <h2
+        className="group-member-count"
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="{member_count} {member_count, plural, one {Member} other {Members}}"
+          id="view_user_group_modal.memberCount"
+          values={
+            Object {
+              "member_count": 6,
+            }
+          }
+        />
+      </h2>
+      <div
+        className="group-member-row"
+        key="user-1"
+      >
+        <Memo(Avatar)
+          className="avatar-post-preview"
+          size="sm"
+          url="/api/v4/users/user-1/image?_=0"
+          username="user1"
+        />
+        <div
+          className="group-member-name"
+        >
+          user one
+        </div>
+        <div
+          className="group-member-username"
+        >
+          @user1
+        </div>
+        <button
+          aria-label="Close"
+          className="remove-group-member btn-icon"
+          onClick={[Function]}
+          type="button"
+        >
+          <LocalizedIcon
+            ariaLabel={
+              Object {
+                "defaultMessage": "Back",
+                "id": "user_groups_modal.goBackLabel",
+              }
+            }
+            className="icon icon-trash-can-outline"
+          />
+        </button>
+      </div>
+      <div
+        className="group-member-row"
+        key="user-2"
+      >
+        <Memo(Avatar)
+          className="avatar-post-preview"
+          size="sm"
+          url="/api/v4/users/user-2/image?_=0"
+          username="user2"
+        />
+        <div
+          className="group-member-name"
+        >
+          user otwo
+        </div>
+        <div
+          className="group-member-username"
+        >
+          @user2
+        </div>
+        <button
+          aria-label="Close"
+          className="remove-group-member btn-icon"
+          onClick={[Function]}
+          type="button"
+        >
+          <LocalizedIcon
+            ariaLabel={
+              Object {
+                "defaultMessage": "Back",
+                "id": "user_groups_modal.goBackLabel",
+              }
+            }
+            className="icon icon-trash-can-outline"
+          />
+        </button>
+      </div>
+      <LoadingScreen
+        position="relative"
+        style={Object {}}
+      />
+    </div>
+  </ModalBody>
+</Modal>
+`;

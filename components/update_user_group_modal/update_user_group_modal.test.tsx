@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
-import CreateUserGroupsModal from './create_user_groups_modal';
+import UpdateUserGroupModal from './update_user_group_modal';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
@@ -11,56 +11,51 @@ import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 type UserProfileValue = Value & UserProfile;
 
-describe('component/user_groups_modal', () => {
-    const users = [{
-        id: 'user-1',
-        label: 'user-1',
-        value: 'user-1',
-        delete_at: 0,
-    } as UserProfileValue, {
-        id: 'user-2',
-        label: 'user-2',
-        value: 'user-2',
-        delete_at: 0,
-    } as UserProfileValue];
-
+describe('component/update_user_group_modal', () => {
     const baseProps = {
         onExited: jest.fn(),
+        groupId: 'groupid123',
+        group: {
+            id: 'groupid123',
+            name: `group`,
+            display_name: `Group Name`,
+            description: `Group description`,
+            source: 'custom',
+            remote_id: null,
+            create_at: 1637349374137,
+            update_at: 1637349374137,
+            delete_at: 0,
+            has_syncables: false,
+            member_count: 6,
+            allow_reference: true,
+            scheme_admin: false,
+        },
         backButtonCallback: jest.fn(),
         actions: {
+            patchGroup: jest.fn().mockImplementation(() => Promise.resolve()),
             openModal: jest.fn(),
-            createGroupWithUserIds: jest.fn().mockImplementation(() => Promise.resolve()),
         },
     };
 
-    test('should match snapshot with back button', () => {
+    test('should match snapshot', () => {
         const wrapper = shallow(
-            <CreateUserGroupsModal
+            <UpdateUserGroupModal
                 {...baseProps}
             />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot without back button', () => {
-        const wrapper = shallow(
-            <CreateUserGroupsModal
-                {...baseProps}
-                backButtonCallback={undefined}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
 
-    test('should match snapshot create group', () => {
-        const wrapper = shallow<CreateUserGroupsModal>(
-            <CreateUserGroupsModal
+    test('should match snapshot, update group', () => {
+        const wrapper = shallow<UpdateUserGroupModal>(
+            <UpdateUserGroupModal
                 {...baseProps}
             />
         );
-        wrapper.setState({name: 'Ursa', mention: 'ursa', usersToAdd: users});
-        wrapper.instance().createGroup(users);
-        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(1);
+        wrapper.setState({name: 'Ursa', mention: 'ursa'});
+        wrapper.instance().patchGroup();
+        expect(wrapper.instance().props.actions.patchGroup).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
             expect(wrapper.state('showUnknownError')).toEqual(false);
             expect(wrapper.state('mentionInputErrorText')).toEqual('');
@@ -68,14 +63,14 @@ describe('component/user_groups_modal', () => {
     });
 
     test('should match snapshot, mention regex error', () => {
-        const wrapper = shallow<CreateUserGroupsModal>(
-            <CreateUserGroupsModal
+        const wrapper = shallow<UpdateUserGroupModal>(
+            <UpdateUserGroupModal
                 {...baseProps}
             />
         );
         wrapper.setState({name: 'Ursa', mention: 'ursa!/'});
-        wrapper.instance().createGroup(users);
-        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(0);
+        wrapper.instance().patchGroup();
+        expect(wrapper.instance().props.actions.patchGroup).toHaveBeenCalledTimes(0);
         process.nextTick(() => {
             expect(wrapper.state('showUnknownError')).toEqual(false);
             expect(wrapper.state('mentionInputErrorText')).toEqual('Invalid character in mention.');
@@ -83,14 +78,14 @@ describe('component/user_groups_modal', () => {
     });
 
     test('should match snapshot, fail to create with empty name', () => {
-        const wrapper = shallow<CreateUserGroupsModal>(
-            <CreateUserGroupsModal
+        const wrapper = shallow<UpdateUserGroupModal>(
+            <UpdateUserGroupModal
                 {...baseProps}
             />
         );
         wrapper.setState({name: '', mention: 'ursa'});
-        wrapper.instance().createGroup(users);
-        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(0);
+        wrapper.instance().patchGroup();
+        expect(wrapper.instance().props.actions.patchGroup).toHaveBeenCalledTimes(0);
         process.nextTick(() => {
             expect(wrapper.state('showUnknownError')).toEqual(false);
             expect(wrapper.state('nameInputErrorText')).toEqual('Name is a required field.');
@@ -98,14 +93,14 @@ describe('component/user_groups_modal', () => {
     });
 
     test('should match snapshot, fail to create with empty mention', () => {
-        const wrapper = shallow<CreateUserGroupsModal>(
-            <CreateUserGroupsModal
+        const wrapper = shallow<UpdateUserGroupModal>(
+            <UpdateUserGroupModal
                 {...baseProps}
             />
         );
         wrapper.setState({name: 'Ursa', mention: ''});
-        wrapper.instance().createGroup(users);
-        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(0);
+        wrapper.instance().patchGroup();
+        expect(wrapper.instance().props.actions.patchGroup).toHaveBeenCalledTimes(0);
         process.nextTick(() => {
             expect(wrapper.state('showUnknownError')).toEqual(false);
             expect(wrapper.state('mentionInputErrorText')).toEqual('Mention is a required field.');
@@ -113,18 +108,19 @@ describe('component/user_groups_modal', () => {
     });
 
     test('should match snapshot, should create when mention begins with @', () => {
-        const wrapper = shallow<CreateUserGroupsModal>(
-            <CreateUserGroupsModal
+        const wrapper = shallow<UpdateUserGroupModal>(
+            <UpdateUserGroupModal
                 {...baseProps}
             />
         );
-        wrapper.setState({name: 'Ursa', mention: '@ursa', usersToAdd: users});
-        wrapper.instance().createGroup(users);
-        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(1);
+        wrapper.setState({name: 'Ursa', mention: '@ursa'});
+        wrapper.instance().patchGroup();
+        expect(wrapper.instance().props.actions.patchGroup).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
             expect(wrapper.state('showUnknownError')).toEqual(false);
             expect(wrapper.state('mentionInputErrorText')).toEqual('');
             expect(wrapper.state('nameInputErrorText')).toEqual('');
         });
     });
+    
 });

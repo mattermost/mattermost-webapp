@@ -24,7 +24,6 @@ export type Props = {
     onExited: () => void;
     groupId: string;
     group: Group;
-    showBackButton?: boolean;
     backButtonCallback: () => void;
     actions: {
         patchGroup: (groupId: string, group: CustomGroupPatch) => Promise<ActionResult>;
@@ -79,9 +78,32 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
 
     patchGroup = async () => {
         this.setState({saving: true, showUnknownError: false, mentionInputErrorText: ''});
+        let mention = this.state.mention;
+        let displayName = this.state.name;
+
+        if (displayName.length < 1) {
+            this.setState({nameInputErrorText: Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.')});
+            return;
+        }
+
+        if (mention.substring(0, 1) === '@') {
+            mention = mention.substring(1, mention.length);
+        }
+
+        if (mention.length < 1) {
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionIsEmpty', 'Mention is a required field.')});
+            return;
+        }
+
+        const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
+        if (mentionRegEx.test(mention)) {
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.')});
+            return;
+        }
+
         const group: CustomGroupPatch = {
-            name: this.state.mention,
-            display_name: this.state.name,
+            name: mention,
+            display_name: displayName,
         };
         const data = await this.props.actions.patchGroup(this.props.groupId, group);
         if (data.error) {

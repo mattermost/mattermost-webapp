@@ -120,7 +120,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             return;
         }
 
-        const mentionRegEx = new RegExp(/[^A-Za-z0-9@]/g);
+        const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
         if (mentionRegEx.test(mention)) {
             this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.')});
             return;
