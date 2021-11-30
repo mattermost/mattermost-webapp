@@ -84,7 +84,7 @@ exports[`SidebarTutorialTip should match snapshot, with townSquare and with offT
       </div>,
     ]
   }
-  step={2}
+  step={1}
   telemetryTag="tutorial_tip_2_channels"
 />
 `;
@@ -173,7 +173,7 @@ exports[`SidebarTutorialTip should match snapshot, with townSquare and without o
       </div>,
     ]
   }
-  step={2}
+  step={1}
   telemetryTag="tutorial_tip_2_channels"
 />
 `;
@@ -262,7 +262,7 @@ exports[`SidebarTutorialTip should match snapshot, without townSquare and with o
       </div>,
     ]
   }
-  step={2}
+  step={1}
   telemetryTag="tutorial_tip_2_channels"
 />
 `;
@@ -351,7 +351,7 @@ exports[`SidebarTutorialTip should match snapshot, without townSquare and withou
       </div>,
     ]
   }
-  step={2}
+  step={1}
   telemetryTag="tutorial_tip_2_channels"
 />
 `;
