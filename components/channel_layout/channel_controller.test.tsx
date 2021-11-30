@@ -85,7 +85,7 @@ describe('components/channel_layout/ChannelController', () => {
             <ChannelController
                 {...props}
                 shouldShowAppBar={true}
-            />
+            />,
         );
         expect(wrapper.find('.channel-view-inner').hasClass('app-bar-enabled')).toBe(true);
 
@@ -93,7 +93,7 @@ describe('components/channel_layout/ChannelController', () => {
             <ChannelController
                 {...props}
                 shouldShowAppBar={false}
-            />
+            />,
         );
         expect(wrapper.find('.channel-view-inner').hasClass('app-bar-enabled')).toBe(false);
     });

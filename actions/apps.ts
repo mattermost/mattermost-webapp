@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {Action, ActionFunc} from 'mattermost-redux/types/actions';
 import {AppCallResponse, AppForm, AppCallType, AppCallRequest, AppContext, AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
