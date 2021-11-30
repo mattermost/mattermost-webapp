@@ -46,6 +46,9 @@ describe('components/global/product_switcher_menu', () => {
         canManageIntegrations: true,
         enablePluginMarketplace: false,
         onClick: () => jest.fn,
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot with id', () => {

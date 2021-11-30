@@ -193,23 +193,25 @@
                             width: 24px;
                             margin-left: auto;
                         }
+
                         .group-actions-menu {
                             span.MenuItem__primary-text {
-                                line-height: 20px;
                                 font-size: 14px;
-                                
+                                line-height: 20px;
+
                                 &.leave-group-action {
                                     color: var(--dnd-indicator);
                                 }
+
                                 span.icon {
-                                    font-size: 18px;
-                                    line-height: 18px;
-                                    color: rgba(var(--center-channel-color-rgb), 0.56);
-                                    align-self: center;
-                                    padding-right: 12px;
                                     display: inline-flex;
                                     width: auto;
                                     height: auto;
+                                    align-self: center;
+                                    padding-right: 12px;
+                                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                                    font-size: 18px;
+                                    line-height: 18px;
                                 }
                             }
                         }

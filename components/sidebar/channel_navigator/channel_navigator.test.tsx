@@ -19,6 +19,7 @@ describe('Components/ChannelNavigator', () => {
             canGoBack: true,
             canJoinPublicChannel: true,
             showMoreChannelsModal: jest.fn(),
+            showCreateUserGroupModal: jest.fn(),
             invitePeopleModal: jest.fn(),
             showNewChannelModal: jest.fn(),
             showCreateCategoryModal: jest.fn(),

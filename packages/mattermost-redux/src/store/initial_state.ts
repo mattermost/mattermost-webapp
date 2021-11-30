@@ -28,6 +28,7 @@ const state: GlobalState = {
             profilesInChannel: {},
             profilesNotInChannel: {},
             profilesInGroup: {},
+            profilesNotInGroup: {},
             statuses: {},
             stats: {},
             myUserAccessTokens: {},
