@@ -32,7 +32,6 @@ import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'act
 import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store';
@@ -42,7 +41,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {GlobalState} from 'types/store';
 
-import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
+import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
@@ -146,54 +145,9 @@ export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
 }
 
-export function toggleShortcutsModal() {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_SHORTCUTS_MODAL,
-        value: true,
-    });
-}
-
-export function showChannelPurposeUpdateModal(channel: Channel) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL,
-        value: true,
-        channel,
-    });
-}
-
-export function showChannelNameUpdateModal(channel: Channel) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL,
-        value: true,
-        channel,
-    });
-}
-
-export function showGetPublicLinkModal(fileId: string) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,
-        value: true,
-        fileId,
-    });
-}
-
-export function showGetTeamInviteLinkModal() {
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL,
-        value: true,
-    });
-}
-
-export function showLeavePrivateChannelModal(channel: Channel) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
-        value: channel,
-    });
-}
-
 export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type
     const submenuModalData = {
-        ModalId: ModalIdentifiers.MOBILE_SUBMENU,
+        modalId: ModalIdentifiers.MOBILE_SUBMENU,
         dialogType: SubMenuModal,
         dialogProps: {
             elements,

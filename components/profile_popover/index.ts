@@ -24,8 +24,10 @@ import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {GlobalState} from '../../types/store';
+import {Action} from 'mattermost-redux/types/actions';
+
+import {ModalData} from 'types/actions';
+import {GlobalState} from 'types/store';
 
 import {ServerError} from 'mattermost-redux/types/errors';
 
@@ -79,19 +81,15 @@ function makeMapStateToProps() {
 }
 
 type Actions = {
-    openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-        data: boolean;
-    }>;
-    closeModal: (modalId: string) => Promise<{
-        data: boolean;
-    }>;
+    openModal: <P>(modalData: ModalData<P>) => void;
+    closeModal: (modalId: string) => void;
     openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
     getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             closeModal,
             openDirectChannelToUserId,
             openModal,

@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
-import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -38,14 +37,12 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import CallButton from 'components/call_button';
 import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
-import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
 import {PostDraft} from 'types/store/rhs';
@@ -62,7 +59,6 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
 import CreatePostTip from './create_post_tip';
-import PrewrittenChips from './prewritten_chips';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -133,11 +129,6 @@ type Props = {
   *  Data used for advancing from create post tip
   */
     tutorialStep: number;
-
-    /**
-  *  A/B test treatments for presenting prewritten messages to first time users
-  */
-    prewrittenMessages?: PrewrittenMessagesTreatments;
 
     /**
   *  Data used populating message state when triggered by shortcuts
@@ -286,12 +277,7 @@ type Props = {
         /**
       * Function to open a modal
       */
-        openModal: (modalData: ModalData) => void;
-
-        /**
-      * Function to close a modal
-      */
-        closeModal: (modalId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
@@ -323,7 +309,6 @@ type State = {
     message: string;
     caretPosition: number;
     submitting: boolean;
-    showPostDeletedModal: boolean;
     showEmojiPicker: boolean;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
@@ -369,7 +354,6 @@ class CreatePost extends React.PureComponent<Props, State> {
             message: this.props.draft.message,
             caretPosition: this.props.draft.message.length,
             submitting: false,
-            showPostDeletedModal: false,
             showEmojiPicker: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -604,30 +588,25 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
-        // Posting a message completes the tip when there are prewritten messages.
-        // We do not complete messages in the control group,
-        // so as to not alter behavior in the control group as a result of the A/B test code changes.
-        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER && this.props.prewrittenMessages && this.props.prewrittenMessages !== PrewrittenMessagesTreatments.NONE;
+        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER;
         if (shouldCompleteTip) {
             this.completePostTip('send_message');
         }
     }
 
     handleNotifyAllConfirmation = () => {
-        this.props.actions.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL);
         this.doSubmit();
     }
 
     showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NOTIFY_CONFIRM_MODAL,
-            dialogType: NotifyConfirmModal as any,
+            dialogType: NotifyConfirmModal,
             dialogProps: {
                 mentions,
                 channelTimezoneCount,
                 memberNotifyCount,
                 onConfirm: () => this.handleNotifyAllConfirmation(),
-                onCancel: () => this.props.actions.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL),
             },
         });
     }
@@ -708,7 +687,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
             const resetStatusModalData = {
                 modalId: ModalIdentifiers.RESET_STATUS,
-                dialogType: ResetStatusModal as any,
+                dialogType: ResetStatusModal,
                 dialogProps: {newStatus: status},
             };
 
@@ -721,7 +700,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (trimRight(this.state.message) === '/header') {
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
-                dialogType: EditChannelHeaderModal as any,
+                dialogType: EditChannelHeaderModal,
                 dialogProps: {channel: updateChannel},
             };
 
@@ -735,18 +714,12 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
-                dialogType: EditChannelPurposeModal as any,
+                dialogType: EditChannelPurposeModal,
                 dialogProps: {channel: updateChannel},
             };
 
             this.props.actions.openModal(editChannelPurposeModalData);
 
-            this.setState({message: ''});
-            return;
-        }
-
-        if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
-            GlobalActions.showChannelNameUpdateModal(updateChannel);
             this.setState({message: ''});
             return;
         }
@@ -1078,15 +1051,8 @@ class CreatePost extends React.PureComponent<Props, State> {
 
     documentKeyHandler = (e: KeyboardEvent) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
-
-        if (shortcutModalKeyCombo) {
-            e.preventDefault();
-
-            GlobalActions.toggleShortcutsModal();
-            return;
-        } else if (lastMessageReactionKeyCombo) {
+        if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
             return;
         }
@@ -1234,18 +1200,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.lastBlurAt = Date.now();
     }
 
-    showPostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: true,
-        });
-    }
-
-    hidePostDeletedModal = () => {
-        this.setState({
-            showPostDeletedModal: false,
-        });
-    }
-
     handleEmojiClose = () => {
         this.setState({showEmojiPicker: false});
     }
@@ -1346,49 +1300,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         trackEvent('ui', 'tutorial_tip_1_complete_' + source);
     }
 
-    renderPrewrittenMessages() {
-        if (this.props.prewrittenMessages !== PrewrittenMessagesTreatments.AROUND_INPUT || this.props.tutorialStep !== Constants.TutorialSteps.POST_POPOVER) {
-            return null;
-        }
-
-        let id = t('create_post.prewritten.around_input.team');
-        let defaultMessage = '**Send your first message** to your team';
-        if (this.props.currentChannel.type === 'D') {
-            if (this.props.currentChannel.teammate_id === this.props.currentUserId) {
-                id = t('create_post.prewritten.around_input.self');
-                defaultMessage = '**Send your first message** to yourself';
-            } else {
-                id = t('create_post.prewritten.around_input.dm');
-                defaultMessage = '**Send your first message** to your teammate';
-            }
-        }
-        return (
-            <>
-                <div className='post-create-prewritten-title'>
-                    <FormattedMarkdownMessage
-                        id={id}
-                        defaultMessage={defaultMessage}
-                    />
-                    <button
-                        type='button'
-                        className='btn-icon'
-                        aria-label='Got it'
-                        onClick={() => this.completePostTip('close_prewritten_wrapper')}
-                    >
-                        <i className='icon icon-close'/>
-                    </button>
-                </div>
-                <PrewrittenChips
-                    prewrittenMessages={this.props.prewrittenMessages}
-                    prefillMessage={this.prefillMessage}
-                    currentChannel={this.props.currentChannel}
-                    currentUserId={this.props.currentUserId}
-                    currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
-                />
-            </>
-        );
-    }
-
     render() {
         const {
             currentChannel,
@@ -1440,7 +1351,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (showTutorialTip) {
             tutorialTip = (
                 <CreatePostTip
-                    prewrittenMessages={this.props.prewrittenMessages}
                     prefillMessage={this.prefillMessage}
                     currentChannel={this.props.currentChannel}
                     currentUserId={this.props.currentUserId}
@@ -1452,11 +1362,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         let centerClass = '';
         if (!fullWidthTextBox) {
             centerClass = 'center';
-        }
-
-        let prewrittenClass = '';
-        if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.AROUND_INPUT && this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER) {
-            prewrittenClass = 'prewritten';
         }
 
         let sendButtonClass = 'send-button theme';
@@ -1546,10 +1451,9 @@ class CreatePost extends React.PureComponent<Props, State> {
             <form
                 id='create_post'
                 ref={this.topDiv}
-                className={centerClass + prewrittenClass}
+                className={centerClass}
                 onSubmit={this.handleSubmit}
             >
-                {this.renderPrewrittenMessages()}
                 <div
                     className={'post-create' + attachmentsDisabled + scrollbarClass}
                     style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as any : undefined}
@@ -1640,10 +1544,6 @@ class CreatePost extends React.PureComponent<Props, State> {
                         </div>
                     </div>
                 </div>
-                <PostDeletedModal
-                    show={this.state.showPostDeletedModal}
-                    onHide={this.hidePostDeletedModal}
-                />
             </form>
         );
     }

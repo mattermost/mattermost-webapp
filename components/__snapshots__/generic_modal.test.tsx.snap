@@ -24,7 +24,7 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -86,7 +86,7 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -169,7 +169,7 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

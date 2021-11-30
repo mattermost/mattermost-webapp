@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import QuickInput from 'components/quick_input';
@@ -84,14 +82,14 @@ class SearchableUserList extends React.PureComponent {
         this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
 
         this.props.nextPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
+        this.refs.userList.scrollToTop();
     }
 
     previousPage = (e) => {
         e.preventDefault();
 
         this.props.previousPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
+        this.refs.userList.scrollToTop();
     }
 
     focusSearchBar = () => {

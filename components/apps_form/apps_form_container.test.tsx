@@ -9,9 +9,7 @@ import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
-import AppsFormContainer, {RawAppsFormContainer} from './apps_form_container';
+import {RawAppsFormContainer} from './apps_form_container';
 
 describe('components/apps_form/AppsFormContainer', () => {
     const emojiMap = new EmojiMap(new Map());
@@ -22,6 +20,12 @@ describe('components/apps_form/AppsFormContainer', () => {
         team_id: 'team',
         post_id: 'post',
     };
+
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
 
     const baseProps = {
         emojiMap,
@@ -48,29 +52,21 @@ describe('components/apps_form/AppsFormContainer', () => {
                 path: '/form_url',
             },
         },
-        creq: {
-            path: '/form_url_old',
-            context,
-        },
+        context,
         actions: {
             doAppSubmit: jest.fn().mockResolvedValue({}),
             doAppFetchForm: jest.fn(),
             doAppLookup: jest.fn(),
             postEphemeralCallResponseForContext: jest.fn(),
         },
-        onHide: jest.fn(),
+        onExited: jest.fn(),
+        intl,
     };
-
-    const intl = {
-        formatMessage: (message: {id: string; defaultMessage: string}) => {
-            return message.defaultMessage;
-        },
-    } as any;
 
     test('should match snapshot', () => {
         const props = baseProps;
 
-        const wrapper = shallowWithIntl(<AppsFormContainer {...props}/>);
+        const wrapper = shallow(<RawAppsFormContainer {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -88,7 +84,6 @@ describe('components/apps_form/AppsFormContainer', () => {
                     ...baseProps.actions,
                     doAppSubmit: jest.fn().mockResolvedValue(response),
                 },
-                intl,
             };
 
             const wrapper = shallow<RawAppsFormContainer>(<RawAppsFormContainer {...props}/>);
@@ -145,7 +140,6 @@ describe('components/apps_form/AppsFormContainer', () => {
                     ...baseProps.actions,
                     doAppLookup: jest.fn().mockResolvedValue(response),
                 },
-                intl,
             };
 
             const form = props.form;
@@ -169,14 +163,10 @@ describe('components/apps_form/AppsFormContainer', () => {
                 },
                 path: '/form_lookup',
                 expand: {},
-                query: 'My search',
-                selected_field: 'field2',
+                rawCommand: undefined,
                 values: {
                     field1: 'value1',
-                    field2: {
-                        label: 'label2',
-                        value: 'value2',
-                    },
+                    field2: 'My search',
                 },
             }, expect.any(Object));
 

@@ -1,5 +1,3 @@
-/* eslint-disable header/header */
-/* eslint-disable max-lines */
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -1947,10 +1945,11 @@ export default class Client4 {
             deleted = false,
             unread = false,
             since = 0,
+            totalsOnly = false,
         },
     ) => {
         return this.doFetch<UserThreadList>(
-            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since})}`,
+            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since, totalsOnly})}`,
             {method: 'get'},
         );
     };
@@ -2035,6 +2034,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getPostRoute(postId)}/unpin`,
             {method: 'post'},
+        );
+    };
+
+    getPostsByIds = (postIds: string[]) => {
+        return this.doFetch<Post[]>(
+            `${this.getPostsRoute()}/ids`,
+            {method: 'post', body: JSON.stringify(postIds)},
         );
     };
 

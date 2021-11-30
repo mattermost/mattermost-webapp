@@ -69,30 +69,6 @@
 }
 
 .NextStepsView__header {
-    .close-icon {
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-
-        svg {
-            width: 40px;
-            height: 40px;
-            padding: 4px;
-            border-radius: 4px;
-            fill: rgba(var(--center-channel-color-rgb), 0.56);
-
-            &:hover {
-                background: rgba(var(--center-channel-color-rgb), 0.08);
-                fill: rgba(var(--center-channel-color-rgb), 0.72);
-            }
-
-            &:active {
-                background: rgba(var(--button-bg-rgb), 0.08);
-                fill: var(--button-bg);
-            }
-        }
-    }
-
     display: flex;
     flex-grow: 0;
     padding: 32px 40px 24px 40px;
@@ -377,75 +353,6 @@
     }
 }
 
-.NextStepsView__nextStepsCards {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    padding: 0 40px;
-    margin-top: 88px;
-
-    .Card {
-        flex: 0 0 310px;
-        margin-right: 24px;
-        margin-bottom: 24px;
-    }
-
-    .Card + .Card {
-        margin-top: 0;
-        //margin-left: 24px;
-    }
-
-    .Card__image {
-        display: flex;
-        width: fit-content;
-        height: auto;
-        flex-direction: column;
-        padding-bottom: 12px;
-    }
-
-    .Card__body {
-        display: flex;
-        overflow: visible;
-        height: auto;
-        flex-direction: column;
-        padding: 32px;
-        border: none;
-        margin: 0;
-
-        > span {
-            display: block;
-            flex-grow: 1;
-        }
-    }
-
-    h4 {
-        margin: 0 0 12px 0;
-        color: var(--center-channel-color);
-        font-size: 16px;
-        font-weight: 600;
-        line-height: 24px;
-    }
-
-    .dropdown-menu {
-        margin-top: 6px;
-        margin-left: -1px;
-    }
-
-    .NextStepsView__button {
-        width: max-content;
-        margin-top: 16px;
-
-        i {
-            margin-right: -4px;
-            margin-left: 4px;
-        }
-    }
-
-    .Menu .MenuItem span.MenuItem__primary-text {
-        padding: 7px 0;
-    }
-}
-
 .NextStepsView__download {
     display: flex;
     align-content: center;
@@ -519,30 +426,12 @@
 }
 
 @media screen and (max-width: 1386px) {
-    .NextStepsView__nextStepsCards {
-        margin-top: 0;
-    }
-
     .NextStepsView__download {
         margin-top: 0;
     }
 }
 
 @media screen and (max-width: 1060px) {
-    .NextStepsView__nextStepsCards {
-        flex-direction: column;
-
-        .Card {
-            max-width: unset;
-            flex-basis: auto;
-            margin-right: 0;
-        }
-
-        .Card__body {
-            height: auto;
-        }
-    }
-
     .NextStepsView__body {
         height: auto;
     }
@@ -608,7 +497,6 @@
         padding: 0 12px;
     }
 
-    .NextStepsView__nextStepsCards,
     .NextStepsView__download,
     .NextStepsView__tipsMobileMessage {
         padding: 0 12px;
@@ -617,14 +505,6 @@
     .NextStepsView__transitionBody > svg {
         left: 10%;
         max-width: 85%;
-    }
-
-    .NextStepsView__nextStepsCards .Card {
-        margin-bottom: 16px;
-
-        .Card__body {
-            padding: 24px;
-        }
     }
 
     .NextStepsView__download {

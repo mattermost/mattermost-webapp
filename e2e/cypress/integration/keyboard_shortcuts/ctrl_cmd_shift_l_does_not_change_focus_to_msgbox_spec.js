@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
@@ -40,6 +41,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Close invite members full-page screen
-        cy.get('#closeIcon > svg').click();
+        cy.uiClose();
     });
 });

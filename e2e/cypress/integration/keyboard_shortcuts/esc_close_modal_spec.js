@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 describe('Keyboard Shortcuts', () => {
@@ -23,7 +24,7 @@ describe('Keyboard Shortcuts', () => {
         const searchTerm = 'test';
 
         // # Open Channel switcher modal by click on the button
-        cy.findByRole('button', {name: 'Channel Switcher'}).click();
+        cy.findByRole('button', {name: 'Find Channels'}).click();
 
         // # Type in the quick switch input box
         cy.get('#quickSwitchInput').type(searchTerm, {force: true});

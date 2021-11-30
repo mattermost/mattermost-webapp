@@ -18,9 +18,9 @@ import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cl
 type Props = {
 
     /**
-     * Function that is called when the modal is dismissed
+     * Function called after the modal has been hidden
      */
-    onHide: () => void;
+    onExited: () => void;
 
     /**
      * Global config object
@@ -36,8 +36,6 @@ type Props = {
      * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
      */
     webappBuildHash?: string;
-
-    show?: boolean;
 };
 
 type State = {
@@ -45,10 +43,6 @@ type State = {
 };
 
 export default class AboutBuildModal extends React.PureComponent<Props, State> {
-    // static defaultProps = {
-    //     show: false,
-    // };
-
     constructor(props: Props) {
         super(props);
 
@@ -59,10 +53,6 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
 
     doHide = () => {
         this.setState({show: false});
-    }
-
-    handleExit = () => {
-        this.props.onHide();
     }
 
     render() {
@@ -169,7 +159,7 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
             >
                 <FormattedMessage
                     id='about.tos'
-                    defaultMessage='Terms of Service'
+                    defaultMessage='Terms of Use'
                 />
             </a>
         );
@@ -212,7 +202,7 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                 dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.doHide}
-                onExited={this.handleExit}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='aboutModalLabel'
             >

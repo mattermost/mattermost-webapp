@@ -17,7 +17,7 @@ type Props = {
     intl: IntlShape;
     form?: AppForm;
     context?: AppContext;
-    onHide: () => void;
+    onExited: () => void;
     actions: {
         doAppSubmit: DoAppSubmit<any>;
         doAppFetchForm: DoAppFetchForm<any>;
@@ -37,7 +37,6 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
     }
 
     submitForm = async (submission: {values: AppFormValues}): Promise<DoAppCallResult<FormResponseData>> => {
-        //TODO use FormResponseData instead of Any
         const makeErrorMsg = (msg: string) => {
             return this.props.intl.formatMessage(
                 {
@@ -180,14 +179,10 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
 
         const creq = createCallRequest(field.lookup, this.props.context, {}, {
             ...values,
-            query: userInput,
+            [field.name]: userInput,
         });
         return this.props.actions.doAppLookup(creq, intl);
     }
-
-    onHide = () => {
-        this.props.onHide();
-    };
 
     render() {
         const {form} = this.state;
@@ -199,7 +194,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         return (
             <AppsForm
                 form={form}
-                onHide={this.onHide}
+                onExited={this.props.onExited}
                 actions={{
                     submit: this.submitForm,
                     performLookupCall: this.performLookupCall,

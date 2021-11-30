@@ -11,7 +11,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
@@ -91,6 +90,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
 };
 
 const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
+    const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
@@ -108,8 +108,9 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                     teamId={channel.team_id}
                     permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         className='intro-links color--link'
+                        modalId={modalId}
                         dialogType={modal}
                         dialogProps={{channel}}
                     >
@@ -132,7 +133,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                                 id='intro_messages.inviteMembersToChannel.button'
                                 defaultMessage='Add members to this channel'
                             />}
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </ChannelPermissionGate>
             </div>
             {setHeader}

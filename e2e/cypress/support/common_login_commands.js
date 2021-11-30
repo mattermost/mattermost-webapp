@@ -57,9 +57,10 @@ Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
 });
 
 Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
-    cy.findByText('Copy Link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+    cy.findByText('Copy invite link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     if (settings.teamName != null && settings.teamName.length > 0) {
-        cy.findByText('Invite people to ' + settings.teamName).should('be.visible');
+        const inviteRegexp = new RegExp(`Invite .* to ${settings.teamName}`);
+        cy.findByText(inviteRegexp).should('be.visible');
     }
 });
 

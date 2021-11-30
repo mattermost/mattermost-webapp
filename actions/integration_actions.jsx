@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import request from 'superagent';
-
 import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
@@ -127,20 +125,4 @@ export function loadProfilesForOAuthApps(apps) {
 
         dispatch(getProfilesByIds(list));
     };
-}
-
-export function getYoutubeVideoInfo(googleKey, videoId, success, error) {
-    request.get('https://www.googleapis.com/youtube/v3/videos').
-        query({part: 'snippet', id: videoId, key: googleKey}).
-        end((err, res) => {
-            if (err) {
-                return error(err);
-            }
-
-            if (!res.body) {
-                console.error('Missing response body for getYoutubeVideoInfo'); // eslint-disable-line no-console
-            }
-
-            return success(res.body);
-        });
 }

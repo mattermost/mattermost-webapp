@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @guest_account
 
 /**
@@ -31,7 +32,7 @@ describe('Guest Account - Guest User Experience', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable GuestAccountSettings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
