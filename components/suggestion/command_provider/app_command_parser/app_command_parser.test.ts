@@ -1043,7 +1043,7 @@ describe('AppCommandParser', () => {
                         label: 'Dylan Epic',
                         value: 'epic1',
                     },
-                    project: "special",
+                    project: 'special',
                 },
             }, false);
         });

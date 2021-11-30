@@ -187,7 +187,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
     render() {
         const {form} = this.state;
 
-        if (!form || !form.submit || !this.props.context) {
+        if (!form?.submit || !this.props.context) {
             return null;
         }
 

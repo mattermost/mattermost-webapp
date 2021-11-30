@@ -1569,7 +1569,7 @@ export class AppCommandParser {
             })};
         }
         const context = this.getAppContext(binding);
-        const fetched = await this.fetchSubmittableForm(binding.form?.source, context);
+        const fetched = await this.fetchSubmittableForm(binding.form.source, context);
         if (fetched?.form) {
             let actionType: string = AppsTypes.RECEIVED_APP_COMMAND_FORM;
             if (this.rootPostID) {
