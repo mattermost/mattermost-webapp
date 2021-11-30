@@ -378,20 +378,45 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                             <Menu
                                                 openLeft={true}
                                                 openUp={false}
+                                                className={'group-actions-menu'}
                                                 ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                                             >
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
-                                                    disabled={false}
-                                                />
-                                                <Menu.ItemAction
-                                                    show={true}
-                                                    onClick={() => {}}
-                                                    text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
-                                                    disabled={false}
-                                                />
+                                                <Menu.Group>
+                                                    <Menu.ItemAction
+                                                        show={true}
+                                                        onClick={() => {
+                                                            this.goToViewGroupModal(group);
+                                                        }}
+                                                        icon={<i className='icon-account-multiple-outline'/>}
+                                                        text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
+                                                        disabled={false}
+                                                    />
+                                                    <Menu.ItemAction
+                                                        show={true}
+                                                        onClick={() => {}}
+                                                        icon={<i className='icon-account-multiple-outline'/>}
+                                                        text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
+                                                        disabled={false}
+                                                    />
+                                                </Menu.Group>
+                                                <Menu.Group>
+                                                    <Menu.ItemAction
+                                                        show={true}
+                                                        onClick={() => {}}
+                                                        icon={<i className='icon-exit-to-app'/>}
+                                                        text={Utils.localizeMessage('user_groups_modal.leaveGroup', 'Leave Group')}
+                                                        disabled={false}
+                                                        isDangerous={true}
+                                                    />
+                                                    <Menu.ItemAction
+                                                        show={true}
+                                                        onClick={() => {}}
+                                                        icon={<i className='icon-archive-outline'/>}
+                                                        text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
+                                                        disabled={false}
+                                                        isDangerous={true}
+                                                    />
+                                                </Menu.Group>
                                             </Menu>
                                         </MenuWrapper>
                                     </div>
