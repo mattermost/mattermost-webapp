@@ -23,6 +23,7 @@ export interface RenewalLinkProps {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isDisabled?: boolean;
+    customBtnText?: JSX.Element;
 }
 
 const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
@@ -66,6 +67,13 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
         });
     };
 
+    const btnText = props.customBtnText ? props.customBtnText : (
+        <FormattedMessage
+            id='announcement_bar.warn.renew_license_now'
+            defaultMessage='Renew license now'
+        />
+    );
+
     return (
         <>
             <button
@@ -73,10 +81,7 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
                 disabled={props.isDisabled}
                 onClick={(e) => handleLinkClick(e)}
             >
-                <FormattedMessage
-                    id='announcement_bar.warn.renew_license_now'
-                    defaultMessage='Renew license now'
-                />
+                {btnText}
             </button>
         </>
     );

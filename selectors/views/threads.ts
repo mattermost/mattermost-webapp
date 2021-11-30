@@ -171,3 +171,6 @@ export function makePrepareReplyIdsForThreadViewer() {
     };
 }
 
+export function getThreadToastStatus(state: GlobalState) {
+    return state.views.threads.toastStatus;
+}

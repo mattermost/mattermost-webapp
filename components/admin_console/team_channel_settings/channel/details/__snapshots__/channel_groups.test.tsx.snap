@@ -3,7 +3,7 @@
 exports[`admin_console/team_channel_settings/channel/ChannelGroups should match snapshot 1`] = `
 <AdminPanel
   button={
-    <ModalToggleButton
+    <Memo(Connect(injectIntl(ModalToggleButtonRedux)))
       className="btn btn-primary"
       dialogProps={
         Object {
@@ -35,14 +35,15 @@ exports[`admin_console/team_channel_settings/channel/ChannelGroups should match 
           "type": [Function],
         }
       }
+      disabled={false}
       id="addGroupsToChannelToggle"
-      isDisabled={false}
+      modalId="add_groups_to_channel"
     >
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Add Group"
         id="admin.channel_settings.channel_details.add_group"
       />
-    </ModalToggleButton>
+    </Memo(Connect(injectIntl(ModalToggleButtonRedux)))>
   }
   className=""
   id="channel_groups"

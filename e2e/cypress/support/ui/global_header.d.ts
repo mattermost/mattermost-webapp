@@ -105,7 +105,7 @@ declare namespace Cypress {
         /**
          * Open user menu
          *
-         * @param {string} item - menu item ex. Account Settings, Logout, etc.
+         * @param {string} item - menu item ex. Profile, Logout, etc.
          *
          * @example
          *   cy.uiOpenUserMenu();

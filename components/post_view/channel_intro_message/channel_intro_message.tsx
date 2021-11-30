@@ -16,7 +16,6 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -302,8 +301,9 @@ export function createDefaultIntroMessage(
                         />
                     }
                     {teamIsGroupConstrained &&
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         className='intro-links color--link'
+                        modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                         dialogType={AddGroupsToTeamModal}
                         dialogProps={{channel}}
                     >
@@ -315,7 +315,7 @@ export function createDefaultIntroMessage(
                             id='intro_messages.addGroupsToTeam'
                             defaultMessage='Add other groups to this team'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                     }
                 </TeamPermissionGate>
             </TeamPermissionGate>
