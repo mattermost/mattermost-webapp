@@ -1055,22 +1055,14 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
 describe('handleAppsPluginEnabled', () => {
     test('plugin enabled action is dispatched', async () => {
-        handleAppsPluginEnabled()(store.dispatch, store.getState);
-
-        expect(store.dispatch).toHaveBeenCalledTimes(1);
-
-        const enableAction = store.dispatch.mock.calls[0][0];
+        const enableAction = handleAppsPluginEnabled();
         expect(enableAction).toEqual({type: 'APPS_PLUGIN_ENABLED'});
     });
 });
 
 describe('handleAppsPluginDisabled', () => {
     test('plugin disabled action is dispatched', async () => {
-        store.dispatch(handleAppsPluginDisabled());
-
-        expect(store.dispatch).toHaveBeenCalledTimes(1);
-
-        const disableAction = store.dispatch.mock.calls[0][0];
+        const disableAction = handleAppsPluginDisabled();
         expect(disableAction).toEqual({type: 'APPS_PLUGIN_DISABLED'});
     });
 });
