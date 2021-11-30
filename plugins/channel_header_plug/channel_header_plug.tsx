@@ -102,6 +102,7 @@ type ChannelHeaderPlugProps = {
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
+    sidebarOpen: boolean;
     actions: {
         doAppCall: DoAppCall;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
