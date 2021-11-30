@@ -55,7 +55,7 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
 
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
 
-    skuName += license.IsGovSku ? ' Gov' : '';
+    skuName += license.IsGovSku === 'true' ? ' Gov' : '';
 
     return (
         <div className='EnterpriseEditionLeftPanel'>

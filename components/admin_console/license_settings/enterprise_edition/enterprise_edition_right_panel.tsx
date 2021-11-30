@@ -40,7 +40,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         </div>
     );
 
-    const isGovSku = license.IsGovSku;
+    const isGovSku = license.IsGovSku === 'true';
 
     const title = () => {
         if (isTrialLicense) {
