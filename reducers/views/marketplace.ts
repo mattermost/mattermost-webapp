@@ -13,6 +13,14 @@ function plugins(state: MarketplacePlugin[] = [], action: GenericAction): Market
     switch (action.type) {
     case ActionTypes.RECEIVED_MARKETPLACE_PLUGINS:
         return action.plugins ? action.plugins : [];
+
+    case ActionTypes.MODAL_CLOSE:
+        if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
+            return state;
+        }
+
+        return [];
+
     default:
         return state;
     }
@@ -23,6 +31,14 @@ function apps(state: MarketplaceApp[] = [], action: GenericAction): MarketplaceA
     switch (action.type) {
     case ActionTypes.RECEIVED_MARKETPLACE_APPS:
         return action.apps ? action.apps : [];
+
+    case ActionTypes.MODAL_CLOSE:
+        if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
+            return state;
+        }
+
+        return [];
+
     default:
         return state;
     }
@@ -52,6 +68,14 @@ function installing(state: {[id: string]: boolean} = {}, action: GenericAction):
 
         return newState;
     }
+
+    case ActionTypes.MODAL_CLOSE:
+        if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
+            return state;
+        }
+
+        return {};
+
     default:
         return state;
     }
@@ -77,6 +101,14 @@ function errors(state: {[id: string]: string} = {}, action: GenericAction): {[id
 
         return newState;
     }
+
+    case ActionTypes.MODAL_CLOSE:
+        if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
+            return state;
+        }
+
+        return {};
+
     default:
         return state;
     }
@@ -87,6 +119,14 @@ function filter(state = '', action: GenericAction): string {
     switch (action.type) {
     case ActionTypes.FILTER_MARKETPLACE_LISTING:
         return action.filter;
+
+    case ActionTypes.MODAL_CLOSE:
+        if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
+            return state;
+        }
+
+        return '';
+
     default:
         return state;
     }
