@@ -44,7 +44,7 @@ type Actions = {
 function mapStateToProps(state: GlobalState) {
     const searchTerm = state.views.search.modalSearch;
 
-    let groups: Group[] = []; 
+    let groups: Group[] = [];
     let myGroups: Group[] = [];
     if (searchTerm) {
         groups = searchAllowReferencedGroups(state, searchTerm);

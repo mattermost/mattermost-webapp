@@ -3,13 +3,8 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
+
 import UpdateUserGroupModal from './update_user_group_modal';
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import {Value} from 'components/multiselect/multiselect';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-
-type UserProfileValue = Value & UserProfile;
 
 describe('component/update_user_group_modal', () => {
     const baseProps = {
@@ -17,9 +12,9 @@ describe('component/update_user_group_modal', () => {
         groupId: 'groupid123',
         group: {
             id: 'groupid123',
-            name: `group`,
-            display_name: `Group Name`,
-            description: `Group description`,
+            name: 'group',
+            display_name: 'Group Name',
+            description: 'Group description',
             source: 'custom',
             remote_id: null,
             create_at: 1637349374137,
@@ -41,17 +36,16 @@ describe('component/update_user_group_modal', () => {
         const wrapper = shallow(
             <UpdateUserGroupModal
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
-
 
     test('should match snapshot, update group', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: 'ursa'});
         wrapper.instance().patchGroup();
@@ -66,7 +60,7 @@ describe('component/update_user_group_modal', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: 'ursa!/'});
         wrapper.instance().patchGroup();
@@ -81,7 +75,7 @@ describe('component/update_user_group_modal', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: '', mention: 'ursa'});
         wrapper.instance().patchGroup();
@@ -96,7 +90,7 @@ describe('component/update_user_group_modal', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: ''});
         wrapper.instance().patchGroup();
@@ -111,7 +105,7 @@ describe('component/update_user_group_modal', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: '@ursa'});
         wrapper.instance().patchGroup();
@@ -122,5 +116,4 @@ describe('component/update_user_group_modal', () => {
             expect(wrapper.state('nameInputErrorText')).toEqual('');
         });
     });
-    
 });

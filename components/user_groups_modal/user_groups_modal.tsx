@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import Constants, { ModalIdentifiers } from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import * as Utils from 'utils/utils.jsx';
@@ -100,7 +100,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
-        console.log('unmounting');
         this.props.actions.setModalSearchTerm('');
     }
 
@@ -236,7 +235,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             dialogProps: {
                 groupId: group.id,
                 backButtonCallback: this.props.backButtonAction,
-                backButtonAction: () => {this.goToViewGroupModal(group)},
+                backButtonAction: () => {
+                    this.goToViewGroupModal(group);
+                },
             },
         });
 
@@ -399,7 +400,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         })}
                         {
                             (this.state.loading) &&
-                            <LoadingScreen />
+                            <LoadingScreen/>
                         }
                     </div>
                 </Modal.Body>

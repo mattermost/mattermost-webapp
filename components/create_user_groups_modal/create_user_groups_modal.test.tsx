@@ -3,11 +3,12 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
-import CreateUserGroupsModal from './create_user_groups_modal';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+
+import CreateUserGroupsModal from './create_user_groups_modal';
 
 type UserProfileValue = Value & UserProfile;
 
@@ -37,7 +38,7 @@ describe('component/user_groups_modal', () => {
         const wrapper = shallow(
             <CreateUserGroupsModal
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -47,7 +48,7 @@ describe('component/user_groups_modal', () => {
             <CreateUserGroupsModal
                 {...baseProps}
                 backButtonCallback={undefined}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -56,7 +57,7 @@ describe('component/user_groups_modal', () => {
         const wrapper = shallow<CreateUserGroupsModal>(
             <CreateUserGroupsModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: 'ursa', usersToAdd: users});
         wrapper.instance().createGroup(users);
@@ -71,7 +72,7 @@ describe('component/user_groups_modal', () => {
         const wrapper = shallow<CreateUserGroupsModal>(
             <CreateUserGroupsModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: 'ursa!/'});
         wrapper.instance().createGroup(users);
@@ -86,7 +87,7 @@ describe('component/user_groups_modal', () => {
         const wrapper = shallow<CreateUserGroupsModal>(
             <CreateUserGroupsModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: '', mention: 'ursa'});
         wrapper.instance().createGroup(users);
@@ -101,7 +102,7 @@ describe('component/user_groups_modal', () => {
         const wrapper = shallow<CreateUserGroupsModal>(
             <CreateUserGroupsModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: ''});
         wrapper.instance().createGroup(users);
@@ -116,7 +117,7 @@ describe('component/user_groups_modal', () => {
         const wrapper = shallow<CreateUserGroupsModal>(
             <CreateUserGroupsModal
                 {...baseProps}
-            />
+            />,
         );
         wrapper.setState({name: 'Ursa', mention: '@ursa', usersToAdd: users});
         wrapper.instance().createGroup(users);

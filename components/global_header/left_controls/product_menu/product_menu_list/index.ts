@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {Action, ActionResult} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {
     getConfig,

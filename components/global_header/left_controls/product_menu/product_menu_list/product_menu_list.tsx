@@ -39,7 +39,7 @@ export type Props = {
     onClick?: React.MouseEventHandler<HTMLElement>;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
-    }
+    };
 };
 
 const ProductMenuList = (props: Props): JSX.Element | null => {
@@ -71,10 +71,10 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
             modalId: ModalIdentifiers.USER_GROUPS,
             dialogType: UserGroupsModal,
             dialogProps: {
-                backButtonAction: openGroupsModal
+                backButtonAction: openGroupsModal,
             },
         });
-    }
+    };
 
     const someIntegrationEnabled = enableIncomingWebhooks || enableOutgoingWebhooks || enableCommands || enableOAuthServiceProvider || canManageSystemBots;
     const showIntegrations = !isMobile && someIntegrationEnabled && canManageIntegrations;
@@ -129,7 +129,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     icon={
                         <Icon
                             size={16}
-                            glyph={'information-outline'}
+                            glyph={'account-multiple-outline'}
                         />
                     }
                 />

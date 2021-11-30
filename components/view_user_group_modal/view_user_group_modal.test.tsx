@@ -3,8 +3,10 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
-import ViewUserGroupModal from './view_user_group_modal';
+
 import {UserProfile} from 'mattermost-redux/types/users';
+
+import ViewUserGroupModal from './view_user_group_modal';
 
 describe('component/update_user_group_modal', () => {
     const users = [
@@ -14,14 +16,14 @@ describe('component/update_user_group_modal', () => {
             first_name: 'user',
             last_name: 'one',
             delete_at: 0,
-        } as UserProfile, 
+        } as UserProfile,
         {
             id: 'user-2',
             username: 'user2',
             first_name: 'user',
             last_name: 'otwo',
             delete_at: 0,
-        } as UserProfile
+        } as UserProfile,
     ];
 
     const baseProps = {
@@ -30,9 +32,9 @@ describe('component/update_user_group_modal', () => {
         groupId: 'groupid123',
         group: {
             id: 'groupid123',
-            name: `group`,
-            display_name: `Group Name`,
-            description: `Group description`,
+            name: 'group',
+            display_name: 'Group Name',
+            description: 'Group description',
             source: 'custom',
             remote_id: null,
             create_at: 1637349374137,
@@ -43,7 +45,7 @@ describe('component/update_user_group_modal', () => {
             allow_reference: true,
             scheme_admin: false,
         },
-        users: users,
+        users,
         backButtonCallback: jest.fn(),
         backButtonAction: jest.fn(),
         actions: {
@@ -60,7 +62,7 @@ describe('component/update_user_group_modal', () => {
         const wrapper = shallow(
             <ViewUserGroupModal
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -70,15 +72,15 @@ describe('component/update_user_group_modal', () => {
             <ViewUserGroupModal
                 {...baseProps}
                 searchTerm='user1'
-            />
+            />,
         );
 
         const instance = wrapper.instance() as ViewUserGroupModal;
 
-        let e = {
+        const e = {
             target: {
-                value: ''
-            }
+                value: '',
+            },
         };
         instance.handleSearch(e as React.ChangeEvent<HTMLInputElement>);
         expect(baseProps.actions.setModalSearchTerm).toHaveBeenCalledTimes(1);

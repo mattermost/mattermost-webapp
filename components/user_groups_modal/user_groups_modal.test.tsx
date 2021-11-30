@@ -3,9 +3,10 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
+
+import {Group} from 'mattermost-redux/types/groups';
+
 import UserGroupsModal from './user_groups_modal';
-import groups from 'mattermost-redux/action_types/groups';
-import { Group } from 'mattermost-redux/types/groups';
 
 describe('component/user_groups_modal', () => {
     const baseProps = {
@@ -25,7 +26,7 @@ describe('component/user_groups_modal', () => {
     };
 
     function getGroups(numberOfGroups: number) {
-        let groups: Group[] = [];
+        const groups: Group[] = [];
         for (let i = 0; i < numberOfGroups; i++) {
             groups.push({
                 id: `group${i}`,
@@ -38,7 +39,7 @@ describe('component/user_groups_modal', () => {
                 update_at: 1637349374137,
                 delete_at: 0,
                 has_syncables: false,
-                member_count: i+1,
+                member_count: i + 1,
                 allow_reference: true,
                 scheme_admin: false,
             });
@@ -49,33 +50,33 @@ describe('component/user_groups_modal', () => {
 
     test('should match snapshot without groups', () => {
         const wrapper = shallow(
-            <UserGroupsModal 
+            <UserGroupsModal
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with groups', () => {
         const wrapper = shallow(
-            <UserGroupsModal 
+            <UserGroupsModal
                 {...baseProps}
                 groups={getGroups(3)}
                 myGroups={getGroups(1)}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with groups, myGroups selected', () => {
         const wrapper = shallow(
-            <UserGroupsModal 
+            <UserGroupsModal
                 {...baseProps}
                 groups={getGroups(3)}
                 myGroups={getGroups(1)}
-            />
+            />,
         );
-        
+
         wrapper.setState({selectedFilter: 'my'});
 
         expect(wrapper).toMatchSnapshot();
@@ -83,20 +84,20 @@ describe('component/user_groups_modal', () => {
 
     test('should match snapshot with groups, search group1', () => {
         const wrapper = shallow(
-            <UserGroupsModal 
+            <UserGroupsModal
                 {...baseProps}
                 groups={getGroups(3)}
                 myGroups={getGroups(1)}
                 searchTerm='group1'
-            />
+            />,
         );
 
         const instance = wrapper.instance() as UserGroupsModal;
 
-        let e = {
+        const e = {
             target: {
-                value: ''
-            }
+                value: '',
+            },
         };
         instance.handleSearch(e as React.ChangeEvent<HTMLInputElement>);
         expect(baseProps.actions.setModalSearchTerm).toHaveBeenCalledTimes(1);

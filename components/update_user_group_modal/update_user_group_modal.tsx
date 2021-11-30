@@ -79,7 +79,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
     patchGroup = async () => {
         this.setState({saving: true, showUnknownError: false, mentionInputErrorText: ''});
         let mention = this.state.mention;
-        let displayName = this.state.name;
+        const displayName = this.state.name;
 
         if (displayName.length < 1) {
             this.setState({nameInputErrorText: Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.')});

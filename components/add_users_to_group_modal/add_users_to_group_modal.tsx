@@ -77,6 +77,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
 
         // } else {
         this.goBack();
+
         // }
     }
 

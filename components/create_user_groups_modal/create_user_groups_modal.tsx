@@ -101,13 +101,13 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
     createGroup = async (users?: UserProfile[]) => {
         this.setState({showUnknownError: false, mentionInputErrorText: '', nameInputErrorText: ''});
         let mention = this.state.mention;
-        let displayName = this.state.name;
+        const displayName = this.state.name;
 
         if (displayName.length < 1) {
             this.setState({nameInputErrorText: Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.')});
             return;
         }
-        
+
         if (!users || users.length === 0) {
             return;
         }

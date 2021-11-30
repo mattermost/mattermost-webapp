@@ -3,11 +3,13 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
-import AddUserToGroupMultiSelect from './add_user_to_group_multiselect';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+
+import AddUserToGroupMultiSelect from './add_user_to_group_multiselect';
 
 type UserProfileValue = Value & UserProfile;
 
@@ -43,14 +45,14 @@ describe('component/add_user_to_group_multiselect', () => {
             getProfilesNotInGroup: jest.fn().mockImplementation(() => Promise.resolve()),
             loadStatusesForProfilesList: jest.fn().mockImplementation(() => Promise.resolve()),
             searchProfiles: jest.fn(),
-        }
+        },
     };
 
     test('should match snapshot without any profiles', () => {
         const wrapper = shallow(
             <AddUserToGroupMultiSelect
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -60,7 +62,7 @@ describe('component/add_user_to_group_multiselect', () => {
             <AddUserToGroupMultiSelect
                 {...baseProps}
                 profiles={users}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +75,7 @@ describe('component/add_user_to_group_multiselect', () => {
                 userStatuses={userStatuses}
                 buttonSubmitLoadingText='Updating...'
                 buttonSubmitText='Update Group'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -102,5 +104,5 @@ describe('component/add_user_to_group_multiselect', () => {
             expect(wrapper.state('saving')).toEqual(false);
             done();
         });
-    });    
+    });
 });

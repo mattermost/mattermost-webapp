@@ -4,10 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getProfiles, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
-
-import {GlobalState} from 'types/store';
 
 import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
 import {createGroupWithUserIds} from 'mattermost-redux/actions/groups';
