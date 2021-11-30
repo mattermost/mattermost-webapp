@@ -133,7 +133,6 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                                 <AddUserToGroupMultiSelect
                                     multilSelectKey={'addUsersToGroupKey'}
                                     onSubmitCallback={this.addUsersToGroup}
-                                    skipCommit={true}
                                     focusOnLoad={false}
                                     savingEnabled={this.isSaveEnabled()}
                                     addUserCallback={this.addUserCallback}

@@ -99,13 +99,25 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
     }
 
     createGroup = async (users?: UserProfile[]) => {
-        this.setState({showUnknownError: false, mentionInputErrorText: ''});
+        this.setState({showUnknownError: false, mentionInputErrorText: '', nameInputErrorText: ''});
         let mention = this.state.mention;
+        let displayName = this.state.name;
+
+        if (displayName.length < 1) {
+            this.setState({nameInputErrorText: Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.')});
+            return;
+        }
+        
         if (!users || users.length === 0) {
             return;
         }
         if (mention.substring(0, 1) === '@') {
             mention = mention.substring(1, mention.length);
+        }
+
+        if (mention.length < 1) {
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionIsEmpty', 'Mention is a required field.')});
+            return;
         }
 
         const mentionRegEx = new RegExp(/[^A-Za-z0-9@]/g);
@@ -216,7 +228,6 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                 <AddUserToGroupMultiSelect
                                     multilSelectKey={'addUsersToGroupKey'}
                                     onSubmitCallback={this.createGroup}
-                                    skipCommit={true}
                                     focusOnLoad={false}
                                     savingEnabled={this.isSaveEnabled()}
                                     addUserCallback={this.addUserCallback}

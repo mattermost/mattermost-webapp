@@ -31,11 +31,8 @@ export type Props = {
     // Used if we are adding new members to an existing group
     groupId?: string;
 
-    // skipCommit = true used with onSubmitCallback will result in users not being committed immediately
-    skipCommit?: boolean;
-
     // onSubmitCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-    onSubmitCallback?: (userProfiles?: UserProfile[]) => Promise<void>;
+    onSubmitCallback: (userProfiles?: UserProfile[]) => Promise<void>;
     addUserCallback?: (userProfiles: UserProfile[]) => void;
     deleteUserCallback?: (userProfiles: UserProfile[]) => void;
 
@@ -65,7 +62,6 @@ export type Props = {
 type State = {
     values: UserProfileValue[];
     term: string;
-    show: boolean;
     saving: boolean;
     loadingUsers: boolean;
 }
@@ -77,7 +73,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
     public static defaultProps = {
         includeUsers: {},
         excludeUsers: {},
-        skipCommit: false,
     };
 
     constructor(props: Props) {
@@ -86,7 +81,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         this.state = {
             values: [],
             term: '',
-            show: true,
             saving: false,
             loadingUsers: true,
         } as State;
@@ -119,19 +113,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         this.props.actions.loadStatusesForProfilesList(this.props.profiles);
     }
 
-    public onHide = (): void => {
-        this.setState({show: false});
-        this.props.actions.loadStatusesForProfilesList(this.props.profiles);
-    };
-
-    public handleInviteError = (err: any): void => {
-        if (err) {
-            this.setState({
-                saving: false,
-            });
-        }
-    };
-
     private handleDelete = (values: UserProfileValue[]): void => {
         if (this.props.deleteUserCallback) {
             this.props.deleteUserCallback(values);
@@ -162,18 +143,18 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
     };
 
     public handleSubmit = (): void => {
+        this.setState({
+            saving: true,
+        });
         const userIds = this.state.values.map((v) => v.id);
         if (userIds.length === 0) {
             return;
         }
-
-        if (this.props.skipCommit && this.props.onSubmitCallback) {
-            this.props.onSubmitCallback(this.state.values);
+        this.props.onSubmitCallback(this.state.values).then(() => {
             this.setState({
                 saving: false,
             });
-            this.onHide();
-        }
+        });
     };
 
     public search = (searchTerm: string): void => {
