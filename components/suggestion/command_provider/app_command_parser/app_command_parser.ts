@@ -917,14 +917,14 @@ export class AppCommandParser {
         return {creq};
     }
 
-    public composeFormFromCommand = async (command: string): Promise<{form: AppForm | null; call: AppCallRequest | null; errorMessage?: string}> => {
+    public composeFormFromCommand = async (command: string): Promise<{form: AppForm | null; context: AppContext | null; errorMessage?: string}> => {
         let parsed = new ParsedCommand(command, this, this.intl);
 
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
             return {
                 form: null,
-                call: null,
+                context: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.parser.no_bindings',
                     defaultMessage: 'No command bindings.',
@@ -938,23 +938,10 @@ export class AppCommandParser {
         if (!form) {
             return {
                 form: null,
-                call: null,
+                context: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.parser.no_form',
                     defaultMessage: 'No form found.',
-                }),
-            };
-        }
-
-        const call = parsed.resolvedForm?.submit || parsed.binding?.submit;
-
-        if (!call) {
-            return {
-                form: null,
-                call: null,
-                errorMessage: this.intl.formatMessage({
-                    id: 'apps.error.parser.no_call',
-                    defaultMessage: 'No call found.',
                 }),
             };
         }
@@ -973,7 +960,7 @@ export class AppCommandParser {
         }
 
         const context = this.getAppContext(parsed.binding!);
-        return {form, call: createCallRequest(call, context)};
+        return {form, context};
     }
 
     private async addDefaultAndReadOnlyValues(parsed: ParsedCommand) {
