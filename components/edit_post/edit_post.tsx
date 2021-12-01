@@ -252,8 +252,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             return;
         }
 
-        actions.addMessageIntoHistory(updatedPost.message);
-
         const data = await actions.editPost(updatedPost as Post);
 
         if (data) {
