@@ -11,8 +11,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {displayUsername, displayLastActiveLabel, isGuest, getLastActiveTimestampUnits} from 'mattermost-redux/utils/user_utils';
 
-import 'bootstrap';
-
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';

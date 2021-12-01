@@ -26,6 +26,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         'High Availability',
         'Advanced compliance',
         'Advanced roles and permissions',
+        'And more...',
     ];
 
     const skuShortName = license.SkuShortName;
@@ -39,8 +40,18 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         </div>
     );
 
+    const isGovSku = license.IsGovSku === 'true';
+
     const title = () => {
         if (isTrialLicense) {
+            if (isGovSku) {
+                return (
+                    <FormattedMessage
+                        id='admin.license.purchaseEnterpriseGovPlanTitle'
+                        defaultMessage='Purchase the Enterprise Gov Plan'
+                    />
+                );
+            }
             return (
                 <FormattedMessage
                     id='admin.license.purchaseEnterprisePlanTitle'
@@ -56,10 +67,18 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
+        if (isGovSku) {
+            return (
+                <FormattedMessage
+                    id='admin.license.upgradeToEnterpriseGov'
+                    defaultMessage='Upgrade to the Enterprise Gov Plan'
+                />
+            );
+        }
         return (
             <FormattedMessage
                 id='admin.license.upgradeToEnterprise'
-                defaultMessage='Upgrade to the Enterprise plan'
+                defaultMessage='Upgrade to the Enterprise Plan'
             />
         );
     };
@@ -118,10 +137,6 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                         </div>
                     );
                 })}
-                <FormattedMessage
-                    id='admin.license.andMore'
-                    defaultMessage='And more...'
-                />
             </div>
         );
     };

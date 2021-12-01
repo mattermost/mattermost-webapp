@@ -1006,7 +1006,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 defaultDisplay: 'true',
                 title: {
                     id: t('user.settings.display.oneClickReactionsOnPostsTitle'),
-                    message: 'One-click reactions on messages',
+                    message: 'Quick reactions on messages',
                 },
                 firstOption: {
                     value: 'true',

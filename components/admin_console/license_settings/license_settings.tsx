@@ -35,7 +35,7 @@ import StarterRightPanel from './starter_edition/starter_right_panel';
 import EnterpriseEditionLeftPanel from './enterprise_edition/enterprise_edition_left_panel';
 import EnterpriseEditionRightPanel from './enterprise_edition/enterprise_edition_right_panel';
 import EELicenseModal from './ee_license_modal/ee_license_modal';
-import {free30DayTrial} from './license_utils/license_utils';
+import {free30DayTrialBanner} from './license_utils/license_utils';
 
 import './license_settings.scss';
 
@@ -264,7 +264,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     termsAndPolicy = (
         <div className='terms-and-policy'>
             {'See also '}
-            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Service')}
+            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Use')}
             {' and '}
             {this.createLink(AboutLinks.PRIVACY_POLICY, 'Privacy Policy')}
         </div>
@@ -279,7 +279,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     renderStartTrial = (isDisabled: boolean, gettingTrialError: JSX.Element | null) => {
         return (
-            <React.Fragment>
+            <>
                 <p className='trial'>
                     <button
                         type='button'
@@ -305,7 +305,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                     />
                 </p>
-            </React.Fragment>
+            </>
         );
     }
 
@@ -326,11 +326,11 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const {uploading} = this.state;
 
         const issued = (
-            <React.Fragment>
+            <>
                 <FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>
                 {' '}
                 <FormattedTime value={new Date(parseInt(license.IssuedAt, 10))}/>
-            </React.Fragment>
+            </>
         );
         const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
         const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
@@ -415,8 +415,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <div className='admin-console__banner_section'>
-                            {(license.IsLicensed !== 'true') && (this.props.prevTrialLicense?.IsLicensed !== 'true') &&
-                                free30DayTrial(
+                            {this.props.enterpriseReady && (license.IsLicensed !== 'true') &&
+                                (this.props.prevTrialLicense?.IsLicensed !== 'true') &&
+                                free30DayTrialBanner(
                                     isDisabled,
                                     gettingTrialError,
                                     this.requestLicense,

@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @system_console @enterprise @not_cloud
 
+import {FixedPublicLinks} from '../../../utils';
+
 describe('Edition and License', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -22,9 +24,15 @@ describe('Edition and License', () => {
     });
 
     it('MM-T899 - Edition and License: Verify Privacy Policy link points to correct URL', () => {
-        // * Find privacy link and then assert that the href is what we expect it to be
-        cy.findByTestId('privacyPolicyLink').then((el) => {
-            expect(el[0].href).equal('https://about.mattermost.com/default-privacy-policy/');
+        // * Find text and verify its corresponding public link
+        [
+            {text: 'Privacy Policy', link: FixedPublicLinks.PrivacyPolicy},
+            {text: 'Enterprise Edition Terms of Use', link: FixedPublicLinks.TermsOfService},
+        ].forEach(({text, link}) => {
+            cy.findByText(text).
+                scrollIntoView().
+                should('be.visible').
+                and('have.attr', 'href', link);
         });
     });
 });

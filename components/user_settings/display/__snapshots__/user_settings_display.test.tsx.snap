@@ -283,7 +283,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -596,7 +596,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -909,7 +909,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -1222,7 +1222,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -1473,7 +1473,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -1714,7 +1714,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -2027,7 +2027,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -2358,7 +2358,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -2609,7 +2609,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -2860,7 +2860,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -3111,7 +3111,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -3374,7 +3374,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
@@ -3625,7 +3625,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="One-click reactions on messages"
+            defaultMessage="Quick reactions on messages"
             id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }

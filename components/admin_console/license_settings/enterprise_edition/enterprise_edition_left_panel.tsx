@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -55,8 +55,16 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
 
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
 
+    skuName += license.IsGovSku === 'true' ? ' Gov' : '';
+
     return (
         <div className='EnterpriseEditionLeftPanel'>
+            <div className='pre-title'>
+                <FormattedMessage
+                    id='admin.license.enterpriseEdition'
+                    defaultMessage='Enterprise Edition'
+                />
+            </div>
             <div className='title'>
                 {`Mattermost ${skuName}`}{freeTrialBadge(isTrialLicense)}
             </div>
@@ -86,6 +94,7 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
                         handleRemove,
                         isDisabled,
                         removing,
+                        skuName,
                     )
                 }
             </div>
@@ -121,13 +130,11 @@ const renderLicenseContent = (
     handleRemove: (e: any) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
+    skuName: string,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-    let skuName = license.SkuShortName;
-    if (isTrialLicense) {
-        skuName = `${license.SkuShortName} License Trial`;
-    }
-    const sku = license.SkuShortName ? <>{`Mattermost ${skuName}`}</> : null;
+
+    const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
     const licenseValues = [
         {legend: 'START DATE:', value: startsAt},

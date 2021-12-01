@@ -55,6 +55,7 @@ import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
@@ -466,12 +467,14 @@ export function applyTheme(theme) {
             // Fade out effect for collapsed posts that are being hovered over
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient',
+                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient, ' +
+                '.app__body .ThreadPane .post:hover .post-collapse__gradient ',
                 `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
             );
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more',
+                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more, ' +
+                '.app__body .ThreadPane .post:hover .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
             changeCss(
@@ -480,12 +483,14 @@ export function applyTheme(theme) {
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient',
+                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient, ' +
+                '.app__body .ThreadPane .post.post--hovered .post-collapse__gradient',
                 `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
+                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more, ' +
+                '.app__body .ThreadPane .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
         }
@@ -1009,7 +1014,7 @@ export function isValidBotUsername(name) {
 }
 
 export function isMobile() {
-    return window.innerWidth > 0 && window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
+    return getIsMobileView(store.getState());
 }
 
 export function loadImage(url, onLoad, onProgress) {
