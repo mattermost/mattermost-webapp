@@ -88,7 +88,7 @@ exports[`components/next_steps_view/steps/create_first_channel_step should match
         </FormattedMessage>
       </div>
       <div
-        className="col-10"
+        className="channelNameInput"
       >
         <LocalizedInput
           autoFocus={true}
