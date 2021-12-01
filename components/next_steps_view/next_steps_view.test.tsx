@@ -21,7 +21,7 @@ describe('components/next_steps_view', () => {
                 },
                 component: jest.fn(),
                 visible: true,
-                finishButtonText: {
+                completeStepButtonText: {
                     id: 'fId',
                     defaultMessage: 'message',
                 },
@@ -35,7 +35,7 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
-                finishButtonText: {
+                completeStepButtonText: {
                     id: 'fId',
                     defaultMessage: 'message',
                 },
@@ -49,7 +49,7 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
-                finishButtonText: {
+                completeStepButtonText: {
                     id: 'fId',
                     defaultMessage: 'message',
                 },
