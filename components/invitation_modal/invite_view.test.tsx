@@ -22,7 +22,9 @@ const defaultProps: Props = deepFreeze({
     onChannelsInputChange: jest.fn(),
     onClose: jest.fn(),
     currentTeam: {} as Team,
-    currentChannelName: 'some_channel',
+    currentChannel: {
+        display_name: 'some_channel',
+    },
     inviteToTeamTreatment: InviteToTeamTreatments.NONE,
     setCustomMessage: jest.fn(),
     toggleCustomMessage: jest.fn(),
@@ -51,6 +53,7 @@ const defaultProps: Props = deepFreeze({
     },
     usersEmails: [],
     usersEmailsSearch: '',
+    townSquareDisplayName: '',
 });
 
 let props = defaultProps;

@@ -25,7 +25,10 @@ const defaultProps: Props = deepFreeze({
     onChannelsChange: jest.fn(),
     onChannelsInputChange: jest.fn(),
     channelsLoader: jest.fn(),
-    currentChannelName: '',
+    currentChannel: {
+        display_name: '',
+    },
+    townSquareDisplayName: '',
 });
 
 let props = defaultProps;

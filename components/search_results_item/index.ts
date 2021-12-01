@@ -9,7 +9,7 @@ import {getRhsState} from 'selectors/rhs';
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam, getTeam, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -81,6 +81,7 @@ export function mapStateToProps() {
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,
+            isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
             displayName: getDisplayNameByUser(state, directTeammate),
             replyCount: getReplyCount(state, post),
             canReply,
