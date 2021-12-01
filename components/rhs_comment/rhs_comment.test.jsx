@@ -72,6 +72,7 @@ describe('components/RhsComment', () => {
         isBot: false,
         collapsedThreadsEnabled: false,
         isInViewport: jest.fn(),
+        isPostBeingEdited: false,
     };
 
     test('should match snapshot', () => {
@@ -133,6 +134,17 @@ describe('components/RhsComment', () => {
             <RhsComment
                 {...baseProps}
                 shouldHighlight={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when being edited', () => {
+        const wrapper = shallow(
+            <RhsComment
+                {...baseProps}
+                isPostBeingEdited={true}
             />,
         );
 
