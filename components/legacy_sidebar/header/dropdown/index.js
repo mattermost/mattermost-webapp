@@ -12,16 +12,17 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {Preferences, TutorialSteps} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 
 import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
 
 function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
-    const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
+    const isMobile = getIsMobileView(state);
+    const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !isMobile;
 
     const config = getConfig(state);
     const enablePluginMarketplace = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
