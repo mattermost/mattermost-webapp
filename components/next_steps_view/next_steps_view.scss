@@ -425,7 +425,7 @@
     margin-left: 45px;
 
     .channelNameLegend {
-        margin-bottom: 5px;
+        margin-bottom: 15px;
         font-size: 14px;
         font-style: normal;
         font-weight: 600;
@@ -447,6 +447,10 @@
                 border: 1px solid rgba(var(--center-channel-color-rgb), 0.08) !important;
             }
         }
+    }
+
+    .NextStepsView__wizardButtons {
+        margin-top: 24px;
     }
 }
 
