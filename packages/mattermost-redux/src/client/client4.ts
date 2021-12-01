@@ -51,6 +51,7 @@ import {
     GroupsWithCount,
     GroupCreateWithUserIds,
     GroupSearachParams,
+    CustomGroupPatch,
 } from 'mattermost-redux/types/groups';
 import {PostActionResponse} from 'mattermost-redux/types/integration_actions';
 import {
