@@ -124,7 +124,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
                     defaultMessage='What project are you working on right now?'
                 />
             </div>
-            <div className='col-10'>
+            <div className='channelNameInput'>
                 <LocalizedInput
                     id='newChannelName'
                     type='text'
