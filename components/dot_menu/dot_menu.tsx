@@ -14,20 +14,23 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
-import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
+import {PluginComponent} from 'types/store/plugins';
+import {ModalData} from 'types/actions';
+
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
-import DelayedAction from 'utils/delayed_action';
-import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
-import {ModalData} from 'types/actions';
-import {PluginComponent} from 'types/store/plugins';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import EditPostModal from 'components/edit_post_modal';
+
+import * as PostUtils from 'utils/post_utils';
+import * as Utils from 'utils/utils.jsx';
+import DelayedAction from 'utils/delayed_action';
+import Pluggable from 'plugins/pluggable';
 import {createCallContext, createCallRequest} from 'utils/apps';
+import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -70,11 +73,6 @@ type Props = {
          * Function to unflag the post
          */
         unflagPost: (postId: string) => void;
-
-        /**
-         * Function to set the editing post
-         */
-        setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
          * Function to pin the post
@@ -259,12 +257,16 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleEditMenuItemActivated = () => {
-        this.props.actions.setEditingPost(
-            this.props.post.id,
-            this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
-            this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
-            this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
-        );
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_POST,
+            dialogType: EditPostModal,
+            dialogProps: {
+                postId: this.props.post.id,
+                refocusId: this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
+                title: this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
+                isRHS: this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
+            },
+        });
     }
 
     handleSetThreadFollow = () => {

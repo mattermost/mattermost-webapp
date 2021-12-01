@@ -37,7 +37,6 @@ import {
     unflagPost,
     pinPost,
     unpinPost,
-    setEditingPost,
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
 import * as PostUtils from 'utils/post_utils';
@@ -148,7 +147,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     flagPost: (postId: string) => void;
     unflagPost: (postId: string) => void;
-    setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     pinPost: (postId: string) => void;
     unpinPost: (postId: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
@@ -165,7 +163,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             flagPost,
             unflagPost,
-            setEditingPost,
             pinPost,
             unpinPost,
             openModal,

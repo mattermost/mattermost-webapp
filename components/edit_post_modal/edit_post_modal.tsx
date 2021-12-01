@@ -1,11 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
+/* eslint-disable max-lines */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import classNames from 'classnames';
+
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {
@@ -26,48 +30,17 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
-import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
-import {Post} from 'mattermost-redux/types/posts';
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {ModalData} from 'types/actions';
+
+import type {PropsFromRedux, OwnProps} from './index';
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-export type Props = {
-    canEditPost?: boolean;
-    canDeletePost?: boolean;
-    channelId: string;
-    codeBlockOnCtrlEnter: boolean;
-    ctrlSend: boolean;
-    config: {
-        EnableEmojiPicker: string;
-        EnableGifPicker?: string;
-    };
-    intl: IntlShape;
-    maxPostSize: number;
-    shouldShowPreview: boolean;
-    useChannelMentions: boolean;
-    editingPost: {
-        post?: Post;
-        postId?: string;
-        refocusId?: string;
-        show: boolean;
-        title?: string;
-        isRHS?: boolean;
-    };
-    actions: {
-        addMessageIntoHistory: (message: string) => void;
-        editPost: (input: Partial<Post>) => Promise<Post>;
-        hideEditPostModal: () => void;
-        openModal: <P>(modalData: ModalData<P>) => void;
-        setShowPreview: (newPreview: boolean) => void;
-        runMessageWillBeUpdatedHooks: (newPost: Post, oldPost: Post) => Promise<ActionResult>;
-    };
-};
+export type Props = PropsFromRedux & OwnProps & WrappedComponentProps;
 
 export type State = {
+    show: boolean;
     editText: string;
     caretPosition: number;
     postError: React.ReactNode;
@@ -75,7 +48,7 @@ export type State = {
     showEmojiPicker: boolean;
     renderScrollbar: boolean;
     scrollbarWidth: number;
-    prevShowState: boolean;
+    shouldShowPreview: boolean;
 };
 
 export class EditPostModal extends React.PureComponent<Props, State> {
@@ -87,32 +60,30 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        let editText = '';
+        if (props.post) {
+            if (props.post.message_source) {
+                editText = props.post.message_source;
+            }
+            if (props.post.message) {
+                editText = props.post.message;
+            }
+        }
+
         this.state = {
-            editText: '',
+            show: true,
+            editText,
             caretPosition: ''.length,
             postError: null,
             errorClass: null,
             showEmojiPicker: false,
             renderScrollbar: false,
             scrollbarWidth: 0,
-            prevShowState: props.editingPost.show,
+            shouldShowPreview: false,
         };
 
         this.editModalBody = React.createRef();
         this.editbox = null;
-    }
-
-    static getDerivedStateFromProps(props: Props, state: State) {
-        if (props.editingPost.show && !state.prevShowState) {
-            return {
-                editText:
-          props.editingPost.post?.message_source ||
-          props.editingPost.post?.message,
-                prevShowState: props.editingPost.show,
-            };
-        }
-
-        return null;
     }
 
     componentDidMount() {
@@ -124,7 +95,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     }
 
     setShowPreview = (newPreviewValue: boolean) => {
-        this.props.actions.setShowPreview(newPreviewValue);
+        this.setState({shouldShowPreview: newPreviewValue});
     };
 
     getContainer = () => {
@@ -219,18 +190,18 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         }
     };
 
-    handleEdit = async () => {
-        const {actions, editingPost} = this.props;
-        if (this.isSaveDisabled() || !editingPost.post) {
+    handleEdit = async (): Promise<void> => {
+        const {actions, post} = this.props;
+        if (this.isSaveDisabled() || !post) {
             return;
         }
 
         let updatedPost = {
-            ...editingPost.post,
+            ...post,
             message: this.state.editText,
         };
 
-        const hookResult = await actions.runMessageWillBeUpdatedHooks(updatedPost, editingPost.post);
+        const hookResult = await actions.runMessageWillBeUpdatedHooks(updatedPost, post);
         if (hookResult.error) {
             this.setState({
                 postError: hookResult.error,
@@ -247,26 +218,24 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (updatedPost.message === (editingPost.post?.message_source || editingPost.post?.message)) {
+        if (updatedPost.message === (post?.message_source || post.message)) {
             // no changes so just close the modal
             this.handleHide();
             return;
         }
 
-        const hasAttachment = Boolean(editingPost.post?.file_ids && editingPost.post?.file_ids.length > 0);
+        const hasAttachment = Boolean(post?.file_ids && post?.file_ids.length > 0);
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
             this.handleHide(false);
 
-            const deletePostModalData = {
+            actions.openModal({
                 modalId: ModalIdentifiers.DELETE_POST,
                 dialogType: DeletePostModal,
                 dialogProps: {
-                    post: editingPost.post,
-                    isRHS: editingPost.isRHS,
+                    post,
+                    isRHS: this.props.isRHS,
                 },
-            };
-
-            actions.openModal(deletePostModalData);
+            });
             return;
         }
 
@@ -432,13 +401,16 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     };
 
     handleHide = (doRefocus = true) => {
-        this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
-        this.setState({editText: this.props.editingPost.post?.message || ''});
-        this.props.actions.hideEditPostModal();
+        // probably wont need this
+        this.refocusId = doRefocus ? this.props.refocusId : null;
+        this.setState({
+            editText: this.props.post?.message || '',
+            show: false,
+        });
     };
 
     handleCheckForChangesHide = () => {
-        if (this.state.editText !== this.props.editingPost.post?.message) {
+        if (this.state.editText !== this.props.post?.message) {
             return;
         }
 
@@ -461,11 +433,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         }
     };
 
-    handleExit = () => {
-        this.props.actions.setShowPreview(false);
-    };
-
     handleExited = () => {
+        // TODO props can be called here after migrating to MC
         const refocusId = this.refocusId;
         if (refocusId) {
             setTimeout(() => {
@@ -482,9 +451,9 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             postError: null,
             errorClass: null,
             showEmojiPicker: false,
-            prevShowState: false,
         });
-        this.props.actions.setShowPreview(false);
+
+        this.props.onExited();
     };
 
     setEditboxRef = (ref: TextboxClass) => {
@@ -496,7 +465,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     };
 
     isSaveDisabled = () => {
-        const post = this.props.editingPost.post;
+        const post = this.props.post;
         const hasAttachments = post && post.file_ids && post.file_ids.length > 0;
         if (hasAttachments) {
             return !this.props.canEditPost;
@@ -527,7 +496,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         }).toLowerCase();
         if (
             this.props.config.EnableEmojiPicker === 'true' &&
-            !this.props.shouldShowPreview
+            !this.state.shouldShowPreview
         ) {
             emojiPicker = (
                 <div>
@@ -559,10 +528,9 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             <Modal
                 id='editPostModal'
                 dialogClassName='a11y__modal edit-modal'
-                show={this.props.editingPost.show}
+                show={this.state.show}
                 onHide={this.handleCheckForChangesHide}
                 onEntered={this.handleEntered}
-                onExit={this.handleExit}
                 onExited={this.handleExited}
                 keyboard={false}
                 role='dialog'
@@ -580,7 +548,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                             id='edit_post.edit'
                             defaultMessage='Edit {title}'
                             values={{
-                                title: this.props.editingPost.title,
+                                title: this.props.title,
                             }}
                         />
                     </Modal.Title>
@@ -604,7 +572,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         >
                             <Textbox
                                 tabIndex={0}
-                                rootId={this.props.editingPost.post ? Utils.getRootId(this.props.editingPost.post) : ''}
+                                rootId={this.props.post ? Utils.getRootId(this.props.post) : ''}
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
@@ -625,7 +593,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                                 id='edit_textbox'
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.props.shouldShowPreview}
+                                preview={this.state.shouldShowPreview}
                                 useChannelMentions={this.props.useChannelMentions}
                             />
                             <div className='post-body__actions'>{emojiPicker}</div>
@@ -633,7 +601,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.props.shouldShowPreview}
+                                showPreview={this.state.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
                                 message={this.state.editText}
                             />
@@ -671,4 +639,3 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 }
 
 export default injectIntl(EditPostModal);
-/* eslint-disable react/no-string-refs */
