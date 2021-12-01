@@ -213,6 +213,16 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
 </div>
 `;
 
+exports[`components/post_view/PostInfo should match snapshot, isPostBeingEdited 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+</div>
+`;
+
 exports[`components/post_view/PostInfo should match snapshot, military time 1`] = `
 <div
   className="post__header--info"
