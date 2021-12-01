@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import throttle from 'lodash/throttle';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -31,7 +30,7 @@ import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -96,6 +95,11 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
+const desktopMediaQuery = window.matchMedia(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
+const smallDesktopMediaQuery = window.matchMedia(`(min-width: ${Constants.TABLET_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.DESKTOP_SCREEN_WIDTH}px)`);
+const tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
+const mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
+
 export default class Root extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object,
@@ -154,7 +158,7 @@ export default class Root extends React.PureComponent {
         }
 
         // set initial window size state
-        this.props.actions.emitBrowserWindowResized();
+        this.updateWindowSize();
 
         store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
@@ -266,14 +270,20 @@ export default class Root extends React.PureComponent {
         });
         trackLoadTime();
 
-        window.addEventListener('resize', this.handleWindowResizeEvent);
+        desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
 
-        window.removeEventListener('resize', this.handleWindowResizeEvent);
+        desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -301,9 +311,28 @@ export default class Root extends React.PureComponent {
         }
     }
 
-    handleWindowResizeEvent = throttle(() => {
-        this.props.actions.emitBrowserWindowResized();
-    }, 100);
+    handleMediaQueryChangeEvent = (e) => {
+        if (e.matches) {
+            this.updateWindowSize();
+        }
+    }
+
+    updateWindowSize = () => {
+        switch (true) {
+        case desktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.DESKTOP_VIEW);
+            break;
+        case smallDesktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.SMALL_DESKTOP_VIEW);
+            break;
+        case tabletMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.TABLET_VIEW);
+            break;
+        case mobileMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.MOBILE_VIEW);
+            break;
+        }
+    }
 
     render() {
         if (!this.state.configLoaded) {
