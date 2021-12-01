@@ -302,6 +302,33 @@ describe('Actions.Posts', () => {
         expect(testStore.getActions()).toEqual([]);
     });
 
+    test('unsetEditingPost', async () => {
+        // should allow to edit and should fire an action
+        const testStore = mockStore({...initialState});
+        const {data: dataSet} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
+        expect(dataSet).toEqual(true);
+
+        // matches the action to set editingPost
+        expect(testStore.getActions()).toEqual(
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.TOGGLE_EDITING_POST}],
+        );
+
+        // clear actions
+        testStore.clearActions();
+
+        // dispatch action to unset the editingPost
+        const {data: dataUnset} = testStore.dispatch(Actions.unsetEditingPost());
+        expect(dataUnset).toEqual({});
+
+        // matches the action to unset editingPost
+        expect(testStore.getActions()).toEqual(
+            [{data: {}, type: ActionTypes.TOGGLE_EDITING_POST}],
+        );
+
+        // editingPost value is empty object, as it should
+        expect(testStore.getState().views.posts.editingPost).toEqual({});
+    });
+
     test('searchForTerm', async () => {
         const testStore = await mockStore(initialState);
 
