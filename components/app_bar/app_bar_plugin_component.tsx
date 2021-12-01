@@ -3,15 +3,12 @@
 
 import React from 'react';
 import {useSelector} from 'react-redux';
-import semver from 'semver';
 import classNames from 'classnames';
 
 import {Tooltip} from 'react-bootstrap';
 
-import {MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import {getInstalledListing} from 'selectors/views/marketplace';
 import {getActivePluginId} from 'selectors/rhs';
 
 import {PluginComponent} from 'types/store/plugins';
@@ -26,42 +23,12 @@ type PluginComponentProps = {
 const AppBarPluginComponent = (props: PluginComponentProps) => {
     const {component} = props;
 
-    const marketplaceListing = useSelector(getInstalledListing);
     const channel = useSelector(getCurrentChannel);
     const activePluginId = useSelector(getActivePluginId);
 
-    const getMarketplaceEntryForPlugin = (pluginId: string): MarketplacePlugin | undefined => {
-        let latestEntry: MarketplacePlugin | undefined;
-        for (const entry of marketplaceListing) {
-            const pluginEntry = entry as MarketplacePlugin;
-            if (pluginEntry.manifest.id === pluginId && pluginEntry.icon_data) {
-                if (!latestEntry || semver.gte(pluginEntry.manifest.version, latestEntry.manifest.version)) {
-                    latestEntry = pluginEntry;
-                }
-            }
-        }
-
-        return latestEntry;
-    };
-
-    const entry = getMarketplaceEntryForPlugin(component.pluginId);
-
-    let displayName = component.pluginId;
-    if (entry) {
-        displayName = entry.manifest.name;
-    }
-
-    let icon = component.icon;
-    if (entry) {
-        icon = (
-            <div className={'app-bar__icon-inner'}>
-                <img src={entry.icon_data}/>
-            </div>
-        );
-    }
-
+    const icon = component.icon;
     const buttonId = component.id;
-    const tooltipText = component.tooltipText || displayName;
+    const tooltipText = component.tooltipText || component.pluginId;
 
     const tooltip = (
         <Tooltip id={'pluginTooltip-' + buttonId}>
@@ -79,7 +46,6 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
             >
                 <div
                     id={buttonId}
-                    aria-label={displayName}
                     className={classNames('app-bar__icon', {'app-bar__icon--active': component.pluginId === activePluginId})}
                     onClick={() => {
                         component.action?.(channel);
