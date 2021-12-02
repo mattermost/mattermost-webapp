@@ -230,7 +230,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           <div
             className="pt-2"
           >
-            <AutosizeTextarea
+            <textarea
               className="form-control"
               id="autoResponderMessageInput"
               maxLength={200}
@@ -324,7 +324,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               <div
                 className="pt-2"
               >
-                <AutosizeTextarea
+                <textarea
                   className="form-control"
                   id="autoResponderMessageInput"
                   maxLength={200}
@@ -337,53 +337,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     }
                   }
                   value="Hello World!"
-                >
-                  <div>
-                    <textarea
-                      aria-label="message"
-                      className="form-control"
-                      data-testid="autoResponderMessageInput"
-                      dir="auto"
-                      height={0}
-                      id="autoResponderMessageInput"
-                      maxLength={200}
-                      onChange={[Function]}
-                      role="textbox"
-                      rows="5"
-                      style={
-                        Object {
-                          "resize": "none",
-                        }
-                      }
-                      value="Hello World!"
-                    />
-                    <div
-                      style={
-                        Object {
-                          "height": 0,
-                          "overflow": "hidden",
-                        }
-                      }
-                    >
-                      <textarea
-                        aria-hidden={true}
-                        className="form-control"
-                        dir="auto"
-                        disabled={true}
-                        id="autoResponderMessageInput-reference"
-                        maxLength={200}
-                        onChange={[Function]}
-                        rows="5"
-                        style={
-                          Object {
-                            "resize": "none",
-                          }
-                        }
-                        value="Hello World!"
-                      />
-                    </div>
-                  </div>
-                </AutosizeTextarea>
+                />
               </div>
             </div>
             <div

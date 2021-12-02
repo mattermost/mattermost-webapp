@@ -224,24 +224,16 @@ export default class Textbox extends React.PureComponent<Props> {
         this.getInputBox()?.blur();
     };
 
-    recalculateSize = () => {
-        this.message.current?.recalculateSize();
-    }
-
     render() {
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
         let textWrapperClass = 'textarea-wrapper';
-        let wrapperHeight;
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
-        }
-        if (this.wrapper.current) {
-            wrapperHeight = this.getInputBox()?.clientHeight;
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
@@ -299,7 +291,6 @@ export default class Textbox extends React.PureComponent<Props> {
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
-                    wrapperHeight={wrapperHeight}
                     openWhenEmpty={this.props.openWhenEmpty}
                 />
                 {preview}
