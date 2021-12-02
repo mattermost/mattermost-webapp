@@ -144,7 +144,7 @@ describe('Notifications.showNotification', () => {
             requireInteraction: true,
             silent: false,
             onNotificationsPermissionStatusReceived,
-        })).rejects.toThrow('Notifications already requested but not granted');
+        }));
 
         expect(onNotificationsPermissionStatusReceived).not.toHaveBeenCalled();
     });

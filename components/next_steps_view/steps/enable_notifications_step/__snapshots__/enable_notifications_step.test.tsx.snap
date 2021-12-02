@@ -14,6 +14,12 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
   }
 >
   <EnableNotificationsStep
+    completeStepButtonText={
+      Object {
+        "defaultMessage": "defaultMessage",
+        "id": "tID",
+      }
+    }
     currentUser={
       Object {
         "allow_marketing": false,
@@ -62,6 +68,7 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
     expanded={true}
     id="test"
     isAdmin={false}
+    isLastStep={false}
     onFinish={[Function]}
     onSkip={[Function]}
   >
