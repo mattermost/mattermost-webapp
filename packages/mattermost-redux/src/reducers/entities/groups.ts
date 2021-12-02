@@ -150,6 +150,11 @@ function myGroups(state: any = {}, action: GenericAction) {
         }
         return nextState;
     }
+    case GroupTypes.ARCHIVED_GROUP: {
+        const nextState = {...state};
+        Reflect.deleteProperty(nextState, action.id);
+        return nextState;
+    }
     default:
         return state;
     }
@@ -208,6 +213,11 @@ function groups(state: Dictionary<Group> = {}, action: GenericAction) {
             nextState[group.id] = group;
         }
 
+        return nextState;
+    }
+    case GroupTypes.ARCHIVED_GROUP: {
+        const nextState = {...state};
+        Reflect.deleteProperty(nextState, action.id);
         return nextState;
     }
     default:

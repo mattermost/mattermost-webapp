@@ -406,3 +406,24 @@ export function searchGroups(params: GroupSearachParams): ActionFunc {
         return {data: true};
     };
 }
+
+export function archiveGroup(groupId: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.archiveGroup(groupId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: GroupTypes.ARCHIVED_GROUP,
+                id: groupId,
+            },
+        );
+
+        return {data};
+    };
+}

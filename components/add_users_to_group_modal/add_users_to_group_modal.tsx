@@ -35,6 +35,7 @@ type State = {
     show: boolean;
     savingEnabled: boolean;
     usersToAdd: UserProfile[];
+    showUnknownError: boolean;
 }
 
 export default class AddUsersToGroupModal extends React.PureComponent<Props, State> {
@@ -45,6 +46,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
             show: true,
             savingEnabled: false,
             usersToAdd: [],
+            showUnknownError: false,
         };
     }
 
@@ -64,6 +66,8 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
     };
 
     addUsersToGroup = async (users?: UserProfile[]) => {
+        this.setState({showUnknownError: false});
+
         if (!users || users.length === 0) {
             return;
         }
@@ -71,14 +75,13 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
             return user.id;
         });
 
-        await this.props.actions.addUsersToGroup(this.props.groupId, userIds);
+        const data = await this.props.actions.addUsersToGroup(this.props.groupId, userIds);
 
-        // if (data.error) {
-
-        // } else {
-        this.goBack();
-
-        // }
+        if (data.error) {
+            this.setState({showUnknownError: true});
+        } else {
+            this.goBack();
+        }
     }
 
     goBack = () => {
@@ -148,7 +151,16 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                                     backButtonClass={'multiselect-back'}
                                 />
                             </div>
-
+                            {
+                                this.state.showUnknownError &&
+                                <div className='Input___error group-error'>
+                                    <i className='icon icon-alert-outline'/>
+                                    <FormattedMessage
+                                        id='user_groups_modal.unknownError'
+                                        defaultMessage='An unknown error has occurred.'
+                                    />
+                                </div>
+                            }
                         </form>
 
                     </div>

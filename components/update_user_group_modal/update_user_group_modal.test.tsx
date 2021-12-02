@@ -41,7 +41,7 @@ describe('component/update_user_group_modal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, update group', () => {
+    test('should update group', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
@@ -56,7 +56,7 @@ describe('component/update_user_group_modal', () => {
         });
     });
 
-    test('should match snapshot, mention regex error', () => {
+    test('mention regex error', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
@@ -71,7 +71,7 @@ describe('component/update_user_group_modal', () => {
         });
     });
 
-    test('should match snapshot, fail to create with empty name', () => {
+    test('fail to update with empty name', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
@@ -86,7 +86,7 @@ describe('component/update_user_group_modal', () => {
         });
     });
 
-    test('should match snapshot, fail to create with empty mention', () => {
+    test('fail to update with empty mention', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
@@ -101,7 +101,7 @@ describe('component/update_user_group_modal', () => {
         });
     });
 
-    test('should match snapshot, should create when mention begins with @', () => {
+    test('should update when mention begins with @', () => {
         const wrapper = shallow<UpdateUserGroupModal>(
             <UpdateUserGroupModal
                 {...baseProps}
@@ -113,6 +113,50 @@ describe('component/update_user_group_modal', () => {
         process.nextTick(() => {
             expect(wrapper.state('showUnknownError')).toEqual(false);
             expect(wrapper.state('mentionInputErrorText')).toEqual('');
+            expect(wrapper.state('nameInputErrorText')).toEqual('');
+        });
+    });
+
+    test('should fail to update with unknown error', () => {
+        const patchGroup = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error', server_error_id: 'insert_error'}}));
+
+        const wrapper = shallow<UpdateUserGroupModal>(
+            <UpdateUserGroupModal
+                {...baseProps}
+                actions={{
+                    ...baseProps.actions,
+                    patchGroup,
+                }}
+            />,
+        );
+        wrapper.setState({name: 'Ursa', mention: '@ursa'});
+        wrapper.instance().patchGroup();
+        expect(wrapper.instance().props.actions.patchGroup).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(true);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('');
+            expect(wrapper.state('nameInputErrorText')).toEqual('');
+        });
+    });
+
+    test('should fail to create with duplicate mention error', () => {
+        const patchGroup = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error', server_error_id: 'app.group.save_not_unique.name_error'}}));
+
+        const wrapper = shallow<UpdateUserGroupModal>(
+            <UpdateUserGroupModal
+                {...baseProps}
+                actions={{
+                    ...baseProps.actions,
+                    patchGroup,
+                }}
+            />,
+        );
+        wrapper.setState({name: 'Ursa', mention: '@ursa'});
+        wrapper.instance().patchGroup();
+        expect(wrapper.instance().props.actions.patchGroup).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(false);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('Mention needs to be unique.');
             expect(wrapper.state('nameInputErrorText')).toEqual('');
         });
     });

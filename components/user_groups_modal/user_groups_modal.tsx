@@ -21,6 +21,7 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import LoadingScreen from 'components/loading_screen';
 import ViewUserGroupModal from 'components/view_user_group_modal';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -50,6 +51,9 @@ export type Props = {
         searchGroups: (
             params: GroupSearachParams,
         ) => Promise<{data: Group[]}>;
+        removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+        addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+        archiveGroup: (groupId: string) => Promise<ActionResult>;
     };
 }
 
@@ -161,37 +165,27 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         });
     }
 
-    getGroups = debounce(
+    scrollGetGroups = debounce(
         async () => {
-            const {actions} = this.props;
             const {page} = this.state;
             const newPage = page + 1;
 
             this.setState({page: newPage});
 
-            const data = await actions.getGroups(false, newPage, GROUPS_PER_PAGE, true);
-            if (data.data.length === 0) {
-                this.setState({allGroupsFull: true});
-            }
-            this.loadComplete();
+            this.getGroups(newPage);
         },
         500,
         false,
         (): void => {},
     );
-    getMyGroups = debounce(
+    scrollGetMyGroups = debounce(
         async () => {
-            const {actions} = this.props;
             const {myGroupsPage} = this.state;
             const newPage = myGroupsPage + 1;
 
             this.setState({myGroupsPage: newPage});
 
-            const data = await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, newPage, GROUPS_PER_PAGE, true);
-            if (data.data.length === 0) {
-                this.setState({myGroupsFull: true});
-            }
-            this.loadComplete();
+            this.getMyGroups(newPage);
         },
         500,
         false,
@@ -205,13 +199,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
         if ((scrollTop + clientHeight + 30) >= scrollHeight) {
             if (this.state.selectedFilter === 'all' && this.state.loading === false && !this.state.allGroupsFull) {
-                this.startLoad();
-                this.getGroups();
+                this.scrollGetGroups();
             }
 
             if (this.state.selectedFilter !== 'all' && this.props.myGroups.length % GROUPS_PER_PAGE === 0 && this.state.loading === false) {
-                this.startLoad();
-                this.getMyGroups();
+                this.scrollGetMyGroups();
             }
         }
     }
@@ -242,6 +234,60 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         });
 
         this.props.onExited();
+    }
+
+    leaveGroup = async (groupId: string) => {
+        const {currentUserId, actions} = this.props;
+
+        // TODO: Permission check here
+
+        // Should do some redux thing where I decrement the member_count of the group
+
+        await actions.removeUsersFromGroup(groupId, [currentUserId]);
+    }
+
+    joinGroup = async (groupId: string) => {
+        const {currentUserId, actions} = this.props;
+
+        // TODO: Permission check here
+
+        // Should do some redux thing where I increment the member_count of the group
+
+        await actions.addUsersToGroup(groupId, [currentUserId]);
+    }
+
+    archiveGroup = async (groupId: string) => {
+        const {actions} = this.props;
+
+        await actions.archiveGroup(groupId);
+    }
+
+    getMyGroups = async (page: number) => {
+        const {actions} = this.props;
+
+        this.startLoad();
+
+        const data = await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, page, GROUPS_PER_PAGE, true);
+        if (data.data.length === 0) {
+            this.setState({myGroupsFull: true});
+        }
+        this.loadComplete();
+
+        this.setState({selectedFilter: 'my'});
+    }
+
+    getGroups = async (page: number) => {
+        const {actions} = this.props;
+
+        this.startLoad();
+
+        const data = await actions.getGroups(false, page, GROUPS_PER_PAGE, true);
+        if (data.data.length === 0) {
+            this.setState({allGroupsFull: true});
+        }
+        this.loadComplete();
+
+        this.setState({selectedFilter: 'all'});
     }
 
     render() {
@@ -317,7 +363,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     id='groupsDropdownAll'
                                     buttonClass='groups-filter-btn'
                                     onClick={() => {
-                                        this.setState({selectedFilter: 'all'});
+                                        this.getGroups(0);
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
                                     rightDecorator={this.state.selectedFilter === 'all' && <i className='icon icon-check'/>}
@@ -326,7 +372,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     id='groupsDropdownMy'
                                     buttonClass='groups-filter-btn'
                                     onClick={() => {
-                                        this.setState({selectedFilter: 'my'});
+                                        this.getMyGroups(0);
                                     }}
                                     text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
                                     rightDecorator={this.state.selectedFilter !== 'all' && <i className='icon icon-check'/>}
@@ -393,7 +439,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                     />
                                                     <Menu.ItemAction
                                                         show={true}
-                                                        onClick={() => {}}
+                                                        onClick={() => {
+                                                            this.joinGroup(group.id);
+                                                        }}
                                                         icon={<i className='icon-account-multiple-outline'/>}
                                                         text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
                                                         disabled={false}
@@ -402,7 +450,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                 <Menu.Group>
                                                     <Menu.ItemAction
                                                         show={true}
-                                                        onClick={() => {}}
+                                                        onClick={() => {
+                                                            this.leaveGroup(group.id);
+                                                        }}
                                                         icon={<i className='icon-exit-to-app'/>}
                                                         text={Utils.localizeMessage('user_groups_modal.leaveGroup', 'Leave Group')}
                                                         disabled={false}
@@ -410,7 +460,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                     />
                                                     <Menu.ItemAction
                                                         show={true}
-                                                        onClick={() => {}}
+                                                        onClick={() => {
+                                                            this.archiveGroup(group.id);
+                                                        }}
                                                         icon={<i className='icon-archive-outline'/>}
                                                         text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
                                                         disabled={false}

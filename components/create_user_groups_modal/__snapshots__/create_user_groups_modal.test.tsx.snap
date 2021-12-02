@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/user_groups_modal should match snapshot with back button 1`] = `
+exports[`component/create_user_groups_modal should match snapshot with back button 1`] = `
 <Modal
   animation={true}
   aria-labelledby="createUserGroupsModalLabel"
@@ -125,7 +125,7 @@ exports[`component/user_groups_modal should match snapshot with back button 1`] 
 </Modal>
 `;
 
-exports[`component/user_groups_modal should match snapshot without back button 1`] = `
+exports[`component/create_user_groups_modal should match snapshot without back button 1`] = `
 <Modal
   animation={true}
   aria-labelledby="createUserGroupsModalLabel"

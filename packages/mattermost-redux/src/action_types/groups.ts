@@ -44,4 +44,6 @@ export default keyMirror({
     PATCHED_GROUP: null,
 
     CREATE_GROUP_SUCCESS: null,
+
+    ARCHIVED_GROUP: null,
 });

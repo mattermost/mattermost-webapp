@@ -3545,6 +3545,13 @@ export default class Client4 {
         );
     };
 
+    archiveGroup = (groupId: string) => {
+        return this.doFetch<Group>(
+            `${this.getGroupRoute(groupId)}`,
+            {method: 'delete'},
+        );
+    }
+
     // Redirect Location
     getRedirectLocation = (urlParam: string) => {
         if (!urlParam.length) {

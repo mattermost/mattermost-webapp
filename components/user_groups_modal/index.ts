@@ -4,13 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getAllAssociatedGroupsForReference, getMyAllowReferencedGroups, searchAllowReferencedGroups, searchMyAllowReferencedGroups} from 'mattermost-redux/selectors/entities/groups';
-import {getGroups, getGroupsByUserIdPaginated, searchGroups} from 'mattermost-redux/actions/groups';
+import {addUsersToGroup, archiveGroup, getGroups, getGroupsByUserIdPaginated, removeUsersFromGroup, searchGroups} from 'mattermost-redux/actions/groups';
 import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
@@ -39,6 +39,9 @@ type Actions = {
     searchGroups: (
         params: GroupSearachParams,
     ) => Promise<{data: Group[]}>;
+    removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+    addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+    archiveGroup: (groupId: string) => Promise<ActionResult>;
 };
 
 function mapStateToProps(state: GlobalState) {
@@ -71,6 +74,9 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getGroupsByUserIdPaginated,
             openModal,
             searchGroups,
+            removeUsersFromGroup,
+            addUsersToGroup,
+            archiveGroup,
         }, dispatch),
     };
 }
