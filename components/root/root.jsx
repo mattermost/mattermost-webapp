@@ -282,7 +282,7 @@ export default class Root extends React.PureComponent {
             tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
             mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
         } else {
-            window.addEventListener('resize', this.handleWindowResizeEvent)
+            window.addEventListener('resize', this.handleWindowResizeEvent);
         }
     }
 
@@ -301,7 +301,7 @@ export default class Root extends React.PureComponent {
             tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
             mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
         } else {
-            window.removeEventListener('resize', this.handleWindowResizeEvent)
+            window.removeEventListener('resize', this.handleWindowResizeEvent);
         }
     }
 
