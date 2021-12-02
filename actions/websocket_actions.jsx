@@ -1012,6 +1012,10 @@ export function handleUserRemovedEvent(msg) {
 }
 
 export async function handleUserUpdatedEvent(msg) {
+    // This websocket event is sent to all non-guest users on the server, so be careful requesting data from the server
+    // in response to it. That can overwhelm the server if every connected user makes such a request at the same time.
+    // See https://mattermost.atlassian.net/browse/MM-40050 for more information.
+
     const state = getState();
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
