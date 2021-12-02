@@ -93,7 +93,7 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
                         id='confirm-removal'
                     >
                         <FormattedMessage
-                            id='admin.license.confirm-license-removal.title'
+                            id='admin.license.confirm-license-removal.confirm'
                             defaultMessage='Confirm'
                         />
                     </button>

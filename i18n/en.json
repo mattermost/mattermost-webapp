@@ -1213,6 +1213,7 @@
   "admin.ldap.usernameAttrTitle": "Username Attribute:",
   "admin.license.choose": "Choose File",
   "admin.license.confirm-license-removal.cancel": "Cancel",
+  "admin.license.confirm-license-removal.confirm": "Confirm",
   "admin.license.confirm-license-removal.subtitle": "Removing the license will downgrade your server from Enterprise to Starter. You may lose information. ",
   "admin.license.confirm-license-removal.title": "Confirm",
   "admin.license.enterprise.restart": "Restart Server",

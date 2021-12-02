@@ -18,7 +18,7 @@
 
         .title {
             margin: 10px 0;
-            color: #3f4350;
+            color: var(--sys-denim-center-channel-text);
             font-family: Metropolis;
             font-size: 22px;
             font-weight: 700;
@@ -26,7 +26,7 @@
         }
 
         .subtitle {
-            color: #3f4350;
+            color: var(--sys-denim-center-channel-text);
             font-size: 14px;
             font-style: normal;
             font-weight: normal;
