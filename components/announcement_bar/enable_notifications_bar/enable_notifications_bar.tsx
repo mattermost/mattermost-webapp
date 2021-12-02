@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 
 import {AnnouncementBarTypes} from 'utils/constants';
 
@@ -30,21 +30,21 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
         }
     }, [isDisplayed, actions]);
 
+    const handleEnableButtonClick = useCallback(() => {
+        actions.enableBrowserNotifications();
+    }, [actions]);
+
+    const handleDontAskAgainButtonClick = useCallback(() => {
+        actions.disableNotificationsPermissionRequests();
+    }, [actions]);
+
+    const handleCloseButtonClick = useCallback(() => {
+        setIsDisplayed(false);
+    }, [setIsDisplayed]);
+
     if (!isDisplayed) {
         return null;
     }
-
-    const handleEnableButtonClick = () => {
-        actions.enableBrowserNotifications();
-    };
-
-    const handleDontAskAgainButtonClick = () => {
-        actions.disableNotificationsPermissionRequests();
-    };
-
-    const handleCloseButtonClick = () => {
-        setIsDisplayed(false);
-    };
 
     return (
         <AnnouncementBar
