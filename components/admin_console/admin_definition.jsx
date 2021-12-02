@@ -48,7 +48,7 @@ import ChannelSettings from './team_channel_settings/channel';
 import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
-import DataRetentionSettings from './data_retention_settings/index.ts';
+import DataRetentionSettings from './data_retention_settings';
 import GlobalDataRetentionForm from './data_retention_settings/global_policy_form';
 import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
 import MessageExportSettings from './message_export_settings.jsx';
@@ -5389,17 +5389,15 @@ const AdminDefinition = {
             title_default: 'Data Retention Policies',
             searchableStrings: [
                 'admin.data_retention.title',
-                'admin.data_retention.messageRetentionDays.description',
-                'admin.data_retention.fileRetentionDays.description',
-                ['admin.data_retention.note.description', {documentationLink: ''}],
-                'admin.data_retention.enableMessageDeletion.title',
-                'admin.data_retention.enableMessageDeletion.description',
-                'admin.data_retention.enableFileDeletion.title',
-                'admin.data_retention.enableFileDeletion.description',
-                'admin.data_retention.deletionJobStartTime.title',
-                'admin.data_retention.deletionJobStartTime.description',
                 'admin.data_retention.createJob.title',
-                'admin.data_retention.createJob.help',
+                'admin.data_retention.settings.title',
+                'admin.data_retention.globalPolicy.title',
+                'admin.data_retention.globalPolicy.subTitle',
+                'admin.data_retention.customPolicies.title',
+                'admin.data_retention.customPolicies.subTitle',
+                'admin.data_retention.jobCreation.title',
+                'admin.data_retention.jobCreation.subTitle',
+                'admin.data_retention.createJob.instructions',
             ],
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
