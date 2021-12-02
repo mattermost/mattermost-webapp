@@ -222,17 +222,15 @@ describe('components/EditPostModal', () => {
         expect(wrapper.state().editText).toBe('test  :-1: ');
     });
 
-    it('should set the focus and recalculate the size of the edit box after entering', () => {
+    it('should set the focus to the edit box after entering', () => {
         const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
-        instance.editbox = {focus: jest.fn(), recalculateSize: jest.fn()};
+        instance.editbox = {focus: jest.fn()};
 
         const ref = instance.editbox;
         expect(ref.focus).not.toBeCalled();
-        expect(ref.recalculateSize).not.toBeCalled();
         instance.handleEntered();
         expect(ref.focus).toBeCalled();
-        expect(ref.recalculateSize).toBeCalled();
     });
 
     it('should hide the preview when exiting', () => {

@@ -13,7 +13,13 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     disabled={true}
     forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={true}
     listComponent={[Function]}
     listStyle="style"
@@ -125,7 +131,13 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     contextId="channelId"
     forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
     listStyle="top"
@@ -221,7 +233,13 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     contextId="channelId"
     forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
     listStyle="top"
@@ -317,7 +335,13 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     contextId="channelId"
     forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
     listStyle="top"
