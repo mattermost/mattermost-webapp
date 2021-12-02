@@ -1215,7 +1215,7 @@
   "admin.license.confirm-license-removal.cancel": "Cancel",
   "admin.license.confirm-license-removal.confirm": "Confirm",
   "admin.license.confirm-license-removal.subtitle": "Removing the license will downgrade your server from Enterprise to Starter. You may lose information. ",
-  "admin.license.confirm-license-removal.title": "Confirm",
+  "admin.license.confirm-license-removal.title": "Are you sure?",
   "admin.license.enterprise.restart": "Restart Server",
   "admin.license.enterprise.restarting": "Restarting",
   "admin.license.enterprise.upgrade": "Upgrade to Enterprise Edition",
