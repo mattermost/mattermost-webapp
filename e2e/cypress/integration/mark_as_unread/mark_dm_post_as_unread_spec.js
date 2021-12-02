@@ -28,46 +28,41 @@ describe('Mark DM post as Unread ', () => {
     it('MM-T248_1 Mark DM post as Unread', function() {
         const NUMBER_OF_USER_A_UNREAD_MESSAGES = 4;
 
-        cy.
+        // # Post initial message from main user
+        cy.postMessageAs({
+            sender: this.mainUser,
+            message: 'Initial message',
+            channelId: this.dmChannel.id,
+        });
 
-            // # Post initial message from main user
-            postMessageAs({
-                sender: this.mainUser,
-                message: 'Initial message',
-                channelId: this.dmChannel.id,
-            }).
+        // # Post several messages from User A
+        cy.postListOfMessages({
+            numberOfMessages: 3,
+            sender: this.userA,
+            channelId: this.dmChannel.id,
+        });
 
-            // # Post several messages from User A
-            postListOfMessages({
-                numberOfMessages: 3,
-                sender: this.userA,
-                channelId: this.dmChannel.id,
-            }).
+        // # Post messages from User A meant to be marked as unread
+        cy.postMessageAs({
+            sender: this.userA,
+            message: 'Unread from here',
+            channelId: this.dmChannel.id,
+        }).as('unreadFromHere');
+        cy.postListOfMessages({
+            numberOfMessages: NUMBER_OF_USER_A_UNREAD_MESSAGES - 1,
+            sender: this.userA,
+            channelId: this.dmChannel.id,
+        });
 
-            // # Post messages from User A meant to be marked as unread
-            postMessageAs({
-                sender: this.userA,
-                message: 'Unread from here',
-                channelId: this.dmChannel.id,
-            }).
-            as('unreadFromHere').
-            postListOfMessages({
-                numberOfMessages: NUMBER_OF_USER_A_UNREAD_MESSAGES - 1,
-                sender: this.userA,
-                channelId: this.dmChannel.id,
-            }).
-
-            // # Post more messages from main user
-            postListOfMessages({
-                numberOfMessages: 3,
-                sender: this.mainUser,
-                channelId: this.dmChannel.id,
-            });
+        // # Post more messages from main user
+        cy.postListOfMessages({
+            numberOfMessages: 3,
+            sender: this.mainUser,
+            channelId: this.dmChannel.id,
+        });
 
         // # Visit the DM channel and open the thread in RHS
-        cy.
-            apiLogin(this.mainUser).
-            visit(this.link);
+        cy.apiLogin(this.mainUser).visit(this.link);
 
         // # Мark the message from user A as unread
         cy.then(() => markAsUnreadFromMenu(this.unreadFromHere.id));
@@ -101,52 +96,46 @@ describe('Mark DM post as Unread ', () => {
     it('MM-T248_2 Mark DM post as Unread in a reply thread', function() {
         const NUMBER_OF_USER_A_UNREAD_MESSAGES = 4;
 
-        cy.
+        // # Post initial message from main user
+        cy.postMessageAs({
+            sender: this.mainUser,
+            message: 'Initial message',
+            channelId: this.dmChannel.id,
+        }).as('root');
 
-            // # Post initial message from main user
-            postMessageAs({
-                sender: this.mainUser,
-                message: 'Initial message',
-                channelId: this.dmChannel.id,
-            }).
-            as('root').
+        // # Post several messages from User A
+        cy.then(() => cy.postListOfMessages({
+            numberOfMessages: 3,
+            sender: this.userA,
+            channelId: this.dmChannel.id,
+            rootId: this.root.id,
+        }));
 
-            // # Post several messages from User A
-            then(() => cy.postListOfMessages({
-                numberOfMessages: 3,
-                sender: this.userA,
-                channelId: this.dmChannel.id,
-                rootId: this.root.id,
-            })).
+        // # Post messages from User A meant to be marked as unread
+        cy.then(() => cy.postMessageAs({
+            sender: this.userA,
+            message: 'Unread from here',
+            channelId: this.dmChannel.id,
+            rootId: this.root.id,
+        })).as('unreadFromHere');
+        cy.then(() => cy.postListOfMessages({
+            numberOfMessages: NUMBER_OF_USER_A_UNREAD_MESSAGES - 1,
+            sender: this.userA,
+            channelId: this.dmChannel.id,
+            rootId: this.root.id,
+        }));
 
-            // # Post messages from User A meant to be marked as unread
-            then(() => cy.postMessageAs({
-                sender: this.userA,
-                message: 'Unread from here',
-                channelId: this.dmChannel.id,
-                rootId: this.root.id,
-            })).
-            as('unreadFromHere').
-            then(() => cy.postListOfMessages({
-                numberOfMessages: NUMBER_OF_USER_A_UNREAD_MESSAGES - 1,
-                sender: this.userA,
-                channelId: this.dmChannel.id,
-                rootId: this.root.id,
-            })).
-
-            // # Post more messages from main user
-            then(() => cy.postListOfMessages({
-                numberOfMessages: 3,
-                sender: this.mainUser,
-                channelId: this.dmChannel.id,
-                rootId: this.root.id,
-            }));
+        // # Post more messages from main user
+        cy.then(() => cy.postListOfMessages({
+            numberOfMessages: 3,
+            sender: this.mainUser,
+            channelId: this.dmChannel.id,
+            rootId: this.root.id,
+        }));
 
         // # Visit the DM channel and open the thread in RHS
-        cy.
-            apiLogin(this.mainUser).
-            visit(this.link).
-            then(() => cy.clickPostCommentIcon(this.root.id));
+        cy.apiLogin(this.mainUser).visit(this.link);
+        cy.get('@root').its('id').then(cy.clickPostCommentIcon);
 
         // # Мark the message from user A as unread
         cy.then(() => markAsUnreadFromMenu(this.unreadFromHere.id, 'RHS_COMMENT'));
