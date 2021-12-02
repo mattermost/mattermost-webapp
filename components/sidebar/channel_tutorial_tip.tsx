@@ -8,9 +8,14 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {TutorialSteps} from 'utils/constants';
 
+import HandsSvg from 'components/common/svg_images_components/hands_svg';
+
+import {toTitleCase} from 'utils/utils';
+
 type Props = {
     townSquareDisplayName?: string;
     offTopicDisplayName?: string;
+    firstChannelName?: string;
     openLhs: () => void;
 }
 
@@ -22,7 +27,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
     }
 
     render = () => {
-        const screens = [
+        let screens = [
             <div key='first-screen'>
                 <h4>
                     <FormattedMessage
@@ -57,13 +62,56 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
             </div>,
         ];
 
+        let sidebarContainer = document.getElementById('sidebar-left');
+        let telemetryTagText = 'tutorial_tip_2_channels';
+        if (this.props.firstChannelName) {
+            const displayFirstChannelName = this.props.firstChannelName.split('-').join(' ').trim();
+            screens = [
+                <div key='screen'>
+                    <h4>
+                        <FormattedMessage
+                            id='create_first_channel.tutorialTip.title'
+                            defaultMessage='Welcome to {firstChannelName}, your first channel!'
+                            values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
+                        />
+                    </h4>
+                    <div className='handSvg svg-wrapper'>
+                        <HandsSvg
+                            width={60}
+                            height={60}
+                        />
+                    </div>
+                    <p>
+                        <FormattedMarkdownMessage
+                            id='create_first_channel.tutorialTip1'
+                            defaultMessage='Start collaborating with your teammates and pull in your favorite plugins.'
+                        />
+                    </p>
+                </div>,
+            ];
+
+            const channelId = this.props.firstChannelName.toLocaleLowerCase().replace(' ', '-');
+            telemetryTagText = 'tutorial_tip_0_first_channel';
+            sidebarContainer = document.getElementById('sidebarItem_' + channelId);
+        }
+
+        const sidebarContainerPosition = sidebarContainer && sidebarContainer.getBoundingClientRect();
+
+        const tutorialTipPunchout = sidebarContainerPosition ? {
+            x: `${sidebarContainerPosition.x}px`,
+            y: `${sidebarContainerPosition.y}px`,
+            width: `${sidebarContainerPosition.width}px`,
+            height: `${sidebarContainerPosition.height}px`,
+        } : undefined;
+
         return (
             <TutorialTip
                 placement='right'
-                step={TutorialSteps.CHANNEL_POPOVER}
+                step={this.props.firstChannelName ? TutorialSteps.ADD_FIRST_CHANNEL : TutorialSteps.CHANNEL_POPOVER}
                 screens={screens}
                 overlayClass='tip-overlay--sidebar'
-                telemetryTag='tutorial_tip_2_channels'
+                telemetryTag={telemetryTagText}
+                punchOut={tutorialTipPunchout}
             />
         );
     }

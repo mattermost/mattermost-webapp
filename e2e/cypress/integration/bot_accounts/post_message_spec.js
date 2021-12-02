@@ -49,10 +49,8 @@ describe('Bot post message', () => {
                     should('exist').
                     as('botPost');
 
-                // # Go to the channel
-                cy.get('#sidebarItem_off-topic').click({force: true});
-
                 // * Verify bot message
+                cy.uiWaitUntilMessagePostedIncludes(message);
                 cy.get('@botPost').then((postId) => {
                     cy.get(`#postMessageText_${postId}`).
                         should('be.visible').

@@ -33,7 +33,7 @@ exports[`components/custom_status/custom_status_modal should match snapshot 1`] 
   }
 >
   <CustomStatusModal
-    onHide={[MockFunction]}
+    onExited={[MockFunction]}
   />
 </ContextProvider>
 `;
@@ -71,7 +71,7 @@ exports[`components/custom_status/custom_status_modal should match snapshot when
   }
 >
   <CustomStatusModal
-    onHide={[MockFunction]}
+    onExited={[MockFunction]}
   />
 </ContextProvider>
 `;

@@ -12,18 +12,17 @@ export enum AddChannelButtonTreatments {
     INVERTED_SIDEBAR_BG_COLOR = 'inverted_sidebar_bg_color',
 }
 
-export enum DownloadAppsCTATreatments {
-    NONE = 'none',
-    TIPS_AND_NEXT_STEPS = 'tips_and_next_steps',
-}
-
-export enum PrewrittenMessagesTreatments {
-    NONE = 'none',
-    TOUR_POINT = 'tour_point',
-    AROUND_INPUT = 'around_input',
-}
-
 export enum AutoTourTreatments {
     NONE = 'none',
     AUTO = 'auto',
+}
+
+export enum AddMembersToChanneltreatments {
+    TOP = 'top',
+    BOTTOM = 'bottom',
+}
+
+export enum InviteToTeamTreatments {
+    NONE = 'none',
+    TOGGLE = 'toggle',
 }

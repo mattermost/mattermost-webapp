@@ -354,7 +354,7 @@ describe('notification_actions', () => {
                 window.focus = jest.fn();
 
                 userSettings.desktop = NotificationLevels.MENTION;
-                msgProps.mentions = JSON.stringify(['current_user_id']);
+                msgProps.followers = JSON.stringify(['current_user_id']);
 
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {

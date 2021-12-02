@@ -1,12 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import Constants from 'utils/constants';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import TutorialTip from './tutorial_tip';
+import {useMeasurePunchouts} from './tutorial_tip/hooks';
 
 const TutorialSteps = Constants.TutorialSteps;
 
@@ -18,10 +22,8 @@ type Props = {
 }
 
 const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Props) => {
-    const screens = [];
-
-    screens.push(
-        <div>
+    const screens = [
+        <div key='screen-one'>
             <h4>
                 <FormattedMessage
                     id='sidebar_header.tutorial.title'
@@ -35,7 +37,9 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
                 />
             </p>
         </div>,
-    );
+    ];
+
+    const isAnnouncementBarOpen = useSelector(getAnnouncementBarCount) > 0;
 
     let placement = 'right';
     let arrow = 'left';
@@ -61,6 +65,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
                 screens={screens}
                 overlayClass={'tip-overlay--header--' + arrow + headerClass}
                 telemetryTag='tutorial_tip_3_main_menu'
+                punchOut={useMeasurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}
             />
         </div>
     );

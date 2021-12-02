@@ -11,12 +11,12 @@ import './no_internet_connection.scss';
 import NoInternetConnectionSvg from './no-internet-connection-svg';
 
 type NoInternetConnectionProps = {
-    onHide: () => void;
+    onExited: () => void;
 };
 const NoInternetConnection: React.FC<NoInternetConnectionProps> = (props: NoInternetConnectionProps) => {
     return (
         <GenericModal
-            onHide={props.onHide}
+            onExited={props.onExited}
             modalHeaderText=''
         >
             <div className='noInternetConnection__container'>

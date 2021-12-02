@@ -83,6 +83,8 @@ export const Preferences = {
     COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
     COLLAPSED_REPLY_THREADS_OFF: 'off',
     COLLAPSED_REPLY_THREADS_ON: 'on',
+    CLICK_TO_REPLY: 'click_to_reply',
+    CLICK_TO_REPLY_DEFAULT: 'true',
     COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT: 'off',
     LINK_PREVIEW_DISPLAY: 'link_previews',
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
@@ -118,6 +120,9 @@ export const Preferences = {
 
     // Category for actions/interactions that will happen just once
     UNIQUE: 'unique',
+
+    // A/B test preference value
+    AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -162,15 +167,7 @@ export const ActionTypes = keyMirror({
     CANCEL_NAVIGATION: null,
     CONFIRM_NAVIGATION: null,
 
-    TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
-    TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
-    TOGGLE_GET_PUBLIC_LINK_MODAL: null,
-    TOGGLE_QUICK_SWITCH_MODAL: null,
-    TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
-    TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
-    TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
@@ -246,6 +243,7 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+    UPDATE_THREAD_TOAST_STATUS: null,
 
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
@@ -265,6 +263,8 @@ export const ActionTypes = keyMirror({
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
+
+    FIRST_CHANNEL_NAME: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -295,6 +295,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_ROLE: 'add_user_to_role',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
@@ -325,6 +326,8 @@ export const ModalIdentifiers = {
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
+    TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
@@ -337,6 +340,14 @@ export const ModalIdentifiers = {
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM: 'confirm',
+    POST_DELETED_MODAL: 'post_deleted_modal',
+    FILE_PREVIEW_MODAL: 'file_preview_modal',
+    IMPORT_THEME_MODAL: 'import_theme_modal',
+    LEAVE_PRIVATE_CHANNEL_MODAL: 'leave_private_channel_modal',
+    GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
+    KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
+    USERS_TO_BE_REMOVED: 'users_to_be_removed',
 };
 
 export const UserStatuses = {
@@ -460,6 +471,7 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
+    ADD_FIRST_CHANNEL: -1,
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
@@ -481,6 +493,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     DOWNLOAD_APPS: 'download_apps',
+    CREATE_FIRST_CHANNEL: 'create_first_channel',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -500,6 +513,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
+    SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
 };
 
 export const PostTypes = {
@@ -1511,6 +1525,7 @@ export const Constants = {
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
+        OPEN_COMMAND_IN_MODAL_ITEM_ID: '_open_command_in_modal',
         COMMAND_SUGGESTION_ERROR: 'error',
         COMMAND_SUGGESTION_CHANNEL: 'channel',
         COMMAND_SUGGESTION_USER: 'user',

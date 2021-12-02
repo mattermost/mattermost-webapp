@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -112,9 +113,7 @@ function uploadFileAndAddAutocompleteThenVerifyNoOverlap() {
             cy.wait(TIMEOUTS.HALF_SEC).then(() => {
                 // * Suggestion list should visibly render just within the channel header
                 cy.wrap(header[0].getBoundingClientRect().top).should('be.lt', list[0].getBoundingClientRect().top);
-                cy.wrap(list[0]).findByText('Channel Members').then((channelMembers) => {
-                    cy.wrap(header[0].getBoundingClientRect().bottom).should('be.lt', channelMembers[0].getBoundingClientRect().top);
-                });
+                cy.wrap(header[0].getBoundingClientRect().bottom).should('be.lt', list[0].getBoundingClientRect().top);
             });
         });
     });

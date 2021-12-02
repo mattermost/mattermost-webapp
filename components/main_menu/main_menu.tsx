@@ -30,6 +30,7 @@ import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
+import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -57,9 +58,8 @@ export type Props = {
     isLicensedForLDAPGroups?: boolean;
     showGettingStarted: boolean;
     intl: IntlShape;
-    showNextStepsTips?: boolean;
     actions: {
-        openModal: (params: {modalId: string; dialogType: any; dialogProps: any}) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
         showMentions: () => void;
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
@@ -75,11 +75,6 @@ export class MainMenu extends React.PureComponent<Props> {
         mobile: false,
         pluginMenuItems: [],
     };
-
-    toggleShortcutsModal = (e: Event): void => {
-        e.preventDefault();
-        GlobalActions.toggleShortcutsModal();
-    }
 
     async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -208,7 +203,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         modalId={ModalIdentifiers.USER_SETTINGS}
                         dialogType={UserSettingsModal}
                         dialogProps={{isContentProductSettings: true}}
-                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Account Settings'})}
+                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Profile'})}
                         icon={<i className='fa fa-cog'/>}
                     />
                 </Menu.Group>
@@ -336,8 +331,8 @@ export class MainMenu extends React.PureComponent<Props> {
                         id='gettingStarted'
                         show={this.props.showGettingStarted}
                         onClick={() => this.props.actions.unhideNextSteps()}
-                        text={formatMessage({id: this.props.showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: this.props.showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
-                        icon={<i className={`icon ${this.props.showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
+                        text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
+                        icon={<i className='icon icon-play'/>}
                     />
                     <Menu.ItemExternalLink
                         id='reportLink'
