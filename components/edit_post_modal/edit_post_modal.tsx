@@ -54,8 +54,6 @@ export type State = {
 export class EditPostModal extends React.PureComponent<Props, State> {
     private editModalBody: React.RefObject<Modal>;
     private editbox: TextboxClass | null;
-    private lastChannelSwitchAt: number | undefined;
-    private refocusId: string | null | undefined;
 
     constructor(props: Props) {
         super(props);
@@ -73,7 +71,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         this.state = {
             show: true,
             editText,
-            caretPosition: ''.length,
+            caretPosition: 0,
             postError: null,
             errorClass: null,
             showEmojiPicker: false,
@@ -226,7 +224,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 
         const hasAttachment = Boolean(post?.file_ids && post?.file_ids.length > 0);
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
-            this.handleHide(false);
+            this.handleHide();
 
             actions.openModal({
                 modalId: ModalIdentifiers.DELETE_POST,
@@ -310,7 +308,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     handleEditKeyPress = (e: React.KeyboardEvent) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(e, this.state.editText, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition) as {allowSending: boolean; ignoreKeyPress?: boolean};
+        const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(e, this.state.editText, ctrlSend, codeBlockOnCtrlEnter, Date.now(), 0, this.state.caretPosition) as {allowSending: boolean; ignoreKeyPress?: boolean};
 
         if (ignoreKeyPress) {
             e.preventDefault();
@@ -400,11 +398,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         );
     };
 
-    handleHide = (doRefocus = true) => {
-        // probably wont need this
-        this.refocusId = doRefocus ? this.props.refocusId : null;
+    handleHide = () => {
         this.setState({
-            editText: this.props.post?.message || '',
             show: false,
         });
     };
@@ -434,24 +429,11 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     };
 
     handleExited = () => {
-        // TODO props can be called here after migrating to MC
-        const refocusId = this.refocusId;
-        if (refocusId) {
+        if (this.props.refocusId) {
             setTimeout(() => {
-                const element = document.getElementById(refocusId);
-                if (element) {
-                    element.focus();
-                }
+                document.getElementById(this.props.refocusId)?.focus();
             });
         }
-
-        this.refocusId = null;
-        this.setState({
-            editText: '',
-            postError: null,
-            errorClass: null,
-            showEmojiPicker: false,
-        });
 
         this.props.onExited();
     };
@@ -613,7 +595,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                     <button
                         type='button'
                         className='btn btn-link'
-                        onClick={() => this.handleHide()}
+                        onClick={this.handleHide}
                     >
                         <FormattedMessage
                             id='edit_post.cancel'
