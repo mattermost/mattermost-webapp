@@ -1228,7 +1228,7 @@
   "admin.license.enterprisePlanSubtitle": "We’re here to work with you and your needs. Contact us today to get more seats on your plan.",
   "admin.license.enterprisePlanTitle": "Need to increase your headcount?",
   "admin.license.key": "License Key: ",
-  "admin.license.keyRemove": "Remove Enterprise License and Downgrade Server",
+  "admin.license.keyRemove": "Remove License and Downgrade Server",
   "admin.license.noFile": "No file uploaded",
   "admin.license.purchaseEnterpriseGovPlanTitle": "Purchase the Enterprise Gov Plan",
   "admin.license.purchaseEnterprisePlanSubtitle": "Continue your access to Enterprise features by purchasing a license today.",

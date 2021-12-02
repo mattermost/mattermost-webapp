@@ -47,7 +47,6 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
         dispatch(closeModal(ModalIdentifiers.CONFIRM_LICENSE_REMOVAL));
     };
 
-    // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
     return (
         <GenericModal
             className={'ConfirmLicenseRemovalModal'}
