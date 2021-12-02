@@ -270,20 +270,34 @@ export default class Root extends React.PureComponent {
         });
         trackLoadTime();
 
-        desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-        smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-        tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-        mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        if (desktopMediaQuery.addEventListener) {
+            desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        } else {
+            desktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+        }
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
 
-        desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-        smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-        tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-        mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        if (desktopMediaQuery.removeEventListener) {
+            desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        } else {
+            desktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+        }
     }
 
     handleLogoutLoginSignal = (e) => {
