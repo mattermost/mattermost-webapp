@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import throttle from 'lodash/throttle';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -280,6 +281,8 @@ export default class Root extends React.PureComponent {
             smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
             tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
             mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.addEventListener('resize', this.handleWindowResizeEvent)
         }
     }
 
@@ -297,6 +300,8 @@ export default class Root extends React.PureComponent {
             smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
             tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
             mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.removeEventListener('resize', this.handleWindowResizeEvent)
         }
     }
 
@@ -324,6 +329,10 @@ export default class Root extends React.PureComponent {
             document.addEventListener('visibilitychange', onVisibilityChange, false);
         }
     }
+
+    handleWindowResizeEvent = throttle(() => {
+        this.props.actions.emitBrowserWindowResized();
+    }, 100);
 
     handleMediaQueryChangeEvent = (e) => {
         if (e.matches) {
