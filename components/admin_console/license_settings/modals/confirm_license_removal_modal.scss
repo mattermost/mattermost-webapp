@@ -1,7 +1,7 @@
 .ConfirmLicenseRemovalModal {
     .modal-header {
-        background: none !important;
         border-bottom: none !important;
+        background: none !important;
 
         button.close {
             span {
@@ -13,8 +13,8 @@
     .content-body {
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
 
         .title {
             margin: 10px 0;
@@ -26,11 +26,11 @@
         }
 
         .subtitle {
+            color: #3f4350;
+            font-size: 14px;
             font-style: normal;
             font-weight: normal;
-            font-size: 14px;
             line-height: 20px;
-            color: #3f4350;
             text-align: center;
         }
     }
@@ -41,10 +41,10 @@
         justify-content: center;
 
         button {
-            margin-top: 15px !important;
-            border-radius: 4px;
             height: 40px;
+            margin-top: 15px !important;
             margin-left: 10px;
+            border-radius: 4px;
         }
     }
 
