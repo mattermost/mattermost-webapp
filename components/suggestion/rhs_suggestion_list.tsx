@@ -3,7 +3,6 @@
 
 import React, {useEffect, useState} from 'react';
 
-import AutosizeTextarea from 'components/autosize_textarea';
 import QuickInput from 'components/quick_input';
 
 import Constants from 'utils/constants';
@@ -21,7 +20,7 @@ export default function RhsSuggestionList(props: Props): JSX.Element {
         const input = props.inputRef.current;
 
         if (props.open) {
-            const inputTop = (input?.getInput() as AutosizeTextarea).getDOMNode()?.getBoundingClientRect().top || 0;
+            const inputTop = (input?.getInput() as HTMLTextAreaElement).getBoundingClientRect().top || 0;
             const newPosition = (inputTop < Constants.SUGGESTION_LIST_SPACE_RHS) ? 'bottom' : 'top';
 
             if (newPosition !== position) {
