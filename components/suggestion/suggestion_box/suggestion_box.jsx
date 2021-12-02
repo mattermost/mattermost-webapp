@@ -140,11 +140,6 @@ export default class SuggestionBox extends React.PureComponent {
         listenForMentionKeyClick: PropTypes.bool,
 
         /**
-         * Passes the wrapper reference for height calculation
-         */
-        wrapperHeight: PropTypes.number,
-
-        /**
          * Allows parent to access received suggestions
          */
         onSuggestionsReceived: PropTypes.func,
@@ -259,23 +254,7 @@ export default class SuggestionBox extends React.PureComponent {
             return null;
         }
 
-        const input = this.inputRef.current.getInput();
-
-        if (input.getDOMNode) {
-            return input.getDOMNode();
-        }
-
-        return input;
-    }
-
-    recalculateSize = () => {
-        // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
-        // we're rendering as the input
-        const input = this.inputRef.current.getInput();
-
-        if (input.recalculateSize) {
-            input.recalculateSize();
-        }
+        return this.inputRef.current.getInput();
     }
 
     handleEmitClearSuggestions = (delay = 0) => {
@@ -783,7 +762,6 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'renderDividers');
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
-        Reflect.deleteProperty(props, 'wrapperHeight');
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
@@ -817,7 +795,6 @@ export default class SuggestionBox extends React.PureComponent {
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
-                            target={this.inputRef}
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
@@ -834,7 +811,6 @@ export default class SuggestionBox extends React.PureComponent {
                             suggestionBoxAlgn={this.state.suggestionBoxAlgn}
                             selection={this.state.selection}
                             components={this.state.components}
-                            wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
                         />
