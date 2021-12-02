@@ -2,15 +2,19 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getSchemeTeams as loadSchemeTeams, getSchemes as loadSchemes} from 'mattermost-redux/actions/schemes';
 import {getSchemes} from 'mattermost-redux/selectors/entities/schemes';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import PermissionSchemesSettings from './permission_schemes_settings.jsx';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-function mapStateToProps(state) {
+import {GlobalState} from 'types/store';
+
+import PermissionSchemesSettings, {Props} from './permission_schemes_settings';
+
+function mapStateToProps(state: GlobalState) {
     const schemes = getSchemes(state);
     const config = getConfig(state);
 
@@ -21,9 +25,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Props['actions']>({
             loadSchemes,
             loadSchemeTeams,
         }, dispatch),
