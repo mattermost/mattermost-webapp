@@ -21,7 +21,7 @@ import {closeModal} from 'actions/views/modals';
 import './confirm_license_removal_modal.scss';
 
 type Props = {
-    onClose?: () => void;
+    onExited?: () => void;
     handleRemove?: (e: any) => Promise<void>;
 }
 
@@ -34,8 +34,8 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
     }
 
     const handleOnClose = () => {
-        if (props.onClose) {
-            props.onClose();
+        if (props.onExited) {
+            props.onExited();
         }
         dispatch(closeModal(ModalIdentifiers.CONFIRM_LICENSE_REMOVAL));
     };
@@ -80,6 +80,7 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
                     <button
                         onClick={handleOnClose}
                         className='btn light-blue-btn'
+                        id='cancel-removal'
                     >
                         <FormattedMessage
                             id='admin.license.confirm-license-removal.cancel'
@@ -89,6 +90,7 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
                     <button
                         onClick={handleRemoval}
                         className='btn btn-primary'
+                        id='confirm-removal'
                     >
                         <FormattedMessage
                             id='admin.license.confirm-license-removal.title'
