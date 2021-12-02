@@ -55,6 +55,12 @@ describe('System Console - after subscription scenarios', () => {
 
         // # Click Let's go! button
         cy.get('#payment_complete_header').find('button').should('be.enabled').click();
+
+        // * Check for non existence of 'Your trial has started!' in banner message
+        cy.contains('span', 'Your trial has started!').should('not.exist');
+
+        // * Check for non existence of 'Subscribe now' button in banner message
+        cy.contains('span', 'Subscribe Now').parent().should('not.exist');
     });
 
     describe('System Console - Subscription section', () => {
