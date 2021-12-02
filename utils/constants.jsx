@@ -339,6 +339,7 @@ export const ModalIdentifiers = {
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
     POST_DELETED_MODAL: 'post_deleted_modal',
     FILE_PREVIEW_MODAL: 'file_preview_modal',
