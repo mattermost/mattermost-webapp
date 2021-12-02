@@ -751,8 +751,6 @@
 
     &:hover,
     &.a11y--active {
-        @include legacy-pie-clearfix;
-
         overflow: visible;
 
         .dropdown,
@@ -781,8 +779,6 @@
 
     &.post--hovered,
     &.a11y--active {
-        @include legacy-pie-clearfix;
-
         overflow: visible;
 
         .dropdown,
@@ -1485,8 +1481,6 @@
     }
 
     .post__body {
-        @include legacy-pie-clearfix;
-
         width: 100%;
         padding: 0 0 0.2em;
         word-wrap: break-word;
