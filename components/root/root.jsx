@@ -275,7 +275,7 @@ export default class Root extends React.PureComponent {
             smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
             tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
             mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-        } else {
+        } else if (desktopMediaQuery.addListener) {
             desktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
             smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
             tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
@@ -292,7 +292,7 @@ export default class Root extends React.PureComponent {
             smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
             tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
             mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-        } else {
+        } else if (desktopMediaQuery.removeListener) {
             desktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
             smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
             tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
