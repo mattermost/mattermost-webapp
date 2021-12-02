@@ -57,6 +57,7 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
+import EditPostModal from 'components/edit_post_modal';
 
 import CreatePostTip from './create_post_tip';
 
@@ -263,11 +264,6 @@ type Props = {
       *  func called for setting drafts
       */
         setDraft: (name: string, value: PostDraft | null) => void;
-
-        /**
-      *  func called for editing posts
-      */
-        setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
       *  func called for opening the last replayable post in the RHS
@@ -1135,16 +1131,27 @@ class CreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        let type;
-        if (lastPost.root_id && lastPost.root_id.length > 0) {
-            type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-        } else {
-            type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-        }
         if (this.textboxRef.current) {
             this.textboxRef.current.blur();
         }
-        this.props.actions.setEditingPost(lastPost.id, 'post_textbox', type);
+
+        let modalTitle;
+        if (lastPost.root_id && lastPost.root_id.length > 0) {
+            modalTitle = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
+        } else {
+            modalTitle = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
+        }
+
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_POST,
+            dialogType: EditPostModal,
+            dialogProps: {
+                postId: lastPost.id,
+                refocusId: 'post_textbox',
+                title: modalTitle,
+                isRHS: false,
+            },
+        });
     }
 
     replyToLastPost = (e: React.KeyboardEvent) => {

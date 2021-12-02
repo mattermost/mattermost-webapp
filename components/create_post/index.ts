@@ -44,7 +44,7 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {addReaction, createPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
@@ -147,7 +147,6 @@ type Actions = {
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
     setDraft: (name: string, value: PostDraft | null) => void;
-    setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
@@ -192,7 +191,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setDraft,
             clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
-            setEditingPost,
             emitShortcutReactToLastPostFrom,
             openModal,
             executeCommand,

@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/no-string-refs */
-/* eslint-disable max-lines */
-
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
@@ -52,7 +49,8 @@ export type State = {
 };
 
 export class EditPostModal extends React.PureComponent<Props, State> {
-    private editModalBody: React.RefObject<Modal>;
+    private editModalBodyRef: React.RefObject<Modal>;
+    private editPostEmojiRef: React.RefObject<HTMLButtonElement>;
     private editbox: TextboxClass | null;
 
     constructor(props: Props) {
@@ -80,7 +78,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             shouldShowPreview: false,
         };
 
-        this.editModalBody = React.createRef();
+        this.editModalBodyRef = React.createRef();
+        this.editPostEmojiRef = React.createRef();
         this.editbox = null;
     }
 
@@ -97,7 +96,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     };
 
     getContainer = () => {
-        return this.editModalBody.current;
+        return this.editModalBodyRef.current;
     };
 
     toggleEmojiPicker = () => {
@@ -178,8 +177,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         this.editbox?.focus();
     };
 
-    getTarget = () => {
-        return this.refs.editPostEmoji;
+    getEmojiPickerTarget = () => {
+        return this.editPostEmojiRef.current;
     };
 
     handlePostError = (postError: React.ReactNode) => {
@@ -485,7 +484,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         container={this.getContainer}
-                        target={this.getTarget}
+                        target={this.getEmojiPickerTarget}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
                         onGifClick={this.handleGifClick}
@@ -496,7 +495,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                     <button
                         aria-label={emojiButtonAriaLabel}
                         id='editPostEmoji'
-                        ref='editPostEmoji'
+                        ref={this.editPostEmojiRef}
                         className='style--none post-action'
                         onClick={this.toggleEmojiPicker}
                     >
@@ -539,7 +538,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                     bsClass={classNames('modal-body edit-modal-body', {
                         'edit-modal-body--add-reaction': this.state.showEmojiPicker,
                     })}
-                    ref={this.editModalBody}
+                    ref={this.editModalBodyRef}
                 >
                     <div className='post-create__container'>
                         <div

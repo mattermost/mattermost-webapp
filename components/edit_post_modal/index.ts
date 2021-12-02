@@ -10,20 +10,22 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {Post} from 'mattermost-redux/types/posts';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
 import {editPost} from 'actions/views/posts';
 import {runMessageWillBeUpdatedHooks} from 'actions/hooks';
+
 import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
+
 import {ModalData} from 'types/actions';
+import {GlobalState} from 'types/store';
 
 import Constants from 'utils/constants';
+import {isPostOwner} from 'utils/post_utils';
 
 import EditPostModal from './edit_post_modal';
 
@@ -38,14 +40,13 @@ export interface OwnProps {
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const post = getPost(state, ownProps.postId);
-    const currentUserId = getCurrentUserId(state);
     const channelId = post.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
 
     let canDeletePost = false;
     let canEditPost = false;
 
-    if (post && post.user_id === currentUserId) {
+    if (isPostOwner(state, post)) {
         canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
         canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_POST);
     } else {
