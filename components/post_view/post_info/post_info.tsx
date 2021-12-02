@@ -23,6 +23,7 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import {Emoji} from 'mattermost-redux/types/emojis';
+import SharedMessage from '../shared_message/shared_message';
 
 type Props = {
 
@@ -272,6 +273,16 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        const showSharedMessage = hover || isMobile;
+        let sharedMessage;
+        if (showSharedMessage) {
+            sharedMessage = (
+                <SharedMessage
+                    postId={post.id}
+                />
+            );
+        }
+
         return (
             <div
                 ref={this.dotMenuRef}
@@ -281,6 +292,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                 {showRecentReacions}
                 {postReaction}
+                {sharedMessage}
                 {postFlagIcon}
                 {commentIcon}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
