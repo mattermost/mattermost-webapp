@@ -21,17 +21,23 @@ type Props = {
 }
 
 const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props) => {
-    let usedLanguage = language || '';
-    usedLanguage = usedLanguage.toLowerCase();
+    const getUsedLanguage = useCallback(() => {
+        let usedLanguage = language || '';
+        usedLanguage = usedLanguage.toLowerCase();
 
-    if (usedLanguage === 'texcode' || usedLanguage === 'latexcode') {
-        usedLanguage = 'latex';
-    }
+        if (usedLanguage === 'texcode' || usedLanguage === 'latexcode') {
+            usedLanguage = 'latex';
+        }
 
-    // treat html as xml to prevent injection attacks
-    if (usedLanguage === 'html') {
-        usedLanguage = 'xml';
-    }
+        // treat html as xml to prevent injection attacks
+        if (usedLanguage === 'html') {
+            usedLanguage = 'xml';
+        }
+
+        return usedLanguage;
+    }, [language]);
+
+    const usedLanguage = getUsedLanguage();
 
     let className = 'post-code';
     if (!usedLanguage) {
@@ -39,16 +45,13 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
     }
 
     let header: JSX.Element = <></>;
+    let lineNumbers: JSX.Element = <></>;
     if (SyntaxHighlighting.canHighlight(usedLanguage)) {
         header = (
             <span className='post-code__language'>
                 {SyntaxHighlighting.getLanguageName(usedLanguage)}
             </span>
         );
-    }
-
-    let lineNumbers: JSX.Element = <></>;
-    if (SyntaxHighlighting.canHighlight(usedLanguage)) {
         lineNumbers = (
             <div className='post-code__line-numbers'>
                 {SyntaxHighlighting.renderLineNumbers(code)}
