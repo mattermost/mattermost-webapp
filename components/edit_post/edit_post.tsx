@@ -40,7 +40,6 @@ export type Actions = {
     editPost: (input: Partial<Post>) => Promise<Post>;
     unsetEditingPost: () => void;
     openModal: (input: OpenModal) => void;
-    setShowPreview: (newPreview: boolean) => void;
     scrollPostListToBottom: () => void;
 }
 
@@ -56,7 +55,6 @@ export type Props = {
         EnableGifPicker?: string;
     };
     maxPostSize: number;
-    shouldShowPreview: boolean;
     useChannelMentions: boolean;
     editingPost: {
         post?: Post;
@@ -95,7 +93,8 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
     const [renderScrollbar, setRenderScrollbar] = useState<boolean>(false);
 
     const textboxRef = useRef<TextboxClass>(null);
-    const emojiButtonRef = useRef<null>(null);
+    const emojiButtonRef = useRef<HTMLButtonElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const {formatMessage} = useIntl();
 
@@ -103,10 +102,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
     useEffect(() => textboxRef?.current?.focus(), []);
     useEffect(() => {
-        const parentId = `${editingPost.isRHS ? 'rhsPost' : 'post'}_${editingPost.postId}`;
-        const parentElement = document.getElementById(parentId);
-
-        parentElement?.scrollIntoView?.(scrollOptions);
+        setTimeout(() => scrollRef?.current?.scrollIntoView(scrollOptions), 200);
     }, []);
 
     useEffect(() => {
@@ -398,7 +394,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
         defaultMessage: 'Emoji Picker',
     }).toLowerCase();
 
-    if (rest.config.EnableEmojiPicker === 'true' && !rest.shouldShowPreview) {
+    if (rest.config.EnableEmojiPicker === 'true') {
         emojiPicker = (
             <div>
                 <EmojiPickerOverlay
@@ -453,7 +449,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
                 id='edit_textbox'
                 ref={textboxRef}
                 characterLimit={rest.maxPostSize}
-                preview={rest.shouldShowPreview}
                 useChannelMentions={rest.useChannelMentions}
             />
             <div className='post-body__actions'>
@@ -473,6 +468,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
                     <label className={classNames('post-error', errorClass)}>{postError}</label>
                 </div>
             )}
+            <div ref={scrollRef}/>
         </div>
     );
 };
