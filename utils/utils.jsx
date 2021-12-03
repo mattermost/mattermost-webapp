@@ -1304,11 +1304,11 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     return otherUserId;
 }
 
-export function windowWidth() {
+export function windowWidth() { // TODO MM-40473 remove me
     return window.innerWidth;
 }
 
-export function windowHeight() {
+export function windowHeight() { // TODO MM-40473 remove me
     return window.innerHeight;
 }
 
