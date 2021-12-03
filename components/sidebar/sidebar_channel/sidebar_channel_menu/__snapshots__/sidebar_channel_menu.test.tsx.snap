@@ -6,8 +6,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
-  refCallback={[Function]}
   tabIndex={0}
   tooltipText="Channel options"
 >
@@ -411,8 +411,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
-  refCallback={[Function]}
   tabIndex={0}
   tooltipText="Channel options"
 >
@@ -496,8 +496,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
-  refCallback={[Function]}
   tabIndex={0}
   tooltipText="Channel options"
 >
@@ -591,8 +591,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
-  refCallback={[Function]}
   tabIndex={0}
   tooltipText="Channel options"
 >
@@ -699,8 +699,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
-  refCallback={[Function]}
   tabIndex={0}
   tooltipText="Channel options"
 >
@@ -807,8 +807,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
-  refCallback={[Function]}
   tabIndex={0}
   tooltipText="Channel options"
 >
@@ -915,8 +915,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
-  refCallback={[Function]}
   tabIndex={0}
   tooltipText="Channel options"
 >

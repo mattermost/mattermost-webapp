@@ -1621,11 +1621,11 @@ export function importSlack(teamId, file, success, error) {
     Client4.importTeam(teamId, file, 'slack').then(success).catch(error);
 }
 
-export function windowWidth() {
+export function windowWidth() { // TODO MM-40473 remove me
     return window.innerWidth;
 }
 
-export function windowHeight() {
+export function windowHeight() { // TODO MM-40473 remove me
     return window.innerHeight;
 }
 

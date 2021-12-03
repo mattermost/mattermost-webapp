@@ -13,7 +13,6 @@ import Constants from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import SidebarMenu from 'components/sidebar/sidebar_menu';
-import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import {Props as SubmenuItemProps} from 'components/widgets/menu/menu_items/submenu_item';
 
@@ -144,12 +143,10 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         );
     }
 
-    refCallback = (ref: SidebarMenuType) => {
-        if (ref) {
-            this.setState({
-                openUp: ref.state.openUp,
-            });
-        }
+    handleOpenDirectionChange = (openUp: boolean) => {
+        this.setState({
+            openUp,
+        });
     }
 
     onToggleMenu = (open: boolean) => {
@@ -169,12 +166,12 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
 
         return (
             <SidebarMenu
-                refCallback={this.refCallback}
                 id={'SidebarCategorySortingMenu'}
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
                 buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
                 isMenuOpen={isMenuOpen}
                 onToggleMenu={this.onToggleMenu}
+                onOpenDirectionChange={this.handleOpenDirectionChange}
                 tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
                 tabIndex={isCollapsed ? -1 : 0}
                 additionalClass='additionalClass'
