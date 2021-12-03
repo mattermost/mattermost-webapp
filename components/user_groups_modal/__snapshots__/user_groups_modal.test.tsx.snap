@@ -187,21 +187,60 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
             </div>
             <Menu
               ariaLabel="User Actions Menu"
+              className="group-actions-menu"
               openLeft={true}
               openUp={false}
             >
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="View Group"
-              />
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="Join Group"
-              />
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="View Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="Join Group"
+                />
+              </MenuGroup>
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-exit-to-app"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Leave Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-archive-outline"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Archive Group"
+                />
+              </MenuGroup>
             </Menu>
           </MenuWrapper>
         </div>
@@ -258,21 +297,60 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
             </div>
             <Menu
               ariaLabel="User Actions Menu"
+              className="group-actions-menu"
               openLeft={true}
               openUp={false}
             >
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="View Group"
-              />
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="Join Group"
-              />
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="View Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="Join Group"
+                />
+              </MenuGroup>
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-exit-to-app"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Leave Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-archive-outline"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Archive Group"
+                />
+              </MenuGroup>
             </Menu>
           </MenuWrapper>
         </div>
@@ -329,21 +407,60 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
             </div>
             <Menu
               ariaLabel="User Actions Menu"
+              className="group-actions-menu"
               openLeft={true}
               openUp={false}
             >
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="View Group"
-              />
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="Join Group"
-              />
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="View Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="Join Group"
+                />
+              </MenuGroup>
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-exit-to-app"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Leave Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-archive-outline"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Archive Group"
+                />
+              </MenuGroup>
             </Menu>
           </MenuWrapper>
         </div>
@@ -544,21 +661,60 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
             </div>
             <Menu
               ariaLabel="User Actions Menu"
+              className="group-actions-menu"
               openLeft={true}
               openUp={false}
             >
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="View Group"
-              />
-              <MenuItemAction
-                disabled={false}
-                onClick={[Function]}
-                show={true}
-                text="Join Group"
-              />
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="View Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-account-multiple-outline"
+                    />
+                  }
+                  onClick={[Function]}
+                  show={true}
+                  text="Join Group"
+                />
+              </MenuGroup>
+              <MenuGroup>
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-exit-to-app"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Leave Group"
+                />
+                <MenuItemAction
+                  disabled={false}
+                  icon={
+                    <i
+                      className="icon-archive-outline"
+                    />
+                  }
+                  isDangerous={true}
+                  onClick={[Function]}
+                  show={true}
+                  text="Archive Group"
+                />
+              </MenuGroup>
             </Menu>
           </MenuWrapper>
         </div>

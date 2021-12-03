@@ -128,7 +128,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       }
       icon={
         <Icon
-          glyph="information-outline"
+          glyph="account-multiple-outline"
           size={16}
         />
       }
@@ -332,7 +332,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       }
       icon={
         <Icon
-          glyph="information-outline"
+          glyph="account-multiple-outline"
           size={16}
         />
       }
@@ -540,7 +540,7 @@ exports[`components/global/product_switcher_menu should show integrations should
       }
       icon={
         <Icon
-          glyph="information-outline"
+          glyph="account-multiple-outline"
           size={16}
         />
       }
