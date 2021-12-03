@@ -12,6 +12,12 @@ import {RhsViewState} from './rhs';
 
 import {DraggingState} from '.';
 
+export type ModalFilters = {
+    roles?: string[];
+    channel_roles?: string[];
+    team_roles?: string[];
+};
+
 export type ViewsState = {
     admin: {
         navigationBlock: {
@@ -96,11 +102,7 @@ export type ViewsState = {
 
     search: {
         modalSearch: string;
-        modalFilters: {
-            roles?: string[];
-            channel_roles?: string[];
-            team_roles?: string[];
-        };
+        modalFilters: ModalFilters;
         systemUsersSearch: {
             term: string;
             team: string;

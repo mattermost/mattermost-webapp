@@ -43,6 +43,7 @@ export type Menu = {
     action?: (...args: any) => void;
     icon?: React.ReactElement;
     direction?: 'left' | 'right';
+    isHeader?: boolean;
 }
 
 export type PluginComponent = {

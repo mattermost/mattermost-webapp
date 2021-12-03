@@ -9,7 +9,7 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
 
-import type {PluginComponent, ProductComponent, PostPluginComponent, AdminConsolePluginComponent, Menu} from 'types/store/plugins';
+import type {PluginsState, PluginComponent, AdminConsolePluginComponent, Menu} from 'types/store/plugins';
 
 import {ActionTypes} from 'utils/constants';
 
@@ -55,16 +55,7 @@ function sortComponents(a: PluginComponent, b: PluginComponent) {
     return 0;
 }
 
-type ComponentsState = {
-    Product: ProductComponent[];
-    [componentName: string]: PluginComponent[];
-};
-
-type PostTypesState = {
-    [postType: string]: PostPluginComponent;
-};
-
-function removePostPluginComponents(state: PostTypesState, action: GenericAction) {
+function removePostPluginComponents(state: PluginsState['postTypes'], action: GenericAction) {
     if (!action.data) {
         return state;
     }
@@ -86,7 +77,7 @@ function removePostPluginComponents(state: PostTypesState, action: GenericAction
     return state;
 }
 
-function removePostPluginComponent(state: PostTypesState, action: GenericAction) {
+function removePostPluginComponent(state: PluginsState['postTypes'], action: GenericAction) {
     const nextState = {...state};
     const keys = Object.keys(nextState);
     for (let i = 0; i < keys.length; i++) {
@@ -100,7 +91,7 @@ function removePostPluginComponent(state: PostTypesState, action: GenericAction)
     return state;
 }
 
-function removePluginComponents(state: ComponentsState, action: GenericAction) {
+function removePluginComponents(state: PluginsState['components'], action: GenericAction) {
     if (!action.data) {
         return state;
     }
@@ -128,7 +119,7 @@ function removePluginComponents(state: ComponentsState, action: GenericAction) {
     return state;
 }
 
-function removePluginComponent(state: ComponentsState, action: GenericAction) {
+function removePluginComponent(state: PluginsState['components'], action: GenericAction) {
     const types = Object.keys(state);
     for (let i = 0; i < types.length; i++) {
         const componentType = types[i];
@@ -178,7 +169,7 @@ function plugins(state: IDMappedObjects<ClientPluginManifest> = {}, action: Gene
     }
 }
 
-function components(state: ComponentsState = {Product: []}, action: GenericAction) {
+function components(state: PluginsState['components'] = {Product: []}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
@@ -213,7 +204,7 @@ function components(state: ComponentsState = {Product: []}, action: GenericActio
     }
 }
 
-function postTypes(state: PostTypesState = {}, action: GenericAction) {
+function postTypes(state: PluginsState['postTypes'] = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT: {
         if (action.data) {
@@ -240,7 +231,7 @@ function postTypes(state: PostTypesState = {}, action: GenericAction) {
     }
 }
 
-function postCardTypes(state: PostTypesState = {}, action: GenericAction) {
+function postCardTypes(state: PluginsState['postTypes'] = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_POST_CARD_COMPONENT: {
         if (action.data) {
