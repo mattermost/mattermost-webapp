@@ -66,7 +66,7 @@ describe('Mark DM post as Unread ', () => {
         cy.apiLogin(this.mainUser).visit(this.link);
 
         // # Мark the message from user A as unread
-        cy.then(() => markAsUnreadFromMenu(this.unreadFromHere.id));
+        cy.then(() => cy.uiClickPostDropdownMenu(this.unreadFromHere.id, 'Mark as Unread'));
 
         // * Verify that new message separator exists above the unread messages
         cy.then(() => verifyPostNextToNewMessageSeparator(this.unreadFromHere.data.message));
@@ -139,7 +139,7 @@ describe('Mark DM post as Unread ', () => {
         cy.get('@root').its('id').then(cy.clickPostCommentIcon);
 
         // # Мark the message from user A as unread
-        cy.then(() => markAsUnreadFromMenu(this.unreadFromHere.id, 'RHS_COMMENT'));
+        cy.then(() => cy.uiClickPostDropdownMenu(this.unreadFromHere.id, 'Mark as Unread', 'RHS_COMMENT'));
 
         // * Verify that new message separator exists above the unread messages
         cy.then(() => verifyPostNextToNewMessageSeparator(this.unreadFromHere.data.message));
