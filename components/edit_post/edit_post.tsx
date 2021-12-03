@@ -24,7 +24,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Textbox, {TextboxClass} from 'components/textbox';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import {isInternetExplorer, isSafari} from '../../utils/user_agent';
+import {isFirefox} from '../../utils/user_agent';
 
 type OpenModal = {
     ModalId: string;
@@ -82,11 +82,11 @@ const {KeyCodes} = Constants;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
+const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null => {
     const [editText, setEditText] = useState<string>(
         editingPost.post?.message_source || editingPost.post?.message || '',
     );
-    const [caretPosition, setCaretPosition] = useState<number>(0);
+    const [caretPosition, setCaretPosition] = useState<number>(editText.length);
     const [postError, setPostError] = useState<React.ReactNode | null>(null);
     const [errorClass, setErrorClass] = useState<string>('');
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
@@ -98,11 +98,10 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
     const {formatMessage} = useIntl();
 
-    const scrollOptions: boolean|ScrollIntoViewOptions = isInternetExplorer() || isSafari() ? false : {behavior: 'smooth', block: 'end'};
-
     useEffect(() => textboxRef?.current?.focus(), []);
     useEffect(() => {
-        setTimeout(() => scrollRef?.current?.scrollIntoView(scrollOptions), 200);
+        const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth', block: 'end'} : false;
+        setTimeout(() => scrollRef?.current?.scrollIntoView(scrollOptions), 0);
     }, []);
 
     useEffect(() => {
@@ -428,6 +427,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
             className={classNames('post--editing__wrapper', {
                 scroll: renderScrollbar,
             })}
+            ref={scrollRef}
         >
             <Textbox
                 tabIndex={0}
@@ -468,7 +468,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
                     <label className={classNames('post-error', errorClass)}>{postError}</label>
                 </div>
             )}
-            <div ref={scrollRef}/>
         </div>
     );
 };
