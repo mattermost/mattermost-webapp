@@ -346,7 +346,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should not show last active section', () => {
         const wrapper = shallow(
-            <UserSettingsDisplay 
+            <UserSettingsDisplay
                 {...requiredProps}
                 lastActiveTimeEnabled={false}
             />,
