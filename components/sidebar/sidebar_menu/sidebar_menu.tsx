@@ -19,8 +19,8 @@ type Props = {
     tooltipText: string;
     buttonAriaLabel: string;
     ariaLabel: string;
-    refCallback?: (ref: SidebarMenu) => void;
     isMenuOpen: boolean;
+    onOpenDirectionChange: (openUp: boolean) => void;
     onToggleMenu: (open: boolean) => void;
     draggingState: DraggingState;
     tabIndex?: number;
@@ -29,7 +29,6 @@ type Props = {
 
 type State = {
     openUp: boolean;
-    width: number;
 };
 
 export default class SidebarMenu extends React.PureComponent<Props, State> {
@@ -42,7 +41,6 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             openUp: false,
-            width: 0,
         };
 
         this.menuWrapperRef = React.createRef();
@@ -77,33 +75,35 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
     }
 
     refCallback = (ref: Menu) => {
-        if (ref) {
-            this.menuRef = ref;
-
-            const rect = ref.rect();
-            const buttonRect = this.menuButtonRef.current?.getBoundingClientRect();
-            const y = typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y;
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y || 0;
-            const spaceOnBottom = totalSpace - spaceOnTop;
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-                width: rect?.width || 0,
-            }, () => {
-                if (this.props.refCallback) {
-                    this.props.refCallback(this);
-                }
-            });
-        }
+        this.menuRef = ref;
     }
 
     setMenuPosition = () => {
-        if (this.menuButtonRef.current && this.menuRef) {
+        if (!this.menuButtonRef.current) {
+            return;
+        }
+
+        const buttonRect = this.menuButtonRef.current?.getBoundingClientRect();
+        const y = typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y;
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+        const spaceOnTop = y || 0;
+        const spaceOnBottom = totalSpace - spaceOnTop;
+
+        const openUp = spaceOnTop > spaceOnBottom;
+
+        if (this.state.openUp !== openUp) {
+            this.setState({
+                openUp,
+            });
+
+            this.props.onOpenDirectionChange(openUp);
+        }
+
+        if (this.menuRef) {
             const menuRef = this.menuRef.node.current?.parentElement as HTMLDivElement;
-            const openUpOffset = this.state.openUp ? -this.menuButtonRef.current.getBoundingClientRect().height : 0;
+            const openUpOffset = openUp ? -this.menuButtonRef.current.getBoundingClientRect().height : 0;
             menuRef.style.top = `${window.scrollY + this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight + openUpOffset}px`;
         }
     }
