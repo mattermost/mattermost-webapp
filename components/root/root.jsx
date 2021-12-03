@@ -96,11 +96,6 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
-const desktopMediaQuery = window.matchMedia(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
-const smallDesktopMediaQuery = window.matchMedia(`(min-width: ${Constants.TABLET_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.DESKTOP_SCREEN_WIDTH}px)`);
-const tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
-const mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
-
 export default class Root extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object,
@@ -159,6 +154,11 @@ export default class Root extends React.PureComponent {
         }
 
         // set initial window size state
+        this.desktopMediaQuery = window.matchMedia(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
+        this.smallDesktopMediaQuery = window.matchMedia(`(min-width: ${Constants.TABLET_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.DESKTOP_SCREEN_WIDTH}px)`);
+        this.tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
+        this.mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
+
         this.updateWindowSize();
 
         store.subscribe(() => applyLuxonDefaults(store.getState()));
@@ -271,16 +271,16 @@ export default class Root extends React.PureComponent {
         });
         trackLoadTime();
 
-        if (desktopMediaQuery.addEventListener) {
-            desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-            smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-            tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-            mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
-        } else if (desktopMediaQuery.addListener) {
-            desktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
-            smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
-            tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
-            mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+        if (this.desktopMediaQuery.addEventListener) {
+            this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.addListener) {
+            this.desktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
         } else {
             window.addEventListener('resize', this.handleWindowResizeEvent);
         }
@@ -290,16 +290,16 @@ export default class Root extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
 
-        if (desktopMediaQuery.removeEventListener) {
-            desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-            smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-            tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-            mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
-        } else if (desktopMediaQuery.removeListener) {
-            desktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
-            smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
-            tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
-            mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+        if (this.desktopMediaQuery.removeEventListener) {
+            this.desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.removeListener) {
+            this.desktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
         } else {
             window.removeEventListener('resize', this.handleWindowResizeEvent);
         }
@@ -342,16 +342,16 @@ export default class Root extends React.PureComponent {
 
     updateWindowSize = () => {
         switch (true) {
-        case desktopMediaQuery.matches:
+        case this.desktopMediaQuery.matches:
             this.props.actions.emitBrowserWindowResized(WindowSizes.DESKTOP_VIEW);
             break;
-        case smallDesktopMediaQuery.matches:
+        case this.smallDesktopMediaQuery.matches:
             this.props.actions.emitBrowserWindowResized(WindowSizes.SMALL_DESKTOP_VIEW);
             break;
-        case tabletMediaQuery.matches:
+        case this.tabletMediaQuery.matches:
             this.props.actions.emitBrowserWindowResized(WindowSizes.TABLET_VIEW);
             break;
-        case mobileMediaQuery.matches:
+        case this.mobileMediaQuery.matches:
             this.props.actions.emitBrowserWindowResized(WindowSizes.MOBILE_VIEW);
             break;
         }
