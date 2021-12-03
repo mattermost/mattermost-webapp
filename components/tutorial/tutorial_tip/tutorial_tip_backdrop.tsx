@@ -3,9 +3,11 @@
 
 import styled, {css} from 'styled-components';
 
-export type TutorialTipPunchout = {
+export type Coords = {
     x?: string;
     y?: string;
+}
+export type TutorialTipPunchout = Coords & {
     width?: string;
     height?: string;
 }
