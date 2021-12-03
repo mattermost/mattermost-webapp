@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentChannel, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getChannelsInCurrentTeam, getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getInviteToTeamTreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
@@ -47,6 +47,9 @@ export function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const license = getLicense(state);
     const channels = getChannelsInCurrentTeam(state);
+    const channelsByName = getChannelsNameMapInCurrentTeam(state);
+    const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || Constants.DEFAULT_CHANNEL_UI_NAME;
+
     const currentTeam = getCurrentTeam(state);
     const currentChannel = getCurrentChannel(state);
     const subscriptionStats = getSubscriptionStats(state);
@@ -69,6 +72,7 @@ export function mapStateToProps(state: GlobalState) {
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
     const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.NONE;
+
     return {
         invitableChannels,
         currentTeam,
@@ -81,8 +85,9 @@ export function mapStateToProps(state: GlobalState) {
         isAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
         inviteToTeamTreatment,
-        currentChannelName: currentChannel.display_name,
+        currentChannel,
         subscriptionStats,
+        townSquareDisplayName,
     };
 }
 

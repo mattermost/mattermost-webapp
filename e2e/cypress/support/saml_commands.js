@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import {stubClipboard} from '../utils';
 
 Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
     if (settings.user.userType === 'Guest' || settings.user.isGuest) {
@@ -35,15 +36,14 @@ Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
     // # Open team menu and click 'Invite People'
     cy.uiOpenTeamMenu('Invite People');
 
+    stubClipboard().as('clipboard');
     cy.checkInvitePeoplePage();
-    cy.findByTestId('shareLinkInput').
-        should('be.visible').
-        invoke('val').
-        then((text) => {
-            // # Close Invite People modal
-            cy.uiClose();
-            return cy.wrap(text);
-        });
+    cy.findByTestId('InviteView__copyInviteLink').click();
+    cy.get('@clipboard').its('contents').then((text) => {
+        // # Close Invite People modal
+        cy.uiClose();
+        return cy.wrap(text);
+    });
 });
 
 Cypress.Commands.add('setTestSettings', (loginButtonText, config) => {

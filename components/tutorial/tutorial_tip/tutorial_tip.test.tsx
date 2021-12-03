@@ -19,6 +19,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         actions: {
             closeRhsMenu: jest.fn(),
             savePreferences: jest.fn(),
+            setFirstChannelName: jest.fn(),
         },
         screens: [<></>, <></>, <></>],
         placement: 'right',
@@ -32,8 +33,9 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
     test('should not call both closeRhsMenu and savePreferences', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
+        const setFirstChannelName = jest.fn();
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
@@ -50,8 +52,9 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
     test('should have called both closeRhsMenu and savePreferences', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
+        const setFirstChannelName = jest.fn();
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
@@ -89,11 +92,12 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
     test('should have called both closeRhsMenu and savePreferences when skipTutorial', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
+        const setFirstChannelName = jest.fn();
         const mockEvent = {
             preventDefault: jest.fn(),
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );

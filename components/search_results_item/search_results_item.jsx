@@ -27,6 +27,7 @@ import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -115,6 +116,8 @@ export default class SearchResultsItem extends React.PureComponent {
          * Is this a post that we can directly reply to?
          */
         canReply: PropTypes.bool,
+
+        isCollapsedThreadsEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -199,10 +202,33 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     getChannelName = () => {
-        const {channelType} = this.props;
+        const {post, channelType, isCollapsedThreadsEnabled} = this.props;
         let {channelName} = this.props;
 
-        if (channelType === Constants.DM_CHANNEL) {
+        const isDirectMessage = channelType === Constants.DM_CHANNEL;
+        const isPartOfThread = isCollapsedThreadsEnabled && (post.reply_count > 0 || post.is_following);
+
+        if (isDirectMessage && isPartOfThread) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.thread_direct'
+                    defaultMessage='Thread in Direct Message with {username}'
+                    values={{
+                        username: this.props.displayName,
+                    }}
+                />
+            );
+        } else if (isPartOfThread) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.thread'
+                    defaultMessage='Thread in {channel}'
+                    values={{
+                        channel: channelName,
+                    }}
+                />
+            );
+        } else if (isDirectMessage) {
             channelName = (
                 <FormattedMessage
                     id='search_item.direct'
@@ -256,6 +282,8 @@ export default class SearchResultsItem extends React.PureComponent {
                 />
             );
         }
+
+        const hasCRTFooter = this.props.isCollapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
 
         let message;
         let flagContent;
@@ -322,7 +350,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         isReadOnly={channelIsArchived || null}
                     />
                     {flagContent}
-                    {canReply &&
+                    {canReply && !hasCRTFooter &&
                         <CommentIcon
                             location={Locations.SEARCH}
                             handleCommentClick={this.handleFocusRHSClick}
@@ -437,6 +465,12 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {fileAttachment}
                                 </div>
                             </div>
+                            {hasCRTFooter ? (
+                                <ThreadFooter
+                                    threadId={post.id}
+                                    replyClick={this.handleFocusRHSClick}
+                                />
+                            ) : null}
                         </div>
                     </div>
                 </PostAriaLabelDiv>

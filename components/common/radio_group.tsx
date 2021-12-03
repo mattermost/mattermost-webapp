@@ -7,7 +7,7 @@ import Badge from 'components/widgets/badges/badge';
 
 type RadioGroupProps = {
     id: string;
-    values: Array<{ key: React.ReactNode | React.ReactNodeArray; value: string}>;
+    values: Array<{ key: React.ReactNode | React.ReactNodeArray; value: string; testId?: string}>;
     value: string;
     badge?: {matchVal: string; text: ReactNode};
     sideLegend?: {matchVal: string; text: ReactNode};
@@ -28,8 +28,12 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
     };
 
     const options = [];
-    for (const {value: val, key} of values) {
+    for (const {value: val, key, testId} of values) {
         const disabled = isDisabled ? isDisabled(val) : false;
+        const moreProps: {'data-testid'?: string} = {};
+        if (testId) {
+            moreProps['data-testid'] = testId;
+        }
         options.push(
             <div
                 className='radio'
@@ -43,6 +47,7 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
                         checked={val === value}
                         onChange={handleChange}
                         disabled={disabled}
+                        {...moreProps}
                     />
                     {key}
                     {(sideLegend && val === sideLegend?.matchVal) &&

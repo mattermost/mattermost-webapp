@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {RecommendedNextSteps} from 'utils/constants';
+
 import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
-//
 describe('components/next_steps_view/steps', () => {
     test('should show next steps', () => {
         const cloudState = {
@@ -171,5 +172,41 @@ describe('components/next_steps_view/steps', () => {
             },
         };
         expect(getSteps(state as any)).toHaveLength(4);
+    });
+
+    test('should show the create first channel step if exposed to CreateFirstChannel treatment', () => {
+        const state = {
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagGuidedChannelCreation: 'true',
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin'},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.CREATE_FIRST_CHANNEL)).toBe(true);
+    });
+    test('should not show the create first channel step if feature flag missing', () => {
+        const state = {
+            entities: {
+                general: {
+                    config: {
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: ''},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.CREATE_FIRST_CHANNEL)).toBe(false);
     });
 });

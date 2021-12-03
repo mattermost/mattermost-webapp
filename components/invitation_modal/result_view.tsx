@@ -44,7 +44,7 @@ export default function ResultView(props: Props) {
     return (
         <>
             <Modal.Header className={props.headerClass}>
-                <h1>
+                <h1 id='invitation_modal_title'>
                     <FormattedMessage
                         id='invite_modal.invited'
                         defaultMessage='{inviteType} invited to {team_name}'

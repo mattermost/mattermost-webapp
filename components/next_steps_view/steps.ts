@@ -5,7 +5,10 @@ import React from 'react';
 
 import {createSelector} from 'reselect';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    makeGetCategory,
+    getCreateGuidedChannel,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
@@ -21,10 +24,11 @@ const InviteMembersStep = makeAsyncComponent('InviteMembersStep', React.lazy(() 
 const TeamProfileStep = makeAsyncComponent('TeamProfileStep', React.lazy(() => import('./steps/team_profile_step')));
 const EnableNotificationsStep = makeAsyncComponent('EnableNotificationsStep', React.lazy(() => import('./steps/enable_notifications_step/enable_notifications_step')));
 const DownloadAppsStep = makeAsyncComponent('DownloadAppsStep', React.lazy(() => import('./steps/download_apps_step/download_apps_step')));
+const CreateFirstChannelStep = makeAsyncComponent('CreateFirstChannelStep', React.lazy(() => import('./steps/create_first_channel_step/create_first_channel_step')));
 
 import {isStepForUser} from './step_helpers';
 
-type StepFinishButtonText = {
+type CompleteStepButtonText = {
     id: string;
     defaultMessage: string;
 };
@@ -40,7 +44,7 @@ export type StepComponentProps = {
     // isLastStep is passed to every step component to inform it of it's position. A check can then be made within the component to display certain text
     // depending on the value of isLastStep. For example, we can display 'Finish' as the text of the finish button if this prop is true.
     isLastStep: boolean;
-    finishButtonText: StepFinishButtonText;
+    completeStepButtonText: CompleteStepButtonText;
 }
 export type StepType = {
     id: string;
@@ -50,7 +54,7 @@ export type StepType = {
     };
     component: React.ComponentType<StepComponentProps | StepComponentProps & {isFirstAdmin: boolean}>;
     visible: boolean;
-    finishButtonText: StepFinishButtonText;
+    completeStepButtonText: CompleteStepButtonText;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
     // so you would require ['system_admin','system_user'] to match.
@@ -69,7 +73,7 @@ export const Steps: StepType[] = [
         component: CompleteProfileStep,
         roles: [],
         visible: true,
-        finishButtonText: {
+        completeStepButtonText: {
             id: t('next_steps_view.complete_profile_step.saveProfile'),
             defaultMessage: 'Save profile',
         },
@@ -83,7 +87,7 @@ export const Steps: StepType[] = [
         roles: ['first_admin'],
         component: TeamProfileStep,
         visible: true,
-        finishButtonText: {
+        completeStepButtonText: {
             id: t('next_steps_view.team_profile_step.saveTeam'),
             defaultMessage: 'Save team',
         },
@@ -97,7 +101,7 @@ export const Steps: StepType[] = [
         roles: ['system_user'],
         component: EnableNotificationsStep,
         visible: true,
-        finishButtonText: {
+        completeStepButtonText: {
             id: t('next_steps_view.notificationSetup.setNotifications'),
             defaultMessage: 'Set up notifications',
         },
@@ -111,7 +115,7 @@ export const Steps: StepType[] = [
         roles: ['system_user'],
         component: SetupPreferencesStep,
         visible: false,
-        finishButtonText: {
+        completeStepButtonText: {
             id: t('next_steps_view.preferenceSetup.setPreferences'),
             defaultMessage: 'Set Preferences',
         },
@@ -125,7 +129,7 @@ export const Steps: StepType[] = [
         roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
         visible: true,
-        finishButtonText: {
+        completeStepButtonText: {
             id: t('next_steps_view.next'),
             defaultMessage: 'Next step',
         },
@@ -139,9 +143,23 @@ export const Steps: StepType[] = [
         roles: [],
         component: DownloadAppsStep,
         visible: true,
-        finishButtonText: {
+        completeStepButtonText: {
             id: t('next_steps_view.next'),
             defaultMessage: 'Next step',
+        },
+    },
+    {
+        id: RecommendedNextSteps.CREATE_FIRST_CHANNEL,
+        title: {
+            titleId: t('next_steps_view.titles.createChannel'),
+            titleMessage: 'Create your first channel',
+        },
+        roles: ['system_admin'],
+        component: CreateFirstChannelStep,
+        visible: true,
+        completeStepButtonText: {
+            id: t('first_channel.createNew'),
+            defaultMessage: 'Create Channel',
         },
     },
 ];
@@ -166,14 +184,24 @@ export const isFirstAdmin = createSelector(
     },
 );
 
+// filter the steps depending on the feature flag value
+function filterStepBasedOnFFVal(step: StepType, enableStep: boolean, stepId: string): boolean {
+    if (step.id !== stepId) {
+        return true;
+    }
+    return enableStep;
+}
+
 export const getSteps = createSelector(
     'getSteps',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (currentUser, firstAdmin) => {
+    (state: GlobalState) => getCreateGuidedChannel(state),
+    (currentUser, firstAdmin, guidedFirstChannel) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
-            isStepForUser(step, roles) && step.visible,
+            isStepForUser(step, roles) &&
+                step.visible && filterStepBasedOnFFVal(step, guidedFirstChannel, RecommendedNextSteps.CREATE_FIRST_CHANNEL),
         );
     },
 );
