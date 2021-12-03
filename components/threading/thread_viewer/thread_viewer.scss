@@ -34,4 +34,11 @@
     > div {
         flex: 1 1 auto;
     }
+
+    .rhs__post--list {
+        > div:last-child {
+            position: sticky !important;
+            bottom: 0;
+        }
+    }
 }

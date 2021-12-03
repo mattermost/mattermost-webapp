@@ -239,6 +239,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         if (this.state.isMobile) {
             this.updateFloatingTimestamp(visibleStartIndex);
         }
+        this.innerRef.current?.classList?.add('rhs__post--list');
         this.setState({
             visibleStartIndex,
             visibleStopIndex,
