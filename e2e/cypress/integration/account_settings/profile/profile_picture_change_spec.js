@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// Group: @account_setting
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings', () => {
