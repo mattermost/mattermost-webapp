@@ -139,30 +139,36 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         }
     }
 
-    refCallback = (menuRef: Menu) => {
-        if (menuRef) {
-            const anchorRect = this.buttonRef.current?.getBoundingClientRect();
-            let y;
-            if (typeof anchorRect?.y === 'undefined') {
-                y = typeof anchorRect?.top === 'undefined' ? 0 : anchorRect?.top;
-            } else {
-                y = anchorRect?.y;
-            }
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - 80;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-            });
-        }
-    }
-
     private handleDropdownOpened = (open: boolean) => {
         this.props.handleFileDropdownOpened?.(open);
         this.setState({keepOpen: open});
+
+        if (open) {
+            this.setMenuPosition();
+        }
+    }
+
+    private setMenuPosition = () => {
+        if (!this.buttonRef.current) {
+            return;
+        }
+
+        const anchorRect = this.buttonRef.current?.getBoundingClientRect();
+        let y;
+        if (typeof anchorRect?.y === 'undefined') {
+            y = typeof anchorRect?.top === 'undefined' ? 0 : anchorRect?.top;
+        } else {
+            y = anchorRect?.y;
+        }
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - 80;
+        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+        this.setState({
+            openUp: (spaceOnTop > spaceOnBottom),
+        });
     }
 
     handleGetPublicLink = () => {
@@ -247,7 +253,6 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                     ariaLabel={'file menu'}
                     openLeft={true}
                     openUp={this.state.openUp}
-                    ref={this.refCallback}
                 >
                     {defaultItems}
                     {divider}
