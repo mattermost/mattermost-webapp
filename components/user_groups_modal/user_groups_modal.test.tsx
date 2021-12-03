@@ -22,6 +22,9 @@ describe('component/user_groups_modal', () => {
             setModalSearchTerm: jest.fn(),
             getGroupsByUserIdPaginated: jest.fn(),
             searchGroups: jest.fn(),
+            addUsersToGroup: jest.fn(),
+            removeUsersFromGroup: jest.fn(),
+            archiveGroup: jest.fn(),
         },
     };
 
