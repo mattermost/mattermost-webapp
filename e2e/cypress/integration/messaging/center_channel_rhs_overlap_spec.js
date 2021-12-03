@@ -112,14 +112,14 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(message2).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
-            // * Edit post modal is still visible after typing ENTER
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input is still visible after typing ENTER
+            cy.get('#edit_textbox').should('be.visible');
 
             // [4] Press CTRL+ENTER
             cy.typeCmdOrCtrlForEdit().type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -145,14 +145,14 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(messageWithCodeblock1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
-            // * Edit post modal is still visible after typing ENTER
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input is still visible after typing ENTER
+            cy.get('#edit_textbox').should('be.visible');
 
             // [8] Press CTRL+ENTER
             cy.typeCmdOrCtrlForEdit().type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -178,14 +178,14 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(messageWithCodeblockIncomplete2).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
-            // * Edit post modal is still visible after typing ENTER
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input is still visible after typing ENTER
+            cy.get('#edit_textbox').should('be.visible');
 
             // [12] Press CTRL+ENTER
             cy.typeCmdOrCtrlForEdit().type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -214,14 +214,14 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(`${messageWithCodeblockIncomplete3}{leftArrow}{leftArrow}{leftArrow}{enter}`).wait(TIMEOUTS.HALF_SEC);
 
-            // * Edit post modal is still visible after typing ENTER
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input is still visible after typing ENTER
+            cy.get('#edit_textbox').should('be.visible');
 
             // [16] Press CTRL+ENTER
             // * Post message again (previous one is broken)
@@ -251,8 +251,8 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(message2).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -276,8 +276,8 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(messageWithCodeblock1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -309,14 +309,14 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(messageWithCodeblockIncomplete2).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
-            // * Edit post modal is still visible after typing ENTER
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input is still visible after typing ENTER
+            cy.get('#edit_textbox').should('be.visible');
 
             // [24] Press CTRL+ENTER
             cy.typeCmdOrCtrlForEdit().type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -350,15 +350,15 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(`${messageWithCodeblockIncomplete3}{leftArrow}{leftArrow}{leftArrow}`).wait(TIMEOUTS.HALF_SEC);
             cy.get('#edit_textbox').type('{enter}');
 
-            // * Edit post modal is still visible after typing ENTER
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input is still visible after typing ENTER
+            cy.get('#edit_textbox').should('be.visible');
 
             // [28] Press CTRL+ENTER
             // * Post message again (previous one is broken)
@@ -390,8 +390,8 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(message2).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -415,8 +415,8 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(messageWithCodeblock1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -440,8 +440,8 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(messageWithCodeblockIncomplete2).wait(TIMEOUTS.HALF_SEC);
@@ -466,8 +466,8 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').type(`${messageWithCodeblockIncomplete3}{leftArrow}{leftArrow}{leftArrow}`).wait(TIMEOUTS.HALF_SEC);
@@ -491,10 +491,10 @@ describe('Messaging', () => {
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
-            cy.get('#editPostModal').should('be.visible');
+            cy.get('#edit_textbox').should('be.visible');
 
-            // * Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            // * Close the input
+            cy.get('#edit_textbox').type('{enter}');
 
             // # Verify that last post does not contain "Edited"
             cy.get(`#postMessageText_${postId}`).should('contain', message1).and('not.contain', 'Edited');
@@ -514,7 +514,7 @@ describe('Messaging', () => {
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
-            cy.get('#editPostModal').should('be.visible');
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the message
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(message2).wait(TIMEOUTS.HALF_SEC);
@@ -558,7 +558,7 @@ describe('Messaging', () => {
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
-            cy.get('#editPostModal').should('be.visible');
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the message
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(message2).wait(TIMEOUTS.HALF_SEC);
@@ -598,13 +598,13 @@ describe('Messaging', () => {
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
-            cy.get('#editPostModal').should('be.visible');
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the message
             cy.get('#edit_textbox', {timeout: TIMEOUTS.HALF_SEC}).invoke('val', '').type(numberedListTextPart1Prefix + numberedListTextPart1).type('{shift}{enter}').type(numberedListTextPart2Prefix + numberedListTextPart2).wait(TIMEOUTS.HALF_SEC);
 
             // * Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
 
         // # Ensure the list and two bullets have been rendered
@@ -629,13 +629,13 @@ describe('Messaging', () => {
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
-            cy.get('#editPostModal').should('be.visible');
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the message
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(updateMessageText).wait(TIMEOUTS.HALF_SEC);
 
             // * Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
 
         cy.getLastPostId().then((postId) => {
@@ -657,14 +657,14 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).invoke('val', '').type(message2).wait(TIMEOUTS.HALF_SEC);
 
             // * Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
 
         cy.getLastPostId().then((postId) => {
@@ -685,14 +685,14 @@ describe('Messaging', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(message2).wait(TIMEOUTS.HALF_SEC);
 
-            // * Close the edit post modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            // * Close the Edit Post Input
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
 
         // # Login as another user
@@ -731,8 +731,8 @@ describe('Messaging', () => {
                 cy.findByText('Edit').click();
             });
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Update the post message and type ENTER
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).invoke('val', '').type(message2).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -765,8 +765,8 @@ describe('Messaging', () => {
             // # Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // # Check that a scrollbar exists
             cy.get('.textarea-wrapper.scroll').should('be.visible');
@@ -775,7 +775,7 @@ describe('Messaging', () => {
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(' test').wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
 
         // # Verify tha the updated post contains 'Edited'
@@ -796,8 +796,8 @@ describe('Messaging', () => {
             // # Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // # Mention first two letters of sysadmin user name
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(' @sy').wait(TIMEOUTS.HALF_SEC);
@@ -808,7 +808,7 @@ describe('Messaging', () => {
             });
 
             // # Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
     });
 
@@ -836,14 +836,14 @@ describe('Messaging', () => {
             // # Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // # Mention first two letters of sysadmin user name
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(' test').wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
     });
 });

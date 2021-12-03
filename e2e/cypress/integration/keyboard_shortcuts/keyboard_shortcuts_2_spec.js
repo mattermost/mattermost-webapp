@@ -124,8 +124,8 @@ describe('Keyboard Shortcuts', () => {
         cy.getLastPostId().then(() => {
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Edit to the post message and type ENTER
             cy.get('#edit_textbox').invoke('val', '').clear().type(editMessage).type('{enter}').wait(TIMEOUTS.HALF_SEC);

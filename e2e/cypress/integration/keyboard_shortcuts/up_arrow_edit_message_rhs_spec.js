@@ -33,8 +33,8 @@ describe('Keyboard Shortcuts', () => {
             // # Press up arrow key
             cy.get('body').type('{uparrow}');
 
-            // * Verify that the Edit Post Modal is visible
-            cy.get('#editPostModal').should('be.visible');
+            // * Verify that the Edit Post Input is visible
+            cy.get('#edit_textbox').should('be.visible');
 
             // * Verify that edit box have value of edited message
             cy.get('#edit_textbox').should('have.value', replyMessage);

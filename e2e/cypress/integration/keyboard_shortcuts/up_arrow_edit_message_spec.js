@@ -53,10 +53,10 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').type('{uparrow}');
 
         // * Verify that Edit modal should not be visible
-        cy.get('#editPostModal').should('not.exist');
+        cy.get('#edit_textbox').should('not.exist');
     });
 
-    it('MM-T1236 Arrow up key - Edit modal open up for own message of a user', () => {
+    it('MM-T1236 Arrow up key - Edit Input opens up for own message of a user', () => {
         const message1 = 'Test message from User 1';
         const message2 = 'Test message from User 2';
 
@@ -84,8 +84,8 @@ describe('Keyboard Shortcuts', () => {
         // # Press UP arrow
         cy.get('#post_textbox').type('{uparrow}');
 
-        // * Verify that the Edit Post Modal is visible
-        cy.get('#editPostModal').should('be.visible');
+        // * Verify that the Edit Post Input is visible
+        cy.get('#edit_textbox').should('be.visible');
 
         // * Verify that the Edit textbox contains previously sent message by user 1
         cy.get('#edit_textbox').should('have.text', message1);
@@ -267,8 +267,8 @@ describe('Keyboard Shortcuts', () => {
         // # Press up arrow key
         cy.get('body').type('{uparrow}');
 
-        // * Verify that the Edit Post Modal is visible
-        cy.get('#editPostModal').should('be.visible');
+        // * Verify that the Edit Post Input is visible
+        cy.get('#edit_textbox').should('be.visible');
 
         // * Verify that edit box have value of previous regular message
         cy.get('#edit_textbox').should('have.value', message);
