@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -48,12 +48,17 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     case LicenseSkus.Professional:
         skuName = 'Professional';
         break;
+    case LicenseSkus.Starter:
+        skuName = 'Starter';
+        break;
     default:
         skuName = 'Enterprise';
         break;
     }
 
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
+
+    skuName += license.IsGovSku === 'true' ? ' Gov' : '';
 
     return (
         <div className='EnterpriseEditionLeftPanel'>
@@ -132,7 +137,7 @@ const renderLicenseContent = (
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
-    const sku = license.SkuShortName ? <>{`Mattermost ${skuName}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
+    const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
     const licenseValues = [
         {legend: 'START DATE:', value: startsAt},

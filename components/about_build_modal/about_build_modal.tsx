@@ -159,7 +159,7 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
             >
                 <FormattedMessage
                     id='about.tos'
-                    defaultMessage='Terms of Service'
+                    defaultMessage='Terms of Use'
                 />
             </a>
         );
