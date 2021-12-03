@@ -271,27 +271,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: Menu) => {
-        if (menuRef) {
-            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-            let y;
-            if (typeof buttonRect?.y === 'undefined') {
-                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
-            } else {
-                y = buttonRect?.y;
-            }
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-            });
-        }
-    }
-
     renderDivider = (suffix: string) => {
         return (
             <li
@@ -358,6 +337,31 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
+    handleDropdownOpened = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
+
+        if (!open) {
+            return;
+        }
+
+        const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+        let y;
+        if (typeof buttonRect?.y === 'undefined') {
+            y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+        } else {
+            y = buttonRect?.y;
+        }
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+        this.setState({
+            openUp: (spaceOnTop > spaceOnBottom),
+        });
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -417,7 +421,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
 
         return (
-            <MenuWrapper onToggle={this.props.handleDropdownOpened}>
+            <MenuWrapper onToggle={this.handleDropdownOpened}>
                 <OverlayTrigger
                     className='hidden-xs'
                     delayShow={500}
@@ -442,7 +446,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
-                    ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <Menu.ItemAction
