@@ -100,7 +100,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
     useEffect(() => textboxRef?.current?.focus(), []);
     useEffect(() => {
-        const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth', block: 'end'} : false;
+        const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth'} : false;
         setTimeout(() => scrollRef?.current?.scrollIntoView(scrollOptions), 0);
     }, []);
 

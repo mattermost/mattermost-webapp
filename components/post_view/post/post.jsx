@@ -337,10 +337,12 @@ export default class Post extends React.PureComponent {
     }
 
     handleA11yActivateEvent = () => {
-        this.setState({
-            a11yActive: true,
-            ariaHidden: false,
-        });
+        if (!this.props.isBeingEdited) {
+            this.setState({
+                a11yActive: true,
+                ariaHidden: false,
+            });
+        }
     }
 
     handleA11yDeactivateEvent = () => {
