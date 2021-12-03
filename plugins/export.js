@@ -14,6 +14,7 @@ import ChannelMembersModal from 'components/channel_members_modal';
 import PurchaseModal from 'components/purchase_modal';
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import Textbox from './textbox';
 
@@ -29,7 +30,6 @@ window.ReactRedux = require('react-redux');
 window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
-window.PDFJS = require('pdfjs-dist');
 window.Luxon = require('luxon');
 
 // Functions exposed on window for plugins to use.
@@ -51,4 +51,5 @@ window.Components = {
     ChannelMembersModal,
     Avatar,
     imageURLForUser,
+    BotBadge,
 };

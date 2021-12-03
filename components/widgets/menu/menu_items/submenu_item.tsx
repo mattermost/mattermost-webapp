@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
 
+import type {Menu} from 'types/store/plugins';
+
 import './menu_item.scss';
 import Constants from 'utils/constants';
 
@@ -37,7 +39,7 @@ export type Props = {
     text: React.ReactNode;
     selectedValueText?: React.ReactNode;
     renderSelected?: boolean;
-    subMenu?: Props[];
+    subMenu?: Menu[];
     subMenuClass?: string;
     icon?: React.ReactNode;
     action?: (id?: string) => void;
@@ -50,6 +52,7 @@ export type Props = {
     styleSelectableItem?: boolean;
     extraText?: string;
     rightDecorator?: React.ReactNode;
+    isHeader?: boolean;
 }
 
 type State = {
@@ -85,8 +88,12 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
 
     private onClick = (event: React.SyntheticEvent<HTMLElement>) => {
         event.preventDefault();
-        const {id, postId, subMenu, action, root} = this.props;
+        const {id, postId, subMenu, action, root, isHeader} = this.props;
         const isMobile = Utils.isMobile();
+        if (isHeader) {
+            event.stopPropagation();
+            return;
+        }
         if (isMobile) {
             if (subMenu && subMenu.length) { // if contains a submenu, call openModal with it
                 if (!root) { //required to close only the original menu
@@ -185,6 +192,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                     ariaLabel={ariaLabel}
                                     root={false}
                                     direction={s.direction}
+                                    isHeader={s.isHeader}
                                 />
                                 {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
                                     <i className='icon-check'/>
@@ -202,6 +210,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 role='menuitem'
                 id={id + '_menuitem'}
                 ref={this.node}
+                onClick={this.onClick}
             >
                 <div
                     className={classNames([{styleSelectableItemDiv: styleSelectableItem}])}

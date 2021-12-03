@@ -120,6 +120,9 @@ export const Preferences = {
 
     // Category for actions/interactions that will happen just once
     UNIQUE: 'unique',
+
+    // A/B test preference value
+    AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -259,6 +262,8 @@ export const ActionTypes = keyMirror({
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
+
+    FIRST_CHANNEL_NAME: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -465,6 +470,7 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
+    ADD_FIRST_CHANNEL: -1,
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
@@ -486,6 +492,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     DOWNLOAD_APPS: 'download_apps',
+    CREATE_FIRST_CHANNEL: 'create_first_channel',
     HIDE: 'hide',
     SKIP: 'skip',
 };

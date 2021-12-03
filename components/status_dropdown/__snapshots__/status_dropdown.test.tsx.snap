@@ -101,6 +101,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
@@ -364,6 +365,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
@@ -611,6 +613,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
@@ -858,6 +861,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
@@ -1106,6 +1110,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
@@ -1330,6 +1335,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
@@ -1550,6 +1556,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
