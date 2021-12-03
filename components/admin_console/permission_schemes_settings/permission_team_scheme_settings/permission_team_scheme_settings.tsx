@@ -753,9 +753,9 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                             open={this.state.openRoles.playbook_admin}
                             onToggle={() => this.toggleRole('playbook_admin')}
                             titleId={t('admin.permissions.systemScheme.playbookAdmin')}
-                            titleDefault='Playbook Admin'
+                            titleDefault='Playbook Administrator'
                             subtitleId={t('admin.permissions.systemScheme.playbookAdminSubtitle')}
-                            subtitleDefault='Permissions granted to administrators of a Playbook'
+                            subtitleDefault='Permissions granted to administrators of a playbook.'
                             isDisabled={this.props.isDisabled}
                         >
                             <PermissionsTreePlaybooks
