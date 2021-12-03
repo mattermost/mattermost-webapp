@@ -3,9 +3,13 @@
 
 import {combineReducers} from 'redux';
 
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
+import type {ViewsState} from 'types/store/views';
+
 import {SearchTypes} from 'utils/constants';
 
-function modalSearch(state = '', action) {
+function modalSearch(state = '', action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_SEARCH: {
         return action.data.trim();
@@ -15,7 +19,7 @@ function modalSearch(state = '', action) {
     }
 }
 
-function modalFilters(state = {}, action) {
+function modalFilters(state: ViewsState['search']['modalFilters'] = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_FILTERS: {
         const filters = action.data;
@@ -28,7 +32,7 @@ function modalFilters(state = {}, action) {
     }
 }
 
-function systemUsersSearch(state = {}, action) {
+function systemUsersSearch(state: Partial<ViewsState['search']['systemUsersSearch']> = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_SYSTEM_USERS_SEARCH: {
         return action.data;
@@ -38,7 +42,7 @@ function systemUsersSearch(state = {}, action) {
     }
 }
 
-function userGridSearch(state = {}, action) {
+function userGridSearch(state: Partial<ViewsState['search']['userGridSearch']> = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_USER_GRID_SEARCH: {
         const term = action.data.trim();
@@ -59,7 +63,7 @@ function userGridSearch(state = {}, action) {
     }
 }
 
-function teamListSearch(state = '', action) {
+function teamListSearch(state = '', action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_TEAM_LIST_SEARCH: {
         return action.data.trim();
@@ -69,7 +73,7 @@ function teamListSearch(state = '', action) {
     }
 }
 
-function channelListSearch(state = {}, action) {
+function channelListSearch(state: Partial<ViewsState['search']['channelListSearch']> = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_CHANNEL_LIST_SEARCH: {
         const term = action.data.trim();

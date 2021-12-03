@@ -14,7 +14,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
-import {Props as SubmenuItemProps} from 'components/widgets/menu/menu_items/submenu_item';
+import {Menu as SubMenu} from 'types/store/plugins';
 
 type Props = {
     category: ChannelCategory;
@@ -64,35 +64,35 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
     renderDropdownItems = () => {
         const {intl, category} = this.props;
 
-        const sortMenuItems: SubmenuItemProps[] = [{
+        const sortMenuItems: SubMenu[] = [{
             id: 'sortAlphabetical',
-            direction: 'right' as any,
+            direction: 'right',
             text: intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}),
             action: () => this.handleSortDirectMessages(CategorySorting.Alphabetical),
         },
         {
             id: 'sortByMostRecent',
-            direction: 'right' as any,
+            direction: 'right',
             text: intl.formatMessage({id: 'sidebar.sortedByRecencyLabel', defaultMessage: 'Recent Activity'}),
             action: () => this.handleSortDirectMessages(CategorySorting.Recency),
         }];
 
         const dmLimitOptions = [10, 15, 20, 40];
 
-        const selectedDmCount = dmLimitOptions.map((number) => {
+        const selectedDmCount = dmLimitOptions.map((number): SubMenu => {
             return {
                 id: `SidebarCategorySortingMenu-dmCount-${number}`,
-                direction: 'right' as any,
-                text: number,
+                direction: 'right',
+                text: `${number}`,
                 action: () => this.handlelimitVisibleDMsGMs(number),
-            } as SubmenuItemProps;
+            };
         });
 
-        const categoryMenuItems: SubmenuItemProps[] = [];
+        const categoryMenuItems: SubMenu[] = [];
         categoryMenuItems.push(
             {
                 id: 'showAllDms',
-                direction: 'right' as any,
+                direction: 'right',
                 text: intl.formatMessage({id: 'sidebar.allDirectMessages', defaultMessage: 'All direct messages'}),
                 action: () => this.handlelimitVisibleDMsGMs(10000),
             },
@@ -123,7 +123,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         text={intl.formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
                         selectedValueText={category.sorting === CategorySorting.Alphabetical ? intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}) : intl.formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'})}
                         icon={category.sorting === CategorySorting.Alphabetical ? <i className='icon-sort-alphabetical-ascending'/> : <i className='icon-clock-outline'/>}
-                        direction={'right' as any}
+                        direction={'right'}
                         openUp={this.state.openUp}
                         styleSelectableItem={true}
                     />
@@ -133,7 +133,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         text={intl.formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
                         selectedValueText={this.props.selectedDmNumber === 10000 ? intl.formatMessage({id: 'channel_notifications.levels.all', defaultMessage: 'All'}) : this.props.selectedDmNumber}
                         icon={<i className='icon-account-multiple-outline'/>}
-                        direction={'right' as any}
+                        direction={'right'}
                         openUp={this.state.openUp}
                         styleSelectableItem={true}
                     />

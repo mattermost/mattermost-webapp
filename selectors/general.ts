@@ -9,7 +9,15 @@ import {getTimezoneForUserProfile} from 'mattermost-redux/selectors/entities/tim
 
 import * as UserAgent from 'utils/user_agent';
 
-export function areTimezonesEnabledAndSupported(state) {
+import type {GlobalState} from 'types/store';
+
+declare global {
+    interface Window {
+        basename: string;
+    }
+}
+
+export function areTimezonesEnabledAndSupported(state: GlobalState) {
     if (UserAgent.isInternetExplorer()) {
         return false;
     }
@@ -18,7 +26,7 @@ export function areTimezonesEnabledAndSupported(state) {
     return config.ExperimentalTimezone === 'true';
 }
 
-export function getBasePath(state) {
+export function getBasePath(state: GlobalState) {
     const config = getConfig(state) || {};
 
     if (config.SiteURL) {
@@ -29,6 +37,7 @@ export function getBasePath(state) {
 }
 
 export const getCurrentUserTimezone = createSelector(
+    'getCurrentUserTimezone',
     getCurrentUser,
     areTimezonesEnabledAndSupported,
     (user, enabledTimezone) => {

@@ -5,22 +5,23 @@ import {createSelector} from 'reselect';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getGlobalItem} from 'selectors/storage';
 import {arePreviewsCollapsed} from 'selectors/preferences';
-import {Preferences, StoragePrefixes} from 'utils/constants';
+import {StoragePrefixes} from 'utils/constants';
+
+import type {GlobalState} from 'types/store';
 
 export const getEditingPost = createSelector(
     'getEditingPost',
-    (state) => {
+    (state: GlobalState) => {
         if (state.views.posts.editingPost && state.views.posts.editingPost.postId) {
             return getPost(state, state.views.posts.editingPost.postId);
         }
 
         return null;
     },
-    (state) => state.views.posts.editingPost,
+    (state: GlobalState) => state.views.posts.editingPost,
     (post, editingPost) => {
         return {
             ...editingPost,
@@ -29,20 +30,16 @@ export const getEditingPost = createSelector(
     },
 );
 
-export function isEmbedVisible(state, postId) {
+export function isEmbedVisible(state: GlobalState, postId: string) {
     const currentUserId = getCurrentUserId(state);
     const previewCollapsed = arePreviewsCollapsed(state);
 
     return getGlobalItem(state, StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !previewCollapsed);
 }
 
-export function isInlineImageVisible(state, postId, imageKey) {
+export function isInlineImageVisible(state: GlobalState, postId: string, imageKey: string) {
     const currentUserId = getCurrentUserId(state);
     const imageCollapsed = arePreviewsCollapsed(state);
 
     return getGlobalItem(state, StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !imageCollapsed);
-}
-
-export function shouldShowJoinLeaveMessages(state) {
-    return getBoolPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_FILTER_JOIN_LEAVE, true);
 }

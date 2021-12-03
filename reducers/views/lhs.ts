@@ -4,10 +4,11 @@
 import {combineReducers} from 'redux';
 
 import {TeamTypes} from 'mattermost-redux/action_types';
+import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
 
-function isOpen(state = false, action) {
+function isOpen(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.TOGGLE_LHS:
         return !state;
