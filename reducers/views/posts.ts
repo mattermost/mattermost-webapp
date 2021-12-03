@@ -4,6 +4,7 @@
 import {combineReducers} from 'redux';
 
 import {UserTypes} from 'mattermost-redux/action_types';
+import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
 
@@ -11,7 +12,7 @@ const defaultState = {
     show: false,
 };
 
-function editingPost(state = defaultState, action) {
+function editingPost(state = defaultState, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SHOW_EDIT_POST_MODAL:
         return {
@@ -30,17 +31,17 @@ function editingPost(state = defaultState, action) {
     }
 }
 
-function menuActions(state = {}, action) {
+function menuActions(state: {[postId: string]: {[actionId: string]: {text: string; value: string}}} = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SELECT_ATTACHMENT_MENU_ACTION: {
         const nextState = {...state};
-        if (nextState[action.postId]) {
-            nextState[action.postId] = {
-                ...nextState[action.postId],
-                ...action.data,
+        if (nextState[action.data.postId]) {
+            nextState[action.data.postId] = {
+                ...nextState[action.data.postId],
+                ...action.data.actions,
             };
         } else {
-            nextState[action.postId] = action.data;
+            nextState[action.data.postId] = action.data.actions;
         }
         return nextState;
     }

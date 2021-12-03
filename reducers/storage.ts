@@ -5,9 +5,12 @@ import {combineReducers} from 'redux';
 
 import {General} from 'mattermost-redux/constants';
 
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
 import {StorageTypes} from 'utils/constants';
 
-function storage(state = {}, action) {
+function storage(state: Dictionary<any> = {}, action: GenericAction) {
     switch (action.type) {
     case StorageTypes.SET_ITEM: {
         if (!state[action.data.prefix + action.data.name] ||
@@ -48,9 +51,9 @@ function storage(state = {}, action) {
         return nextState;
     }
     case StorageTypes.CLEAR: {
-        const cleanState = {};
+        const cleanState: Dictionary<any> = {};
         if (action.data && action.data.exclude && action.data.exclude.forEach) {
-            action.data.exclude.forEach((excluded) => {
+            action.data.exclude.forEach((excluded: any) => {
                 if (state[excluded]) {
                     cleanState[excluded] = state[excluded];
                 }
@@ -90,7 +93,7 @@ function storage(state = {}, action) {
     }
 }
 
-function initialized(state = false, action) {
+function initialized(state = false, action: GenericAction) {
     switch (action.type) {
     case General.STORE_REHYDRATION_COMPLETE:
         return state || action.complete;

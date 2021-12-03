@@ -3,7 +3,11 @@
 
 import {ActionTypes} from 'utils/constants';
 
-export default function settings(state = {}, action) {
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
+import type {ViewsState} from 'types/store/views';
+
+export default function settings(state: ViewsState['settings'] = {activeSection: '', previousActiveSection: ''}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.UPDATE_ACTIVE_SECTION:
         return {
