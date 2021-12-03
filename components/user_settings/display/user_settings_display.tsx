@@ -111,6 +111,7 @@ type Props = {
     emojiPickerEnabled: boolean;
     timezoneLabel: string;
     lastActiveDisplay: boolean;
+    lastActiveTimeEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
@@ -650,35 +651,39 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             this.prevSections.message_display = this.prevSections.linkpreview;
         }
 
-        const lastActiveSection = this.createSection({
-            section: 'lastactive',
-            display: 'lastActiveDisplay',
-            value: this.state.lastActiveDisplay,
-            defaultDisplay: 'true',
-            title: {
-                id: t('user.settings.display.lastActiveDisplay'),
-                message: 'Share last active time',
-            },
-            firstOption: {
-                value: 'true',
-                radionButtonText: {
-                    id: t('user.settings.display.lastActiveOn'),
-                    message: 'On',
+        let lastActiveSection = null;
+
+        if (this.props.lastActiveTimeEnabled) {
+            lastActiveSection = this.createSection({
+                section: 'lastactive',
+                display: 'lastActiveDisplay',
+                value: this.state.lastActiveDisplay,
+                defaultDisplay: 'true',
+                title: {
+                    id: t('user.settings.display.lastActiveDisplay'),
+                    message: 'Share last active time',
                 },
-            },
-            secondOption: {
-                value: 'false',
-                radionButtonText: {
-                    id: t('user.settings.display.lastActiveOff'),
-                    message: 'Off',
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: t('user.settings.display.lastActiveOn'),
+                        message: 'On',
+                    },
                 },
-            },
-            description: {
-                id: t('user.settings.display.lastActiveDesc'),
-                message: 'When enabled, other users will see when you were last active.',
-            },
-            onSubmit: this.submitLastActive,
-        });
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: t('user.settings.display.lastActiveOff'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.lastActiveDesc'),
+                    message: 'When enabled, other users will see when you were last active.',
+                },
+                onSubmit: this.submitLastActive,
+            });
+        }
 
         const clockSection = this.createSection({
             section: 'clock',

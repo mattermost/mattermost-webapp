@@ -15,6 +15,7 @@ import {
     canManageAnyChannelMembersInCurrentTeam,
     getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
@@ -53,6 +54,8 @@ function makeMapStateToProps() {
         const isTeamAdmin = Boolean(teamMember && teamMember.scheme_admin);
         const channelMember = getChannelMembersInChannels(state)?.[channelId]?.[userId];
 
+        const config = getConfig(state);
+
         let isChannelAdmin = false;
         if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
             isChannelAdmin = true;
@@ -79,6 +82,7 @@ function makeMapStateToProps() {
             channelId,
             currentUserTimezone: getCurrentUserTimezone(state),
             lastActivityTimestamp,
+            enableLastActiveTime: config.EnableLastActiveTime === 'true',
         };
     };
 }

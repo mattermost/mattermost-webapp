@@ -141,6 +141,8 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     intl: IntlShape;
 
     lastActivityTimestamp: number;
+
+    enableLastActiveTime: boolean;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -360,7 +362,7 @@ ProfilePopoverState
                 />
             </div>,
         );
-        if (this.props.status && !this.props.user.is_bot && displayLastActiveLabel(this.props.status, this.props.lastActivityTimestamp, this.props.user.props?.show_last_active)) {
+        if (this.props.status && !this.props.user.is_bot && displayLastActiveLabel(this.props.status, this.props.lastActivityTimestamp, this.props.user.props?.show_last_active, this.props.enableLastActiveTime)) {
             const timestampUnits = getLastActiveTimestampUnits(this.props.lastActivityTimestamp);
             dataContent.push(
                 <div

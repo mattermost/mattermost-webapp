@@ -40,6 +40,7 @@ describe('components/ChannelHeader', () => {
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
         lastActivityTimestamp: 1632146562846,
+        enableLastActiveTime: true,
     };
 
     const populatedProps = {

@@ -58,6 +58,7 @@ export type ClientConfig = {
     EnableCustomBrand: string;
     EnableCustomEmoji: string;
     EnableCustomUserStatuses: string;
+    EnableLastActiveTime: string;
     EnableTimedDND: string;
     EnableCustomTermsOfService: string;
     EnableDeveloper: string;
@@ -334,6 +335,7 @@ export type TeamSettings = {
     SiteName: string;
     MaxUsersPerTeam: number;
     EnableCustomUserStatuses: boolean;
+    EnableLastActiveTime: boolean;
     EnableUserCreation: boolean;
     EnableOpenServer: boolean;
     EnableUserDeactivation: boolean;

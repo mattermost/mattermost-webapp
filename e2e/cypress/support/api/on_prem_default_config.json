@@ -88,6 +88,7 @@
         "EnableUserDeactivation": false,
         "RestrictCreationToDomains": "",
         "EnableCustomUserStatuses": true,
+        "EnableLastActiveTime": true,
         "EnableCustomBrand": false,
         "CustomBrandText": "",
         "CustomDescriptionText": "",

@@ -89,6 +89,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         oneClickReactionsOnPosts: '',
         emojiPickerEnabled: true,
         clickToReply: '',
+        lastActiveTimeEnabled: true,
     };
 
     test('should match snapshot, no active section', () => {
@@ -341,5 +342,16 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         (wrapper.instance() as UserSettingsDisplay).handleLastActiveRadio('true');
         expect(wrapper.state('lastActiveDisplay')).toBe('true');
+    });
+
+    test('should not show last active section', () => {
+        const wrapper = shallow(
+            <UserSettingsDisplay 
+                {...requiredProps}
+                lastActiveTimeEnabled={false}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

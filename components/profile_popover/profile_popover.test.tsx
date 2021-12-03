@@ -39,6 +39,7 @@ describe('components/ProfilePopover', () => {
             loadBot: jest.fn(),
         },
         lastActivityTimestamp: 1632146562846,
+        enableLastActiveTime: true,
     };
 
     test('should match snapshot', () => {
