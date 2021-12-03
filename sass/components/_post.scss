@@ -711,6 +711,7 @@
             }
 
             .custom-textarea {
+                max-height: 560px;
                 background-color: var(--center-channel-bg);
 
                 &.custom-textarea--emoji-picker {
