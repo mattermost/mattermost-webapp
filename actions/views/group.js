@@ -17,7 +17,7 @@ export function searchAssociatedGroupsForReference(prefix, teamId, channelId) {
             return {data: []};
         }
 
-        await dispatch(searchGroups({q: prefix, filter_allow_reference: false, page: 0, per_page: 60, include_member_count: true}))
+        await dispatch(searchGroups({q: prefix, filter_allow_reference: false, page: 0, per_page: 60, include_member_count: true}));
         return {data: searchAssociatedGroupsForReferenceLocal(state, prefix, teamId, channelId)};
     };
 }
