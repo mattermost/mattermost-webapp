@@ -80,7 +80,7 @@ export type Props = {
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
 export default class QuickInput extends React.PureComponent<Props> {
-    private input?: HTMLInputElement | AutosizeTextarea;
+    private input?: HTMLInputElement | HTMLTextAreaElement;
 
     static defaultProps = {
         delayInputUpdate: false,
