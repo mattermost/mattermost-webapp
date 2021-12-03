@@ -229,10 +229,7 @@ export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = 
         // Only show the modal if we can edit the post now, but allow it to be hidden at any time
 
         if (canEditNow) {
-            dispatch({
-                type: ActionTypes.SHOW_EDIT_POST_MODAL,
-                data: {postId, refocusId, title, isRHS},
-            });
+
         }
 
         return {data: canEditNow};

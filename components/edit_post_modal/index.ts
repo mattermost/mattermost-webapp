@@ -39,6 +39,7 @@ export interface OwnProps {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
+    console.log(post, 'post');
     const post = getPost(state, ownProps.postId);
     const channelId = post.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
@@ -46,12 +47,14 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let canDeletePost = false;
     let canEditPost = false;
 
-    if (isPostOwner(state, post)) {
-        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
-        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_POST);
-    } else {
-        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
-        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_OTHERS_POSTS);
+    if (post) {
+        if (isPostOwner(state, post)) {
+            canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
+            canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_POST);
+        } else {
+            canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
+            canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_OTHERS_POSTS);
+        }
     }
 
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);

@@ -165,7 +165,6 @@ export const ActionTypes = keyMirror({
     CONFIRM_NAVIGATION: null,
 
     TOGGLE_IMPORT_THEME_MODAL: null,
-    SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
