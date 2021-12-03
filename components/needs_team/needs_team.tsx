@@ -254,7 +254,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             if (team.group_constrained) {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
-                this.props.actions.getGroups(true, 0, 0);
+                this.props.actions.getGroups(true, 0, 60);
             }
         }
 

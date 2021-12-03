@@ -333,7 +333,10 @@ export default class AtMentionProvider extends Provider {
         }, 500);
 
         // Query the server for remote results to add to the local results.
-        this.autocompleteUsersInChannel(prefix).then(({data}) => {
+        Promise.all([
+            this.autocompleteUsersInChannel(prefix),
+            this.searchAssociatedGroupsForReference(prefix),
+        ]).then((data) => {
             if (showLoadingIndicator) {
                 clearTimeout(showLoadingIndicator);
             }
@@ -342,14 +345,12 @@ export default class AtMentionProvider extends Provider {
                 return;
             }
 
-            this.data = data;
+            this.data = data[0];
 
-            this.searchAssociatedGroupsForReference(prefix).then((groupsData) => {
-                if (this.data && groupsData && groupsData.data) {
-                    this.data.groups = groupsData.data;
-                }
-                this.updateMatches(resultCallback, this.items());
-            });
+            if (this.data && data[1] && data[1].data) {
+                this.data.groups = data[1].data;
+            }
+            this.updateMatches(resultCallback, this.items());
         });
 
         return true;
