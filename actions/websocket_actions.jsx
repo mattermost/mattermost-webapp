@@ -22,7 +22,6 @@ import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} f
 import {
     getChannelAndMyMember,
     getMyChannelMember,
-    getChannelMember,
     getChannelStats,
     viewChannel,
     markChannelAsRead,
@@ -68,7 +67,14 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getChannelMembersInChannels,
+    getChannelsInTeam,
+    getCurrentChannel,
+    getCurrentChannelId,
+    getRedirectChannelNameForTeam,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
@@ -980,39 +986,16 @@ export async function handleUserRemovedEvent(msg) {
 }
 
 export async function handleUserUpdatedEvent(msg) {
+    // This websocket event is sent to all non-guest users on the server, so be careful requesting data from the server
+    // in response to it. That can overwhelm the server if every connected user makes such a request at the same time.
+    // See https://mattermost.atlassian.net/browse/MM-40050 for more information.
+
     const state = getState();
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
     if (user && user.props) {
         const customStatus = user.props.customStatus ? JSON.parse(user.props.customStatus) : undefined;
         dispatch(loadCustomEmojisIfNeeded([customStatus?.emoji]));
-    }
-
-    const config = getConfig(state);
-    const license = getLicense(state);
-
-    const userIsGuest = isGuest(user);
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
-
-    if (userIsGuest || (isTimezoneEnabled && isLDAPEnabled)) {
-        let members = getMembersInCurrentChannel(state);
-        const currentChannelId = getCurrentChannelId(state);
-        let memberExists = members && members[user.id];
-        if (!memberExists) {
-            await dispatch(getChannelMember(currentChannelId, user.id));
-            members = getMembersInCurrentChannel(getState());
-            memberExists = members && members[user.id];
-        }
-
-        if (memberExists) {
-            if (isLDAPEnabled && isTimezoneEnabled) {
-                dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
-            }
-            if (isGuest(user)) {
-                dispatch(getChannelStats(currentChannelId));
-            }
-        }
     }
 
     if (currentUser.id === user.id) {
