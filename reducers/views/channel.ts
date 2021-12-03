@@ -4,7 +4,6 @@
 import {combineReducers} from 'redux';
 
 import {ChannelTypes, PostTypes, UserTypes, GeneralTypes} from 'mattermost-redux/action_types';
-import {Channel} from 'mattermost-redux/types/channels';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes, Constants} from 'utils/constants';
