@@ -23,14 +23,6 @@ export function markAsUnreadShouldBeAbsent(postId, prefix = 'post', location = '
         });
 }
 
-export function markAsUnreadFromMenu(...args) {
-    cy.
-        clickPostDotMenu(...args).
-        get('.dropdown-menu').
-        findByText('Mark as Unread').
-        click();
-}
-
 export function switchToChannel(channel) {
     cy.get(`#sidebarItem_${channel.name}`).click();
 
