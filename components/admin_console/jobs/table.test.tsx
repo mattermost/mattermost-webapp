@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import JobTable from './table.jsx';
+import JobTable, {Props} from './table';
 import JobCancelButton from './job_cancel_button';
 
 describe('components/admin_console/jobs/table', () => {
@@ -26,8 +26,7 @@ describe('components/admin_console/jobs/table', () => {
     const createJob = jest.fn(() => Promise.resolve({}));
     const getJobsByType = jest.fn(() => Promise.resolve({}));
 
-    const baseProps = {
-        config: {},
+    const baseProps: Props = {
         createJobButtonText,
         createJobHelpText,
         disabled: false,
@@ -38,47 +37,75 @@ describe('components/admin_console/jobs/table', () => {
         },
         jobType: 'data_retention',
         jobs: [{
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1231',
             status: 'success',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1232',
             status: 'pending',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1233',
             status: 'in_progress',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1234',
             status: 'cancel_requested',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1235',
             status: 'canceled',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1236',
             status: 'error',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1236',
             status: 'warning',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }],
     };
 
@@ -143,7 +170,6 @@ describe('components/admin_console/jobs/table', () => {
         const wrapper = shallow(
             <JobTable
                 {...baseProps}
-                jobType='not a message export'
                 downloadExportResults={false}
             />,
         );

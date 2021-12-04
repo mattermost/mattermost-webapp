@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {IDMappedObjects} from './utilities';
 export type JobType = 'data_retention' | 'elasticsearch_post_indexing' | 'ldap_sync' | 'message_export';
-export type JobStatus = 'pending' | 'in_progress' | 'success' | 'error' | 'cancel_requested' | 'canceled';
+export type JobStatus = 'pending' | 'in_progress' | 'success' | 'error' | 'cancel_requested' | 'canceled' | 'warning';
 export type Job = JobTypeBase & {
     id: string;
     priority: number;

@@ -26,8 +26,8 @@ export type Props = {
     createJobHelpText: React.ReactElement;
     jobType: JobType;
     downloadExportResults?: boolean;
-    className: string;
-    hideJobCreateButton: boolean;
+    className?: string;
+    hideJobCreateButton?: boolean;
     createJobButtonText: React.ReactElement;
     actions: {
         getJobsByType: (jobType: JobType) => void;
