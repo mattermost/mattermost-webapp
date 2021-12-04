@@ -13,7 +13,7 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     if (job.status === JobStatuses.PENDING) {
         return (
             <span
-                className='status-icon-warning'
+                className='JobStatus status-icon-warning'
                 title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
             >
                 <FormattedMessage
@@ -25,7 +25,7 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     } else if (job.status === JobStatuses.IN_PROGRESS) {
         return (
             <span
-                className='status-icon-warning'
+                className='JobStatus status-icon-warning'
                 title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
             >
                 <FormattedMessage
@@ -37,7 +37,7 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     } else if (job.status === JobStatuses.SUCCESS) {
         return (
             <span
-                className='status-icon-success'
+                className='JobStatus status-icon-success'
                 title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
             >
                 <FormattedMessage
@@ -49,7 +49,7 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     } else if (job.status === JobStatuses.WARNING) {
         return (
             <span
-                className='status-icon-warning'
+                className='JobStatus status-icon-warning'
                 title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
             >
                 <FormattedMessage
@@ -61,7 +61,7 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     } else if (job.status === JobStatuses.ERROR) {
         return (
             <span
-                className='status-icon-error'
+                className='JobStatus status-icon-error'
                 title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
             >
                 <FormattedMessage
@@ -73,7 +73,7 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     } else if (job.status === JobStatuses.CANCEL_REQUESTED) {
         return (
             <span
-                className='status-icon-warning'
+                className='JobStatus status-icon-warning'
                 title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
             >
                 <FormattedMessage
@@ -85,7 +85,7 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     } else if (job.status === JobStatuses.CANCELED) {
         return (
             <span
-                className='status-icon-error'
+                className='JobStatus status-icon-error'
                 title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
             >
                 <FormattedMessage
@@ -97,7 +97,12 @@ const JobStatus = React.memo(({job}: {job: Job}) => {
     }
 
     return (
-        <span title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}>{job.status}</span>
+        <span
+            className='JobStatus'
+            title={intl.formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
+        >
+            {job.status}
+        </span>
     );
 });
 

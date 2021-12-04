@@ -554,7 +554,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 expanded={true}
                             >
                                 <JobsTable
-                                    jobType={JobTypes.DATA_RETENTION}
+                                    jobType={JobTypes.DATA_RETENTION as JobType}
                                     hideJobCreateButton={true}
                                     className={'job-table__data-retention'}
                                     disabled={String(DataRetentionSettings?.EnableMessageDeletion) !== 'true' && String(DataRetentionSettings?.EnableFileDeletion) !== 'true'}

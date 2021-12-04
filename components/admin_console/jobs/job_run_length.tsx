@@ -39,14 +39,14 @@ const JobRunLength = React.memo(({job}: {job: Job}): JSX.Element => {
 
     if (millis <= 0 || job.status === JobStatuses.CANCELED) {
         return (
-            <span className='whitespace--nowrap'>{'--'}</span>
+            <span className='JobRunLength whitespace--nowrap'>{'--'}</span>
         );
     }
 
     if (seconds <= 120) {
         return (
             <span
-                className='whitespace--nowrap'
+                className='JobRunLength whitespace--nowrap'
                 title={lastActivity}
             >
                 {seconds + intl.formatMessage({id: 'admin.jobTable.runLengthSeconds', defaultMessage: ' seconds'})}
@@ -56,7 +56,7 @@ const JobRunLength = React.memo(({job}: {job: Job}): JSX.Element => {
 
     return (
         <span
-            className='whitespace--nowrap'
+            className='JobRunLength whitespace--nowrap'
             title={lastActivity}
         >
             {minutes + intl.formatMessage({id: 'admin.jobTable.runLengthMinutes', defaultMessage: ' minutes'})}

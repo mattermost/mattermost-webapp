@@ -9,6 +9,8 @@ import {Job} from 'mattermost-redux/types/jobs';
 
 import {JobStatuses} from 'utils/constants';
 
+import './job_cancel_button.scss';
+
 type Props = {
     job: Job;
     disabled: boolean;
@@ -27,9 +29,8 @@ const JobCancelButton = React.memo(({job, disabled, onClick}: Props) => {
     if (!disabled && (job.status === JobStatuses.PENDING || job.status === JobStatuses.IN_PROGRESS)) {
         cancelButton = (
             <span
-                data-job-id={job.id}
                 onClick={handleClick}
-                className='job-table__cancel-button'
+                className='JobCancelButton'
                 title={intl.formatMessage({id: 'admin.jobTable.cancelButton', defaultMessage: 'Cancel'})}
             >
                 {'×'}

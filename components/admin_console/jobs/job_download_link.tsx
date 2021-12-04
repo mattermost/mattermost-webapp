@@ -9,7 +9,7 @@ import {Job} from 'mattermost-redux/types/jobs';
 
 import {exportFormats} from 'utils/constants';
 
-const DownloadLink = React.memo(({job}: {job: Job}): JSX.Element => {
+const JobDownloadLink = React.memo(({job}: {job: Job}): JSX.Element => {
     if (job.data?.is_downloadable === 'true' && parseInt(job.data?.messages_exported, 10) > 0 && job.data?.export_type !== exportFormats.EXPORT_FORMAT_GLOBALRELAY) { // eslint-disable-line camelcase
         return (
             <a
@@ -17,6 +17,7 @@ const DownloadLink = React.memo(({job}: {job: Job}): JSX.Element => {
                 href={`${Client4.getJobsRoute()}/${job.id}/download`}
                 target='_blank'
                 rel='noopener noreferrer'
+                className='JobDownloadLink'
             >
                 <FormattedMessage
                     id='admin.jobTable.downloadLink'
@@ -29,4 +30,4 @@ const DownloadLink = React.memo(({job}: {job: Job}): JSX.Element => {
     return <>{'--'}</>;
 });
 
-export default DownloadLink;
+export default JobDownloadLink;
