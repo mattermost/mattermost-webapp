@@ -15,16 +15,17 @@ type Props = {
     job: Job;
     disabled: boolean;
     onClick: (id: string) => void;
-}
+};
 
-const JobCancelButton = React.memo(({job, disabled, onClick}: Props) => {
+const JobCancelButton = (props: Props): JSX.Element|null => {
+    const {job, disabled, onClick} = props;
     const intl = useIntl();
     let cancelButton = null;
 
     const handleClick = useCallback((e) => {
         e.preventDefault();
         onClick(job.id);
-    }, [onClick, job.id])
+    }, [onClick, job.id]);
 
     if (!disabled && (job.status === JobStatuses.PENDING || job.status === JobStatuses.IN_PROGRESS)) {
         cancelButton = (
@@ -39,6 +40,6 @@ const JobCancelButton = React.memo(({job, disabled, onClick}: Props) => {
     }
 
     return cancelButton;
-});
+};
 
-export default JobCancelButton
+export default React.memo(JobCancelButton);

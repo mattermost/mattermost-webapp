@@ -8,7 +8,12 @@ import {JobStatus} from 'mattermost-redux/types/jobs';
 
 import {JobStatuses} from 'utils/constants';
 
-const JobFinishAt = React.memo(({status, millis}: {status: JobStatus, millis: number}): JSX.Element => {
+type Props = {
+    status: JobStatus;
+    millis: number;
+}
+
+const JobFinishAt = React.memo(({status, millis}: Props): JSX.Element => {
     if (millis === 0 || status === JobStatuses.PENDING || status === JobStatuses.IN_PROGRESS || status === JobStatuses.CANCEL_REQUESTED) {
         return (
             <span className='JobFinishAt whitespace--nowrap'>{'--'}</span>
