@@ -3,9 +3,11 @@
 
 import {combineReducers} from 'redux';
 
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
 import {ActionTypes} from 'utils/constants';
 
-function shouldShowPreviewOnCreateComment(state = false, action) {
+function shouldShowPreviewOnCreateComment(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SET_SHOW_PREVIEW_ON_CREATE_COMMENT:
         return action.showPreview;
@@ -14,7 +16,7 @@ function shouldShowPreviewOnCreateComment(state = false, action) {
     }
 }
 
-function shouldShowPreviewOnCreatePost(state = false, action) {
+function shouldShowPreviewOnCreatePost(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SET_SHOW_PREVIEW_ON_CREATE_POST:
         return action.showPreview;
@@ -23,7 +25,7 @@ function shouldShowPreviewOnCreatePost(state = false, action) {
     }
 }
 
-function shouldShowPreviewOnEditChannelHeaderModal(state = false, action) {
+function shouldShowPreviewOnEditChannelHeaderModal(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL:
         return action.showPreview;
@@ -32,7 +34,7 @@ function shouldShowPreviewOnEditChannelHeaderModal(state = false, action) {
     }
 }
 
-function shouldShowPreviewOnEditPostModal(state = false, action) {
+function shouldShowPreviewOnEditPostModal(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL:
         return action.showPreview;

@@ -14,6 +14,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Verify Guest User Identification in different screens', () => {
     let guest;
+    let testChannel;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -32,6 +33,8 @@ describe('Verify Guest User Identification in different screens', () => {
         });
 
         cy.apiInitSetup().then(({team, channel, user}) => {
+            testChannel = channel;
+
             cy.apiCreateGuestUser().then(({guest: guestUser}) => {
                 guest = guestUser;
                 cy.apiAddUserToTeam(team.id, guest.id).then(() => {
@@ -53,6 +56,10 @@ describe('Verify Guest User Identification in different screens', () => {
 
         // # Deactivate Guest user
         cy.externalActivateUser(guest.id, false).wait(TIMEOUTS.FIVE_SEC);
+
+        // # Switch channels away and back to reload the header
+        cy.get('.SidebarChannel:contains(Town Square)').click();
+        cy.get(`.SidebarChannel:contains(${testChannel.display_name})`).click();
 
         // * Verify the text 'This channel has guests' is removed from the header
         cy.get('#channelHeaderDescription').within(($el) => {

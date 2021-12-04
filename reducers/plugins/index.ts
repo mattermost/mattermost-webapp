@@ -5,9 +5,15 @@ import {combineReducers} from 'redux';
 
 import remove from 'lodash/remove';
 
+import type {GenericAction} from 'mattermost-redux/types/actions';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
+
+import type {PluginsState, PluginComponent, AdminConsolePluginComponent, Menu} from 'types/store/plugins';
+
 import {ActionTypes} from 'utils/constants';
 
-function hasMenuId(menu, menuId) {
+function hasMenuId(menu: Menu|PluginComponent, menuId: string) {
     if (!menu.subMenu) {
         return false;
     }
@@ -24,20 +30,20 @@ function hasMenuId(menu, menuId) {
     return false;
 }
 
-function buildMenu(rootMenu, data) {
+function buildMenu(rootMenu: Menu|PluginComponent, data: Menu): Menu|PluginComponent {
     // Recursively build the full menu tree.
-    const subMenu = rootMenu.subMenu.map((m) => buildMenu(m, data));
+    const subMenu = rootMenu.subMenu?.map((m: Menu) => buildMenu(m, data));
     if (rootMenu.id === data.parentMenuId) {
-        subMenu.push(data);
+        subMenu?.push(data);
     }
 
     return {
         ...rootMenu,
-        subMenu,
+        subMenu: subMenu as Menu[],
     };
 }
 
-function sortComponents(a, b) {
+function sortComponents(a: PluginComponent, b: PluginComponent) {
     if (a.pluginId < b.pluginId) {
         return -1;
     }
@@ -49,7 +55,7 @@ function sortComponents(a, b) {
     return 0;
 }
 
-function removePostPluginComponents(state, action) {
+function removePostPluginComponents(state: PluginsState['postTypes'], action: GenericAction) {
     if (!action.data) {
         return state;
     }
@@ -71,7 +77,7 @@ function removePostPluginComponents(state, action) {
     return state;
 }
 
-function removePostPluginComponent(state, action) {
+function removePostPluginComponent(state: PluginsState['postTypes'], action: GenericAction) {
     const nextState = {...state};
     const keys = Object.keys(nextState);
     for (let i = 0; i < keys.length; i++) {
@@ -85,7 +91,7 @@ function removePostPluginComponent(state, action) {
     return state;
 }
 
-function removePluginComponents(state, action) {
+function removePluginComponents(state: PluginsState['components'], action: GenericAction) {
     if (!action.data) {
         return state;
     }
@@ -113,7 +119,7 @@ function removePluginComponents(state, action) {
     return state;
 }
 
-function removePluginComponent(state, action) {
+function removePluginComponent(state: PluginsState['components'], action: GenericAction) {
     const types = Object.keys(state);
     for (let i = 0; i < types.length; i++) {
         const componentType = types[i];
@@ -129,12 +135,12 @@ function removePluginComponent(state, action) {
     return state;
 }
 
-function plugins(state = {}, action) {
+function plugins(state: IDMappedObjects<ClientPluginManifest> = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_WEBAPP_PLUGINS: {
         if (action.data) {
-            const nextState = {};
-            action.data.forEach((p) => {
+            const nextState: IDMappedObjects<ClientPluginManifest> = {};
+            action.data.forEach((p: ClientPluginManifest) => {
                 nextState[p.id] = p;
             });
             return nextState;
@@ -163,7 +169,7 @@ function plugins(state = {}, action) {
     }
 }
 
-function components(state = {}, action) {
+function components(state: PluginsState['components'] = {Product: []}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
@@ -198,7 +204,7 @@ function components(state = {}, action) {
     }
 }
 
-function postTypes(state = {}, action) {
+function postTypes(state: PluginsState['postTypes'] = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT: {
         if (action.data) {
@@ -225,7 +231,7 @@ function postTypes(state = {}, action) {
     }
 }
 
-function postCardTypes(state = {}, action) {
+function postCardTypes(state: PluginsState['postTypes'] = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_POST_CARD_COMPONENT: {
         if (action.data) {
@@ -252,7 +258,7 @@ function postCardTypes(state = {}, action) {
     }
 }
 
-function adminConsoleReducers(state = {}, action) {
+function adminConsoleReducers(state: {[pluginId: string]: any} = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_ADMIN_CONSOLE_REDUCER: {
         if (action.data) {
@@ -283,7 +289,7 @@ function adminConsoleReducers(state = {}, action) {
     }
 }
 
-function adminConsoleCustomComponents(state = {}, action) {
+function adminConsoleCustomComponents(state: {[pluginId: string]: Record<string, AdminConsolePluginComponent>} = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: {
         if (!action.data) {
@@ -294,10 +300,10 @@ function adminConsoleCustomComponents(state = {}, action) {
         const key = action.data.key.toLowerCase();
 
         const nextState = {...state};
-        if (!nextState[pluginId]) {
-            nextState[pluginId] = {};
+        let nextArray: Record<string, AdminConsolePluginComponent> = {};
+        if (nextState[pluginId]) {
+            nextArray = {...nextState[pluginId]};
         }
-        const nextArray = {...nextState[pluginId]};
         nextArray[key] = action.data;
         nextState[pluginId] = nextArray;
 

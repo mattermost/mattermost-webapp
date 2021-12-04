@@ -3,9 +3,11 @@
 
 import {combineReducers} from 'redux';
 
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
 import {ActionTypes} from 'utils/constants';
 
-function hasBeenDismissed(state = {}, action) {
+function hasBeenDismissed(state: Record<string, boolean> = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.DISMISS_NOTICE:
         return {...state, [action.data]: true};

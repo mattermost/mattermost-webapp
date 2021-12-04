@@ -3,9 +3,11 @@
 
 import {combineReducers} from 'redux';
 
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
 import {ActionTypes} from 'utils/constants';
 
-function announcementBarState(state = {announcementBarCount: 0}, action) {
+function announcementBarState(state = {announcementBarCount: 0}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.TRACK_ANNOUNCEMENT_BAR:
         return {

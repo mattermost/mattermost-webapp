@@ -6,18 +6,20 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import localStorageStore from 'stores/local_storage_store';
 
+import type {GlobalState} from 'types/store';
+
 // getLastViewedChannelName combines data from the Redux store and localStorage to return the
 // previously selected channel name, returning the default channel if none exists.
 //
 // See LocalStorageStore for context.
-export const getLastViewedChannelName = (state) => {
+export const getLastViewedChannelName = (state: GlobalState) => {
     const userId = getCurrentUserId(state);
     const teamId = getCurrentTeamId(state);
 
     return localStorageStore.getPreviousChannelName(userId, teamId);
 };
 
-export const getPenultimateViewedChannelName = (state) => {
+export const getPenultimateViewedChannelName = (state: GlobalState) => {
     const userId = getCurrentUserId(state);
     const teamId = getCurrentTeamId(state);
 
@@ -29,7 +31,7 @@ export const getPenultimateViewedChannelName = (state) => {
 // exists.
 //
 // See LocalStorageStore for context.
-export const getLastViewedChannelNameByTeamName = (state, teamName) => {
+export const getLastViewedChannelNameByTeamName = (state: GlobalState, teamName: string) => {
     const userId = getCurrentUserId(state);
     const team = getTeamByName(state, teamName);
     const teamId = team && team.id;
@@ -37,7 +39,7 @@ export const getLastViewedChannelNameByTeamName = (state, teamName) => {
     return localStorageStore.getPreviousChannelName(userId, teamId);
 };
 
-export const getPreviousTeamId = (state) => {
+export const getPreviousTeamId = (state: GlobalState) => {
     const userId = getCurrentUserId(state);
 
     return localStorageStore.getPreviousTeamId(userId);

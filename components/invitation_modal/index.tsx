@@ -24,10 +24,11 @@ import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 import {makeAsyncComponent} from 'components/async_load';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'types/store';
 
 import type {InviteResults} from './result_view';
 const InvitationModal = makeAsyncComponent('InvitationModal', React.lazy(() => import('./invitation_modal')));
