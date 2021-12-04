@@ -3,10 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallow} from 'enzyme';
 
 import JobTable from './table.jsx';
+import JobCancelButton from './job_cancel_button';
 
 describe('components/admin_console/jobs/table', () => {
     const createJobButtonText = (
@@ -83,7 +83,7 @@ describe('components/admin_console/jobs/table', () => {
     };
 
     test('should call create job func', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable {...baseProps}/>,
         );
 
@@ -92,11 +92,11 @@ describe('components/admin_console/jobs/table', () => {
     });
 
     test('should call cancel job func', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable {...baseProps}/>,
         );
 
-        wrapper.find('.job-table__cancel-button').first().simulate('click', {preventDefault: jest.fn(), currentTarget: {getAttribute: () => '1234'}});
+        wrapper.find(JobCancelButton).first().simulate('click', {preventDefault: jest.fn(), currentTarget: {getAttribute: () => '1234'}});
         expect(cancelJob).toHaveBeenCalledTimes(1);
     });
 
@@ -110,7 +110,7 @@ describe('components/admin_console/jobs/table', () => {
             {header: 'Details'},
         ];
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
                 jobType='message_export'
@@ -140,7 +140,7 @@ describe('components/admin_console/jobs/table', () => {
             {header: 'Details'},
         ];
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
                 jobType='not a message export'
@@ -162,7 +162,7 @@ describe('components/admin_console/jobs/table', () => {
     });
 
     test('hide create job button', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
                 hideJobCreateButton={true}
@@ -174,7 +174,7 @@ describe('components/admin_console/jobs/table', () => {
     });
 
     test('add custom class', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
                 className={'job-table__data-retention'}
