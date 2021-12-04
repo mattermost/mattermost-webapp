@@ -19,6 +19,10 @@
     max-height: calc(90vh - 80px);
     padding: 20px 15px;
 
+    &.overflow--visible {
+        overflow: visible;
+    }
+
     .manage-teams__teams {
         .MenuWrapper {
             position: static;
