@@ -192,6 +192,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setDraft,
             clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
+            openEditPostModal,
             emitShortcutReactToLastPostFrom,
             openModal,
             executeCommand,
@@ -202,7 +203,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setShowPreview: setShowPreviewOnCreatePost,
             getChannelMemberCountsByGroup,
             savePreferences,
-            openEditPostModal,
         }, dispatch),
     };
 }
