@@ -256,10 +256,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleEditMenuItemActivated = () => {
+        const modalTitle = this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post');
+
         this.props.actions.openEditPostModal(
             this.props.post.id,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
-            this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
+            modalTitle,
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
         );
     }
