@@ -274,7 +274,7 @@ type Props = {
       */
         openModal: <P>(modalData: ModalData<P>) => void;
 
-        openEditPostModal: (postId?: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
+        openEditPostModal: (postId: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
