@@ -148,6 +148,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     flagPost: (postId: string) => void;
     unflagPost: (postId: string) => void;
+    openEditPostModal: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     pinPost: (postId: string) => void;
     unpinPost: (postId: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
@@ -157,7 +158,6 @@ type Actions = {
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
     openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
-    openEditPostModal: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -165,6 +165,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             flagPost,
             unflagPost,
+            openEditPostModal,
             pinPost,
             unpinPost,
             openModal,
@@ -174,7 +175,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             setThreadFollow,
             openAppsModal,
             fetchBindings,
-            openEditPostModal,
         }, dispatch),
     };
 }
