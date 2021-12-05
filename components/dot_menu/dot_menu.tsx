@@ -14,22 +14,20 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
-import {PluginComponent} from 'types/store/plugins';
-import {ModalData} from 'types/actions';
-
+import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import DelayedAction from 'utils/delayed_action';
+import * as PostUtils from 'utils/post_utils';
+import * as Utils from 'utils/utils.jsx';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-
-import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
-import DelayedAction from 'utils/delayed_action';
-import Pluggable from 'plugins/pluggable';
+import {ModalData} from 'types/actions';
+import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
-import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -78,6 +76,8 @@ type Props = {
          */
         pinPost: (postId: string) => void;
 
+        openEditPostModal: (postId?: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
+
         /**
          * Function to unpin the post
          */
@@ -109,7 +109,6 @@ type Props = {
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
         openAppsModal: (form: AppForm, call: AppCallRequest) => void;
-        openEditPostModal: (postId?: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
          * Function to get the post menu bindings for this post.
