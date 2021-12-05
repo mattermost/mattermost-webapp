@@ -17,6 +17,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {t} from 'utils/i18n.jsx';
 
+import OpenInvite from './open_invite';
+
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
 export default class GeneralTab extends React.PureComponent {
@@ -55,7 +57,6 @@ export default class GeneralTab extends React.PureComponent {
         return {
             name: team.display_name,
             invite_id: team.invite_id,
-            allow_open_invite: team.allow_open_invite,
             description: team.description,
             allowed_domains: team.allowed_domains,
             serverError: '',
@@ -75,7 +76,6 @@ export default class GeneralTab extends React.PureComponent {
                 description: team.description,
                 allowed_domains: team.allowed_domains,
                 invite_id: team.invite_id,
-                allow_open_invite: team.allow_open_invite,
                 isInitialState: false,
             };
         }
@@ -103,31 +103,11 @@ export default class GeneralTab extends React.PureComponent {
         });
     }
 
-    handleOpenInviteRadio = (openInvite) => {
-        this.setState({allow_open_invite: openInvite});
-    }
-
     handleAllowedDomainsSubmit = async () => {
         var state = {serverError: '', clientError: ''};
 
         var data = {...this.props.team};
         data.allowed_domains = this.state.allowed_domains;
-
-        const {error} = await this.props.actions.patchTeam(data);
-
-        if (error) {
-            state.serverError = error.message;
-            this.setState(state);
-        } else {
-            this.updateSection('');
-        }
-    }
-
-    handleOpenInviteSubmit = async () => {
-        var state = {serverError: '', clientError: ''};
-
-        var data = {...this.props.team};
-        data.allow_open_invite = this.state.allow_open_invite;
 
         const {error} = await this.props.actions.patchTeam(data);
 
@@ -356,101 +336,6 @@ export default class GeneralTab extends React.PureComponent {
         }
         if (this.state.serverError) {
             serverError = this.state.serverError;
-        }
-
-        let openInviteSection;
-        if (this.props.activeSection === 'open_invite') {
-            let inputs;
-
-            if (team.group_constrained) {
-                inputs = [
-                    <div key='userOpenInviteOptions'>
-                        <div>
-                            <FormattedMarkdownMessage
-                                id='team_settings.openInviteDescription.groupConstrained'
-                                defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
-                            />
-                        </div>
-                    </div>,
-                ];
-            } else {
-                inputs = [
-                    <fieldset key='userOpenInviteOptions'>
-                        <legend className='form-legend hidden-label'>
-                            <FormattedMessage
-                                id='team_settings.openInviteDescription.ariaLabel'
-                                defaultMessage='Invite Code'
-                            />
-                        </legend>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='teamOpenInvite'
-                                    name='userOpenInviteOptions'
-                                    type='radio'
-                                    defaultChecked={this.state.allow_open_invite}
-                                    onChange={this.handleOpenInviteRadio.bind(this, true)}
-                                />
-                                <FormattedMessage
-                                    id='general_tab.yes'
-                                    defaultMessage='Yes'
-                                />
-                            </label>
-                            <br/>
-                        </div>
-                        <div className='radio'>
-                            <label>
-                                <input
-                                    id='teamOpenInviteNo'
-                                    name='userOpenInviteOptions'
-                                    type='radio'
-                                    defaultChecked={!this.state.allow_open_invite}
-                                    onChange={this.handleOpenInviteRadio.bind(this, false)}
-                                />
-                                <FormattedMessage
-                                    id='general_tab.no'
-                                    defaultMessage='No'
-                                />
-                            </label>
-                            <br/>
-                        </div>
-                        <div className='mt-5'>
-                            <FormattedMessage
-                                id='general_tab.openInviteDesc'
-                                defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team. Changing from "Yes" to "No" will regenerate the  invitation code, create a new invitation link and invalidate the previous link.'
-                            />
-                        </div>
-                    </fieldset>,
-                ];
-            }
-
-            openInviteSection = (
-                <SettingItemMax
-                    title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
-                    inputs={inputs}
-                    submit={this.handleOpenInviteSubmit}
-                    serverError={serverError}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        } else {
-            let describe = '';
-            if (this.state.allow_open_invite === true) {
-                describe = Utils.localizeMessage('general_tab.yes', 'Yes');
-            } else if (team.group_constrained) {
-                describe = Utils.localizeMessage('team_settings.openInviteSetting.groupConstrained', 'No, members of this team are added and removed by linked groups.');
-            } else {
-                describe = Utils.localizeMessage('general_tab.no', 'No');
-            }
-
-            openInviteSection = (
-                <SettingItemMin
-                    title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
-                    describe={describe}
-                    updateSection={this.handleUpdateSection}
-                    section={'open_invite'}
-                />
-            );
         }
 
         let inviteSection;
@@ -823,7 +708,20 @@ export default class GeneralTab extends React.PureComponent {
                         </>
                     }
                     <div className='divider-light'/>
-                    {openInviteSection}
+                    <OpenInvite
+                        teamId={this.props.team.id}
+                        isActive={this.props.activeSection === 'open_invite'}
+                        isGroupConstrained={this.props.team.group_constrained}
+                        allowOpenInvite={this.props.team.allow_open_invite}
+                        onToggle={(active) => {
+                            if (active) {
+                                this.handleUpdateSection('open_invite');
+                            } else {
+                                this.handleUpdateSection('');
+                            }
+                        }}
+                        patchTeam={this.props.actions.patchTeam}
+                    />
                     {!team.group_constrained &&
                         <>
                             <div className='divider-light'/>
