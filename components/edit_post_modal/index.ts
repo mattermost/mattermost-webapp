@@ -4,6 +4,8 @@
 import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {Post} from 'mattermost-redux/types/posts';
+import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences, Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -11,18 +13,13 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {Post} from 'mattermost-redux/types/posts';
-import {Action, ActionResult} from 'mattermost-redux/types/actions';
 
+import {GlobalState} from 'types/store';
+import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
+import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {editPost} from 'actions/views/posts';
 import {runMessageWillBeUpdatedHooks} from 'actions/hooks';
-
-import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
-
-import {ModalData} from 'types/actions';
-import {GlobalState} from 'types/store';
-
 import Constants from 'utils/constants';
 import {isPostOwner} from 'utils/post_utils';
 
