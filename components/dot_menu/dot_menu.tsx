@@ -71,12 +71,12 @@ type Props = {
          */
         unflagPost: (postId: string) => void;
 
+        openEditPostModal: (postId?: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
+
         /**
          * Function to pin the post
          */
         pinPost: (postId: string) => void;
-
-        openEditPostModal: (postId?: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
          * Function to unpin the post
