@@ -44,7 +44,7 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, emitShortcutReactToLastPostFrom, openEditPostModal} from 'actions/post_actions.jsx';
+import {addReaction, createPost, openEditPostModal, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
@@ -156,7 +156,7 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
-    openEditPostModal: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
+    openEditPostModal: (postId: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
 }
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
