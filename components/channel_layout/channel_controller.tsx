@@ -5,19 +5,20 @@ import React from 'react';
 import {Route} from 'react-router-dom';
 
 import AnnouncementBarController from 'components/announcement_bar';
+
+import Pluggable from 'plugins/pluggable';
 import SystemNotice from 'components/system_notice';
+
 import ResetStatusModal from 'components/reset_status_modal';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
+import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
-import Pluggable from 'plugins/pluggable';
-
-import * as UserAgent from 'utils/user_agent';
 
 interface Props {
     fetchingChannels: boolean;
