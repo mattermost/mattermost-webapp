@@ -147,6 +147,7 @@ type Actions = {
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
     setDraft: (name: string, value: PostDraft | null) => void;
+    openEditPostModal: (postId: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
@@ -156,7 +157,6 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
-    openEditPostModal: (postId: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
 }
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
