@@ -8,29 +8,6 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
 
-const defaultState = {
-    show: false,
-};
-
-function editingPost(state = defaultState, action: GenericAction) {
-    switch (action.type) {
-    case ActionTypes.SHOW_EDIT_POST_MODAL:
-        return {
-            ...action.data,
-            show: true,
-        };
-    case ActionTypes.HIDE_EDIT_POST_MODAL:
-        return {
-            show: false,
-        };
-
-    case UserTypes.LOGOUT_SUCCESS:
-        return '';
-    default:
-        return state;
-    }
-}
-
 function menuActions(state: {[postId: string]: {[actionId: string]: {text: string; value: string}}} = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SELECT_ATTACHMENT_MENU_ACTION: {
@@ -53,6 +30,5 @@ function menuActions(state: {[postId: string]: {[actionId: string]: {text: strin
 }
 
 export default combineReducers({
-    editingPost,
     menuActions,
 });

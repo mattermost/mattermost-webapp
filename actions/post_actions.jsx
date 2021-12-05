@@ -230,12 +230,6 @@ export function markPostAsUnread(post, location) {
     };
 }
 
-export function hideEditPostModal() {
-    return {
-        type: ActionTypes.HIDE_EDIT_POST_MODAL,
-    };
-}
-
 export function deleteAndRemovePost(post) {
     return async (dispatch, getState) => {
         const {error} = await dispatch(PostActions.deletePost(post));

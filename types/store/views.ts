@@ -65,10 +65,6 @@ export type ViewsState = {
     rhsSuppressed: boolean;
 
     posts: {
-        editingPost: {
-            postId: string;
-            show: boolean;
-        };
         menuActions: {
             [postId: string]: {
                 [actionId: string]: {

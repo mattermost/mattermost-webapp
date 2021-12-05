@@ -39,7 +39,6 @@ export interface OwnProps {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
-    console.log(post, 'post');
     const post = getPost(state, ownProps.postId);
     const channelId = post.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
@@ -76,7 +75,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 type Actions = {
     addMessageIntoHistory: (message: string) => void;
     editPost: (input: Partial<Post>) => Promise<Post>;
-    hideEditPostModal: () => void;
     openModal: <P>(modalData: ModalData<P>) => void;
     setShowPreview: (newPreview: boolean) => void;
     runMessageWillBeUpdatedHooks: (newPost: Post, oldPost: Post) => Promise<ActionResult>;
