@@ -10,7 +10,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {comparePosts, canEditPost} from 'mattermost-redux/utils/post_utils';
+import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
