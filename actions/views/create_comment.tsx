@@ -23,17 +23,14 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
-import {openModal} from 'actions/views/modals';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {getPostDraft} from 'selectors/rhs';
 import EmojiMap from 'utils/emoji_map';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, ModalIdentifiers, StoragePrefixes} from 'utils/constants';
+import {Constants, StoragePrefixes} from 'utils/constants';
 import {PostDraft} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
-
-import EditPostModal from 'components/edit_post_modal';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, draft: PostDraft) => {
@@ -245,15 +242,11 @@ export function makeOnEditLatestPost(rootId: string) {
             return {data: false};
         }
 
-        return dispatch(openModal({
-            modalId: ModalIdentifiers.EDIT_POST,
-            dialogType: EditPostModal,
-            dialogProps: {
-                postId: lastPost.id,
-                refocusId: 'reply_textbox',
-                title: Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
-                isRHS: true,
-            },
-        }));
+        return dispatch(PostActions.openEditPostModal(
+            lastPost.id,
+            'reply_textbook',
+            Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
+            true,
+        ));
     };
 }

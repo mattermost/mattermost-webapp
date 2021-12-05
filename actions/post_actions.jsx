@@ -3,20 +3,21 @@
 
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
-import {getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import * as ThreadActions from 'mattermost-redux/actions/threads';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {comparePosts} from 'mattermost-redux/utils/post_utils';
+import {comparePosts, canEditPost} from 'mattermost-redux/utils/post_utils';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+import {openModal} from 'actions/views/modals';
 import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
@@ -24,9 +25,11 @@ import {
     Constants,
     RHSStates,
     StoragePrefixes,
+    ModalIdentifiers,
 } from 'utils/constants';
 import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
+import EditPostModal from 'components/edit_post_modal';
 
 import {completePostReceive} from './new_post';
 
@@ -206,6 +209,40 @@ export function unpinPost(postId) {
             removePostFromSearchResults(postId, state, dispatch);
         }
         return {data: true};
+    };
+}
+
+export function openEditPostModal(postId, refocusId = '', title = '', isRHS = false) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const post = PostSelectors.getPost(state, postId);
+
+        if (!post || post.pending_post_id === postId) {
+            return {data: false};
+        }
+
+        const config = state.entities.general.config;
+        const license = state.entities.general.license;
+        const userId = getCurrentUserId(state);
+        const channel = getChannel(state, post.channel_id);
+        const teamId = channel.team_id || '';
+
+        const isPostEditable = canEditPost(state, config, license, teamId, post.channel_id, userId, post);
+
+        if (isPostEditable) {
+            dispatch(openModal({
+                modalId: ModalIdentifiers.EDIT_POST,
+                dialogType: EditPostModal,
+                dialogProps: {
+                    post,
+                    refocusId,
+                    title,
+                    isRHS,
+                },
+            }));
+        }
+
+        return {data: isPostEditable};
     };
 }
 

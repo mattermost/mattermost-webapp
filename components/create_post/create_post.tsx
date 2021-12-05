@@ -57,7 +57,6 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import EditPostModal from 'components/edit_post_modal';
 
 import CreatePostTip from './create_post_tip';
 
@@ -274,6 +273,8 @@ type Props = {
       * Function to open a modal
       */
         openModal: <P>(modalData: ModalData<P>) => void;
+
+        openEditPostModal: (postId?: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
@@ -1142,16 +1143,12 @@ class CreatePost extends React.PureComponent<Props, State> {
             modalTitle = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
 
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.EDIT_POST,
-            dialogType: EditPostModal,
-            dialogProps: {
-                postId: lastPost.id,
-                refocusId: 'post_textbox',
-                title: modalTitle,
-                isRHS: false,
-            },
-        });
+        this.props.actions.openEditPostModal(
+            lastPost.id,
+            'post_textbox',
+            modalTitle,
+            false,
+        );
     }
 
     replyToLastPost = (e: React.KeyboardEvent) => {

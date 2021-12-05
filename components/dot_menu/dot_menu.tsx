@@ -23,7 +23,6 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import EditPostModal from 'components/edit_post_modal';
 
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
@@ -110,6 +109,7 @@ type Props = {
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
         openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+        openEditPostModal: (postId?: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
          * Function to get the post menu bindings for this post.
@@ -257,16 +257,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleEditMenuItemActivated = () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.EDIT_POST,
-            dialogType: EditPostModal,
-            dialogProps: {
-                postId: this.props.post.id,
-                refocusId: this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
-                title: this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
-                isRHS: this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
-            },
-        });
+        this.props.actions.openEditPostModal(
+            this.props.post.id,
+            this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
+            this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
+            this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
+        );
     }
 
     handleSetThreadFollow = () => {

@@ -11,7 +11,6 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {Post} from 'mattermost-redux/types/posts';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 
@@ -30,7 +29,7 @@ import {isPostOwner} from 'utils/post_utils';
 import EditPostModal from './edit_post_modal';
 
 export interface OwnProps {
-    postId: Post['id'];
+    post: Post;
     refocusId: string;
     title: string;
     isRHS: boolean;
@@ -39,27 +38,23 @@ export interface OwnProps {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
-    const post = getPost(state, ownProps.postId);
-    const channelId = post.channel_id || getCurrentChannelId(state);
+    const channelId = ownProps.post.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
 
     let canDeletePost = false;
     let canEditPost = false;
 
-    if (post) {
-        if (isPostOwner(state, post)) {
-            canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
-            canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_POST);
-        } else {
-            canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
-            canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_OTHERS_POSTS);
-        }
+    if (isPostOwner(state, ownProps.post)) {
+        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
+        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_POST);
+    } else {
+        canDeletePost = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
+        canEditPost = haveIChannelPermission(state, teamId, channelId, Permissions.EDIT_OTHERS_POSTS);
     }
 
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
 
     return {
-        post,
         canEditPost,
         canDeletePost,
         codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
