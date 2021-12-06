@@ -21,8 +21,8 @@ const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
 export type Props = {
     scheme: Scheme;
     teams?: Team[];
-    isDisabled?: () => void;
-    actions: {
+    isDisabled?: boolean;
+    actions?: {
         deleteScheme: (id: string) => Promise<ActionResult>;
     };
 }

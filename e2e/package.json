@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@cypress/request": "2.88.7",
     "@testing-library/cypress": "7.0.6",
     "@types/lodash": "4.14.175",
     "async": "3.2.1",

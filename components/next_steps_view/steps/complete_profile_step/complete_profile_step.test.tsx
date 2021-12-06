@@ -23,7 +23,7 @@ describe('components/next_steps_view/steps/complete_profile_step', () => {
             uploadProfileImage: jest.fn(),
         },
         isLastStep: false,
-        finishButtonText: {
+        completeStepButtonText: {
             id: 'tID',
             defaultMessage: 'defaultMessage',
         },

@@ -33,6 +33,18 @@ $tip-index: 1000;
         border-color: transparent;
     }
 
+    .svg-wrapper {
+        display: flex;
+
+        svg {
+            margin: 0 auto;
+        }
+    }
+
+    .handSvg.svg-wrapper {
+        margin: 20px 0 30px 0;
+    }
+
     &.tip-overlay--sidebar {
         max-width: 75%;
         min-height: 330px;
