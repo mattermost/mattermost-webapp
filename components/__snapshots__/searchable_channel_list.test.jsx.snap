@@ -12,8 +12,6 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     >
       <QuickInput
         className="form-control filter-textbox"
-        clearable={false}
-        delayInputUpdate={false}
         id="searchChannelsTextbox"
         inputComponent={
           Object {
@@ -29,8 +27,6 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
             "id": "filtered_channels_list.search",
           }
         }
-        tooltipPosition="bottom"
-        value=""
       />
     </div>
   </div>

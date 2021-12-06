@@ -220,7 +220,6 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           <QuickInput
             className="form-control filter-textbox search_input"
             clearable={true}
-            delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
               Object {
@@ -237,7 +236,6 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
                 "id": "marketplace_modal.search",
               }
             }
-            tooltipPosition="bottom"
             value=""
           />
         </div>
@@ -302,7 +300,6 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           <QuickInput
             className="form-control filter-textbox search_input"
             clearable={true}
-            delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
               Object {
@@ -319,7 +316,6 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
                 "id": "marketplace_modal.search",
               }
             }
-            tooltipPosition="bottom"
             value=""
           />
         </div>
@@ -384,7 +380,6 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           <QuickInput
             className="form-control filter-textbox search_input"
             clearable={true}
-            delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
               Object {
@@ -401,7 +396,6 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
                 "id": "marketplace_modal.search",
               }
             }
-            tooltipPosition="bottom"
             value=""
           />
         </div>
