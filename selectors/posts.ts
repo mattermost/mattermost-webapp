@@ -12,24 +12,6 @@ import {StoragePrefixes} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 
-export const getEditingPost = createSelector(
-    'getEditingPost',
-    (state: GlobalState) => {
-        if (state.views.posts.editingPost && state.views.posts.editingPost.postId) {
-            return getPost(state, state.views.posts.editingPost.postId);
-        }
-
-        return null;
-    },
-    (state: GlobalState) => state.views.posts.editingPost,
-    (post, editingPost) => {
-        return {
-            ...editingPost,
-            post,
-        };
-    },
-);
-
 export function isEmbedVisible(state: GlobalState, postId: string) {
     const currentUserId = getCurrentUserId(state);
     const previewCollapsed = arePreviewsCollapsed(state);
