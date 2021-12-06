@@ -37,7 +37,7 @@ describe('makeGetMentionKeysForPost', () => {
                     [group.id]: group,
                 },
                 myGroups: [
-                    group.id
+                    group.id,
                 ],
             },
             teams: {
