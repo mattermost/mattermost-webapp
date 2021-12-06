@@ -2,14 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
-
-import {Channel} from 'mattermost-redux/types/channels';
-import {MarketplacePlugin, MarketplaceApp} from 'mattermost-redux/types/marketplace';
-import {Theme} from 'mattermost-redux/types/themes';
+import {mount} from 'enzyme';
 
 import {PluginComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
+
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import AppBar from './app_bar';
 
@@ -24,25 +22,46 @@ jest.mock('react-redux', () => ({
 
 describe('components/app_bar/app_bar', () => {
     beforeEach(() => {
-        mockState = {views: {rhs: {isSidebarOpen: true}}} as GlobalState;
+        mockState = {
+            views: {
+                rhs: {
+                    isSidebarOpen: true,
+                    rhsState: 'plugin',
+                    pluggableId: 'the_rhs_plugin_component',
+                },
+            },
+            plugins: {
+                components: {
+                    ChannelHeaderButton: channelHeaderComponents,
+                    RightHandSidebarComponent: rhsComponents,
+                } as {[componentName: string]: PluginComponent[]},
+            },
+            entities: {
+                apps: {
+                    main: {
+                        bindings: channelHeaderAppBindings,
+                    } as {bindings: AppBinding[]},
+                },
+                general: {
+                    config: {
+                        FeatureFlagAppBarEnabled: 'true',
+                    } as any,
+                },
+                channels: {
+                    currentChannelId: 'currentchannel',
+                    channels: {
+                        currentchannel: {
+                            id: 'currentchannel',
+                        },
+                    } as any,
+                },
+                preferences: {
+                    myPreferences: {
+                    },
+                } as any,
+            },
+        } as GlobalState;
     });
-
-    const marketplaceListing: Array<MarketplacePlugin | MarketplaceApp> = [
-        {
-            icon_data: 'playbooks_icon_data',
-            manifest: {
-                id: 'playbooks',
-                version: '1.0.0',
-            },
-        } as MarketplacePlugin,
-        {
-            manifest: {
-                app_id: 'com.mattermost.zendesk',
-            },
-            installed: true,
-            icon_url: 'zendesk_icon_data',
-        } as MarketplaceApp,
-    ];
 
     const channelHeaderComponents: PluginComponent[] = [
         {
@@ -53,96 +72,27 @@ describe('components/app_bar/app_bar', () => {
         },
     ];
 
-    const baseProps: Props = {
-        activePluginId: 'playbooks',
-        channelHeaderAppBindings: [],
-        channelHeaderPluginComponents: channelHeaderComponents,
-        marketplaceListing,
-        channel: {} as Channel,
-        actions: {
-            fetchListing: jest.fn().mockResolvedValue({data: []}),
+    const rhsComponents: PluginComponent[] = [
+        {
+            id: 'the_rhs_plugin_component_id',
+            pluginId: 'playbooks',
+            icon: <div/>,
+            action: jest.fn(),
         },
-        theme: {} as Theme,
-    };
+    ];
+
+    const channelHeaderAppBindings: AppBinding[] = [
+        {
+            app_id: 'com.mattermost.zendesk',
+            label: 'Create Subscription',
+        },
+    ];
 
     test('should match snapshot on mount', async () => {
-        const props = {
-            ...baseProps,
-            actions: {
-                fetchListing: jest.fn().mockResolvedValue({data: []}),
-            },
-        };
-
-        const wrapper = shallow<AppBar>(
-            <AppBar {...props}/>,
+        const wrapper = mount(
+            <AppBar/>,
         );
 
-        expect(props.actions.fetchListing).toHaveBeenCalled();
-        expect(wrapper.state().loadedMarketplaceListing).toBe(false);
         expect(wrapper).toMatchSnapshot();
-
-        await props.actions.fetchListing();
-        expect(wrapper.state().loadedMarketplaceListing).toBe(true);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should show icon from plugin marketplace', async () => {
-        const props = {
-            ...baseProps,
-            actions: {
-                fetchListing: jest.fn().mockResolvedValue({data: []}),
-            },
-        };
-
-        const wrapper = shallow<AppBar>(
-            <AppBar {...props}/>,
-        );
-
-        await props.actions.fetchListing();
-
-        expect(wrapper.find('img[src="playbooks_icon_data"]').exists()).toBe(true);
-    });
-
-    test('should show fallback icon when marketplace entry is missing', async () => {
-        const props = {
-            ...baseProps,
-            actions: {
-                fetchListing: jest.fn().mockResolvedValue({data: []}),
-            },
-            marketplaceListing: [],
-        };
-
-        const wrapper = shallow<AppBar>(
-            <AppBar {...props}/>,
-        );
-
-        await props.actions.fetchListing();
-
-        expect(wrapper.find('img').exists()).toBe(false);
-        expect(wrapper.text()).toContain('fallback_component');
-    });
-
-    test('should show fallback icon when marketplace icon is missing', async () => {
-        const props = {
-            ...baseProps,
-            actions: {
-                fetchListing: jest.fn().mockResolvedValue({data: []}),
-            },
-            marketplaceListing: [
-                {
-                    ...marketplaceListing[0],
-                    icon_data: '',
-                },
-            ],
-        };
-
-        const wrapper = shallow<AppBar>(
-            <AppBar {...props}/>,
-        );
-
-        await props.actions.fetchListing();
-
-        expect(wrapper.find('img').exists()).toBe(false);
-        expect(wrapper.text()).toContain('fallback_component');
     });
 });
