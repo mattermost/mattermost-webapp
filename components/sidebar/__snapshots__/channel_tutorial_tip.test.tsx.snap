@@ -1,5 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with firstChannelName set 1`] = `
+<Connect(TutorialTip)
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Welcome to {firstChannelName}, your first channel!"
+            id="create_first_channel.tutorialTip.title"
+            values={
+              Object {
+                "firstChannelName": "Firstchannelname",
+              }
+            }
+          />
+        </h4>
+        <div
+          className="handSvg svg-wrapper"
+        >
+          <HandsSvg
+            height={60}
+            width={60}
+          />
+        </div>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Start collaborating with your teammates and pull in your favorite plugins."
+            id="create_first_channel.tutorialTip1"
+          />
+        </p>
+      </div>,
+    ]
+  }
+  step={-1}
+  telemetryTag="tutorial_tip_0_first_channel"
+/>
+`;
+
 exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"

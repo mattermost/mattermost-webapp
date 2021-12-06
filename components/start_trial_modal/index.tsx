@@ -7,7 +7,7 @@ import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {isModalOpen} from 'selectors/views/modals';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 import {ModalIdentifiers} from 'utils/constants';
 import {closeModal, openModal} from 'actions/views/modals';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
