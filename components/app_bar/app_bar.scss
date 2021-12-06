@@ -90,8 +90,7 @@ $app-bar-plugin-component: '.fa, i, svg';
             line-height: 20px;
             vertical-align: middle;
 
-            &.CompassIcon, 
-            &.icon-brand-zoom {
+            &.CompassIcon, &.icon-brand-zoom {
                 font-size: 20px;
 
                 &::before {
