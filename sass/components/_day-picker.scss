@@ -20,34 +20,34 @@
         }
 
         .DayPicker-Day {
+            position: relative;
+            z-index: 1;
             min-width: 32px;
             height: 32px;
             padding: 0;
             border-radius: 100%;
             font-weight: 600;
-            position: relative;
-            z-index: 1;
 
             &:hover {
                 background: var(--center-channel-bg) !important;
             }
 
-            &:before {
-                content: " ";
-                height: 32px;
-                left: 15px;
+            &::before {
                 position: absolute;
-                top: 0;
-                width: 32px;
                 z-index: -1;
+                top: 0;
+                left: 15px;
+                width: 32px;
+                height: 32px;
                 border-radius: 32px;
+                content: " ";
             }
         }
 
         .DayPicker-Day--today {
             color: var(--button-bg);
 
-            &:before {
+            &::before {
                 background: rgba(var(--button-bg-rgb), 0.08);
             }
         }
