@@ -1305,7 +1305,7 @@ function handleGroupUpdatedEvent(msg) {
         {
             type: GroupTypes.PATCHED_GROUP,
             data,
-        }
+        },
     );
 }
 
