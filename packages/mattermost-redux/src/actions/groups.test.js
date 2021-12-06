@@ -104,7 +104,7 @@ describe('Actions.Groups', () => {
         const groupID = '5rgoajywb3nfbdtyafbod47rya';
 
         const response = {
-            id: '5rgoajywb3nfbdtyafbod47rya',
+            id: groupID,
             name: '8b7ks7ngqbgndqutka48gfzaqh',
             display_name: 'Test Group 0',
             description: '',
@@ -117,7 +117,7 @@ describe('Actions.Groups', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/groups/${groupID}`).
+            get(`/groups/${groupID}?include_member_count=false`).
             reply(200, response);
 
         await Actions.getGroup(groupID)(store.dispatch, store.getState);
@@ -125,6 +125,7 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const groups = state.entities.groups.groups;
+        console.log(groups);
         assert.ok(groups);
         assert.ok(groups[groupID]);
         assert.ok(JSON.stringify(response) === JSON.stringify(groups[groupID]));
