@@ -141,30 +141,36 @@ function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericA
     }
 }
 
-function myGroups(state: any = {}, action: GenericAction) {
+function myGroups(state: string[] = [], action: GenericAction) {
     switch (action.type) {
-    case GroupTypes.PATCHED_GROUP: {
-        const nextState = {...state};
-        if (nextState[action.data.id]) {
-            return {
-                ...state,
-                [action.data.id]: action.data,
-            };
-        }
-        return {
-            ...state,
-        };
-    }
     case GroupTypes.RECEIVED_MY_GROUPS: {
-        const nextState = {...state};
-        for (const group of action.data) {
-            nextState[group.id] = group;
-        }
+        const groups: Group[] = action.data;
+        const nextState = [...state];
+
+        groups.forEach((group) => {
+            const index = state.indexOf(group.id);
+
+            if (index === -1) {
+                nextState.push(group.id);
+            }
+        });
+
         return nextState;
     }
     case GroupTypes.ARCHIVED_GROUP: {
-        const nextState = {...state};
-        Reflect.deleteProperty(nextState, action.id);
+        const groupId = action.id;
+
+        const index = state.indexOf(groupId);
+
+        if (index === -1) {
+            // There's nothing to remove
+            return state;
+        }
+
+        // Remove the group ID from my groups list
+        const nextState = [...state];
+        nextState.splice(index, 1);
+
         return nextState;
     }
     default:
@@ -196,6 +202,7 @@ function groups(state: Dictionary<Group> = {}, action: GenericAction) {
             [action.data.id]: action.data,
         };
     }
+    case GroupTypes.RECEIVED_MY_GROUPS:
     case GroupTypes.RECEIVED_GROUPS: {
         const nextState = {...state};
         for (const group of action.data) {

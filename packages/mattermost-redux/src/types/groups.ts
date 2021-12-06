@@ -85,7 +85,7 @@ export type GroupsState = {
     syncables: Dictionary<GroupSyncablesState>;
     stats: RelationOneToOne<Group, GroupStats>;
     groups: Dictionary<Group>;
-    myGroups: Dictionary<Group>;
+    myGroups: string[];
 };
 
 export type GroupStats = {

@@ -20,11 +20,22 @@ const emptySyncables = {
     channels: [],
 };
 
+function getGroupInfoForIds(groupsSet: Dictionary<Group>, groupIds: string[]) {
+    const groups: Group[] = [];
+
+    for (let i = 0; i < groupIds.length; i++) {
+        const id = groupIds[i];
+        groups.push(groupsSet[id]);
+    }
+
+    return groups;
+}
+
 export function getAllGroups(state: GlobalState) {
     return state.entities.groups.groups;
 }
 
-export function getMyGroups(state: GlobalState) {
+export function getMyGroupIds(state: GlobalState) {
     return state.entities.groups.myGroups;
 }
 
@@ -125,6 +136,15 @@ const getChannelGroupIDSet = createSelector(
     (channelIDs) => new Set(channelIDs),
 );
 
+export const getMyGroups: (state: GlobalState) => Group[] = createSelector(
+    'getGroupsNotAssociatedToTeam',
+    getAllGroups,
+    getMyGroupIds,
+    (allGroups, myGroupIds) => {
+        return sortGroups(getGroupInfoForIds(allGroups, myGroupIds));
+    },
+);
+
 export const getGroupsNotAssociatedToTeam: (state: GlobalState, teamID: string) => Group[] = createSelector(
     'getGroupsNotAssociatedToTeam',
     getAllGroups,
@@ -219,7 +239,7 @@ export const getMyAllowReferencedGroups: (state: GlobalState) => Group[] = creat
     getMyGroups,
     getCurrentUserLocale,
     (myGroups, locale) => {
-        const groups = Object.values(myGroups).filter((group) => group.allow_reference && group.delete_at === 0);
+        const groups = myGroups.filter((group) => group.allow_reference && group.delete_at === 0);
 
         return sortGroups(groups, locale);
     },
@@ -230,7 +250,7 @@ export const getMyGroupsAssociatedToChannelForReference: (state: GlobalState, te
     getMyGroups,
     getAssociatedGroupsByName,
     (myGroups, groups) => {
-        return Object.values(myGroups).filter((group) => group.allow_reference && group.delete_at === 0 && groups[group.name]);
+        return myGroups.filter((group) => group.allow_reference && group.delete_at === 0 && groups[group.name]);
     },
 );
 
