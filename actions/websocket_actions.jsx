@@ -1301,16 +1301,12 @@ function handleOpenDialogEvent(msg) {
 
 function handleGroupUpdatedEvent(msg) {
     const data = JSON.parse(msg.data.group);
-    dispatch(batchActions([
+    dispatch(
         {
-            type: GroupTypes.RECEIVED_GROUP,
+            type: GroupTypes.PATCHED_GROUP,
             data,
-        },
-        {
-            type: GroupTypes.RECEIVED_MY_GROUPS,
-            data: [data],
-        },
-    ]));
+        }
+    );
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {

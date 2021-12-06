@@ -143,6 +143,18 @@ function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericA
 
 function myGroups(state: any = {}, action: GenericAction) {
     switch (action.type) {
+    case GroupTypes.PATCHED_GROUP: {
+        const nextState = {...state};
+        if (nextState[action.data.id]) {
+            return {
+                ...state,
+                [action.data.id]: action.data,
+            };
+        }
+        return {
+            ...state,
+        };
+    }
     case GroupTypes.RECEIVED_MY_GROUPS: {
         const nextState = {...state};
         for (const group of action.data) {
