@@ -41,8 +41,7 @@ describe('Selectors.Search', () => {
                     },
                 },
                 groups: {
-                    groups: {},
-                    myGroups: {
+                    groups: {
                         test1: {
                             name: 'I-AM-THE-BEST!',
                             delete_at: 0,
@@ -59,6 +58,11 @@ describe('Selectors.Search', () => {
                             allow_reference: false,
                         },
                     },
+                    myGroups: [
+                        'test1',
+                        'test2',
+                        'test3',
+                    ],
                 },
             },
         };
