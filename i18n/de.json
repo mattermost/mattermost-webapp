@@ -3979,6 +3979,8 @@
   "search_item.file_badge.direct_message": "Direktnachricht",
   "search_item.file_badge.group_message": "Gruppennachricht",
   "search_item.jump": "Springen",
+  "search_item.thread": "Unterhaltung in [channel]",
+  "search_item.thread_direct": "Unterhaltung in Direktnachricht mit {username}",
   "search_list_option.after": "Nachrichten nach",
   "search_list_option.before": "Nachrichten vor",
   "search_list_option.exclude": "Suchbegriffe ausschließen",
