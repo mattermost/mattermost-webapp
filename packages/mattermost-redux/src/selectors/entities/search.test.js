@@ -44,16 +44,19 @@ describe('Selectors.Search', () => {
                     groups: {
                         test1: {
                             name: 'I-AM-THE-BEST!',
+                            display_name: 'I-AM-THE-BEST!',
                             delete_at: 0,
                             allow_reference: true,
                         },
                         test2: {
                             name: 'Do-you-love-me?',
+                            display_name: 'Do-you-love-me?',
                             delete_at: 0,
                             allow_reference: true,
                         },
                         test3: {
                             name: 'Maybe?-A-little-bit-I-guess....',
+                            display_name: 'Maybe?-A-little-bit-I-guess....',
                             delete_at: 0,
                             allow_reference: false,
                         },
@@ -67,6 +70,6 @@ describe('Selectors.Search', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getAllUserMentionKeys(state), [{key: 'First', caseSensitive: true}, {key: '@user'}, {key: '@I-AM-THE-BEST!'}, {key: '@Do-you-love-me?'}]);
+        assert.deepEqual(Selectors.getAllUserMentionKeys(state), [{key: 'First', caseSensitive: true}, {key: '@user'}, {key: '@Do-you-love-me?'}, {key: '@I-AM-THE-BEST!'}]);
     });
 });
