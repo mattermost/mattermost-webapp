@@ -15,6 +15,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
 
+import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
 import {
     setRhsExpanded,
     showMentions,
@@ -33,15 +34,21 @@ import {matchUserMentionTriggersWithMessageMentions} from '../../utils/post_util
 
 import RhsHeaderPost from './rhs_header_post';
 
+type UserThreadOrSythetic = UserThread | UserThreadSynthetic;
 type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
 
 function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     const root = getPost(state, rootPostId);
     const currentUserMentionKeys = getCurrentUserMentionKeys(state);
-    const rootMessageMentionKeys = allAtMentions(root.message);
-    const thread = getThreadOrSynthetic(state, root);
-    const isMentionedInRootPost = thread.reply_count === 0 &&
-        matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+
+    let isMentionedInRootPost = false;
+    let thread = {} as UserThreadOrSythetic;
+    if (root) {
+        const rootMessageMentionKeys = allAtMentions(root.message);
+        thread = getThreadOrSynthetic(state, root);
+        isMentionedInRootPost = thread.reply_count === 0 &&
+            matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+    }
 
     return {
         isExpanded: getIsRhsExpanded(state),

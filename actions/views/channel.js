@@ -8,6 +8,7 @@ import {
     joinChannel,
     markChannelAsRead,
     unfavoriteChannel,
+    deleteChannel as deleteChannelRedux,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
@@ -34,11 +35,13 @@ import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/u
 import {getChannelByName} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
+import {closeRightHandSide} from 'actions/views/rhs';
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {loadCustomStatusEmojisForPostList} from 'actions/emoji_actions';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
+import {getSelectedPost} from 'selectors/rhs';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
@@ -146,6 +149,11 @@ export function leaveChannel(channelId) {
         const prevChannel = getChannelByName(channelsInTeam, prevChannelName);
         if (!prevChannel || !getMyChannelMemberships(state)[prevChannel.id]) {
             LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+        }
+
+        const selectedPost = getSelectedPost(state);
+        if (!selectedPost.exists) {
+            dispatch(closeRightHandSide());
         }
 
         if (getMyChannels(getState()).filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).length === 0) {
@@ -454,5 +462,22 @@ export function updateToastStatus(status) {
             type: ActionTypes.UPDATE_TOAST_STATUS,
             data: status,
         });
+    };
+}
+
+export function deleteChannel(channelId) {
+    return async (dispatch, getState) => {
+        const res = await dispatch(deleteChannelRedux(channelId));
+        if (res.error) {
+            return {data: false};
+        }
+        const state = getState();
+
+        const selectedPost = getSelectedPost(state);
+        if (!selectedPost.exists) {
+            dispatch(closeRightHandSide());
+        }
+
+        return {data: true};
     };
 }
