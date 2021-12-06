@@ -112,7 +112,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, with 
       rel="noopener noreferrer"
       target="_blank"
     >
-      <DownloadIcon />
+      <AttachmentIcon />
     </a>
   </OverlayTrigger>
 </div>

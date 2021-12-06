@@ -264,7 +264,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     termsAndPolicy = (
         <div className='terms-and-policy'>
             {'See also '}
-            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Service')}
+            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Use')}
             {' and '}
             {this.createLink(AboutLinks.PRIVACY_POLICY, 'Privacy Policy')}
         </div>

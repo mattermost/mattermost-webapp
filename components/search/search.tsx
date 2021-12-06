@@ -5,6 +5,9 @@ import React, {ChangeEvent, MouseEvent, FormEvent, useEffect, useState, useRef} 
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
+import {useSelector} from 'react-redux';
+
+import {getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion, isMacApp} from 'utils/user_agent';
 import Constants, {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
@@ -71,6 +74,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
 
     const intl = useIntl();
+    const currentChannelName = useSelector(getCurrentChannelNameForSearchShortcut);
 
     // generate intial component state and setters
     const [focused, setFocused] = useState<boolean>(false);
@@ -110,7 +114,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     actions.openRHSSearch();
                     setKeepInputFocused(true);
                 }
-                actions.updateSearchTermsForShortcut();
+                if (currentChannelName) {
+                    actions.updateSearchTermsForShortcut();
+                }
                 handleFocus();
             }
         };
@@ -119,7 +125,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [hideSearchBar]);
+    }, [hideSearchBar, currentChannelName]);
 
     useEffect((): void => {
         if (!Utils.isMobile()) {

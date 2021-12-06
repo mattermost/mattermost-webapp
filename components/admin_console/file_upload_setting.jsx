@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -30,9 +29,9 @@ export default class FileUploadSetting extends Setting {
         this.state = {
             fileName: null,
             serverError: props.error,
+            uploading: false,
         };
         this.fileInputRef = React.createRef();
-        this.uploadButtonRef = React.createRef();
     }
 
     handleChange = () => {
@@ -45,9 +44,9 @@ export default class FileUploadSetting extends Setting {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        $(this.uploadButtonRef.current).button('loading');
+        this.setState({uploading: true});
         this.props.onSubmit(this.props.id, this.fileInputRef.current.files[0], (error) => {
-            $(this.uploadButtonRef.current).button('reset');
+            this.setState({uploading: false});
             if (error) {
                 Utils.clearFileInput(this.fileInputRef.current);
             }
@@ -108,13 +107,17 @@ export default class FileUploadSetting extends Setting {
                         className={btnClass}
                         disabled={!this.state.fileSelected}
                         onClick={this.handleSubmit}
-                        ref={this.uploadButtonRef}
-                        data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this.props.uploadingText}`}
                     >
-                        <FormattedMessage
-                            id='admin.file_upload.uploadFile'
-                            defaultMessage='Upload'
-                        />
+                        {this.state.uploading && (
+                            <>
+                                <span className='glyphicon glyphicon-refresh glyphicon-refresh-animate'/>
+                                {this.props.uploadingText}
+                            </>)}
+                        {!this.state.uploading &&
+                            <FormattedMessage
+                                id='admin.file_upload.uploadFile'
+                                defaultMessage='Upload'
+                            />}
                     </button>
                     <div className='help-text m-0'>
                         {fileName}
