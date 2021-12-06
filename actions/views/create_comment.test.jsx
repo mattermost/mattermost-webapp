@@ -19,7 +19,6 @@ import {
     submitReaction,
     submitCommand,
     makeOnSubmit,
-    makeOnEditLatestPost,
 } from 'actions/views/create_comment';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import * as PostActions from 'actions/post_actions.jsx';
@@ -420,23 +419,6 @@ describe('rhs view actions', () => {
                 expect.arrayContaining(testStore.getActions()),
                 expect.arrayContaining([{args: ['test msg'], type: 'MOCK_ADD_MESSAGE_INTO_HISTORY'}]),
             );
-        });
-    });
-
-    describe('makeOnEditLatestPost', () => {
-        const onEditLatestPost = makeOnEditLatestPost(rootId);
-
-        test('it dispatches the correct actions', () => {
-            store.dispatch(onEditLatestPost());
-
-            expect(store.getActions()).toEqual([
-                PostActions.setEditingPost(
-                    latestPostId,
-                    'reply_textbox',
-                    'Comment',
-                    true,
-                ),
-            ]);
         });
     });
 });

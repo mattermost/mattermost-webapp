@@ -34,7 +34,6 @@ describe('components/dot_menu/DotMenu', () => {
         actions: {
             flagPost: jest.fn(),
             unflagPost: jest.fn(),
-            setEditingPost: jest.fn(),
             pinPost: jest.fn(),
             unpinPost: jest.fn(),
             openModal: jest.fn(),
@@ -44,6 +43,7 @@ describe('components/dot_menu/DotMenu', () => {
             setThreadFollow: jest.fn(),
             openAppsModal: jest.fn(),
             fetchBindings: jest.fn(),
+            openEditPostModal: jest.fn(),
         },
         canEdit: false,
         canDelete: false,

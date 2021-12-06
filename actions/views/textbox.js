@@ -22,10 +22,3 @@ export function setShowPreviewOnEditChannelHeaderModal(showPreview) {
         showPreview,
     };
 }
-
-export function setShowPreviewOnEditPostModal(showPreview) {
-    return {
-        type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL,
-        showPreview,
-    };
-}

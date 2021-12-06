@@ -65,7 +65,7 @@ const actionsProp = {
     onSubmitPost: jest.fn(),
     selectPostFromRightHandSideSearchByPostId: jest.fn(),
     setDraft: jest.fn(),
-    setEditingPost: jest.fn(),
+    openEditPostModal: jest.fn(),
     openModal: jest.fn(),
     setShowPreview: jest.fn(),
     executeCommand: async () => {
@@ -888,25 +888,25 @@ describe('components/create_post', () => {
     });
 
     it('Should call edit action as comment for arrow up', () => {
-        const setEditingPost = jest.fn();
+        const openEditPostModal = jest.fn();
         const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
-                setEditingPost,
+                openEditPostModal,
             },
         }));
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
+        expect(openEditPostModal).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type, false);
     });
 
     it('Should call edit action as post for arrow up', () => {
-        const setEditingPost = jest.fn();
+        const openEditPostModal = jest.fn();
         const wrapper = shallowWithIntl(createPost({
             actions: {
                 ...actionsProp,
-                setEditingPost,
+                openEditPostModal,
             },
         }));
         const instance = wrapper.instance();
@@ -917,7 +917,7 @@ describe('components/create_post', () => {
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
+        expect(openEditPostModal).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type, false);
     });
 
     it('Should call moveHistoryIndexForward as ctrlKey and down arrow', () => {

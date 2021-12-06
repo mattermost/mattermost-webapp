@@ -17,7 +17,6 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'types/store';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
-import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {editPost} from 'actions/views/posts';
 import {runMessageWillBeUpdatedHooks} from 'actions/hooks';
 import Constants from 'utils/constants';
@@ -58,7 +57,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config,
         channelId,
-        shouldShowPreview: showPreviewOnEditPostModal(state),
         maxPostSize: parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         useChannelMentions,
     };
@@ -68,7 +66,6 @@ type Actions = {
     addMessageIntoHistory: (message: string) => void;
     editPost: (input: Partial<Post>) => Promise<Post>;
     openModal: <P>(modalData: ModalData<P>) => void;
-    setShowPreview: (newPreview: boolean) => void;
     runMessageWillBeUpdatedHooks: (newPost: Post, oldPost: Post) => Promise<ActionResult>;
 }
 

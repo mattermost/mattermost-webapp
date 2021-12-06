@@ -34,18 +34,8 @@ function shouldShowPreviewOnEditChannelHeaderModal(state = false, action: Generi
     }
 }
 
-function shouldShowPreviewOnEditPostModal(state = false, action: GenericAction) {
-    switch (action.type) {
-    case ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL:
-        return action.showPreview;
-    default:
-        return state;
-    }
-}
-
 export default combineReducers({
     shouldShowPreviewOnCreateComment,
     shouldShowPreviewOnCreatePost,
     shouldShowPreviewOnEditChannelHeaderModal,
-    shouldShowPreviewOnEditPostModal,
 });

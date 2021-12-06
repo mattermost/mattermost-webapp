@@ -59,26 +59,19 @@ const defaultProps = {
     canDeletePost: true,
     codeBlockOnCtrlEnter: false,
     ctrlSend: false,
-    useChannelMentions: true,
-    shouldShowPreview: true,
-    maxPostSize: 100,
-    channelId: '5',
     config: {EnableEmojiPicker: 'true', EnableGifPicker: 'false'},
-    editingPost: {
-        postId: '123',
-        post: {
-            ...defaultPost,
-        },
-        refocusId: 'test',
-        show: true,
-        title: 'test',
-    },
+    channelId: '5',
+    maxPostSize: 100,
+    useChannelMentions: true,
+    post: {...defaultPost},
+    refocusId: 'test',
+    title: 'test',
+    isRHS: false,
+    onExited: jest.fn(),
     actions: {
-        editPost: jest.fn((data) => (Promise.resolve(data))),
         addMessageIntoHistory: jest.fn(),
-        hideEditPostModal: jest.fn(),
+        editPost: jest.fn((data) => (Promise.resolve(data))),
         openModal: jest.fn(),
-        setShowPreview: jest.fn(),
         runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
     },
 };
@@ -91,41 +84,42 @@ function createEditPost(
         ctrlSend = false,
         channelId,
         config = {EnableEmojiPicker: 'true', EnableGifPicker: 'true'},
-        editingPost = {post: {...defaultPost}, show: false, postId: '1'},
+        post = {...defaultPost, id: '1'},
+        title = 'test',
+        refocusId = 'test',
+        isRHS = false,
+        onExited = jest.fn(),
         actions = {
             editPost: jest.fn((data) => (Promise.resolve({...defaultPost, ...data}))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         },
     }: Props,
 ) {
     return (
         <EditPostModal
+            post={post}
+            title={title}
+            refocusId={refocusId}
+            isRHS={isRHS}
             canEditPost={canEditPost}
-            shouldShowPreview={false}
             canDeletePost={canDeletePost}
             channelId={channelId}
             codeBlockOnCtrlEnter={false}
             ctrlSend={ctrlSend}
             config={config}
-            editingPost={editingPost}
             actions={actions}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
             useChannelMentions={useChannelMentions}
+            onExited={onExited}
         />
     );
 }
 
 describe('components/EditPostModal', () => {
     it('should match when editing post is undefined', () => {
-        const editingPost = {
-            ...defaultProps.editingPost,
-            post: undefined,
-        };
-        const wrapper = shallowWithIntl(createEditPost({...defaultProps, editingPost}));
+        const wrapper = shallowWithIntl(createEditPost({...defaultProps, post: undefined as any}));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -135,8 +129,8 @@ describe('components/EditPostModal', () => {
     });
 
     it('should match without emoji picker', () => {
-        const config = {
-            PostEditTimeLimit: 300,
+        const config: Props['config'] = {
+            PostEditTimeLimit: '300',
             EnableEmojiPicker: 'false',
         };
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, config}));
@@ -148,23 +142,16 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
-        const editingPost = {
-            postId: '123',
-            post: {
-                ...defaultPost,
-                file_ids: ['file_id_1'],
-            },
-            refocusId: 'test',
-            show: true,
-            title: 'test',
+        const post = {
+            ...defaultPost,
+            file_ids: ['file_id_1'],
         };
 
-        const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions, editingPost}));
+        const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions, post}));
         const instance = wrapper.instance() as EditPostModalClass;
         wrapper.setState({editText: ''});
         await instance.handleEdit();
@@ -174,12 +161,11 @@ describe('components/EditPostModal', () => {
         expect(actions.editPost).toBeCalled();
     });
 
-    it('should call editPost, addMessageIntoHistory and hideEditPostModal on save', async () => {
+    it('should call editPost, addMessageIntoHistory on save', async () => {
         global.scrollTo = jest.fn();
         const actions = {
             editPost: jest.fn((data) => Promise.resolve(data)),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
@@ -198,7 +184,6 @@ describe('components/EditPostModal', () => {
             ...defaultPost,
             message: 'new message',
         });
-        expect(actions.hideEditPostModal).toBeCalled();
     });
 
     it('should show emojis on emojis click', () => {
@@ -296,51 +281,27 @@ describe('components/EditPostModal', () => {
         expect(ref.focus).toBeCalled();
     });
 
-    it('should hide the preview when exiting', () => {
-        const actions = {
-            editPost: jest.fn((data) => (Promise.resolve(data))),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
-            setShowPreview: jest.fn(),
-            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
-        };
-
-        const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
-        const instance = wrapper.instance() as EditPostModalClass;
-
-        instance.setShowPreview(true);
-        expect(actions.setShowPreview).toHaveBeenCalledWith(true);
-        instance.handleExit();
-        expect(actions.setShowPreview).toHaveBeenCalledWith(false);
-    });
-
     it('should close without saving when post text is not changed', async () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
         const instance = wrapper.instance() as EditPostModalClass;
-
-        expect(actions.hideEditPostModal).not.toBeCalled();
 
         await instance.handleEdit();
 
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
-        expect(actions.hideEditPostModal).toBeCalled();
     });
 
     it('should close and show delete confirmation modal when message is empty', async () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
@@ -348,12 +309,9 @@ describe('components/EditPostModal', () => {
         let wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
         let instance = wrapper.instance() as EditPostModalClass;
 
-        expect(actions.hideEditPostModal).not.toBeCalled();
-
         wrapper.setState({editText: ''});
         await instance.handleEdit();
 
-        expect(actions.hideEditPostModal).toBeCalled();
         expect(actions.openModal).toHaveBeenCalledWith({
             modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
@@ -361,23 +319,18 @@ describe('components/EditPostModal', () => {
                 post: {
                     ...defaultPost,
                 },
-                isRHS: undefined,
+                isRHS: false,
             },
         });
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
 
-        actions.hideEditPostModal.mockClear();
-
         wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
         instance = wrapper.instance() as EditPostModalClass;
-
-        expect(actions.hideEditPostModal).not.toBeCalled();
 
         wrapper.setState({editText: '    '});
         await instance.handleEdit();
 
-        expect(actions.hideEditPostModal).toBeCalled();
         expect(actions.openModal).toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
@@ -387,7 +340,6 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
@@ -413,48 +365,10 @@ describe('components/EditPostModal', () => {
         expect((wrapper.state() as EditPostModalState).editText).toBe('test');
     });
 
-    it('should clear data on exit', () => {
-        const actions = {
-            editPost: jest.fn((data) => (Promise.resolve(data))),
-            addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
-            openModal: jest.fn(),
-            setShowPreview: jest.fn(),
-            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
-        };
-        const editingPost = {
-            show: false,
-            post: {...defaultPost},
-            postId: '1',
-        };
-        const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions, editingPost}));
-        const instance = wrapper.instance() as EditPostModalClass;
-
-        wrapper.setState({
-            editText: 'test_edit_text',
-            postError: 'test_post_error',
-            errorClass: 'test_error_class',
-            showEmojiPicker: true,
-        });
-        instance.handleExited();
-
-        expect(wrapper.state()).toEqual({
-            editText: '',
-            caretPosition: 0,
-            postError: null,
-            errorClass: null,
-            showEmojiPicker: false,
-            prevShowState: false,
-            renderScrollbar: false,
-            scrollbarWidth: 0,
-        });
-    });
-
     it('should focus element on exit based on refocusId', () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
@@ -683,7 +597,6 @@ describe('components/EditPostModal', () => {
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, ctrlSend: true}));
         const instance = wrapper.instance() as EditPostModalClass;
         instance.handleHide = jest.fn();
-        instance.handleExit = jest.fn();
 
         instance.handleKeyDown({keyCode: 1} as any);
         expect(instance.handleHide).not.toBeCalled();
@@ -699,7 +612,6 @@ describe('components/EditPostModal', () => {
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, ctrlSend: true}));
         const instance = wrapper.instance() as EditPostModalClass;
         instance.handleHide = jest.fn();
-        instance.handleExit = jest.fn();
 
         instance.setState({showEmojiPicker: true});
 
@@ -714,7 +626,6 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
@@ -727,10 +638,8 @@ describe('components/EditPostModal', () => {
 
         const instance = wrapper.instance() as EditPostModalClass;
         instance.handleEdit();
-        expect(actions.hideEditPostModal).not.toBeCalled();
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
-        expect(actions.hideEditPostModal).not.toBeCalled();
     });
 
     it('should not disable the button on not canEditPost and no text in it with canDeletePost', () => {
@@ -743,7 +652,6 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
@@ -756,10 +664,8 @@ describe('components/EditPostModal', () => {
 
         const instance = wrapper.instance() as EditPostModalClass;
         instance.handleEdit();
-        expect(actions.hideEditPostModal).not.toBeCalled();
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
-        expect(actions.hideEditPostModal).not.toBeCalled();
     });
 
     it('should not disable the button on not canDeletePost and text in it with canEditPost', () => {
@@ -769,18 +675,12 @@ describe('components/EditPostModal', () => {
     });
 
     it('should not disable the save button on not canDeletePost and no text when edited message has attachments', () => {
-        const editingPost = {
-            postId: '123',
-            post: {
-                ...defaultPost,
-                file_ids: ['file_id_1'],
-            },
-            refocusId: 'test',
-            show: true,
-            title: 'test',
+        const post = {
+            ...defaultPost,
+            file_ids: ['file_id_1'],
         };
         const wrapper = shallowWithIntl(
-            createEditPost({...defaultProps, canDeletePost: false, editingPost}),
+            createEditPost({...defaultProps, canDeletePost: false, post}),
         );
         wrapper.setState({editText: ''});
         expect(wrapper).toMatchSnapshot();
@@ -789,16 +689,7 @@ describe('components/EditPostModal', () => {
     testComponentForLineBreak(
         (value: string) => {
             return createEditPost({...defaultProps,
-                editingPost: {
-                    postId: '123',
-                    post: {
-                        ...defaultPost,
-                        message: value,
-                    },
-                    refocusId: 'test',
-                    show: true,
-                    title: 'test',
-                },
+                post: {...defaultPost, message: value},
             });
         },
         (instance: {state: () => {editText: string}}) => instance.state().editText,
@@ -814,16 +705,7 @@ describe('components/EditPostModal', () => {
     testComponentForMarkdownHotkeys(
         (value: string) => {
             return createEditPost({...defaultProps,
-                editingPost: {
-                    postId: '123',
-                    post: {
-                        ...defaultPost,
-                        message: value,
-                    },
-                    refocusId: 'test',
-                    show: true,
-                    title: 'test',
-                },
+                post: {...defaultPost, message: value},
             });
         },
         (wrapper: ShallowWrapper<any, any, any>, setSelectionRangeFn: any) => {
@@ -844,15 +726,9 @@ describe('components/EditPostModal', () => {
         const value = 'Jalebi _Fafda_ and Sambharo';
         const wrapper = shallowWithIntl(
             createEditPost({...defaultProps,
-                editingPost: {
-                    postId: '123',
-                    post: {
-                        ...defaultPost,
-                        message: value,
-                    },
-                    refocusId: 'test',
-                    show: true,
-                    title: 'test',
+                post: {
+                    ...defaultPost,
+                    message: value,
                 },
             }),
         );
@@ -881,7 +757,6 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn(() => Promise.resolve({error: err})),
@@ -900,7 +775,6 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
             runMessageWillBeUpdatedHooks: jest.fn(() => Promise.resolve({data: newPost})),

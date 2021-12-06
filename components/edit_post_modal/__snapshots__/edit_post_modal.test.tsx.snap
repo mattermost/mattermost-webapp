@@ -25,7 +25,6 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -187,7 +186,6 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -349,7 +347,6 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -409,7 +406,7 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
           supportsCommands={false}
           tabIndex={0}
           useChannelMentions={false}
-          value=""
+          value="test"
         />
         <div
           className="post-body__actions"
@@ -446,7 +443,7 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
-          message=""
+          message="test"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -511,7 +508,6 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -566,12 +562,12 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
           onMouseUp={[Function]}
           onSelect={[Function]}
           preview={false}
-          rootId=""
+          rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
           tabIndex={0}
           useChannelMentions={true}
-          value=""
+          value="test"
         />
         <div
           className="post-body__actions"
@@ -608,7 +604,7 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
-          message=""
+          message="test"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -673,7 +669,6 @@ exports[`components/EditPostModal should match with default config 1`] = `
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -733,7 +728,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
           supportsCommands={false}
           tabIndex={0}
           useChannelMentions={true}
-          value=""
+          value="test"
         />
         <div
           className="post-body__actions"
@@ -770,7 +765,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
-          message=""
+          message="test"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -835,7 +830,6 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -895,7 +889,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
           supportsCommands={false}
           tabIndex={0}
           useChannelMentions={true}
-          value=""
+          value="test"
         />
         <div
           className="post-body__actions"
@@ -906,7 +900,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
-          message=""
+          message="test"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -971,7 +965,6 @@ exports[`components/EditPostModal should not disable the button on not canDelete
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -1133,7 +1126,6 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -1295,7 +1287,6 @@ exports[`components/EditPostModal should not disable the save button on not canD
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -1457,7 +1448,6 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -1517,7 +1507,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           supportsCommands={false}
           tabIndex={0}
           useChannelMentions={true}
-          value=""
+          value="test"
         />
         <div
           className="post-body__actions"
@@ -1554,7 +1544,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
-          message=""
+          message="test"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -1619,7 +1609,6 @@ exports[`components/EditPostModal should show errors when it is set in the state
     }
   }
   onEntered={[Function]}
-  onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -1679,7 +1668,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
           supportsCommands={false}
           tabIndex={0}
           useChannelMentions={true}
-          value=""
+          value="test"
         />
         <div
           className="post-body__actions"
@@ -1716,7 +1705,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
-          message=""
+          message="test"
           showPreview={false}
           updatePreview={[Function]}
         />
