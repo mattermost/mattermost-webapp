@@ -41,6 +41,8 @@ import {
 } from 'mattermost-redux/utils/post_utils';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
+import {getEmojiMap} from 'selectors/emojis';
+
 export function getAllPosts(state: GlobalState) {
     return state.entities.posts.posts;
 }
@@ -63,16 +65,27 @@ export function getReactionsForPosts(state: GlobalState): RelationOneToOne<Post,
     return state.entities.posts.reactions;
 }
 
-export function makeGetReactionsForPost(): (state: GlobalState, postId: $ID<Post>) => {
-    [x: string]: Reaction;
-} | undefined | null {
-    return createSelector('makeGetReactionsForPost', getReactionsForPosts, (state: GlobalState, postId: string) => postId, (reactions, postId) => {
-        if (reactions[postId]) {
-            return reactions[postId];
-        }
+export function makeGetReactionsForPost(): (state: GlobalState, postId: Post['id']) => Record<string, Reaction> | undefined | null {
+    return createSelector(
+        'makeGetReactionsForPost',
+        getEmojiMap,
+        getReactionsForPosts,
+        (_: GlobalState, postId: string) => postId,
+        (emojiMap, reactions, postId) => {
+            if (reactions[postId]) {
+                const reactionsForPost: Record<string, Reaction> = {};
 
-        return null;
-    });
+                Object.entries(reactions[postId]).forEach(([userIdEmojiKey, emojiReaction]) => {
+                    if (emojiMap.get(emojiReaction.emoji_name)) {
+                        reactionsForPost[userIdEmojiKey] = emojiReaction;
+                    }
+                });
+
+                return reactionsForPost;
+            }
+
+            return null;
+        });
 }
 
 export function getOpenGraphMetadata(state: GlobalState): RelationOneToOne<Post, Dictionary<OpenGraphMetadata>> {
@@ -375,9 +388,7 @@ export function makeGetProfilesForThread(): (state: GlobalState, rootId: string)
             const profileIds = posts.map((post) => post.user_id);
             const uniqueIds = [...new Set(profileIds)];
             return uniqueIds.reduce((acc: UserProfile[], id: string) => {
-                const profile: UserProfile = userStatuses ?
-                    {...allUsers[id], status: userStatuses[id]} :
-                    {...allUsers[id]};
+                const profile: UserProfile = userStatuses ? {...allUsers[id], status: userStatuses[id]} : {...allUsers[id]};
 
                 if (profile && Object.keys(profile).length > 0 && currentUserId !== id) {
                     return [
@@ -484,7 +495,7 @@ export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Cha
             }
 
             const postId = recentBlock.order[0];
-            if (allPosts.hasOwnProperty(postId)) {
+            if (Object.prototype.hasOwnProperty.call(allPosts, postId)) {
                 ret[channelId] = allPosts[postId];
             }
         }
