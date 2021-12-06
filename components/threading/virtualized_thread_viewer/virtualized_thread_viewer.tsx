@@ -478,6 +478,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                                     ref={this.listRef}
                                     style={virtListStyles}
                                     width={width}
+                                    className={'post-list__dynamic--RHS'}
                                 >
                                     {this.renderRow}
                                 </DynamicSizeList>

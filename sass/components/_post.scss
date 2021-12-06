@@ -697,6 +697,7 @@
         background-color: rgba(var(--button-bg-rgb), 0.08);
 
         .post__body {
+            position: relative;
             background: transparent;
 
             .post--editing__wrapper {
@@ -718,6 +719,12 @@
                     padding-right: 50px;
                 }
             }
+        }
+
+        .invisible {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
         }
     }
 
