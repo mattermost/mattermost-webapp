@@ -25,11 +25,31 @@
             padding: 0;
             border-radius: 100%;
             font-weight: 600;
+            position: relative;
+            z-index: 1;
+
+            &:hover {
+                background: var(--center-channel-bg) !important;
+            }
+
+            &:before {
+                content: " ";
+                height: 32px;
+                left: 15px;
+                position: absolute;
+                top: 0;
+                width: 32px;
+                z-index: -1;
+                border-radius: 32px;
+            }
         }
 
         .DayPicker-Day--today {
-            background: rgba(var(--button-bg-rgb), 0.08);
             color: var(--button-bg);
+
+            &:before {
+                background: rgba(var(--button-bg-rgb), 0.08);
+            }
         }
 
         .DayPicker-wrapper {
