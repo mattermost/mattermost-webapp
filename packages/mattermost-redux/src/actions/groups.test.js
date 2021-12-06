@@ -125,7 +125,6 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const groups = state.entities.groups.groups;
-        console.log(groups);
         assert.ok(groups);
         assert.ok(groups[groupID]);
         assert.ok(JSON.stringify(response) === JSON.stringify(groups[groupID]));
