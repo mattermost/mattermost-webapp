@@ -93,6 +93,7 @@ describe('channel view actions', () => {
             },
             posts: {
                 postsInChannel: {},
+                posts: {},
             },
             channelCategories: {
                 byId: {},
@@ -102,6 +103,9 @@ describe('channel view actions', () => {
             channel: {
                 loadingPosts: {},
                 postVisibility: {current_channel_id: 60},
+            },
+            rhs: {
+                selectedPostId: '',
             },
         },
     };
