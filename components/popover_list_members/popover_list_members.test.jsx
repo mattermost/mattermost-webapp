@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants';
+
 import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
 
 jest.mock('utils/browser_history', () => {
@@ -18,11 +19,12 @@ jest.mock('utils/browser_history', () => {
 });
 
 describe('components/PopoverListMembers', () => {
+    // required state to mount using the provider
     const channel = {
         id: 'channel_id',
         name: 'channel-name',
         display_name: 'Channel Name',
-        type: Constants.DM_CHANNEl,
+        type: Constants.DM_CHANNEl || 'D',
     };
     const users = [
         {id: 'member_id_1', delete_at: 0},
@@ -108,5 +110,29 @@ describe('components/PopoverListMembers', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should place the Add button at the top when the flag for placement is TOP', () => {
+        const props = {...baseProps, addMembersABTest: 'top', channel: {...channel, delete_at: 0}};
+
+        const wrapper = shallow(
+            <PopoverListMembers {...props}/>,
+        );
+
+        const addBtn = wrapper.find('button#addBtn');
+
+        expect(addBtn).toHaveLength(1);
+    });
+
+    test('should place the edit button at the top when the flag for placement is BOTTOM', () => {
+        const props = {...baseProps, addMembersABTest: 'bottom', channel: {...channel, delete_at: 0}};
+
+        const wrapper = shallow(
+            <PopoverListMembers {...props}/>,
+        );
+
+        const addBtn = wrapper.find('button#editBtn');
+
+        expect(addBtn).toHaveLength(1);
     });
 });

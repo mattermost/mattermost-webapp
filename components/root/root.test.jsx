@@ -36,7 +36,6 @@ jest.mock('utils/utils', () => ({
     enableDevModeFeatures: jest.fn(),
     applyTheme: jest.fn(),
     makeIsEligibleForClick: jest.fn(),
-    areObjectsEqual: jest.fn(),
 }));
 
 jest.mock('mattermost-redux/actions/general', () => ({

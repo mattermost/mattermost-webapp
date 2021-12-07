@@ -32,16 +32,13 @@ describe('Teams Settings', () => {
         cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
         // * Before uploading the picture the save button must be disabled
-        cy.findByTestId('saveSettingPicture').should('be.disabled');
+        cy.uiSaveButton().should('be.disabled');
 
         // # Upload a file on center view
         cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
 
-        // * After uploading the picture the save button must be disabled
-        cy.findByTestId('saveSettingPicture').should('not.be.disabled').click();
-
-        // # Close the team settings dialog
-        cy.uiClose();
+        // * Save then close
+        cy.uiSaveAndClose();
 
         // * Verify team icon
         cy.get(`#${testTeam.name}TeamButton`).within(() => {

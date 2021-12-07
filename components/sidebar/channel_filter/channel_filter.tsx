@@ -22,7 +22,9 @@ type State = {
 };
 
 export default class ChannelFilter extends React.PureComponent<Props, State> {
-    toggleUnreadFilter = () => {
+    toggleUnreadFilter = (e?: React.MouseEvent) => {
+        e?.preventDefault();
+
         const {unreadFilterEnabled} = this.props;
 
         if (unreadFilterEnabled) {

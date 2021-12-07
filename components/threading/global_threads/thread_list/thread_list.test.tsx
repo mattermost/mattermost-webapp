@@ -35,14 +35,6 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
-
 describe('components/threading/global_threads/thread_list', () => {
     let props: ComponentProps<typeof ThreadList>;
 
@@ -58,13 +50,16 @@ describe('components/threading/global_threads/thread_list', () => {
         mockState = {
             entities: {
                 threads: {
-                    counts: {
+                    countsIncludingDirect: {
                         tid: {
                             total: 0,
                             total_unread_threads: 0,
                             total_unread_mentions: 0,
                         },
                     },
+                },
+                teams: {
+                    currentTeamId: 'tid',
                 },
             },
         };
@@ -104,4 +99,3 @@ describe('components/threading/global_threads/thread_list', () => {
         expect(markAllThreadsInTeamRead).toHaveBeenCalledWith('uid', 'tid');
     });
 });
-

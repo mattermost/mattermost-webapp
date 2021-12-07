@@ -16,6 +16,8 @@ import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 
+import {ModalData} from 'types/actions';
+
 const HeaderLine = styled.div`
     display: flex;
     padding: 2px 16px 0 0;
@@ -36,7 +38,7 @@ type Props = {
     teamId: string;
     currentUser: UserProfile;
     teamDisplayName: string;
-    openModal: (modalData: any) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 };
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent<Props> {

@@ -50,7 +50,7 @@
 
                 &.offline--icon,
                 .offline--icon {
-                    fill: var(--sidebar-text);
+                    fill: var(--offline-indicator);
                 }
             }
         }
@@ -105,7 +105,7 @@
         }
 
         .offline--icon {
-            fill: var(--center-channel-color);
+            fill: var(--offline-indicator);
         }
     }
 }
@@ -199,7 +199,7 @@
     }
 
     .offline--icon {
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: var(--offline-indicator);
     }
 }
 
@@ -226,14 +226,14 @@
         }
 
         .offline--icon {
-            fill: var(--center-channel-color);
+            fill: var(--offline-indicator);
         }
     }
 
     .sidebar--left {
         .status {
             .offline--icon {
-                fill: var(--sidebar-text);
+                fill: var(--offline-indicator);
             }
         }
     }

@@ -3,13 +3,16 @@
 
 import React from 'react';
 
-import * as Utils from 'utils/utils.jsx';
 import StatusDropdown from 'components/status_dropdown';
+
+import {ModalData} from 'types/actions';
+
+import * as Utils from 'utils/utils';
 
 import SidebarHeaderDropdown from './dropdown';
 
 type Actions = {
-    openModal: (openModalData: any) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 type Props = {

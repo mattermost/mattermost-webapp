@@ -12,7 +12,7 @@ import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {openMenu as openRhsMenu} from 'actions/views/rhs';
 import {getIsRhsMenuOpen} from 'selectors/rhs';
 import {Preferences, TutorialSteps} from 'utils/constants';
-import {isMobile} from 'utils/utils.jsx';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import SidebarRightMenu from './sidebar_right_menu';
 
@@ -24,11 +24,12 @@ function mapStateToProps(state) {
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
 
     const siteName = config.SiteName;
+    const isMobile = getIsMobileView(state);
 
     return {
         teamDisplayName: currentTeam && currentTeam.display_name,
         isOpen: getIsRhsMenuOpen(state),
-        showTutorialTip: enableTutorial && isMobile() && tutorialStep === TutorialSteps.MENU_POPOVER,
+        showTutorialTip: enableTutorial && isMobile && tutorialStep === TutorialSteps.MENU_POPOVER,
         siteName,
     };
 }

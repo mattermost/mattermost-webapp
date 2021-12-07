@@ -738,6 +738,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     isDefault={isDefault}
                     onToggle={this.setToggles}
                     isDisabled={this.props.isDisabled}
+                    groupsSupported={this.props.channelGroupsEnabled}
                 />
 
                 {this.props.channelGroupsEnabled &&

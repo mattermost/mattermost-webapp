@@ -8,13 +8,20 @@ import {NotificationLevels, NotificationSections} from 'utils/constants';
 
 import ExpandView from 'components/channel_notifications_modal/components/expand_view.jsx';
 
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux'),
+    useSelector: jest.fn(),
+}));
+
 describe('components/channel_notifications_modal/ExpandView', () => {
     const baseProps = {
         section: NotificationSections.DESKTOP,
         memberNotifyLevel: NotificationLevels.ALL,
+        memberThreadsNotifyLevel: NotificationLevels.ALL,
         globalNotifyLevel: NotificationLevels.DEFAULT,
         serverError: '',
         onChange: () => {}, //eslint-disable-line no-empty-function
+        onChangeThreads: () => {}, //eslint-disable-line no-empty-function
         onCollapseSection: () => {}, //eslint-disable-line no-empty-function
         onSubmit: () => {}, //eslint-disable-line no-empty-function
     };

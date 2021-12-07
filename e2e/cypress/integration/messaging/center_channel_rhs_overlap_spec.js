@@ -81,15 +81,15 @@ describe('Messaging', () => {
             cy.get('@replyTextBox').type(`post ${i}`).type('{enter}');
         }
 
-        // * Check if "Add Comment" button is visible
-        cy.get('#addCommentButton').scrollIntoView().should('be.visible').and('have.value', 'Add Comment');
+        // * Check if "Reply" button is visible
+        cy.uiGetReply().should('be.visible');
 
         // # Reset the viewport
         cy.viewport(1280, 900);
     });
 
     it('MM-T712 Editing a post with Ctrl+Enter on for all messages configured', () => {
-        // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Account Settings > Advanced
+        // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Settings > Advanced
         setSendMessagesOnCtrlEnter('On for all messages');
 
         // # [1] Post message
@@ -236,7 +236,7 @@ describe('Messaging', () => {
     });
 
     it('MM-T3448 Editing a post with Ctrl+Enter only for code blocks starting with ``` configured', () => {
-        // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Account Settings > Advanced
+        // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Settings > Advanced
         setSendMessagesOnCtrlEnter('On only for code blocks starting with ```');
 
         // # [17] Post message
@@ -374,7 +374,7 @@ describe('Messaging', () => {
     });
 
     it('MM-T3449 Editing a post with Ctrl+Enter off for code blocks configured', () => {
-        // # Enable 'Send Messages on CTRL+ENTER > Off in Account Settings > Advanced
+        // # Enable 'Send Messages on CTRL+ENTER > Off in Settings > Advanced
         setSendMessagesOnCtrlEnter('Off');
 
         // # [29] Post message

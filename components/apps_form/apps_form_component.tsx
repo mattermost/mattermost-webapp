@@ -29,7 +29,7 @@ import AppsFormHeader from './apps_form_header';
 export type AppsFormProps = {
     form: AppForm;
     isEmbedded?: boolean;
-    onHide: () => void;
+    onExited: () => void;
     actions: {
         submit: (submission: {
             values: AppFormValues;
@@ -353,7 +353,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 backdrop='static'
                 role='dialog'
                 aria-labelledby='appsModalLabel'

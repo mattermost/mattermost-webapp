@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads, AutoTourTreatments} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -18,6 +18,7 @@ export type ClientConfig = {
     AndroidMinVersion: string;
     AppDownloadLink: string;
     AsymmetricSigningPublicKey: string;
+    AutoTour: AutoTourTreatments;
     AvailableLocales: string;
     BannerColor: string;
     BannerText: string;
@@ -40,8 +41,6 @@ export type ClientConfig = {
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
     DefaultTheme: ThemeKey;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     DiagnosticId: string;
     DiagnosticsEnabled: string;
     EmailLoginButtonBorderColor: string;
@@ -131,6 +130,7 @@ export type ClientConfig = {
     IosAppDownloadLink: string;
     IosLatestVersion: string;
     IosMinVersion: string;
+    InstallationDate: string;
     IsDefaultMarketplace: string;
     LdapFirstNameAttributeSet: string;
     LdapLastNameAttributeSet: string;
@@ -157,7 +157,6 @@ export type ClientConfig = {
     PasswordRequireNumber: string;
     PasswordRequireSymbol: string;
     PasswordRequireUppercase: string;
-    PrewrittenMessages: PrewrittenMessagesTreatments;
     PluginsEnabled: string;
     PostEditTimeLimit: string;
     PrivacyPolicyLink: string;
@@ -183,10 +182,12 @@ export type ClientConfig = {
     TeammateNameDisplay: string;
     TermsOfServiceLink: string;
     TimeBetweenUserTypingUpdatesMilliseconds: string;
+    UpgradedFromTE: string;
     Version: string;
     WebsocketPort: string;
     WebsocketSecurePort: string;
     WebsocketURL: string;
+    ExperimentalSharedChannels: string;
 };
 
 export type License = {
@@ -356,8 +357,6 @@ export type TeamSettings = {
 export type ClientRequirements = {
     AndroidLatestVersion: string;
     AndroidMinVersion: string;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     IosLatestVersion: string;
     IosMinVersion: string;
 };

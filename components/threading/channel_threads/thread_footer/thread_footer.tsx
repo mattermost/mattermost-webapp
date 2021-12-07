@@ -28,12 +28,16 @@ import Button from 'components/threading/common/button';
 import FollowButton from 'components/threading/common/follow_button';
 
 import {THREADING_TIME} from 'components/threading/common/options';
+import {trackEvent} from 'actions/telemetry_actions';
+
 type Props = {
     threadId: $ID<UserThread>;
+    replyClick?: React.EventHandler<React.MouseEvent>;
 };
 
 function ThreadFooter({
     threadId,
+    replyClick,
 }: Props) {
     const dispatch = useDispatch();
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -56,9 +60,10 @@ function ThreadFooter({
             channel_id: channelId,
         },
     } = thread;
-    const participantIds = useMemo(() => participants?.map(({id}) => id).reverse(), [participants]);
+    const participantIds = useMemo(() => (participants || []).map(({id}) => id).reverse(), [participants]);
 
-    const handleReply = useCallback((e) => {
+    const handleReply = replyClick || useCallback((e) => {
+        trackEvent('crt', 'replied_using_footer');
         e.stopPropagation();
         dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
     }, [threadId, channelId]);

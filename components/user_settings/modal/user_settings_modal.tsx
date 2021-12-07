@@ -20,6 +20,8 @@ import store from 'stores/redux_store.jsx';
 
 import CollapsedReplyThreadsModal from 'components/collapsed_reply_threads_modal';
 
+import {ModalData} from 'types/actions';
+
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -73,13 +75,12 @@ const holders = defineMessages({
 
 export type Props = {
     currentUser: UserProfile;
-    onHide: () => void;
-    onExit: () => void;
+    onExited: () => void;
     intl: IntlShape;
     collapsedThreads: boolean;
     isContentProductSettings: boolean;
     actions: {
-        openModal: (params: {modalId: string; dialogType: any}) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
         sendVerificationEmail: (email: string) => Promise<{
             data: StatusOK;
             error: {
@@ -104,10 +105,6 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
     private afterConfirm: (() => void) | null;
-
-    static defaultProps = {
-        onExit: () => {},
-    };
 
     constructor(props: Props) {
         super(props);
@@ -193,8 +190,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             active_tab: this.props.isContentProductSettings ? 'notifications' : 'profile',
             active_section: '',
         });
-        this.props.onHide();
-        this.props.onExit();
+        this.props.onExited();
 
         if (this.showCRTBetaModal) {
             this.props.actions.openModal({
@@ -337,7 +333,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         ) : (
                             <FormattedMessage
                                 id='user.settings.modal.title'
-                                defaultMessage='Account Settings'
+                                defaultMessage='Profile'
                             />
                         )}
                     </Modal.Title>

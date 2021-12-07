@@ -10,14 +10,13 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {closeRightHandSide, showFlaggedPosts} from 'actions/views/rhs';
 import OverlayTrigger from 'components/overlay_trigger';
-import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
 
 const SavedPostsButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
-    const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
 
     const savedPostsButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -42,7 +41,7 @@ const SavedPostsButton = (): JSX.Element | null => {
             trigger={['hover']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='bottom'
-            overlay={isRhsOpen ? <></> : tooltip}
+            overlay={tooltip}
         >
             <IconButton
                 size={'sm'}

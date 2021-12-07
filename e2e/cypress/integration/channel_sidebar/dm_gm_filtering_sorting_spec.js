@@ -75,7 +75,7 @@ describe('DM/GM filtering and sorting', () => {
         cy.get('#limitVisibleGMsDMs').should('be.visible').click();
         cy.get('.react-select__option:contains(All Direct Messages)').should('be.visible').click();
 
-        // # Save and close Account Settings
+        // # Save and close Settings
         cy.uiSaveAndClose();
 
         // * Verify that there are 41 DMs shown in the sidebar
@@ -91,7 +91,7 @@ describe('DM/GM filtering and sorting', () => {
         cy.get('#limitVisibleGMsDMs').should('be.visible').click();
         cy.get('.react-select__option:contains(10)').should('be.visible').click();
 
-        // # Save and close Account Settings
+        // # Save and close Settings
         cy.uiSaveAndClose();
 
         // * Verify that there are 10 DMs shown in the sidebar

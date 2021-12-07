@@ -457,7 +457,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
 
     render() {
         const {currentUser, user, isLicensed, config} = this.props;
-        const isGuest = Utils.isGuest(user);
+        const isGuest = UserUtils.isGuest(user.roles);
         if (!user) {
             return <div/>;
         }
@@ -478,7 +478,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
             );
         }
 
-        if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
+        if (user.roles.length > 0 && UserUtils.isSystemAdmin(user.roles)) {
             currentRoles = (
                 <FormattedMessage
                     id='team_members_dropdown.systemAdmin'
@@ -488,11 +488,11 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         }
 
         let showMakeActive = false;
-        let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
+        let showMakeNotActive = !UserUtils.isSystemAdmin(user.roles);
         let showManageTeams = true;
         let showRevokeSessions = true;
         const showMfaReset = this.props.mfaEnabled && Boolean(user.mfa_active);
-        const showManageRoles = Utils.isSystemAdmin(currentUser.roles);
+        const showManageRoles = UserUtils.isSystemAdmin(currentUser.roles);
 
         if (user.delete_at > 0) {
             currentRoles = (

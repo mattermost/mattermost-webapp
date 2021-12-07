@@ -15,7 +15,7 @@ import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
 
-import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
+import {isOnboardingHidden, showNextSteps} from 'components/next_steps_view/steps';
 
 import {GlobalState} from 'types/store';
 
@@ -45,7 +45,6 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         currentUserId: getCurrentUserId(state),
         showNextSteps: showNextSteps(state),
-        showNextStepsTips: showNextStepsTips(state),
         isOnboardingHidden: isOnboardingHidden(state),
         showNextStepsEphemeral: state.views.nextSteps.show,
     };

@@ -5,14 +5,10 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {FileInfo} from 'mattermost-redux/types/files';
-
-import {FileDropdownPluginComponent} from 'types/store/plugins';
-
 import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
 import {getSiteURL} from 'utils/url';
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Menu from 'components/widgets/menu/menu';
@@ -21,20 +17,16 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import FileThumbnail from 'components/file_attachment/file_thumbnail';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
-import './file_search_result_item.scss';
 import FilePreviewModal from 'components/file_preview_modal';
 
-type Props = {
-    fileInfo: FileInfo;
-    channelDisplayName: string;
-    channelType: string;
-    teamName: string;
-    pluginMenuItems?: FileDropdownPluginComponent[];
-};
+import type {PropsFromRedux, OwnProps} from './index';
+
+import './file_search_result_item.scss';
+
+type Props = OwnProps & PropsFromRedux;
 
 type State = {
     keepOpen: boolean;
-    showPreview: boolean;
 }
 
 const FILE_TOOLTIP_RANGES = [
@@ -45,7 +37,7 @@ const FILE_TOOLTIP_RANGES = [
 export default class FileSearchResultItem extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
-        this.state = {keepOpen: false, showPreview: false};
+        this.state = {keepOpen: false};
     }
 
     private jumpToConv = (e: MouseEvent) => {
@@ -94,6 +86,17 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
         );
     }
 
+    private showPreview = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                fileInfos: [this.props.fileInfo],
+                postId: this.props.fileInfo.post_id,
+            },
+        });
+    }
+
     public render(): React.ReactNode {
         const {fileInfo, channelDisplayName, channelType} = this.props;
         let channelName: React.ReactNode = channelDisplayName;
@@ -120,7 +123,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
             >
                 <button
                     className={'FileSearchResultItem' + (this.state.keepOpen ? ' keep-open' : '')}
-                    onClick={() => this.setState({showPreview: true})}
+                    onClick={this.showPreview}
                 >
                     <FileThumbnail fileInfo={fileInfo}/>
                     <div className='fileData'>
@@ -190,13 +193,6 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                         </a>
                     </OverlayTrigger>
                 </button>
-                <FilePreviewModal
-                    show={this.state.showPreview}
-                    onModalDismissed={() => this.setState({showPreview: false})}
-                    startIndex={0}
-                    fileInfos={[this.props.fileInfo]}
-                    postId={this.props.fileInfo.post_id}
-                />
             </div>
         );
     }

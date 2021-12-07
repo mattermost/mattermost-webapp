@@ -766,4 +766,28 @@ export default class PluginRegistry {
 
         return id;
     }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a component to render in the LHS next to a channel's link label.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerSidebarChannelLinkLabelComponent(component) {
+        return dispatchPluginComponentAction('SidebarChannelLinkLabel', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a component to render in channel's center view, in place of a channel toast.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerChannelToastComponent(component) {
+        return dispatchPluginComponentAction('ChannelToast', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a global component at the root of the app that survives across product switches.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerGlobalComponent(component) {
+        return dispatchPluginComponentAction('Global', this.id, component);
+    }
 }

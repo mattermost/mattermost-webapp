@@ -7,7 +7,7 @@ import {Group} from './groups';
 import {PostType} from './posts';
 import {Session} from './sessions';
 import {Team} from './teams';
-import {$ID, Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
+import {$ID, Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
 
 export type UserNotifyProps = {
     desktop: 'default' | 'all' | 'mention' | 'none';
@@ -55,6 +55,7 @@ export type UserProfile = {
     terms_of_service_id: string;
     terms_of_service_create_at: number;
     remote_id?: string;
+    status?: string;
 };
 
 export type UserProfileWithLastViewAt = UserProfile & {
@@ -70,8 +71,8 @@ export type UsersState = {
     profilesInTeam: RelationOneToMany<Team, UserProfile>;
     profilesNotInTeam: RelationOneToMany<Team, UserProfile>;
     profilesWithoutTeam: Set<string>;
-    profilesInChannel: RelationOneToMany<Channel, UserProfile>;
-    profilesNotInChannel: RelationOneToMany<Channel, UserProfile>;
+    profilesInChannel: RelationOneToManyUnique<Channel, UserProfile>;
+    profilesNotInChannel: RelationOneToManyUnique<Channel, UserProfile>;
     profilesInGroup: RelationOneToMany<Group, UserProfile>;
     statuses: RelationOneToOne<UserProfile, string>;
     stats: RelationOneToOne<UserProfile, UsersStats>;

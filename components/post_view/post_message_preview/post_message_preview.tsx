@@ -126,7 +126,7 @@ const PostMessagePreview = (props: Props) => {
                     <p>
                         <FormattedMessage
                             id='post_message_preview.channel'
-                            defaultMessage='Originally posted in ~{channel}'
+                            defaultMessage='Only visible to users in ~{channel}'
                             values={{
                                 channel: metadata.channel_display_name,
                             }}

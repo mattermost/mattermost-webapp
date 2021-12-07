@@ -14,7 +14,7 @@ export type SyncablePatch = {
 
 export type GroupPatch = {
     allow_reference: boolean;
-    name: string;
+    name?: string;
 };
 
 export type Group = {
@@ -36,28 +36,28 @@ export type Group = {
 export type GroupTeam = {
     team_id: string;
     team_display_name: string;
-    team_type: string;
-    group_id: string;
-    auto_add: boolean;
-    scheme_admin: boolean;
-    create_at: number;
-    delete_at: number;
-    update_at: number;
+    team_type?: string;
+    group_id?: string;
+    auto_add?: boolean;
+    scheme_admin?: boolean;
+    create_at?: number;
+    delete_at?: number;
+    update_at?: number;
 };
 
 export type GroupChannel = {
     channel_id: string;
     channel_display_name: string;
-    channel_type: string;
+    channel_type?: string;
     team_id: string;
     team_display_name: string;
-    team_type: string;
-    group_id: string;
-    auto_add: boolean;
-    scheme_admin: boolean;
-    create_at: number;
-    delete_at: number;
-    update_at: number;
+    team_type?: string;
+    group_id?: string;
+    auto_add?: boolean;
+    scheme_admin?: boolean;
+    create_at?: number;
+    delete_at?: number;
+    update_at?: number;
 };
 
 export type GroupSyncable = {

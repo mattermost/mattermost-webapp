@@ -7,11 +7,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {Group} from 'mattermost-redux/types/groups';
 
-import ToggleModalButton from 'components/toggle_modal_button';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import GroupMembersModal from 'components/admin_console/team_channel_settings/group/group_members_modal';
 
+import {ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 interface GroupRowProps {
@@ -90,9 +91,10 @@ export default class GroupRow extends React.PureComponent<GroupRowProps> {
                         {group.display_name || group.name}
                     </span>
                     <span className='group-description row-content'>
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             id={`${group.display_name}MembersToggle`}
                             className='color--link'
+                            modalId={ModalIdentifiers.GROUP_MEMBERS}
                             dialogType={GroupMembersModal}
                             dialogProps={{
                                 group,
@@ -103,7 +105,7 @@ export default class GroupRow extends React.PureComponent<GroupRowProps> {
                                 defaultMessage='{memberCount, number} {memberCount, plural, one {member} other {members}}'
                                 values={{memberCount: group.member_count}}
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </span>
                     <div className='group-description row-content roles'>
                         <MenuWrapper

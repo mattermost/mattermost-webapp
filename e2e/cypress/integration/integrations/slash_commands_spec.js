@@ -253,7 +253,7 @@ describe('Integrations', () => {
         cy.visit(offTopicUrl1);
 
         // # Navigate to slash commands and create the slash command
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#slashCommands').click();
         cy.get('#addSlashCommand').click();
         cy.get('#displayName').type(`Test${timestamp}`);

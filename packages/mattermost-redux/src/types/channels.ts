@@ -38,6 +38,7 @@ export type Channel = {
     header: string;
     purpose: string;
     last_post_at: number;
+    last_root_post_at: number;
     creator_id: string;
     scheme_id: string;
     teammate_id?: string;

@@ -17,6 +17,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PurchaseModal from 'components/purchase_modal';
 
+import {ModalData} from 'types/actions';
+
 import './feature_discovery.scss';
 
 type Props = {
@@ -39,7 +41,7 @@ type Props = {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
-        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
     isCloud: boolean;
 }

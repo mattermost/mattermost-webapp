@@ -135,10 +135,6 @@ exports[`components/create_post Show tutorial 1`] = `
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -267,10 +263,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -399,10 +391,6 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -531,10 +519,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -663,9 +647,5 @@ exports[`components/create_post should match snapshot, init 1`] = `
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;

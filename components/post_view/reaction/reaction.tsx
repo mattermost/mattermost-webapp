@@ -55,12 +55,12 @@ type Props = {
     /*
      * True if the user has the permission to add a reaction in this channel
      */
-    canAddReaction: boolean;
+    canAddReactions: boolean;
 
     /*
      * True if user has the permission to remove his own reactions in this channel
      */
-    canRemoveReaction: boolean;
+    canRemoveReactions: boolean;
 
     /*
      * The URL of the emoji image
@@ -132,7 +132,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
         // only proceed if user has permission to react
         // and we are not animating
         if (
-            !(this.props.canAddReaction && this.props.canRemoveReaction) || this.animating
+            !(this.props.canAddReactions && this.props.canRemoveReactions) || this.animating
         ) {
             return;
         }
@@ -189,8 +189,8 @@ export default class Reaction extends React.PureComponent<Props, State> {
             return null;
         }
         const {
-            canAddReaction,
-            canRemoveReaction,
+            canAddReactions,
+            canRemoveReactions,
             currentUserReacted,
             emojiName,
             reactionCount,
@@ -202,11 +202,11 @@ export default class Reaction extends React.PureComponent<Props, State> {
         const unreacted = (unreactedNumber > 0) ? unreactedNumber : '';
         const reacted = (reactedNumber > 0) ? reactedNumber : '';
         const display = (displayNumber > 0) ? displayNumber : '';
-        const readOnlyClass = (canAddReaction && canRemoveReaction) ? '' : 'Reaction--read-only';
+        const readOnlyClass = (canAddReactions && canRemoveReactions) ? '' : 'Reaction--read-only';
 
         const emojiNameWithSpaces = this.props.emojiName.replace(/_/g, ' ');
         let ariaLabelEmoji = `${Utils.localizeMessage('reaction.reactWidth.ariaLabel', 'react with')} ${emojiNameWithSpaces}`;
-        if (currentUserReacted && canRemoveReaction) {
+        if (currentUserReacted && canRemoveReactions) {
             ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
         }
 
@@ -218,8 +218,8 @@ export default class Reaction extends React.PureComponent<Props, State> {
                 overlay={
                     <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
                         <ReactionTooltip
-                            canAddReaction={canAddReaction}
-                            canRemoveReaction={canRemoveReaction}
+                            canAddReactions={canAddReactions}
+                            canRemoveReactions={canRemoveReactions}
                             currentUserReacted={currentUserReacted}
                             emojiName={emojiName}
                             reactions={reactions}

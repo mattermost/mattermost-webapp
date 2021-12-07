@@ -10,7 +10,8 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 import ProfilePicture from 'components/profile_picture';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -29,7 +30,7 @@ type Props = {
     excludeUsers: { [userId: string]: UserProfile };
     includeUsers: { [userId: string]: UserProfile };
     onAddCallback: (users: UserProfile[]) => void;
-    onHide?: () => void;
+    onExited?: () => void;
 
     actions: {
         getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
@@ -99,8 +100,8 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
     }
 
     private handleExit = () => {
-        if (this.props.onHide) {
-            this.props.onHide();
+        if (this.props.onExited) {
+            this.props.onExited();
         }
     }
 
@@ -130,7 +131,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
                             className='badge-popoverlist'
                         />
                         <GuestBadge
-                            show={isGuest(option)}
+                            show={isGuest(option.roles)}
                             className='popoverlist'
                         />
                     </div>

@@ -482,10 +482,14 @@
 
             .post-image__name {
                 display: block;
+                overflow: hidden;
+                max-width: 151px;
                 margin-bottom: 3px;
                 font-weight: 600;
                 outline: none;
                 text-decoration: none;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 word-break: break-word;
 
                 a {
@@ -495,6 +499,13 @@
 
             .post-image__type {
                 @include opacity(0.6);
+
+                display: inline-block;
+                overflow: hidden;
+                max-width: 134px;
+                float: left;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .post-image__size {

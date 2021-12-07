@@ -53,7 +53,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             appsEnabled: false,
             isReadOnly: false,
             isCollapsedThreadsEnabled: false,
-            currentTeamId: '',
+            teamId: '',
             threadId: 'post_id_1',
             userId: 'user_id_1',
         };

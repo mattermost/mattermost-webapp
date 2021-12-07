@@ -12,8 +12,8 @@ exports[`components/post_view/Reaction should apply read-only class if user does
       placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={false}
-        canRemoveReaction={true}
+        canAddReactions={false}
+        canRemoveReactions={true}
         currentUserReacted={false}
         emojiName="smile"
         reactions={
@@ -96,8 +96,8 @@ exports[`components/post_view/Reaction should apply read-only class if user does
       placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={true}
-        canRemoveReaction={false}
+        canAddReactions={true}
+        canRemoveReactions={false}
         currentUserReacted={true}
         emojiName="smile"
         reactions={
@@ -180,8 +180,8 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
       placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={true}
-        canRemoveReaction={true}
+        canAddReactions={true}
+        canRemoveReactions={true}
         currentUserReacted={false}
         emojiName="smile"
         reactions={
@@ -264,8 +264,8 @@ exports[`components/post_view/Reaction should match snapshot when a current user
       placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={true}
-        canRemoveReaction={true}
+        canAddReactions={true}
+        canRemoveReactions={true}
         currentUserReacted={true}
         emojiName="smile"
         reactions={

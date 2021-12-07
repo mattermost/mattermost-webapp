@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import InfiniteLoader from 'react-window-infinite-loader';
 import {FixedSizeList} from 'react-window';
@@ -30,7 +30,21 @@ function VirtualizedThreadList({
     loadMoreItems,
     total,
 }: Props) {
+    const infiniteLoaderRef = React.useRef<any>();
+    const startIndexRef = React.useRef<number>(0);
+    const stopIndexRef = React.useRef<number>(0);
+
     const itemKey = useCallback((index) => ids[index], [ids]);
+
+    useEffect(() => {
+        if (ids.length > 0 && selectedThreadId) {
+            const index = ids.indexOf(selectedThreadId);
+            if (startIndexRef.current >= index || index > stopIndexRef.current) {
+                // eslint-disable-next-line no-underscore-dangle
+                infiniteLoaderRef.current?._listRef.scrollToItem(index);
+            }
+        }
+    }, [selectedThreadId, ids]);
 
     const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
 
@@ -42,26 +56,43 @@ function VirtualizedThreadList({
         <AutoSizer>
             {({height, width}) => (
                 <InfiniteLoader
+                    ref={infiniteLoaderRef}
                     itemCount={total}
                     loadMoreItems={loadMoreItems}
                     isItemLoaded={isItemLoaded}
                     minimumBatchSize={Constants.THREADS_PAGE_SIZE}
                 >
-                    {({onItemsRendered, ref}) => (
-                        <FixedSizeList
-                            onItemsRendered={onItemsRendered}
-                            ref={ref}
-                            height={height}
-                            itemCount={ids.length}
-                            itemData={data}
-                            itemKey={itemKey}
-                            itemSize={133}
-                            style={style}
-                            width={width}
-                        >
-                            {Row}
-                        </FixedSizeList>
-                    )}
+                    {({onItemsRendered, ref}) => {
+                        return (
+                            <FixedSizeList
+                                onItemsRendered={({
+                                    overscanStartIndex,
+                                    overscanStopIndex,
+                                    visibleStartIndex,
+                                    visibleStopIndex,
+                                }) => {
+                                    onItemsRendered({
+                                        overscanStartIndex,
+                                        overscanStopIndex,
+                                        visibleStartIndex,
+                                        visibleStopIndex,
+                                    });
+                                    startIndexRef.current = visibleStartIndex;
+                                    stopIndexRef.current = visibleStopIndex;
+                                }}
+                                ref={ref}
+                                height={height}
+                                itemCount={ids.length}
+                                itemData={data}
+                                itemKey={itemKey}
+                                itemSize={133}
+                                style={style}
+                                width={width}
+                            >
+                                {Row}
+                            </FixedSizeList>);
+                    }
+                    }
                 </InfiniteLoader>
             )}
         </AutoSizer>

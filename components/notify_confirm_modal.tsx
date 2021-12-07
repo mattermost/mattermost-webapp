@@ -4,8 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import ConfirmModal from 'components/confirm_modal';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import ConfirmModalRedux from 'components/confirm_modal_redux';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import {t} from 'utils/i18n';
 
 type Props = {
@@ -13,10 +14,10 @@ type Props = {
     memberNotifyCount: number;
     channelTimezoneCount: number;
     onConfirm: (checked: boolean) => void;
-    onCancel: (checked: boolean) => void;
+    onExited: () => void;
 };
 
-export default class NotifyConfirmModal extends React.Component<Props> {
+export default class NotifyConfirmModal extends React.PureComponent<Props> {
     render() {
         const {mentions, channelTimezoneCount, memberNotifyCount} = this.props;
 
@@ -128,13 +129,12 @@ export default class NotifyConfirmModal extends React.Component<Props> {
         );
 
         return (
-            <ConfirmModal
+            <ConfirmModalRedux
                 title={notifyAllTitle}
                 message={notifyAllMessage}
                 confirmButtonText={notifyAllConfirm}
-                show={true}
                 onConfirm={this.props.onConfirm}
-                onCancel={this.props.onCancel}
+                onExited={this.props.onExited}
             />
         );
     }

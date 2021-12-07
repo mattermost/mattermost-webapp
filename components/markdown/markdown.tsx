@@ -10,7 +10,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import EmojiMap from 'utils/emoji_map';
 import {ChannelNamesMap, TextFormattingOptions, formatText, MentionKey} from 'utils/text_formatting';
-import PostEditedIndicator from '../post_view/post_edited_indicator/post_edited_indicator';
+import PostEditedIndicator from '../post_view/post_edited_indicator';
 
 type Props = {
 
@@ -126,11 +126,11 @@ export default class Markdown extends React.PureComponent<Props> {
     }
 
     render() {
-        const {postId, editedAt, message} = this.props;
-        if (!this.props.enableFormatting) {
+        const {postId, editedAt, message, enableFormatting} = this.props;
+        if (message === '' || !enableFormatting) {
             return (
                 <span>
-                    {this.props.message}
+                    {message}
                     <PostEditedIndicator
                         postId={postId}
                         editedAt={editedAt}

@@ -10,6 +10,15 @@ exports[`components/threading/channel_threads/thread_footer should match snapsho
     <div
       className="indicator"
     />
+    <Memo(Avatars)
+      size="sm"
+      userIds={Array []}
+    >
+      <div
+        className="Avatars Avatars___sm"
+        onMouseLeave={[Function]}
+      />
+    </Memo(Avatars)>
     <Memo(FollowButton)
       className="separated"
       isFollowing={true}

@@ -28,6 +28,7 @@ import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
     menuInHeading: boolean;
+    id?: string;
 }
 
 type SidebarHeaderProps = {
@@ -176,27 +177,33 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     <SidebarHeading menuInHeading={true}>
                         <span className='title'>{currentTeam.display_name}</span>
                         <i className='icon icon-chevron-down'/>
+                        {showMenuTip && (
+                            <MenuTutorialTip
+                                stopPropagation={true}
+                                onBottom={false}
+                                inHeading={true}
+                            />
+                        )}
                     </SidebarHeading>
                     <MainMenu id='sidebarDropdownMenu'/>
                 </MenuWrapper>
-                {showMenuTip && (
-                    <MenuTutorialTip
-                        onBottom={false}
-                        inHeading={true}
-                    />
-                )}
             </>
         );
     }
 
-    const sidebarHeader = (
+    return (
         <>
             {(showMenuTip && !hasAddChannelTreatment) ? <MenuTutorialTip onBottom={false}/> : null}
-            <SidebarHeaderContainer menuInHeading={hasAddChannelTreatment}>
+            <SidebarHeaderContainer
+                id={'sidebar-header-container'}
+                menuInHeading={hasAddChannelTreatment}
+            >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
-                    overlay={currentTeam.description?.length ? <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip> : <></>}
+                    overlay={currentTeam.description?.length ? (
+                        <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>
+                    ) : <></>}
                 >
                     {sidebarHeadingContent}
                 </OverlayTrigger>
@@ -204,8 +211,6 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
             </SidebarHeaderContainer>
         </>
     );
-
-    return sidebarHeader;
 };
 
 export default SidebarHeader;

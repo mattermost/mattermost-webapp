@@ -13,6 +13,7 @@ import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import PlaybookRunner from 'components/channel_layout/playbook_runner';
 import {makeAsyncComponent} from 'components/async_load';
+
 const LazyGlobalThreads = makeAsyncComponent(
     React.lazy(() => import('components/threading/global_threads')),
     (
@@ -36,7 +37,6 @@ type Props = {
     isCollapsedThreadsEnabled: boolean;
     currentUserId: string;
     showNextSteps: boolean;
-    showNextStepsTips: boolean;
     isOnboardingHidden: boolean;
     showNextStepsEphemeral: boolean;
     actions: {
@@ -70,9 +70,9 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        const {actions, showNextSteps, showNextStepsTips, isOnboardingHidden} = this.props;
+        const {actions, showNextSteps, isOnboardingHidden} = this.props;
         await actions.getProfiles();
-        if ((showNextSteps || showNextStepsTips) && !isOnboardingHidden) {
+        if (showNextSteps && !isOnboardingHidden) {
             actions.setShowNextStepsView(true);
         }
     }

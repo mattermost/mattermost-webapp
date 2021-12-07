@@ -4,23 +4,21 @@
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {isSameDay, isWithinLastWeek, isYesterday} from '../../../utils/datetime';
+import {getDateForTimezone} from 'mattermost-redux/utils/timezone_utils';
+import {isSameDay, isWithinLastWeek, isYesterday} from 'utils/datetime';
 import OverlayTrigger from '../../overlay_trigger';
 
-interface Props {
-    postId?: string;
-    editedAt?: number;
-}
+import {Props} from './index';
 
-const PostEditedIndicator = ({postId, editedAt = 0}: Props): JSX.Element | null => {
+const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: Props): JSX.Element | null => {
     if (!postId || editedAt === 0) {
         return null;
     }
 
     const {formatMessage, formatDate, formatTime} = useIntl();
-    const editedDate = new Date(editedAt);
+    const editedDate = timeZone ? getDateForTimezone(new Date(editedAt), timeZone) : new Date(editedAt);
 
     let date;
     switch (true) {
@@ -38,7 +36,7 @@ const PostEditedIndicator = ({postId, editedAt = 0}: Props): JSX.Element | null 
         date = formatDate(editedDate, {month: 'long', day: 'numeric'});
     }
 
-    const time = formatTime(editedDate, {hour: 'numeric', minute: '2-digit'});
+    const time = formatTime(editedDate, {hour: 'numeric', minute: '2-digit', hour12: !isMilitaryTime});
 
     const editedText = formatMessage({
         id: 'post_message_view.edited',

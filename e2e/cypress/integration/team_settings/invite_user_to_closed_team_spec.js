@@ -15,14 +15,8 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Team Settings', () => {
     let newUser;
-    let isLicensed;
 
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
-        cy.apiGetClientLicense().then((data) => {
-            ({isLicensed} = data);
-        });
-
         cy.apiInitSetup().then(({team}) => {
             cy.apiCreateUser().then(({user}) => {
                 newUser = user;
@@ -63,30 +57,27 @@ describe('Team Settings', () => {
         inviteNewMemberToTeam(newUser.email);
 
         // * Assert that the user has successfully been invited to the team
-        cy.get('.invitation-modal-confirm-sent').should('be.visible').within(() => {
+        cy.get('.invitation-modal-confirm--sent').should('be.visible').within(() => {
             cy.get('.username-or-icon').find('span').eq(0).should('have.text', userDetailsString);
-            cy.get('.InvitationModalConfirmStepRow').find('div').eq(1).should('have.text', inviteSuccessMessage);
+            cy.get('.InviteResultRow').find('div').eq(1).should('have.text', inviteSuccessMessage);
         });
 
         // # Click on the 'Invite More People button'
-        cy.get('.invite-more').click();
+        cy.findByTestId('invite-more').click();
 
         // # Invite a user with an invalid email domain (not sample.mattermost.com)
         inviteNewMemberToTeam(invalidEmail);
 
         // * Assert that the invite failed and the correct error message is shown
-        cy.get('.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+        cy.get('.invitation-modal-confirm--not-sent').should('be.visible').within(() => {
             cy.get('.username-or-icon').find('span').eq(1).should('have.text', invalidEmail);
-            cy.get('.InvitationModalConfirmStepRow').find('div').eq(1).should('have.text', inviteFailedMessage);
+            cy.get('.InviteResultRow').find('div').eq(1).should('have.text', inviteFailedMessage);
         });
     });
 
     function inviteNewMemberToTeam(email) {
         cy.wait(TIMEOUTS.HALF_SEC);
-        if (isLicensed) {
-            // # Click "Invite members"
-            cy.findByTestId('inviteMembersLink').should('be.visible').click();
-        }
+
         cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}');
         cy.get('#inviteMembersButton').click();
     }

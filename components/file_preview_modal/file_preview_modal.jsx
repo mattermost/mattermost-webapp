@@ -27,24 +27,15 @@ export default class FilePreviewModal extends React.PureComponent {
     static propTypes = {
 
         /**
-         * The post the files are attached to
+         * The id of the post the files are attached to
          */
         postId: PropTypes.string,
 
         /**
          * The post the files are attached to
+         * Either postId or post can be passed to FilePreviewModal
          */
         post: PropTypes.object,
-
-        /**
-         * Set whether to show this modal or not
-         */
-        show: PropTypes.bool.isRequired,
-
-        /**
-         * Function to call when this modal is dismissed
-         **/
-        onModalDismissed: PropTypes.func.isRequired,
 
         /**
          * List of FileInfo to view
@@ -59,10 +50,11 @@ export default class FilePreviewModal extends React.PureComponent {
         canDownloadFiles: PropTypes.bool,
         enablePublicLink: PropTypes.bool,
         pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
+
+        onExited: PropTypes.func,
     };
 
     static defaultProps = {
-        show: false,
         fileInfos: [],
         startIndex: 0,
         pluginFilePreviewComponents: [],
@@ -74,6 +66,7 @@ export default class FilePreviewModal extends React.PureComponent {
         const isMobile = Utils.isMobile();
 
         this.state = {
+            show: true,
             isMobile,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
@@ -83,7 +76,6 @@ export default class FilePreviewModal extends React.PureComponent {
             showZoomControls: false,
             scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
         };
-        this.videoRef = React.createRef();
     }
 
     handleNext = (e) => {
@@ -116,19 +108,6 @@ export default class FilePreviewModal extends React.PureComponent {
         }
     }
 
-    onModalShown = (nextProps) => {
-        document.addEventListener('keyup', this.handleKeyPress);
-
-        this.showImage(nextProps.startIndex);
-    }
-
-    onModalHidden = () => {
-        document.removeEventListener('keyup', this.handleKeyPress);
-
-        if (this.videoRef.current) {
-            this.videoRef.current.stop();
-        }
-    }
     handleWindowResize = () => {
         const isMobile = Utils.isMobile();
         if (isMobile !== this.state.isMobile) {
@@ -137,20 +116,18 @@ export default class FilePreviewModal extends React.PureComponent {
             });
         }
     }
+
     componentDidMount() {
+        document.addEventListener('keyup', this.handleKeyPress);
+
         window.addEventListener('resize', this.handleWindowResize);
+
+        this.showImage(this.props.startIndex);
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleWindowResize);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.show === true && prevProps.show === false) {
-            this.onModalShown(this.props);
-        } else if (this.props.show === false && prevProps.show === true) {
-            this.onModalHidden();
-        }
+        document.removeEventListener('keyup', this.handleKeyPress);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -261,9 +238,9 @@ export default class FilePreviewModal extends React.PureComponent {
     }
 
     handleModalClose = () => {
-        this.props.onModalDismissed();
-        this.setState({scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length)});
+        this.setState({show: false});
     }
+
     handleBgClose = (e) => {
         if (e.currentTarget === e.target) {
             this.handleModalClose();
@@ -365,7 +342,6 @@ export default class FilePreviewModal extends React.PureComponent {
                     <preview.component
                         fileInfo={fileInfo}
                         post={this.props.post}
-                        onModalDismissed={this.props.onModalDismissed}
                     />
                 );
                 break;
@@ -374,8 +350,9 @@ export default class FilePreviewModal extends React.PureComponent {
 
         return (
             <Modal
-                show={this.props.show}
+                show={this.state.show}
                 onHide={this.handleModalClose}
+                onExited={this.props.onExited}
                 className='modal-image file-preview-modal'
                 dialogClassName={dialogClassName}
                 animation={true}

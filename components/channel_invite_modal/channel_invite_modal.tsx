@@ -7,13 +7,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
-
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -31,7 +30,7 @@ export type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
     profilesNotInCurrentTeam: UserProfileValue[];
     userStatuses: RelationOneToOne<UserProfile, string>;
-    onHide: () => void;
+    onExited: () => void;
     channel: Channel;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
@@ -45,11 +44,11 @@ export type Props = {
     includeUsers?: Dictionary<UserProfileValue>;
 
     actions: {
-        addUsersToChannel: any;
-        getProfilesNotInChannel: any;
-        getTeamStats: (teamId: string) => ActionFunc;
-        loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{data: boolean}>;
-        searchProfiles: (term: string, options: any) => ActionFunc;
+        addUsersToChannel: (channelId: string, userIds: string[]) => Promise<ActionResult>;
+        getProfilesNotInChannel: (teamId: string, channelId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<ActionResult>;
+        getTeamStats: (teamId: string) => void;
+        loadStatusesForProfilesList: (users: UserProfile[]) => void;
+        searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     };
 }
 
@@ -247,7 +246,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                             className='badge-popoverlist'
                         />
                         <GuestBadge
-                            show={isGuest(option)}
+                            show={isGuest(option.roles)}
                             className='popoverlist'
                         />
                     </div>
@@ -324,7 +323,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 dialogClassName='a11y__modal channel-invite'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='channelInviteModalLabel'
             >

@@ -92,6 +92,14 @@
         span {
             display: none;
         }
+
+        @media screen and (max-width: 768px) {
+            background: none;
+
+            .menu-divider {
+                margin: 0;
+            }
+        }
     }
 
     .SubMenuItemContainer:not(.hasDivider) {
@@ -113,6 +121,7 @@
         .SubMenu__icon-right {
             padding: 0 9px 0 8px;
             margin-right: 0;
+            line-height: 28px;
 
             &.mobile {
                 padding: 0 4px 0 9px;
@@ -121,10 +130,21 @@
 
         .styleSelectableItemDiv {
             display: flex;
+            height: 34px;
             align-items: center;
             justify-content: space-between;
             padding: 0 15px;
             margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            width: 100%;
+            grid-template-columns: auto 1fr auto auto;
+        }
+
+        .flex {
+            width: 100%;
         }
 
         .sorting-menu-checkbox {

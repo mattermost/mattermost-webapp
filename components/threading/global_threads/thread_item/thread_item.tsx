@@ -69,6 +69,7 @@ function ThreadItem({
     const {formatMessage} = useIntl();
 
     const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
+    const postAuthor = post.props?.override_username || displayName;
 
     useEffect(() => {
         if (channel?.teammate_id) {
@@ -83,7 +84,7 @@ function ThreadItem({
     }, [channel, thread?.post.channel_id]);
 
     const participantIds = useMemo(() => {
-        const ids = thread?.participants?.flatMap(({id}) => {
+        const ids = (thread?.participants || []).flatMap(({id}) => {
             if (id === post.user_id) {
                 return [];
             }
@@ -152,9 +153,12 @@ function ThreadItem({
                         )}
                     </div>
                 )}
-                <span>{post.props?.override_username || displayName}</span>
+                <span>{postAuthor}</span>
                 {Boolean(channel) && (
                     <Badge
+                        className={classNames({
+                            Badge__hidden: postAuthor === channel?.display_name,
+                        })}
                         onClick={goToInChannelHandler}
                     >
                         {channel?.display_name}

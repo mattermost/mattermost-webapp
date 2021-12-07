@@ -47,21 +47,21 @@ describe('Message Reply', () => {
         });
     });
 
-    it('MM-T2133 - Reply arrow opens RHS with Add Comment button disabled until text entered', () => {
+    it('MM-T2133 - Reply arrow opens RHS with Reply button disabled until text entered', () => {
         // # Click on the `...` menu icon and click on `Reply`
         cy.uiClickPostDropdownMenu(rootId, 'Reply', 'CENTER');
 
         // * RHS is open
         cy.get('#rhsContainer').should('be.visible');
 
-        // * `Add Comment` button is disabled
-        cy.get('#addCommentButton').should('be.disabled');
+        // * Reply button is disabled
+        cy.uiGetReply().should('be.disabled');
 
         // # Type a character in the comment box
         cy.get('#reply_textbox').type('A');
 
-        // * `Add Comment` button is not disabled
-        cy.get('#addCommentButton').should('not.be.disabled');
+        // * Reply button is not disabled
+        cy.uiGetReply().should('not.be.disabled');
 
         // # Clear comment box
         cy.get('#reply_textbox').clear();

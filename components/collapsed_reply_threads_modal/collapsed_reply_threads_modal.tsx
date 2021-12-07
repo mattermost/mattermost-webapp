@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import crtBetaImg from 'images/crt-beta.gif';
-
-import {closeModal} from 'actions/views/modals';
 
 import GenericModal from 'components/generic_modal';
 import AlertBanner from 'components/alert_banner';
@@ -16,20 +13,17 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import './collapsed_reply_threads_modal.scss';
 
-function CollapsedReplyThreadsModal() {
-    const dispatch = useDispatch();
+type Props = {
+    onExited: () => void;
+}
 
-    const onHide = useCallback(() => {
-        dispatch(closeModal(ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL));
-    }, []);
-
+function CollapsedReplyThreadsModal(props: Props) {
     return (
         <GenericModal
             className='CollapsedReplyThreadsModal'
             id={ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL}
             enforceFocus={false}
-            onHide={onHide}
-            handleConfirm={onHide}
+            onExited={props.onExited}
             modalHeaderText={(
                 <FormattedMessage
                     id='collapsed_reply_threads_modal.title'

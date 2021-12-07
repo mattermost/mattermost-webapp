@@ -11,6 +11,9 @@ export type RelationOneToOne<E extends {id: string}, T> = {
 export type RelationOneToMany<E1 extends {id: string}, E2 extends {id: string}> = {
     [x in $ID<E1>]: Array<$ID<E2>>;
 };
+export type RelationOneToManyUnique<E1 extends {id: string}, E2 extends {id: string}> = {
+    [x in $ID<E1>]: Set<$ID<E2>>;
+};
 export type IDMappedObjects<E extends {id: string}> = RelationOneToOne<E, E>;
 export type UserIDMappedObjects<E extends {user_id: string}> = {
     [x in $UserID<E>]: E;

@@ -9,9 +9,13 @@ import {GlobalState} from 'types/store';
 
 import PostTime from './post_time';
 
-function mapStateToProps(state: GlobalState) {
+type OwnProps = {
+    teamName?: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
-        teamUrl: getCurrentRelativeTeamUrl(state),
+        teamUrl: ownProps.teamName ? `/${ownProps.teamName}` : getCurrentRelativeTeamUrl(state),
     };
 }
 

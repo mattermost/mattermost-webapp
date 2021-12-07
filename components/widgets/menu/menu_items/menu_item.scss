@@ -4,6 +4,7 @@
 .Menu {
     .MenuItem {
         display: flex;
+        width: 100%;
         align-items: center;
         font-size: 14px;
 
@@ -126,13 +127,6 @@
                 color: inherit;
             }
         }
-
-        > div {
-            &:hover,
-            &:focus {
-                background-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
-            }
-        }
     }
 
     .MenuCloudTrial {
@@ -187,6 +181,7 @@
     top: unset;
     left: unset;
     padding-left: 0;
+    cursor: auto;
 }
 
 .SubMenu__icon-left {

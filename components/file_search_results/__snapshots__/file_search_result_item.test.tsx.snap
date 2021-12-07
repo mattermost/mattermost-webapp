@@ -158,30 +158,6 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(FilePreviewModal)
-    fileInfos={
-      Array [
-        Object {
-          "clientId": "client_id",
-          "create_at": 1,
-          "delete_at": 1,
-          "extension": "jpg",
-          "has_preview_image": true,
-          "height": 200,
-          "id": "file_info_id",
-          "mime_type": "mime_type",
-          "name": "name",
-          "size": 1,
-          "update_at": 1,
-          "user_id": "user_id",
-          "width": 350,
-        },
-      ]
-    }
-    onModalDismissed={[Function]}
-    show={false}
-    startIndex={0}
-  />
 </div>
 `;
 
@@ -351,30 +327,6 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(FilePreviewModal)
-    fileInfos={
-      Array [
-        Object {
-          "clientId": "client_id",
-          "create_at": 1,
-          "delete_at": 1,
-          "extension": "jpg",
-          "has_preview_image": true,
-          "height": 200,
-          "id": "file_info_id",
-          "mime_type": "mime_type",
-          "name": "name",
-          "size": 1,
-          "update_at": 1,
-          "user_id": "user_id",
-          "width": 350,
-        },
-      ]
-    }
-    onModalDismissed={[Function]}
-    show={false}
-    startIndex={0}
-  />
 </div>
 `;
 
@@ -544,30 +496,6 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(FilePreviewModal)
-    fileInfos={
-      Array [
-        Object {
-          "clientId": "client_id",
-          "create_at": 1,
-          "delete_at": 1,
-          "extension": "jpg",
-          "has_preview_image": true,
-          "height": 200,
-          "id": "file_info_id",
-          "mime_type": "mime_type",
-          "name": "name",
-          "size": 1,
-          "update_at": 1,
-          "user_id": "user_id",
-          "width": 350,
-        },
-      ]
-    }
-    onModalDismissed={[Function]}
-    show={false}
-    startIndex={0}
-  />
 </div>
 `;
 
@@ -734,29 +662,5 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(FilePreviewModal)
-    fileInfos={
-      Array [
-        Object {
-          "clientId": "client_id",
-          "create_at": 1,
-          "delete_at": 1,
-          "extension": "jpg",
-          "has_preview_image": true,
-          "height": 200,
-          "id": "file_info_id",
-          "mime_type": "mime_type",
-          "name": "name",
-          "size": 1,
-          "update_at": 1,
-          "user_id": "user_id",
-          "width": 350,
-        },
-      ]
-    }
-    onModalDismissed={[Function]}
-    show={false}
-    startIndex={0}
-  />
 </div>
 `;

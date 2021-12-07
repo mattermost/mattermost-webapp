@@ -59,4 +59,9 @@ export type ThreadsState = {
         total_unread_threads: number;
         total_unread_mentions: number;
     }>;
+    countsIncludingDirect: RelationOneToOne<Team, {
+        total: number;
+        total_unread_threads: number;
+        total_unread_mentions: number;
+    }>;
 };

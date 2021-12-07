@@ -18,7 +18,7 @@ import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
     userId: string;
     currentDate: Date;
     actions: {
@@ -27,6 +27,7 @@ type Props = {
 };
 
 type State = {
+    show: boolean;
     selectedDate: Date;
     selectedTime: string;
     timeMenuList: string[];
@@ -46,6 +47,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         }
 
         this.state = {
+            show: true,
             selectedDate,
             dayPickerStartDate: selectedDate,
             ...this.makeTimeMenuList(selectedDate),
@@ -95,7 +97,9 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             manual: true,
             last_activity_at: toUTCUnix(this.props.currentDate),
         });
-        this.props.onHide();
+        this.setState({
+            show: false,
+        });
     }
 
     handleDaySelection = (day: Date) => {
@@ -164,7 +168,8 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         return (
             <GenericModal
-                onHide={this.props.onHide}
+                show={this.state.show}
+                onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 id='dndCustomTimePickerModal'

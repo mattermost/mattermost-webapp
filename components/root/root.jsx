@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
@@ -60,6 +61,8 @@ import {getSiteURL} from 'utils/url';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
+
+import {applyLuxonDefaults} from './effects';
 
 import RootRedirect from './root_redirect';
 
@@ -132,8 +135,10 @@ export default class Root extends React.PureComponent {
         });
 
         document.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            if (!document.body.classList.contains('focalboard-body')) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         });
 
         // Fastclick
@@ -150,6 +155,8 @@ export default class Root extends React.PureComponent {
 
         // set initial window size state
         this.props.actions.emitBrowserWindowResized();
+
+        store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
 
     onConfigLoaded = () => {
@@ -237,7 +244,7 @@ export default class Root extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (!Utils.areObjectsEqual(prevProps.theme, this.props.theme)) {
+        if (!deepEqual(prevProps.theme, this.props.theme)) {
             Utils.applyTheme(this.props.theme);
         }
         if (this.props.location.pathname === '/') {
@@ -420,6 +427,7 @@ export default class Root extends React.PureComponent {
                             />
                             <RootRedirect/>
                         </Switch>
+                        <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
             </IntlProvider>

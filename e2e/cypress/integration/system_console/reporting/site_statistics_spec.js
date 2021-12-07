@@ -36,7 +36,8 @@ describe('System Console > Site Statistics', () => {
         let monthlyActiveUsersFinal;
 
         // # Go to admin console
-        goToAdminConsole();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console');
 
         // # Go to system analytics
         cy.findByTestId('reporting.system_analytics', {timeout: TIMEOUTS.ONE_MIN}).click();
@@ -75,9 +76,3 @@ describe('System Console > Site Statistics', () => {
         });
     });
 });
-
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};

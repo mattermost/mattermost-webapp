@@ -14,7 +14,7 @@ import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetDisplayName, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
@@ -28,6 +28,7 @@ import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
@@ -115,7 +116,7 @@ export function shouldShowDotMenu(state: GlobalState, post: Post, channel: Chann
         return false;
     }
 
-    if (Utils.isMobile()) {
+    if (getIsMobileView(state)) {
         return true;
     }
 
@@ -583,4 +584,17 @@ export function getPostURL(state: GlobalState, post: Post): string {
     default:
         return `/${team.name}/channels/${channel.name}${postURI}`;
     }
+}
+
+export function matchUserMentionTriggersWithMessageMentions(userMentionKeys: UserMentionKey[],
+    messageMentionKeys: RegExpMatchArray): boolean {
+    let isMentioned = false;
+    for (const mentionKey of userMentionKeys) {
+        const isPresentInMessage = messageMentionKeys.includes(mentionKey.key);
+        if (isPresentInMessage) {
+            isMentioned = true;
+            break;
+        }
+    }
+    return isMentioned;
 }
