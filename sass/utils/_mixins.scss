@@ -1,11 +1,10 @@
 @charset 'UTF-8';
 
 @mixin file-icon($path) {
-    @include background-size(32px 40px);
-
     background-image: url($path);
     background-position: center;
     background-repeat: no-repeat;
+    background-size: 32px 40px;
 }
 
 @mixin alpha-property($property, $color, $opacity) {
@@ -71,4 +70,19 @@
 @mixin fit-content {
     width: fit-content;
     width: -moz-fit-content;
+}
+
+@mixin clearfix {
+    overflow: hidden;
+    *zoom: 1;
+}
+
+@mixin pie-clearfix {
+    &::after {
+        display: table;
+        clear: both;
+        content: "";
+    }
+
+    *zoom: 1;
 }
