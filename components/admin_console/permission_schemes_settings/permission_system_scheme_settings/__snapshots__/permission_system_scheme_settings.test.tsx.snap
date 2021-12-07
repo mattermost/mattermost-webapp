@@ -273,9 +273,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         className="permissions-block"
         onToggle={[Function]}
         open={true}
-        subtitleDefault="Permissions granted to administrators of a Playbook."
+        subtitleDefault="Permissions granted to administrators of a playbook."
         subtitleId="admin.permissions.systemScheme.playbookAdminSubtitle"
-        titleDefault="Playbook Admin"
+        titleDefault="Playbook Administrator"
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
@@ -572,9 +572,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         className="permissions-block"
         onToggle={[Function]}
         open={true}
-        subtitleDefault="Permissions granted to administrators of a Playbook."
+        subtitleDefault="Permissions granted to administrators of a playbook."
         subtitleId="admin.permissions.systemScheme.playbookAdminSubtitle"
-        titleDefault="Playbook Admin"
+        titleDefault="Playbook Administrator"
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
@@ -871,9 +871,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         className="permissions-block"
         onToggle={[Function]}
         open={true}
-        subtitleDefault="Permissions granted to administrators of a Playbook."
+        subtitleDefault="Permissions granted to administrators of a playbook."
         subtitleId="admin.permissions.systemScheme.playbookAdminSubtitle"
-        titleDefault="Playbook Admin"
+        titleDefault="Playbook Administrator"
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
@@ -1170,9 +1170,9 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         className="permissions-block"
         onToggle={[Function]}
         open={true}
-        subtitleDefault="Permissions granted to administrators of a Playbook."
+        subtitleDefault="Permissions granted to administrators of a playbook."
         subtitleId="admin.permissions.systemScheme.playbookAdminSubtitle"
-        titleDefault="Playbook Admin"
+        titleDefault="Playbook Administrator"
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
