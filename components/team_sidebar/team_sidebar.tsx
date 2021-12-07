@@ -38,7 +38,7 @@ import TeamButton from './components/team_button';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
-    switchTeam: (url: string) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
+    switchTeam: (url: string, team?: Team) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
     updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
 }
 
@@ -249,7 +249,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     showOrder={this.state.showOrder}
                     mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
-                    switchTeam={this.props.actions.switchTeam}
+                    switchTeam={(url: string) => this.props.actions.switchTeam(url, currentProduct ? team : undefined)}
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}
