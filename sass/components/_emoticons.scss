@@ -80,10 +80,6 @@
 }
 
 .emoji-picker {
-    @include border-radius($border-rad);
-    @include clearfix;
-    @include user-select(none);
-
     position: absolute;
     z-index: 1100;
     display: flex;
@@ -92,8 +88,12 @@
     border: 1px solid;
     margin-right: 3px;
     background: var(--center-channel-bg);
+    border-radius: $border-rad;
     border-radius: 4px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    user-select: none;
+
+    @include clearfix;
 
     .emoji-picker__header {
         background: var(--sidebar-header-bg);
@@ -256,14 +256,13 @@
     margin: 12px;
 
     .skin-tones {
-        @include single-transition(all, 0.35s, ease);
-
         z-index: 10;
         display: flex;
         overflow: hidden;
         height: 100%;
         align-items: center;
         background: var(--center-channel-bg);
+        transition: all 0.35s ease;
 
         &--active {
             position: absolute;
@@ -343,16 +342,14 @@
     }
 
     .skin-tones__close {
-        @include single-transition(opacity, 0.35s, ease);
-
         display: flex;
         align-items: center;
+        transition: opacity 0.35s ease;
     }
 
     .skin-tones__icons {
-        @include single-transition(opacity, 0.35s, ease);
-
         opacity: 0;
+        transition: opacity 0.35s ease;
     }
 
     .skin-tones__close-text {
@@ -386,8 +383,6 @@
     }
 
     .color-selector {
-        @include single-transition(all, 0.35s, ease);
-
         z-index: 11;
         display: flex;
         width: 32px;
@@ -396,6 +391,7 @@
         justify-content: center;
         margin-left: 8px;
         border-radius: 4px;
+        transition: all 0.35s ease;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -532,14 +528,13 @@
         position: relative;
 
         &.emoji-category--custom {
-            @include transform(scale(1));
-
             top: auto;
             left: auto;
             width: auto;
             max-width: 22px;
             height: auto;
             max-height: 22px;
+            transform: scale(1);
         }
     }
 }
@@ -601,9 +596,8 @@ $emoji-half-height: 33px;
         display: inline;
 
         .emoji-picker__preview-name {
-            @include user-select(text);
-
             font-weight: bold;
+            user-select: text;
         }
     }
 

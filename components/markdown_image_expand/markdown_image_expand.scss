@@ -1,4 +1,3 @@
-@import "compass/css3";
 @import "sass/utils/functions";
 @import "utils/variables";
 
@@ -19,11 +18,10 @@
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     background-color: var(--center-channel-bg);
     border-radius: 16px;
+    box-shadow: $elevation-1;
     color: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 18px;
     line-height: 21px;
-
-    @include box-shadow($elevation-1);
 
     .icon {
         width: 18px;
@@ -36,8 +34,7 @@
 
     &:hover {
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
-
-        @include box-shadow($elevation-2);
+        box-shadow: $elevation-2;
     }
 }
 
