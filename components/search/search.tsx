@@ -19,8 +19,8 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import Popover from 'components/widgets/popover';
-import UserGuideDropdown from 'components/rhs_search_nav/components/user_guide_dropdown';
 
+import UserGuideDropdown from 'components/search/user_guide_dropdown';
 import SearchBar from 'components/search_bar/search_bar';
 import SearchResults from 'components/search_results';
 import Provider from 'components/suggestion/provider';
