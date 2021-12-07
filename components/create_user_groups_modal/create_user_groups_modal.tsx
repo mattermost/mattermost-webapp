@@ -138,8 +138,8 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
 
         const data = await this.props.actions.createGroupWithUserIds(group);
 
-        if (data.error) {
-            if (data.error.server_error_id === 'app.group.save_not_unique.name_error') {
+        if (data?.error) {
+            if (data.error?.server_error_id === 'app.group.save_not_unique.name_error') {
                 this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.')});
             } else {
                 this.setState({showUnknownError: true});

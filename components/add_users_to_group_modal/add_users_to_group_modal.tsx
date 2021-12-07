@@ -77,7 +77,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
 
         const data = await this.props.actions.addUsersToGroup(this.props.groupId, userIds);
 
-        if (data.error) {
+        if (data?.error) {
             this.setState({showUnknownError: true});
         } else {
             this.goBack();
