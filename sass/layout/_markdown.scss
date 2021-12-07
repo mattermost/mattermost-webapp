@@ -1,3 +1,4 @@
+@charset "UTF-8";
 h1.markdown__heading {
     font-size: 28px;
 }
@@ -48,51 +49,83 @@ h6.markdown__heading {
     .markdown-inline-img {
         max-height: 500px;
         margin: 5px 2px;
+        border-radius: 4px;
         -moz-force-broken-image-icon: 1;
-        @include border-radius(4px);
     }
-    .markdown__paragraph-inline {
-        display: inline;
-        +.markdown__paragraph-inline {
-            margin-left: 4px;
-        }
+    div.markdown-inline-img {
+        display: inline-block;
+        width: 100%;
+        min-width: 50px;
+        vertical-align: top;
     }
-    #post-list,
-    #rhsContainer {
-        .markdown-inline-img {
-            max-height: 500px;
-            margin: 5px 2px;
-            border-radius: 4px;
-            -moz-force-broken-image-icon: 1;
-        }
-        div.markdown-inline-img {
-            display: inline-block;
-            width: 100%;
-            min-width: 50px;
-            vertical-align: top;
-        }
-        .post {
-            &.post--system {
-                .markdown-inline-img {
-                    width: auto;
-                    max-width: 200px;
-                }
+    .post {
+        &.post--system {
+            .markdown-inline-img {
+                width: auto;
+                max-width: 200px;
             }
         }
-        .markdown-inline-img__container {
-            display: inline-block;
-            width: calc(100% - 5px);
+    }
+    .markdown-inline-img__container {
+        display: inline-block;
+        width: calc(100% - 5px);
+    }
+    .markdown-inline-img--loading {
+        visibility: hidden;
+    }
+    .markdown-inline-img--hover {
+        border: 1px solid transparent;
+        &:hover {
+            z-index: 2;
+            box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
-        .markdown-inline-img--loading {
-            visibility: hidden;
+    }
+    .markdown-inline-img--no-border {
+        border: unset;
+    }
+    .markdown-inline-img--scaled-down {
+        max-height: 18px;
+        margin: 2px;
+        border-radius: 2px;
+        &:hover {
+            z-index: 2;
+            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
-        .markdown-inline-img--hover {
-            border: 1px solid transparent;
-            &:hover {
-                z-index: 2;
-                box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
-                transition: all 0.1s linear;
-            }
+    }
+    .markdown-inline-img--scaled-down-loading {
+        height: 18px;
+        margin: 2px;
+        visibility: hidden;
+    }
+    .broken-image {
+        border-radius: unset;
+    }
+    .broken-image--scaled-down {
+        max-height: 18px;
+        margin: 2px;
+    }
+}
+
+#channelHeaderDescription,
+#header-popover {
+    .markdown-inline-img {
+        max-height: 18px;
+        margin: 2px;
+        border-radius: 2px;
+        -moz-force-broken-image-icon: 1;
+    }
+    .markdown-inline-img--loading {
+        height: 18px;
+        visibility: hidden;
+    }
+    .markdown-inline-img--hover {
+        border: 1px solid transparent;
+        &:hover {
+            z-index: 2;
+            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
     }
     .markdown-inline-img--no-border {
@@ -125,46 +158,23 @@ h6.markdown__heading {
         @include opacity(1);
     }
     &:hover .post-code__language {
-        @include opacity(1);
+        opacity: 1;
     }
     &.post-code--wrap {
         code {
             white-space: pre-wrap;
         }
     }
-    #channelHeaderDescription,
-    #header-popover {
-        .markdown-inline-img {
-            max-height: 18px;
-            margin: 2px;
-            border-radius: 2px;
-            -moz-force-broken-image-icon: 1;
-        }
-        .markdown-inline-img--loading {
-            height: 18px;
-            visibility: hidden;
-        }
-        .markdown-inline-img--hover {
-            border: 1px solid transparent;
-            &:hover {
-                z-index: 2;
-                box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
-                transition: all 0.1s linear;
-            }
-        }
-        .markdown-inline-img--no-border {
-            border: unset;
-        }
-        div.markdown__paragraph-inline {
-            display: inline-block;
-            line-height: 22px;
-        }
-        .broken-image {
-            max-height: 18px;
-            border-radius: unset;
-        }
+    .post-code__line-numbers {
+        min-width: 36px;
+        padding-right: 4px;
+        border-right: 1px solid #ccc;
+        margin-right: 12px;
+        color: #ccc;
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace; // Match the fonts that code elements use
+        user-select: none;
     }
-    .post-code {
+    .hljs {
         position: relative;
         overflow-x: auto;
         visibility: visible;
@@ -193,10 +203,6 @@ h6.markdown__heading {
 }
 
 .post-code__overlay {
-    position: absolute;
-    z-index: 5;
-    top: 5px;
-    right: 0;
     >span {
         @include opacity(0);
         @include transition(opacity, 0.6s);
@@ -224,11 +230,17 @@ h6.markdown__heading {
         }
     }
     .post-code__language {
-        @include unselectable;
+        position: absolute;
+        z-index: 5;
+        top: 5px;
+        right: 0;
         padding: 4px 10px 5px;
         background: #21586d;
         border-radius: 0 0 0 2px;
         color: $white;
+        opacity: 0;
+        transition: opacity, 0.6s;
+        user-select: none;
     }
 }
 
@@ -236,17 +248,17 @@ h6.markdown__heading {
     position: absolute;
     color: transparent;
     pointer-events: none;
-    @include user-select(none);
+    user-select: none;
 }
 
 .post__body {
     hr {
-        @include opacity(0.2);
         height: 4px;
         padding: 0;
         border: 0 none;
         margin: 15px 0 16px;
         background-color: #e7e7e7;
+        opacity: 0.2;
     }
     .codespan__pre-wrap {
         code {
@@ -299,7 +311,6 @@ blockquote {
     margin-bottom: 0;
     font-size: inherit;
     &::before {
-        @include opacity(0.6);
         position: absolute;
         top: 5px;
         left: 8px;
@@ -309,6 +320,7 @@ blockquote {
         font-size: 20px;
         font-style: normal;
         font-weight: normal;
+        opacity: 0.6;
         text-decoration: inherit;
     }
 }
