@@ -266,8 +266,8 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
         const systemUserPromise = this.props.actions.editRole(derivedRoles.system_user);
         const teamUserPromise = this.props.actions.editRole(derivedRoles.team_user);
         const channelUserPromise = this.props.actions.editRole(derivedRoles.channel_user);
-        const playbookMemberPromice = this.props.actions.editRole(derivedRoles.playbook_member);
-        const runMemberPromice = this.props.actions.editRole(derivedRoles.run_member);
+        const playbookMemberPromise = this.props.actions.editRole(derivedRoles.playbook_member);
+        const runMemberPromise = this.props.actions.editRole(derivedRoles.run_member);
 
         const promises = [
             teamAdminPromise,
@@ -276,8 +276,8 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
             teamUserPromise,
             channelUserPromise,
             playbookAdminPromise,
-            playbookMemberPromice,
-            runMemberPromice,
+            playbookMemberPromise,
+            runMemberPromise,
         ];
 
         if (this.haveGuestAccountsPermissions()) {
