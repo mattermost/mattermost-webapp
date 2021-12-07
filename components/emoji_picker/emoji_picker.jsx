@@ -556,49 +556,7 @@ export default class EmojiPicker extends React.PureComponent {
 
         return this.state.categories[category.name].emojiIds.map((emojiId) =>
             this.state.allEmojis[emojiId]);
-
-        // change
-        // const emojis = this.state.categories[category.name].emojiIds.map((emojiId) =>
-        //     this.convertRecentEmojiToUserSkinTone(category, emojiId));
-
-        // return this.filterDistinctEmojis(emojis);
     }
-
-    // // change
-    // getEmojiByUnicode = (unicode) => {
-    //     const emojiIndex = Emoji.EmojiIndicesByUnicode.get(unicode.toLowerCase());
-    //     return Emoji.Emojis[emojiIndex];
-    // }
-
-    // // change
-    // convertRecentEmojiToUserSkinTone = (category, emojiId) => {
-    //     const emoji = this.state.allEmojis[emojiId];
-
-    //     if (category.name === 'recent' && emoji.skin_variations && emoji.skin_variations.hasOwnProperty(this.props.userSkinTone)) {
-    //         const skinVariationCode = emoji.skin_variations[this.props.userSkinTone].unified;
-    //         return this.getEmojiByUnicode(skinVariationCode);
-    //     }
-
-    //     if (category.name === 'recent' && emoji.skins && emoji.skins.length > 0) {
-    //         const skinCode = emoji.skins[0].toLowerCase();
-    //         const userSkinTone = this.props.userSkinTone.toLowerCase();
-
-    //         const skinnedEmojiCode = userSkinTone === 'default' ?
-    //             emojiId.replace(`-${skinCode}`, '') :
-    //             emojiId.replace(skinCode, userSkinTone);
-
-    //         if (emojiId !== skinnedEmojiCode) {
-    //             return this.getEmojiByUnicode(skinnedEmojiCode);
-    //         }
-    //     }
-
-    //     return emoji;
-    // }
-
-    // // change
-    // filterDistinctEmojis = (emojis) => {
-    //     return [...new Map(emojis.map((e) => [e.unified, e])).values()];
-    // }
 
     getCurrentEmojiName() {
         const emoji = this.getCurrentEmojiByCursor(this.state.cursor);
