@@ -12,6 +12,8 @@ import {compareEmojis} from 'utils/emoji_utils';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
+import {getSkin} from 'utils/emoticons';
+
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
@@ -538,6 +540,17 @@ export default class EmojiPicker extends React.PureComponent {
         ];
     }
 
+    convertEmojiToUserSkinTone = (emoji, emojiSkin, userSkinTone) => {
+        if (emojiSkin === userSkinTone) {
+            return emoji;
+        }
+
+        const newEmojiId = userSkinTone === 'default' ? emoji.unified.replace(`-${emojiSkin}`, '') : emoji.unified.replace(emojiSkin, userSkinTone);
+
+        const emojiIndex = Emoji.EmojiIndicesByUnicode.get(newEmojiId.toLowerCase());
+        return Emoji.Emojis[emojiIndex];
+    }
+
     getEmojisByCategory(category) {
         if (this.props.filter) {
             const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
@@ -552,6 +565,29 @@ export default class EmojiPicker extends React.PureComponent {
             });
 
             return this.sortEmojis(emojis);
+        }
+
+        if (category.name === 'recent') {
+            const recentEmojiIds = this.state.categories?.recent?.emojiIds ?? [];
+            if (recentEmojiIds.length === 0) {
+                return [];
+            }
+
+            const recentEmojis = new Map();
+
+            recentEmojiIds.forEach((emojiId) => {
+                const emoji = this.state.allEmojis[emojiId];
+                const emojiSkin = getSkin(emoji);
+
+                if (emojiSkin) {
+                    const emojiWithUserSkin = this.convertEmojiToUserSkinTone(emoji, emojiSkin, this.props.userSkinTone);
+                    recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
+                } else {
+                    recentEmojis.set(emojiId, emoji);
+                }
+            });
+
+            return Array.from(recentEmojis.values());
         }
 
         return this.state.categories[category.name].emojiIds.map((emojiId) =>
@@ -604,6 +640,7 @@ export default class EmojiPicker extends React.PureComponent {
                 />
             );
         });
+
         return (
             <div
                 id='emojiPickerCategories'
@@ -784,5 +821,3 @@ export default class EmojiPicker extends React.PureComponent {
         );
     }
 }
-
-/* eslint-enable max-lines */
