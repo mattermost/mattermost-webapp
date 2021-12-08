@@ -10,11 +10,9 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import OverlayTrigger from 'components/overlay_trigger';
-import UserSettingsModal from 'components/user_settings/modal';
 
 import {ModalData} from 'types/actions';
 
-import * as Utils from 'utils/utils';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
 const HeaderLine = styled.div`
@@ -44,27 +42,6 @@ type Actions = {
 };
 
 export default class Contents extends React.PureComponent<Props> {
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyDown);
-    }
-
-    handleKeyDown = (e: KeyboardEvent) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
-            e.preventDefault();
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.USER_SETTINGS,
-                dialogType: UserSettingsModal,
-                dialogProps: {
-                    isContentProductSettings: true,
-                },
-            });
-        }
-    }
-
     handleCustomStatusEmojiClick = (event: React.MouseEvent) => {
         event.stopPropagation();
         const customStatusInputModalData = {
