@@ -3,12 +3,17 @@
 
 import {GlobalState} from 'types/store';
 import {UserTimezone} from 'mattermost-redux/types/users';
-
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {doMapStateToProps, mapStateToProps} from './index';
+import * as Timestamp from './timestamp';
 
-describe('mapStateToProps + doMapStateToProps', () => {
+import {mapStateToProps} from './index';
+
+const supportsHourCycleOg = Timestamp.supportsHourCycle;
+Object.defineProperty(Timestamp, 'supportsHourCycle', {get: () => supportsHourCycleOg});
+const supportsHourCycleSpy = jest.spyOn(Timestamp, 'supportsHourCycle', 'get');
+
+describe('mapStateToProps', () => {
     const currentUserId = 'user-id';
 
     const initialState = {
@@ -97,7 +102,7 @@ describe('mapStateToProps + doMapStateToProps', () => {
         });
     });
 
-    describe('hour12', () => {
+    describe('hour12, hourCycle unsupported', () => {
         test('hour12 should be false when using military time', () => {
             const testState = {...initialState};
             testState.entities.preferences.myPreferences['display_settings--use_military_time'] = {
@@ -106,8 +111,9 @@ describe('mapStateToProps + doMapStateToProps', () => {
                 user_id: currentUserId,
                 value: 'true',
             } as PreferenceType;
+            supportsHourCycleSpy.mockReturnValueOnce(false);
 
-            const props = doMapStateToProps(testState, {}, false);
+            const props = mapStateToProps(testState, {});
             expect(props.hour12).toBe(false);
         });
 
@@ -119,8 +125,9 @@ describe('mapStateToProps + doMapStateToProps', () => {
                 user_id: currentUserId,
                 value: 'false',
             } as PreferenceType;
+            supportsHourCycleSpy.mockReturnValueOnce(false);
 
-            const props = doMapStateToProps(testState, {}, false);
+            const props = mapStateToProps(testState, {});
             expect(props.hour12).toBe(true);
         });
 
@@ -132,10 +139,9 @@ describe('mapStateToProps + doMapStateToProps', () => {
                 user_id: currentUserId,
                 value: 'false',
             } as PreferenceType;
+            supportsHourCycleSpy.mockReturnValueOnce(false);
 
-            const props = doMapStateToProps(testState, {hour12: false}, false);
-
-            // this would return true if the prop was not set
+            const props = mapStateToProps(testState, {hour12: false});
             expect(props.hour12).toBe(false);
         });
     });
