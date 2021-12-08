@@ -8,27 +8,21 @@ import {GlobalState} from 'types/store';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
 
-import {Preferences, TutorialSteps} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-
-import SidebarHeaderDropdown from './sidebar_header_dropdown';
+import Contents from './contents';
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
-    const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
 
     return {
         currentUser,
         teamDescription: currentTeam.description,
         teamDisplayName: currentTeam.display_name,
         teamId: currentTeam.id,
-        showTutorialTip,
     };
 }
 
@@ -40,4 +34,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarHeaderDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(Contents);

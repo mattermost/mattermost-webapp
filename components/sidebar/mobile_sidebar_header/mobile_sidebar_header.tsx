@@ -4,15 +4,9 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import StatusDropdown from 'components/status_dropdown';
+import Contents from './contents';
 
-import SidebarHeaderDropdown from './dropdown';
-
-type Props = {
-    isMobileView: boolean;
-}
-
-export default function LegacySidebarHeader(props: Props) {
+export default function MobileSidebarHeader() {
     const intl = useIntl();
     const ariaLabel = intl.formatMessage({id: 'accessibility.sections.lhsHeader', defaultMessage: 'team menu region'});
 
@@ -28,8 +22,7 @@ export default function LegacySidebarHeader(props: Props) {
             <div
                 className='d-flex'
             >
-                {!props.isMobileView && <StatusDropdown/>}
-                <SidebarHeaderDropdown/>
+                <Contents/>
             </div>
         </div>
     );
