@@ -72,19 +72,19 @@ export function makeGetReactionsForPost(): (state: GlobalState, postId: Post['id
         getReactionsForPosts,
         (_: GlobalState, postId: string) => postId,
         (emojiMap, reactions, postId) => {
-            if (reactions[postId]) {
-                const reactionsForPost: Record<string, Reaction> = {};
-
-                Object.entries(reactions[postId]).forEach(([userIdEmojiKey, emojiReaction]) => {
-                    if (emojiMap.get(emojiReaction.emoji_name)) {
-                        reactionsForPost[userIdEmojiKey] = emojiReaction;
-                    }
-                });
-
-                return reactionsForPost;
+            if (!reactions[postId]) {
+                return null;
             }
 
-            return null;
+            const reactionsForPost: Record<string, Reaction> = {};
+
+            Object.entries(reactions[postId]).forEach(([userIdEmojiKey, emojiReaction]) => {
+                if (emojiMap.get(emojiReaction.emoji_name)) {
+                    reactionsForPost[userIdEmojiKey] = emojiReaction;
+                }
+            });
+
+            return reactionsForPost;
         });
 }
 
@@ -495,7 +495,7 @@ export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Cha
             }
 
             const postId = recentBlock.order[0];
-            if (Object.prototype.hasOwnProperty.call(allPosts, postId)) {
+            if (allPosts.hasOwnProperty(postId)) {
                 ret[channelId] = allPosts[postId];
             }
         }

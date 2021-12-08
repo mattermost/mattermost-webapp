@@ -55,6 +55,6 @@ export const getOneClickReactionEmojis = (state: GlobalState) => {
     const recentEmojis = getRecentEmojis(state).slice(-3);
     const emojiMap = getEmojiMap(state);
 
-    const emojis = recentEmojis.slice(-3).map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).reverse();
+    const emojis = recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).reverse();
     return emojis;
 };
