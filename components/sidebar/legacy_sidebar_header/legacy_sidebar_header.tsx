@@ -2,70 +2,35 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 
 import StatusDropdown from 'components/status_dropdown';
 
-import {ModalData} from 'types/actions';
-
-import * as Utils from 'utils/utils';
-
 import SidebarHeaderDropdown from './dropdown';
 
-type Actions = {
-    openModal: <P>(modalData: ModalData<P>) => void;
-}
-
 type Props = {
-    teamDescription: string;
-    teamDisplayName: string;
-    teamId: string;
-    actions: Actions;
+    isMobileView: boolean;
 }
 
-type State = {
-    isMobile: boolean;
-}
+export default function LegacySidebarHeader(props: Props) {
+    const intl = useIntl();
+    const ariaLabel = intl.formatMessage({id: 'accessibility.sections.lhsHeader', defaultMessage: 'team menu region'});
 
-export default class LegacySidebarHeader extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            isMobile: Utils.isMobile(),
-        };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize);
-    }
-
-    handleResize = () => {
-        const isMobile = Utils.isMobile();
-        this.setState({isMobile});
-    }
-
-    render() {
-        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsHeader', 'team menu region');
-
-        return (
+    return (
+        <div
+            id='lhsHeader'
+            aria-label={ariaLabel}
+            tabIndex={-1}
+            role='application'
+            className='SidebarHeader team__header theme a11y__region'
+            data-a11y-sort-order='5'
+        >
             <div
-                id='lhsHeader'
-                aria-label={ariaLabel}
-                tabIndex={-1}
-                role='application'
-                className='SidebarHeader team__header theme a11y__region'
-                data-a11y-sort-order='5'
+                className='d-flex'
             >
-                <div
-                    className='d-flex'
-                >
-                    {!this.state.isMobile && <StatusDropdown/>}
-                    <SidebarHeaderDropdown/>
-                </div>
+                {!props.isMobileView && <StatusDropdown/>}
+                <SidebarHeaderDropdown/>
             </div>
-        );
-    }
+        </div>
+    );
 }
