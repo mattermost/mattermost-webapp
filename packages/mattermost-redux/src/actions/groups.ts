@@ -296,7 +296,7 @@ export function getGroupsByUserId(userID: string): ActionFunc {
     });
 }
 
-export function getGroupsByUserIdPaginated(userId: string, filterAllowReference: false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
+export function getGroupsByUserIdPaginated(userId: string, filterAllowReference = false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
     return bindClientFunc({
         clientFunc: async (param1, param2, param3, param4, param5) => {
             const result = await Client4.getGroups(param1, param2, param3, param4, param5);

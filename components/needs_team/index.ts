@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
-import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
+import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -67,7 +67,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             loadStatusesForChannelAndSidebar,
             getAllGroupsAssociatedToChannelsInTeam,
             getAllGroupsAssociatedToTeam,
-            getGroupsByUserId,
+            getGroupsByUserIdPaginated,
             getGroups,
         }, dispatch),
     };
