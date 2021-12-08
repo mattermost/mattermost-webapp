@@ -41,7 +41,7 @@ describe('Leave channel', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('Leave a channel while RHS is open', () => {
+    it('MM-T4429_1 Leave a channel while RHS is open', () => {
         // * Post text box should be visible
         cy.get('#post_textbox').should('be.visible');
 
@@ -73,7 +73,7 @@ describe('Leave channel', () => {
         });
     });
 
-    it('Leave a channel while RHS is open and CRT on', () => {
+    it('MM-T4429_2 Leave a channel while RHS is open and CRT on', () => {
         // * Post text box should be visible
         cy.get('#post_textbox').should('be.visible');
 
