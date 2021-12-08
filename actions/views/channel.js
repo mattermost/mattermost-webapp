@@ -41,7 +41,7 @@ import {loadCustomStatusEmojisForPostList} from 'actions/emoji_actions';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
-import {getSelectedPost} from 'selectors/rhs';
+import {getSelectedPost, getSelectedPostId} from 'selectors/rhs';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
@@ -150,9 +150,9 @@ export function leaveChannel(channelId) {
         if (!prevChannel || !getMyChannelMemberships(state)[prevChannel.id]) {
             LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
         }
-
         const selectedPost = getSelectedPost(state);
-        if (!selectedPost.exists) {
+        const selectedPostId = getSelectedPostId(state);
+        if (selectedPostId && selectedPost.exists === false) {
             dispatch(closeRightHandSide());
         }
 
@@ -474,7 +474,8 @@ export function deleteChannel(channelId) {
         const state = getState();
 
         const selectedPost = getSelectedPost(state);
-        if (!selectedPost.exists) {
+        const selectedPostId = getSelectedPostId(state);
+        if (selectedPostId && !selectedPost.exists) {
             dispatch(closeRightHandSide());
         }
 
