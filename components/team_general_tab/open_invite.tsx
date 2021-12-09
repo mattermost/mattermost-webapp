@@ -21,6 +21,7 @@ type Props = {
 };
 
 const OpenInvite = (props: Props) => {
+    const {teamId, isActive, isGroupConstrained, onToggle, patchTeam} = props;
     const intl = useIntl();
     const [serverError, setServerError] = useState('');
     const [allowOpenInvite, setAllowOpenInvite] = useState(props.allowOpenInvite);
@@ -28,33 +29,33 @@ const OpenInvite = (props: Props) => {
     const submit = useCallback(() => {
         setServerError('');
         const data = {
-            id: props.teamId,
+            id: teamId,
             allow_open_invite: allowOpenInvite,
         };
 
-        props.patchTeam(data).then(({error}) => {
+        patchTeam(data).then(({error}) => {
             if (error) {
                 setServerError(error.message);
             } else {
-                props.onToggle(false);
+                onToggle(false);
             }
         });
-    }, [props.onToggle, props.patchTeam, props.teamId, allowOpenInvite]);
+    }, [onToggle, patchTeam, teamId, allowOpenInvite]);
 
     const handleToggle = useCallback(() => {
-        if (props.isActive) {
-            props.onToggle(false);
+        if (isActive) {
+            onToggle(false);
         } else {
-            props.onToggle(true);
+            onToggle(true);
             setAllowOpenInvite(props.allowOpenInvite);
         }
-    }, [props.isActive, props.onToggle]);
+    }, [isActive, onToggle]);
 
-    if (!props.isActive) {
+    if (!isActive) {
         let describe = '';
         if (props.allowOpenInvite) {
             describe = intl.formatMessage({id: 'general_tab.yes', defaultMessage: 'Yes'});
-        } else if (props.isGroupConstrained) {
+        } else if (isGroupConstrained) {
             describe = intl.formatMessage({id: 'team_settings.openInviteSetting.groupConstrained', defaultMessage: 'No, members of this team are added and removed by linked groups.'});
         } else {
             describe = intl.formatMessage({id: 'general_tab.no', defaultMessage: 'No'});
@@ -72,7 +73,7 @@ const OpenInvite = (props: Props) => {
 
     let inputs;
 
-    if (props.isGroupConstrained) {
+    if (isGroupConstrained) {
         inputs = [
             <div key='userOpenInviteOptions'>
                 <div>
