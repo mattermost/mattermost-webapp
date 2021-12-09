@@ -71,6 +71,10 @@ function handleLeaveChannel(state: ThreadsState['counts'] = {}, action: GenericA
 
     const teamId = action.data.team_id;
 
+    if (!teamId || !state[teamId]) {
+        return state;
+    }
+
     const {unreadMentions, unreadThreads} = extra.threadsToDelete.reduce((curr, item: UserThread) => {
         curr.unreadMentions += item.unread_mentions;
         curr.unreadThreads = item.unread_replies > 0 ? curr.unreadThreads + 1 : curr.unreadThreads;
