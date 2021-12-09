@@ -13,6 +13,10 @@ import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 
+jest.mock('fastclick', () => ({
+    attach: () => {}, // eslint-disable-line no-empty-function
+}));
+
 jest.mock('rudder-sdk-js', () => ({
     identify: jest.fn(),
     load: jest.fn(),
