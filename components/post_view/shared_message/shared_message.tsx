@@ -5,8 +5,6 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import QuickSwitchModal from 'components/quick_switch_modal/quick_switch_modal';
-
 import {ModalData} from 'types/actions';
 
 import { ModalIdentifiers } from 'utils/constants';
@@ -17,27 +15,26 @@ import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import { Post } from 'mattermost-redux/types/posts';
-import ShareMessageModal from 'components/share_message_modal/share_message_modal';
-import { openModal } from 'actions/views/modals';
-import AboutBuildModal from 'components/about_build_modal/about_build_modal';
+import ShareMessageModal from 'components/share_message_modal';
+import AddUserToChannelModal from 'components/add_user_to_channel_modal/';
 
 type Props = {
-        post?: Post;
-        location?: 'CENTER' | 'RHS_ROOT';
+        post: Post;
+        location?: 'RHS'; //
         postId: string,
-        // actions: {
-        //     openModal: <P>(modalData: ModalData<P>) => void;
-        //     closeModal: (modalId: string) => void;
-        //     /**
-        //      * Function flag the post
-        //      */
-        //     flagPost: (postId: string) => void;
+        actions: {
+            openModal: <P>(modalData: ModalData<P>) => void;
+            // closeModal: (modalId: string) => void;
+            // /**
+            //  * Function flag the post
+            //  */
+            // flagPost: (postId: string) => void;
 
-        //     /**
-        //      * Function to unflag the post
-        //      */
-        //     unflagPost: (postId: string) => void;
-        // },
+            // /**
+            //  * Function to unflag the post
+            //  */
+            // unflagPost: (postId: string) => void;
+        },
 }
 
 type State = {
@@ -91,12 +88,15 @@ export default class SharedMessage extends React.PureComponent<Props, State> { /
 
         // trackEvent('ui', 'ui_sidebar_open_channel_switcher_v2');
 
-        // this.props.actions.openModal({
-        openModal({
-            modalId: ModalIdentifiers.ABOUT,
-            dialogType: AboutBuildModal,
+        console.log("opening modal:");
+
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.SHARE_MESSAGE_MODAL,
+            dialogType: ShareMessageModal,
+            dialogProps: {post: this.props.post}
         });
-        
+
+        console.log("attempted open");
     }
 
     // handleA11yActivateEvent = () => {

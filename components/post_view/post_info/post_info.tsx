@@ -23,7 +23,7 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import {Emoji} from 'mattermost-redux/types/emojis';
-import SharedMessage from '../shared_message/shared_message';
+import SharedMessage from 'components/post_view/shared_message';
 
 type Props = {
 
@@ -279,6 +279,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             sharedMessage = (
                 <SharedMessage
                     postId={post.id}
+                    post={post}
                 />
             );
         }

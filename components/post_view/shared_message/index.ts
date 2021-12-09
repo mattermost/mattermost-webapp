@@ -12,23 +12,23 @@ import {GlobalState} from 'types/store';
 
 import SharedMessage from './shared_message';
 
-function mapStateToProps(state: GlobalState) {
-    /* TODO */
+// function mapStateToProps(state: GlobalState) {
+//     /* TODO */
 
-}
+// }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             openModal,
-            closeModal,
+            // closeModal,
         }, dispatch),
     };
 }
 
 type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
-    closeModal: (modalId: string) => void;
+    // closeModal: (modalId: string) => void;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SharedMessage);
+export default connect(null, mapDispatchToProps)(SharedMessage);
