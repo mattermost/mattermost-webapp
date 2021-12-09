@@ -4,7 +4,6 @@
 import {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
@@ -15,6 +14,7 @@ import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selecto
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {openModal} from 'actions/views/modals';
+import {GlobalState} from 'types/store';
 
 import {
     Preferences,
