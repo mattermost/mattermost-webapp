@@ -130,10 +130,20 @@ export function lastSelectedChannel(state = '', action: GenericAction): string {
     }
 }
 
+function firstChannelName(state = '', action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.FIRST_CHANNEL_NAME:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     unreadFilterEnabled,
     draggingState,
     newCategoryIds,
     multiSelectedChannelIds,
     lastSelectedChannel,
+    firstChannelName,
 });

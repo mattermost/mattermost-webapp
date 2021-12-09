@@ -8,6 +8,8 @@ import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import throttle from 'lodash/throttle';
 
+import classNames from 'classnames';
+
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
@@ -61,6 +63,8 @@ import {getSiteURL} from 'utils/url';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
+
+import TeamSidebar from 'components/team_sidebar';
 
 import {applyLuxonDefaults} from './effects';
 
@@ -444,6 +448,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
+                        <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route
@@ -451,12 +456,14 @@ export default class Root extends React.PureComponent {
                                     path={product.baseURL}
                                     render={(props) => (
                                         <LoggedIn {...props}>
-                                            <Pluggable
-                                                pluggableName={'Product'}
-                                                subComponentName={'mainComponent'}
-                                                pluggableId={product.id}
-                                                webSocketClient={webSocketClient}
-                                            />
+                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                <Pluggable
+                                                    pluggableName={'Product'}
+                                                    subComponentName={'mainComponent'}
+                                                    pluggableId={product.id}
+                                                    webSocketClient={webSocketClient}
+                                                />
+                                            </div>
                                         </LoggedIn>
                                     )}
                                 />

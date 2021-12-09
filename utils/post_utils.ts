@@ -28,6 +28,7 @@ import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
@@ -115,7 +116,7 @@ export function shouldShowDotMenu(state: GlobalState, post: Post, channel: Chann
         return false;
     }
 
-    if (Utils.isMobile()) {
+    if (getIsMobileView(state)) {
         return true;
     }
 
