@@ -174,7 +174,7 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
         const title = (
             <h1>
                 <FormattedMessage
-                    id='share_message_modal.switchChannels'
+                    id='share_message_modal.shareMessage'
                     defaultMessage='Share Message'
                 />
             </h1>
@@ -217,20 +217,16 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                 <Modal.Header
                     id='ShareMessageModalLabel'
                     closeButton={true}
-                >
-                    <Modal.Title
-                        componentClass='h1'
-                        id='ShareMessageModalLabel'
-                    >
-                        {title}
-                    </Modal.Title>
-                </Modal.Header>
+                />
                 <Modal.Body>
+                    <div className='share-message__header'>
+                        {title}
+                    </div>
                     <div className='share-message-modal__suggestion-box'>
-                        <SuggestionBox
+                        <SuggestionBox // May need to make a different component entirely using parts of SuggestionBox, Input, and a proper dropdown.
                             placeholder={Utils.localizeMessage('share_message_share_input', 'Select channel or people')}
                             id='ShareMessageInput'
-                            aria-label={Utils.localizeMessage('quick_switch_modal.input', 'quick switch input')}
+                            aria-label={Utils.localizeMessage('share_message_share.input', 'Share input')}
                             ref={this.setSwitchBoxRef}
                             className='form-control focused'
                             onChange={this.onChange}
@@ -251,7 +247,7 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                             onItemSelected={this.handleSelected}
                             // forceSuggestionWhenBlue={true}
                         />
-                        <i className='icon icon-chevron-down icon-16'/>
+                        {/* <i className='icon icon-chevron-down icon-16'/> */}
                     </div>
                     <Input
                         name='Add a comment (optional)'
@@ -260,7 +256,6 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                         value={this.state.comment}
                         onChange={(e) => {
                             this.setState({comment: e.target.value});
-                            // this.props.actions.setNavigationBlocked(true);
                         }}
                         placeholder={Utils.localizeMessage('share_message_comment_input', 'Add a comment (optional)')}
                         // error={this.state.inputErrorText}
