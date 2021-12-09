@@ -4,9 +4,10 @@
 import React, {ReactNode, MouseEventHandler} from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import {Tooltip, OverlayTriggerProps} from 'react-bootstrap';
+import {OverlayTriggerProps} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 import Constants from 'utils/constants';

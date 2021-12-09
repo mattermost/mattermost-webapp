@@ -207,6 +207,7 @@
     .suggestion-list__icon {
         display: inline-flex;
         flex: 0 0 1.6rem;
+        align-items: center;
         justify-content: center;
         fill: v(center-channel-color);
         opacity: 0.56;
@@ -255,10 +256,6 @@
         display: block;
         margin-right: 12px;
         text-align: center;
-
-        &.Avatar-sm {
-            margin: 0;
-        }
     }
 
     .status-wrapper {
@@ -267,8 +264,12 @@
         margin-top: 4px;
         margin-right: 12px;
 
+        .Avatar.Avatar-sm {
+            margin: 0;
+        }
+
         .status {
-            right: -2px;
+            right: -4px;
             bottom: -4px;
 
             svg {

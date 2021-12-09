@@ -706,7 +706,7 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     focus = () => {
-        const input = this.inputRef.current.input;
+        const input = this.inputRef.current;
         if (input.value === '""' || input.value.endsWith('""')) {
             input.selectionStart = input.value.length - 1;
             input.selectionEnd = input.value.length - 1;
