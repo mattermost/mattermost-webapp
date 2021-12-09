@@ -33,7 +33,7 @@ import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -158,7 +158,12 @@ export default class Root extends React.PureComponent {
         }
 
         // set initial window size state
-        this.props.actions.emitBrowserWindowResized();
+        this.desktopMediaQuery = window.matchMedia(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
+        this.smallDesktopMediaQuery = window.matchMedia(`(min-width: ${Constants.TABLET_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.DESKTOP_SCREEN_WIDTH}px)`);
+        this.tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
+        this.mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
+
+        this.updateWindowSize();
 
         store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
@@ -270,14 +275,38 @@ export default class Root extends React.PureComponent {
         });
         trackLoadTime();
 
-        window.addEventListener('resize', this.handleWindowResizeEvent);
+        if (this.desktopMediaQuery.addEventListener) {
+            this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.addListener) {
+            this.desktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.addEventListener('resize', this.handleWindowResizeEvent);
+        }
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
 
-        window.removeEventListener('resize', this.handleWindowResizeEvent);
+        if (this.desktopMediaQuery.removeEventListener) {
+            this.desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.removeListener) {
+            this.desktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.removeEventListener('resize', this.handleWindowResizeEvent);
+        }
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -308,6 +337,29 @@ export default class Root extends React.PureComponent {
     handleWindowResizeEvent = throttle(() => {
         this.props.actions.emitBrowserWindowResized();
     }, 100);
+
+    handleMediaQueryChangeEvent = (e) => {
+        if (e.matches) {
+            this.updateWindowSize();
+        }
+    }
+
+    updateWindowSize = () => {
+        switch (true) {
+        case this.desktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.DESKTOP_VIEW);
+            break;
+        case this.smallDesktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.SMALL_DESKTOP_VIEW);
+            break;
+        case this.tabletMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.TABLET_VIEW);
+            break;
+        case this.mobileMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.MOBILE_VIEW);
+            break;
+        }
+    }
 
     render() {
         if (!this.state.configLoaded) {
