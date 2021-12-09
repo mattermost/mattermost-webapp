@@ -117,6 +117,7 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     }
     case TeamTypes.LEAVE_TEAM:
         return handleLeaveTeam(state, action);
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
     case ThreadTypes.RECEIVED_THREADS:
@@ -144,6 +145,7 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
         return handleLeaveTeam(state, action);
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
     case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
