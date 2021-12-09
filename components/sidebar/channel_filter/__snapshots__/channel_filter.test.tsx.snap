@@ -9,10 +9,8 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
     delayShow={500}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="new-group-tooltip"
-        placement="right"
       >
         Filter by unread
       </Tooltip>
@@ -48,10 +46,8 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
     delayShow={500}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="new-group-tooltip"
-        placement="right"
       >
         Show all channels
       </Tooltip>
