@@ -1,5 +1,4 @@
-@import 'compass/css3';
-@import 'utils/variables';
+@import '../../../../sass/utils/module';
 
 .Menu {
     .MenuItem {
@@ -41,12 +40,11 @@
         }
 
         span.MenuItem__help-text {
-            @include opacity(0.7);
-
             display: block;
             padding-bottom: 8px;
             font-size: 12px;
             line-height: 16px;
+            opacity: 0.7;
             white-space: normal;
 
             @media (max-width: 768px) {

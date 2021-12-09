@@ -13,7 +13,6 @@ import EditPostModal from 'components/edit_post_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
-import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
@@ -61,7 +60,6 @@ export default class ChannelController extends React.PureComponent<Props> {
                 <div className='container-fluid'>
                     <SidebarRight/>
                     <SidebarRightMenu/>
-                    <TeamSidebar/>
                     <Sidebar/>
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}

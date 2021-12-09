@@ -1,6 +1,4 @@
-@import 'compass/utilities';
-@import 'compass/css3';
-@import 'utils/functions';
+@import 'utils/module';
 
 .MenuWrapper {
     position: relative;
@@ -37,8 +35,8 @@ body.enable-animations {
     .MenuWrapperAnimation {
         &-enter-active,
         &-exit-active {
-            @include transition-property(opacity);
-            @include transition-duration(80ms);
+            transition-duration: 80ms;
+            transition-property: opacity;
         }
     }
 }
