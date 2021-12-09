@@ -27,9 +27,8 @@ import {
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
 
-import {allAtMentions} from '../../utils/text_formatting';
-
-import {matchUserMentionTriggersWithMessageMentions} from '../../utils/post_utils';
+import {allAtMentions} from 'utils/text_formatting';
+import {matchUserMentionTriggersWithMessageMentions} from 'utils/post_utils';
 
 import RhsHeaderPost from './rhs_header_post';
 
@@ -42,13 +41,15 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     const root = getPost(state, rootPostId);
 
     if (root && collapsedThreads) {
-        const currentUserMentionKeys = getCurrentUserMentionKeys(state);
-        const rootMessageMentionKeys = allAtMentions(root.message);
         const thread = getThreadOrSynthetic(state, root);
-        const isMentionedInRootPost = thread.reply_count === 0 &&
-            matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+        isFollowingThread = thread.is_following;
 
-        isFollowingThread = thread.is_following ?? isMentionedInRootPost;
+        if (isFollowingThread === null && thread.reply_count === 0) {
+            const currentUserMentionKeys = getCurrentUserMentionKeys(state);
+            const rootMessageMentionKeys = allAtMentions(root.message);
+
+            isFollowingThread = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+        }
     }
 
     return {
