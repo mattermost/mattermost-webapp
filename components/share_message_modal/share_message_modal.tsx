@@ -1,350 +1,300 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import Input from 'components/input';
 
-import {Client4} from 'mattermost-redux/client';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
+
 import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
-
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
-import ProfilePicture from 'components/profile_picture';
-import MultiSelect, {Value} from 'components/multiselect/multiselect';
-import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
-
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
+import * as Utils from 'utils/utils.jsx';
+import * as UserAgent from 'utils/user_agent';
+import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
+import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 
-const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 20;
+import {NoResultsVariant} from 'components/no_results_indicator/types';
+import PostMessagePreview from 'components/post_view/post_message_preview';
+import { Post, PostPreviewMetadata } from 'mattermost-redux/types/posts';
+import GenericModal from 'components/generic_modal';
+import QuickInput from 'components/quick_input/'
 
-type UserProfileValue = Value & UserProfile;
+const CHANNEL_MODE = 'channel';
+
+type ProviderSuggestions = {
+    matchedPretext: any;
+    terms: string[];
+    items: any[];
+    component: React.ReactNode;
+}
 
 export type Props = {
-    profilesNotInCurrentChannel: UserProfileValue[];
-    profilesNotInCurrentTeam: UserProfileValue[];
-    userStatuses: RelationOneToOne<UserProfile, string>;
-    onHide: () => void;
-    channel: Channel;
 
-    // skipCommit = true used with onAddCallback will result in users not being committed immediately
-    skipCommit?: boolean;
+    /**
+     * The function called to immediately hide the modal
+     */
+    onExited: () => void;
 
-    // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-    onAddCallback?: (userProfiles?: UserProfileValue[]) => void;
-
-    // Dictionaries of userid mapped users to exclude or include from this list
-    excludeUsers?: Dictionary<UserProfileValue>;
-    includeUsers?: Dictionary<UserProfileValue>;
+    post: Post,
 
     actions: {
-        addUsersToChannel: any;
-        getProfilesNotInChannel: any;
-        getTeamStats: (teamId: string) => ActionFunc;
-        loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{data: boolean}>;
-        searchProfiles: (term: string, options: any) => ActionFunc;
+        joinChannelById: (channelId: string) => Promise<ActionResult>;
+        switchToChannel: (channel: Channel) => Promise<ActionResult>;
     };
 }
 
 type State = {
-    values: UserProfileValue[];
-    term: string;
-    show: boolean;
-    saving: boolean;
-    loadingUsers: boolean;
-    inviteError?: string;
+    text: string;
+    mode: string|null;
+    hasSuggestions: boolean;
+    shouldShowLoadingSpinner: boolean;
+    pretext: string;
+    comment: string | undefined;
 }
 
 export default class ShareMessageModal extends React.PureComponent<Props, State> {
-    private searchTimeoutId = 0;
-    private selectedItemRef = React.createRef<HTMLDivElement>();
-
-    public static defaultProps = {
-        includeUsers: {},
-        excludeUsers: {},
-        skipCommit: false,
-    };
+    private channelProviders: SwitchChannelProvider[];
+    private switchBox: SuggestionBoxComponent|null;
 
     constructor(props: Props) {
         super(props);
 
+        this.channelProviders = [new SwitchChannelProvider()];
+
+        this.switchBox = null;
+
         this.state = {
-            values: [],
-            term: '',
-            show: true,
-            saving: false,
-            loadingUsers: true,
-        } as State;
+            text: '',
+            mode: CHANNEL_MODE,
+            hasSuggestions: true,
+            shouldShowLoadingSpinner: true,
+            pretext: '',
+            comment: '',
+        };
     }
 
-    private addValue = (value: UserProfileValue): void => {
-        const values: UserProfileValue[] = Object.assign([], this.state.values);
-        if (values.indexOf(value) === -1) {
-            values.push(value);
+    private focusTextbox = (): void => {
+        if (this.switchBox === null) {
+            return;
         }
 
-        this.setState({values});
-    };
-
-    public componentDidMount(): void {
-        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
-            this.setUsersLoadingState(false);
-        });
-        this.props.actions.getTeamStats(this.props.channel.team_id);
-        this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
-    }
-
-    public onHide = (): void => {
-        this.setState({show: false});
-        this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
-    };
-
-    public handleInviteError = (err: any): void => {
-        if (err) {
-            this.setState({
-                saving: false,
-                inviteError: err.message,
-            });
+        const textbox = this.switchBox.getTextbox();
+        if (document.activeElement !== textbox) {
+            textbox.focus();
+            Utils.placeCaretAtEnd(textbox);
         }
     };
 
-    private handleDelete = (values: UserProfileValue[]): void => {
-        this.setState({values});
+    private setSwitchBoxRef = (input: SuggestionBoxComponent): void => {
+        this.switchBox = input;
+        this.focusTextbox();
     };
 
-    private setUsersLoadingState = (loadingState: boolean): void => {
+    private onHide = (): void => {
+        this.focusPostTextbox();
         this.setState({
-            loadingUsers: loadingState,
+            text: '',
         });
+        this.props.onExited();
     };
 
-    private handlePageChange = (page: number, prevPage: number): void => {
-        if (page > prevPage) {
-            this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(
-                this.props.channel.team_id,
-                this.props.channel.id,
-                this.props.channel.group_constrained,
-                page + 1, USERS_PER_PAGE).then(() => this.setUsersLoadingState(false));
-        }
-    };
-
-    public handleSubmit = (): void => {
-        const {actions, channel} = this.props;
-
-        const userIds = this.state.values.map((v) => v.id);
-        if (userIds.length === 0) {
-            return;
-        }
-
-        if (this.props.skipCommit && this.props.onAddCallback) {
-            this.props.onAddCallback(this.state.values);
-            this.setState({
-                saving: false,
-                inviteError: undefined,
-            });
-            this.onHide();
-            return;
-        }
-
-        this.setState({saving: true});
-
-        actions.addUsersToChannel(channel.id, userIds).then((result: any) => {
-            if (result.error) {
-                this.handleInviteError(result.error);
-            } else {
-                this.setState({
-                    saving: false,
-                    inviteError: undefined,
-                });
-                this.onHide();
-            }
-        });
-    };
-
-    public search = (searchTerm: string): void => {
-        const term = searchTerm.trim();
-        clearTimeout(this.searchTimeoutId);
-        this.setState({
-            term,
-        });
-
-        if (term) {
-            this.setUsersLoadingState(true);
-            this.searchTimeoutId = window.setTimeout(
-                async () => {
-                    const options = {
-                        team_id: this.props.channel.team_id,
-                        not_in_channel_id: this.props.channel.id,
-                        group_constrained: this.props.channel.group_constrained,
-                    };
-                    await this.props.actions.searchProfiles(term, options);
-                    this.setUsersLoadingState(false);
-                },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS,
-            );
-        } else {
-            return;
-        }
-
-        this.searchTimeoutId = window.setTimeout(
-            async () => {
-                if (!term) {
-                    return;
+    private focusPostTextbox = (): void => {
+        if (!UserAgent.isMobile()) {
+            setTimeout(() => {
+                const textbox = document.querySelector('#post_textbox') as HTMLElement;
+                if (textbox) {
+                    textbox.focus();
                 }
-
-                const options = {
-                    team_id: this.props.channel.team_id,
-                    not_in_channel_id: this.props.channel.id,
-                    group_constrained: this.props.channel.group_constrained,
-                };
-                await this.props.actions.searchProfiles(term, options);
-                this.setUsersLoadingState(false);
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS,
-        );
+            });
+        }
     };
 
-    private renderAriaLabel = (option: UserProfileValue): string => {
-        if (!option) {
-            return '';
-        }
-        return option.username;
+    getEmbed = () => {
+        const {metadata} = this.props.post;
+        return getEmbedFromMetadata(metadata);
     }
 
-    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
-        let rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
+    private onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        this.setState({text: e.target.value, shouldShowLoadingSpinner: true});
+    };
+
+    handleSelected = (selected) => {
+        //TODO
+    }
+
+    handleCancel = () => {
+
+    }
+
+    public handleSubmit = async (selected?: any): Promise<void> => {
+        if (!selected) {
+            return;
         }
 
-        return (
-            <div
-                key={option.id}
-                ref={isSelected ? this.selectedItemRef : option.id}
-                className={'more-modal__row clickable ' + rowSelected}
-                onClick={() => onAdd(option)}
-                onMouseMove={() => onMouseMove(option)}
-            >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    status={this.props.userStatuses[option.id]}
-                    size='md'
-                    username={option.username}
-                />
-                <div className='more-modal__details'>
-                    <div className='more-modal__name'>
-                        {displayEntireNameForUser(option)}
-                        <BotBadge
-                            show={Boolean(option.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={isGuest(option)}
-                            className='popoverlist'
-                        />
-                    </div>
-                </div>
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <AddIcon/>
-                    </div>
-                </div>
-            </div>
-        );
+        if (this.state.mode === CHANNEL_MODE) {
+            const {joinChannelById, switchToChannel} = this.props.actions;
+            const selectedChannel = selected.channel;
+
+            if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
+                await joinChannelById(selectedChannel.id);
+            }
+            switchToChannel(selectedChannel).then((result: ActionResult) => {
+                if ('data' in result) {
+                    this.onHide();
+                }
+            });
+        } else {
+            browserHistory.push('/' + selected.name);
+            this.onHide();
+        }
     };
+
+    private handleSuggestionsReceived = (suggestions: ProviderSuggestions): void => {
+        const loadingPropPresent = suggestions.items.some((item: any) => item.loading);
+        this.setState({
+            shouldShowLoadingSpinner: loadingPropPresent,
+            pretext: suggestions.matchedPretext,
+            hasSuggestions: suggestions.items.length > 0,
+        });
+    }
 
     public render = (): JSX.Element => {
-        let inviteError = null;
-        if (this.state.inviteError) {
-            inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
-        }
+        const providers: SwitchChannelProvider[] = this.channelProviders;
 
-        const header = (
+        const title = (
             <h1>
                 <FormattedMessage
-                    id='channel_invite.addNewMembers'
-                    defaultMessage='Add people to {channel}'
-                    values={{
-                        channel: this.props.channel.display_name,
-                    }}
+                    id='share_message_modal.switchChannels'
+                    defaultMessage='Share Message'
                 />
             </h1>
         );
 
-        const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
-        const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
+        console.log("rendering")
 
-        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
-            return user.delete_at === 0 &&
-                !this.props.profilesNotInCurrentTeam.includes(user as UserProfileValue) &&
-                (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);
-        }).map((user) => user as UserProfileValue);
+        const embed = this.getEmbed();
 
-        if (this.props.includeUsers) {
-            const includeUsers = Object.values(this.props.includeUsers);
-            users = [...users, ...includeUsers];
-        }
-
-        const content = (
-            <MultiSelect
-                key='addUsersToChannelKey'
-                options={users}
-                optionRenderer={this.renderOption}
-                selectedItemRef={this.selectedItemRef}
-                values={this.state.values}
-                ariaLabelRenderer={this.renderAriaLabel}
-                saveButtonPosition={'bottom'}
-                perPage={USERS_PER_PAGE}
-                handlePageChange={this.handlePageChange}
-                handleInput={this.search}
-                handleDelete={this.handleDelete}
-                handleAdd={this.addValue}
-                handleSubmit={this.handleSubmit}
-                maxValues={MAX_SELECTABLE_VALUES}
-                buttonSubmitText={buttonSubmitText}
-                buttonSubmitLoadingText={buttonSubmitLoadingText}
-                saving={this.state.saving}
-                loading={this.state.loadingUsers}
-                placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
-                valueWithImage={true}
-            />
-        );
+        const data = embed.data;
+        // let help;
+        // if (Utils.isMobile()) {
+        //     help = (
+        //         <FormattedMarkdownMessage
+        //             id='quick_switch_modal.help_mobile'
+        //             defaultMessage='Type to find a channel.'
+        //         />
+        //     );
+        // } else {
+        //     help = (
+        //         <FormattedMarkdownMessage
+        //             id='quick_switch_modal.help_no_team'
+        //             defaultMessage='Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss.'
+        //         />
+        //     );
+        // }
 
         return (
             <Modal
-                id='addUsersToChannelModal'
-                dialogClassName='a11y__modal channel-invite'
-                show={this.state.show}
+                dialogClassName='a11y__modal share-message-modal'
+                ref='modal'
+                show={true}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                enforceFocus={false}
+                restoreFocus={false}
                 role='dialog'
-                aria-labelledby='channelInviteModalLabel'
+                aria-labelledby='ShareMessageModalLabel'
+                animation={false}
             >
                 <Modal.Header
-                    id='channelInviteModalLabel'
+                    id='ShareMessageModalLabel'
                     closeButton={true}
-                />
-                <Modal.Body
-                    role='application'
-                    className='overflow--visible'
                 >
-                    <div className='channel-invite__header'>
-                        {header}
+                    <Modal.Title
+                        componentClass='h1'
+                        id='ShareMessageModalLabel'
+                    >
+                        {title}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='share-message-modal__suggestion-box'>
+                        <SuggestionBox
+                            placeholder={Utils.localizeMessage('share_message_share_input', 'Select channel or people')}
+                            id='ShareMessageInput'
+                            aria-label={Utils.localizeMessage('quick_switch_modal.input', 'quick switch input')}
+                            ref={this.setSwitchBoxRef}
+                            className='form-control focused'
+                            onChange={this.onChange}
+                            value={this.state.text}
+                            listComponent={SuggestionList}
+                            listPosition='bottom'
+                            maxLength='64'
+                            providers={providers}
+                            completeOnTab={false}
+                            spellCheck='false'
+                            delayInputUpdate={true}
+                            openOnFocus={true}
+                            openWhenEmpty={true}
+                            onSuggestionsReceived={this.handleSuggestionsReceived}
+                            renderDividers={true}
+                            renderNoResults={true}
+                            replaceAllInputOnSelect={true}
+                            onItemSelected={this.handleSelected}
+                            // forceSuggestionWhenBlue={true}
+                        />
+                        <i className='icon icon-chevron-down icon-16'/>
                     </div>
-                    {inviteError}
-                    <div className='channel-invite__content'>
-                        {content}
-                    </div>
+                    <Input
+                        name='Add a comment (optional)'
+                        aria-label='Comment'
+                        type='text'
+                        value={this.state.comment}
+                        onChange={(e) => {
+                            this.setState({comment: e.target.value});
+                            // this.props.actions.setNavigationBlocked(true);
+                        }}
+                        placeholder={Utils.localizeMessage('share_message_comment_input', 'Add a comment (optional)')}
+                        // error={this.state.inputErrorText}
+                    />
+                    <PostMessagePreview
+                        metadata={data}
+                    />
                 </Modal.Body>
+                <Modal.Footer>
+                    <button
+                        id='shareMessageModalCancelButton'
+                        type='button'
+                        className='btn btn-link'
+                        onClick={this.onHide}
+                    >
+                        <FormattedMessage
+                            id='share_message.close'
+                            defaultMessage='Cancel'
+                        />
+                    </button>
+                    <button
+                        id='shareMessageModalConfirm'
+                        type='button'
+                        className='btn btn-primary'
+                        onClick={this.handleSubmit}
+                    >
+                        <FormattedMessage
+                            id='share_message.confirm'
+                            defaultMessage='Share'
+                        />
+                    </button>
+                </Modal.Footer>
             </Modal>
         );
     }
 }
+/* eslint-enable react/no-string-refs */
