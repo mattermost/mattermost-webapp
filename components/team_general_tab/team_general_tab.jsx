@@ -275,6 +275,14 @@ export default class GeneralTab extends React.PureComponent {
         document.getElementById('team_settings')?.removeEventListener('hidden.bs.modal', this.handleClose);
     }
 
+    onOpenInviteToggle = (active) => {
+        if (active) {
+            this.handleUpdateSection('open_invite');
+        } else {
+            this.handleUpdateSection('');
+        }
+    }
+
     handleUpdateSection = (section) => {
         if (section === 'invite_id' && this.props.activeSection !== section && !this.props.team.invite_id) {
             this.setState({shouldFetchTeam: true}, () => {
@@ -713,13 +721,7 @@ export default class GeneralTab extends React.PureComponent {
                         isActive={this.props.activeSection === 'open_invite'}
                         isGroupConstrained={this.props.team.group_constrained}
                         allowOpenInvite={this.props.team.allow_open_invite}
-                        onToggle={(active) => {
-                            if (active) {
-                                this.handleUpdateSection('open_invite');
-                            } else {
-                                this.handleUpdateSection('');
-                            }
-                        }}
+                        onToggle={this.onOpenInviteToggle}
                         patchTeam={this.props.actions.patchTeam}
                     />
                     {!team.group_constrained &&
