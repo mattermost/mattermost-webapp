@@ -37,7 +37,6 @@ type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
 
 function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     let isFollowingThread = false;
-    let isMentionedInRootPost = false;
 
     const collapsedThreads = isCollapsedThreadsEnabled(state);
     const root = getPost(state, rootPostId);
@@ -46,10 +45,10 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         const currentUserMentionKeys = getCurrentUserMentionKeys(state);
         const rootMessageMentionKeys = allAtMentions(root.message);
         const thread = getThreadOrSynthetic(state, root);
-
-        isFollowingThread = thread.is_following;
-        isMentionedInRootPost = thread.reply_count === 0 &&
+        const isMentionedInRootPost = thread.reply_count === 0 &&
             matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+
+        isFollowingThread = thread.is_following ?? isMentionedInRootPost;
     }
 
     return {
@@ -59,7 +58,6 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         currentUserId: getCurrentUserId(state),
         isCollapsedThreadsEnabled: collapsedThreads,
         isFollowingThread,
-        isMentionedInRootPost,
     };
 }
 
