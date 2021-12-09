@@ -6,9 +6,7 @@ exports[`components/global/AtMentionsButton should match snapshot 1`] = `
   delayShow={400}
   overlay={
     <Tooltip
-      bsClass="tooltip"
       id="recentMentions"
-      placement="right"
     >
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Recent mentions"

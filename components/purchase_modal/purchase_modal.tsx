@@ -7,8 +7,6 @@ import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
@@ -31,6 +29,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
 import BackgroundSvg from 'components/common/svg_images_components/background.svg';

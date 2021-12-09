@@ -175,7 +175,7 @@ var config = {
                         loader: 'sass-loader',
                         options: {
                             sassOptions: {
-                                includePaths: ['node_modules/compass-mixins/lib', 'sass'],
+                                includePaths: ['sass'],
                             },
                         },
                     },

@@ -5,7 +5,7 @@
 import React from 'react';
 import {Redirect, RouteComponentProps} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -32,6 +32,7 @@ import ConfirmModal from 'components/confirm_modal';
 import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';
+import Tooltip from 'components/tooltip';
 
 import TeamList from 'components/admin_console/system_user_detail/team_list';
 import EmailIcon from 'components/widgets/icons/email_icon';
