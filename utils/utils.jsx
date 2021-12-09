@@ -1308,14 +1308,6 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     return otherUserId;
 }
 
-export function windowWidth() { // TODO MM-40473 remove me
-    return window.innerWidth;
-}
-
-export function windowHeight() { // TODO MM-40473 remove me
-    return window.innerHeight;
-}
-
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
 export function isFeatureEnabled(feature, state) {
     return getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
