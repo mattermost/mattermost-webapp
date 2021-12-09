@@ -25,6 +25,7 @@ interface Props {
     usedInside?: 'Header' | 'Footer';
     showOnlyClose?: boolean;
     showClose?: boolean;
+    showPublicLink?: boolean;
     filename: string;
     fileURL: string;
     fileInfo: FileInfo;
@@ -134,7 +135,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     );
     return (
         <div className='file-preview-modal-main-actions__actions'>
-            {!props.showOnlyClose && props.enablePublicLink && publicLink}
+            {!props.showOnlyClose && props.enablePublicLink && props.showPublicLink && publicLink}
             {!props.showOnlyClose && props.canDownloadFiles && download}
             {props.showClose && closeButton}
         </div>
@@ -145,6 +146,7 @@ FilePreviewModalMainActions.defaultProps = {
     showOnlyClose: false,
     usedInside: 'Header',
     showClose: true,
+    showPublicLink: true,
 };
 
 export default memo(FilePreviewModalMainActions);
