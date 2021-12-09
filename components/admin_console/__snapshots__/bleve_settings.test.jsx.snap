@@ -255,9 +255,7 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -519,9 +517,7 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
