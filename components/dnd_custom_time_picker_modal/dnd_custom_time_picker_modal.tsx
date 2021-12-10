@@ -27,7 +27,6 @@ type Props = {
 };
 
 type State = {
-    show: boolean;
     selectedDate: Date;
     selectedTime: string;
     timeMenuList: string[];
@@ -47,7 +46,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         }
 
         this.state = {
-            show: true,
             selectedDate,
             dayPickerStartDate: selectedDate,
             ...this.makeTimeMenuList(selectedDate),
@@ -81,8 +79,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
-    handleConfirm = (event: any) => {
-        event.preventDefault();
+    handleConfirm = () => {
         const hours = parseInt(this.state.selectedTime.split(':')[0], 10);
         const minutes = parseInt(this.state.selectedTime.split(':')[1], 10);
         const endTime = new Date(this.state.selectedDate);
@@ -96,9 +93,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             dnd_end_time: toUTCUnix(endTime),
             manual: true,
             last_activity_at: toUTCUnix(this.props.currentDate),
-        });
-        this.setState({
-            show: false,
         });
     }
 
@@ -168,10 +162,10 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         return (
             <GenericModal
-                show={this.state.show}
                 onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
+                handleConfirm={this.handleConfirm}
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
             >
@@ -221,15 +215,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             {timeMenuItems}
                         </Menu>
                     </MenuWrapper>
-                </div>
-                <div className='DndModal__footer'>
-                    <button
-                        type='button'
-                        className='btn btn-primary'
-                        onClick={this.handleConfirm}
-                    >
-                        {confirmButtonText}
-                    </button>
                 </div>
             </GenericModal>
         );

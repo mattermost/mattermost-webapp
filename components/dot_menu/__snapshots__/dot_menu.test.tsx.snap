@@ -12,10 +12,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     delayShow={500}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="dotmenu-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="More actions"
@@ -149,10 +147,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     delayShow={500}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="dotmenu-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="More actions"

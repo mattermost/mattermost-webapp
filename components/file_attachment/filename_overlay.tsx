@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import {trimFilename} from 'utils/file_utils';
 import {localizeMessage} from 'utils/utils.jsx';

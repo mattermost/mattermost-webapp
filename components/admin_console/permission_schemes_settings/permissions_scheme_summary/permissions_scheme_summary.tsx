@@ -3,11 +3,11 @@
 
 import React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import * as Utils from 'utils/utils.jsx';

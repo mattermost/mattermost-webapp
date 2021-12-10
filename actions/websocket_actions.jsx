@@ -952,9 +952,15 @@ export function handleUserRemovedEvent(msg) {
             }
         }
 
+        const channel = getChannel(state, msg.data.channel_id);
+
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+            data: {
+                id: msg.data.channel_id,
+                user_id: msg.broadcast.user_id,
+                team_id: channel?.team_id,
+            },
         });
 
         if (msg.data.channel_id === currentChannel.id) {

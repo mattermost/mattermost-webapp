@@ -11,6 +11,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
+import {closeRightHandSide} from 'actions/views/rhs';
 import {ActionTypes, PostRequestTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
@@ -36,6 +37,11 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
     markChannelAsRead: jest.fn(() => ({type: ''})),
     leaveChannel: jest.fn(() => ({type: ''})),
+}));
+
+jest.mock('actions/views/rhs', () => ({
+    ...jest.requireActual('actions/views/rhs'),
+    closeRightHandSide: jest.fn(() => ({type: ''})),
 }));
 
 jest.mock('mattermost-redux/actions/posts');
@@ -93,6 +99,7 @@ describe('channel view actions', () => {
             },
             posts: {
                 postsInChannel: {},
+                posts: {},
             },
             channelCategories: {
                 byId: {},
@@ -102,6 +109,9 @@ describe('channel view actions', () => {
             channel: {
                 loadingPosts: {},
                 postVisibility: {current_channel_id: 60},
+            },
+            rhs: {
+                selectedPostId: '',
             },
         },
     };
@@ -129,6 +139,22 @@ describe('channel view actions', () => {
             await store.dispatch(Actions.leaveChannel('channelid1'));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
+            expect(closeRightHandSide).not.toHaveBeenCalled();
+        });
+        test('leave a channel successfully with a thread open', async () => {
+            store = mockStore({
+                ...initialState,
+                views: {
+                    ...initialState.views,
+                    rhs: {
+                        selectedPostId: '1',
+                    },
+                },
+            });
+            await store.dispatch(Actions.leaveChannel('channelid1'));
+            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
+            expect(leaveChannel).toHaveBeenCalledWith('channelid1');
+            expect(closeRightHandSide).toHaveBeenCalled();
         });
         test('leave the last channel successfully', async () => {
             store = mockStore({

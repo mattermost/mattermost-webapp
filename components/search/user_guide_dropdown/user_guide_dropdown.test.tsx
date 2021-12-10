@@ -19,7 +19,7 @@ jest.mock('actions/telemetry_actions.jsx', () => {
     };
 });
 
-describe('components/channel_header/components/UserGuideDropdown', () => {
+describe('UserGuideDropdown', () => {
     const baseProps = {
         helpLink: 'helpLink',
         reportAProblemLink: 'reportAProblemLink',
