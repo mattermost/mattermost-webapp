@@ -11,66 +11,6 @@
 
         .modal-body {
             padding: 0;      
-
-            .post-preview {
-                .post__img {
-                    width: 24px;
-                    padding: 0;
-                    text-align: left;
-    
-                    img.avatar-post-preview {
-                        display: block;
-                    }
-                }
-    
-                .user-popover {
-                    padding-left: 8px;
-                }
-    
-                .post-message__text-container {
-                    overflow: hidden;
-                }
-    
-                .post-message--collapsed.post-message-preview--overflow .post-message__text {
-                    display: -webkit-box;
-                    overflow: hidden;
-                    -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 4;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-    
-                .post-preview-collapse__show-more-button {
-                    padding: 0;
-                    border: none;
-                    background: none;
-                    font-size: 12px;
-                }
-    
-                .post-preview__time {
-                    margin-left: 6px;
-                }
-    
-                .post__preview-footer {
-                    display: block;
-                    padding-top: 8px;
-    
-                    p {
-                        display: inline-block;
-                        width: auto;
-                        margin-right: 8px;
-                        color: rgba(var(--center-channel-color-rgb), 0.56);
-                        font-size: 12px;
-                        line-height: 16px;
-                    }
-    
-                    a {
-                        display: inline-block;
-                        font-size: 12px;
-                        line-height: 16px;
-                    }
-                }
-            }
         }
         
         .modal-content {
@@ -113,6 +53,150 @@
                 }
             }
         }
+
+        .attachment--permalink {
+            margin: 0 24px 24px;
+            border: 1px solid rgba(61, 60, 64, 0.16);
+            box-sizing: border-box;
+            border-radius: 0px 4px 4px 0px;
+        
+            .attachment__container--permalink {
+                padding: 16px;
+            }
+
+            .post-preview {
+                p {
+                    margin: 0;
+                }
+
+                .post-preview__header {
+                    display: flex;
+                    width: 100%;
+                    margin-bottom: 2px;
+                    white-space: nowrap;
+            
+                    .col__name {
+                        display: flex;
+                        min-width: 0;
+                        flex: 0 auto;
+                        margin-right: 7px;
+                        font-weight: 600;
+                        text-overflow: ellipsis;
+                        margin: 0;
+            
+                        .user-popover {
+                            @include clearfix;
+            
+                            text-align: left;
+                            text-overflow: ellipsis;
+                            -moz-user-select: all;    /* Firefox all */
+                            vertical-align: top;
+                            white-space: nowrap;
+                        }
+            
+                        .colon {
+                            display: none;
+                            margin-left: 2px;
+                            font-weight: 900;
+                        }
+                    }
+            
+                    .col__remove {
+                        position: absolute;
+                        right: 10px;
+                    }
+            
+                    .permalink-popover {
+                        min-width: 0;
+            
+                        .popover-content {
+                            padding: 5px;
+                        }
+            
+                        .form-control,
+                        .btn {
+                            height: 30px;
+                            padding: 0 8px;
+                            font-size: 13px;
+                            line-height: 30px;
+                        }
+                    }
+            
+                    .shared-user-icon {
+                        width: 16px;
+                        height: 20px;
+                        margin: 0 0 0 4px;
+                        color: rgba(61, 60, 64, 0.72);
+                        font-size: 16px;
+                        line-height: 20px;
+            
+                        &::before {
+                            margin: 0;
+                        }
+                    }
+                }
+
+                .post__img {
+                    width: 24px;
+                    padding: 0;
+                    text-align: left;
+
+                    img.avatar-post-preview {
+                        display: block;
+                    }
+                }
+
+                .user-popover {
+                    padding-left: 8px;
+                }
+
+                .post-message__text-container {
+                    overflow: hidden;
+                }
+
+                .post-message--collapsed.post-message-preview--overflow .post-message__text {
+                    display: -webkit-box;
+                    overflow: hidden;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 4;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .post-preview-collapse__show-more-button {
+                    padding: 0;
+                    border: none;
+                    background: none;
+                    font-size: 12px;
+                }
+
+                .post-preview__time {
+                    margin-left: 6px;
+                }
+
+                .post__preview-footer {
+                    display: block;
+                    padding-top: 8px;
+
+                    p {
+                        display: inline-block;
+                        width: auto;
+                        margin-right: 8px;
+                        color: rgba(var(--center-channel-color-rgb), 0.56);
+                        font-size: 12px;
+                        line-height: 16px;
+                    }
+
+                    a {
+                        display: inline-block;
+                        font-size: 12px;
+                        line-height: 16px;
+                    }
+                }
+            }
+        }
+
+
 
         .share-message-modal__suggestion-box {
             position: relative;
