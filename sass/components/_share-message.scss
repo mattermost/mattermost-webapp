@@ -10,8 +10,7 @@
         }
 
         .modal-body {
-            padding: 0;
-            
+            padding: 0;      
 
             .post-preview {
                 .post__img {
@@ -124,7 +123,7 @@
                 width: calc(100% - 48px);
                 height: 40px;
                 padding: 0 34px 0 16px;
-                margin: 0 24px;
+                margin: 0 24px 24px;
                 border-radius: 4px;
 
                 &:focus {
@@ -135,8 +134,6 @@
             .suggestion-list {
                 padding-top: 0.6rem;
                 // margin-top: 2.3rem;
-                
-
             }
 
             .suggestion-list__content {
@@ -145,7 +142,6 @@
                 height: auto;
                 margin: 40px 24px 20px 24px;
                 // box-shadow: none;
-                margin-top: 40px;
                 border: 1px solid rgba(61, 60, 64, 0.16);
                 box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
                 border-radius: 4px;
@@ -153,8 +149,11 @@
             }
         }
 
+        .Input_container {
+            margin: 0 24px 24px;
+            width: calc(100% - 48px);
+        }
         
-
         // TODO
     }
 }
