@@ -21,13 +21,14 @@ import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
-import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 
-import {NoResultsVariant} from 'components/no_results_indicator/types';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import { Post, PostPreviewMetadata } from 'mattermost-redux/types/posts';
 import GenericModal from 'components/generic_modal';
 import QuickInput from 'components/quick_input/'
+import { getChannelNameToDisplayNameMap, makeGetChannelsForIds } from 'mattermost-redux/selectors/entities/channels';
+import { getChannels } from 'mattermost-redux/actions/channels';
+import { getDisplayName } from 'utils/utils';
 
 const CHANNEL_MODE = 'channel';
 
@@ -38,19 +39,27 @@ type ProviderSuggestions = {
     component: React.ReactNode;
 }
 
-export type Props = {
+type Props = {
 
     /**
      * The function called to immediately hide the modal
      */
     onExited: () => void;
 
-    post: Post,
+    postId: string,
 
-    actions: {
-        joinChannelById: (channelId: string) => Promise<ActionResult>;
-        switchToChannel: (channel: Channel) => Promise<ActionResult>;
-    };
+    channelId: string,
+
+    channelDisplayName: string,
+
+    teamDisplayName: string;
+
+    teamId: string,
+
+    // actions: {
+    //     joinChannelById: (channelId: string) => Promise<ActionResult>;
+    //     switchToChannel: (channel: Channel) => Promise<ActionResult>;
+    // };
 }
 
 type State = {
@@ -119,10 +128,10 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
         }
     };
 
-    getEmbed = () => {
-        const {metadata} = this.props.post;
-        return getEmbedFromMetadata(metadata);
-    }
+    // getEmbed = () => {
+    //     const {metadata} = this.props.post;
+    //     return getEmbedFromMetadata(metadata);
+    // }
 
     private onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({text: e.target.value, shouldShowLoadingSpinner: true});
@@ -137,26 +146,26 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
     }
 
     public handleSubmit = async (selected?: any): Promise<void> => {
-        if (!selected) {
-            return;
-        }
+        // if (!selected) {
+        //     return;
+        // }
 
-        if (this.state.mode === CHANNEL_MODE) {
-            const {joinChannelById, switchToChannel} = this.props.actions;
-            const selectedChannel = selected.channel;
+        // if (this.state.mode === CHANNEL_MODE) {
+        //     const {joinChannelById, switchToChannel} = this.props.actions;
+        //     const selectedChannel = selected.channel;
 
-            if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
-                await joinChannelById(selectedChannel.id);
-            }
-            switchToChannel(selectedChannel).then((result: ActionResult) => {
-                if ('data' in result) {
-                    this.onHide();
-                }
-            });
-        } else {
-            browserHistory.push('/' + selected.name);
-            this.onHide();
-        }
+        //     if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
+        //         await joinChannelById(selectedChannel.id);
+        //     }
+        //     switchToChannel(selectedChannel).then((result: ActionResult) => {
+        //         if ('data' in result) {
+        //             this.onHide();
+        //         }
+        //     });
+        // } else {
+        //     browserHistory.push('/' + selected.name);
+        //     this.onHide();
+        // }
     };
 
     private handleSuggestionsReceived = (suggestions: ProviderSuggestions): void => {
@@ -169,6 +178,8 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
     }
 
     public render = (): JSX.Element => {
+        const {channelDisplayName, teamDisplayName} = this.props;
+
         const providers: SwitchChannelProvider[] = this.channelProviders;
 
         const title = (
@@ -182,25 +193,13 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
 
         console.log("rendering")
 
-        const embed = this.getEmbed();
+        // const embed = this.getEmbed();
 
-        const data = embed.data;
-        // let help;
-        // if (Utils.isMobile()) {
-        //     help = (
-        //         <FormattedMarkdownMessage
-        //             id='quick_switch_modal.help_mobile'
-        //             defaultMessage='Type to find a channel.'
-        //         />
-        //     );
-        // } else {
-        //     help = (
-        //         <FormattedMarkdownMessage
-        //             id='quick_switch_modal.help_no_team'
-        //             defaultMessage='Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss.'
-        //         />
-        //     );
-        // }
+        // const data = embed.data;
+
+        // const {metadata} = this.props.post;
+
+        const metadata: PostPreviewMetadata = {post_id: this.props.postId, channel_display_name: channelDisplayName, team_name: teamDisplayName}
 
         return (
             <Modal
@@ -259,9 +258,10 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                         }}
                         placeholder={Utils.localizeMessage('share_message_comment_input', 'Add a comment (optional)')}
                         // error={this.state.inputErrorText}
+                        className='share-message-comment-input'
                     />
                     <PostMessagePreview
-                        metadata={data}
+                        metadata={metadata}
                     />
                 </Modal.Body>
                 <Modal.Footer>

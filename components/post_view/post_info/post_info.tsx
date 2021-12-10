@@ -279,7 +279,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             sharedMessage = (
                 <SharedMessage
                     postId={post.id}
-                    post={post}
+                    channelId={post.channel_id}
+                    teamId={this.props.teamId}
                 />
             );
         }

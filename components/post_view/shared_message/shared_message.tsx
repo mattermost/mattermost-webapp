@@ -17,7 +17,8 @@ import { Post } from 'mattermost-redux/types/posts';
 import ShareMessageModal from 'components/share_message_modal';
 
 type Props = {
-        post: Post;
+        teamId: string;
+        channelId: string;
         location?: 'RHS'; //
         postId: string,
         actions: {
@@ -89,7 +90,7 @@ export default class SharedMessage extends React.PureComponent<Props, State> { /
         this.props.actions.openModal({
             modalId: ModalIdentifiers.SHARE_MESSAGE_MODAL,
             dialogType: ShareMessageModal,
-            dialogProps: {post: this.props.post}
+            dialogProps: {postId: this.props.postId, teamId: this.props.teamId, channelId: this.props.channelId}
         });
     }
 
