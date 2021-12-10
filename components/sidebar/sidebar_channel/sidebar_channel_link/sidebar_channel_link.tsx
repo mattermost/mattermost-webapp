@@ -69,6 +69,7 @@ type Props = {
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
         openLhs: () => void;
+        unsetEditingPost: () => void;
     };
 };
 
@@ -153,6 +154,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             event.preventDefault();
             this.props.actions.multiSelectChannelTo(this.props.channel.id);
         } else {
+            this.props.actions.unsetEditingPost();
             this.props.actions.clearChannelSelection();
         }
     }

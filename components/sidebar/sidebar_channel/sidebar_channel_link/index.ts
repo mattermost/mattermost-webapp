@@ -15,6 +15,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {open as openLhs} from 'actions/views/lhs.js';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
+import {unsetEditingPost} from 'actions/post_actions';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
@@ -55,6 +56,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            unsetEditingPost,
             clearChannelSelection,
             multiSelectChannelTo,
             multiSelectChannelAdd,
