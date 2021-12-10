@@ -17,7 +17,6 @@ import {
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {
-    $ID,
     RelationOneToOne,
     Dictionary,
     IDMappedObjects,
@@ -94,7 +93,7 @@ export function removeUnneededMetadata(post: Post) {
     };
 }
 
-export function nextPostsReplies(state: {[x in $ID<Post>]: number} = {}, action: GenericAction) {
+export function nextPostsReplies(state: {[x in Post['id']]: number} = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_POST:
     case PostTypes.RECEIVED_NEW_POST: {

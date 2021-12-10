@@ -6,7 +6,6 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import InfiniteLoader from 'react-window-infinite-loader';
 import {FixedSizeList} from 'react-window';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import {Constants} from 'utils/constants';
@@ -14,9 +13,9 @@ import {Constants} from 'utils/constants';
 import Row from './virtualized_thread_list_row';
 
 type Props = {
-    ids: Array<$ID<UserThread>>;
+    ids: Array<UserThread['id']>;
     loadMoreItems: (startIndex: number, stopIndex: number) => Promise<any>;
-    selectedThreadId?: $ID<UserThread>;
+    selectedThreadId?: UserThread['id'];
     total: number;
 };
 

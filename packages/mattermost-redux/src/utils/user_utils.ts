@@ -5,7 +5,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects, $ID, Dictionary} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, Dictionary} from 'mattermost-redux/types/utilities';
 export function getFullName(user: UserProfile): string {
     if (user.first_name && user.last_name) {
         return user.first_name + ' ' + user.last_name;
@@ -99,7 +99,7 @@ export function profileListToMap(profileList: UserProfile[]): IDMappedObjects<Us
     return profiles;
 }
 
-export function removeUserFromList(userId: $ID<UserProfile>, list: UserProfile[]): UserProfile[] {
+export function removeUserFromList(userId: UserProfile['id'], list: UserProfile[]): UserProfile[] {
     for (let i = list.length - 1; i >= 0; i--) {
         if (list[i].id === userId) {
             list.splice(i, 1);

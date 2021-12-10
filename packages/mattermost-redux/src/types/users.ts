@@ -7,7 +7,7 @@ import {Group} from './groups';
 import {PostType} from './posts';
 import {Session} from './sessions';
 import {Team} from './teams';
-import {$ID, Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
+import {Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
 
 export type UserNotifyProps = {
     desktop: 'default' | 'all' | 'mention' | 'none';
@@ -88,10 +88,10 @@ export type UserTimezone = {
 
 export type UserActivity = {
     [postType in PostType]: {
-        [userId in $ID<UserProfile>]: | {
-            ids: Array<$ID<UserProfile>>;
+        [userId in UserProfile['id']]: | {
+            ids: Array<UserProfile['id']>;
             usernames: Array<UserProfile['username']>;
-        } | Array<$ID<UserProfile>>;
+        } | Array<UserProfile['id']>;
     };
 };
 

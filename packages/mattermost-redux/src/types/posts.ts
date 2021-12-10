@@ -5,7 +5,6 @@ import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
 import {
-    $ID,
     RelationOneToOne,
     RelationOneToMany,
     IDMappedObjects,
@@ -75,7 +74,7 @@ export type Post = {
     state?: 'DELETED';
     filenames?: string[];
     last_reply_at?: number;
-    participants?: any; //Array<UserProfile | $ID<UserProfile>>;
+    participants?: any; //Array<UserProfile | UserProfile['id']>;
     message_source?: string;
     is_following?: boolean;
     exists?: boolean;
@@ -87,7 +86,7 @@ export type UserActivityPost = Post & {
 }
 
 export type PostList = {
-    order: Array<$ID<Post>>;
+    order: Array<Post['id']>;
     posts: Map<string, Post>;
     next_post_id: string;
     prev_post_id: string;
@@ -124,7 +123,7 @@ export type MessageHistory = {
 
 export type PostsState = {
     posts: IDMappedObjects<Post>;
-    postsReplies: {[x in $ID<Post>]: number};
+    postsReplies: {[x in Post['id']]: number};
     postsInChannel: Dictionary<PostOrderBlock[]>;
     postsInThread: RelationOneToMany<Post, Post>;
     reactions: RelationOneToOne<Post, Dictionary<Reaction>>;

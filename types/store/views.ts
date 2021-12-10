@@ -3,7 +3,7 @@
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {Dictionary, RelationOneToOne, $ID} from 'mattermost-redux/types/utilities';
+import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
 
@@ -171,7 +171,7 @@ export type ViewsState = {
         isOpen: boolean;
     };
     threads: {
-        selectedThreadIdInTeam: RelationOneToOne<Team, $ID<UserThread> | null>;
+        selectedThreadIdInTeam: RelationOneToOne<Team, UserThread['id'] | null>;
         lastViewedAt: {[id: string]: number};
         manuallyUnread: {[id: string]: boolean};
         toastStatus: boolean;

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Dictionary, $ID} from './utilities';
+import {Dictionary} from './utilities';
 
 export type FileInfo = {
     id: string;
@@ -36,7 +36,7 @@ export type FileSearchResultItem = FileInfo & {
 }
 
 export type FileSearchResults = {
-    order: Array<$ID<FileSearchResultItem>>;
+    order: Array<FileSearchResultItem['id']>;
     file_infos: Map<string, FileSearchResultItem>;
     next_file_info_id: string;
     prev_file_info_id: string;
