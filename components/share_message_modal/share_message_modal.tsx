@@ -128,11 +128,6 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
         }
     };
 
-    // getEmbed = () => {
-    //     const {metadata} = this.props.post;
-    //     return getEmbedFromMetadata(metadata);
-    // }
-
     private onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({text: e.target.value, shouldShowLoadingSpinner: true});
     };
@@ -190,14 +185,6 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                 />
             </h1>
         );
-
-        console.log("rendering")
-
-        // const embed = this.getEmbed();
-
-        // const data = embed.data;
-
-        // const {metadata} = this.props.post;
 
         const metadata: PostPreviewMetadata = {post_id: this.props.postId, channel_display_name: channelDisplayName, team_name: teamDisplayName}
 
@@ -260,6 +247,7 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                         // error={this.state.inputErrorText}
                         className='share-message-comment-input'
                     />
+                    <hr/>
                     <PostMessagePreview
                         metadata={metadata}
                     />
