@@ -16,6 +16,11 @@ import SwitchChannelProvider from 'components/suggestion/switch_channel_provider
 
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import { PostPreviewMetadata } from 'mattermost-redux/types/posts';
+import { Channel } from 'mattermost-redux/types/channels';
+import Constants from 'utils/constants';
+
+import AlertBanner from 'components/alert_banner';
+
 
 const CHANNEL_MODE = 'channel';
 
@@ -38,6 +43,8 @@ type Props = {
     channelId: string,
 
     channelDisplayName: string,
+
+    channel: Channel,
 
     teamDisplayName: string;
 
@@ -160,7 +167,7 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
     }
 
     public render = (): JSX.Element => {
-        const {channelDisplayName, teamDisplayName} = this.props;
+        const {channel, channelDisplayName, teamDisplayName} = this.props;
 
         const providers: SwitchChannelProvider[] = this.channelProviders;
 
@@ -175,7 +182,66 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
 
         const metadata: PostPreviewMetadata = {post_id: this.props.postId, channel_display_name: channelDisplayName, team_name: teamDisplayName}
 
-        var disableSubmit: boolean = this.state.text.length === 0; // TODO - disable button if no channel or person selected OR this is a direct message
+        var disableSubmit: boolean = false; 
+        // TODO - disable button if no channel or person selected UNLESS this is a direct message
+
+        var suggestionBox;
+        var alertBanner;
+        if (channel.type === Constants.DM_CHANNEL) {
+            var channelTitle = "@TODO";
+            // TODO use members in the title  
+
+            alertBanner= <AlertBanner 
+                            message={
+                                <FormattedMessage
+                                id='share_message.privateConversationWarningDescription'
+                                defaultMessage={'This is from a private conversation and can only be shared with ' + channelTitle + '.'}
+                                />
+                            }
+                            mode='info'
+                            variant='app'
+                         />
+        } else if (channel.type === Constants.PRIVATE_CHANNEL) {
+            alertBanner = <AlertBanner 
+                                message={
+                                    <FormattedMessage
+                                    id='share_message.privateChannelWarningDescription'
+                                    defaultMessage={'This is from a private conversation and can only be shared in ' + channelDisplayName + '.'}
+                                    />
+                                }
+                                mode='info'
+                                variant='app'
+                           />  
+        } else {
+            suggestionBox = <div className='share-message-modal__suggestion-box'>
+                                <SuggestionBox // May need to make a different component entirely using parts of SuggestionBox, Input, and a proper dropdown.
+                                    placeholder={Utils.localizeMessage('share_message_share_input', 'Select channel or people')}
+                                    id='ShareMessageInput'
+                                    aria-label={Utils.localizeMessage('share_message_share.input', 'Share input')}
+                                    ref={this.setSwitchBoxRef}
+                                    className='form-control focused'
+                                    onChange={this.onChange}
+                                    value={this.state.text}
+                                    listComponent={SuggestionList}
+                                    listPosition='bottom'
+                                    maxLength='64'
+                                    providers={providers}
+                                    completeOnTab={false}
+                                    spellCheck='false'
+                                    delayInputUpdate={true}
+                                    openOnFocus={true}
+                                    openWhenEmpty={true}
+                                    onSuggestionsReceived={this.handleSuggestionsReceived}
+                                    renderDividers={true}
+                                    renderNoResults={true}
+                                    replaceAllInputOnSelect={true}
+                                    onItemSelected={this.handleSelected}
+                                    // forceSuggestionWhenBlue={true}
+                                />
+                                {/* <i className='icon icon-chevron-down icon-16'/> */}
+                            </div>
+            disableSubmit = this.state.text.length === 0;
+        }
 
         return (
             <Modal
@@ -197,33 +263,8 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                     <div className='share-message__header'>
                         {title}
                     </div>
-                    <div className='share-message-modal__suggestion-box'>
-                        <SuggestionBox // May need to make a different component entirely using parts of SuggestionBox, Input, and a proper dropdown.
-                            placeholder={Utils.localizeMessage('share_message_share_input', 'Select channel or people')}
-                            id='ShareMessageInput'
-                            aria-label={Utils.localizeMessage('share_message_share.input', 'Share input')}
-                            ref={this.setSwitchBoxRef}
-                            className='form-control focused'
-                            onChange={this.onChange}
-                            value={this.state.text}
-                            listComponent={SuggestionList}
-                            listPosition='bottom'
-                            maxLength='64'
-                            providers={providers}
-                            completeOnTab={false}
-                            spellCheck='false'
-                            delayInputUpdate={true}
-                            openOnFocus={true}
-                            openWhenEmpty={true}
-                            onSuggestionsReceived={this.handleSuggestionsReceived}
-                            renderDividers={true}
-                            renderNoResults={true}
-                            replaceAllInputOnSelect={true}
-                            onItemSelected={this.handleSelected}
-                            // forceSuggestionWhenBlue={true}
-                        />
-                        {/* <i className='icon icon-chevron-down icon-16'/> */}
-                    </div>
+                    {alertBanner}
+                    {suggestionBox}
                     <Input
                         name='Add a comment (optional)'
                         aria-label='Comment'
@@ -233,7 +274,6 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                             this.setState({comment: e.target.value});
                         }}
                         placeholder={Utils.localizeMessage('share_message_comment_input', 'Add a comment (optional)')}
-                        // error={this.state.inputErrorText}
                         className='share-message-comment-input'
                     />
                     <hr/>

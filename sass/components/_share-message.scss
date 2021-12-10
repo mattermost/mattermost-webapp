@@ -196,8 +196,6 @@
             }
         }
 
-
-
         .share-message-modal__suggestion-box {
             position: relative;
             padding: 0;
@@ -233,12 +231,15 @@
             }
         }
 
+        .AlertBanner {
+            margin: 0 24px 24px 24px;
+            align-items: flex-start;
+        }
+
         .Input_container {
             margin: 0 24px 24px;
             width: calc(100% - 48px);
         }
-        
-        // TODO
     }
 }
 

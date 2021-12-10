@@ -19,9 +19,6 @@ import {Value} from 'components/multiselect/multiselect';
 import { joinChannelById, switchToChannel } from 'actions/views/channel';
 
 import ShareMessageModal from './share_message_modal';
-import { Channel } from 'mattermost-redux/types/channels';
-
-type UserProfileValue = Value & UserProfile;
 
 type Props = {
     channelId: string,
@@ -45,6 +42,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
     return {
         channelDisplayName: channel.display_name,
         teamDisplayName: team.display_name,
+        channel: channel,
     };
 }
 
