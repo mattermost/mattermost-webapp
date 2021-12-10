@@ -322,9 +322,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -654,9 +652,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -753,9 +749,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -1085,9 +1079,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -1419,9 +1411,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -1755,9 +1745,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -2087,9 +2075,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -2396,9 +2382,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -2728,9 +2712,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -3062,9 +3044,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -3457,9 +3437,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -3820,9 +3798,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -4183,9 +4159,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -4546,9 +4520,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -4941,9 +4913,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

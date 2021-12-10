@@ -314,6 +314,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                 id: 'dndSubMenu-header',
                 direction: 'right',
                 text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
+                isHeader: true,
             } as any,
         ].concat(
             this.dndTimes.map(({id, label, labelDefault}, index) => {

@@ -263,9 +263,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -536,9 +534,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -809,9 +805,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -1082,9 +1076,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

@@ -32,10 +32,12 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 type Props = {
     threadId: $ID<UserThread>;
+    replyClick?: React.EventHandler<React.MouseEvent>;
 };
 
 function ThreadFooter({
     threadId,
+    replyClick,
 }: Props) {
     const dispatch = useDispatch();
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -60,7 +62,7 @@ function ThreadFooter({
     } = thread;
     const participantIds = useMemo(() => (participants || []).map(({id}) => id).reverse(), [participants]);
 
-    const handleReply = useCallback((e) => {
+    const handleReply = replyClick || useCallback((e) => {
         trackEvent('crt', 'replied_using_footer');
         e.stopPropagation();
         dispatch(selectPost({id: threadId, channel_id: channelId} as Post));

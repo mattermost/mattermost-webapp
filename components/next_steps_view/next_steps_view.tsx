@@ -168,7 +168,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderStep = (step: StepType, index: number) => {
-        const {id, title, finishButtonText} = step;
+        const {id, title, completeStepButtonText} = step;
 
         let icon = (
             <div className='NextStepsView__cardHeaderBadge'>
@@ -185,6 +185,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             <Card
                 className={classNames({complete: this.isStepComplete(id)})}
                 expanded={expandedKey === id}
+                key={`key_${id}_${index}`}
             >
                 <Card.Header>
                     <button
@@ -208,7 +209,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         onFinish={this.onFinish(setExpanded, lastNonCompletedStep?.id === id)}
                         onSkip={this.onSkip(setExpanded)}
                         isLastStep={lastNonCompletedStep?.id === id}
-                        finishButtonText={finishButtonText}
+                        completeStepButtonText={completeStepButtonText}
                     />
                 </Card.Body>
             </Card>

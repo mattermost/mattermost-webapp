@@ -5,7 +5,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -20,6 +19,7 @@ import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
