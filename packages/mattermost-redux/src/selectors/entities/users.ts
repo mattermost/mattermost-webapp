@@ -36,12 +36,10 @@ import {Group} from 'mattermost-redux/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {
     Dictionary,
-    EmailMappedObjects,
     IDMappedObjects,
     RelationOneToMany,
     RelationOneToManyUnique,
     RelationOneToOne,
-    UsernameMappedObjects,
 } from 'mattermost-redux/types/utilities';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
@@ -96,7 +94,7 @@ export function getUser(state: GlobalState, id: UserProfile['id']): UserProfile 
     return state.entities.users.profiles[id];
 }
 
-export const getUsersByUsername: (a: GlobalState) => UsernameMappedObjects<UserProfile> = createSelector(
+export const getUsersByUsername: (a: GlobalState) => Record<string, UserProfile> = createSelector(
     'getUsersByUsername',
     getUsers,
     (users) => {
@@ -117,7 +115,7 @@ export function getUserByUsername(state: GlobalState, username: UserProfile['use
     return getUsersByUsername(state)[username];
 }
 
-export const getUsersByEmail: (a: GlobalState) => EmailMappedObjects<UserProfile> = createSelector(
+export const getUsersByEmail: (a: GlobalState) => Record<string, UserProfile> = createSelector(
     'getUsersByEmail',
     getUsers,
     (users) => {

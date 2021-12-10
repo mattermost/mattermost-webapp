@@ -10,7 +10,7 @@ import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import {Dictionary, NameMappedObjects} from 'mattermost-redux/types/utilities';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 const emptyList: any[] = [];
 const emptySyncables = {
@@ -54,7 +54,7 @@ export function getGroupChannels(state: GlobalState, id: string) {
     return getGroupSyncables(state, id).channels;
 }
 
-export const getAssociatedGroupsByName: (state: GlobalState, teamID: string, channelId: string) => NameMappedObjects<Group> = createSelector(
+export const getAssociatedGroupsByName: (state: GlobalState, teamID: string, channelId: string) => Record<string, Group> = createSelector(
     'getAssociatedGroupsByName',
     getAssociatedGroupsForReference,
     (groups) => {
@@ -192,7 +192,7 @@ export const getAllAssociatedGroupsForReference: (state: GlobalState) => Group[]
     },
 );
 
-export const getAllGroupsForReferenceByName: (state: GlobalState) => NameMappedObjects<Group> = createSelector(
+export const getAllGroupsForReferenceByName: (state: GlobalState) => Record<string, Group> = createSelector(
     'getAllGroupsForReferenceByName',
     getAllAssociatedGroupsForReference,
     (groups) => {
