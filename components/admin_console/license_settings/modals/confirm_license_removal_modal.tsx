@@ -7,7 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
 
@@ -58,8 +58,8 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
                 <div className='content-body'>
                     <div className='alert-svg'>
                         <AlertSvg
-                            width={200}
-                            height={200}
+                            width={150}
+                            height={150}
                         />
                     </div>
                     <div className='title'>
