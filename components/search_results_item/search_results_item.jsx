@@ -28,6 +28,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import EditPost from 'components/edit_post';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -108,6 +109,11 @@ export default class SearchResultsItem extends React.PureComponent {
          * Is the search results item from the pinned posts list.
          */
         isPinnedPosts: PropTypes.bool,
+
+        /**
+         * is the current post being edited in RHS?
+         */
+        isPostBeingEditedInRHS: PropTypes.bool,
 
         teamDisplayName: PropTypes.string,
         teamName: PropTypes.string,
@@ -194,8 +200,12 @@ export default class SearchResultsItem extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !this.props.isPostBeingEditedInRHS) {
             className += ' post--hovered';
+        }
+
+        if (this.props.isPostBeingEditedInRHS) {
+            className += ' post--editing';
         }
 
         return className;
@@ -457,11 +467,11 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {this.renderPostTime()}
                                     {postInfoIcon}
                                 </div>
-                                {rhsControls}
+                                {!this.props.isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
-                                    {message}
+                                    {this.props.isPostBeingEditedInRHS ? <EditPost/> : message}
                                     {fileAttachment}
                                 </div>
                             </div>

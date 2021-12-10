@@ -159,13 +159,9 @@ export default class Post extends React.PureComponent {
         clearTimeout(this.highlightTimeout);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
-        }
-
-        if (!prevProps.isBeingEdited && this.props.isBeingEdited) {
-            this.handleDropdownOpened(false);
         }
     }
 

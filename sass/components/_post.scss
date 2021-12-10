@@ -378,8 +378,7 @@
     padding: 15px;
 }
 
-.post-create__container,
-.post__body {
+.post-create__container {
     @include flex(0 0 auto);
 
     z-index: 12;
@@ -2146,6 +2145,8 @@
 }
 
 .post-list__dynamic {
+    overflow-x: hidden;
+
     .emoji-picker--active & {
         pointer-events: none;
     }

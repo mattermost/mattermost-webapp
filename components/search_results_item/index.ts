@@ -32,6 +32,7 @@ import {getDisplayNameByUser} from 'utils/utils.jsx';
 import {General} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants.jsx';
+import {getIsPostBeingEditedInRHS} from '../../selectors/posts';
 
 import SearchResultsItem from './search_results_item.jsx';
 
@@ -82,6 +83,7 @@ export function mapStateToProps() {
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            isPostBeingEditedInRHS: getIsPostBeingEditedInRHS(state, post.id),
             displayName: getDisplayNameByUser(state, directTeammate),
             replyCount: getReplyCount(state, post),
             canReply,

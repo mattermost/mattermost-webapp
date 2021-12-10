@@ -143,16 +143,12 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
             shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
         if (shortcutReactToLastPostEmittedFromRHS) {
             this.handleShortcutReactToLastPost(isLastPost);
-        }
-
-        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
-            this.handleDropdownOpened(false);
         }
     }
 

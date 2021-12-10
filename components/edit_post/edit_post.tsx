@@ -355,10 +355,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
     };
 
     const handleEmojiClick = (emoji?: Emoji) => {
-        const emojiAlias =
-            emoji &&
-            (((emoji as SystemEmoji).short_names && (emoji as SystemEmoji).short_names[0]) ||
-                emoji.name);
+        const emojiAlias = emoji && (((emoji as SystemEmoji).short_names && (emoji as SystemEmoji).short_names[0]) || emoji.name);
 
         if (!emojiAlias) {
             //Oops.. There went something wrong

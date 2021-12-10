@@ -327,16 +327,12 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props): void {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
         shortcutReactToLastPostEmittedFrom === Locations.CENTER;
         if (shortcutReactToLastPostEmittedFromCenter && isLastPost !== undefined) {
             this.handleShortcutReactToLastPost(isLastPost);
-        }
-
-        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
-            this.props.handleDropdownOpened(false);
         }
     }
 

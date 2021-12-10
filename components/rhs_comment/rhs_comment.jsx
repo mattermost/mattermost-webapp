@@ -140,7 +140,7 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
@@ -151,10 +151,6 @@ export default class RhsComment extends React.PureComponent {
         if (shortcutReactToLastPostEmittedFromRHS) {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
-        }
-
-        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
-            this.handleDropdownOpened(false);
         }
     }
 
