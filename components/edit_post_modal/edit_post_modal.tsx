@@ -524,13 +524,17 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         componentClass='h1'
                         id='editPostModalLabel'
                     >
-                        <FormattedMessage
-                            id='edit_post.edit'
-                            defaultMessage='Edit {title}'
-                            values={{
-                                title: this.props.title,
-                            }}
-                        />
+                        {this.props.post.root_id ? (
+                            <FormattedMessage
+                                id='edit_post.edit.comment'
+                                defaultMessage='Edit Comment'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='edit_post.edit.post'
+                                defaultMessage='Edit Post'
+                            />
+                        )}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body

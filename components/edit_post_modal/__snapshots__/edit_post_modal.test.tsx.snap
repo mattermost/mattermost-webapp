@@ -44,13 +44,8 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -205,13 +200,8 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -366,13 +356,8 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -527,13 +512,8 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -688,13 +668,8 @@ exports[`components/EditPostModal should match with default config 1`] = `
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -849,13 +824,8 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -984,13 +954,8 @@ exports[`components/EditPostModal should not disable the button on not canDelete
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -1145,13 +1110,8 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -1306,13 +1266,8 @@ exports[`components/EditPostModal should not disable the save button on not canD
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -1467,13 +1422,8 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
@@ -1628,13 +1578,8 @@ exports[`components/EditPostModal should show errors when it is set in the state
       id="editPostModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Edit {title}"
-        id="edit_post.edit"
-        values={
-          Object {
-            "title": "test",
-          }
-        }
+        defaultMessage="Edit Comment"
+        id="edit_post.edit.comment"
       />
     </ModalTitle>
   </ModalHeader>
