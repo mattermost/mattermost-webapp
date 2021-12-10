@@ -7,10 +7,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="channel-files"
         id="channelFilesTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Channel files"
@@ -45,10 +43,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="text-nowrap"
         id="flaggedTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Saved posts"
@@ -84,10 +80,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className=""
         id="recentMentionsTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Recent mentions"
@@ -139,10 +133,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="pinned-posts"
         id="pinnedPostTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Pinned posts"
@@ -178,10 +170,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className=""
         id="pluginTooltip"
-        placement="right"
       >
         <span>
           plugin_tooltip_text
@@ -231,10 +221,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className=""
         id="searchTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Search"

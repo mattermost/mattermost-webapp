@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
