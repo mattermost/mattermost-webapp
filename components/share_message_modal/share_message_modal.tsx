@@ -120,11 +120,11 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
     };
 
     handleSelected = (selected) => {
-        //TODO
+        // TODO
     }
 
     handleCancel = () => {
-
+        // TODO
     }
 
     public handleSubmit = async (selected?: any): Promise<void> => {
@@ -174,6 +174,8 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
         );
 
         const metadata: PostPreviewMetadata = {post_id: this.props.postId, channel_display_name: channelDisplayName, team_name: teamDisplayName}
+
+        var disableSubmit: boolean = this.state.text.length === 0; // TODO - disable button if no channel or person selected OR this is a direct message
 
         return (
             <Modal
@@ -256,6 +258,7 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                         type='button'
                         className='btn btn-primary'
                         onClick={this.handleSubmit}
+                        disabled={disableSubmit}
                     >
                         <FormattedMessage
                             id='share_message.confirm'
