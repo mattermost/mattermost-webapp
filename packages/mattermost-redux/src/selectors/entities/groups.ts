@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {createSelector} from 'reselect';
 
 import {Group} from 'mattermost-redux/types/groups';
@@ -9,8 +10,6 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 const emptyList: any[] = [];
 const emptySyncables = {
@@ -58,7 +57,7 @@ export const getAssociatedGroupsByName: (state: GlobalState, teamID: string, cha
     'getAssociatedGroupsByName',
     getAssociatedGroupsForReference,
     (groups) => {
-        const groupsByName: Dictionary<Group> = {};
+        const groupsByName: Record<string, Group> = {};
 
         for (const id in groups) {
             if (groups.hasOwnProperty(id)) {
@@ -196,7 +195,7 @@ export const getAllGroupsForReferenceByName: (state: GlobalState) => Record<stri
     'getAllGroupsForReferenceByName',
     getAllAssociatedGroupsForReference,
     (groups) => {
-        const groupsByName: Dictionary<Group> = {};
+        const groupsByName: Record<string, Group> = {};
 
         for (const id in groups) {
             if (groups.hasOwnProperty(id)) {

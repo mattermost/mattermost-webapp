@@ -7,7 +7,7 @@ import {Group} from './groups';
 import {PostType} from './posts';
 import {Session} from './sessions';
 import {Team} from './teams';
-import {Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
+import {IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
 
 export type UserNotifyProps = {
     desktop: 'default' | 'all' | 'mention' | 'none';
@@ -39,7 +39,7 @@ export type UserProfile = {
     position: string;
     roles: string;
     allow_marketing: boolean;
-    props: Dictionary<string>;
+    props: Record<string, string>;
     notify_props: UserNotifyProps;
     last_password_update: number;
     last_picture_update: number;
@@ -77,7 +77,7 @@ export type UsersState = {
     statuses: RelationOneToOne<UserProfile, string>;
     stats: RelationOneToOne<UserProfile, UsersStats>;
     filteredStats?: UsersStats;
-    myUserAccessTokens: Dictionary<UserAccessToken>;
+    myUserAccessTokens: Record<string, UserAccessToken>;
 };
 
 export type UserTimezone = {

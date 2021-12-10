@@ -26,7 +26,6 @@ import {
     IDMappedObjects,
     RelationOneToOne,
     RelationOneToMany,
-    Dictionary,
 } from 'mattermost-redux/types/utilities';
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
@@ -74,7 +73,7 @@ export function makeGetReactionsForPost(): (state: GlobalState, postId: Post['id
     });
 }
 
-export function getOpenGraphMetadata(state: GlobalState): RelationOneToOne<Post, Dictionary<OpenGraphMetadata>> {
+export function getOpenGraphMetadata(state: GlobalState): RelationOneToOne<Post, Record<string, OpenGraphMetadata>> {
     return state.entities.posts.openGraph;
 }
 
@@ -474,7 +473,7 @@ export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Cha
     getAllPosts,
     (state: GlobalState) => state.entities.posts.postsInChannel,
     (allPosts, postsInChannel) => {
-        const ret: Dictionary<Post> = {};
+        const ret: Record<string, Post> = {};
 
         for (const [channelId, postsForChannel] of Object.entries(postsInChannel)) {
             const recentBlock = (postsForChannel).find((block) => block.recent);

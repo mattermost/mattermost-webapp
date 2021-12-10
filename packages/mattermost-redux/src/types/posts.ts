@@ -8,7 +8,6 @@ import {
     RelationOneToOne,
     RelationOneToMany,
     IDMappedObjects,
-    Dictionary,
 } from './utilities';
 
 export type PostType = 'system_add_remove' |
@@ -46,7 +45,7 @@ export type PostMetadata = {
     embeds: PostEmbed[];
     emojis: CustomEmoji[];
     files: FileInfo[];
-    images: Dictionary<PostImage>;
+    images: Record<string, PostImage>;
     reactions: Reaction[];
 };
 
@@ -124,15 +123,15 @@ export type MessageHistory = {
 export type PostsState = {
     posts: IDMappedObjects<Post>;
     postsReplies: {[x in Post['id']]: number};
-    postsInChannel: Dictionary<PostOrderBlock[]>;
+    postsInChannel: Record<string, PostOrderBlock[]>;
     postsInThread: RelationOneToMany<Post, Post>;
-    reactions: RelationOneToOne<Post, Dictionary<Reaction>>;
-    openGraph: RelationOneToOne<Post, Dictionary<OpenGraphMetadata>>;
+    reactions: RelationOneToOne<Post, Record<string, Reaction>>;
+    openGraph: RelationOneToOne<Post, Record<string, OpenGraphMetadata>>;
     pendingPostIds: string[];
     selectedPostId: string;
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
-    expandedURLs: Dictionary<string>;
+    expandedURLs: Record<string, string>;
 };
 
 export declare type OpenGraphMetadataImage = {

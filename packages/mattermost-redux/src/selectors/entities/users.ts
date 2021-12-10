@@ -35,7 +35,6 @@ import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {
-    Dictionary,
     IDMappedObjects,
     RelationOneToMany,
     RelationOneToManyUnique,
@@ -98,7 +97,7 @@ export const getUsersByUsername: (a: GlobalState) => Record<string, UserProfile>
     'getUsersByUsername',
     getUsers,
     (users) => {
-        const usersByUsername: Dictionary<UserProfile> = {};
+        const usersByUsername: Record<string, UserProfile> = {};
 
         for (const id in users) {
             if (users.hasOwnProperty(id)) {
@@ -119,7 +118,7 @@ export const getUsersByEmail: (a: GlobalState) => Record<string, UserProfile> = 
     'getUsersByEmail',
     getUsers,
     (users) => {
-        const usersByEmail: Dictionary<UserProfile> = {};
+        const usersByEmail: Record<string, UserProfile> = {};
 
         for (const user of Object.keys(users).map((key) => users[key])) {
             usersByEmail[user.email] = user;
@@ -607,7 +606,7 @@ export function makeGetProfilesByIdsAndUsernames(): (
         getUsersByUsername,
         (state: GlobalState, props: {allUserIds: Array<UserProfile['id']>; allUsernames: Array<UserProfile['username']>}) => props.allUserIds,
         (state, props) => props.allUsernames,
-        (allProfilesById: Dictionary<UserProfile>, allProfilesByUsername: Dictionary<UserProfile>, allUserIds: string[], allUsernames: string[]) => {
+        (allProfilesById: Record<string, UserProfile>, allProfilesByUsername: Record<string, UserProfile>, allUserIds: string[], allUsernames: string[]) => {
             const userProfiles: UserProfile[] = [];
 
             if (allUserIds && allUserIds.length > 0) {

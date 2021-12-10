@@ -3,7 +3,7 @@
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
 
@@ -83,7 +83,7 @@ export type ViewsState = {
         modalState: {
             [modalId: string]: {
                 open: boolean;
-                dialogProps: Dictionary<any>;
+                dialogProps: Record<string, any>;
                 dialogType: React.ComponentType;
             };
         };

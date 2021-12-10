@@ -8,7 +8,6 @@ import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
 
 import {PluginStatusRedux} from 'mattermost-redux/types/plugins';
 import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -96,7 +95,7 @@ export type MarketplaceModalProps = {
     listing: Array<MarketplacePlugin | MarketplaceApp>;
     installedListing: Array<MarketplacePlugin | MarketplaceApp>;
     siteURL: string;
-    pluginStatuses?: Dictionary<PluginStatusRedux>;
+    pluginStatuses?: Record<string, PluginStatusRedux>;
     firstAdminVisitMarketplaceStatus: boolean;
     actions: {
         closeModal: () => void;
