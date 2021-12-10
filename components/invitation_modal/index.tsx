@@ -22,10 +22,11 @@ import {ModalIdentifiers, Constants} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'types/store';
 
 import {InviteResults} from './result_view';
 import InvitationModal from './invitation_modal';

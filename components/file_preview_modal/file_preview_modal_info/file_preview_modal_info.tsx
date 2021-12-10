@@ -32,7 +32,7 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
     const name = useSelector((state: GlobalState) => displayNameGetter(state, props.post.user_id, true));
 
     let info;
-    const channelName = (
+    const channelName = channel ? (
         <FormattedMessage
             id='file_preview_modal_info.shared_in'
             defaultMessage='Shared in ~{name}'
@@ -40,7 +40,7 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
                 name: channel.name,
             }}
         />
-    );
+    ) : null;
     if (props.showFileName) {
         info = (
             <>
@@ -65,11 +65,15 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
 
     return (
         <div className='file-preview-modal__info'>
-            <Avatar
-                size='lg'
-                url={imageURLForUser(props.post.user_id, user?.last_picture_update)}
-                className='file-preview-modal__avatar'
-            />
+            {
+                (props.post && Object.keys(props.post).length > 0) &&
+                <Avatar
+                    size='lg'
+                    url={imageURLForUser(props.post.user_id, user?.last_picture_update)}
+                    className='file-preview-modal__avatar'
+                />
+            }
+
             <div className='file-preview-modal__info-details'>
                 {info}
             </div>

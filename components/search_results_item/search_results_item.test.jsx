@@ -11,6 +11,7 @@ import {browserHistory} from 'utils/browser_history';
 import SearchResultsItem from 'components/search_results_item/search_results_item';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -29,63 +30,56 @@ jest.mock('utils/post_utils', () => ({
 }));
 
 describe('components/SearchResultsItem', () => {
-    let mockFunc;
-    let user;
-    let post;
-    let defaultProps;
+    const mockFunc = jest.fn();
 
-    beforeEach(() => {
-        mockFunc = jest.fn();
+    const user = {
+        id: 'user_id',
+        username: 'username',
+        locale: 'en',
+    };
 
-        user = {
-            id: 'user_id',
-            username: 'username',
-            locale: 'en',
-        };
+    const post = {
+        channel_id: 'channel_id',
+        create_at: 1502715365009,
+        delete_at: 0,
+        edit_at: 1502715372443,
+        id: 'id',
+        is_pinned: false,
+        message: 'post message',
+        original_id: '',
+        pending_post_id: '',
+        props: {},
+        root_id: '',
+        type: '',
+        update_at: 1502715372443,
+        user_id: 'user_id',
+    };
 
-        post = {
-            channel_id: 'channel_id',
-            create_at: 1502715365009,
-            delete_at: 0,
-            edit_at: 1502715372443,
-            id: 'id',
-            is_pinned: false,
-            message: 'post message',
-            original_id: '',
-            pending_post_id: '',
-            props: {},
-            root_id: '',
-            type: '',
-            update_at: 1502715372443,
-            user_id: 'user_id',
-        };
-
-        defaultProps = {
-            channelId: 'channel_id',
-            channelName: 'channel_name',
-            channelType: 'O',
-            compactDisplay: true,
-            post,
-            user,
-            teamName: 'test',
-            term: 'test',
-            isMentionSearch: false,
-            isFlagged: true,
-            isBusy: false,
-            status: 'hello',
-            enablePostUsernameOverride: false,
-            isBot: false,
-            actions: {
-                closeRightHandSide: mockFunc,
-                selectPost: mockFunc,
-                selectPostCard: mockFunc,
-                setRhsExpanded: mockFunc,
-            },
-            directTeammate: '',
-            displayName: 'Other guy',
-            canReply: true,
-        };
-    });
+    const defaultProps = {
+        channelId: 'channel_id',
+        channelName: 'channel_name',
+        channelType: 'O',
+        compactDisplay: true,
+        post,
+        user,
+        teamName: 'test',
+        term: 'test',
+        isMentionSearch: false,
+        isFlagged: true,
+        isBusy: false,
+        status: 'hello',
+        enablePostUsernameOverride: false,
+        isBot: false,
+        actions: {
+            closeRightHandSide: mockFunc,
+            selectPost: mockFunc,
+            selectPostCard: mockFunc,
+            setRhsExpanded: mockFunc,
+        },
+        directTeammate: '',
+        displayName: 'Other guy',
+        canReply: true,
+    };
 
     test('should match snapshot for channel', () => {
         const wrapper = shallow(
@@ -267,6 +261,73 @@ describe('components/SearchResultsItem', () => {
         const props = {
             ...defaultProps,
             canReply: false,
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show the thread footer for root posts', () => {
+        const props = {
+            ...defaultProps,
+            isCollapsedThreadsEnabled: true,
+            post: {...post, reply_count: 1},
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper.find(ThreadFooter).exists()).toBe(true);
+        expect(wrapper.find(ThreadFooter).prop('threadId')).toBe(props.post.id);
+    });
+
+    test.each([
+        {isCollapsedThreadsEnabled: false},
+        {isCollapsedThreadsEnabled: true, post: {...post, root_id: 'parentpostid', reply_count: 4}},
+        {isCollapsedThreadsEnabled: true, post: {...post, reply_count: 0}},
+    ])('should not show the thread footer', (testCaseProps) => {
+        const props = {
+            ...defaultProps,
+            ...testCaseProps,
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper.find(ThreadFooter).exists()).toBe(false);
+    });
+
+    test.each([
+        {post: {...post, reply_count: 4}},
+        {post: {...post, root_id: 'parentpostid', reply_count: 4}},
+        {channelType: 'D', post: {...post, reply_count: 4}},
+    ])('should match snapshot with thread in header', (testCaseProps) => {
+        const props = {
+            ...defaultProps,
+            ...testCaseProps,
+            isCollapsedThreadsEnabled: true,
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test.each([
+        {isCollapsedThreadsEnabled: false, post: {...post, reply_count: 4}},
+        {isCollapsedThreadsEnabled: true, post: {...post, reply_count: 0}},
+        {isCollapsedThreadsEnabled: true, channelType: 'D', post: {...post, reply_count: 0}},
+    ])('should match snapshot with no thread in header', (testCaseProps) => {
+        const props = {
+            ...defaultProps,
+            ...testCaseProps,
         };
 
         const wrapper = shallow(

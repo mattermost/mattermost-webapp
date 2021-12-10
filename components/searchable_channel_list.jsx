@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen';
@@ -130,13 +128,13 @@ export default class SearchableChannelList extends React.PureComponent {
         this.setState({page: this.state.page + 1, nextDisabled: true});
         this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
         this.props.nextPage(this.state.page + 1);
-        $(ReactDOM.findDOMNode(this.channelListScroll.current)).scrollTop(0);
+        this.channelListScroll.current?.scrollTo(0);
     }
 
     previousPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page - 1});
-        $(ReactDOM.findDOMNode(this.channelListScroll.current)).scrollTop(0);
+        this.channelListScroll.current?.scrollTo(0);
     }
 
     doSearch = () => {

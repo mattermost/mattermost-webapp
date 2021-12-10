@@ -353,6 +353,107 @@
     }
 }
 
+.NextStepsView__nextStepsCards {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 0 40px;
+    margin-top: 88px;
+
+    .Card {
+        flex: 0 0 310px;
+        margin-right: 24px;
+        margin-bottom: 24px;
+    }
+
+    .Card + .Card {
+        margin-top: 0;
+    }
+
+    .Card__image {
+        display: flex;
+        width: fit-content;
+        height: auto;
+        flex-direction: column;
+        padding-bottom: 12px;
+    }
+
+    .Card__body {
+        display: flex;
+        overflow: visible;
+        height: auto;
+        flex-direction: column;
+        padding: 32px;
+        border: none;
+        margin: 0;
+
+        > span {
+            display: block;
+            flex-grow: 1;
+        }
+    }
+
+    h4 {
+        margin: 0 0 12px 0;
+        color: var(--center-channel-color);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+    }
+
+    .dropdown-menu {
+        margin-top: 6px;
+        margin-left: -1px;
+    }
+
+    .NextStepsView__button {
+        width: max-content;
+        margin-top: 16px;
+
+        i {
+            margin-right: -4px;
+            margin-left: 4px;
+        }
+    }
+
+    .Menu .MenuItem span.MenuItem__primary-text {
+        padding: 7px 0;
+    }
+}
+
+.NextStepsView__createFirstChannel {
+    margin-left: 45px;
+
+    .channelNameLegend {
+        margin-bottom: 15px;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+    }
+
+    input {
+        width: 60%;
+    }
+
+    button#submitNewChannel {
+        border-radius: 4px;
+
+        &:disabled {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.52);
+
+            &:hover {
+                border: 1px solid rgba(var(--center-channel-color-rgb), 0.08) !important;
+            }
+        }
+    }
+
+    .NextStepsView__wizardButtons {
+        margin-top: 24px;
+    }
+}
+
 .NextStepsView__download {
     display: flex;
     align-content: center;

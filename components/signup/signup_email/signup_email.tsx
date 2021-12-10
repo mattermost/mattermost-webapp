@@ -530,7 +530,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
                 <p id='signup_agreement'>
                     <FormattedMarkdownMessage
                         id='create_team.agreement'
-                        defaultMessage='By proceeding to create your account and use {siteName}, you agree to our [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}.'
+                        defaultMessage='By proceeding to create your account and use {siteName}, you agree to our [Terms of Use]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}.'
                         values={{
                             siteName,
                             TermsOfServiceLink: `!${termsOfServiceLink}`,

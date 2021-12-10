@@ -11,6 +11,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
 import {Preferences} from 'utils/constants';
+import {selectTeam} from 'mattermost-redux/actions/teams';
 
 export function removeUserFromTeamAndGetStats(teamId, userId) {
     return async (dispatch, getState) => {
@@ -80,7 +81,7 @@ export function addUsersToTeam(teamId, userIds) {
     };
 }
 
-export function switchTeam(url) {
+export function switchTeam(url, setTeam = undefined) {
     return (dispatch, getState) => {
         const state = getState();
         const currentChannelId = getCurrentChannelId(state);
@@ -88,7 +89,11 @@ export function switchTeam(url) {
             dispatch(viewChannel(currentChannelId));
         }
 
-        browserHistory.push(url);
+        if (setTeam) {
+            dispatch(selectTeam(setTeam));
+        } else {
+            browserHistory.push(url);
+        }
     };
 }
 
