@@ -8,9 +8,8 @@ import {Action} from 'mattermost-redux/types/actions';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {ModalData} from 'types/actions';
-import {GlobalState} from 'types/store';
 
-import SharedMessage from './shared_message';
+import ForwardMessage from './forward_message';
 
 // function mapStateToProps(state: GlobalState) {
 //     /* TODO */
@@ -31,4 +30,4 @@ type Actions = {
     // closeModal: (modalId: string) => void;
 }
 
-export default connect(null, mapDispatchToProps)(SharedMessage);
+export default connect(null, mapDispatchToProps)(ForwardMessage);

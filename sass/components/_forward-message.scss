@@ -3,7 +3,7 @@
 // _about-modal.scss
 
 .modal {
-    .share-message-modal {
+    .forward-message-modal {
         &.modal-dialog {
             margin-top: 80px;
 
@@ -196,7 +196,7 @@
             }
         }
 
-        .share-message-modal__suggestion-box {
+        .forward-message-modal__suggestion-box {
             position: relative;
             padding: 0;
 
@@ -243,7 +243,7 @@
     }
 }
 
-.share-message__header {
+.forward-message__header {
 
     padding: 2.4rem 2.4rem 2.4rem;
 

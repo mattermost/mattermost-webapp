@@ -15,6 +15,8 @@ import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_m
 
 type UserProfileValue = Value & UserProfile;
 
+// TODO
+
 describe('components/channel_invite_modal', () => {
     const users = [{
         id: 'user-1',

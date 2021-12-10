@@ -23,7 +23,7 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import {Emoji} from 'mattermost-redux/types/emojis';
-import SharedMessage from 'components/post_view/shared_message';
+import ForwardMessage from 'components/post_view/forward_message';
 
 type Props = {
 
@@ -273,11 +273,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        const showSharedMessage = !isSystemMessage && (hover || isMobile);
-        let sharedMessage;
-        if (showSharedMessage) {
-            sharedMessage = (
-                <SharedMessage
+        const showForwardMessage = !isSystemMessage && (hover || isMobile);
+        let forwardMessage;
+        if (showForwardMessage) {
+            forwardMessage = (
+                <ForwardMessage
                     postId={post.id}
                     channelId={post.channel_id}
                     teamId={this.props.teamId}
@@ -294,7 +294,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                 {showRecentReacions}
                 {postReaction}
-                {sharedMessage}
+                {forwardMessage}
                 {postFlagIcon}
                 {commentIcon}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}

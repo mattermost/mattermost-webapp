@@ -65,7 +65,7 @@ type State = {
     comment: string | undefined;
 }
 
-export default class ShareMessageModal extends React.PureComponent<Props, State> {
+export default class ForwardMessageModal extends React.PureComponent<Props, State> {
     private channelProviders: SwitchChannelProvider[];
     private switchBox: SuggestionBoxComponent|null;
 
@@ -174,8 +174,8 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
         const title = (
             <h1>
                 <FormattedMessage
-                    id='share_message_modal.shareMessage'
-                    defaultMessage='Share Message'
+                    id='forward_message_modal.forwardMessage'
+                    defaultMessage='Forward Message'
                 />
             </h1>
         );
@@ -194,7 +194,7 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
             alertBanner= <AlertBanner 
                             message={
                                 <FormattedMessage
-                                id='share_message.privateConversationWarningDescription'
+                                id='forward_message.privateConversationWarningDescription'
                                 defaultMessage={'This is from a private conversation and can only be shared with ' + channelTitle + '.'}
                                 />
                             }
@@ -205,7 +205,7 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
             alertBanner = <AlertBanner 
                                 message={
                                     <FormattedMessage
-                                    id='share_message.privateChannelWarningDescription'
+                                    id='forward_message.privateChannelWarningDescription'
                                     defaultMessage={'This is from a private conversation and can only be shared in ' + channelDisplayName + '.'}
                                     />
                                 }
@@ -213,11 +213,11 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                                 variant='app'
                            />  
         } else {
-            suggestionBox = <div className='share-message-modal__suggestion-box'>
+            suggestionBox = <div className='forward-message-modal__suggestion-box'>
                                 <SuggestionBox // May need to make a different component entirely using parts of SuggestionBox, Input, and a proper dropdown.
-                                    placeholder={Utils.localizeMessage('share_message_share_input', 'Select channel or people')}
-                                    id='ShareMessageInput'
-                                    aria-label={Utils.localizeMessage('share_message_share.input', 'Share input')}
+                                    placeholder={Utils.localizeMessage('forward_message_forward_input', 'Select channel or people')}
+                                    id='ForwardMessageInput'
+                                    aria-label={Utils.localizeMessage('forward_message_forward.input', 'Share input')}
                                     ref={this.setSwitchBoxRef}
                                     className='form-control focused'
                                     onChange={this.onChange}
@@ -245,22 +245,22 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
 
         return (
             <Modal
-                dialogClassName='a11y__modal share-message-modal'
+                dialogClassName='a11y__modal forward-message-modal'
                 ref='modal'
                 show={true}
                 onHide={this.onHide}
                 enforceFocus={false}
                 restoreFocus={false}
                 role='dialog'
-                aria-labelledby='ShareMessageModalLabel'
+                aria-labelledby='ForwardMessageModalLabel'
                 animation={false}
             >
                 <Modal.Header
-                    id='ShareMessageModalLabel'
+                    id='ForwardMessageModalLabel'
                     closeButton={true}
                 />
                 <Modal.Body>
-                    <div className='share-message__header'>
+                    <div className='forward-message__header'>
                         {title}
                     </div>
                     {alertBanner}
@@ -273,8 +273,8 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                         onChange={(e) => {
                             this.setState({comment: e.target.value});
                         }}
-                        placeholder={Utils.localizeMessage('share_message_comment_input', 'Add a comment (optional)')}
-                        className='share-message-comment-input'
+                        placeholder={Utils.localizeMessage('forward_message_comment_input', 'Add a comment (optional)')}
+                        className='forward-message-comment-input'
                     />
                     <hr/>
                     <PostMessagePreview
@@ -283,26 +283,26 @@ export default class ShareMessageModal extends React.PureComponent<Props, State>
                 </Modal.Body>
                 <Modal.Footer>
                     <button
-                        id='shareMessageModalCancelButton'
+                        id='forwardMessageModalCancelButton'
                         type='button'
                         className='btn btn-link'
                         onClick={this.onHide}
                     >
                         <FormattedMessage
-                            id='share_message.close'
+                            id='forward_message.close'
                             defaultMessage='Cancel'
                         />
                     </button>
                     <button
-                        id='shareMessageModalConfirm'
+                        id='forwardMessageModalConfirm'
                         type='button'
                         className='btn btn-primary'
                         onClick={this.handleSubmit}
                         disabled={disableSubmit}
                     >
                         <FormattedMessage
-                            id='share_message.confirm'
-                            defaultMessage='Share'
+                            id='forward_message.confirm'
+                            defaultMessage='Forward'
                         />
                     </button>
                 </Modal.Footer>

@@ -4,7 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SharedMessage from 'components/post_view/shared_message';
+import ForwardMessage from 'components/post_view/forward_message';
+
+// TODO
 
 describe('components/post_view/SharedMessage', () => { // TODO fix
     const baseProps = {
