@@ -7,14 +7,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Input from 'components/input';
 
-import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-
-import {Channel} from 'mattermost-redux/types/channels';
-import {ActionResult} from 'mattermost-redux/types/actions';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 import SuggestionBox from 'components/suggestion/suggestion_box';
@@ -23,12 +15,7 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 
 import PostMessagePreview from 'components/post_view/post_message_preview';
-import { Post, PostPreviewMetadata } from 'mattermost-redux/types/posts';
-import GenericModal from 'components/generic_modal';
-import QuickInput from 'components/quick_input/'
-import { getChannelNameToDisplayNameMap, makeGetChannelsForIds } from 'mattermost-redux/selectors/entities/channels';
-import { getChannels } from 'mattermost-redux/actions/channels';
-import { getDisplayName } from 'utils/utils';
+import { PostPreviewMetadata } from 'mattermost-redux/types/posts';
 
 const CHANNEL_MODE = 'channel';
 
