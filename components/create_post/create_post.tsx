@@ -274,7 +274,7 @@ type Props = {
       */
         openModal: <P>(modalData: ModalData<P>) => void;
 
-        openEditPostModal: (postId: Post['id'], refocusId?: string, title?: string, isRHS?: boolean) => void;
+        openEditPostModal: (postId: Post['id'], refocusId?: string, isRHS?: boolean) => void;
 
         executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
@@ -1136,17 +1136,9 @@ class CreatePost extends React.PureComponent<Props, State> {
             this.textboxRef.current.blur();
         }
 
-        let modalTitle;
-        if (lastPost.root_id && lastPost.root_id.length > 0) {
-            modalTitle = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-        } else {
-            modalTitle = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-        }
-
         this.props.actions.openEditPostModal(
             lastPost.id,
             'post_textbox',
-            modalTitle,
             false,
         );
     }

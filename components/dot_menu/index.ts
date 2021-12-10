@@ -148,7 +148,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     flagPost: (postId: string) => void;
     unflagPost: (postId: string) => void;
-    openEditPostModal: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
+    openEditPostModal: (postId?: string, refocusId?: string, isRHS?: boolean) => void;
     pinPost: (postId: string) => void;
     unpinPost: (postId: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;

@@ -27,7 +27,6 @@ import EditPostModal from './edit_post_modal';
 export interface OwnProps {
     post: Post;
     refocusId: string;
-    title: string;
     isRHS: boolean;
     onExited: () => void;
 }

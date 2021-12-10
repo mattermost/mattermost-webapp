@@ -85,7 +85,6 @@ function createEditPost(
         channelId,
         config = {EnableEmojiPicker: 'true', EnableGifPicker: 'true'},
         post = {...defaultPost, id: '1'},
-        title = 'test',
         refocusId = 'test',
         isRHS = false,
         onExited = jest.fn(),
@@ -100,7 +99,6 @@ function createEditPost(
     return (
         <EditPostModal
             post={post}
-            title={title}
             refocusId={refocusId}
             isRHS={isRHS}
             canEditPost={canEditPost}

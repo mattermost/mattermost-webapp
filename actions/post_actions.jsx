@@ -212,7 +212,7 @@ export function unpinPost(postId) {
     };
 }
 
-export function openEditPostModal(postId, refocusId = '', title = '', isRHS = false) {
+export function openEditPostModal(postId, refocusId = '', isRHS = false) {
     return async (dispatch, getState) => {
         const state = getState();
         const post = PostSelectors.getPost(state, postId);
@@ -236,7 +236,6 @@ export function openEditPostModal(postId, refocusId = '', title = '', isRHS = fa
                 dialogProps: {
                     post,
                     refocusId,
-                    title,
                     isRHS,
                 },
             }));
