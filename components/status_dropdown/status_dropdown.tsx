@@ -71,7 +71,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         {id: 'one_hour', label: t('status_dropdown.dnd_sub_menu_item.one_hour'), labelDefault: '1 hour'},
         {id: 'two_hours', label: t('status_dropdown.dnd_sub_menu_item.two_hours'), labelDefault: '2 hours'},
         {id: 'tomorrow', label: t('status_dropdown.dnd_sub_menu_item.tomorrow'), labelDefault: 'Tomorrow'},
-        {id: 'custom', label: t('status_dropdown.dnd_sub_menu_item.custom'), labelDefault: 'Custom'},
+        {id: 'custom', label: t('status_dropdown.dnd_sub_menu_item.custom'), labelDefault: 'Choose date and time'},
     ];
     static defaultProps = {
         userId: '',
@@ -313,7 +313,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             {
                 id: 'dndSubMenu-header',
                 direction: 'right',
-                text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
+                text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Clear after:'),
                 isHeader: true,
             } as any,
         ].concat(
