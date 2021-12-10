@@ -544,7 +544,18 @@ export default class EmojiPicker extends React.PureComponent {
             return emoji;
         }
 
-        const newEmojiId = userSkinTone === 'default' ? emoji.unified.replace(`-${emojiSkin}`, '') : emoji.unified.replace(emojiSkin, userSkinTone);
+        let newEmojiId = '';
+
+        // If its a default (yellow) emoji, get the skin variation from its property
+        if (emojiSkin === 'default') {
+            newEmojiId = emoji.skin_variations[userSkinTone].unified;
+        } else if (userSkinTone === 'default') {
+            // If default (yellow) skin is selected, remove the skin code from emoji id
+            newEmojiId = emoji.unified.replace(`-${emojiSkin}`, '');
+        } else {
+            // If non default skin is selected, add the new skin selected code to emoji id
+            newEmojiId = emoji.unified.replace(emojiSkin, userSkinTone);
+        }
 
         const emojiIndex = Emoji.EmojiIndicesByUnicode.get(newEmojiId.toLowerCase());
         return Emoji.Emojis[emojiIndex];
