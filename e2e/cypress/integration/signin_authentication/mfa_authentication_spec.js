@@ -60,7 +60,8 @@ describe('Authentication', () => {
         cy.get('#mfaEdit').should('be.visible').click();
         cy.findByText('Add MFA to Account').should('be.visible').click();
 
-        getUserSecret(testUser).then(({secret}) => {
+        // # Get MFA secret
+        cy.uiGetMFASecret(testUser.id).then((secret) => {
             // # Logout
             cy.apiLogout();
 
@@ -120,31 +121,6 @@ describe('Authentication', () => {
         });
     });
 });
-
-function getUserSecret(user) {
-    return cy.url().then((url) => {
-        if (url.includes('mfa/setup')) {
-            return cy.get('#mfa').wait(timeouts.HALF_SEC).find('.col-sm-12').then((p) => {
-                const secretp = p.text();
-                const secret = secretp.split(' ')[1];
-
-                const token = authenticator.generateToken(secret);
-                cy.get('#mfa').find('.form-control').type(token);
-                cy.get('#mfa').find('.btn.btn-primary').click();
-
-                cy.wait(timeouts.HALF_SEC);
-                cy.get('#mfa').find('.btn.btn-primary').click();
-                return cy.wrap({secret});
-            });
-        }
-
-        // # If the user already has MFA enabled, reset the secret.
-        return cy.apiGenerateMfaSecret(user.id).then((res) => {
-            const secret = res.code.secret;
-            return cy.wrap({secret});
-        });
-    });
-}
 
 function fillMFACode(code) {
     cy.wait(timeouts.TWO_SEC);

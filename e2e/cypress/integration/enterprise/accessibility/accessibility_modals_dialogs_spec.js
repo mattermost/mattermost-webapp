@@ -22,7 +22,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup({userPrefix: 'user000a'}).then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
             testUser = user;
@@ -67,8 +67,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // * Verify the aria-label in create direct message button
         cy.uiAddDirectMessage().click();
 
-        // * Verify the accessibility support in Direct Messages Dialog`
-        // cy.get('#moreDmModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreDmModalLabel').within(() => {
+        // * Verify the accessibility support in Direct Messages Dialog
         cy.findAllByRole('dialog', 'Direct Messages').eq(0).within(() => {
             cy.findByRole('heading', 'Direct Messages');
 
@@ -143,19 +142,19 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                     // * Verify channel name is highlighted and reader reads the channel name and channel description
                     cy.get('#moreChannelsList').children().eq(0).within(() => {
                         const selectedChannel = getChannelAriaLabel(channel);
-                        cy.findByLabelText(selectedChannel).should('have.class', 'a11y--active a11y--focused');
+                        cy.findByLabelText(selectedChannel).should('be.focused');
 
                         // * Press Tab and verify if focus changes to Join button
                         cy.focused().tab();
-                        cy.findByText('Join').parent().should('have.class', 'a11y--active a11y--focused');
+                        cy.findByText('Join').parent().should('be.focused');
 
                         // * Verify previous button should no longer be focused
-                        cy.findByLabelText(selectedChannel).should('not.have.class', 'a11y--active a11y--focused');
+                        cy.findByLabelText(selectedChannel).should('not.be.focused');
                     });
 
                     // * Press Tab again and verify if focus changes to next row
                     cy.focused().tab();
-                    cy.findByLabelText(getChannelAriaLabel(otherChannel)).should('have.class', 'a11y--active a11y--focused');
+                    cy.findByLabelText(getChannelAriaLabel(otherChannel)).should('be.focused');
                 });
             });
         });
@@ -234,33 +233,33 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.findByRole('dialog', {name: 'Off-Topic Members'}).within(() => {
             cy.findByRole('heading', {name: 'Off-Topic Members'});
 
-            // * Verify the accessibility support in search input
+            // # Set focus on search input
             cy.findByPlaceholderText('Search users').
                 focus().
                 type(' {backspace}').
                 wait(TIMEOUTS.HALF_SEC).
-                tab({shift: true}).tab().tab().tab();
+                tab({shift: true}).tab();
             cy.wait(TIMEOUTS.HALF_SEC);
 
-            // * Verify channel name is highlighted and reader reads the channel name
-            cy.get('.more-modal__list>div').children().eq(1).as('selectedRow');
-            cy.get('@selectedRow').within(() => {
-                cy.get('button.user-popover').
-                    should('have.class', 'a11y--active a11y--focused');
-                cy.get('.more-modal__name').invoke('text').then((user) => {
-                    selectedRowText = user.split(' ')[0].replace('@', '');
-                    cy.get('.more-modal__actions button .sr-only').should('have.text', selectedRowText);
-
-                    // * Verify image alt is displayed
-                    cy.get('img.Avatar').should('have.attr', 'alt', `${selectedRowText} profile image`);
-                });
-            });
-
-            // * Press Tab again and verify if focus changes to next row
+            // # Press tab and verify focus on first user's profile image
             cy.focused().tab();
-            cy.get('.more-modal__list>div').children().eq(1).as('selectedRow').
-                get('button.dropdown-toggle').
-                should('have.class', 'a11y--active a11y--focused');
+            cy.findByAltText('sysadmin profile image').should('be.focused');
+
+            // # Press tab and verify focus on first user's username
+            cy.focused().tab();
+            cy.focused().should('have.text', '@sysadmin');
+
+            // # Press tab and verify focus on second user's profile image
+            cy.focused().tab();
+            cy.findByAltText(`${testUser.username} profile image`).should('be.focused');
+
+            // # Press tab and verify focus on second user's username
+            cy.focused().tab();
+            cy.focused().should('have.text', `@${testUser.username}`);
+
+            // # Press tab and verify focus on second user's dropdown option
+            cy.focused().tab();
+            cy.focused().should('have.class', 'dropdown-toggle').and('contain', 'Channel Member');
 
             // * Verify accessibility support in search total results
             cy.get('#searchableUserListTotal').should('have.attr', 'aria-live', 'polite');
@@ -280,7 +279,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.get('button.icon-close').focus().tab({shift: true}).tab();
 
         // * Verify tab focuses on close button
-        cy.get('button.icon-close').should('have.attr', 'aria-label', 'Close').and('have.class', 'a11y--active a11y--focused').tab();
+        cy.get('button.icon-close').should('have.attr', 'aria-label', 'Close').and('be.focused');
     });
 });
 

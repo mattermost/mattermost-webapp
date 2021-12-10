@@ -482,7 +482,7 @@ class LoginController extends React.PureComponent {
                     <WarningIcon/>
                     <FormattedMarkdownMessage
                         id='login.terms_rejected'
-                        defaultMessage='You must agree to the terms of service before accessing {siteName}. Please contact your System Administrator for more details.'
+                        defaultMessage='You must agree to the terms of use before accessing {siteName}. Please contact your System Administrator for more details.'
                         values={{
                             siteName: this.props.siteName,
                         }}
