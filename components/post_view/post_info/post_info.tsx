@@ -273,7 +273,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        const showSharedMessage = hover || isMobile;
+        const showSharedMessage = !isSystemMessage && (hover || isMobile);
         let sharedMessage;
         if (showSharedMessage) {
             sharedMessage = (
