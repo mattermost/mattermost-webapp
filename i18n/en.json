@@ -4101,6 +4101,8 @@
   "shortcuts.nav.focus_center": "Set focus to input field:\tCtrl|Shift|L",
   "shortcuts.nav.focus_center.mac": "Set focus to input field:\t⌘|Shift|L",
   "shortcuts.nav.header": "Navigation",
+  "shortcuts.nav.mark_read": "Mark current channel as read:\tEsc",
+  "shortcuts.nav.mark_read.mac": "Mark current channel as read:\tEsc",
   "shortcuts.nav.next": "Next channel:\tAlt|Down",
   "shortcuts.nav.next.mac": "Next channel:\t⌥|Down",
   "shortcuts.nav.open_close_sidebar": "Open or close the right sidebar\tCtrl|.",

@@ -20,6 +20,7 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
             "checkAndSetMobileView": [MockFunction],
             "loadNewerPosts": [Function],
             "loadOlderPosts": [Function],
+            "markChannelAsRead": [MockFunction],
             "updateNewMessagesAtInChannel": [MockFunction],
           }
         }
@@ -56,6 +57,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
             "checkAndSetMobileView": [MockFunction],
             "loadNewerPosts": [Function],
             "loadOlderPosts": [Function],
+            "markChannelAsRead": [MockFunction],
             "updateNewMessagesAtInChannel": [MockFunction],
           }
         }

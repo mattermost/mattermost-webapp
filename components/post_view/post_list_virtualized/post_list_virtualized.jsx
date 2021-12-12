@@ -119,6 +119,7 @@ export default class PostList extends React.PureComponent {
              */
             changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
+            markChannelAsRead: PropTypes.func.isRequired,
             updateNewMessagesAtInChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -176,6 +177,8 @@ export default class PostList extends React.PureComponent {
 
         window.addEventListener('resize', this.handleWindowResize);
         EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
+
+        window.addEventListener('keydown', this.markMessagesRead);
     }
 
     getSnapshotBeforeUpdate(prevProps) {
@@ -225,6 +228,17 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
+
+        window.removeEventListener('keydown', this.markMessagesRead);
+    }
+
+    markMessagesRead = (e) => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            e.preventDefault();
+
+            this.updateNewMessagesAtInChannel();
+            this.markChannelAsRead();
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -533,6 +547,10 @@ export default class PostList extends React.PureComponent {
 
     updateNewMessagesAtInChannel = (lastViewedAt = Date.now()) => {
         this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, lastViewedAt);
+    }
+
+    markChannelAsRead = () => {
+        this.props.actions.markChannelAsRead(this.props.channelId);
     }
 
     renderToasts = (width) => {

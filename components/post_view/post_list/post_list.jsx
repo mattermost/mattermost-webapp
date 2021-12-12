@@ -139,6 +139,7 @@ export default class PostList extends React.PureComponent {
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
             updateNewMessagesAtInChannel: this.props.actions.updateNewMessagesAtInChannel,
+            markChannelAsRead: this.props.actions.markChannelAsRead,
         };
     }
 
