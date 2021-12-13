@@ -121,6 +121,9 @@ export default class Root extends React.PureComponent {
         // Redux
         setUrl(getSiteURL());
 
+        // Disable auth header to enable CSRF check
+        Client4.setAuthHeader = false;
+
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
