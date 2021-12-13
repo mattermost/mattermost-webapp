@@ -47,22 +47,32 @@ describe('Archived channels', () => {
 
         // # Post a message in the channel
         cy.postMessage('Test archive reply');
-        cy.clickPostCommentIcon();
+        cy.getLastPostId().then((id) => {
+            cy.clickPostCommentIcon(id);
 
-        // * RHS should be visible
-        cy.get('#rhsContainer').should('be.visible');
+            // * RHS should be visible
+            cy.get('#rhsContainer').should('be.visible');
 
-        // * RHS text box should be visible
-        cy.get('#reply_textbox').should('be.visible');
+            // * RHS text box should be visible
+            cy.get('#reply_textbox').should('be.visible');
 
-        // # Archive the channel
-        cy.uiArchiveChannel();
+            // # Archive the channel
+            cy.uiArchiveChannel();
 
-        // * Post text box should not be visible
-        cy.get('#post_textbox').should('not.exist');
+            // * Post text box should not be visible
+            cy.get('#post_textbox').should('not.exist');
 
-        // * RHS text box should not be visible
-        cy.get('#reply_textbox').should('not.exist');
+            // * RHS should not be visible
+            cy.get('#rhsContainer').should('not.exist');
+
+            // # Open RHS
+            cy.clickPostCommentIcon(id);
+
+            cy.get('#rhsContainer').should('be.visible');
+
+            // * RHS text box should not be visible
+            cy.get('#reply_textbox').should('not.exist');
+        });
     });
 
     it('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {

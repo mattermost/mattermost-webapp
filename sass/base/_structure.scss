@@ -71,7 +71,7 @@ body {
 }
 
 .container-fluid {
-    @include legacy-pie-clearfix;
+    @include pie-clearfix;
 
     position: relative;
     height: 100%;

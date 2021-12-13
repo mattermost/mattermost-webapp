@@ -174,6 +174,7 @@ export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, 
         return handleLeaveTeam(state, action);
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
     }
@@ -242,6 +243,7 @@ export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInT
         return handleLeaveTeam(state, action);
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
     case ThreadTypes.FOLLOW_CHANGED_THREAD:
