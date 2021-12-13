@@ -10,7 +10,6 @@ import {Elements} from '@stripe/react-stripe-js';
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
@@ -59,7 +58,7 @@ type Props = {
     customer: CloudCustomer | undefined;
     show: boolean;
     isDevMode: boolean;
-    products: Dictionary<Product> | undefined;
+    products: Record<string, Product> | undefined;
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
@@ -88,12 +87,12 @@ type State = {
 
 /**
  *
- * @param products  Dictionary<Product> | undefined - the list of current cloud products
+ * @param products  Record<string, Product> | undefined - the list of current cloud products
  * @param productId String - a valid product id used to find a particular product in the dictionary
  * @param productSku String - the sku value of the product of type either cloud-starter | cloud-professional | cloud-enterprise
  * @returns Product
  */
-function findProductInDictionary(products: Dictionary<Product> | undefined, productId?: string | null, productSku?: string): Product | null {
+function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string): Product | null {
     if (!products) {
         return null;
     }
@@ -119,7 +118,7 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
+function getSelectedProduct(products: Record<string, Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
 
     let nextSku = CloudProducts.PROFESSIONAL;

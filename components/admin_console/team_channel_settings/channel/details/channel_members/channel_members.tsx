@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
@@ -29,9 +27,9 @@ type Props = {
     filters: GetFilteredUsersStatsOpts;
 
     users: UserProfile[];
-    usersToRemove: Dictionary<UserProfile>;
-    usersToAdd: Dictionary<UserProfile>;
-    channelMembers: Dictionary<ChannelMembership>;
+    usersToRemove: Record<string, UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
+    channelMembers: Record<string, ChannelMembership>;
 
     totalCount: number;
     searchTerm: string;

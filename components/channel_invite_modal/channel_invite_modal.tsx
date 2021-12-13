@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -40,8 +40,8 @@ export type Props = {
     onAddCallback?: (userProfiles?: UserProfileValue[]) => void;
 
     // Dictionaries of userid mapped users to exclude or include from this list
-    excludeUsers?: Dictionary<UserProfileValue>;
-    includeUsers?: Dictionary<UserProfileValue>;
+    excludeUsers?: Record<string, UserProfileValue>;
+    includeUsers?: Record<string, UserProfileValue>;
 
     actions: {
         addUsersToChannel: (channelId: string, userIds: string[]) => Promise<ActionResult>;
