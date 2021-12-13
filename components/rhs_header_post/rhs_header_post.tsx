@@ -2,29 +2,28 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import FollowButton from 'components/threading/common/follow_button';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {isMobile} from 'utils/utils';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
+    isMobileView: boolean;
     rootPostId: string;
     previousRhsState?: string;
     relativeTeamUrl: string;
     channel: Channel;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
-    isMentionedInRootPost?: boolean;
     currentTeamId: string;
     currentUserId: string;
     setRhsExpanded: (b: boolean) => void;
@@ -60,7 +59,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
     }
 
     handleJumpClick = () => {
-        if (isMobile()) {
+        if (this.props.isMobileView) {
             this.props.closeRightHandSide();
         }
 
@@ -70,19 +69,13 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
     }
 
     handleFollowChange = () => {
-        const {currentTeamId, currentUserId, rootPostId, isFollowingThread, isMentionedInRootPost} = this.props;
-        let followingThread: boolean;
-        if (isFollowingThread === null) {
-            followingThread = !isMentionedInRootPost;
-        } else {
-            followingThread = !isFollowingThread;
-        }
-        this.props.setThreadFollow(currentUserId, currentTeamId, rootPostId, followingThread);
+        const {currentTeamId, currentUserId, rootPostId, isFollowingThread} = this.props;
+        this.props.setThreadFollow(currentUserId, currentTeamId, rootPostId, !isFollowingThread);
     }
 
     render() {
         let back;
-        const {isMentionedInRootPost, isFollowingThread} = this.props;
+        const {isFollowingThread} = this.props;
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
@@ -190,7 +183,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                     {this.props.isCollapsedThreadsEnabled ? (
                         <FollowButton
                             className='sidebar--right__follow__thread'
-                            isFollowing={isFollowingThread ?? isMentionedInRootPost}
+                            isFollowing={isFollowingThread}
                             onClick={this.handleFollowChange}
                         />
                     ) : null}

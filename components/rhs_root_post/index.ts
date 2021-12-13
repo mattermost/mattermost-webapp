@@ -17,6 +17,7 @@ import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_ac
 
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 import {FakePost} from 'types/store/rhs';
@@ -65,6 +66,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         recentEmojis: emojis,
         isExpanded: state.views.rhs.isSidebarExpanded,
         isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
+        isMobileView: getIsMobileView(state),
     };
 }
 

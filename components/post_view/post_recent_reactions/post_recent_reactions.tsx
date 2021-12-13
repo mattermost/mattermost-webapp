@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {Dispatch} from 'redux';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -10,6 +9,7 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 import {Locations} from 'utils/constants';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import EmojiItem from './recent_reactions_emoji_item';
 

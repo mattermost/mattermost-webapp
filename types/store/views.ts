@@ -12,12 +12,24 @@ import {RhsViewState} from './rhs';
 
 import {DraggingState} from '.';
 
+export type ModalFilters = {
+    roles?: string[];
+    channel_roles?: string[];
+    team_roles?: string[];
+};
+
 export type ViewsState = {
     admin: {
         navigationBlock: {
             blocked: boolean;
             onNavigationConfirmed: () => void;
             showNavigationPrompt: boolean;
+        };
+    };
+
+    announcementBar: {
+        announcementBarState: {
+            announcementBarCount: number;
         };
     };
 
@@ -45,6 +57,7 @@ export type ViewsState = {
         channelPrefetchStatus: {
             [channelId: string]: string;
         };
+        toastStatus: boolean;
     };
 
     rhs: RhsViewState;
@@ -78,6 +91,7 @@ export type ViewsState = {
 
     emoji: {
         emojiPickerCustomPage: 0;
+        shortcutReactToLastPostEmittedFrom: string;
     };
 
     i18n: I18nState;
@@ -88,11 +102,7 @@ export type ViewsState = {
 
     search: {
         modalSearch: string;
-        modalFilters: {
-            roles?: string[];
-            channel_roles?: string[];
-            team_roles?: string[];
-        };
+        modalFilters: ModalFilters;
         systemUsersSearch: {
             term: string;
             team: string;
@@ -125,11 +135,11 @@ export type ViewsState = {
     };
 
     system: {
-        websocketConnectErrorCount: number;
+        websocketConnectionErrorCount: number;
     };
 
     channelSelectorModal: {
-        channels: Channel[];
+        channels: string[];
     };
 
     settings: {
@@ -151,6 +161,7 @@ export type ViewsState = {
         newCategoryIds: string[];
         multiSelectedChannelIds: string[];
         lastSelectedChannel: string;
+        firstChannelName: string;
     };
 
     nextSteps: {
@@ -164,5 +175,12 @@ export type ViewsState = {
         lastViewedAt: {[id: string]: number};
         manuallyUnread: {[id: string]: boolean};
         toastStatus: boolean;
+    };
+
+    textbox: {
+        shouldShowPreviewOnCreateComment: boolean;
+        shouldShowPreviewOnCreatePost: boolean;
+        shouldShowPreviewOnEditChannelHeaderModal: boolean;
+        shouldShowPreviewOnEditPostModal: boolean;
     };
 };
