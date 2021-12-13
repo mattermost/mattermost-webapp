@@ -4,7 +4,6 @@
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import throttle from 'lodash/throttle';
 
@@ -144,9 +143,6 @@ export default class Root extends React.PureComponent {
                 e.stopPropagation();
             }
         });
-
-        // Fastclick
-        FastClick.attach(document.body);
 
         this.state = {
             configLoaded: false,
