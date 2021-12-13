@@ -686,6 +686,12 @@
                 margin: 8px 0 0;
 
                 &.scroll {
+                    .custom-textarea {
+                        overflow: auto;
+                        -webkit-overflow-scrolling: touch;
+                        -ms-overflow-style: auto;
+                    }
+
                     .post-body__actions {
                         right: 10px;
                     }
