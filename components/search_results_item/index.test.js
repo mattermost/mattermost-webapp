@@ -4,7 +4,7 @@
 import {General} from 'mattermost-redux/constants';
 import {mapStateToProps} from 'components/search_results_item';
 
-import {RHSStates} from 'utils/constants';
+import {RHSStates, WindowSizes} from 'utils/constants';
 
 describe('components/SearchResultsItem/WithStore', () => {
     const team = {
@@ -99,6 +99,9 @@ describe('components/SearchResultsItem/WithStore', () => {
             },
         },
         views: {
+            browser: {
+                windowSize: WindowSizes.DESKTOP_VIEW,
+            },
             rhs: {
                 rhsState: RHSStates.SEARCH,
             },
