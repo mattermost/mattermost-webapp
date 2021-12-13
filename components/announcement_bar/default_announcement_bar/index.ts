@@ -4,11 +4,11 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {incrementAnnouncementBarCount, decrementAnnouncementBarCount} from 'actions/views/announcement_bar';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
+import {GlobalState} from 'types/store';
 
 import AnnouncementBar from './announcement_bar';
 

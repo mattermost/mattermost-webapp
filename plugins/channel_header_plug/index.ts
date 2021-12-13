@@ -27,6 +27,7 @@ function mapStateToProps(state: GlobalState) {
         appsEnabled: apps,
         appBarEnabled: appBarEnabled(state),
         theme: getTheme(state),
+        sidebarOpen: state.views.rhs.isSidebarOpen,
     };
 }
 

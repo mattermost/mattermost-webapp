@@ -25,7 +25,7 @@ describe('components/next_steps_view/steps/team_profile_step', () => {
             setTeamIcon: jest.fn(),
         },
         isLastStep: false,
-        finishButtonText: {
+        completeStepButtonText: {
             id: 'tID',
             defaultMessage: 'defaultMessage',
         },

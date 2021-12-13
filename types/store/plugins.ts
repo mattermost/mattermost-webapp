@@ -41,11 +41,24 @@ export type PluginsState = {
     };
 };
 
+export type Menu = {
+    id: string;
+    parentMenuId?: string;
+    text?: React.ReactElement|string;
+    selectedValueText?: string;
+    subMenu?: Menu[];
+    filter?: (id?: string) => boolean;
+    action?: (...args: any) => void;
+    icon?: React.ReactElement;
+    direction?: 'left' | 'right';
+    isHeader?: boolean;
+}
+
 export type PluginComponent = {
     id: string;
     pluginId: string;
     component?: React.ComponentType;
-    subMenu?: any[]; // TODO Add more concrete type
+    subMenu?: Menu[];
     text?: string;
     dropdownText?: string;
     tooltipText?: string;
@@ -98,4 +111,5 @@ export type ProductComponent = {
     mainComponent: React.ComponentType;
     headerCentreComponent?: React.ComponentType;
     headerRightComponent?: React.ComponentType;
+    showTeamSidebar: boolean;
 };

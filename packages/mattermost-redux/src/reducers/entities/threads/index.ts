@@ -112,6 +112,7 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL: {
         if (!extra.threadsToDelete || extra.threadsToDelete.length === 0) {
             return state;
@@ -169,7 +170,10 @@ function reducer(state: ThreadsState = initialState, action: GenericAction): Thr
     };
 
     // acting as a 'middleware'
-    if (action.type === ChannelTypes.LEAVE_CHANNEL) {
+    if (
+        action.type === ChannelTypes.LEAVE_CHANNEL ||
+        action.type === ChannelTypes.RECEIVED_CHANNEL_DELETED
+    ) {
         if (!action.data.viewArchivedChannels) {
             extra.threadsToDelete = getThreadsOfChannel(state.threads, action.data.id);
         }

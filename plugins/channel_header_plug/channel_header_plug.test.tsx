@@ -28,6 +28,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
                 appBarEnabled={false}
+                sidebarOpen={false}
                 actions={{
                     doAppCall: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
@@ -48,6 +49,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
                 appBarEnabled={false}
+                sidebarOpen={false}
                 actions={{
                     doAppCall: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
@@ -84,6 +86,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
                 appBarEnabled={false}
+                sidebarOpen={false}
                 actions={{
                     doAppCall: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),

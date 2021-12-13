@@ -66,7 +66,6 @@ export default class ChannelController extends React.PureComponent<Props> {
                 <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': shouldShowAppBar})}>
                     <SidebarRight/>
                     <SidebarRightMenu/>
-                    <TeamSidebar/>
                     <Sidebar/>
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
