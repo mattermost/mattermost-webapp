@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -707,24 +708,27 @@ export default class EmojiPicker extends React.PureComponent {
             const emojis = this.getEmojisByCategory(category);
             const items = this.emojiCurrentResultsItems(i, emojis, numEmojisLoaded);
             numEmojisLoaded += items.length;
-            categoryComponents = [...categoryComponents, (
-                <EmojiPickerCategorySection
-                    key={category.id}
-                    categoryName={category.name}
-                    updateCategoryOffset={this.updateCategoryOffset}
-                    role='application'
-                >
-                    {items}
-                </EmojiPickerCategorySection>
-            )];
 
-            if (items.length === 0) {
-                return (
-                    <NoResultsIndicator
-                        variant={NoResultsVariant.ChannelSearch}
-                        titleValues={{channelName: `"${this.props.filter}"`}}
-                    />);
+            if (items.length > 0) {
+                categoryComponents = [...categoryComponents, (
+                    <EmojiPickerCategorySection
+                        key={category.id}
+                        categoryName={category.name}
+                        updateCategoryOffset={this.updateCategoryOffset}
+                        role='application'
+                    >
+                        {items}
+                    </EmojiPickerCategorySection>
+                )];
             }
+        }
+
+        if (categoryComponents.length === 0) {
+            return (
+                <NoResultsIndicator
+                    variant={NoResultsVariant.ChannelSearch}
+                    titleValues={{channelName: `"${this.props.filter}"`}}
+                />);
         }
 
         return (
