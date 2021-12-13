@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -10,6 +9,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {ModalData} from 'types/actions';
 

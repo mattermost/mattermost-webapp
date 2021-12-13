@@ -10,7 +10,6 @@ import {Link} from 'react-router-dom';
 
 import DelayedAction from 'utils/delayed_action';
 import Constants, {RHSStates} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import UserProfile from 'components/user_profile';
@@ -47,6 +46,7 @@ export default class RhsCard extends React.Component {
         pluginPostCardTypes: PropTypes.object,
         previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
         enablePostUsernameOverride: PropTypes.bool,
+        isMobileView: PropTypes.bool.isRequired,
         teamUrl: PropTypes.string,
     }
 
@@ -92,7 +92,7 @@ export default class RhsCard extends React.Component {
     }
 
     handleClick = () => {
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             GlobalActions.emitCloseRightHandSide();
         }
     };
