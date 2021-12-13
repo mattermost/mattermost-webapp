@@ -4,21 +4,18 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {appBarEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
-import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
-import {getChannelHeaderPluginComponents} from 'selectors/plugins';
+import {getAppBarPluginComponents} from 'selectors/plugins';
 
 import AppBarPluginComponent from './app_bar_plugin_component';
 import AppBarBinding from './app_bar_binding';
 
 import './app_bar.scss';
 
-const getChannelHeaderBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
-
 export default function AppBar() {
-    const channelHeaderPluginComponents = useSelector(getChannelHeaderPluginComponents);
-    const channelHeaderAppBindings = useSelector(getChannelHeaderBindings);
+    const appBarPluginComponents = useSelector(getAppBarPluginComponents);
+    const appBarBindings = useSelector(getAppBarAppBindings);
 
     const enabled = useSelector(appBarEnabled);
 
@@ -28,13 +25,13 @@ export default function AppBar() {
 
     return (
         <div className={'app-bar'}>
-            {channelHeaderPluginComponents.map((component) => (
+            {appBarPluginComponents.map((component) => (
                 <AppBarPluginComponent
                     key={component.id}
                     component={component}
                 />
             ))}
-            {channelHeaderAppBindings.map((binding) => (
+            {appBarBindings.map((binding) => (
                 <AppBarBinding
                     key={`${binding.app_id}_${binding.label}`}
                     binding={binding}

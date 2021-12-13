@@ -102,7 +102,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
 
     return (
         <OverlayTrigger
-            trigger={['hover']}
+            trigger={['hover', 'focus']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='left'
             overlay={tooltip}

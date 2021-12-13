@@ -1,8 +1,6 @@
 $app-bar-icon-size: 24px;
 $app-bar-width: 48px;
 $channel-view-padding: 63px;
-// We don't have control over the class names on the plugin channel header components, so we cast a net on the known variants.
-$app-bar-plugin-component: '.fa, i, svg';
 
 .app-bar-enabled .sidebar--right {
     @media screen and (min-width: 769px) {
@@ -55,7 +53,7 @@ $app-bar-plugin-component: '.fa, i, svg';
                 content: '';
             }
 
-            .app-bar__icon-inner, #{$app-bar-plugin-component} {
+            .app-bar__icon-inner, span {
                 outline: solid 2px var(--sidebar-text-active-border);
 
                 &:hover {
@@ -64,7 +62,7 @@ $app-bar-plugin-component: '.fa, i, svg';
             }
         }
 
-        .app-bar__icon-inner, #{$app-bar-plugin-component} {
+        .app-bar__icon-inner, span {
             display: block;
             overflow: hidden;
             width: $app-bar-icon-size;
@@ -84,8 +82,9 @@ $app-bar-plugin-component: '.fa, i, svg';
             }
         }
 
-        #{$app-bar-plugin-component} {
-            color: #3f4350;
+        span {
+            // color: #3f4350;
+            fill: var(--button-bg);
             font-size: 14px;
             line-height: 20px;
             vertical-align: middle;

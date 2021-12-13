@@ -10,7 +10,7 @@ import {ClientConfig} from 'mattermost-redux/types/config';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-import {getChannelHeaderPluginComponents} from 'selectors/plugins';
+import {getAppBarPluginComponents} from 'selectors/plugins';
 
 import {Locations} from 'utils/constants';
 import {PluginComponent} from 'types/store/plugins';
@@ -53,13 +53,37 @@ export const makeAppBindingsSelector = (location: string) => {
     );
 };
 
-const getChannelHeaderAppBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
+export const getChannelHeaderAppBindings = createSelector(
+    'getChannelHeaderAppBindings',
+    appBarEnabled,
+    makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON),
+    (enabled: boolean, channelHeaderBindings: AppBinding[]) => {
+        return enabled ? [] : channelHeaderBindings;
+    }
+);
+
+export const getAppBarAppBindings = createSelector(
+    'getAppBarAppBindings',
+    appBarEnabled,
+    makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON),
+    makeAppBindingsSelector(AppBindingLocations.APP_BAR),
+    (enabled: boolean, channelHeaderBindings: AppBinding[], appBarBindings: AppBinding[]) => {
+        if (!enabled) {
+            return [];
+        }
+
+        const appIds = appBarBindings.map((b) => b.app_id);
+        const backwardsCompatibleBindings = channelHeaderBindings.filter((b) => !appIds.includes(b.app_id));
+
+        return appBarBindings.concat(backwardsCompatibleBindings);
+    }
+);
 
 export const shouldShowAppBar = createSelector(
     'shouldShowAppBar',
     appBarEnabled,
     getChannelHeaderAppBindings,
-    getChannelHeaderPluginComponents,
+    getAppBarPluginComponents,
     (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
         return enabled && Boolean(bindings.length || pluginComponents.length);
     },
