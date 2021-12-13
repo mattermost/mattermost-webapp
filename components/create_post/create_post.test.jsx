@@ -5,8 +5,6 @@ import React from 'react';
 
 import CreatePost from 'components/create_post/create_post';
 
-import {Posts} from 'mattermost-redux/constants';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
@@ -14,7 +12,6 @@ import * as GlobalActions from 'actions/global_actions';
 import EmojiMap from 'utils/emoji_map';
 
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 
 import FileUpload from 'components/file_upload';
 import Textbox from 'components/textbox';
@@ -896,9 +893,8 @@ describe('components/create_post', () => {
             },
         }));
         const instance = wrapper.instance();
-        const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(openEditPostModal).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type, false);
+        expect(openEditPostModal).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', false);
     });
 
     it('Should call edit action as post for arrow up', () => {
@@ -915,9 +911,8 @@ describe('components/create_post', () => {
             currentUsersLatestPost: {id: 'b', channel_id: currentChannelProp.id},
         });
 
-        const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(openEditPostModal).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type, false);
+        expect(openEditPostModal).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', false);
     });
 
     it('Should call moveHistoryIndexForward as ctrlKey and down arrow', () => {
