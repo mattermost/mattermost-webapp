@@ -21,6 +21,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions.jsx';
+import {openEditPostModal} from 'actions/modals';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
@@ -243,7 +244,7 @@ export function makeOnEditLatestPost(rootId: string) {
             return {data: false};
         }
 
-        return dispatch(PostActions.openEditPostModal(
+        return dispatch(openEditPostModal(
             lastPost.id,
             'reply_textbox',
             true,
