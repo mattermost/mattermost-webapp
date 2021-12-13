@@ -53,7 +53,8 @@ $channel-view-padding: 63px;
                 content: '';
             }
 
-            .app-bar__icon-inner, span {
+            .app-bar__icon-inner,
+            span {
                 outline: solid 2px var(--sidebar-text-active-border);
 
                 &:hover {
@@ -62,7 +63,8 @@ $channel-view-padding: 63px;
             }
         }
 
-        .app-bar__icon-inner, span {
+        .app-bar__icon-inner,
+        span {
             display: block;
             overflow: hidden;
             width: $app-bar-icon-size;
@@ -89,7 +91,8 @@ $channel-view-padding: 63px;
             line-height: 20px;
             vertical-align: middle;
 
-            &.CompassIcon, &.icon-brand-zoom {
+            &.CompassIcon,
+            &.icon-brand-zoom {
                 font-size: 20px;
 
                 &::before {
