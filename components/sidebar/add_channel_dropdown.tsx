@@ -19,6 +19,7 @@ type Props = {
     intl: IntlShape;
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
+    userGroupsEnabled: boolean;
     showMoreChannelsModal: () => void;
     showCreateUserGroupModal: () => void;
     invitePeopleModal: () => void;

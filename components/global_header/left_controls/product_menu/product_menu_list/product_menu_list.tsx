@@ -37,6 +37,7 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
+    enableCustomUserGroups: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
@@ -59,6 +60,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         enablePluginMarketplace,
         onClick,
         isMobile = false,
+        enableCustomUserGroups,
     } = props;
     const {formatMessage} = useIntl();
 
@@ -121,6 +123,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
+                    show={enableCustomUserGroups}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,

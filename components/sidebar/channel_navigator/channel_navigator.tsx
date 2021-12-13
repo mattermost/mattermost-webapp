@@ -36,6 +36,7 @@ export type Props = {
     offTopicDisplayName: string;
     showTutorialTip: boolean;
     isQuickSwitcherOpen: boolean;
+    userGroupsEnabled: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
@@ -131,6 +132,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                     offTopicDisplayName={this.props.offTopicDisplayName}
                     showTutorialTip={this.props.showTutorialTip}
                     addChannelButton={this.props.addChannelButton}
+                    userGroupsEnabled={this.props.userGroupsEnabled}
                 />
             );
         }

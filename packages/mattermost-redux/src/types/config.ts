@@ -57,6 +57,7 @@ export type ClientConfig = {
     EnableConfirmNotificationsToChannel: string;
     EnableCustomBrand: string;
     EnableCustomEmoji: string;
+    EnableCustomGroups: string;
     EnableCustomUserStatuses: string;
     EnableTimedDND: string;
     EnableCustomTermsOfService: string;

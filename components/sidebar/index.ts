@@ -8,7 +8,7 @@ import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import {Preferences} from 'mattermost-redux/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -26,6 +26,7 @@ import Sidebar from './sidebar';
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
     const unreadFilterEnabled = isUnreadFilterEnabled(state);
+    const userGroupsEnabled = isCustomGroupsEnabled(state);
 
     let canCreatePublicChannel = false;
     let canCreatePrivateChannel = false;
@@ -51,6 +52,7 @@ function mapStateToProps(state: GlobalState) {
         isCloud: getLicense(state).Cloud === 'true',
         unreadFilterEnabled,
         isMobileView: getIsMobileView(state),
+        userGroupsEnabled,
     };
 }
 

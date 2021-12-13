@@ -105,6 +105,7 @@ export type Props = {
     canJoinPublicChannel: boolean;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
+    userGroupsEnabled: boolean;
 }
 
 const noop = () => {};
@@ -159,6 +160,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 offTopicDisplayName={offTopicDisplayName}
                 showTutorialTip={showAddChannelTip}
                 addChannelButton={addChannelButton}
+                userGroupsEnabled={props.userGroupsEnabled}
             />
         );
     }

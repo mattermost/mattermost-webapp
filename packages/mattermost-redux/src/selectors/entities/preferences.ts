@@ -223,3 +223,11 @@ export function getAddMembersToChannel(state: GlobalState): AddMembersToChannelt
 export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
     return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
 }
+
+export function isCustomGroupsEnabled(state: GlobalState): boolean {
+    return (
+        getFeatureFlagValue(state, 'CustomGroups') === 'true' &&
+        getConfig(state).EnableCustomGroups !== 'false'
+        // Check License here
+    );
+}

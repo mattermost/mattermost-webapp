@@ -44,6 +44,7 @@ type Props = {
     isCloud: boolean;
     unreadFilterEnabled: boolean;
     isMobileView: boolean;
+    userGroupsEnabled: boolean;
 };
 
 type State = {
@@ -219,6 +220,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
                         handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        userGroupsEnabled={this.props.userGroupsEnabled}
                     />
                 )}
                 <div
@@ -238,6 +240,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
                         handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        userGroupsEnabled={this.props.userGroupsEnabled}
                     />
                 </div>
                 <div className='sidebar--left__icons'>
