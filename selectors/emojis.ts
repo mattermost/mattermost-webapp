@@ -31,7 +31,7 @@ export const getRecentEmojis = createSelector(
     (state: GlobalState) => state.storage,
     getCurrentUserId,
     (storage, currentUserId) => {
-        const recentEmojis = LocalStorageStore.getRecentEmojis(currentUserId) ||
+        const recentEmojis: string[] = LocalStorageStore.getRecentEmojis(currentUserId) ||
             JSON.parse(getItemFromStorage(storage.storage, Constants.RECENT_EMOJI_KEY, null)); // Prior to release v5.9, recent emojis were saved as object in localforage.
 
         if (!recentEmojis) {
@@ -54,10 +54,7 @@ export function isCustomEmojiEnabled(state: GlobalState) {
 export const getOneClickReactionEmojis = (state: GlobalState) => {
     const recentEmojis = getRecentEmojis(state).slice(-3);
     const emojiMap = getEmojiMap(state);
-    const emojis = [];
-    for (let i = 0; i < recentEmojis.length; i++) {
-        emojis.push(emojiMap.get(recentEmojis[i]));
-    }
 
-    return emojis.reverse();
+    const emojis = recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).reverse();
+    return emojis;
 };
