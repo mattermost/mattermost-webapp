@@ -4,7 +4,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {getAppBarAppBindings, shouldShowAppBar} from 'mattermost-redux/selectors/entities/apps';
 
 import {getAppBarPluginComponents} from 'selectors/plugins';
 
@@ -17,7 +17,7 @@ export default function AppBar() {
     const appBarPluginComponents = useSelector(getAppBarPluginComponents);
     const appBarBindings = useSelector(getAppBarAppBindings);
 
-    const enabled = useSelector(appBarEnabled);
+    const enabled = useSelector(shouldShowAppBar);
 
     if (!enabled) {
         return null;

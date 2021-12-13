@@ -59,7 +59,7 @@ export const getChannelHeaderAppBindings = createSelector(
     makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON),
     (enabled: boolean, channelHeaderBindings: AppBinding[]) => {
         return enabled ? [] : channelHeaderBindings;
-    }
+    },
 );
 
 export const getAppBarAppBindings = createSelector(
@@ -76,13 +76,13 @@ export const getAppBarAppBindings = createSelector(
         const backwardsCompatibleBindings = channelHeaderBindings.filter((b) => !appIds.includes(b.app_id));
 
         return appBarBindings.concat(backwardsCompatibleBindings);
-    }
+    },
 );
 
 export const shouldShowAppBar = createSelector(
     'shouldShowAppBar',
     appBarEnabled,
-    getChannelHeaderAppBindings,
+    getAppBarAppBindings,
     getAppBarPluginComponents,
     (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
         return enabled && Boolean(bindings.length || pluginComponents.length);
