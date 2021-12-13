@@ -179,7 +179,7 @@ const initialComponents: PluginsState['components'] = {
     PostDropdownMenu: [],
     Product: [],
     RightHandSidebarComponent: [],
-}
+};
 
 function components(state: PluginsState['components'] = initialComponents, action: GenericAction) {
     switch (action.type) {
