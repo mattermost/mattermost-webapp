@@ -11,6 +11,8 @@ import {mockStore} from 'tests/test_store';
 
 import FollowButton from 'components/threading/common/follow_button';
 
+import {WindowSizes} from 'utils/constants';
+
 import RhsHeaderPost from './index';
 
 describe('rhs_header_post', () => {
@@ -74,6 +76,9 @@ describe('rhs_header_post', () => {
         views: {
             rhs: {
                 isSidebarExpanded: false,
+            },
+            browser: {
+                windowSize: WindowSizes.DESKTOP_VIEW,
             },
         },
     };
