@@ -4236,6 +4236,7 @@
   "start_trial.modal.loading": "Loading...",
   "status_dropdown.dnd_sub_menu_header": "Clear after:",
   "status_dropdown.dnd_sub_menu_item.custom": "Custom",
+  "status_dropdown.dnd_sub_menu_item.dont_clear": "Don't clear",
   "status_dropdown.dnd_sub_menu_item.one_hour": "1 hour",
   "status_dropdown.dnd_sub_menu_item.thirty_minutes": "30 mins",
   "status_dropdown.dnd_sub_menu_item.tomorrow": "Tomorrow",
