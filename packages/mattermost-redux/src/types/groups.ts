@@ -3,7 +3,7 @@
 
 import {UserProfile} from './users';
 
-import {Dictionary, RelationOneToOne} from './utilities';
+import {RelationOneToOne} from './utilities';
 
 export type SyncableType = 'team' | 'channel';
 
@@ -82,9 +82,9 @@ export type GroupSyncablesState = {
 };
 
 export type GroupsState = {
-    syncables: Dictionary<GroupSyncablesState>;
+    syncables: Record<string, GroupSyncablesState>;
     stats: RelationOneToOne<Group, GroupStats>;
-    groups: Dictionary<Group>;
+    groups: Record<string, Group>;
     myGroups: string[];
 };
 

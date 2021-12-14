@@ -11,10 +11,11 @@ import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-b
 
 import {Dispatch} from 'redux';
 
+import {RouteComponentProps} from 'react-router-dom';
+
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -23,15 +24,20 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
-import Pluggable from 'plugins/pluggable';
 
 import {ThreadsState} from 'mattermost-redux/types/threads';
+
+import {ProductComponent} from '../../types/store/plugins';
+
+import Pluggable from '../../plugins/pluggable';
+
+import {getCurrentProduct} from '../../selectors/products';
 
 import TeamButton from './components/team_button';
 
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
-    switchTeam: (url: string) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
+    switchTeam: (url: string, team?: Team) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
     updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
 }
 
@@ -40,19 +46,20 @@ type State = {
     teamsOrder: Team[];
 }
 
-interface Props {
+export interface Props {
     myTeams: Team[];
     collapsedThreads: boolean;
     currentTeamId: string;
-    match: { url: string };
     moreTeamsToJoin: boolean;
-    myTeamMembers: Dictionary<TeamMembership>;
+    myTeamMembers: Record<string, TeamMembership>;
     isOpen: boolean;
     experimentalPrimaryTeam?: string ;
     locale: string;
     actions: Actions;
     userTeamsOrderPreference: string;
     threadCounts: ThreadsState['counts'];
+    products: ProductComponent[];
+    location: RouteComponentProps['location'];
 }
 
 export function renderView(props: Props) {
@@ -222,6 +229,11 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
+        const currentProduct = getCurrentProduct(this.props.products, this.props.location.pathname);
+        if (currentProduct && !currentProduct.showTeamSidebar) {
+            return null;
+        }
+
         const teams = sortedTeams.map((team: Team, index: number) => {
             const member = this.props.myTeamMembers[team.id];
             return (
@@ -236,7 +248,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     showOrder={this.state.showOrder}
                     mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
-                    switchTeam={this.props.actions.switchTeam}
+                    switchTeam={(url: string) => this.props.actions.switchTeam(url, currentProduct ? team : undefined)}
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}

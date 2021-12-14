@@ -218,6 +218,23 @@ const values = {
     SYSCONSOLE_READ_EXPERIMENTAL_BLEVE: 'sysconsole_read_experimental_bleve',
     SYSCONSOLE_WRITE_EXPERIMENTAL_BLEVE: 'sysconsole_write_experimental_bleve',
 
+    PLAYBOOK_PUBLIC_CREATE: 'playbook_public_create',
+    PLAYBOOK_PUBLIC_MANAGE_PROPERTIES: 'playbook_public_manage_properties',
+    PLAYBOOK_PUBLIC_MANAGE_MEMBERS: 'playbook_public_manage_members',
+    PLAYBOOK_PUBLIC_VIEW: 'playbook_public_view',
+    PLAYBOOK_PUBLIC_MAKE_PRIVATE: 'playbook_public_make_private',
+
+    PLAYBOOK_PRIVATE_CREATE: 'playbook_private_create',
+    PLAYBOOK_PRIVATE_MANAGE_PROPERTIES: 'playbook_private_manage_properties',
+    PLAYBOOK_PRIVATE_MANAGE_MEMBERS: 'playbook_private_manage_members',
+    PLAYBOOK_PRIVATE_VIEW: 'playbook_private_view',
+    PLAYBOOK_PRIVATE_MAKE_PUBLIC: 'playbook_private_make_public',
+
+    RUN_CREATE: 'run_create',
+    RUN_MANAGE_PROPERTIES: 'run_manage_properties',
+    RUN_MANAGE_MEMBERS: 'run_manage_members',
+    RUN_VIEW: 'run_view',
+
     CHANNEL_MODERATED_PERMISSIONS: {
         CREATE_POST: 'create_post',
         CREATE_REACTIONS: 'create_reactions',

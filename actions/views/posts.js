@@ -24,11 +24,13 @@ export function selectAttachmentMenuAction(postId, actionId, cookie, dataSource,
     return async (dispatch) => {
         dispatch({
             type: ActionTypes.SELECT_ATTACHMENT_MENU_ACTION,
-            postId,
             data: {
-                [actionId]: {
-                    text,
-                    value,
+                postId,
+                actions: {
+                    [actionId]: {
+                        text,
+                        value,
+                    },
                 },
             },
         });

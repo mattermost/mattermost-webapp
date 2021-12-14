@@ -104,7 +104,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from 'mattermost-redux/types/users';
-import {$ID, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ProductNotices} from 'mattermost-redux/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -149,6 +149,7 @@ export default class Client4 {
     userId = '';
     diagnosticId = '';
     includeCookies = true;
+    setAuthHeader = true;
     translations = {
         connectionError: 'There appears to be a problem with your internet connection.',
         unknownError: 'We received an unexpected status code from the server.',
@@ -452,7 +453,7 @@ export default class Client4 {
             ...this.defaultHeaders,
         };
 
-        if (this.token) {
+        if (this.setAuthHeader && this.token) {
             headers[HEADER_AUTH] = `${HEADER_BEARER} ${this.token}`;
         }
 
@@ -592,7 +593,7 @@ export default class Client4 {
     getKnownUsers = () => {
         this.trackEvent('api', 'api_get_known_users');
 
-        return this.doFetch<Array<$ID<UserProfile>>>(
+        return this.doFetch<Array<UserProfile['id']>>(
             `${this.getUsersRoute()}/known`,
             {method: 'get'},
         );
@@ -682,7 +683,7 @@ export default class Client4 {
         );
     }
 
-    login = (loginId: string, password: string, token = '', deviceId = '', ldapOnly = false) => {
+    login = async (loginId: string, password: string, token = '', deviceId = '', ldapOnly = false) => {
         this.trackEvent('api', 'api_users_login');
 
         if (ldapOnly) {
@@ -700,10 +701,19 @@ export default class Client4 {
             body.ldap_only = 'true';
         }
 
-        return this.doFetch<UserProfile>(
+        const {
+            data: profile,
+            headers,
+        } = await this.doFetchWithResponse<UserProfile>(
             `${this.getUsersRoute()}/login`,
             {method: 'post', body: JSON.stringify(body)},
         );
+
+        if (headers.has('Token')) {
+            this.setToken(headers.get('Token')!);
+        }
+
+        return profile;
     };
 
     loginById = (id: string, password: string, token = '', deviceId = '') => {
@@ -1945,8 +1955,8 @@ export default class Client4 {
     };
 
     getUserThreads = (
-        userId: $ID<UserProfile> = 'me',
-        teamId: $ID<Team>,
+        userId: UserProfile['id'] = 'me',
+        teamId: Team['id'],
         {
             before = '',
             after = '',

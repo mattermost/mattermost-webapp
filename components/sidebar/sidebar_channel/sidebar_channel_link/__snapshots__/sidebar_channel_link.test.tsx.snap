@@ -228,9 +228,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       onEntering={[Function]}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="channel-displayname__tooltip"
-          placement="right"
         >
           channel_label
         </Tooltip>

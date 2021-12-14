@@ -62,6 +62,7 @@ describe('components/RhsRootPost', () => {
         },
         emojiMap: new EmojiMap(new Map()),
         collapsedThreadsEnabled: false,
+        isMobileView: false,
     };
 
     test('should match snapshot', () => {

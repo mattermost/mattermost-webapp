@@ -9,7 +9,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {AdminConfig} from 'mattermost-redux/types/config';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ServerError} from 'mattermost-redux/types/errors';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {Bot} from 'mattermost-redux/types/bots';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
@@ -37,7 +36,7 @@ export type Props = {
     index: number;
     totalUsers: number;
     config: DeepPartial<AdminConfig>;
-    bots: Dictionary<Bot>;
+    bots: Record<string, Bot>;
     isLicensed: boolean;
     isDisabled: boolean;
     actions: {

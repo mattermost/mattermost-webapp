@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {createSelector} from 'reselect';
 
 import {Group} from 'mattermost-redux/types/groups';
@@ -7,10 +8,7 @@ import {filterGroupsMatchingTerm, sortGroups} from 'mattermost-redux/utils/group
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
-
 import {GlobalState} from 'mattermost-redux/types/store';
-
-import {Dictionary, NameMappedObjects} from 'mattermost-redux/types/utilities';
 
 import {getCurrentUserLocale} from './i18n';
 
@@ -20,7 +18,7 @@ const emptySyncables = {
     channels: [],
 };
 
-function getGroupInfoForIds(groupsSet: Dictionary<Group>, groupIds: string[]) {
+function getGroupInfoForIds(groupsSet: Record<string, Group>, groupIds: string[]) {
     const groups: Group[] = [];
 
     for (let i = 0; i < groupIds.length; i++) {
@@ -67,11 +65,11 @@ export function getGroupChannels(state: GlobalState, id: string) {
     return getGroupSyncables(state, id).channels;
 }
 
-export const getAssociatedGroupsByName: (state: GlobalState, teamID: string, channelId: string) => NameMappedObjects<Group> = createSelector(
+export const getAssociatedGroupsByName: (state: GlobalState, teamID: string, channelId: string) => Record<string, Group> = createSelector(
     'getAssociatedGroupsByName',
     getAssociatedGroupsForReference,
     (groups) => {
-        const groupsByName: Dictionary<Group> = {};
+        const groupsByName: Record<string, Group> = {};
 
         for (const id in groups) {
             if (groups.hasOwnProperty(id)) {
@@ -217,11 +215,11 @@ export const getAllAssociatedGroupsForReference: (state: GlobalState) => Group[]
     },
 );
 
-export const getAllGroupsForReferenceByName: (state: GlobalState) => NameMappedObjects<Group> = createSelector(
+export const getAllGroupsForReferenceByName: (state: GlobalState) => Record<string, Group> = createSelector(
     'getAllGroupsForReferenceByName',
     getAllAssociatedGroupsForReference,
     (groups) => {
-        const groupsByName: Dictionary<Group> = {};
+        const groupsByName: Record<string, Group> = {};
 
         for (const id in groups) {
             if (groups.hasOwnProperty(id)) {
