@@ -4,19 +4,18 @@
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
@@ -123,7 +122,7 @@ type Props = {
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;

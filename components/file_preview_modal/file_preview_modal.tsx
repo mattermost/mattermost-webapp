@@ -28,7 +28,7 @@ const PDFPreview = React.lazy(() => import('components/pdf_preview'));
 
 const KeyCodes = Constants.KeyCodes;
 
-type Props = {
+export type Props = {
     canDownloadFiles: boolean;
     enablePublicLink: boolean;
 

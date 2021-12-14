@@ -109,4 +109,5 @@ export type ProductComponent = {
     mainComponent: React.ComponentType;
     headerCentreComponent?: React.ComponentType;
     headerRightComponent?: React.ComponentType;
+    showTeamSidebar: boolean;
 };

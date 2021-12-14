@@ -32,9 +32,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
               delayShow={400}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="urlTooltip"
-                  placement="right"
                 >
                   http://localhost:8065/
                 </Tooltip>

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useEffect, useState} from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -11,6 +10,7 @@ import {getFilePublicLink as selectFilePublicLink} from 'mattermost-redux/select
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {GlobalState} from 'types/store';
 

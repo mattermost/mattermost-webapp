@@ -9,7 +9,6 @@ import {useDispatch} from 'react-redux';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
@@ -34,7 +33,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 export type OwnProps = {
     isSelected: boolean;
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     style?: any;
 };
 

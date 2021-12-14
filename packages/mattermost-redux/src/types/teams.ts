@@ -3,7 +3,7 @@
 
 import {ServerError} from './errors';
 import {UserProfile} from './users';
-import {Dictionary, RelationOneToOne} from './utilities';
+import {RelationOneToOne} from './utilities';
 
 export type TeamMembership = TeamUnread & {
     user_id: string;
@@ -43,8 +43,8 @@ export type Team = {
 
 export type TeamsState = {
     currentTeamId: string;
-    teams: Dictionary<Team>;
-    myMembers: Dictionary<TeamMembership>;
+    teams: Record<string, Team>;
+    myMembers: Record<string, TeamMembership>;
     membersInTeam: RelationOneToOne<Team, RelationOneToOne<UserProfile, TeamMembership>>;
     stats: RelationOneToOne<Team, TeamStats>;
     groupsAssociatedToTeam: any;

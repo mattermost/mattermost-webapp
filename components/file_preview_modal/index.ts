@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeAsyncComponent} from 'components/async_load';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -15,7 +17,9 @@ import {FilePreviewComponent} from 'types/store/plugins';
 
 import {canDownloadFiles} from 'utils/file_utils';
 
-import FilePreviewModal from './file_preview_modal';
+import type {Props} from './file_preview_modal';
+
+const FilePreviewModal = makeAsyncComponent('FilePreviewModal', React.lazy<React.ComponentType<Props>>(() => import('./file_preview_modal')));
 
 type OwnProps = {
     post?: Post;
