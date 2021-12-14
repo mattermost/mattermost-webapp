@@ -17,6 +17,7 @@ exports[`components/sidebar should match snapshot 1`] = `
     showMoreChannelsModal={[Function]}
     showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
+    userGroupsEnabled={false}
   />
   <div
     aria-label="channel navigator region"
@@ -35,6 +36,7 @@ exports[`components/sidebar should match snapshot 1`] = `
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
       unreadFilterEnabled={false}
+      userGroupsEnabled={false}
     />
   </div>
   <div
@@ -69,6 +71,7 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     showMoreChannelsModal={[Function]}
     showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
+    userGroupsEnabled={false}
   />
   <div
     aria-label="channel navigator region"
@@ -87,6 +90,7 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
       unreadFilterEnabled={false}
+      userGroupsEnabled={false}
     />
   </div>
   <div
@@ -125,6 +129,7 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     showMoreChannelsModal={[Function]}
     showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
+    userGroupsEnabled={false}
   />
   <div
     aria-label="channel navigator region"
@@ -143,6 +148,7 @@ exports[`components/sidebar should match snapshot when more channels modal is op
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
       unreadFilterEnabled={false}
+      userGroupsEnabled={false}
     />
   </div>
   <div
