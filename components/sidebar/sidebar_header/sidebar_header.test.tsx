@@ -46,6 +46,7 @@ describe('Components/SidebarHeader', () => {
             handleOpenDirectMessagesModal: jest.fn(),
             unreadFilterEnabled: true,
             showCreateUserGroupModal: jest.fn(),
+            userGroupsEnabled: false,
         };
     });
 

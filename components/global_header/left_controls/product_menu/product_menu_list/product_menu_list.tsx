@@ -37,7 +37,7 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
-    enableCustomUserGroups: boolean;
+    enableCustomUserGroups?: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
