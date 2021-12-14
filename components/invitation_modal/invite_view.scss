@@ -1,3 +1,10 @@
+// MM-40611 workaround to not show outline on Microsoft browsers
+// had to be this specific, i.e. `button.InviteView__copyLink:focus`
+// does not work
+button.btn.btn-cancel.InviteView__copyLink:focus {
+    outline: none;
+}
+
 .InviteView {
     &__sectionTitle {
         padding-top: 16px;
@@ -15,6 +22,10 @@
 
         &:active {
             box-shadow: none;
+        }
+
+        &:focus {
+            outline: none;
         }
 
         &.btn.btn-cancel {
