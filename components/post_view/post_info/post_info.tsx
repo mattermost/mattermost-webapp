@@ -125,7 +125,7 @@ type Props = {
     };
 
     editingPost?: {
-        post?: Post;
+        post: Post | null;
         postId?: string;
         refocusId?: string;
         title?: string;

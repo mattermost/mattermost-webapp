@@ -57,7 +57,7 @@ export type Props = {
     maxPostSize: number;
     useChannelMentions: boolean;
     editingPost: {
-        post?: Post;
+        post: Post | null;
         postId?: string;
         refocusId?: string;
         title?: string;
