@@ -5,12 +5,11 @@ import {combineReducers} from 'redux';
 
 import {General} from 'mattermost-redux/constants';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {StorageTypes} from 'utils/constants';
 
-function storage(state: Dictionary<any> = {}, action: GenericAction) {
+function storage(state: Record<string, any> = {}, action: GenericAction) {
     switch (action.type) {
     case StorageTypes.SET_ITEM: {
         if (!state[action.data.prefix + action.data.name] ||
@@ -51,7 +50,7 @@ function storage(state: Dictionary<any> = {}, action: GenericAction) {
         return nextState;
     }
     case StorageTypes.CLEAR: {
-        const cleanState: Dictionary<any> = {};
+        const cleanState: Record<string, any> = {};
         if (action.data && action.data.exclude && action.data.exclude.forEach) {
             action.data.exclude.forEach((excluded: any) => {
                 if (state[excluded]) {

@@ -27,7 +27,6 @@ import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {ModalData} from 'types/actions';
 
@@ -77,7 +76,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
         modalState: {
             [modalId: string]: {
                 open: boolean;
-                dialogProps: Dictionary<any>;
+                dialogProps: Record<string, any>;
                 dialogType: React.ComponentType;
             };
         };

@@ -5,8 +5,6 @@ import shallowEqual from 'shallow-equals';
 
 import * as reselect from 'reselect';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function memoizeResult<F extends Function>(func: F, measure: Function | undefined = undefined): F {
     let lastArgs: IArguments|null = null;
@@ -112,7 +110,7 @@ export function isEmail(email: string): boolean {
     return (/^[^ ,@]+@[^ ,@]+$/).test(email);
 }
 
-export function buildQueryString(parameters: Dictionary<any>): string {
+export function buildQueryString(parameters: Record<string, any>): string {
     const keys = Object.keys(parameters);
     if (keys.length === 0) {
         return '';
