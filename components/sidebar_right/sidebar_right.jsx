@@ -77,7 +77,11 @@ export default class SidebarRight extends React.PureComponent {
             if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
                 if (this.props.isOpen) {
-                    this.props.actions.setRhsExpanded(true);
+                    if (this.props.isExpanded) {
+                        this.props.actions.setRhsExpanded(false);
+                    } else {
+                        this.props.actions.setRhsExpanded(true);
+                    }
                 } else {
                     this.props.actions.openAtPrevious(this.previous);
                 }
