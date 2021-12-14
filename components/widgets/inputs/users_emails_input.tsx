@@ -53,6 +53,8 @@ type Props = {
     loadingMessageDefault?: string;
     emailInvitationsEnabled: boolean;
     extraErrorText?: React.ReactNode;
+    didMountCallback?: () => void;
+    autoFocus?: boolean;
 }
 
 export type EmailInvite = {
@@ -300,6 +302,10 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         }
     }
 
+    componentDidMount() {
+        this.props.didMountCallback?.();
+    }
+
     render() {
         const values: Array<UserProfile | EmailInvite> = this.props.value.map((v) => {
             if ((v as UserProfile).id) {
@@ -339,6 +345,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                     tabSelectsValue={true}
                     value={values}
                     aria-label={this.props.ariaLabel}
+                    autoFocus={this.props.autoFocus}
                 />
                 {this.props.showError && (
                     <div className='InputErrorBox'>
