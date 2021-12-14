@@ -12,10 +12,10 @@ import {StoragePrefixes} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 
-export function getIsPostBeingEdited(state, postId) {
+export function getIsPostBeingEdited(state: GlobalState, postId: string) {
     return state.views.posts.editingPost.postId === postId;
 }
-export function getIsPostBeingEditedInRHS(state, postId) {
+export function getIsPostBeingEditedInRHS(state: GlobalState, postId: string) {
     const editingPost = getEditingPost(state);
 
     return editingPost.isRHS && editingPost.postId === postId;
