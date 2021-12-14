@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -40,8 +40,8 @@ export type Props = {
     searchOptions?: any;
 
     // Dictionaries of userid mapped users to exclude or include from this list
-    excludeUsers?: Dictionary<UserProfileValue>;
-    includeUsers?: Dictionary<UserProfileValue>;
+    excludeUsers?: Record<string, UserProfileValue>;
+    includeUsers?: Record<string, UserProfileValue>;
 
     profiles: UserProfileValue[];
 
