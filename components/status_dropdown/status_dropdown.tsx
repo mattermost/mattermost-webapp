@@ -9,7 +9,7 @@ import {TUserStatus} from '@mattermost/compass-components/shared';
 import classNames from 'classnames';
 
 import React, {ReactNode} from 'react';
-
+import moment from 'moment-timezone';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -67,6 +67,7 @@ type State = {
 
 export default class StatusDropdown extends React.PureComponent<Props, State> {
     dndTimes = [
+        {id: 'dont_clear', label: t('status_dropdown.dnd_sub_menu_item.dont_clear'), labelDefault: 'Don\'t clear'},
         {id: 'thirty_minutes', label: t('status_dropdown.dnd_sub_menu_item.thirty_minutes'), labelDefault: '30 mins'},
         {id: 'one_hour', label: t('status_dropdown.dnd_sub_menu_item.one_hour'), labelDefault: '1 hour'},
         {id: 'two_hours', label: t('status_dropdown.dnd_sub_menu_item.two_hours'), labelDefault: '2 hours'},
@@ -121,18 +122,22 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         let endTime = currentDate;
         switch (index) {
         case 0:
+            // Don't clear
+            endTime = moment(0);
+            break;
+        case 1:
             // add 30 minutes in current time
             endTime = currentDate.add(30, 'minutes');
             break;
-        case 1:
+        case 2:
             // add 1 hour in current time
             endTime = currentDate.add(1, 'hour');
             break;
-        case 2:
+        case 3:
             // add 2 hours in current time
             endTime = currentDate.add(2, 'hours');
             break;
-        case 3:
+        case 4:
             // add one day in current date
             endTime = currentDate.add(1, 'day');
             break;
@@ -319,7 +324,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         ].concat(
             this.dndTimes.map(({id, label, labelDefault}, index) => {
                 let text: React.ReactNode = localizeMessage(label, labelDefault);
-                if (index === 3) {
+                if (index === 4) {
                     const tomorrow = getCurrentMomentForTimezone(this.props.timezone).add(1, 'day').toDate();
                     text = (
                         <>
@@ -344,7 +349,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     direction: 'right',
                     text,
                     action:
-                        index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
+                        index === 5 ? () => setCustomTimedDnd() : () => setDnd(index),
                 } as any;
             }),
         );

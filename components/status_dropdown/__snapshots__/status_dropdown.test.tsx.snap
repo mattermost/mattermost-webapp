@@ -107,6 +107,12 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             Object {
               "action": [Function],
               "direction": "right",
+              "id": "dndTime-dont_clear",
+              "text": "Don't clear",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
               "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
@@ -371,6 +377,12 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
             Object {
               "action": [Function],
               "direction": "right",
+              "id": "dndTime-dont_clear",
+              "text": "Don't clear",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
               "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
@@ -619,6 +631,12 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
             Object {
               "action": [Function],
               "direction": "right",
+              "id": "dndTime-dont_clear",
+              "text": "Don't clear",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
               "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
@@ -863,6 +881,12 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
               "id": "dndSubMenu-header",
               "isHeader": true,
               "text": "Clear after:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-dont_clear",
+              "text": "Don't clear",
             },
             Object {
               "action": [Function],
@@ -1116,6 +1140,12 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             Object {
               "action": [Function],
               "direction": "right",
+              "id": "dndTime-dont_clear",
+              "text": "Don't clear",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
               "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
@@ -1341,6 +1371,12 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             Object {
               "action": [Function],
               "direction": "right",
+              "id": "dndTime-dont_clear",
+              "text": "Don't clear",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
               "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
@@ -1558,6 +1594,12 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
               "id": "dndSubMenu-header",
               "isHeader": true,
               "text": "Clear after:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-dont_clear",
+              "text": "Don't clear",
             },
             Object {
               "action": [Function],
