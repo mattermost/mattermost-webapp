@@ -53,7 +53,6 @@ type Props = {
     loadingMessageDefault?: string;
     emailInvitationsEnabled: boolean;
     extraErrorText?: React.ReactNode;
-    didMountCallback?: () => void;
     autoFocus?: boolean;
 }
 
@@ -300,10 +299,6 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         if (this.props.onBlur) {
             this.props.onBlur();
         }
-    }
-
-    componentDidMount() {
-        this.props.didMountCallback?.();
     }
 
     render() {
