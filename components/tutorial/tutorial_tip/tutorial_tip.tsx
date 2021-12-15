@@ -5,14 +5,18 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import Constants from 'utils/constants';
+
+import Constants, {RecommendedNextSteps} from 'utils/constants';
 import {t} from 'utils/i18n';
+
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
 import * as Utils from 'utils/utils';
 
-import TutorialTipBackdrop, {TutorialTipPunchout} from './tutorial_tip_backdrop';
+import TutorialTipBackdrop, {Coords, TutorialTipPunchout} from './tutorial_tip_backdrop';
 
 const Preferences = Constants.Preferences;
 const OnBoardingTutorialStep = Constants.TutorialSteps;
@@ -56,9 +60,12 @@ type Props = {
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
+        setFirstChannelName: (channelName: string) => (dispatch: DispatchFunc) => void;
     };
     autoTour: boolean;
+    firstChannelName: string | undefined;
     punchOut?: TutorialTipPunchout | null;
+    pulsatingDotPosition?: Coords | undefined;
 }
 
 type State = {
@@ -132,11 +139,12 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private autoShow(couldAutoShow: boolean) {
+        const {autoTour, currentStep, step, firstChannelName} = this.props;
         if (!couldAutoShow) {
             return;
         }
-        const canShow = this.props.autoTour && !this.state.hasShown && this.props.currentStep === this.props.step;
-        if (canShow) {
+        const isShowable = firstChannelName || (autoTour && !this.state.hasShown && this.props.currentStep === this.props.step);
+        if (isShowable) {
             // POST_POPOVER is the only tip that is not automatically rendered if it is the currentStep.
             // This is because tips and next steps may display.
             // It can further happen that the post popover gets the first chance to display,
@@ -155,7 +163,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     private handleSavePreferences = (autoTour: boolean, isNextStep?: boolean, isPrevStep?: boolean, jumpToStep?: number): void => {
         const {currentUserId, tutorialCategory, actions, singleTip} = this.props;
-        const {closeRhsMenu, savePreferences} = actions;
+        const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
         let stepValue = this.props.currentStep;
         if (isNextStep) {
@@ -189,6 +197,19 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.hide();
 
         savePreferences(currentUserId, preferences);
+
+        // remove the value for the a/b test first_channel_creation so the a/b auto tour can execute correctly
+        if (!tutorialCategory && this.props.currentStep === OnBoardingTutorialStep.ADD_FIRST_CHANNEL) {
+            const abPreferences = [{
+                user_id: currentUserId,
+                category: Preferences.AB_TEST_PREFERENCE_VALUE,
+                name: RecommendedNextSteps.CREATE_FIRST_CHANNEL,
+                value: '',
+            }];
+
+            savePreferences(currentUserId, abPreferences);
+            setFirstChannelName('');
+        }
         const {onNextNavigateTo, onPrevNavigateTo} = this.props;
         if (onNextNavigateTo && isNextStep && autoTour) {
             onNextNavigateTo();
@@ -339,6 +360,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 <PulsatingDot
                     onClick={this.show}
                     targetRef={this.targetRef}
+                    coords={this.props.pulsatingDotPosition}
                 />
 
                 <Overlay

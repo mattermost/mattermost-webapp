@@ -79,7 +79,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const userId = getCurrentUserId(state);
     const channel = getChannel(state, post.channel_id);
     const currentTeam = getCurrentTeam(state) || {};
-    const team = getTeam(state, post.channel_id);
+    const team = getTeam(state, channel.team_id);
     const teamUrl = `${getSiteURL()}/${team?.name || currentTeam.name}`;
 
     const systemMessage = isSystemMessage(post);

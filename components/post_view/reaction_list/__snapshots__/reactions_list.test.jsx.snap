@@ -57,9 +57,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
           delayShow={400}
           overlay={
             <Tooltip
-              bsClass="tooltip"
               id="addReactionTooltip"
-              placement="right"
             >
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add a reaction"

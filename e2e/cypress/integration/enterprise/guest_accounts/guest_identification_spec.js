@@ -75,28 +75,11 @@ describe('Guest Accounts', () => {
         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
 
         // # Click "Save".
-        cy.get('#saveSetting').scrollIntoView().click();
+        cy.findByText('Save').click().wait(TIMEOUTS.ONE_SEC);
 
-        cy.url().then((url) => {
-            if (url.includes('mfa/setup')) {
-                // # Complete MFA setup if we are on token setup page /mfa/setup
-                cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
-                    const secretp = p.text();
-                    adminMFASecret = secretp.split(' ')[1];
-
-                    const token = authenticator.generateToken(adminMFASecret);
-                    cy.get('#mfa').find('.form-control').type(token);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
-
-                    cy.wait(TIMEOUTS.HALF_SEC);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
-                });
-            } else {
-                // # If the sysadmin already has MFA enabled, reset the secret.
-                cy.apiGenerateMfaSecret(sysadmin.id).then((res) => {
-                    adminMFASecret = res.code.secret;
-                });
-            }
+        // # Get MFA secret
+        cy.uiGetMFASecret(sysadmin.id).then((secret) => {
+            adminMFASecret = secret;
         });
 
         // # Navigate to Guest Access page.
@@ -118,26 +101,26 @@ describe('Guest Accounts', () => {
 
         // # Open team menu, click Invite People, then invite guest
         cy.uiOpenTeamMenu('Invite People');
-        cy.findByTestId('inviteGuestLink').find('.arrow').click();
+        cy.findByTestId('inviteGuestLink').click();
 
         // # Type guest user e-mail address.
-        cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
+        cy.get('.users-emails-input__control').should('be.visible').within(() => {
             cy.get('input').type(guestEmail + '{enter}', {force: true});
-            cy.get('.users-emails-input__menu').
-                children().should('have.length', 1).
-                eq(0).should('contain', `Invite ${guestEmail} as a guest`).click();
         });
+        cy.get('.users-emails-input__menu').
+            children().should('have.length', 1).
+            eq(0).should('contain', `Invite ${guestEmail} as a guest`).click();
 
         // # Search and add to a Channel.
-        cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
+        cy.get('.channels-input__control').should('be.visible').within(() => {
             cy.get('input').type(testChannel.name, {force: true});
-            cy.get('.channels-input__menu').
-                children().should('have.length', 1).
-                eq(0).should('contain', testChannel.name).click();
         });
+        cy.get('.channels-input__menu').
+            children().should('have.length', 1).
+            eq(0).should('contain', testChannel.name).click();
 
         cy.get('#inviteGuestButton').scrollIntoView().click();
-        cy.get('#closeIcon').should('be.visible').click();
+        cy.findByTestId('confirm-done').should('be.visible').click();
 
         // # Get invitation link.
         cy.getRecentEmail({username, email: guestEmail}).then((data) => {

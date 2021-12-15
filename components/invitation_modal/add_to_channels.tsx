@@ -41,8 +41,9 @@ export type Props = {
     onChannelsChange: (channels: Channel[]) => void;
     onChannelsInputChange: (search: string) => void;
     channelsLoader: (value: string, callback?: (channels: Channel[]) => void) => Promise<Channel[]>;
-    currentChannelName: string;
+    currentChannel: Channel;
     titleClass?: string;
+    townSquareDisplayName: string;
 }
 
 const RENDER_TIMEOUT_GUESS = 100;
@@ -57,6 +58,15 @@ export default function AddToChannels(props: Props) {
     }, [props.customMessage.open]);
 
     const {formatMessage} = useIntl();
+
+    let placeholderChannelName = props.currentChannel.display_name;
+
+    // If the user is in a direct or group message, then we want to say
+    // 'e.g. Town Square' rather than e.g {username},
+    // as inviting to direct or group message channels on a team is not currently supported.
+    if (props.currentChannel.type !== 'O' && props.currentChannel.type !== 'P') {
+        placeholderChannelName = props.townSquareDisplayName;
+    }
 
     return (<div className='AddToChannels'>
         <div className='InviteView__sectionTitle'>
@@ -78,7 +88,7 @@ export default function AddToChannels(props: Props) {
                     id='invite_modal.example_channel'
                     defaultMessage='e.g. {channel_name}'
                     values={{
-                        channel_name: props.currentChannelName,
+                        channel_name: placeholderChannelName,
                     }}
                 />
             }

@@ -2,19 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import GetPublicModal from 'components/get_public_link_modal';
 
 import {Constants, FileTypes, ModalIdentifiers} from 'utils/constants';
-import {trimFilename} from 'utils/file_utils';
+
 import {
     fileSizeToString,
     getFileType,
@@ -135,30 +135,36 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         }
     }
 
-    refCallback = (menuRef: Menu) => {
-        if (menuRef) {
-            const anchorRect = this.buttonRef.current?.getBoundingClientRect();
-            let y;
-            if (typeof anchorRect?.y === 'undefined') {
-                y = typeof anchorRect?.top === 'undefined' ? 0 : anchorRect?.top;
-            } else {
-                y = anchorRect?.y;
-            }
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - 80;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-            });
-        }
-    }
-
     private handleDropdownOpened = (open: boolean) => {
         this.props.handleFileDropdownOpened?.(open);
         this.setState({keepOpen: open});
+
+        if (open) {
+            this.setMenuPosition();
+        }
+    }
+
+    private setMenuPosition = () => {
+        if (!this.buttonRef.current) {
+            return;
+        }
+
+        const anchorRect = this.buttonRef.current?.getBoundingClientRect();
+        let y;
+        if (typeof anchorRect?.y === 'undefined') {
+            y = typeof anchorRect?.top === 'undefined' ? 0 : anchorRect?.top;
+        } else {
+            y = anchorRect?.y;
+        }
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - 80;
+        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+        this.setState({
+            openUp: (spaceOnTop > spaceOnBottom),
+        });
     }
 
     handleGetPublicLink = () => {
@@ -249,7 +255,6 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                     ariaLabel={'file menu'}
                     openLeft={true}
                     openUp={this.state.openUp}
-                    ref={this.refCallback}
                 >
                     {defaultItems}
                     {divider}
@@ -265,7 +270,6 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
             fileInfo,
         } = this.props;
 
-        const trimmedFilename = trimFilename(fileInfo.name);
         let fileThumbnail;
         let fileDetail;
         let fileActions;
@@ -294,7 +298,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 >
                     <div className='post-image__detail'>
                         <span className={'post-image__name'}>
-                            {trimmedFilename}
+                            {fileInfo.name}
                         </span>
                         <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
                         <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>

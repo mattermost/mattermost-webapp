@@ -107,6 +107,6 @@ describe('Guest Account - Verify Guest Access UI', () => {
 
         // * Verify that an option to Invite via Guest should not be available
         cy.findByTestId('inviteGuestLink').should('not.exist');
-        cy.findByTestId('inputPlaceholder').should('be.visible');
+        cy.get('.users-emails-input__control').should('be.visible');
     });
 });

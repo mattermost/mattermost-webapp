@@ -30,7 +30,9 @@ const defaultProps: Props = deepFreeze({
     currentTeam: {
         display_name: '',
     } as Team,
-    currentChannelName: '',
+    currentChannel: {
+        display_name: '',
+    },
     invitableChannels: [],
     emailInvitationsEnabled: true,
     isAdmin: false,
@@ -39,6 +41,7 @@ const defaultProps: Props = deepFreeze({
     canAddUsers: true,
     canInviteGuests: true,
     intl: {} as IntlShape,
+    townSquareDisplayName: '',
 });
 
 let props = defaultProps;

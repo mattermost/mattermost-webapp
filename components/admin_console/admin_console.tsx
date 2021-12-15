@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import 'bootstrap';
-
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
@@ -10,7 +8,6 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {Role} from 'mattermost-redux/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {CloudState} from 'mattermost-redux/types/cloud';
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -34,7 +31,7 @@ type Props = {
     license: ClientLicense;
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
-    roles: Dictionary<Role>;
+    roles: Record<string, Role>;
     match: {url: string};
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
@@ -67,7 +64,7 @@ type ExtraProps = {
     config?: DeepPartial<AdminConfig>;
     environmentConfig?: Partial<EnvironmentConfig>;
     setNavigationBlocked?: () => void;
-    roles?: Dictionary<Role>;
+    roles?: Record<string, Role>;
     editRole?: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
     cloud: CloudState;
@@ -101,7 +98,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         this.setState({filter});
     }
 
-    private mainRolesLoaded(roles: Dictionary<Role>) {
+    private mainRolesLoaded(roles: Record<string, Role>) {
         return (
             roles &&
             roles.channel_admin &&

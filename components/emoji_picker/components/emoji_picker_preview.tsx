@@ -66,6 +66,7 @@ export default class EmojiPickerPreview extends React.PureComponent<Props> {
                             alt={'emoji category image'}
                             src={imgTrans}
                             className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + emoji.image}
+                            loading='lazy'
                         />
                     </span>
                 );
@@ -79,6 +80,7 @@ export default class EmojiPickerPreview extends React.PureComponent<Props> {
                         alt={'emoji preview image'}
                         className='emoji-picker__preview-image'
                         src={getEmojiImageUrl(emoji)}
+                        loading='lazy'
                     />
                 );
             }

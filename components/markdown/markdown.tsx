@@ -5,7 +5,6 @@ import React from 'react';
 
 import {Team} from 'mattermost-redux/types/teams';
 import {PostImage, PostType} from 'mattermost-redux/types/posts';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import EmojiMap from 'utils/emoji_map';
@@ -89,7 +88,7 @@ type Props = {
     /**
      * prop for passed down to image component for dimensions
      */
-    imagesMetadata?: Dictionary<PostImage>;
+    imagesMetadata?: Record<string, PostImage>;
 
     /**
      * Whether or not to place the LinkTooltip component inside links

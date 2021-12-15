@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {Permissions} from 'mattermost-redux/constants';
-import {GlobalState} from 'mattermost-redux/types/store';
+
+import {GlobalState} from 'types/store';
 
 import {mapStateToProps} from './index';
 
