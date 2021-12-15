@@ -54,7 +54,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
             <div className='subtitle'>
                 <FormattedMessage
                     id='admin.license.starterEdition.subtitle'
-                    defaultMessage='Purchase Professional or Enterprise to unlock enterprise fatures.'
+                    defaultMessage='Purchase Professional or Enterprise to unlock enterprise features.'
                 />
             </div>
             <hr/>
