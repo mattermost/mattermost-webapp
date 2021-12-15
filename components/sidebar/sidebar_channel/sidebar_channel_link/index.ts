@@ -20,6 +20,8 @@ import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 
+import {getIsMobileView} from '../../../../selectors/views/browser';
+
 import SidebarChannelLink from './sidebar_channel_link';
 
 type OwnProps = {
@@ -56,6 +58,7 @@ function makeMapStateToProps() {
             firstChannelName: enableTutorial && tutorialStep === Constants.TutorialSteps.ADD_FIRST_CHANNEL ? firstChannelName : '',
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
+            isMobileView: getIsMobileView(state),
         };
     };
 }

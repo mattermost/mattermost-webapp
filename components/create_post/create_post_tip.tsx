@@ -49,7 +49,9 @@ function CreatePostTip(props: Props) {
                     defaultMessage='Use the **Attachments** and **Emoji** buttons to add to your messages.'
                 />
             </p>
-            {chips}
+            <p>
+                {chips}
+            </p>
         </>
     );
 

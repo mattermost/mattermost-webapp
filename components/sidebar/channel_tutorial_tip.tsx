@@ -16,6 +16,7 @@ type Props = {
     townSquareDisplayName?: string;
     offTopicDisplayName?: string;
     firstChannelName?: string;
+    isMobileView: boolean;
     openLhs: () => void;
 }
 
@@ -107,7 +108,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
             <TutorialTip
                 title={title}
                 showOptOut={true}
-                placement='right'
+                placement={this.props.isMobileView ? 'bottom' : 'right'}
                 step={this.props.firstChannelName ? TutorialSteps.ADD_FIRST_CHANNEL : TutorialSteps.CHANNEL_POPOVER}
                 screen={screen}
                 overlayClass='tip-overlay--sidebar'

@@ -1266,21 +1266,6 @@
         max-width: 100%;
     }
 
-    .tip-div {
-        right: auto;
-        left: 15px;
-    }
-
-    .tip-overlay {
-        &.tip-overlay--chat {
-            margin-left: 10px;
-
-            .arrow {
-                left: 32px;
-            }
-        }
-    }
-
     .file-details__container {
         display: block;
 
@@ -2197,10 +2182,6 @@
         }
     }
 
-    .tip-overlay.tip-overlay--sidebar {
-        min-height: 350px;
-    }
-
     .member-div {
         padding: 8px 0;
 
@@ -2335,12 +2316,6 @@
         .sidebar--left,
         #SidebarContainer {
             width: 220px;
-        }
-    }
-
-    .tip-overlay {
-        &.tip-overlay--sidebar {
-            min-height: 440px;
         }
     }
 

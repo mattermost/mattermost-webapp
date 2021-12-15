@@ -139,7 +139,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private autoShow(couldAutoShow: boolean) {
-        const {autoTour, currentStep, step, firstChannelName} = this.props;
+        const {autoTour, firstChannelName} = this.props;
         if (!couldAutoShow) {
             return;
         }
@@ -401,7 +401,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                             <div className='tutorial-tip__footer-buttons'>
                                 <div className='tutorial-tip__circles-ctr'>{dots}</div>
                                 <div className={'tutorial-tip__btn-ctr'}>
-                                    {(this.props.currentStep !== 0) &&
+                                    {this.props.tutorialCategory && (this.props.currentStep !== 0) &&
                                     <button
                                         id='tipPreviousButton'
                                         className='tutorial-tip__btn tutorial-tip__cancel-btn'
