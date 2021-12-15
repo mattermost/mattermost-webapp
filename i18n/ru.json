@@ -335,6 +335,7 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Количество мест превышено",
   "admin.billing.subscription.planDetails.startDate": "Дата начала: ",
   "admin.billing.subscription.planDetails.tiers.free": "Бесплатно",
+  "admin.billing.subscription.planDetails.upToXUsers": "",
   "admin.billing.subscription.planDetails.userCount": "{userCount} пользователей",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} пользователей",
   "admin.billing.subscription.price.contactSales": "связаться с отделом продаж",
