@@ -5,7 +5,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Role} from 'mattermost-redux/types/roles';
 
@@ -50,7 +49,7 @@ type State = {
     term: string;
 }
 
-function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
+function searchUsersToAdd(users: Record<string, UserProfile>, term: string): Record<string, UserProfile> {
     const profilesList: UserProfile[] = Object.keys(users).map((key) => users[key]);
     const filteredProfilesList = filterProfilesStartingWithTerm(profilesList, term);
     return filterProfiles(profileListToMap(filteredProfilesList), {});

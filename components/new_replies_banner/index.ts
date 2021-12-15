@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 
 import {createSelector} from 'reselect';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {Post} from 'mattermost-redux/types/posts';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -20,7 +19,7 @@ import {GlobalState} from 'types/store';
 import NewRepliesBanner from './new_replies_banner';
 
 type Props = {
-    threadId: $ID<Post>;
+    threadId: Post['id'];
     lastViewedBottom: number;
     canShow: boolean;
 }
