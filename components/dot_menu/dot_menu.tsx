@@ -50,6 +50,7 @@ type Props = {
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
+    isMobileView: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -399,8 +400,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     render() {
+        const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const isMobile = Utils.isMobile();
 
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
