@@ -69,19 +69,6 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
             className="tutorial-tip__btn-ctr"
           >
             <button
-              className="tutorial-tip__btn tutorial-tip__cancel-btn"
-              id="tipPreviousButton"
-              onClick={[Function]}
-            >
-              <i
-                className="icon icon-chevron-left"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Previous"
-                id="generic.previous"
-              />
-            </button>
-            <button
               className="tutorial-tip__btn tutorial-tip__confirm-btn"
               id="tipNextButton"
               onClick={[Function]}

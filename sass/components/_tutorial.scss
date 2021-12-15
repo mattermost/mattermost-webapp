@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 @import "sass/utils/variables";
 @import "sass/utils/functions";
 
@@ -83,12 +84,12 @@ $tip-index: 1000;
     }
 
     &__btn {
-        border-radius: 4px;
         display: inline-flex;
         height: 3.2rem;
         align-items: center;
         padding: 10px 16px;
         border: none;
+        border-radius: 4px;
         font-size: 12px;
         font-weight: 600;
         line-height: 12px;
@@ -180,13 +181,13 @@ $tip-index: 1000;
     }
 
     &__circle {
-        border-radius: 6px;
         position: absolute;
         top: 3px;
         left: 3px;
         width: 6px;
         height: 6px;
         background: rgba(var(--button-bg-rgb), 0.32);
+        border-radius: 6px;
 
         &.active {
             background: rgba(var(--button-bg-rgb), 1);
@@ -227,13 +228,13 @@ $tip-index: 1000;
 }
 
 .tip-overlay {
-    border-radius: 4px;
     position: absolute;
     z-index: $tip-index;
     width: 32rem;
     padding: 1.8rem 2.4rem 2.4rem;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     background: var(--center-channel-bg);
+    border-radius: 4px;
     filter: drop-shadow(0 12px 32px rgba($black, 0.12));
 
     .arrow {
@@ -506,20 +507,23 @@ body.announcement-bar--fixed {
         &.tip-overlay--chat {
             left: calc(50% - 4px);
         }
-        &.tip-overlay--sidebar, &.tip-overlay--threads-welcome {
-                 top: 17px;
-        }
 
+        &.tip-overlay--sidebar,
+        &.tip-overlay--threads-welcome {
+            top: 17px;
+        }
     }
 
     .tip-overlay {
-        left: calc(50% - 16rem) !important;
-        bottom: 0 !important;
         top: unset !important;
+        bottom: 0 !important;
+        left: calc(50% - 16rem) !important;
         margin: 0 0 20px 0 !important;
+
         .arrow {
             display: none;
         }
+
         &.tip-overlay--chat {
             left: calc(50% - 204px) !important;
             margin-left: unset;
