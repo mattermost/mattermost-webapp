@@ -39,6 +39,7 @@ export type Props = {
     users: UserProfile[];
     backButtonCallback: () => void;
     backButtonAction: () => void;
+    currentUserId: string;
     actions: {
         getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
@@ -46,6 +47,8 @@ export type Props = {
         openModal: <P>(modalData: ModalData<P>) => void;
         searchProfiles: (term: string, options: any) => Promise<ActionResult>;
         removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+        addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+        archiveGroup: (groupId: string) => Promise<ActionResult>;
     };
 }
 
@@ -199,6 +202,32 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         await actions.removeUsersFromGroup(groupId, [userId]);
     }
 
+    leaveGroup = async (groupId: string) => {
+        const {currentUserId, actions} = this.props;
+
+        // TODO: Permission check here
+
+        // Should do some redux thing where I decrement the member_count of the group
+
+        await actions.removeUsersFromGroup(groupId, [currentUserId]);
+    }
+
+    joinGroup = async (groupId: string) => {
+        const {currentUserId, actions} = this.props;
+
+        // TODO: Permission check here
+
+        // Should do some redux thing where I increment the member_count of the group
+
+        await actions.addUsersToGroup(groupId, [currentUserId]);
+    }
+
+    archiveGroup = async (groupId: string) => {
+        const {actions} = this.props;
+
+        await actions.archiveGroup(groupId);
+    }
+
     render() {
         const {group, users} = this.props;
 
@@ -265,12 +294,50 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                     ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                                 >
                                     <Menu.ItemAction
-                                        show={true}
+                                        show={() => {
+                                            // TODO: Group permission check here
+                                            return true;
+                                        }}
                                         onClick={() => {
                                             this.goToEditGroupModal();
                                         }}
                                         text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
                                         disabled={false}
+                                    />
+                                    <Menu.ItemAction
+                                        show={() => {
+                                            // TODO: Group permission check here
+                                            return true;
+                                        }}
+                                        onClick={() => {
+                                            this.joinGroup(group.id);
+                                        }}
+                                        text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
+                                        disabled={false}
+                                    />
+                                    <Menu.ItemAction
+                                        show={() => {
+                                            // TODO: Group permission check here
+                                            return true;
+                                        }}
+                                        onClick={() => {
+                                            this.leaveGroup(group.id);
+                                        }}
+                                        text={Utils.localizeMessage('user_groups_modal.leaveGroup', 'Leave Group')}
+                                        disabled={false}
+                                        isDangerous={true}
+                                    />
+                                    <Menu.ItemAction
+                                        show={() => {
+                                            // TODO: Group permission check here
+                                            return true;
+                                        }}
+                                        onClick={() => {
+                                            this.archiveGroup(group.id);
+                                        }}
+                                        text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
+                                        disabled={false}
+                                        isDangerous={true}
                                     />
                                 </Menu>
                             </MenuWrapper>

@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import * as Utils from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import {Group} from 'mattermost-redux/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
@@ -145,8 +145,8 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                                     searchOptions={{
                                         not_in_group_id: groupId,
                                     }}
-                                    buttonSubmitText={Utils.localizeMessage('multiselect.createGroup', 'Add People')}
-                                    buttonSubmitLoadingText={Utils.localizeMessage('multiselect.createGroup', 'Adding...')}
+                                    buttonSubmitText={localizeMessage('multiselect.addPeopleToGroup', 'Add People')}
+                                    buttonSubmitLoadingText={localizeMessage('multiselect.adding', 'Adding...')}
                                     backButtonClick={this.goBack}
                                     backButtonClass={'multiselect-back'}
                                 />

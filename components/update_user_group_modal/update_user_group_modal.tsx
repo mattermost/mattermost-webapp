@@ -107,10 +107,10 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
         };
         const data = await this.props.actions.patchGroup(this.props.groupId, group);
         if (data?.error) {
-            if (data.error?.server_error_id === 'app.group.save_not_unique.name_error') {
-                this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.')});
+            if (data.error?.server_error_id === 'app.custom_group.unique_name') {
+                this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.'), saving: false});
             } else {
-                this.setState({showUnknownError: true});
+                this.setState({showUnknownError: true, saving: false});
             }
         } else {
             this.goBack();

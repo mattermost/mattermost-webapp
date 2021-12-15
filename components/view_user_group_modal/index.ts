@@ -8,9 +8,9 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 
 import {GlobalState} from 'types/store';
 
-import {getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
-import {getGroup, removeUsersFromGroup} from 'mattermost-redux/actions/groups';
+import {addUsersToGroup, archiveGroup, getGroup, removeUsersFromGroup} from 'mattermost-redux/actions/groups';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
@@ -27,6 +27,8 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+    addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
+    archiveGroup: (groupId: string) => Promise<ActionResult>;
 };
 
 type OwnProps = {
@@ -49,6 +51,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         group,
         users,
         searchTerm,
+        currentUserId: getCurrentUserId(state),
     };
 }
 
@@ -61,6 +64,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
             openModal,
             searchProfiles,
             removeUsersFromGroup,
+            addUsersToGroup,
+            archiveGroup,
         }, dispatch),
     };
 }
