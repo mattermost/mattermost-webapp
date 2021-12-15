@@ -473,6 +473,10 @@ export function handleEvent(msg) {
         handleGroupUpdatedEvent(msg);
         break;
 
+    case SocketEvents.GROUP_MEMBER_DELETED:
+        dispatch(handleGroupDeletedMemberEvent(msg));
+        break;
+
     case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
         handleGroupAssociatedToTeamEvent(msg);
         break;
@@ -1296,6 +1300,24 @@ function handleGroupUpdatedEvent(msg) {
             data,
         },
     );
+}
+
+function handleGroupDeletedMemberEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const data = JSON.parse(msg.data.group_member);
+
+        if (currentUserId === data.user_id) {
+            dispatch(
+                {
+                    type: GroupTypes.REMOVE_MY_GROUP,
+                    data,
+                    id: data.group_id,
+                },
+            );
+        }
+    };
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {

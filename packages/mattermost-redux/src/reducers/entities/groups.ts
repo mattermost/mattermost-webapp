@@ -156,9 +156,9 @@ function myGroups(state: string[] = [], action: GenericAction) {
 
         return nextState;
     }
+    case GroupTypes.REMOVE_MY_GROUP:
     case GroupTypes.ARCHIVED_GROUP: {
         const groupId = action.id;
-
         const index = state.indexOf(groupId);
 
         if (index === -1) {

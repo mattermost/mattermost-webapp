@@ -40,6 +40,7 @@ export default keyMirror({
     PATCHED_GROUP_CHANNEL: null,
 
     RECEIVED_MY_GROUPS: null,
+    REMOVE_MY_GROUP: null,
 
     PATCHED_GROUP: null,
 
