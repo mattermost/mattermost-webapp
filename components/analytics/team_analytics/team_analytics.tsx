@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {General} from 'mattermost-redux/constants';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -45,7 +45,7 @@ type Props = {
      */
     locale: string;
 
-    stats: RelationOneToOne<Team, Dictionary<number | AnalyticsRow[]>>;
+    stats: RelationOneToOne<Team, Record<string, number | AnalyticsRow[]>>;
 
     actions: {
 

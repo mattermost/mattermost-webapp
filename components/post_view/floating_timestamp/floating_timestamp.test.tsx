@@ -9,7 +9,6 @@ import FloatingTimestamp from './floating_timestamp';
 describe('components/post_view/FloatingTimestamp', () => {
     const baseProps = {
         isScrolling: true,
-        isMobile: true,
         createAt: 1234,
         toastPresent: true,
         isRhsPost: false,

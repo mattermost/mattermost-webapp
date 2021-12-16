@@ -4,7 +4,6 @@
 import React from 'react';
 
 import {ClientLicense, ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
@@ -23,7 +22,7 @@ type Props = {
     latestError?: {
         error: any;
     };
-    warnMetricsStatus?: Dictionary<WarnMetricStatus>;
+    warnMetricsStatus?: Record<string, WarnMetricStatus>;
     actions: {
         dismissError: (index: number) => void;
     };

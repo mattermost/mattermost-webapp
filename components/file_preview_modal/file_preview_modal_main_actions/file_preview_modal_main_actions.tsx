@@ -1,21 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useEffect, useState} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {FormattedMessage} from 'react-intl';
-
-import OverlayTrigger from '../../overlay_trigger';
-import Tooltip from '../../tooltip';
-import Constants from '../../../utils/constants';
-
-import './file_preview_modal_main_actions.scss';
-
-import {GlobalState} from '../../../types/store';
 import {getFilePublicLink} from 'mattermost-redux/actions/files';
 import {getFilePublicLink as selectFilePublicLink} from 'mattermost-redux/selectors/entities/files';
-import {copyToClipboard} from '../../../utils/utils';
 import {FileInfo} from 'mattermost-redux/types/files';
+
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+
+import {GlobalState} from 'types/store';
+
+import Constants from 'utils/constants';
+import {copyToClipboard} from 'utils/utils';
+
+import {isFileInfo, LinkInfo} from '../types';
+
+import './file_preview_modal_main_actions.scss';
 
 interface DownloadLinkProps {
     download?: string;
@@ -27,7 +31,7 @@ interface Props {
     showClose?: boolean;
     filename: string;
     fileURL: string;
-    fileInfo: FileInfo;
+    fileInfo: FileInfo | LinkInfo;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
     handleModalClose: () => void;
@@ -40,7 +44,9 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     const [publicLinkCopied, setPublicLinkCopied] = useState(false);
 
     useEffect(() => {
-        dispatch(getFilePublicLink(props.fileInfo.id));
+        if (isFileInfo(props.fileInfo)) {
+            dispatch(getFilePublicLink(props.fileInfo.id));
+        }
     }, [props.fileInfo]);
     const copyPublicLink = () => {
         copyToClipboard(selectedFilePublicLink ?? '');
