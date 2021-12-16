@@ -40,6 +40,10 @@ export type Props = {
     backButtonCallback: () => void;
     backButtonAction: () => void;
     currentUserId: string;
+    permissionToEditGroup: boolean;
+    permissionToJoinGroup: boolean;
+    permissionToLeaveGroup: boolean;
+    permissionToArchiveGroup: boolean;
     actions: {
         getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
@@ -294,10 +298,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                     ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                                 >
                                     <Menu.ItemAction
-                                        show={() => {
-                                            // TODO: Group permission check here
-                                            return true;
-                                        }}
+                                        show={this.props.permissionToEditGroup}
                                         onClick={() => {
                                             this.goToEditGroupModal();
                                         }}
@@ -305,10 +306,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                         disabled={false}
                                     />
                                     <Menu.ItemAction
-                                        show={() => {
-                                            // TODO: Group permission check here
-                                            return true;
-                                        }}
+                                        show={this.props.permissionToJoinGroup}
                                         onClick={() => {
                                             this.joinGroup(group.id);
                                         }}
@@ -316,10 +314,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                         disabled={false}
                                     />
                                     <Menu.ItemAction
-                                        show={() => {
-                                            // TODO: Group permission check here
-                                            return true;
-                                        }}
+                                        show={this.props.permissionToLeaveGroup}
                                         onClick={() => {
                                             this.leaveGroup(group.id);
                                         }}
@@ -328,10 +323,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                         isDangerous={true}
                                     />
                                     <Menu.ItemAction
-                                        show={() => {
-                                            // TODO: Group permission check here
-                                            return true;
-                                        }}
+                                        show={this.props.permissionToArchiveGroup}
                                         onClick={() => {
                                             this.archiveGroup(group.id);
                                         }}

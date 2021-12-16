@@ -47,11 +47,21 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users = getProfilesInGroup(state, ownProps.groupId);
     }
 
+    // TODO: Check Permissions to do things here
+    const permissionToEditGroup = true;
+    const permissionToJoinGroup = true;
+    const permissionToLeaveGroup = true;
+    const permissionToArchiveGroup = true;
+
     return {
         group,
         users,
         searchTerm,
         currentUserId: getCurrentUserId(state),
+        permissionToEditGroup,
+        permissionToJoinGroup,
+        permissionToLeaveGroup,
+        permissionToArchiveGroup,
     };
 }
 

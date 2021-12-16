@@ -49,6 +49,10 @@ describe('component/update_user_group_modal', () => {
         backButtonCallback: jest.fn(),
         backButtonAction: jest.fn(),
         currentUserId: 'user-1',
+        permissionToEditGroup: true,
+        permissionToJoinGroup: true,
+        permissionToLeaveGroup: true,
+        permissionToArchiveGroup: true,
         actions: {
             getGroup: jest.fn().mockImplementation(() => Promise.resolve()),
             getUsersInGroup: jest.fn().mockImplementation(() => Promise.resolve()),
