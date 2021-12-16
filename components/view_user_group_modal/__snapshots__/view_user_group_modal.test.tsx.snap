@@ -98,8 +98,28 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
           <MenuItemAction
             disabled={false}
             onClick={[Function]}
-            show={true}
+            show={[Function]}
             text="Edit Details"
+          />
+          <MenuItemAction
+            disabled={false}
+            onClick={[Function]}
+            show={[Function]}
+            text="Join Group"
+          />
+          <MenuItemAction
+            disabled={false}
+            isDangerous={true}
+            onClick={[Function]}
+            show={[Function]}
+            text="Leave Group"
+          />
+          <MenuItemAction
+            disabled={false}
+            isDangerous={true}
+            onClick={[Function]}
+            show={[Function]}
+            text="Archive Group"
           />
         </Menu>
       </MenuWrapper>

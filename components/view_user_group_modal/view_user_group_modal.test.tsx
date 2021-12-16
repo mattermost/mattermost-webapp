@@ -48,6 +48,7 @@ describe('component/update_user_group_modal', () => {
         users,
         backButtonCallback: jest.fn(),
         backButtonAction: jest.fn(),
+        currentUserId: 'user-1',
         actions: {
             getGroup: jest.fn().mockImplementation(() => Promise.resolve()),
             getUsersInGroup: jest.fn().mockImplementation(() => Promise.resolve()),
@@ -55,6 +56,8 @@ describe('component/update_user_group_modal', () => {
             openModal: jest.fn(),
             searchProfiles: jest.fn().mockImplementation(() => Promise.resolve()),
             removeUsersFromGroup: jest.fn().mockImplementation(() => Promise.resolve()),
+            addUsersToGroup: jest.fn().mockImplementation(() => Promise.resolve()),
+            archiveGroup: jest.fn().mockImplementation(() => Promise.resolve()),
         },
     };
 
