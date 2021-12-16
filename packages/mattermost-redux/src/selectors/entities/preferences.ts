@@ -20,6 +20,7 @@ import {Theme} from 'mattermost-redux/types/themes';
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import { LicenseSkus } from 'mattermost-redux/types/general';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
     return state.entities.preferences.myPreferences;
@@ -229,8 +230,10 @@ export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatm
 }
 
 export function isCustomGroupsEnabled(state: GlobalState): boolean {
+    const license = getLicense(state);
     return (
         getFeatureFlagValue(state, 'CustomGroups') === 'true' &&
-        getConfig(state).EnableCustomGroups === 'true'
+        getConfig(state).EnableCustomGroups === 'true' &&
+        (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise)
     );
 }
