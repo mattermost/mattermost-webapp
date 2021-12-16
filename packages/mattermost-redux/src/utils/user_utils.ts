@@ -5,7 +5,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects, $ID, Dictionary} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 export function getFullName(user: UserProfile): string {
     if (user.first_name && user.last_name) {
         return user.first_name + ' ' + user.last_name;
@@ -41,9 +41,12 @@ export function displayUsername(
     return name;
 }
 
-export function spaceSeparatedStringIncludes(spaceSeparated: string, item: string): boolean {
-    const items = spaceSeparated.split(' ');
-    return items.includes(item);
+export function spaceSeparatedStringIncludes(item: string, spaceSeparated?: string): boolean {
+    if (spaceSeparated) {
+        const items = spaceSeparated?.split(' ');
+        return items.includes(item);
+    }
+    return false;
 }
 
 export function isAdmin(roles: string): boolean {
@@ -51,15 +54,15 @@ export function isAdmin(roles: string): boolean {
 }
 
 export function isGuest(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, 'system_guest');
+    return spaceSeparatedStringIncludes('system_guest', roles);
 }
 
 export function isTeamAdmin(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.TEAM_ADMIN_ROLE);
+    return spaceSeparatedStringIncludes(General.TEAM_ADMIN_ROLE, roles);
 }
 
 export function isSystemAdmin(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_ADMIN_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_ADMIN_ROLE, roles);
 }
 
 export function includesAnAdminRole(roles: string): boolean {
@@ -73,30 +76,30 @@ export function includesAnAdminRole(roles: string): boolean {
 }
 
 export function isChannelAdmin(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.CHANNEL_ADMIN_ROLE);
+    return spaceSeparatedStringIncludes(General.CHANNEL_ADMIN_ROLE, roles);
 }
 
 export function hasUserAccessTokenRole(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_USER_ACCESS_TOKEN_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_USER_ACCESS_TOKEN_ROLE, roles);
 }
 
 export function hasPostAllRole(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_POST_ALL_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_POST_ALL_ROLE, roles);
 }
 
 export function hasPostAllPublicRole(roles: string): boolean {
-    return spaceSeparatedStringIncludes(roles, General.SYSTEM_POST_ALL_PUBLIC_ROLE);
+    return spaceSeparatedStringIncludes(General.SYSTEM_POST_ALL_PUBLIC_ROLE, roles);
 }
 
 export function profileListToMap(profileList: UserProfile[]): IDMappedObjects<UserProfile> {
-    const profiles: Dictionary<UserProfile> = {};
+    const profiles: Record<string, UserProfile> = {};
     for (let i = 0; i < profileList.length; i++) {
         profiles[profileList[i].id] = profileList[i];
     }
     return profiles;
 }
 
-export function removeUserFromList(userId: $ID<UserProfile>, list: UserProfile[]): UserProfile[] {
+export function removeUserFromList(userId: UserProfile['id'], list: UserProfile[]): UserProfile[] {
     for (let i = list.length - 1; i >= 0; i--) {
         if (list[i].id === userId) {
             list.splice(i, 1);

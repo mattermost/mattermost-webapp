@@ -128,7 +128,7 @@
                 color: var(--sidebar-header-text-color);
 
                 .offline--icon {
-                    fill: var(--sidebar-text);
+                    fill: var(--offline-indicator);
                 }
 
                 svg {
@@ -461,6 +461,7 @@
 
             .styleSelectableItemDiv {
                 display: flex;
+                height: 34px;
                 align-items: center;
                 justify-content: space-between;
                 padding: 0 15px;
@@ -1027,8 +1028,7 @@
 
         &:hover {
             .btn-close {
-                @include opacity(0.8);
-
+                opacity: 0.8;
                 visibility: visible;
             }
         }
@@ -1061,8 +1061,6 @@
         }
 
         .btn-close {
-            @include opacity(0);
-
             position: relative;
             width: 24px;
             height: 20px;
@@ -1071,11 +1069,12 @@
             font-size: 21px;
             font-weight: 600;
             line-height: 16px;
+            opacity: 0;
             text-align: center;
             visibility: hidden;
 
             &:hover {
-                @include opacity(1);
+                opacity: 1;
             }
         }
 

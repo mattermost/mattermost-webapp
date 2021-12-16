@@ -23,10 +23,6 @@ export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent): boolean;
 export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent): string;
 
 export function isInRole(roles: string, inRole: string): boolean;
-export function isChannelAdmin(isLicensed: boolean, roles: string, hasAdminScheme = false): boolean;
-export function isAdmin(roles: string): boolean;
-export function isSystemAdmin(roles: string): boolean;
-export function isGuest(user: UserProfile): boolean;
 
 export function getTeamRelativeUrl(team: Team): boolean;
 export function getPermalinkUrl(state: GlobalState, teamId: string, postId: string): string;
@@ -100,9 +96,6 @@ export function generateId(): string;
 export function getDirectChannelName(id: string, otherId: string): string;
 export function getUserIdFromChannelName(channel: Channel): string;
 export function getUserIdFromChannelId(channelId: string, currentUserId?: string): string;
-
-export function windowWidth(): number;
-export function windowHeight(): number;
 
 export function isFeatureEnabled(feature: {label: string}, state: GlobalState): boolean;
 

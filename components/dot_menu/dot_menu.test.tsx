@@ -12,14 +12,6 @@ import {TestHelper} from 'utils/test_helper';
 
 import DotMenu, {PLUGGABLE_COMPONENT, DotMenuClass} from './dot_menu';
 
-jest.mock('utils/utils', () => {
-    const original = jest.requireActual('utils/utils');
-    return {
-        ...original,
-        isMobile: jest.fn(() => false),
-    };
-});
-
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
         post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
@@ -51,9 +43,10 @@ describe('components/dot_menu/DotMenu', () => {
         pluginMenuItems: [],
         appsEnabled: false,
         isReadOnly: false,
-        currentTeamId: 'team_id_1',
+        teamId: 'team_id_1',
         isFollowingThread: false,
         isCollapsedThreadsEnabled: false,
+        isMobileView: false,
         threadId: 'post_id_1',
         threadReplyCount: 0,
         userId: 'user_id_1',

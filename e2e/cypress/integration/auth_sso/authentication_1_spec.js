@@ -82,8 +82,8 @@ describe('Authentication', () => {
             cy.apiLogin(testUserAlreadyInTeam);
             cy.visit('/');
 
-            // # Open Account Settings
-            cy.uiOpenAccountSettingsModal();
+            // # Open Profile
+            cy.uiOpenProfileModal();
 
             // # Click "Edit" to the right of "Email"
             cy.get('#emailEdit').should('be.visible').click();
@@ -94,7 +94,7 @@ describe('Authentication', () => {
             cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
             // # Save the settings
-            cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // * Assert an error exist and is what is expected
             cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible');

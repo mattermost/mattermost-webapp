@@ -69,7 +69,7 @@ export default function HelpComposing(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.composing.posting.description'
-                    defaultMessage='Write a message by typing into the text input box, then press **ENTER** to send it. Press **SHIFT+ENTER** to create a new line without sending a message. To send messages by pressing **CTRL+ENTER**, go to **Account Settings > Advanced > Send Messages on CTRL/CMD+ENTER**.'
+                    defaultMessage='Write a message by typing into the text input box, then press **ENTER** to send it. Press **SHIFT+ENTER** to create a new line without sending a message. To send messages by pressing **CTRL+ENTER**, go to **Settings > Advanced > Send Messages on CTRL/CMD+ENTER**.'
                 />
             </p>
             <h2 className='markdown__heading'>

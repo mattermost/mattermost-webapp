@@ -102,7 +102,7 @@ describe('User Management', () => {
         // # System admin changes new user's email address.
         resetUserEmail(testUser.email, newEmailAddr, '');
 
-        // # Updates immediately in Account Settings for the user.
+        // # Updates immediately in Profile for the user.
         cy.get('#searchUsers').clear().type(newEmailAddr).wait(TIMEOUTS.HALF_SEC);
         cy.get('.more-modal__details').should('be.visible').within(() => {
             cy.findByText(newEmailAddr).should('exist');

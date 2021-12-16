@@ -44,22 +44,23 @@ Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
 
     if (settings.user.userType === 'Admin' || settings.user.isAdmin) {
         // # Check that user is an admin
-        cy.uiOpenProductSwitchMenu().findByText('System Console');
+        cy.uiOpenProductMenu().findByText('System Console');
     } else {
         // # Check that user is not an admin
-        cy.uiOpenProductSwitchMenu().findByText('System Console').should('not.exist');
+        cy.uiOpenProductMenu().findByText('System Console').should('not.exist');
     }
 
     // # Close product switch menu
-    cy.uiGetProductSwitchButton().click();
+    cy.uiGetProductMenuButton().click();
 
     cy.get('#channel_view').should('be.visible');
 });
 
 Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
-    cy.findByText('Copy Link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+    cy.findByText('Copy invite link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     if (settings.teamName != null && settings.teamName.length > 0) {
-        cy.findByText('Invite people to ' + settings.teamName).should('be.visible');
+        const inviteRegexp = new RegExp(`Invite .* to ${settings.teamName}`);
+        cy.findByText(inviteRegexp).should('be.visible');
     }
 });
 

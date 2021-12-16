@@ -32,7 +32,7 @@ describe('components/ChannelMembersModal', () => {
             group_constrained: false,
         },
         canManageChannelMembers: true,
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         actions: {
             openModal: jest.fn(),
         },
@@ -47,32 +47,24 @@ describe('components/ChannelMembersModal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ChannelMembersModal>(
             <ChannelMembersModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
-        (wrapper.instance() as ChannelMembersModal).handleHide();
+        wrapper.instance().handleHide();
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called props.actions.openModal and props.onHide when onAddNewMembersButton is called', () => {
-        const onHide = jest.fn();
-        const openModal = jest.fn();
-        const props = {
-            ...baseProps,
-            onHide,
-            actions: {
-                openModal,
-            },
-        };
-        const wrapper = shallow(
-            <ChannelMembersModal {...props}/>,
+    test('should have called props.actions.openModal and hide modal when onAddNewMembersButton is called', () => {
+        const wrapper = shallow<ChannelMembersModal>(
+            <ChannelMembersModal {...baseProps}/>,
         );
 
-        (wrapper.instance() as ChannelMembersModal).onAddNewMembersButton();
-        expect(openModal).toHaveBeenCalledTimes(1);
-        expect(onHide).toHaveBeenCalledTimes(1);
+        wrapper.instance().onAddNewMembersButton();
+        expect(baseProps.actions.openModal).toHaveBeenCalledTimes(1);
+
+        expect(wrapper.state('show')).toBe(false);
     });
 
     test('should have state when Modal.onHide', () => {

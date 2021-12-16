@@ -50,7 +50,7 @@
 
                 &.offline--icon,
                 .offline--icon {
-                    fill: var(--sidebar-text);
+                    fill: var(--offline-indicator);
                 }
             }
         }
@@ -78,11 +78,10 @@
             visibility: hidden;
 
             i {
-                @include opacity(1);
-
                 position: relative;
                 top: 4px;
                 font-size: 10px;
+                opacity: 1;
             }
         }
 
@@ -105,7 +104,7 @@
         }
 
         .offline--icon {
-            fill: var(--center-channel-color);
+            fill: var(--offline-indicator);
         }
     }
 }
@@ -113,10 +112,10 @@
 .status-selector {
     .status {
         body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
+            transition-delay: 0s;
+            transition-duration: $transition-quick;
+            transition-property: opacity, visibility;
+            transition-timing-function: ease-out, step-start;
         }
 
         opacity: 1;
@@ -171,7 +170,7 @@
         &.online--icon,
         &.away--icon,
         &.dnd--icon {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 
@@ -199,7 +198,7 @@
     }
 
     .offline--icon {
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: var(--offline-indicator);
     }
 }
 
@@ -226,14 +225,14 @@
         }
 
         .offline--icon {
-            fill: var(--center-channel-color);
+            fill: var(--offline-indicator);
         }
     }
 
     .sidebar--left {
         .status {
             .offline--icon {
-                fill: var(--sidebar-text);
+                fill: var(--offline-indicator);
             }
         }
     }

@@ -4,7 +4,6 @@
 import React from 'react';
 
 import {ClientLicense, ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
@@ -14,6 +13,7 @@ import AnnouncementBar from './default_announcement_bar';
 import CloudAnnouncementBar from './cloud_announcement_bar';
 import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
+import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
 
 type Props = {
     license?: ClientLicense;
@@ -22,7 +22,7 @@ type Props = {
     latestError?: {
         error: any;
     };
-    warnMetricsStatus?: Dictionary<WarnMetricStatus>;
+    warnMetricsStatus?: Record<string, WarnMetricStatus>;
     actions: {
         dismissError: (index: number) => void;
     };
@@ -75,6 +75,7 @@ export default class AnnouncementBarController extends React.PureComponent<Props
                 {cloudAnnouncementBar}
                 {paymentAnnouncementBar}
                 {cloudTrialAnnouncementBar}
+                <AutoStartTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
                     config={this.props.config}

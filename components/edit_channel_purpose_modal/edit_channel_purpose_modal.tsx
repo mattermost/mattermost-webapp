@@ -20,7 +20,7 @@ type ServerError = {
 const purposeMaxLength = 250;
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
     channel?: Channel;
     ctrlSend: boolean;
     actions: Actions;
@@ -158,7 +158,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
                 show={this.state.show}
                 onHide={this.onHide}
                 onEntering={this.handleEntering}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='editChannelPurposeModalLabel'
             >

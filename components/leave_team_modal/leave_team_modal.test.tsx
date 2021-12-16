@@ -4,27 +4,24 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {TestHelper} from 'utils/test_helper';
 
-import LeaveTeamModal from 'components/leave_team_modal/leave_team_modal';
+import LeaveTeamModal from './leave_team_modal';
 
 describe('components/LeaveTeamModal', () => {
     const requiredProps = {
-        currentUser: {
+        currentUser: TestHelper.getUserMock({
             id: 'test',
-        } as UserProfile,
+        }),
         currentUserId: 'user_id',
         currentTeamId: 'team_id',
         numOfPrivateChannels: 0,
         numOfPublicChannels: 0,
-        onHide: jest.fn(),
-        show: false,
-        isBusy: false,
+        onExited: jest.fn(),
         actions: {
             leaveTeam: jest.fn(),
             toggleSideBarRightMenu: jest.fn(),
         },
-
     };
 
     it('should render the leave team model', () => {
@@ -32,12 +29,13 @@ describe('components/LeaveTeamModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should call onHide when cancel is clicked', () => {
+    it('should hide when cancel is clicked', () => {
         const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>);
         const cancel = wrapper.find('.btn-link').first();
 
         cancel.simulate('click');
-        expect(requiredProps.onHide).toHaveBeenCalledTimes(1);
+
+        expect(wrapper.state('show')).toBe(false);
     });
 
     it('should call leaveTeam and toggleSideBarRightMenu when ok is clicked', () => {
@@ -47,9 +45,10 @@ describe('components/LeaveTeamModal', () => {
         ok.simulate('click');
         expect(requiredProps.actions.leaveTeam).toHaveBeenCalledTimes(1);
         expect(requiredProps.actions.toggleSideBarRightMenu).toHaveBeenCalledTimes(1);
-        expect(requiredProps.onHide).toHaveBeenCalledTimes(1);
         expect(requiredProps.actions.leaveTeam).
             toHaveBeenCalledWith(requiredProps.currentTeamId, requiredProps.currentUserId);
+
+        expect(wrapper.state('show')).toBe(false);
     });
 
     it('should call attach and remove event listeners', () => {

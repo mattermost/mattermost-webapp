@@ -1,0 +1,266 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/global/product_switcher should have an active button state when the switcher menu is open 1`] = `
+<div>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    open={true}
+  >
+    <ProductMenuContainer
+      onClick={[Function]}
+    >
+      <ProductMenuButton
+        active={true}
+        aria-label="Select to open product switch menu."
+      />
+      <Connect(ProductMenuTip) />
+      <ProductBranding />
+    </ProductMenuContainer>
+    <Menu
+      ariaLabel="switcherOpen"
+      className="product-switcher-menu"
+    >
+      <ProductMenuItem
+        active={true}
+        destination="/"
+        icon="product-channels"
+        onClick={[Function]}
+        text="Channels"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-boards"
+        key="Boards"
+        onClick={[Function]}
+        text="Boards"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-playbooks"
+        key="Playbooks"
+        onClick={[Function]}
+        text="Playbooks"
+      />
+      <Connect(ProductMenuList)
+        isMessaging={true}
+        onClick={[Function]}
+      />
+    </Menu>
+  </MenuWrapper>
+</div>
+`;
+
+exports[`components/global/product_switcher should match snapshot 1`] = `
+<div>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    open={false}
+  >
+    <ProductMenuContainer
+      onClick={[Function]}
+    >
+      <ProductMenuButton
+        active={false}
+        aria-label="Select to open product switch menu."
+      />
+      <Connect(ProductMenuTip) />
+      <ProductBranding />
+    </ProductMenuContainer>
+    <Menu
+      ariaLabel="switcherOpen"
+      className="product-switcher-menu"
+    >
+      <ProductMenuItem
+        active={true}
+        destination="/"
+        icon="product-channels"
+        onClick={[Function]}
+        text="Channels"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-boards"
+        key="Boards"
+        onClick={[Function]}
+        text="Boards"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-playbooks"
+        key="Playbooks"
+        onClick={[Function]}
+        text="Playbooks"
+      />
+      <Connect(ProductMenuList)
+        isMessaging={true}
+        onClick={[Function]}
+      />
+    </Menu>
+  </MenuWrapper>
+</div>
+`;
+
+exports[`components/global/product_switcher should match snapshot with product switcher menu 1`] = `
+<div>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    open={false}
+  >
+    <ProductMenuContainer
+      onClick={[Function]}
+    >
+      <ProductMenuButton
+        active={false}
+        aria-label="Select to open product switch menu."
+      />
+      <Connect(ProductMenuTip) />
+      <ProductBranding />
+    </ProductMenuContainer>
+    <Menu
+      ariaLabel="switcherOpen"
+      className="product-switcher-menu"
+    >
+      <ProductMenuItem
+        active={true}
+        destination="/"
+        icon="product-channels"
+        onClick={[Function]}
+        text="Channels"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-boards"
+        key="Boards"
+        onClick={[Function]}
+        text="Boards"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-playbooks"
+        key="Playbooks"
+        onClick={[Function]}
+        text="Playbooks"
+      />
+      <Connect(ProductMenuList)
+        isMessaging={true}
+        onClick={[Function]}
+      />
+    </Menu>
+  </MenuWrapper>
+</div>
+`;
+
+exports[`components/global/product_switcher should render once when there are no top level products available 1`] = `
+<div>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    open={false}
+  >
+    <ProductMenuContainer
+      onClick={[Function]}
+    >
+      <ProductMenuButton
+        active={false}
+        aria-label="Select to open product switch menu."
+      />
+      <Connect(ProductMenuTip) />
+      <ProductBranding />
+    </ProductMenuContainer>
+    <Menu
+      ariaLabel="switcherOpen"
+      className="product-switcher-menu"
+    >
+      <ProductMenuItem
+        active={true}
+        destination="/"
+        icon="product-channels"
+        onClick={[Function]}
+        text="Channels"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-boards"
+        key="Boards"
+        onClick={[Function]}
+        text="Boards"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-playbooks"
+        key="Playbooks"
+        onClick={[Function]}
+        text="Playbooks"
+      />
+      <Connect(ProductMenuList)
+        isMessaging={true}
+        onClick={[Function]}
+      />
+    </Menu>
+  </MenuWrapper>
+</div>
+`;
+
+exports[`components/global/product_switcher should render the correct amount of times when there are products available 1`] = `
+<div>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    open={false}
+  >
+    <ProductMenuContainer
+      onClick={[Function]}
+    >
+      <ProductMenuButton
+        active={false}
+        aria-label="Select to open product switch menu."
+      />
+      <Connect(ProductMenuTip) />
+      <ProductBranding />
+    </ProductMenuContainer>
+    <Menu
+      ariaLabel="switcherOpen"
+      className="product-switcher-menu"
+    >
+      <ProductMenuItem
+        active={true}
+        destination="/"
+        icon="product-channels"
+        onClick={[Function]}
+        text="Channels"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-boards"
+        key="Boards"
+        onClick={[Function]}
+        text="Boards"
+      />
+      <ProductMenuItem
+        active={false}
+        destination=""
+        icon="product-playbooks"
+        key="Playbooks"
+        onClick={[Function]}
+        text="Playbooks"
+      />
+      <Connect(ProductMenuList)
+        isMessaging={true}
+        onClick={[Function]}
+      />
+    </Menu>
+  </MenuWrapper>
+</div>
+`;

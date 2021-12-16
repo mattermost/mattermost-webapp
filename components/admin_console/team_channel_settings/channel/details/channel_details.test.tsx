@@ -63,8 +63,13 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             scope: 'team',
             default_team_admin_role: 'asdf',
             default_team_user_role: 'asdf',
+            default_team_guest_role: 'asdf',
             default_channel_admin_role: 'asdf',
             default_channel_user_role: 'asdf',
+            default_channel_guest_role: 'asdf',
+            default_playbook_admin_role: 'asdf',
+            default_playbook_member_role: 'asdf',
+            default_run_member_role: 'asdf',
         };
 
         const actions = {
@@ -182,8 +187,13 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             scope: 'team',
             default_team_admin_role: 'asdf',
             default_team_user_role: 'asdf',
+            default_team_guest_role: 'asdf',
             default_channel_admin_role: 'asdf',
             default_channel_user_role: 'asdf',
+            default_channel_guest_role: 'asdf',
+            default_playbook_admin_role: 'asdf',
+            default_playbook_member_role: 'asdf',
+            default_run_member_role: 'asdf',
         };
 
         const actions = {
@@ -302,8 +312,13 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             scope: 'team',
             default_team_admin_role: 'asdf',
             default_team_user_role: 'asdf',
+            default_team_guest_role: 'asdf',
             default_channel_admin_role: 'asdf',
             default_channel_user_role: 'asdf',
+            default_channel_guest_role: 'asdf',
+            default_playbook_admin_role: 'asdf',
+            default_playbook_member_role: 'asdf',
+            default_run_member_role: 'asdf',
         };
 
         const actions = {

@@ -71,8 +71,7 @@ export function sendDesktopNotification(post, msgProps) {
 
         let notifyLevel = member?.notify_props?.desktop || NotificationLevels.DEFAULT;
 
-        // disregard channel notification settings on CRT 'on' replies
-        if (notifyLevel === NotificationLevels.DEFAULT || isCrtReply) {
+        if (notifyLevel === NotificationLevels.DEFAULT) {
             notifyLevel = user?.notify_props?.desktop || NotificationLevels.ALL;
         }
 

@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
@@ -32,7 +31,7 @@ export type Props = {
     /**
      * The personal access tokens for a user, object with token ids as keys
      */
-    userAccessTokens?: Dictionary<UserAccessToken>;
+    userAccessTokens?: Record<string, UserAccessToken>;
 
     /**
      * Function called when modal is dismissed

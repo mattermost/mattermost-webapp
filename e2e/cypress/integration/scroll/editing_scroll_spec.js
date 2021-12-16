@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {postMessagesAndScrollUp} from './helpers';
+import {postListOfMessages, scrollCurrentChannelFromTop} from './helpers';
 
 describe('Scroll', () => {
     let firstPostBeforeScroll;
@@ -52,7 +52,8 @@ describe('Scroll', () => {
         cy.getLastPostId().then((postId) => {
             const multilineMessageID = postId;
 
-            postMessagesAndScrollUp(otherUser, testChannelId);
+            postListOfMessages({sender: otherUser, channelId: testChannelId});
+            scrollCurrentChannelFromTop('90%');
 
             // # Get the text of the first visible post
             cy.get('.post-message__text:visible').first().then((postMessage) => {

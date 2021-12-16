@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {isDesktopApp} from 'utils/user_agent';
 
 import HistoryButtons from './history_buttons';
-import ProductSwitcher from './product_switcher';
+import ProductMenu from './product_menu';
 
 const LeftControlsContainer = styled.div`
     display: flex;
@@ -22,7 +22,7 @@ const LeftControlsContainer = styled.div`
 
 const LeftControls = (): JSX.Element => (
     <LeftControlsContainer>
-        <ProductSwitcher/>
+        <ProductMenu/>
         {isDesktopApp() && <HistoryButtons/>}
     </LeftControlsContainer>
 );

@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-describe('Account Settings -> Security -> View and Log Out of Active Sessions', () => {
+describe('Profile > Security > View and Log Out of Active Sessions', () => {
     const platforms = [
         'Linux',
         'Macintosh',
@@ -33,8 +33,8 @@ describe('Account Settings -> Security -> View and Log Out of Active Sessions', 
             testUser = user;
             cy.visit(offTopicUrl);
 
-            // # Go to Account Settings
-            cy.uiOpenAccountSettingsModal('Security');
+            // # Go to Profile
+            cy.uiOpenProfileModal('Security');
 
             // * Check that the Security tab is loaded
             cy.get('#securityButton').should('be.visible');

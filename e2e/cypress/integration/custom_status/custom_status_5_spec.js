@@ -156,8 +156,8 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
     });
 
     it('MM-T3850_12 should show custom status emoji at channel switcher', () => {
-        // # Click channel switcher button
-        cy.uiGetChannelSwitcher().click();
+        // # Open Find Channels
+        cy.uiOpenFindChannels();
 
         // # Type username on the input
         cy.findByRole('textbox', {name: 'quick switch input'}).type(currentUser.username);

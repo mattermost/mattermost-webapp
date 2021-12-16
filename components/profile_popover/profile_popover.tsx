@@ -1,19 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
+import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
@@ -26,8 +27,8 @@ import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
+import {ModalData} from 'types/actions';
 
 import './profile_popover.scss';
 
@@ -67,15 +68,18 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      */
     isRHS?: boolean;
     isBusy?: boolean;
+    isMobileView: boolean;
 
     /**
      * Returns state of modals in redux for determing which need to be closed
      */
     modals?: {
-        [modalId: string]: {
-            open: boolean;
-            dialogProps: Dictionary<any>;
-            dialogType: React.Component;
+        modalState: {
+            [modalId: string]: {
+                open: boolean;
+                dialogProps: Record<string, any>;
+                dialogType: React.ComponentType;
+            };
         };
     };
     currentTeamId: string;
@@ -129,12 +133,8 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      */
     enableTimezone: boolean;
     actions: {
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
-            data: boolean;
-        }>;
-        closeModal: (modalId: string) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
+        closeModal: (modalId: string) => void;
         openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
@@ -190,7 +190,7 @@ ProfilePopoverState
         this.setState({loadingDMChannel: user.id});
         actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
             if (!result.error) {
-                if (Utils.isMobile()) {
+                if (this.props.isMobileView) {
                     GlobalActions.emitCloseRightHandSide();
                 }
                 this.setState({loadingDMChannel: undefined});
@@ -249,11 +249,11 @@ ProfilePopoverState
     };
     handleCloseModals = () => {
         const {modals} = this.props;
-        for (const modal in modals) {
+        for (const modal in modals?.modalState) {
             if (!Object.prototype.hasOwnProperty.call(modals, modal)) {
                 continue;
             }
-            if (modals[modal].open) {
+            if (modals?.modalState[modal].open) {
                 this.props.actions.closeModal(modal);
             }
         }
@@ -634,13 +634,13 @@ ProfilePopoverState
                     {Utils.localizeMessage('bots.is_bot', 'BOT')}
                 </span>
             );
-        } else if (Utils.isGuest(this.props.user)) {
+        } else if (isGuest(this.props.user.roles)) {
             roleTitle = (
                 <span className='user-popover__role'>
                     {Utils.localizeMessage('post_info.guest', 'GUEST')}
                 </span>
             );
-        } else if (Utils.isSystemAdmin(this.props.user.roles)) {
+        } else if (isSystemAdmin(this.props.user.roles)) {
             roleTitle = (
                 <span className='user-popover__role'>
                     {Utils.localizeMessage(

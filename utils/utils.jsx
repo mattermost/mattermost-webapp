@@ -30,7 +30,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
     getCurrentRelativeTeamUrl,
     getCurrentTeam,
@@ -55,6 +55,7 @@ import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
@@ -164,46 +165,6 @@ export function isInRole(roles, inRole) {
                 return true;
             }
         }
-    }
-
-    return false;
-}
-
-export function isChannelAdmin(isLicensed, roles, hasAdminScheme = false) {
-    if (!isLicensed) {
-        return false;
-    }
-
-    if (isInRole(roles, 'channel_admin') || hasAdminScheme) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isAdmin(roles) {
-    if (isInRole(roles, 'team_admin')) {
-        return true;
-    }
-
-    if (isInRole(roles, 'system_admin')) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isSystemAdmin(roles) {
-    if (isInRole(roles, 'system_admin')) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isGuest(user) {
-    if (user && user.roles && isInRole(user.roles, 'system_guest')) {
-        return true;
     }
 
     return false;
@@ -425,7 +386,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post .card-icon__container', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .post-image__details .post-image__download svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
-        changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
+        changeCss('.app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .post-menu, .app__body .post.post--hovered .post__header .post-menu, .app__body .post.a11y--active .post__header .post-menu', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .help-text, .app__body .post .post-waiting, .app__body .post.post--system .post__body', 'color:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a, pp__body .input-group-addon, .app__body .app__content, .app__body .post-create__container .post-create-body .btn-file, .app__body .post-create__container .post-create-footer .msg-typing, .app__body .dropdown-menu, .app__body .popover, .app__body .suggestion-list__item .suggestion-list__ellipsis .suggestion-list__main, .app__body .tip-overlay, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'color:' + theme.centerChannelColor);
@@ -456,7 +417,7 @@ export function applyTheme(theme) {
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .MenuItem > div:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -484,13 +445,10 @@ export function applyTheme(theme) {
         }
         changeCss('body', 'scrollbar-arrow-color:' + theme.centerChannelColor);
         changeCss('.app__body .post-create__container .post-create-body .btn-file svg, .app__body .post.post--compact .post-image__column .post-image__details svg, .app__body .modal .about-modal .about-modal__logo svg, .app__body .status svg, .app__body .edit-post__actions .icon svg', 'fill:' + theme.centerChannelColor);
-        changeCss('.app__body .scrollbar--horizontal, .app__body .scrollbar--vertical', 'background:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .post-list__new-messages-below', 'background:' + changeColor(theme.centerChannelColor, 0.5));
         changeCss('.app__body .post.post--comment .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('@media(min-width: 768px){.app__body .post.post--compact.same--root.post--comment .post__content', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .post.post--comment.current--user .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('.app__body .channel-header__info .status .offline--icon', 'fill:' + theme.centerChannelColor);
-        changeCss('.app__body .navbar .status .offline--icon', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .emoji-picker__search-icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
@@ -509,12 +467,14 @@ export function applyTheme(theme) {
             // Fade out effect for collapsed posts that are being hovered over
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient',
+                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient, ' +
+                '.app__body .ThreadPane .post:hover .post-collapse__gradient ',
                 `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
             );
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more',
+                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more, ' +
+                '.app__body .ThreadPane .post:hover .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
             changeCss(
@@ -523,12 +483,14 @@ export function applyTheme(theme) {
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient',
+                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient, ' +
+                '.app__body .ThreadPane .post.post--hovered .post-collapse__gradient',
                 `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
+                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more, ' +
+                '.app__body .ThreadPane .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
         }
@@ -561,7 +523,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.buttonBg) {
-        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
+        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover:before, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
         changeCss('.app__body .system-notice__logo svg', 'fill:' + theme.buttonBg);
         changeCss('.app__body .post-image__details .post-image__download svg:hover', 'border-color:' + theme.buttonBg);
         changeCss('.app__body .btn.btn-primary:hover, .app__body .btn.btn-primary:active, .app__body .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.15));
@@ -1052,7 +1014,7 @@ export function isValidBotUsername(name) {
 }
 
 export function isMobile() {
-    return window.innerWidth > 0 && window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
+    return getIsMobileView(store.getState());
 }
 
 export function loadImage(url, onLoad, onProgress) {
@@ -1344,14 +1306,6 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     }
 
     return otherUserId;
-}
-
-export function windowWidth() {
-    return window.innerWidth;
-}
-
-export function windowHeight() {
-    return window.innerHeight;
 }
 
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss

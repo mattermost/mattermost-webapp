@@ -41,6 +41,7 @@ import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal, closeModal} from 'actions/views/modals';
 import {isFeatureEnabled} from 'utils/utils';
 
+
 import CreateComment from './create_comment';
 
 type OwnProps = {
@@ -121,8 +122,7 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
-    openModal: (modalData: ModalData) => void;
-    closeModal: (modalId: string) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function makeMapDispatchToProps() {
@@ -174,7 +174,6 @@ function makeMapDispatchToProps() {
             setShowPreview: setShowPreviewOnCreateComment,
             getChannelMemberCountsByGroup,
             openModal,
-            closeModal,
         }, dispatch);
     };
 }

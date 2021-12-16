@@ -4,13 +4,19 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
+
 import {trackEvent} from 'actions/telemetry_actions';
-import Constants, {ModalIdentifiers} from 'utils/constants';
+
 import QuickSwitchModal from 'components/quick_switch_modal';
+
+import {ModalData} from 'types/actions';
+
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
+
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
-import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
 export type Props = {
     addChannelButton?: AddChannelButtonTreatments;
@@ -30,7 +36,7 @@ export type Props = {
     showTutorialTip: boolean;
     isQuickSwitcherOpen: boolean;
     actions: {
-        openModal: (modalData: any) => Promise<{data: boolean}>;
+        openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
         goBack: () => void;
         goForward: () => void;

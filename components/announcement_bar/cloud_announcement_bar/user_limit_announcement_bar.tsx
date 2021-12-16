@@ -7,14 +7,14 @@ import {isEmpty} from 'lodash';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {t} from 'utils/i18n';
 import PurchaseModal from 'components/purchase_modal';
+
+import {ModalData} from 'types/actions';
 
 import {
     Preferences,
@@ -23,6 +23,7 @@ import {
     ModalIdentifiers,
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
+import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
 import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
@@ -33,13 +34,13 @@ type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
     isCloud: boolean;
-    analytics?: Dictionary<number | AnalyticsRow[]>;
+    analytics?: Record<string, number | AnalyticsRow[]>;
     subscription?: Subscription;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getStandardAnalytics: () => void;
         getCloudSubscription: () => void;
-        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 };
 

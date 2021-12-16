@@ -10,9 +10,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
     key="download"
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="download-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Download"
@@ -46,9 +44,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
     key="publicLink"
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="close-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"
@@ -87,9 +83,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
     onExit={[Function]}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="link-variant-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Get a public link"
@@ -122,9 +116,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
     key="download"
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="download-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Download"
@@ -158,9 +150,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
     key="publicLink"
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="close-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"

@@ -1222,8 +1222,7 @@ describe('Selectors.Channels.getChannelsWithUserProfiles', () => {
 
     const channelsInTeam = {
         [team1.id]: [channel1.id],
-        // eslint-disable-next-line no-useless-computed-key
-        ['']: [channel2.id],
+        '': [channel2.id],
     };
 
     const user1 = TestHelper.fakeUserWithId();
@@ -1241,7 +1240,7 @@ describe('Selectors.Channels.getChannelsWithUserProfiles', () => {
         [channel2.id]: new Set([user1.id, user2.id, user3.id]),
     };
 
-    const testState = deepFreezeAndThrowOnMutation({
+    const baseState = deepFreezeAndThrowOnMutation({
         entities: {
             channels: {
                 channels,
@@ -1261,10 +1260,39 @@ describe('Selectors.Channels.getChannelsWithUserProfiles', () => {
         },
     });
 
-    it('getChannelsWithUserProfiles', () => {
-        const channelWithUserProfiles = Selectors.getChannelsWithUserProfiles(testState);
-        assert.equal(channelWithUserProfiles.length, 1);
-        assert.equal(channelWithUserProfiles[0].profiles.length, 2);
+    test('should return the only GM channel with profiles', () => {
+        const channelsWithUserProfiles = Selectors.getChannelsWithUserProfiles(baseState);
+
+        expect(channelsWithUserProfiles.length).toBe(1);
+        expect(channelsWithUserProfiles[0].id).toBe(channel2.id);
+        expect(channelsWithUserProfiles[0].profiles.length).toBe(2);
+    });
+
+    test('shouldn\'t error for channel without profiles loaded', () => {
+        const unloadedChannel = {
+            ...TestHelper.fakeChannelWithId(''),
+            type: General.GM_CHANNEL,
+        };
+
+        const state = mergeObjects(baseState, {
+            entities: {
+                channels: {
+                    channels: {
+                        [unloadedChannel.id]: unloadedChannel,
+                    },
+                    channelsInTeam: {
+                        '': [channel2.id, unloadedChannel.id],
+                    },
+                },
+            },
+        });
+
+        const channelsWithUserProfiles = Selectors.getChannelsWithUserProfiles(state);
+
+        expect(channelsWithUserProfiles.length).toBe(2);
+        expect(channelsWithUserProfiles[0].id).toBe(channel2.id);
+        expect(channelsWithUserProfiles[1].id).toBe(unloadedChannel.id);
+        expect(channelsWithUserProfiles[1].profiles).toEqual([]);
     });
 });
 

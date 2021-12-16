@@ -5,55 +5,28 @@ import React from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post} from 'mattermost-redux/types/posts';
-
-import {FileTypes} from 'utils/constants';
+import {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 import FilePreviewModal from 'components/file_preview_modal';
 
-export type Props = {
+import type {OwnProps, PropsFromRedux} from './index';
 
-    /*
-     * The post the files are attached to
-     */
-    post: Post;
-    fileCount: number;
+type Props = OwnProps & PropsFromRedux;
 
-    /*
-     * Sorted array of metadata for each file attached to the post
-     */
-    fileInfos: FileInfo[];
-
-    compactDisplay?: boolean;
-    enableSVGs?: boolean;
-    isEmbedVisible?: boolean;
-    locale: string;
-
-    handleFileDropdownOpened: (open: boolean) => void;
-}
-
-type State = {
-    showPreviewModal: boolean;
-    startImgIndex: number;
-}
-
-export default class FileAttachmentList extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {showPreviewModal: false, startImgIndex: 0};
-    }
-
+export default class FileAttachmentList extends React.PureComponent<Props> {
     handleImageClick = (indexClicked: number) => {
-        this.setState({showPreviewModal: true, startImgIndex: indexClicked});
-    }
-
-    hidePreviewModal = () => {
-        this.setState({showPreviewModal: false});
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                postId: this.props.post.id,
+                fileInfos: this.props.fileInfos,
+                startIndex: indexClicked,
+            },
+        });
     }
 
     render() {
@@ -113,21 +86,12 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
         }
 
         return (
-            <>
-                <div
-                    data-testid='fileAttachmentList'
-                    className='post-image__columns clearfix'
-                >
-                    {postFiles}
-                </div>
-                <FilePreviewModal
-                    show={this.state.showPreviewModal}
-                    onModalDismissed={this.hidePreviewModal}
-                    startIndex={this.state.startImgIndex}
-                    fileInfos={sortedFileInfos}
-                    postId={this.props.post.id}
-                />
-            </>
+            <div
+                data-testid='fileAttachmentList'
+                className='post-image__columns clearfix'
+            >
+                {postFiles}
+            </div>
         );
     }
 }

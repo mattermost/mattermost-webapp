@@ -22,17 +22,30 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
     role="button"
     tabIndex={-1}
   >
-    <Memo(Avatar)
-      size="sm"
-      url="/api/v4/users/userid2/image?_=0"
-      username="user2"
+    <span
+      className="status-wrapper style--none"
     >
-      <img
-        alt="user2 profile image"
-        className="Avatar Avatar-sm"
-        src="/api/v4/users/userid2/image?_=0"
+      <span
+        className="profile-icon"
+      >
+        <Memo(Avatar)
+          size="sm"
+          url="/api/v4/users/userid2/image?_=0"
+          username="user2"
+        >
+          <img
+            alt="user2 profile image"
+            className="Avatar Avatar-sm"
+            src="/api/v4/users/userid2/image?_=0"
+            tabIndex={0}
+          />
+        </Memo(Avatar)>
+      </span>
+      <StatusIcon
+        button={false}
+        className=""
       />
-    </Memo(Avatar)>
+    </span>
     <span
       className="suggestion-list__ellipsis"
     >
@@ -114,17 +127,30 @@ exports[`at mention suggestion Should not display nick name of the signed in use
     role="button"
     tabIndex={-1}
   >
-    <Memo(Avatar)
-      size="sm"
-      url="/api/v4/users/userid1/image?_=0"
-      username="user"
+    <span
+      className="status-wrapper style--none"
     >
-      <img
-        alt="user profile image"
-        className="Avatar Avatar-sm"
-        src="/api/v4/users/userid1/image?_=0"
+      <span
+        className="profile-icon"
+      >
+        <Memo(Avatar)
+          size="sm"
+          url="/api/v4/users/userid1/image?_=0"
+          username="user"
+        >
+          <img
+            alt="user profile image"
+            className="Avatar Avatar-sm"
+            src="/api/v4/users/userid1/image?_=0"
+            tabIndex={0}
+          />
+        </Memo(Avatar)>
+      </span>
+      <StatusIcon
+        button={false}
+        className=""
       />
-    </Memo(Avatar)>
+    </span>
     <span
       className="suggestion-list__ellipsis"
     >

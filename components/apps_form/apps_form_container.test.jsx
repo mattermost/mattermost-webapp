@@ -47,7 +47,7 @@ describe('components/apps_form/AppsFormContainer', () => {
         actions: {
             doAppCall: jest.fn().mockResolvedValue({}),
         },
-        onHide: jest.fn(),
+        onExited: jest.fn(),
     };
 
     test('should match snapshot', () => {

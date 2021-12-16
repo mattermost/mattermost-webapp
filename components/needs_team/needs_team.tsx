@@ -17,6 +17,7 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {makeAsyncComponent} from 'components/async_load';
 const LazyBackstageController = React.lazy(() => import('components/backstage'));
@@ -26,7 +27,7 @@ import Pluggable from 'plugins/pluggable';
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-const BackstageController = makeAsyncComponent(LazyBackstageController);
+const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
 let wakeUpInterval: number;
 let lastTime = Date.now();
@@ -230,7 +231,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
 
-        if (this.props.currentUser && Utils.isGuest(this.props.currentUser)) {
+        if (this.props.currentUser && isGuest(this.props.currentUser.roles)) {
             this.setState({finishedFetchingChannels: false});
         }
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(

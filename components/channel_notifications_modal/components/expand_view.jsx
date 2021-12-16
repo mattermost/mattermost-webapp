@@ -3,6 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 
@@ -15,13 +19,17 @@ import SectionTitle from './section_title.jsx';
 export default function ExpandView({
     section,
     memberNotifyLevel,
+    memberThreadsNotifyLevel,
     globalNotifyLevel,
     onChange,
+    onChangeThreads,
     onSubmit,
     serverError,
     onCollapseSection,
     ignoreChannelMentions,
 }) {
+    const isCRTEnabled = useSelector(isCollapsedThreadsEnabled);
+
     const inputs = [(
         <div key='channel-notification-level-radio'>
             {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
@@ -169,6 +177,84 @@ export default function ExpandView({
                 </div>
             </fieldset>
             }
+            <div className='mt-5'>
+                <ExtraInfo section={section}/>
+            </div>
+
+            {isCRTEnabled &&
+            section === NotificationSections.DESKTOP &&
+            memberNotifyLevel === NotificationLevels.MENTION &&
+            <>
+                <hr/>
+                <fieldset>
+                    <legend className='form-legend'>
+                        <FormattedMessage
+                            id='user.settings.notifications.threads.desktop'
+                            defaultMessage='Thread reply notifications'
+                        />
+                    </legend>
+                    <div className='checkbox'>
+                        <label>
+                            <input
+                                id='desktopThreadsNotificationAllActivity'
+                                type='checkbox'
+                                name='desktopThreadsNotificationLevel'
+                                checked={memberThreadsNotifyLevel === NotificationLevels.ALL}
+                                onChange={onChangeThreads}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.threads.allActivity'
+                                defaultMessage={'Notify me about threads I\'m following'}
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='mt-5'>
+                        <FormattedMessage
+                            id='user.settings.notifications.threads'
+                            defaultMessage={'When enabled, any reply to a thread you\'re following will send a desktop notification.'}
+                        />
+                    </div>
+                </fieldset>
+            </>
+            }
+            {isCRTEnabled &&
+            section === NotificationSections.PUSH &&
+            memberNotifyLevel === NotificationLevels.MENTION &&
+            <>
+                <hr/>
+                <fieldset>
+                    <legend className='form-legend'>
+                        <FormattedMessage
+                            id='user.settings.notifications.threads.push'
+                            defaultMessage='Thread reply notifications'
+                        />
+                    </legend>
+                    <div className='checkbox'>
+                        <label>
+                            <input
+                                id='pushThreadsNotificationAllActivity'
+                                type='checkbox'
+                                name='pushThreadsNotificationLevel'
+                                checked={memberThreadsNotifyLevel === NotificationLevels.ALL}
+                                onChange={onChangeThreads}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.push_threads.allActivity'
+                                defaultMessage={'Notify me about threads I\'m following'}
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='mt-5'>
+                        <FormattedMessage
+                            id='user.settings.notifications.push_threads'
+                            defaultMessage={'When enabled, any reply to a thread you\'re following will send a mobile push notification.'}
+                        />
+                    </div>
+                </fieldset>
+            </>
+            }
         </div>
     )];
 
@@ -179,7 +265,6 @@ export default function ExpandView({
             submit={onSubmit}
             server_error={serverError}
             updateSection={onCollapseSection}
-            extraInfo={<ExtraInfo section={section}/>}
         />
     );
 }
@@ -187,10 +272,12 @@ export default function ExpandView({
 ExpandView.propTypes = {
     ignoreChannelMentions: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    onChangeThreads: PropTypes.func,
     onCollapseSection: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     globalNotifyLevel: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
+    memberThreadsNotifyLevel: PropTypes.string,
     section: PropTypes.string.isRequired,
     serverError: PropTypes.string,
 };
