@@ -16,6 +16,10 @@ describe('component/user_groups_modal', () => {
         searchTerm: '',
         currentUserId: '',
         backButtonAction: jest.fn(),
+        permissionToViewGroup: true,
+        permissionToJoinGroup: true,
+        permissionToLeaveGroup: true,
+        permissionToArchiveGroup: true,
         actions: {
             openModal: jest.fn(),
             getGroups: jest.fn(),

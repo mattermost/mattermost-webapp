@@ -32,6 +32,10 @@ export type Props = {
     searchTerm: string;
     currentUserId: string;
     backButtonAction: () => void;
+    permissionToViewGroup: boolean;
+    permissionToJoinGroup: boolean;
+    permissionToLeaveGroup: boolean;
+    permissionToArchiveGroup: boolean;
     actions: {
         getGroups: (
             filterAllowReference?: boolean,
@@ -122,7 +126,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 async () => {
                     const params: GroupSearachParams = {
                         q: searchTerm,
-                        filter_allow_reference: false,
+                        filter_allow_reference: true,
                         page: this.state.page,
                         per_page: GROUPS_PER_PAGE,
                         include_member_count: true,
@@ -392,7 +396,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     className='group-row'
                                     key={group.id}
                                     onClick={() => {
-                                        this.goToViewGroupModal(group);
+                                        if (this.props.permissionToViewGroup) {
+                                            this.goToViewGroupModal(group);
+                                        }
                                     }}
                                 >
                                     <span className='group-display-name'>
@@ -429,10 +435,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                             >
                                                 <Menu.Group>
                                                     <Menu.ItemAction
-                                                        show={() => {
-                                                            // TODO: Group permission check here
-                                                            return true;
-                                                        }}
+                                                        show={this.props.permissionToViewGroup}
                                                         onClick={() => {
                                                             this.goToViewGroupModal(group);
                                                         }}
@@ -441,10 +444,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                         disabled={false}
                                                     />
                                                     <Menu.ItemAction
-                                                        show={() => {
-                                                            // TODO: Group permission check here
-                                                            return true;
-                                                        }}
+                                                        show={this.props.permissionToJoinGroup}
                                                         onClick={() => {
                                                             this.joinGroup(group.id);
                                                         }}
@@ -455,10 +455,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                 </Menu.Group>
                                                 <Menu.Group>
                                                     <Menu.ItemAction
-                                                        show={() => {
-                                                            // TODO: Group permission check here
-                                                            return true;
-                                                        }}
+                                                        show={this.props.permissionToLeaveGroup}
                                                         onClick={() => {
                                                             this.leaveGroup(group.id);
                                                         }}
@@ -468,10 +465,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                         isDangerous={true}
                                                     />
                                                     <Menu.ItemAction
-                                                        show={() => {
-                                                            // TODO: Group permission check here
-                                                            return true;
-                                                        }}
+                                                        show={this.props.permissionToArchiveGroup}
                                                         onClick={() => {
                                                             this.archiveGroup(group.id);
                                                         }}

@@ -200,7 +200,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="View Group"
                 />
                 <MenuItemAction
@@ -211,7 +211,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Join Group"
                 />
               </MenuGroup>
@@ -225,7 +225,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Leave Group"
                 />
                 <MenuItemAction
@@ -237,7 +237,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Archive Group"
                 />
               </MenuGroup>
@@ -310,7 +310,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="View Group"
                 />
                 <MenuItemAction
@@ -321,7 +321,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Join Group"
                 />
               </MenuGroup>
@@ -335,7 +335,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Leave Group"
                 />
                 <MenuItemAction
@@ -347,7 +347,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Archive Group"
                 />
               </MenuGroup>
@@ -420,7 +420,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="View Group"
                 />
                 <MenuItemAction
@@ -431,7 +431,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Join Group"
                 />
               </MenuGroup>
@@ -445,7 +445,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Leave Group"
                 />
                 <MenuItemAction
@@ -457,7 +457,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Archive Group"
                 />
               </MenuGroup>
@@ -674,7 +674,7 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="View Group"
                 />
                 <MenuItemAction
@@ -685,7 +685,7 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
                     />
                   }
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Join Group"
                 />
               </MenuGroup>
@@ -699,7 +699,7 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Leave Group"
                 />
                 <MenuItemAction
@@ -711,7 +711,7 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
                   }
                   isDangerous={true}
                   onClick={[Function]}
-                  show={[Function]}
+                  show={true}
                   text="Archive Group"
                 />
               </MenuGroup>

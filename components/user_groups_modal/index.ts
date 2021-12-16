@@ -57,12 +57,22 @@ function mapStateToProps(state: GlobalState) {
         myGroups = getMyAllowReferencedGroups(state);
     }
 
+    // TODO: Check Permissions to do things here
+    const permissionToViewGroup = true;
+    const permissionToJoinGroup = true;
+    const permissionToLeaveGroup = true;
+    const permissionToArchiveGroup = true;
+
     return {
         showModal: isModalOpen(state, ModalIdentifiers.USER_GROUPS),
         groups,
         searchTerm,
         myGroups,
         currentUserId: getCurrentUserId(state),
+        permissionToViewGroup,
+        permissionToJoinGroup,
+        permissionToLeaveGroup,
+        permissionToArchiveGroup,
     };
 }
 

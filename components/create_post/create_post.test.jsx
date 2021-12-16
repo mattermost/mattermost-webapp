@@ -102,7 +102,8 @@ function createPost({
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
-    useGroupMentions = true,
+    useLDAPGroupMentions = true,
+    useCustomGroupMentions = true,
 } = {}) {
     return (
         <CreatePost
@@ -133,7 +134,8 @@ function createPost({
             isTimezoneEnabled={isTimezoneEnabled}
             canPost={true}
             useChannelMentions={true}
-            useGroupMentions={useGroupMentions}
+            useLDAPGroupMentions={useLDAPGroupMentions}
+            useCustomGroupMentions={useCustomGroupMentions}
             tutorialStep={tutorialStep}
         />
     );
@@ -176,7 +178,7 @@ describe('components/create_post', () => {
         expect(clearDraftUploads).toHaveBeenCalled();
     });
 
-    it('Check for state change on channelId change with useGroupMentions = true', () => {
+    it('Check for state change on channelId change with useLDAPGroupMentions = true', () => {
         const wrapper = shallowWithIntl(createPost({}));
         const draft = {
             ...draftProp,
@@ -197,7 +199,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe('test');
     });
 
-    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
+    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useLDAPGroupMentions = true', () => {
         const getChannelMemberCountsByGroup = jest.fn();
         const actions = {
             ...actionsProp,
@@ -214,14 +216,14 @@ describe('components/create_post', () => {
         expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
-    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
+    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useLDAPGroupMentions = false', () => {
         const getChannelMemberCountsByGroup = jest.fn();
-        const useGroupMentions = false;
+        const useLDAPGroupMentions = false;
         const actions = {
             ...actionsProp,
             getChannelMemberCountsByGroup,
         };
-        const wrapper = shallowWithIntl(createPost({actions, useGroupMentions}));
+        const wrapper = shallowWithIntl(createPost({actions, useLDAPGroupMentions}));
         expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {
