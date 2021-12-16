@@ -2172,7 +2172,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                         isHidden: it.not(it.any(
                             it.licensedForSku(LicenseSkus.Enterprise),
-                            it.licensedForSku(LicenseSkus.Professional)
+                            it.licensedForSku(LicenseSkus.Professional),
                         )),
                     },
                 ],
