@@ -152,7 +152,7 @@ describe('component/create_user_groups_modal', () => {
     });
 
     test('should fail to create with duplicate mention error', () => {
-        const createGroupWithUserIds = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error', server_error_id: 'app.group.save_not_unique.name_error'}}));
+        const createGroupWithUserIds = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error', server_error_id: 'app.custom_group.unique_name'}}));
 
         const wrapper = shallow<CreateUserGroupsModal>(
             <CreateUserGroupsModal
