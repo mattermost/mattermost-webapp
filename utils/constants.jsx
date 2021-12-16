@@ -1002,6 +1002,7 @@ export const PostListRowListIds = {
 
 export const exportFormats = {
     EXPORT_FORMAT_CSV: 'csv',
+    EXPORT_FORMAT_CSV_WITH_BOARDS: 'csv-with-boards',
     EXPORT_FORMAT_ACTIANCE: 'actiance',
     EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
 };

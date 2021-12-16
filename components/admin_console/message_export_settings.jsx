@@ -55,13 +55,28 @@ export default class MessageExportSettings extends AdminSettings {
             const message = [];
             if (job.data.messages_exported) {
                 message.push(
-                    <FormattedMessage
-                        id='admin.complianceExport.messagesExportedCount'
-                        defaultMessage='{count} messages exported.'
-                        values={{
-                            count: job.data.messages_exported,
-                        }}
-                    />,
+                    <div>
+                        <FormattedMessage
+                            id='admin.complianceExport.messagesExportedCount'
+                            defaultMessage='{count} messages exported.'
+                            values={{
+                                count: job.data.messages_exported,
+                            }}
+                        />
+                    </div>,
+                );
+            }
+            if (job.data.export_type === exportFormats.EXPORT_FORMAT_CSV_WITH_BOARDS && job.data.boards_blocks_exported) {
+                message.push(
+                    <div>
+                        <FormattedMessage
+                            id='admin.complianceExport.boardBlocksExportedCount'
+                            defaultMessage='{count} boards blocks exported.'
+                            values={{
+                                count: job.data.boards_blocks_exported,
+                            }}
+                        />
+                    </div>,
                 );
             }
             if (job.data.warning_count > 0) {
@@ -109,6 +124,7 @@ export default class MessageExportSettings extends AdminSettings {
         const exportFormatOptions = [
             {value: exportFormats.EXPORT_FORMAT_ACTIANCE, text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
             {value: exportFormats.EXPORT_FORMAT_CSV, text: Utils.localizeMessage('admin.complianceExport.exportFormat.csv', 'CSV')},
+            {value: exportFormats.EXPORT_FORMAT_CSV_WITH_BOARDS, text: Utils.localizeMessage('admin.complianceExport.exportFormat.csv-with-boards', 'CSV (With Boards)')},
             {value: exportFormats.EXPORT_FORMAT_GLOBALRELAY, text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
         ];
 
