@@ -57,7 +57,7 @@ function mapStateToProps(state: GlobalState) {
         myGroups = getMyAllowReferencedGroups(state);
     }
 
-    // TODO: Check Permissions to do things here
+    // TODO: Check Permissions here
     const permissionToViewGroup = true;
     const permissionToJoinGroup = true;
     const permissionToLeaveGroup = true;
