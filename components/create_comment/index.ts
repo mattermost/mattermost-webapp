@@ -38,9 +38,8 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
-import {openModal, closeModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import {isFeatureEnabled} from 'utils/utils';
-
 
 import CreateComment from './create_comment';
 

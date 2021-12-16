@@ -240,18 +240,7 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     focusOnMount?: boolean;
     isThreadView?: boolean;
-
-    /**
-      * Function to open a modal
-      */
-
     openModal: <P>(modalData: ModalData<P>) => void;
-
-    /**
-      * Function to close a modal
-      */
-    closeModal: (modalId: string) => void;
-
     markdownPreviewFeatureIsEnabled: boolean;
 }
 
