@@ -14,7 +14,7 @@ describe('components/file_preview_modal/file_preview_modal_header/FilePreviewMod
         fileURL: 'http://example.com/img.png',
         filename: 'img.png',
         fileInfo: TestHelper.getFileInfoMock({}),
-        isMobile: false,
+        isMobileView: false,
         fileIndex: 1,
         totalFiles: 3,
         post: {},
@@ -38,7 +38,7 @@ describe('components/file_preview_modal/file_preview_modal_header/FilePreviewMod
     test('should match snapshot the mobile view', () => {
         const props = {
             ...defaultProps,
-            isMobile: true,
+            isMobileView: true,
         };
 
         const wrapper = shallow(<FilePreviewModalHeader {...props}/>);

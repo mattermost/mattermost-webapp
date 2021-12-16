@@ -7,9 +7,8 @@ import {FileTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 import {FileInfo, FileSearchResultItem} from 'mattermost-redux/types/files';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
-export function files(state: Dictionary<FileInfo> = {}, action: GenericAction) {
+export function files(state: Record<string, FileInfo> = {}, action: GenericAction) {
     switch (action.type) {
     case FileTypes.RECEIVED_UPLOAD_FILES:
     case FileTypes.RECEIVED_FILES_FOR_POST: {
@@ -58,7 +57,7 @@ export function files(state: Dictionary<FileInfo> = {}, action: GenericAction) {
     }
 }
 
-export function filesFromSearch(state: Dictionary<FileSearchResultItem> = {}, action: GenericAction) {
+export function filesFromSearch(state: Record<string, FileSearchResultItem> = {}, action: GenericAction) {
     switch (action.type) {
     case FileTypes.RECEIVED_FILES_FOR_SEARCH: {
         return {...state,
@@ -73,7 +72,7 @@ export function filesFromSearch(state: Dictionary<FileSearchResultItem> = {}, ac
     }
 }
 
-function storeFilesForPost(state: Dictionary<FileInfo>, post: Post) {
+function storeFilesForPost(state: Record<string, FileInfo>, post: Post) {
     if (!post.metadata || !post.metadata.files) {
         return state;
     }
@@ -91,7 +90,7 @@ function storeFilesForPost(state: Dictionary<FileInfo>, post: Post) {
     }, state);
 }
 
-export function fileIdsByPostId(state: Dictionary<string[]> = {}, action: GenericAction) {
+export function fileIdsByPostId(state: Record<string, string[]> = {}, action: GenericAction) {
     switch (action.type) {
     case FileTypes.RECEIVED_FILES_FOR_POST: {
         const {data, postId} = action;
@@ -132,7 +131,7 @@ export function fileIdsByPostId(state: Dictionary<string[]> = {}, action: Generi
     }
 }
 
-function storeFilesIdsForPost(state: Dictionary<string[]>, post: Post) {
+function storeFilesIdsForPost(state: Record<string, string[]>, post: Post) {
     if (!post.metadata || !post.metadata.files) {
         return state;
     }

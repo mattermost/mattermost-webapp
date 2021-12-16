@@ -10,7 +10,6 @@ import * as Utils from 'utils/utils';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -40,9 +39,9 @@ type Props = {
     currentFilter: ThreadFilter;
     someUnread: boolean;
     setFilter: (filter: ThreadFilter) => void;
-    selectedThreadId?: $ID<UserThread>;
-    ids: Array<$ID<UserThread>>;
-    unreadIds: Array<$ID<UserThread>>;
+    selectedThreadId?: UserThread['id'];
+    ids: Array<UserThread['id']>;
+    unreadIds: Array<UserThread['id']>;
 };
 
 const ThreadList = ({

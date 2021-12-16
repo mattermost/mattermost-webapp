@@ -7,7 +7,6 @@ import {isEmpty} from 'lodash';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
 
@@ -35,7 +34,7 @@ type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
     isCloud: boolean;
-    analytics?: Dictionary<number | AnalyticsRow[]>;
+    analytics?: Record<string, number | AnalyticsRow[]>;
     subscription?: Subscription;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;

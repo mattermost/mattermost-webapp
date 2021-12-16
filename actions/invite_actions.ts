@@ -5,7 +5,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {TeamMemberWithError, TeamInviteWithError} from 'mattermost-redux/types/teams';
 
-import {RelationOneToOne, UserIDMappedObjects} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
@@ -83,7 +83,7 @@ export function sendMembersInvites(teamId: string, users: UserProfile[], emails:
     };
 }
 
-export async function sendGuestInviteForUser(dispatch: DispatchFunc, user: UserProfile, teamId: string, channels: Channel[], members: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>) {
+export async function sendGuestInviteForUser(dispatch: DispatchFunc, user: UserProfile, teamId: string, channels: Channel[], members: RelationOneToOne<Channel, Record<string, ChannelMembership>>) {
     if (!isGuest(user.roles)) {
         return {notSent: {user, reason: localizeMessage('invite.members.user-is-not-guest', 'This person is already a member.')}};
     }

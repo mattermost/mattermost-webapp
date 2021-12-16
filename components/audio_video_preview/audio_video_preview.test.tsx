@@ -1,30 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
-import AudioVideoPreview from 'components/audio_video_preview.jsx';
+import {TestHelper} from 'utils/test_helper';
 
-describe('component/AudioVideoPreview', () => {
-    const requiredProps = {
-        fileInfo: {
+import AudioVideoPreview from './audio_video_preview';
+
+describe('AudioVideoPreview', () => {
+    const baseProps = {
+        fileInfo: TestHelper.getFileInfoMock({
             extension: 'mov',
             id: 'file_id',
-        },
+        }),
         fileUrl: '/api/v4/files/file_id',
+        isMobileView: false,
     };
 
     test('should match snapshot without children', () => {
         const wrapper = shallow(
-            <AudioVideoPreview {...requiredProps}/>,
+            <AudioVideoPreview {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, cannot play', () => {
         const wrapper = shallow(
-            <AudioVideoPreview {...requiredProps}/>,
+            <AudioVideoPreview {...baseProps}/>,
         );
         wrapper.setState({canPlay: false});
         expect(wrapper).toMatchSnapshot();

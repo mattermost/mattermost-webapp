@@ -15,6 +15,7 @@ import PlaybookRunner from 'components/channel_layout/playbook_runner';
 import {makeAsyncComponent} from 'components/async_load';
 
 const LazyGlobalThreads = makeAsyncComponent(
+    'LazyGlobalThreads',
     React.lazy(() => import('components/threading/global_threads')),
     (
         <div className='app__content'>

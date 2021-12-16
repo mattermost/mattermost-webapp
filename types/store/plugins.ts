@@ -6,8 +6,8 @@ import React from 'react';
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
-import {FileInfo} from 'mattermost-redux//types/files';
-import {PostEmbed} from 'mattermost-redux/types/posts';
+import {FileInfo} from 'mattermost-redux/types/files';
+import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 export type PluginsState = {
@@ -59,6 +59,13 @@ export type PluginComponent = {
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
 };
+
+export type FilePreviewComponent = {
+    id: string;
+    pluginId: string;
+    override: (fileInfo: FileInfo, post?: Post) => boolean;
+    component: React.ComponentType<{fileInfo: FileInfo; post?: Post}>;
+}
 
 export type FileDropdownPluginComponent = {
     id: string;
