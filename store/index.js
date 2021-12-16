@@ -74,19 +74,6 @@ export default function configureStore(initialState) {
             return state[key];
         },
         _stateSetter: (state, key, value) => {
-            // eslint-disable-next-line no-process-env
-            if (process.env.NODE_ENV === 'production') {
-                if (key.indexOf('storage:') === 0) {
-                    state.storage = state.storage || {storage: {}};
-                    state.storage.storage[key.substr(8)] = value;
-                } else {
-                    state[key] = value;
-                }
-
-                return state;
-            }
-
-            // In non-production environments, the store is immutable.
             if (key.indexOf('storage:') === 0) {
                 return {
                     ...state,
