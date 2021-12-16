@@ -215,8 +215,6 @@ export const ActionTypes = keyMirror({
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
 
-    STORE_REHYDRATION_FAILED: null,
-
     DISMISS_NOTICE: null,
     SHOW_NOTICE: null,
 
