@@ -25,7 +25,7 @@ import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup
 import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
-import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getInt, getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
@@ -84,10 +84,11 @@ function makeMapStateToProps() {
         const canPost = haveICurrentChannelPermission(state, Permissions.CREATE_POST);
         const useChannelMentions = haveICurrentChannelPermission(state, Permissions.USE_CHANNEL_MENTIONS);
         const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
-        const useGroupMentions = isLDAPEnabled && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
+        const useCustomGroupMentions = isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
+        const useLDAPGroupMentions = isLDAPEnabled && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
-        const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
+        const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
         const enableTutorial = config.EnableTutorial === 'true';
         const showTutorialTip = enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER;
 
@@ -121,10 +122,11 @@ function makeMapStateToProps() {
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreatePost(state),
             groupsWithAllowReference,
-            useGroupMentions,
+            useLDAPGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
             tutorialStep,
+            useCustomGroupMentions,
         };
     };
 }

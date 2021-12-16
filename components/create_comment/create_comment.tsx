@@ -212,9 +212,9 @@ type Props = {
     useChannelMentions: boolean;
 
     /**
-      * To determine if the current user can send group mentions
+      * To determine if the current user can send LDAP group mentions
       */
-    useGroupMentions: boolean;
+    useLDAPGroupMentions: boolean;
 
     /**
       * Set show preview for textbox
@@ -245,6 +245,8 @@ type Props = {
       * Function to open a modal
       */
     openModal: <P>(modalData: ModalData<P>) => void;
+
+    useCustomGroupMentions: boolean;
 }
 
 type State = {
@@ -312,7 +314,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
+        const {useLDAPGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
         clearCommentDraftUploads();
         onResetHistoryIndex();
         setShowPreview(false);
@@ -324,7 +326,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraft);
-        if (useGroupMentions) {
+        if (useLDAPGroupMentions) {
             getChannelMemberCountsByGroup(channelId);
         }
 
@@ -360,7 +362,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
-            if (this.props.useGroupMentions) {
+            if (this.props.useLDAPGroupMentions) {
                 this.props.getChannelMemberCountsByGroup(this.props.channelId);
             }
             this.focusTextbox();
@@ -562,7 +564,8 @@ class CreateComment extends React.PureComponent<Props, State> {
             isTimezoneEnabled,
             groupsWithAllowReference,
             channelMemberCountsByGroup,
-            useGroupMentions,
+            useLDAPGroupMentions,
+            useCustomGroupMentions,
         } = this.props;
         const draft = this.state.draft!;
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;
@@ -573,24 +576,30 @@ class CreateComment extends React.PureComponent<Props, State> {
         const specialMentions = specialMentionsInText(draft.message);
         const hasSpecialMentions = Object.values(specialMentions).includes(true);
 
-        if (enableConfirmNotificationsToChannel && !hasSpecialMentions && useGroupMentions) {
+        if (enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
             // Groups mentioned in users text
             const mentionGroups = groupsMentionedInText(draft.message, groupsWithAllowReference);
             if (mentionGroups.length > 0) {
-                mentions = mentionGroups.
-                    map((group) => {
+                mentionGroups.
+                    forEach((group) => {
+                        if (group.source === 'ldap' && !useLDAPGroupMentions) {
+                            return;
+                        }
+                        if (group.source === 'custom' && !useCustomGroupMentions) {
+                            return;
+                        }
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
                             memberNotifyCount = mappedValue.channel_member_count;
                             channelTimezoneCount = mappedValue.channel_member_timezones_count;
                         }
-                        return `@${group.name}`;
+                        mentions.push(`@${group.name}`);
                     });
                 mentions = [...new Set(mentions)];
             }
         }
 
-        if (!useGroupMentions && mentions.length > 0) {
+        if (!useLDAPGroupMentions && mentions.length > 0) {
             const updatedDraft = {
                 ...draft,
                 props: {

@@ -231,8 +231,6 @@ export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatm
 export function isCustomGroupsEnabled(state: GlobalState): boolean {
     return (
         getFeatureFlagValue(state, 'CustomGroups') === 'true' &&
-        getConfig(state).EnableCustomGroups !== 'false'
-
-    // Check License here
+        getConfig(state).EnableCustomGroups === 'true'
     );
 }
