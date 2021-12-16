@@ -29,7 +29,7 @@ import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-const USERS_PER_PAGE = 10;
+const USERS_PER_PAGE = 60;
 
 export type Props = {
     onExited: () => void;
