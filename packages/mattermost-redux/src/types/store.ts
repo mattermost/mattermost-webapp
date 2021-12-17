@@ -28,7 +28,6 @@ import {TeamsState} from './teams';
 import {ThreadsState} from './threads';
 import {Typing} from './typing';
 import {UsersState} from './users';
-import {Dictionary} from './utilities';
 import {AppsState} from './apps';
 
 export type GlobalState = {
@@ -40,7 +39,7 @@ export type GlobalState = {
         posts: PostsState;
         threads: ThreadsState;
         bots: {
-            accounts: Dictionary<Bot>;
+            accounts: Record<string, Bot>;
         };
         preferences: {
             myPreferences: {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/channel_header/components/UserGuideDropdown should match snapshot 1`] = `
+exports[`UserGuideDropdown should match snapshot 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
   className="userGuideHelp"
@@ -76,7 +76,7 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
 </MenuWrapper>
 `;
 
-exports[`components/channel_header/components/UserGuideDropdown should match snapshot for false of enableAskCommunityLink 1`] = `
+exports[`UserGuideDropdown should match snapshot for false of enableAskCommunityLink 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
   className="userGuideHelp"

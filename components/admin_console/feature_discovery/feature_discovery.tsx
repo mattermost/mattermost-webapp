@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ClientLicense} from 'mattermost-redux/types/config';
 
@@ -36,7 +35,7 @@ type Props = {
 
     prevTrialLicense: ClientLicense;
 
-    stats?: Dictionary<number | AnalyticsRow[]>;
+    stats?: Record<string, number | AnalyticsRow[]>;
     actions: {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;

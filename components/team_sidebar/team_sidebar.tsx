@@ -16,7 +16,6 @@ import {RouteComponentProps} from 'react-router-dom';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -52,7 +51,7 @@ export interface Props {
     collapsedThreads: boolean;
     currentTeamId: string;
     moreTeamsToJoin: boolean;
-    myTeamMembers: Dictionary<TeamMembership>;
+    myTeamMembers: Record<string, TeamMembership>;
     isOpen: boolean;
     experimentalPrimaryTeam?: string ;
     locale: string;

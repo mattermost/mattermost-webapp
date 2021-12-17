@@ -401,7 +401,7 @@ export function getLatestPostId(postIds: string[]): string {
 }
 
 export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) => (intl: IntlShape) => string {
-    const getReactionsForPost = makeGetReactionsForPost();
+    const getReactionsForPost = makeGetUniqueReactionsToPost();
     const getDisplayName = makeGetDisplayName();
 
     return createSelector(
@@ -597,4 +597,32 @@ export function matchUserMentionTriggersWithMessageMentions(userMentionKeys: Use
         }
     }
     return isMentioned;
+}
+
+/**
+ * This removes custom emoji reactions of a post, which are deleted from the custom emoji store.
+ */
+export function makeGetUniqueReactionsToPost(): (state: GlobalState, postId: Post['id']) => Record<string, Reaction> | undefined | null {
+    const getReactionsForPost = makeGetReactionsForPost();
+
+    return createSelector(
+        'makeGetUniqueReactionsToPost',
+        (state: GlobalState, postId: string) => getReactionsForPost(state, postId),
+        getEmojiMap,
+        (reactions, emojiMap) => {
+            if (!reactions) {
+                return null;
+            }
+
+            const reactionsForPost: Record<string, Reaction> = {};
+
+            Object.entries(reactions).forEach(([userIdEmojiKey, emojiReaction]) => {
+                if (emojiMap.get(emojiReaction.emoji_name)) {
+                    reactionsForPost[userIdEmojiKey] = emojiReaction;
+                }
+            });
+
+            return reactionsForPost;
+        },
+    );
 }

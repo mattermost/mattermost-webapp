@@ -7,7 +7,6 @@ import {Preferences} from 'mattermost-redux/constants';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {Search} from 'mattermost-redux/types/search';
 
 function results(state: string[] = [], action: GenericAction) {
@@ -54,7 +53,7 @@ function fileResults(state: string[] = [], action: GenericAction) {
     }
 }
 
-function matches(state: Dictionary<string[]> = {}, action: GenericAction) {
+function matches(state: Record<string, string[]> = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_POSTS:
         if (action.isGettingMore) {
@@ -141,7 +140,7 @@ function flagged(state: string[] = [], action: GenericAction) {
     }
 }
 
-function removePinnedPost(state: Dictionary<string[]>, post: Post) {
+function removePinnedPost(state: Record<string, string[]>, post: Post) {
     if (post && state[post.channel_id]) {
         const postId = post.id;
         const channelId = post.channel_id;
@@ -160,7 +159,7 @@ function removePinnedPost(state: Dictionary<string[]>, post: Post) {
     return state;
 }
 
-function pinned(state: Dictionary<string[]> = {}, action: GenericAction) {
+function pinned(state: Record<string, string[]> = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_PINNED_POSTS: {
         const {channelId, pinned: posts} = action.data;
@@ -213,7 +212,7 @@ function pinned(state: Dictionary<string[]> = {}, action: GenericAction) {
     }
 }
 
-function recent(state: Dictionary<Search[]> = {}, action: GenericAction) {
+function recent(state: Record<string, Search[]> = {}, action: GenericAction) {
     const {data, type} = action;
 
     switch (type) {

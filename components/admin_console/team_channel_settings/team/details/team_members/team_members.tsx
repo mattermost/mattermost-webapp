@@ -8,7 +8,6 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {TeamMembership, Team} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
@@ -28,9 +27,9 @@ type Props = {
     filters: GetFilteredUsersStatsOpts;
 
     users: UserProfile[];
-    usersToRemove: Dictionary<UserProfile>;
-    usersToAdd: Dictionary<UserProfile>;
-    teamMembers: Dictionary<TeamMembership>;
+    usersToRemove: Record<string, UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
+    teamMembers: Record<string, TeamMembership>;
 
     totalCount: number;
     searchTerm: string;
