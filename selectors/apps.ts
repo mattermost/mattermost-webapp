@@ -3,17 +3,16 @@
 
 import {createSelector} from 'reselect';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
+import {GlobalState} from 'types/store';
+
 import {Locations} from 'utils/constants';
 import {PluginComponent} from 'types/store/plugins';
-
-import {getAppBarPluginComponents} from './plugins';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -124,6 +123,14 @@ export function makeGetPostOptionBinding(): (state: GlobalState, location?: stri
         },
     );
 }
+
+export const getAppBarPluginComponents = createSelector(
+    'getAppBarPluginComponents',
+    (state: GlobalState) => state.plugins.components.AppBar,
+    (components = []) => {
+        return components;
+    },
+);
 
 export const shouldShowAppBar = createSelector(
     'shouldShowAppBar',

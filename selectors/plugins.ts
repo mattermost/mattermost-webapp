@@ -31,11 +31,3 @@ export const getChannelHeaderPluginComponents = createSelector(
         return channelHeaderComponents.filter((channelHeaderComponent) => !appBarPluginIds.includes(channelHeaderComponent.pluginId));
     },
 );
-
-export const getAppBarPluginComponents = createSelector(
-    'getAppBarPluginComponents',
-    (state: GlobalState) => state.plugins.components.AppBar,
-    (components = []) => {
-        return components;
-    },
-);

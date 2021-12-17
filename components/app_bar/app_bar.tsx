@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 
 import {getAppBarAppBindings, shouldShowAppBar} from 'selectors/apps';
 
-import {getAppBarPluginComponents} from 'selectors/plugins';
+import {getAppBarPluginComponents} from 'selectors/apps';
 
 import AppBarPluginComponent from './app_bar_plugin_component';
 import AppBarBinding from './app_bar_binding';
