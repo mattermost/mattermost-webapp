@@ -32,7 +32,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
     const channelId = useSelector(getCurrentChannelId);
     const teamId = useSelector(getCurrentTeamId);
 
-    const submitAppCall = React.useCallback(async () => {
+    const submitAppCall = async () => {
         const call = binding.form?.call || binding.call;
 
         if (!call) {
@@ -89,7 +89,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
             dispatch(postEphemeralCallResponseForContext(callResp, errorMessage, context));
         }
         }
-    }, [binding, teamId, channelId]);
+    };
 
     const id = `app-bar-icon-${binding.app_id}`;
     const label = binding.label || binding.app_id;
