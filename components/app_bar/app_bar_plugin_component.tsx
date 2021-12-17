@@ -76,24 +76,22 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
     const isButtonActive = component.pluginId === activePluginId;
 
     return (
-        <div>
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='left'
-                overlay={tooltip}
+        <OverlayTrigger
+            trigger={['hover', 'focus']}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='left'
+            overlay={tooltip}
+        >
+            <div
+                id={buttonId}
+                className={classNames('app-bar__icon', {'app-bar__icon--active': isButtonActive})}
+                onClick={() => {
+                    component.action?.(channel, channelMember);
+                }}
             >
-                <div
-                    id={buttonId}
-                    className={classNames('app-bar__icon', {'app-bar__icon--active': isButtonActive})}
-                    onClick={() => {
-                        component.action?.(channel, channelMember);
-                    }}
-                >
-                    {content}
-                </div>
-            </OverlayTrigger>
-        </div>
+                {content}
+            </div>
+        </OverlayTrigger>
     );
 };
 

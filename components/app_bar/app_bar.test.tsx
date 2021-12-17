@@ -8,6 +8,7 @@ import {PluginComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
 import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 import AppBar from './app_bar';
 
@@ -32,7 +33,7 @@ describe('components/app_bar/app_bar', () => {
             },
             plugins: {
                 components: {
-                    ChannelHeaderButton: channelHeaderComponents,
+                    AppBar: channelHeaderComponents,
                     RightHandSidebarComponent: rhsComponents,
                 } as {[componentName: string]: PluginComponent[]},
             },
@@ -45,6 +46,7 @@ describe('components/app_bar/app_bar', () => {
                 general: {
                     config: {
                         FeatureFlagAppBarEnabled: 'true',
+                        FeatureFlagAppsEnabled: 'true',
                     } as any,
                 },
                 channels: {
@@ -54,6 +56,14 @@ describe('components/app_bar/app_bar', () => {
                             id: 'currentchannel',
                         },
                     } as any,
+                    myMembers: {
+                        currentchannel: {
+                            id: 'memberid',
+                        },
+                    } as any,
+                },
+                teams: {
+                    currentTeamId: 'currentteam',
                 },
                 preferences: {
                     myPreferences: {
@@ -83,10 +93,15 @@ describe('components/app_bar/app_bar', () => {
 
     const channelHeaderAppBindings: AppBinding[] = [
         {
-            app_id: 'com.mattermost.zendesk',
-            label: 'Create Subscription',
+            location: AppBindingLocations.CHANNEL_HEADER_ICON,
+            bindings: [
+                {
+                    app_id: 'com.mattermost.zendesk',
+                    label: 'Create Subscription',
+                },
+            ],
         },
-    ];
+    ] as AppBinding[];
 
     test('should match snapshot on mount', async () => {
         const wrapper = mount(
