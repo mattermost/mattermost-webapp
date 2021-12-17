@@ -8,7 +8,6 @@ import {getExternalBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {loadBots, disableBot, enableBot} from 'mattermost-redux/actions/bots';
 import {getAppsBotIDs as fetchAppsBotIDs} from 'mattermost-redux/actions/integrations';
-import {getAppsBotIDs} from 'mattermost-redux/selectors/entities/integrations';
 import {createUserAccessToken, revokeUserAccessToken, enableUserAccessToken, disableUserAccessToken, getUserAccessTokensForUser, getUser} from 'mattermost-redux/actions/users';
 import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -16,7 +15,7 @@ import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/ac
 import {Bot as BotType} from 'mattermost-redux/types/bots';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {appsEnabled} from 'selectors/apps';
+import {appsEnabled, getAppsBotIDs} from 'selectors/apps';
 
 import Bots from './bots';
 

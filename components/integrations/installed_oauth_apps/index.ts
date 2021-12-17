@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {regenOAuthAppSecret, deleteOAuthApp} from 'mattermost-redux/actions/integrations';
-import {getAppsOAuthAppIDs, getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
+import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -17,6 +17,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {loadOAuthAppsAndProfiles} from 'actions/integration_actions';
+
+import {getAppsOAuthAppIDs} from 'selectors/apps';
 
 import InstalledOAuthApps from './installed_oauth_apps';
 
