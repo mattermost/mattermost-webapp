@@ -16,8 +16,8 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('CTRL/CMD+A - Account settings should open in desktop view', () => {
-        // # Type CTRL/CMD+K to open 'Account Settings'
+    it('MM-T4441_1 CTRL/CMD+A - Settings should open in desktop view', () => {
+        // # Type CTRL/CMD+A to open 'Settings'
         cy.get('#post_textbox').cmdOrCtrlShortcut('A');
 
         // * Ensure account settings modal is open
@@ -26,14 +26,14 @@ describe('Keyboard Shortcuts', () => {
         cy.uiClose();
     });
 
-    it('CTRL/CMD+A - Account settings should open in mobile view view', () => {
+    it('MM-T4441_2 CTRL/CMD+A - Settings should open in mobile view view', () => {
         // # Resize the window to mobile view
         cy.viewport('iphone-6');
 
-        // # Type CTRL/CMD+K to open 'Account Settings'
+        // # Type CTRL/CMD+A to open 'Settings'
         cy.get('#post_textbox').cmdOrCtrlShortcut('A');
 
-        // * Ensure account settings modal is open
+        // * Ensure Settings modal is open
         cy.get('#accountSettingsModal').should('be.visible');
 
         cy.uiClose();
