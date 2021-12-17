@@ -222,6 +222,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
                 this.props.actions.openAppsModal(callResp.form, callRequest);
