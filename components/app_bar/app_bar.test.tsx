@@ -78,6 +78,7 @@ describe('components/app_bar/app_bar', () => {
             id: 'the_component_id',
             pluginId: 'playbooks',
             icon: 'fallback_component' as any,
+            tooltipText: 'Playbooks Tooltip',
             action: jest.fn(),
         },
     ];

@@ -12,6 +12,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
           "icon": "fallback_component",
           "id": "the_component_id",
           "pluginId": "playbooks",
+          "tooltipText": "Playbooks Tooltip",
         }
       }
       key="the_component_id"
@@ -26,7 +27,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
             placement="right"
           >
             <span>
-              playbooks
+              Playbooks Tooltip
             </span>
           </Tooltip>
         }
@@ -49,7 +50,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
               placement="right"
             >
               <span>
-                playbooks
+                Playbooks Tooltip
               </span>
             </OverlayWrapper>
           }

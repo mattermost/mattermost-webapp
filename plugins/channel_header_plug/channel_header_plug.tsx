@@ -99,7 +99,6 @@ type ChannelHeaderPlugProps = {
     components: PluginComponent[];
     appBindings?: AppBinding[];
     appsEnabled: boolean;
-    appBarEnabled: boolean;
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
