@@ -16,7 +16,7 @@ import AtMentionSuggestion from '../at_mention_provider/at_mention_suggestion';
 
 import {ChannelMentionSuggestion} from '../channel_mention_provider';
 
-import {openAppsModal} from 'actions/apps';
+import {openAppsModal} from 'actions/views/apps';
 
 import {AppCommandParser} from './app_command_parser/app_command_parser';
 

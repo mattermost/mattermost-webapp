@@ -31,7 +31,8 @@ import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall, openAppsModal, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
+import {doAppCall, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
+import {openAppsModal} from 'actions/views/apps';
 
 import {
     flagPost,

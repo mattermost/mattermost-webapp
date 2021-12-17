@@ -2,17 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {Action, ActionFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppForm, AppCallType, AppCallRequest, AppContext, AppBinding} from 'mattermost-redux/types/apps';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {AppCallResponse, AppCallType, AppCallRequest, AppContext, AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
 import {CommandArgs} from 'mattermost-redux/types/integrations';
 
-import {openModal} from 'actions/views/modals';
-
-import AppsForm from 'components/apps_form';
-
-import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
 import {makeCallErrorResponse} from 'utils/apps';
@@ -99,17 +94,6 @@ export function makeFetchBindings(location: string): (userId: string, channelId:
             }
         };
     };
-}
-
-export function openAppsModal(form: AppForm, call: AppCallRequest): Action {
-    return openModal({
-        modalId: ModalIdentifiers.APPS_MODAL,
-        dialogType: AppsForm,
-        dialogProps: {
-            form,
-            call,
-        },
-    });
 }
 
 export function postEphemeralCallResponseForPost(response: AppCallResponse, message: string, post: Post): ActionFunc {

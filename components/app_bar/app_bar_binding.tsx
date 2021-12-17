@@ -11,7 +11,8 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {AppBinding, AppCallResponse} from 'mattermost-redux/types/apps';
 
-import {doAppCall, openAppsModal, postEphemeralCallResponseForContext} from 'actions/apps';
+import {doAppCall, postEphemeralCallResponseForContext} from 'actions/apps';
+import {openAppsModal} from 'actions/views/apps';
 
 import {createCallContext, createCallRequest} from 'utils/apps';
 import Constants from 'utils/constants';

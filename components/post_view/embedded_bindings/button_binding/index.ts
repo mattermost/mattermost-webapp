@@ -11,7 +11,8 @@ import {getChannel} from 'mattermost-redux/actions/channels';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 
-import {doAppCall, openAppsModal, postEphemeralCallResponseForPost} from 'actions/apps';
+import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
+import {openAppsModal} from 'actions/views/apps';
 
 import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 

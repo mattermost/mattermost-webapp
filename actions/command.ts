@@ -20,6 +20,8 @@ import {DoAppCallResult} from 'types/apps';
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
+import {doAppCall, postEphemeralCallResponseForCommandArgs} from 'actions/apps';
+import {openAppsModal} from 'actions/views/apps';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
 import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils.jsx';
@@ -36,8 +38,6 @@ import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_short
 import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
-
-import {doAppCall, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {

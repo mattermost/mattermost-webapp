@@ -13,7 +13,8 @@ import {GlobalState} from 'types/store';
 import {appBarEnabled, appsEnabled, getChannelHeaderAppBindings} from 'selectors/apps';
 import {getChannelHeaderPluginComponents} from 'selectors/plugins';
 
-import {doAppCall, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
+import {doAppCall, postEphemeralCallResponseForChannel} from 'actions/apps';
+import {openAppsModal} from 'actions/views/apps';
 
 import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 
