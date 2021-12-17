@@ -11,8 +11,6 @@ import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-r
 
 import {SystemEmoji, CustomEmoji} from 'mattermost-redux/types/emojis';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 
@@ -132,7 +130,7 @@ export function getCustomEmojis(
 
 export function loadProfilesForCustomEmojis(emojis: CustomEmoji[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const usersToLoad: Dictionary<boolean> = {};
+        const usersToLoad: Record<string, boolean> = {};
         emojis.forEach((emoji: CustomEmoji) => {
             if (!getState().entities.users.profiles[emoji.creator_id]) {
                 usersToLoad[emoji.creator_id] = true;

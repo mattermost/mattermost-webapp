@@ -7,7 +7,6 @@ import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Post, PostType} from 'mattermost-redux/types/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from 'mattermost-redux/types/channels';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
@@ -15,7 +14,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import {GlobalState} from 'types/store';
 import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
 
-export function getSelectedPostId(state: GlobalState): $ID<Post> {
+export function getSelectedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostId;
 }
 
@@ -23,11 +22,11 @@ export function getSelectedPostFocussedAt(state: GlobalState): number {
     return state.views.rhs.selectedPostFocussedAt;
 }
 
-export function getSelectedPostCardId(state: GlobalState): $ID<Post> {
+export function getSelectedPostCardId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostCardId;
 }
 
-export function getHighlightedPostId(state: GlobalState): $ID<Post> {
+export function getHighlightedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.highlightedPostId;
 }
 
@@ -67,7 +66,7 @@ export const getSelectedPost = createSelector(
     getRealSelectedPost,
     getSelectedChannelId,
     getCurrentUserId,
-    (selectedPostId: $ID<Post>, selectedPost: Post, selectedPostChannelId: $ID<Channel>, currentUserId): Post|FakePost => {
+    (selectedPostId: Post['id'], selectedPost: Post, selectedPostChannelId: Channel['id'], currentUserId): Post|FakePost => {
         if (selectedPost) {
             return selectedPost;
         }

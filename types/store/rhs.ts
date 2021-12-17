@@ -5,17 +5,16 @@ import {Post, PostType} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {FileInfo} from 'mattermost-redux/types/files';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 export type SearchType = '' | 'files' | 'messages';
 
 export type FakePost = {
-    id: $ID<Post>;
+    id: Post['id'];
     exists: boolean;
     type: PostType;
     message: string;
-    channel_id: $ID<Channel>;
-    user_id: $ID<UserProfile>;
+    channel_id: Channel['id'];
+    user_id: UserProfile['id'];
 };
 
 export type PostDraft = {
@@ -27,11 +26,11 @@ export type PostDraft = {
 };
 
 export type RhsViewState = {
-    selectedPostId: $ID<Post>;
+    selectedPostId: Post['id'];
     selectedPostFocussedAt: number;
-    selectedPostCardId: $ID<Post>;
-    selectedChannelId: $ID<Channel>;
-    highlightedPostId: $ID<Post>;
+    selectedPostCardId: Post['id'];
+    selectedChannelId: Channel['id'];
+    highlightedPostId: Post['id'];
     previousRhsState: RhsState;
     filesSearchExtFilter: string[];
     rhsState: RhsState;

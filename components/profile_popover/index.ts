@@ -22,6 +22,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 
 import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {Action} from 'mattermost-redux/types/actions';
@@ -76,6 +77,7 @@ function makeMapStateToProps() {
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
             channelId,
             currentUserTimezone: getCurrentUserTimezone(state),
+            isMobileView: getIsMobileView(state),
         };
     };
 }
