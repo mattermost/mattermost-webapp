@@ -159,37 +159,6 @@ jobs:
           paths:
             - mattermost-webapp/mattermost-webapp.tar.gz
 
-  build-storybook:
-    executor:
-      name: default
-    working_directory: ~/mattermost/mattermost-webapp
-    steps:
-      - checkout
-      - *restore_cache
-      - run: npm run build-storybook
-      - store_artifacts:
-          path: ~/mattermost/mattermost-webapp/storybook-static
-      - persist_to_workspace:
-          root: ~/mattermost
-          paths:
-            - mattermost-webapp/storybook-static
-
-  upload-storybook:
-    docker:
-      - image: circleci/python:3.6
-    working_directory: ~/mattermost/mattermost-webapp
-    steps:
-      - attach_workspace:
-          at: ~/mattermost/
-      - aws-s3/sync:
-          from: storybook-static
-          to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
-          arguments: --cache-control no-cache
-      - aws-s3/sync:
-          from: storybook-static
-          to: s3://alpha-storybook.mattermost.com/commit/${CIRCLE_SHA1}/
-          arguments: --cache-control no-cache
-
   upload-s3:
     docker:
       - image: circleci/python:3.6
@@ -288,13 +257,6 @@ workflows:
           context: matterbuild-docker
           requires:
             - prepare-docker-build
-      - build-storybook:
-          requires:
-            - build
-      - upload-storybook:
-          context: mattermost-s3-storybook-alpha
-          requires:
-            - build-storybook
       - test:
           requires:
             - type-check
