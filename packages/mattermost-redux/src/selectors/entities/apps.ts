@@ -10,10 +10,7 @@ import {ClientConfig} from 'mattermost-redux/types/config';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-import {getAppBarPluginComponents} from 'selectors/plugins';
-
 import {Locations} from 'utils/constants';
-import {PluginComponent} from 'types/store/plugins';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -75,16 +72,6 @@ export const getAppBarAppBindings = createSelector(
         const backwardsCompatibleBindings = channelHeaderBindings.filter((b) => !appIds.includes(b.app_id));
 
         return appBarBindings.concat(backwardsCompatibleBindings);
-    },
-);
-
-export const shouldShowAppBar = createSelector(
-    'shouldShowAppBar',
-    appBarEnabled,
-    getAppBarAppBindings,
-    getAppBarPluginComponents,
-    (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
-        return enabled && Boolean(bindings.length || pluginComponents.length);
     },
 );
 

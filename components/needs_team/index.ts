@@ -13,13 +13,13 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {shouldShowAppBar} from 'mattermost-redux/selectors/entities/apps';
 import {Action} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
 import {setPreviousTeamId} from 'actions/local_storage';
 import {getPreviousTeamId} from 'selectors/local_storage';
+import {shouldShowAppBar} from 'selectors/plugins';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
