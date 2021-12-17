@@ -101,7 +101,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from 'mattermost-redux/types/users';
-import {$ID, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ProductNotices} from 'mattermost-redux/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -590,7 +590,7 @@ export default class Client4 {
     getKnownUsers = () => {
         this.trackEvent('api', 'api_get_known_users');
 
-        return this.doFetch<Array<$ID<UserProfile>>>(
+        return this.doFetch<Array<UserProfile['id']>>(
             `${this.getUsersRoute()}/known`,
             {method: 'get'},
         );
@@ -1945,8 +1945,8 @@ export default class Client4 {
     };
 
     getUserThreads = (
-        userId: $ID<UserProfile> = 'me',
-        teamId: $ID<Team>,
+        userId: UserProfile['id'] = 'me',
+        teamId: Team['id'],
         {
             before = '',
             after = '',
