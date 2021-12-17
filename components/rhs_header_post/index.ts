@@ -41,11 +41,6 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
 
     const collapsedThreads = isCollapsedThreadsEnabled(state);
     const root = getPost(state, rootPostId);
-    const currentUserMentionKeys = getCurrentUserMentionKeys(state);
-    const rootMessageMentionKeys = allAtMentions(root.message);
-    const thread = getThreadOrSynthetic(state, root);
-    const isMentionedInRootPost = thread.reply_count === 0 &&
-        matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
     const currentUserId = getCurrentUserId(state) as string;
     const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
 
@@ -68,9 +63,8 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
         currentTeamId: getCurrentTeamId(state),
         currentUserId,
-        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isFollowingThread: isCollapsedThreadsEnabled(state) && root && thread.is_following,
-        isMentionedInRootPost,
+        isCollapsedThreadsEnabled: collapsedThreads,
+        isFollowingThread,
         showThreadsTutorialTip,
     };
 }
