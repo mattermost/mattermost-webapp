@@ -10,14 +10,13 @@ import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {loadOAuthAppsAndProfiles} from 'actions/integration_actions';
 
+import {GlobalState} from 'types/store';
 import {getAppsOAuthAppIDs} from 'selectors/apps';
 
 import InstalledOAuthApps from './installed_oauth_apps';
