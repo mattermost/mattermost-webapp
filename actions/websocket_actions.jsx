@@ -182,9 +182,11 @@ export function unregisterPluginReconnectHandler(pluginId) {
     Reflect.deleteProperty(pluginReconnectHandlers, pluginId);
 }
 
-export function reconnect(includeWebSocket = true) {
+export function reconnect(includeWebSocket = true, init = false) {
     if (includeWebSocket) {
         reconnectWebSocket();
+    } else if (init) {
+        initialize();
     }
 
     dispatch({
