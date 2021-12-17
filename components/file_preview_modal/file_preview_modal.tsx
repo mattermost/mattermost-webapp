@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
+
+import {FileInfo} from 'mattermost-redux/types/files';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {getFileDownloadUrl, getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import LoadingImagePreview from 'components/loading_image_preview';
@@ -13,64 +15,77 @@ import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 
+import {FilePreviewComponent} from 'types/store/plugins';
+
 import ImagePreview from './image_preview';
 import './file_preview_modal.scss';
 import FilePreviewModalFooter from './file_preview_modal_footer/file_preview_modal_footer';
 import FilePreviewModalHeader from './file_preview_modal_header/file_preview_modal_header';
 import PopoverBar from './popover_bar';
+import {LinkInfo, isFileInfo} from './types';
 
 const PDFPreview = React.lazy(() => import('components/pdf_preview'));
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class FilePreviewModal extends React.PureComponent {
-    static propTypes = {
+export type Props = {
+    canDownloadFiles: boolean;
+    enablePublicLink: boolean;
 
-        /**
-         * The id of the post the files are attached to
-         */
-        postId: PropTypes.string,
+    /**
+     * List of FileInfo to view
+     **/
+    fileInfos: Array<FileInfo | LinkInfo>;
 
-        /**
-         * The post the files are attached to
-         * Either postId or post can be passed to FilePreviewModal
-         */
-        post: PropTypes.object,
+    isMobileView: boolean;
+    pluginFilePreviewComponents: FilePreviewComponent[];
+    onExited: () => void;
 
-        /**
-         * List of FileInfo to view
-         **/
-        fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+    /**
+     * The id of the post the files are attached to
+     */
+    postId?: string;
 
-        /**
-         * The index number of starting image
-         **/
-        startIndex: PropTypes.number,
+    /**
+     * The post the files are attached to
+     * Either postId or post can be passed to FilePreviewModal
+     */
+    post?: Post;
 
-        canDownloadFiles: PropTypes.bool,
-        enablePublicLink: PropTypes.bool,
-        pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
+    /**
+     * The index number of starting image
+     **/
+    startIndex: number;
+}
 
-        onExited: PropTypes.func,
-    };
+type State = {
+    show: boolean;
+    imageIndex: number;
+    imageHeight: number | string;
+    loaded: boolean[];
+    prevFileInfosCount: number;
+    progress: number[];
+    showCloseBtn: boolean;
+    showZoomControls: boolean;
+    scale: number[];
+}
 
+export default class FilePreviewModal extends React.PureComponent<Props, State> {
     static defaultProps = {
         fileInfos: [],
         startIndex: 0,
         pluginFilePreviewComponents: [],
-        post: {}, // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
-        const isMobile = Utils.isMobile();
 
         this.state = {
             show: true,
-            isMobile,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
+            prevFileInfosCount: 0,
             progress: Utils.fillArray(0, this.props.fileInfos.length),
             showCloseBtn: false,
             showZoomControls: false,
@@ -78,10 +93,7 @@ export default class FilePreviewModal extends React.PureComponent {
         };
     }
 
-    handleNext = (e) => {
-        if (e) {
-            e.stopPropagation();
-        }
+    handleNext = () => {
         let id = this.state.imageIndex + 1;
         if (id > this.props.fileInfos.length - 1) {
             id = 0;
@@ -89,10 +101,7 @@ export default class FilePreviewModal extends React.PureComponent {
         this.showImage(id);
     }
 
-    handlePrev = (e) => {
-        if (e) {
-            e.stopPropagation();
-        }
+    handlePrev = () => {
         let id = this.state.imageIndex - 1;
         if (id < 0) {
             id = this.props.fileInfos.length - 1;
@@ -100,7 +109,7 @@ export default class FilePreviewModal extends React.PureComponent {
         this.showImage(id);
     }
 
-    handleKeyPress = (e) => {
+    handleKeyPress = (e: KeyboardEvent) => {
         if (Utils.isKeyPressed(e, KeyCodes.RIGHT)) {
             this.handleNext();
         } else if (Utils.isKeyPressed(e, KeyCodes.LEFT)) {
@@ -108,44 +117,32 @@ export default class FilePreviewModal extends React.PureComponent {
         }
     }
 
-    handleWindowResize = () => {
-        const isMobile = Utils.isMobile();
-        if (isMobile !== this.state.isMobile) {
-            this.setState({
-                isMobile,
-            });
-        }
-    }
-
     componentDidMount() {
         document.addEventListener('keyup', this.handleKeyPress);
-
-        window.addEventListener('resize', this.handleWindowResize);
 
         this.showImage(this.props.startIndex);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.handleWindowResize);
         document.removeEventListener('keyup', this.handleKeyPress);
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const updatedProps = {};
+    static getDerivedStateFromProps(props: Props, state: State) {
+        const updatedState: Partial<State> = {};
         if (props.fileInfos[state.imageIndex] && props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
-            updatedProps.showZoomControls = true;
+            updatedState.showZoomControls = true;
         } else {
-            updatedProps.showZoomControls = false;
+            updatedState.showZoomControls = false;
         }
         if (props.fileInfos.length !== state.prevFileInfosCount) {
-            updatedProps.loaded = Utils.fillArray(false, props.fileInfos.length);
-            updatedProps.progress = Utils.fillArray(0, props.fileInfos.length);
-            updatedProps.prevFileInfosCount = props.fileInfos.length;
+            updatedState.loaded = Utils.fillArray(false, props.fileInfos.length);
+            updatedState.progress = Utils.fillArray(0, props.fileInfos.length);
+            updatedState.prevFileInfosCount = props.fileInfos.length;
         }
-        return Object.keys(updatedProps).length ? updatedProps : null;
+        return Object.keys(updatedState).length ? updatedState : null;
     }
 
-    showImage = (id) => {
+    showImage = (id: number) => {
         this.setState({imageIndex: id});
 
         const imageHeight = window.innerHeight - 100;
@@ -156,13 +153,13 @@ export default class FilePreviewModal extends React.PureComponent {
         }
     }
 
-    loadImage = (index) => {
+    loadImage = (index: number) => {
         const fileInfo = this.props.fileInfos[index];
         const fileType = Utils.getFileType(fileInfo.extension);
 
-        if (fileType === FileTypes.IMAGE && Boolean(fileInfo.id)) {
+        if (fileType === FileTypes.IMAGE && isFileInfo(fileInfo)) {
             let previewUrl;
-            if (fileInfo.has_image_preview) {
+            if (fileInfo.has_preview_image) {
                 previewUrl = getFilePreviewUrl(fileInfo.id);
             } else {
                 // some images (eg animated gifs) just show the file itself and not a preview
@@ -180,7 +177,7 @@ export default class FilePreviewModal extends React.PureComponent {
         }
     }
 
-    handleImageLoaded = (index) => {
+    handleImageLoaded = (index: number) => {
         this.setState((prevState) => {
             return {
                 loaded: {
@@ -191,7 +188,7 @@ export default class FilePreviewModal extends React.PureComponent {
         });
     }
 
-    handleImageProgress = (index, completedPercentage) => {
+    handleImageProgress = (index: number, completedPercentage: number) => {
         this.setState((prevState) => {
             return {
                 progress: {
@@ -210,7 +207,7 @@ export default class FilePreviewModal extends React.PureComponent {
         this.setState({showCloseBtn: false});
     }
 
-    setScale = (index, scale) => {
+    setScale = (index: number, scale: number) => {
         this.setState((prevState) => {
             return {
                 scale: {
@@ -241,7 +238,7 @@ export default class FilePreviewModal extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleBgClose = (e) => {
+    handleBgClose = (e: React.MouseEvent) => {
         if (e.currentTarget === e.target) {
             this.handleModalClose();
         }
@@ -253,12 +250,27 @@ export default class FilePreviewModal extends React.PureComponent {
         }
 
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
-        const showPublicLink = !fileInfo.link;
-        const fileName = fileInfo.name || fileInfo.link;
         const fileType = Utils.getFileType(fileInfo.extension);
-        const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
-        const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
-        const isExternalFile = !fileInfo.id;
+
+        let showPublicLink;
+        let fileName;
+        let fileUrl;
+        let fileDownloadUrl;
+        let isExternalFile;
+        if (isFileInfo(fileInfo)) {
+            showPublicLink = true;
+            fileName = fileInfo.name;
+            fileUrl = getFileUrl(fileInfo.id);
+            fileDownloadUrl = getFileDownloadUrl(fileInfo.id);
+            isExternalFile = false;
+        } else {
+            showPublicLink = false;
+            fileName = fileInfo.name || fileInfo.link;
+            fileUrl = fileInfo.link;
+            fileDownloadUrl = fileInfo.link;
+            isExternalFile = true;
+        }
+
         let dialogClassName = 'a11y__modal modal-image file-preview-modal';
 
         let content;
@@ -276,7 +288,7 @@ export default class FilePreviewModal extends React.PureComponent {
             } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
                 content = (
                     <AudioVideoPreview
-                        fileInfo={fileInfo}
+                        fileInfo={fileInfo as FileInfo}
                         fileUrl={fileUrl}
                     />
                 );
@@ -318,7 +330,7 @@ export default class FilePreviewModal extends React.PureComponent {
             } else {
                 content = (
                     <FileInfoPreview
-                        fileInfo={fileInfo}
+                        fileInfo={fileInfo as FileInfo}
                         fileUrl={fileUrl}
                     />
                 );
@@ -336,15 +348,17 @@ export default class FilePreviewModal extends React.PureComponent {
             );
         }
 
-        for (const preview of this.props.pluginFilePreviewComponents) {
-            if (preview.override(fileInfo, this.props.post)) {
-                content = (
-                    <preview.component
-                        fileInfo={fileInfo}
-                        post={this.props.post}
-                    />
-                );
-                break;
+        if (isFileInfo(fileInfo)) {
+            for (const preview of this.props.pluginFilePreviewComponents) {
+                if (preview.override(fileInfo, this.props.post)) {
+                    content = (
+                        <preview.component
+                            fileInfo={fileInfo}
+                            post={this.props.post}
+                        />
+                    );
+                    break;
+                }
             }
         }
 
@@ -378,7 +392,7 @@ export default class FilePreviewModal extends React.PureComponent {
                                 className='file-preview-modal__title'
                             >
                                 <FilePreviewModalHeader
-                                    isMobile={this.state.isMobile}
+                                    isMobileView={this.props.isMobileView}
                                     post={this.props.post}
                                     showPublicLink={showPublicLink}
                                     fileIndex={this.state.imageIndex}
@@ -386,8 +400,8 @@ export default class FilePreviewModal extends React.PureComponent {
                                     filename={fileName}
                                     fileURL={fileDownloadUrl}
                                     fileInfo={fileInfo}
-                                    enablePublicLink={this.props.enablePublicLink || false}
-                                    canDownloadFiles={this.props.canDownloadFiles || false}
+                                    enablePublicLink={this.props.enablePublicLink}
+                                    canDownloadFiles={this.props.canDownloadFiles}
                                     isExternalFile={isExternalFile}
                                     handlePrev={this.handlePrev}
                                     handleNext={this.handleNext}
@@ -401,18 +415,16 @@ export default class FilePreviewModal extends React.PureComponent {
                             >
                                 {content}
                             </div>
-                            { this.state.isMobile &&
+                            { this.props.isMobileView &&
                                 <FilePreviewModalFooter
                                     post={this.props.post}
                                     showPublicLink={showPublicLink}
                                     filename={fileName}
                                     fileURL={fileDownloadUrl}
                                     fileInfo={fileInfo}
-                                    enablePublicLink={this.props.enablePublicLink || false}
-                                    canDownloadFiles={this.props.canDownloadFiles || false}
+                                    enablePublicLink={this.props.enablePublicLink}
+                                    canDownloadFiles={this.props.canDownloadFiles}
                                     isExternalFile={isExternalFile}
-                                    handlePrev={this.handlePrev}
-                                    handleNext={this.handleNext}
                                     handleModalClose={this.handleModalClose}
                                 />
                             }
