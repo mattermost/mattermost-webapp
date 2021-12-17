@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as Selectors from 'mattermost-redux/selectors/entities/apps';
+import * as Selectors from 'selectors/apps';
 import {GlobalState} from 'types/store';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';

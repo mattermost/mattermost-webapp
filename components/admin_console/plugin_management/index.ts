@@ -15,7 +15,8 @@ import {
 } from 'mattermost-redux/actions/admin';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
+
+import {appsEnabled} from 'selectors/apps';
 
 import PluginManagement from './plugin_management';
 

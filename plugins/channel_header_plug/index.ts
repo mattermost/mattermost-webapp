@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {appBarEnabled, appsEnabled, getChannelHeaderAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
 import {GlobalState} from 'types/store';
 
+import {appBarEnabled, appsEnabled, getChannelHeaderAppBindings} from 'selectors/apps';
 import {getChannelHeaderPluginComponents} from 'selectors/plugins';
 
 import {doAppCall, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';

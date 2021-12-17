@@ -11,6 +11,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 import {Locations} from 'utils/constants';
+import {PluginComponent} from 'types/store/plugins';
+
+import {getAppBarPluginComponents} from './plugins';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -121,3 +124,31 @@ export function makeGetPostOptionBinding(): (state: GlobalState, location?: stri
         },
     );
 }
+
+export const shouldShowAppBar = createSelector(
+    'shouldShowAppBar',
+    appBarEnabled,
+    getAppBarAppBindings,
+    getAppBarPluginComponents,
+    (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
+        return enabled && Boolean(bindings.length || pluginComponents.length);
+    },
+);
+
+export const getAppsOAuthAppIDs: (state: GlobalState) => string[] = createSelector(
+    'getAppsOAuthAppIDs',
+    appsEnabled,
+    (state: GlobalState) => state.entities.integrations.appsOAuthAppIDs,
+    (apps, ids) => {
+        return apps ? ids : [];
+    },
+);
+
+export const getAppsBotIDs: (state: GlobalState) => string[] = createSelector(
+    'getAppsBotIDs',
+    appsEnabled,
+    (state: GlobalState) => state.entities.integrations.appsBotIDs,
+    (apps, ids) => {
+        return apps ? ids : [];
+    },
+);

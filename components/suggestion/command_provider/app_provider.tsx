@@ -10,7 +10,7 @@ import globalStore from 'stores/redux_store';
 import Provider from '../provider';
 import {GlobalState} from 'types/store';
 
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {appsEnabled} from 'selectors/apps';
 
 import AtMentionSuggestion from '../at_mention_provider/at_mention_suggestion';
 

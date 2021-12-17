@@ -8,8 +8,9 @@ import {Store} from 'redux';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import {Client4} from 'mattermost-redux/client';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {AutocompleteSuggestion, CommandArgs} from 'mattermost-redux/types/integrations';
+
+import {appsEnabled} from 'selectors/apps';
 
 import globalStore from 'stores/redux_store';
 

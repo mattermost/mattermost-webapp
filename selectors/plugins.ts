@@ -3,8 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
-import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {appBarEnabled} from 'selectors/apps';
 
 import {GlobalState} from 'types/store';
 import {FileDropdownPluginComponent, PluginComponent} from '../types/store/plugins';
@@ -38,15 +37,5 @@ export const getAppBarPluginComponents = createSelector(
     (state: GlobalState) => state.plugins.components.AppBar,
     (components = []) => {
         return components;
-    },
-);
-
-export const shouldShowAppBar = createSelector(
-    'shouldShowAppBar',
-    appBarEnabled,
-    getAppBarAppBindings,
-    getAppBarPluginComponents,
-    (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
-        return enabled && Boolean(bindings.length || pluginComponents.length);
     },
 );

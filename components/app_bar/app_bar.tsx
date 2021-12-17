@@ -4,9 +4,9 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {getAppBarAppBindings, shouldShowAppBar} from 'selectors/apps';
 
-import {getAppBarPluginComponents, shouldShowAppBar} from 'selectors/plugins';
+import {getAppBarPluginComponents} from 'selectors/plugins';
 
 import AppBarPluginComponent from './app_bar_plugin_component';
 import AppBarBinding from './app_bar_binding';

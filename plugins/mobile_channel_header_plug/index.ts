@@ -7,12 +7,13 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
 
-import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {GlobalState} from 'types/store';
 import {AppCallRequest, AppCallType, AppForm} from 'mattermost-redux/types/apps';
 import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {doAppCall, openAppsModal} from 'actions/apps';
+
+import {appsEnabled, makeAppBindingsSelector} from 'selectors/apps';
 
 import MobileChannelHeaderPlug from './mobile_channel_header_plug';
 

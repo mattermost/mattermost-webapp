@@ -5,7 +5,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
@@ -13,6 +12,7 @@ import type {CommandArgs} from 'mattermost-redux/types/integrations';
 
 import {GlobalState} from 'types/store';
 
+import {appsEnabled} from 'selectors/apps';
 import {getApp, getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
 

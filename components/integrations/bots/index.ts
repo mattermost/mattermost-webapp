@@ -16,7 +16,7 @@ import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/ac
 import {Bot as BotType} from 'mattermost-redux/types/bots';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {appsEnabled} from 'selectors/apps';
 
 import Bots from './bots';
 

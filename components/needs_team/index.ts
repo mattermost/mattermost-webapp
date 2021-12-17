@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 
 import {setPreviousTeamId} from 'actions/local_storage';
 import {getPreviousTeamId} from 'selectors/local_storage';
-import {shouldShowAppBar} from 'selectors/plugins';
+import {shouldShowAppBar} from 'selectors/apps';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
