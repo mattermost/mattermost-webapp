@@ -34,7 +34,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
 }: TeamEditionRightPanelProps) => {
     let upgradeButton = null;
     const upgradeAdvantages = [
-        'AD?LDAP Group Sync',
+        'AD/LDAP Group Sync',
         'High Availability',
         'Advanced compliance',
         'And more...',
