@@ -10,6 +10,9 @@ import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import FollowButton from 'components/threading/common/follow_button';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
@@ -127,6 +130,11 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                     id='rhs_header.expandSidebarTooltip'
                     defaultMessage='Expand Sidebar'
                 />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
+                />
             </Tooltip>
         );
 
@@ -135,6 +143,11 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                 <FormattedMessage
                     id='rhs_header.collapseSidebarTooltip'
                     defaultMessage='Collapse Sidebar'
+                />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
                 />
             </Tooltip>
         );
