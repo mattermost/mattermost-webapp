@@ -2,11 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React, {memo} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {areEqual} from 'react-window';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 
+import LoadingScreen from 'components/loading_screen';
+import NoResultsIndicator from 'components/no_results_indicator';
+import {NoResultsLayout} from 'components/no_results_indicator/types';
+import {SearchShortcut} from 'components/search_shortcut/search_shortcut';
+
+import {Constants} from 'utils/constants';
+
+import SearchPostsIllustration from '../../common/search_posts_illustration';
 import ThreadItem from '../thread_item';
 
 type Props = {
@@ -21,6 +30,40 @@ type Props = {
 function Row({index, style, data}: Props) {
     const itemId = data.ids[index];
     const isSelected = data.selectedThreadId === itemId;
+
+    if (itemId === Constants.THREADS_LOADING_INDICATOR_ITEM_ID) {
+        return (
+            <LoadingScreen
+                message={<></>}
+                style={style}
+            />
+        );
+    }
+
+    if (itemId === Constants.THREADS_NO_RESULTS_ITEM_ID) {
+        return (
+            <NoResultsIndicator
+                style={{...style, padding: '18px 18px 18px 28px', background: 'rgba(var(--center-channel-color-rgb), 0.04)'}}
+                iconGraphic={SearchPostsIllustration}
+                title={
+                    <FormattedMessage
+                        id='globalThreads.searchGuidance.title'
+                        defaultMessage='That’s the end of the list'
+                    />
+                }
+                subtitle={
+                    <FormattedMessage
+                        id='globalThreads.searchGuidance.subtitle'
+                        defaultMessage='If you’re looking for older conversations, try searching with {searchShortcut}'
+                        values={{
+                            searchShortcut: <SearchShortcut/>,
+                        }}
+                    />
+                }
+                layout={NoResultsLayout.Horizontal}
+            />
+        );
+    }
 
     return (
         <ThreadItem

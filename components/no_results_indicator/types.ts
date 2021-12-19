@@ -8,3 +8,8 @@ export enum NoResultsVariant {
     ChannelFiles = 'ChannelFiles',
     ChannelFilesFiltered = 'ChannelFilesFiltered',
 }
+
+export enum NoResultsLayout {
+    Vertical,
+    Horizontal,
+}

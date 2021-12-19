@@ -18,6 +18,8 @@ type Props = {
     loadMoreItems: (startIndex: number, stopIndex: number) => Promise<any>;
     selectedThreadId?: $ID<UserThread>;
     total: number;
+    isLoading?: boolean;
+    hasLoaded?: boolean;
 };
 
 const style = {
@@ -29,6 +31,8 @@ function VirtualizedThreadList({
     selectedThreadId,
     loadMoreItems,
     total,
+    isLoading,
+    hasLoaded,
 }: Props) {
     const infiniteLoaderRef = React.useRef<any>();
     const startIndexRef = React.useRef<number>(0);
@@ -46,7 +50,15 @@ function VirtualizedThreadList({
         }
     }, [selectedThreadId, ids]);
 
-    const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
+    const data = useMemo(
+        () => (
+            {
+                ids: hasLoaded && ids.length === total ? [...ids, Constants.THREADS_NO_RESULTS_ITEM_ID] : (isLoading && ids.length !== total && [...ids, Constants.THREADS_LOADING_INDICATOR_ITEM_ID]) || ids,
+                selectedThreadId,
+            }
+        ),
+        [ids, selectedThreadId, isLoading, hasLoaded, total],
+    );
 
     const isItemLoaded = useCallback((index) => {
         return ids.length === total || index < ids.length;
@@ -82,7 +94,7 @@ function VirtualizedThreadList({
                                 }}
                                 ref={ref}
                                 height={height}
-                                itemCount={ids.length}
+                                itemCount={data.ids.length}
                                 itemData={data}
                                 itemKey={itemKey}
                                 itemSize={133}
@@ -90,7 +102,8 @@ function VirtualizedThreadList({
                                 width={width}
                             >
                                 {Row}
-                            </FixedSizeList>);
+                            </FixedSizeList>
+                        );
                     }
                     }
                 </InfiniteLoader>
