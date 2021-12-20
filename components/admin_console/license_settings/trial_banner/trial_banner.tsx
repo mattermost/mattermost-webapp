@@ -77,12 +77,12 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
             await savePrefsRestartedAfterUpgrade();
             handleRestart();
         }
-        if (upgradingPercentage === 100) {
+        if (upgradingPercentage === 100 && clickedUpgradeAndTrialBtn) {
             if (!restarting) {
                 savePrefsAndRequestTrial();
             }
         }
-    }, [upgradingPercentage]);
+    }, [upgradingPercentage, clickedUpgradeAndTrialBtn]);
 
     useEffect(() => {
         // validating the percentage in 0 we make sure to only remove the prefs value on component load after restart
