@@ -256,6 +256,10 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         setTimeout(this.checkRestarted, 1000);
     }
 
+    setClickNormalUpgradeBtn = () => {
+        this.setState({clickNormalUpgradeBtn: true});
+    }
+
     currentPlan = (
         <div className='current-plan-legend'>
             <i className='icon-check-circle'/>
@@ -327,6 +331,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     handleUpgrade={this.handleUpgrade}
                     restarting={this.state.restarting}
                     openEEModal={this.openEELicenseModal}
+                    setClickNormalUpgradeBtn={this.setClickNormalUpgradeBtn}
                 />
             );
         } else if (license.IsLicensed === 'true' && !uploading) {
@@ -386,7 +391,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <div className='admin-console__banner_section'>
-                            {license.IsLicensed !== 'true' &&
+                            {!this.state.clickNormalUpgradeBtn && license.IsLicensed !== 'true' &&
                                 this.props.prevTrialLicense?.IsLicensed !== 'true' &&
                                 <TrialBanner
                                     isDisabled={isDisabled}
