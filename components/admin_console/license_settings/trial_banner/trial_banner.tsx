@@ -25,7 +25,7 @@ import store from 'stores/redux_store.jsx';
 interface TrialBannerProps {
     isDisabled: boolean;
     gettingTrialError: string | null;
-    requestLicense: () => Promise<void>;
+    requestLicense: (e?: any, reload?: boolean) => Promise<void>;
     gettingTrial: boolean;
     enterpriseReady: boolean;
     upgradingPercentage: number;
@@ -63,31 +63,49 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
     const getCategory = makeGetCategory();
     const preferences = getCategory(state, Preferences.UNIQUE);
     const restartedAfterUpgradePrefValue = preferences.find((pref: PreferenceType) => pref.name === Unique.REQUEST_TRIAL_AFTER_SERVER_UPGRADE);
+    const clickedUpgradeAndStartTrialBtn = preferences.find((pref: PreferenceType) => pref.name === Unique.CLICKED_UPGRADE_AND_TRIAL_BTN);
 
     const restartedAfterUpgradePrefs = restartedAfterUpgradePrefValue?.value === 'true';
+    const clickedUpgradeAndTrialBtn = clickedUpgradeAndStartTrialBtn?.value === 'true';
+
     const userId = useSelector((state: GlobalState) => getCurrentUserId(state));
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        async function savePrefsAndRequestTrial() {
+            await savePrefsRestartedAfterUpgrade();
+            handleRestart();
+        }
         if (upgradingPercentage === 100) {
             if (!restarting) {
-                savePrefsRestartedAfterUpgrade();
-                handleRestart();
+                savePrefsAndRequestTrial();
             }
         }
     }, [upgradingPercentage]);
 
     useEffect(() => {
-        if (restartedAfterUpgradePrefs) {
-            requestLicense();
-
-            // remove the value from the preferences
+        // validating the percentage in 0 we make sure to only remove the prefs value on component load after restart
+        if (restartedAfterUpgradePrefs && clickedUpgradeAndTrialBtn && upgradingPercentage === 0) {
+            // remove the values from the preferences
             const category = Preferences.UNIQUE;
-            const name = Unique.REQUEST_TRIAL_AFTER_SERVER_UPGRADE;
-            dispatch(savePreferences(userId, [{category, name, user_id: userId, value: ''}]));
+            const reqLicense = Unique.REQUEST_TRIAL_AFTER_SERVER_UPGRADE;
+            const clickedBtn = Unique.CLICKED_UPGRADE_AND_TRIAL_BTN;
+            dispatch(savePreferences(userId, [{category, name: reqLicense, user_id: userId, value: ''}, {category, name: clickedBtn, user_id: userId, value: ''}]));
+
+            requestLicense();
         }
-    }, [restartedAfterUpgradePrefs]);
+    }, [restartedAfterUpgradePrefs, clickedUpgradeAndTrialBtn]);
+
+    const onHandleUpgrade = () => {
+        if (!handleUpgrade) {
+            return;
+        }
+        handleUpgrade();
+        const category = Preferences.UNIQUE;
+        const name = Unique.CLICKED_UPGRADE_AND_TRIAL_BTN;
+        dispatch(savePreferences(userId, [{category, name, user_id: userId, value: 'true'}]));
+    };
 
     const savePrefsRestartedAfterUpgrade = () => {
         // save in the preferences that this customer wanted to request trial just after the upgrade
@@ -152,18 +170,22 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
         trialButton = (
             <button
                 type='button'
-                onClick={handleUpgrade}
+                onClick={onHandleUpgrade}
                 className='btn btn-primary'
             >
                 <LoadingWrapper
-                    loading={upgradingPercentage > 0 && upgradingPercentage !== 100}
-                    text={
+                    loading={upgradingPercentage > 0}
+                    text={upgradingPercentage === 100 && restarting ? (
+                        <FormattedMessage
+                            id='admin.license.enterprise.restarting'
+                            defaultMessage='Restarting'
+                        />
+                    ) : (
                         <FormattedMessage
                             id='admin.license.enterprise.upgrading'
                             defaultMessage='Upgrading {percentage}%'
                             values={{percentage: upgradingPercentage}}
-                        />
-                    }
+                        />)}
                 >
                     <FormattedMessage
                         id='admin.license.trialUpgradeAndRequest.submit'

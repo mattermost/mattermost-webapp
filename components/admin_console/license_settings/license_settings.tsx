@@ -51,7 +51,7 @@ type Props = {
         removeLicense: () => Promise<ActionResult>;
         getPrevTrialLicense: () => void;
         upgradeToE0: () => Promise<StatusOK>;
-        upgradeToE0Status: () => Promise<ActionResult>;
+        upgradeToE0Status: () => Promise<{percentage: number; error: any}>;
         restartServer: () => Promise<StatusOK>;
         ping: () => Promise<{status: string}>;
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
@@ -71,6 +71,7 @@ type State = {
     upgradeError: string | null;
     restarting: boolean;
     restartError: string | null;
+    clickNormalUpgradeBtn: boolean;
 };
 export default class LicenseSettings extends React.PureComponent<Props, State> {
     private fileInputRef: React.RefObject<HTMLInputElement>;
@@ -92,6 +93,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             upgradeError: null,
             restarting: false,
             restartError: null,
+            clickNormalUpgradeBtn: false,
         };
 
         this.fileInputRef = React.createRef();
@@ -114,7 +116,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     }
 
     reloadPercentage = async () => {
-        const {data: percentage, error} = await this.props.actions.upgradeToE0Status();
+        const {percentage, error} = await this.props.actions.upgradeToE0Status();
         if (percentage === 100 || error) {
             if (this.interval) {
                 clearInterval(this.interval);
@@ -215,13 +217,13 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             return;
         }
         this.setState({gettingTrial: true, gettingTrialError: null});
-        const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30);
+        const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30) || 30;
         const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
             this.setState({gettingTrialError: error});
         }
         this.setState({gettingTrial: false});
-        this.props.actions.getLicenseConfig();
+        await this.props.actions.getLicenseConfig();
     }
 
     checkRestarted = () => {
@@ -375,7 +377,8 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <div className='admin-console__banner_section'>
-                            {
+                            {license.IsLicensed !== 'true' &&
+                                this.props.prevTrialLicense?.IsLicensed !== 'true' &&
                                 <TrialBanner
                                     isDisabled={isDisabled}
                                     gettingTrialError={this.state.gettingTrialError}
