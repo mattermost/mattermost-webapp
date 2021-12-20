@@ -4124,7 +4124,6 @@
   "sidebar.tutorialProductSwitcher.admin": "システム管理者は **システムコンソール** を使用してMattermostの設定とカスタマイズを行い、**マーケットプレイス**からMattermostアプリをインストールすることができます。",
   "sidebar.tutorialProductSwitcher.switchProducts": "ここから **ボード** や **プレイブック** など、他のマッターモスト製品を開始できます。",
   "sidebar.tutorialProductSwitcher.title": "ボードやプレイブックを試してみる",
-  "sidebar.tutorialScreen2.body2": "**{townsquare}** はチーム全体のコミュニケーションを行う場所です。あなたのチームの全員がこのチャンネルのメンバーとなります。",
   "sidebar.tutorialScreen3.body2": "公開チャンネル、もしくは非公開チャンネルのヘッダーの隣にある **\"+\"記号** をクリックすることでも、新しいチャンネルを作成することができます。",
   "sidebar.tutorialSettings.settings": "プロフィールでは、空き時間の設定、カスタムステータスの追加、プロフィール画像の設定を行うことができます。**設定**を選択すると、通知の設定やテーマカラーのカスタマイズなど、ユーザー体験をカスタマイズすることができます。",
   "sidebar.tutorialSettings.title": "設定を変更する",

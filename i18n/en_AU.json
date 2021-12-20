@@ -4128,7 +4128,6 @@
   "sidebar.tutorialProductSwitcher.admin": "System Admins can also configure and customise Mattermost using the **System Console** and install Mattermost Apps from the **Marketplace**.",
   "sidebar.tutorialProductSwitcher.switchProducts": "Launch other Mattermost products from here, including **Boards** and **Playbooks**.",
   "sidebar.tutorialProductSwitcher.title": "Try Boards and Playbooks",
-  "sidebar.tutorialScreen2.body2": "**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel.",
   "sidebar.tutorialScreen3.body2": "You can also create a new channel by clicking the **'+' symbol** next to the public or private channel header.",
   "sidebar.tutorialSettings.settings": "Under Profile, set your availability, add a custom status, and set your profile picture. Select **Settings** to customise your experience, including notification preferences, custom theme colours, and more.",
   "sidebar.tutorialSettings.title": "Customise your experience",

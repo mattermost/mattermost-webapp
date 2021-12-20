@@ -3318,7 +3318,6 @@
   "sidebar.createDirectMessage": "建立新的直接傳訊",
   "sidebar.directchannel.you": "{displayname} (你)",
   "sidebar.team_select": "{siteName} - 加入團隊",
-  "sidebar.tutorialScreen2.body2": "**{townsquare}**是個給團隊之間溝通的地方，您的團隊全員都是這個頻道的成員。",
   "sidebar.tutorialScreen3.body2": "您也可以藉由按在公開或私人頻道標題旁邊的**\"+\"符號**來建立新的公開或私人頻道。",
   "sidebar.types.channels": "頻道",
   "sidebar.types.direct_messages": "直接傳訊",
