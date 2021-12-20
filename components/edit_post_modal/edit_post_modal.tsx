@@ -32,6 +32,11 @@ import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 import {Post} from 'mattermost-redux/types/posts';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
+import {t} from 'utils/i18n';
+
+// This is added to trick the i18n util on the CI, since EditPost component is not being rendered by default.
+t('edit_post.editPost');
+t('edit_post.helper_text');
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
