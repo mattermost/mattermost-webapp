@@ -2,19 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
+
+import {ModalData} from 'types/actions';
 
 const HeaderLine = styled.div`
     display: flex;
@@ -36,7 +38,7 @@ type Props = {
     teamId: string;
     currentUser: UserProfile;
     teamDisplayName: string;
-    openModal: (modalData: any) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 };
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent<Props> {

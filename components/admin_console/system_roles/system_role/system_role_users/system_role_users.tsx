@@ -5,16 +5,15 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Role} from 'mattermost-redux/types/roles';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import Badge from 'components/widgets/badges/badge';
-import ToggleModalButton from 'components/toggle_modal_button';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import DataGrid from 'components/admin_console/data_grid/data_grid';
 import UserGridName from 'components/admin_console/user_grid/user_grid_name';
 import UserGridRemove from 'components/admin_console/user_grid/user_grid_remove';
@@ -26,8 +25,8 @@ export type Props = {
     totalCount: number;
     term: string;
     currentUserId: string;
-    usersToRemove: Dictionary<UserProfile>;
-    usersToAdd: Dictionary<UserProfile>;
+    usersToRemove: Record<string, UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
     actions: {
@@ -45,8 +44,8 @@ export type Props = {
 type State = {
     loading: boolean;
     page: number;
-    includeUsers: Dictionary<UserProfile>;
-    excludeUsers: Dictionary<UserProfile>;
+    includeUsers: Record<string, UserProfile>;
+    excludeUsers: Record<string, UserProfile>;
 }
 
 const USERS_PER_PAGE = 10;
@@ -255,11 +254,12 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                 subtitleId={t('admin.permissions.system_role_users.description')}
                 subtitleDefault='List of people assigned to this system role.'
                 button={
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='addRoleMembers'
                         className='btn btn-primary'
+                        modalId={ModalIdentifiers.ADD_USER_TO_ROLE}
                         dialogType={AddUsersToRoleModal}
-                        isDisabled={readOnly}
+                        disabled={readOnly}
                         dialogProps={{
                             role,
                             onAddCallback: this.onAddCallback,
@@ -272,7 +272,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                             id='admin.permissions.system_role_users.add_people'
                             defaultMessage='Add People'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 }
             >
                 <DataGrid

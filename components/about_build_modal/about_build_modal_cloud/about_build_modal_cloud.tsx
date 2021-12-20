@@ -12,7 +12,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import './about_build_modal_cloud.scss';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
     config: any;
     license: any;
     show: boolean;
@@ -23,10 +23,6 @@ type Props = {
 declare const COMMIT_HASH: string;
 
 export default function AboutBuildModalCloud(props: Props) {
-    const handleExit = () => {
-        props.onHide();
-    };
-
     const config = props.config;
     const license = props.license;
 
@@ -64,7 +60,7 @@ export default function AboutBuildModalCloud(props: Props) {
             dialogClassName={classNames('a11y__modal', 'about-modal', 'cloud')}
             show={props.show}
             onHide={props.doHide}
-            onExited={handleExit}
+            onExited={props.onExited}
             role='dialog'
             aria-labelledby='aboutModalLabel'
         >

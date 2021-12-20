@@ -59,8 +59,13 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
           />
         </Link>
          - 
-        <DeleteIntegration
-          messageId="installed_oauth_apps.delete.confirm"
+        <Connect(DeleteIntegrationLink)
+          modalMessage={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="This action permanently deletes the OAuth 2.0 application and breaks any integrations using it. Are you sure you want to delete it?"
+              id="installed_oauth_apps.delete.confirm"
+            />
+          }
           onDelete={[Function]}
         />
       </div>
@@ -278,8 +283,13 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           />
         </Link>
          - 
-        <DeleteIntegration
-          messageId="installed_oauth_apps.delete.confirm"
+        <Connect(DeleteIntegrationLink)
+          modalMessage={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="This action permanently deletes the OAuth 2.0 application and breaks any integrations using it. Are you sure you want to delete it?"
+              id="installed_oauth_apps.delete.confirm"
+            />
+          }
           onDelete={[Function]}
         />
       </div>
@@ -452,8 +462,13 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           />
         </Link>
          - 
-        <DeleteIntegration
-          messageId="installed_oauth_apps.delete.confirm"
+        <Connect(DeleteIntegrationLink)
+          modalMessage={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="This action permanently deletes the OAuth 2.0 application and breaks any integrations using it. Are you sure you want to delete it?"
+              id="installed_oauth_apps.delete.confirm"
+            />
+          }
           onDelete={[Function]}
         />
       </div>

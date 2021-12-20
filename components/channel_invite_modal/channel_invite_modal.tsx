@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -30,7 +30,7 @@ export type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
     profilesNotInCurrentTeam: UserProfileValue[];
     userStatuses: RelationOneToOne<UserProfile, string>;
-    onHide: () => void;
+    onExited: () => void;
     channel: Channel;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
@@ -40,8 +40,8 @@ export type Props = {
     onAddCallback?: (userProfiles?: UserProfileValue[]) => void;
 
     // Dictionaries of userid mapped users to exclude or include from this list
-    excludeUsers?: Dictionary<UserProfileValue>;
-    includeUsers?: Dictionary<UserProfileValue>;
+    excludeUsers?: Record<string, UserProfileValue>;
+    includeUsers?: Record<string, UserProfileValue>;
 
     actions: {
         addUsersToChannel: (channelId: string, userIds: string[]) => Promise<ActionResult>;
@@ -323,7 +323,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 dialogClassName='a11y__modal channel-invite'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='channelInviteModalLabel'
             >

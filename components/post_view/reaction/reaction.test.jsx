@@ -18,8 +18,8 @@ describe('components/post_view/Reaction', () => {
     const currentUserId = 'user_id_1';
 
     const baseProps = {
-        canAddReaction: true,
-        canRemoveReaction: true,
+        canAddReactions: true,
+        canRemoveReactions: true,
         currentUserId,
         post,
         currentUserReacted: false,
@@ -53,7 +53,7 @@ describe('components/post_view/Reaction', () => {
     });
 
     test('should apply read-only class if user does not have permission to add reaction', () => {
-        const props = {...baseProps, canAddReaction: false};
+        const props = {...baseProps, canAddReactions: false};
         const wrapper = shallow(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
@@ -62,7 +62,7 @@ describe('components/post_view/Reaction', () => {
         const newCurrentUserId = 'user_id_2';
         const props = {
             ...baseProps,
-            canRemoveReaction: false,
+            canRemoveReactions: false,
             currentUserId: newCurrentUserId,
             currentUserReacted: true,
         };

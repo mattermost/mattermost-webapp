@@ -15,6 +15,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import StatusIcon from 'components/status_icon';
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
@@ -138,11 +139,16 @@ export default class AtMentionSuggestion extends Suggestion {
             }
 
             icon = (
-                <Avatar
-                    size='sm'
-                    username={item && item.username}
-                    url={Utils.imageURLForUser(item.id, item.last_picture_update)}
-                />
+                <span className='status-wrapper style--none'>
+                    <span className='profile-icon'>
+                        <Avatar
+                            username={item && item.username}
+                            size='sm'
+                            url={Utils.imageURLForUser(item.id, item.last_picture_update)}
+                        />
+                    </span>
+                    <StatusIcon status={item && item.status}/>
+                </span>
             );
 
             customStatus = (

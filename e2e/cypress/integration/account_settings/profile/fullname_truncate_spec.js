@@ -12,7 +12,7 @@
 
 import {getRandomId} from '../../../utils';
 
-describe('Account Settings > Full Name', () => {
+describe('Profile > Profile Settings> Full Name', () => {
     let firstUser;
     let secondUser;
     const firstName = 'This Is a Long Name';
@@ -32,8 +32,8 @@ describe('Account Settings > Full Name', () => {
     });
 
     it('MM-T2046 Full Name - Truncated in popover', () => {
-        // # Go to Account Settings -> General -> Full Name -> Edit
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile -> Profile Settings -> Full Name -> Edit
+        cy.uiOpenProfileModal();
 
         // # Open Full Name section
         cy.get('#nameDesc').click();

@@ -20,6 +20,20 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 });
 
 /**
+ * @param {string} [numberOfMessages = 30] - Number of messages
+ * @param {Object} sender - a user object who will post a message
+ * @param {String} message - message in a post
+ * @param {Object} channelId - where a post will be posted
+ */
+Cypress.Commands.add('postListOfMessages', ({numberOfMessages = 30, ...rest}) => {
+    const baseUrl = Cypress.config('baseUrl');
+
+    return cy.
+        task('postListOfMessages', {numberOfMessages, baseUrl, ...rest}, {timeout: numberOfMessages * 200}).
+        each((message) => expect(message.status).to.equal(201));
+});
+
+/**
 * reactToMessageAs is a task wrapped as command with post-verification
 * that a reaction is added successfully to a message by a user/sender
 * @param {Object} sender - a user object who will post a message

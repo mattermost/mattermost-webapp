@@ -5,7 +5,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Role} from 'mattermost-redux/types/roles';
 
@@ -32,7 +31,7 @@ export type Props = {
     excludeUsers: { [userId: string]: UserProfile };
     includeUsers: { [userId: string]: UserProfile };
     onAddCallback: (users: UserProfile[]) => void;
-    onHide?: () => void;
+    onExited: () => void;
 
     actions: {
         getProfiles: (page: number, perPage?: number, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
@@ -50,7 +49,7 @@ type State = {
     term: string;
 }
 
-function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
+function searchUsersToAdd(users: Record<string, UserProfile>, term: string): Record<string, UserProfile> {
     const profilesList: UserProfile[] = Object.keys(users).map((key) => users[key]);
     const filteredProfilesList = filterProfilesStartingWithTerm(profilesList, term);
     return filterProfiles(profileListToMap(filteredProfilesList), {});
@@ -98,8 +97,8 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
     }
 
     handleExit = () => {
-        if (this.props.onHide) {
-            this.props.onHide();
+        if (this.props.onExited) {
+            this.props.onExited();
         }
     }
 

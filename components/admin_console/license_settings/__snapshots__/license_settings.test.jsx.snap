@@ -15,9 +15,8 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={false}
@@ -36,110 +35,84 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                Mattermost Starter Edition. A license is required to unlock enterprise features.
-              </p>
-              <div>
-                <p>
-                  <injectIntl(FormattedMarkdownMessage)
-                    defaultMessage="You have upgraded your binary to mattermost enterprise, please restart the server to start using the new binary. You can do it right here:"
-                    id="admin.license.upgraded-restart"
+            <TeamEdition
+              currentPlan={
+                <div
+                  className="current-plan-legend"
+                >
+                  <i
+                    className="icon-check-circle"
                   />
-                </p>
-                <p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    <LoadingWrapper
-                      loading={false}
-                      text="Restarting"
-                    >
-                      <MemoizedFormattedMessage
-                        defaultMessage="Restart Server"
-                        id="admin.license.enterprise.restart"
-                      />
-                    </LoadingWrapper>
-                  </button>
-                </p>
-              </div>
-            </div>
+                  Current Plan
+                </div>
+              }
+              openEELicenseModal={[Function]}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
-              </p>
-              <p>
-                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
-              </p>
-              <p>
-                See NOTICE.txt for information about open source software used in the system.
-              </p>
-            </div>
+            <Memo(TeamEditionRightPanel)
+              handleRestart={[Function]}
+              handleUpgrade={[Function]}
+              openEEModal={[Function]}
+              restartError={null}
+              restarting={false}
+              upgradeError={null}
+              upgradingPercentage={0}
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Enterprise Edition License:"
-              id="admin.license.enterprise-edition-license"
-            />
-          </label>
-          <div
-            className="col-sm-8 enterprise-license-text"
-          >
-            <div>
-              <p>
-                The Mattermost Enterprise Edition (EE) license (the “EE License”)
-              </p>
-              <p>
-                Copyright (c) 2016-present Mattermost, Inc.
-              </p>
-              <p>
-                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
-              </p>
-              <p>
-                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </p>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -160,9 +133,8 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={false}
@@ -181,122 +153,84 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                Mattermost Starter Edition. A license is required to unlock enterprise features.
-              </p>
-              <div>
-                <p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    <LoadingWrapper
-                      loading={true}
-                      text={
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="Upgrading {percentage}%"
-                          id="admin.license.enterprise.upgrading"
-                          values={
-                            Object {
-                              "percentage": 42,
-                            }
-                          }
-                        />
-                      }
-                    >
-                      <MemoizedFormattedMessage
-                        defaultMessage="Upgrade to Enterprise Edition"
-                        id="admin.license.enterprise.upgrade"
-                      />
-                    </LoadingWrapper>
-                  </button>
-                </p>
-                <p
-                  className="upgrade-legal-terms"
+            <TeamEdition
+              currentPlan={
+                <div
+                  className="current-plan-legend"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
-                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
-                    id="admin.license.enterprise.upgrade.accept-terms"
+                  <i
+                    className="icon-check-circle"
                   />
-                </p>
-              </div>
-            </div>
+                  Current Plan
+                </div>
+              }
+              openEELicenseModal={[Function]}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
-              </p>
-              <p>
-                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
-              </p>
-              <p>
-                See NOTICE.txt for information about open source software used in the system.
-              </p>
-            </div>
+            <Memo(TeamEditionRightPanel)
+              handleRestart={[Function]}
+              handleUpgrade={[Function]}
+              openEEModal={[Function]}
+              restartError={null}
+              restarting={false}
+              upgradeError={null}
+              upgradingPercentage={0}
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Enterprise Edition License:"
-              id="admin.license.enterprise-edition-license"
-            />
-          </label>
-          <div
-            className="col-sm-8 enterprise-license-text"
-          >
-            <div>
-              <p>
-                The Mattermost Enterprise Edition (EE) license (the “EE License”)
-              </p>
-              <p>
-                Copyright (c) 2016-present Mattermost, Inc.
-              </p>
-              <p>
-                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
-              </p>
-              <p>
-                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </p>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -317,27 +251,27 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <div>
-              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
+        <AlertBanner
+          message={
+            <div
+              className="banner-start-trial"
+            >
               <p
+                className="license-trial-legal-terms"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
+                  id="admin.license.trial-request.title"
+                />
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
+                />
+              </p>
+              <div
                 className="trial"
               >
                 <button
@@ -350,107 +284,106 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <MemoizedFormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
                   </LoadingWrapper>
                 </button>
-              </p>
-              <p
-                className="trial-legal-terms"
-              >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-                  id="admin.license.trial-request.accept-terms"
-                />
-              </p>
+              </div>
             </div>
+          }
+          mode="info"
+          title={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Free 30 day trial!"
+              id="licensingPage.infoBanner.startTrialTitle"
+            />
+          }
+        />
+      </div>
+      <div
+        className="top-wrapper"
+      >
+        <div
+          className="left-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(StarterLeftPanel)
+              currentPlan={
+                <div
+                  className="current-plan-legend"
+                >
+                  <i
+                    className="icon-check-circle"
+                  />
+                  Current Plan
+                </div>
+              }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              fileName={null}
+              fileSelected={false}
+              handleChange={[Function]}
+              handleSubmit={[Function]}
+              isDisabled={false}
+              openEELicenseModal={[Function]}
+              serverError={null}
+              upgradedFromTE={false}
+              uploading={false}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            This software is offered under a commercial license.
-
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+            <Memo(StarterRightPanel) />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <div
-              className="file__upload"
-            >
-              <button
-                className="btn btn-primary"
-                type="button"
-              >
-                <MemoizedFormattedMessage
-                  defaultMessage="Choose File"
-                  id="admin.license.choose"
-                />
-              </button>
-              <input
-                accept=".mattermost-license"
-                disabled={false}
-                onChange={[Function]}
-                type="file"
-              />
-            </div>
-            <button
-              className="btn"
-              disabled={true}
-              id="upload-button"
-              onClick={[Function]}
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="Upload"
-                id="admin.license.upload"
-              />
-            </button>
-            <div
-              className="help-text m-0"
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="No file uploaded"
-                id="admin.license.noFile"
-              />
-            </div>
-            <br />
-            <p
-              className="help-text m-0"
-            >
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
-                id="admin.license.uploadDesc"
-              />
-            </p>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -471,9 +404,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={false}
@@ -492,130 +424,118 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-06T21:10:43.650Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E10",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
           </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="terms-and-policy"
           >
-            <div>
-              <p>
-                This software is offered under a commercial license.
-
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
-
-Your subscription details are as follows:
-              </p>
-              Name: LicenseName
-              <br />
-              Company or organization name: Mattermost Inc.
-              <br />
-              Edition: Mattermost Enterprise Edition E10
-              <br />
-              Number of users: 100
-              <br />
-              License issued: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-               
-              <FormattedTime
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Start date of license: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Expiry date of license: 
-              <FormattedDate
-                value={2021-05-06T21:10:43.650Z}
-              />
-              <br />
-              <br />
-              See also 
-              <a
-                href="https://about.mattermost.com/enterprise-edition-terms/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Enterprise Edition Terms of Service
-              </a>
-               and 
-              <a
-                data-testid="privacyPolicyLink"
-                href="https://about.mattermost.com/default-privacy-policy/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Privacy Policy.
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <button
-              className="btn btn-danger"
-              data-testid="remove-button"
-              disabled={false}
-              id="remove-button"
-              onClick={[Function]}
-              type="button"
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Remove License and Downgrade Server"
-                id="admin.license.keyRemove"
-              />
-            </button>
-            <br />
-            <br />
-            <p
-              className="help-text"
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
-            </p>
+              Privacy Policy
+            </a>
           </div>
         </div>
-      </form>
+        <div
+          className="right-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E10",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -636,9 +556,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={false}
@@ -657,130 +576,118 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-06T21:10:43.650Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
           </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="terms-and-policy"
           >
-            <div>
-              <p>
-                This software is offered under a commercial license.
-
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
-
-Your subscription details are as follows:
-              </p>
-              Name: LicenseName
-              <br />
-              Company or organization name: Mattermost Inc.
-              <br />
-              Edition: Mattermost Enterprise Edition E20
-              <br />
-              Number of users: 100
-              <br />
-              License issued: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-               
-              <FormattedTime
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Start date of license: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Expiry date of license: 
-              <FormattedDate
-                value={2021-05-06T21:10:43.650Z}
-              />
-              <br />
-              <br />
-              See also 
-              <a
-                href="https://about.mattermost.com/enterprise-edition-terms/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Enterprise Edition Terms of Service
-              </a>
-               and 
-              <a
-                data-testid="privacyPolicyLink"
-                href="https://about.mattermost.com/default-privacy-policy/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Privacy Policy.
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <button
-              className="btn btn-danger"
-              data-testid="remove-button"
-              disabled={false}
-              id="remove-button"
-              onClick={[Function]}
-              type="button"
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Remove License and Downgrade Server"
-                id="admin.license.keyRemove"
-              />
-            </button>
-            <br />
-            <br />
-            <p
-              className="help-text"
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
-            </p>
+              Privacy Policy
+            </a>
           </div>
         </div>
-      </form>
+        <div
+          className="right-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -801,9 +708,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={false}
@@ -822,130 +728,118 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-06T21:10:43.650Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
           </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="terms-and-policy"
           >
-            <div>
-              <p>
-                This software is offered under a commercial license.
-
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
-
-Your subscription details are as follows:
-              </p>
-              Name: LicenseName
-              <br />
-              Company or organization name: Mattermost Inc.
-              <br />
-              Edition: Mattermost Enterprise Edition E20
-              <br />
-              Number of users: 100
-              <br />
-              License issued: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-               
-              <FormattedTime
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Start date of license: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Expiry date of license: 
-              <FormattedDate
-                value={2021-05-06T21:10:43.650Z}
-              />
-              <br />
-              <br />
-              See also 
-              <a
-                href="https://about.mattermost.com/enterprise-edition-terms/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Enterprise Edition Terms of Service
-              </a>
-               and 
-              <a
-                data-testid="privacyPolicyLink"
-                href="https://about.mattermost.com/default-privacy-policy/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Privacy Policy.
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <button
-              className="btn btn-danger"
-              data-testid="remove-button"
-              disabled={false}
-              id="remove-button"
-              onClick={[Function]}
-              type="button"
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Remove License and Downgrade Server"
-                id="admin.license.keyRemove"
-              />
-            </button>
-            <br />
-            <br />
-            <p
-              className="help-text"
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
-            </p>
+              Privacy Policy
+            </a>
           </div>
         </div>
-      </form>
+        <div
+          className="right-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -966,9 +860,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={true}
@@ -987,130 +880,118 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-06T21:10:43.650Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={true}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
           </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="terms-and-policy"
           >
-            <div>
-              <p>
-                This software is offered under a commercial license.
-
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
-
-Your subscription details are as follows:
-              </p>
-              Name: LicenseName
-              <br />
-              Company or organization name: Mattermost Inc.
-              <br />
-              Edition: Mattermost Enterprise Edition E20
-              <br />
-              Number of users: 100
-              <br />
-              License issued: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-               
-              <FormattedTime
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Start date of license: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Expiry date of license: 
-              <FormattedDate
-                value={2021-05-06T21:10:43.650Z}
-              />
-              <br />
-              <br />
-              See also 
-              <a
-                href="https://about.mattermost.com/enterprise-edition-terms/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Enterprise Edition Terms of Service
-              </a>
-               and 
-              <a
-                data-testid="privacyPolicyLink"
-                href="https://about.mattermost.com/default-privacy-policy/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Privacy Policy.
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <button
-              className="btn btn-danger"
-              data-testid="remove-button"
-              disabled={true}
-              id="remove-button"
-              onClick={[Function]}
-              type="button"
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Remove License and Downgrade Server"
-                id="admin.license.keyRemove"
-              />
-            </button>
-            <br />
-            <br />
-            <p
-              className="help-text"
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
-            </p>
+              Privacy Policy
+            </a>
           </div>
         </div>
-      </form>
+        <div
+          className="right-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1131,9 +1012,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={false}
@@ -1152,164 +1032,118 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-06T21:10:43.650Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={true}
+            />
           </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="terms-and-policy"
           >
-            <div>
-              <div>
-                <p>
-                  When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
-                </p>
-                <p>
-                  See NOTICE.txt for information about open source software used in the system.
-                </p>
-                <p>
-                  Your subscription details are as follows:
-                </p>
-              </div>
-              Name: LicenseName
-              <br />
-              Company or organization name: Mattermost Inc.
-              <br />
-              Edition: Mattermost Enterprise Edition E20
-              <br />
-              Number of users: 100
-              <br />
-              License issued: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-               
-              <FormattedTime
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Start date of license: 
-              <FormattedDate
-                value={2018-02-04T03:24:03.650Z}
-              />
-              <br />
-              Expiry date of license: 
-              <FormattedDate
-                value={2021-05-06T21:10:43.650Z}
-              />
-              <br />
-              <br />
-              See also 
-              <a
-                href="https://about.mattermost.com/enterprise-edition-terms/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Enterprise Edition Terms of Service
-              </a>
-               and 
-              <a
-                data-testid="privacyPolicyLink"
-                href="https://about.mattermost.com/default-privacy-policy/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Privacy Policy.
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <button
-              className="btn btn-danger"
-              data-testid="remove-button"
-              disabled={false}
-              id="remove-button"
-              onClick={[Function]}
-              type="button"
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Remove License and Downgrade Server"
-                id="admin.license.keyRemove"
-              />
-            </button>
-            <br />
-            <br />
-            <p
-              className="help-text"
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
-            </p>
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Enterprise Edition License:"
-              id="admin.license.enterprise-edition-license"
-            />
-          </label>
           <div
-            className="col-sm-8 enterprise-license-text"
+            className="panel-card"
           >
-            <div>
-              <p>
-                The Mattermost Enterprise Edition (EE) license (the “EE License”)
-              </p>
-              <p>
-                Copyright (c) 2016-present Mattermost, Inc.
-              </p>
-              <p>
-                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
-              </p>
-              <p>
-                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </p>
-            </div>
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -1330,9 +1164,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <TrialLicenseCard
           license={
@@ -1344,128 +1177,88 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             }
           }
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-06T21:10:43.650Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={true}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2021-04-06T13:10:43.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2021-04-06T13:10:43.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1617714643650",
+                  "StartsAt": "1617714643650",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2021-04-06T13:10:43.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                This software is offered under a commercial license.
-
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
-
-Your subscription details are as follows:
-              </p>
-              Name: undefined
-              <br />
-              Company or organization name: undefined
-              <br />
-              Number of users: undefined
-              <br />
-              License issued: 
-              <FormattedDate
-                value={2021-04-06T13:10:43.650Z}
-              />
-               
-              <FormattedTime
-                value={2021-04-06T13:10:43.650Z}
-              />
-              <br />
-              Start date of license: 
-              <FormattedDate
-                value={2021-04-06T13:10:43.650Z}
-              />
-              <br />
-              Expiry date of license: 
-              <FormattedDate
-                value={2021-05-06T21:10:43.650Z}
-              />
-              <br />
-              <br />
-              See also 
-              <a
-                href="https://about.mattermost.com/enterprise-edition-terms/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Enterprise Edition Terms of Service
-              </a>
-               and 
-              <a
-                data-testid="privacyPolicyLink"
-                href="https://about.mattermost.com/default-privacy-policy/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Privacy Policy.
-              </a>
-            </div>
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={true}
+              license={
+                Object {
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1617714643650",
+                  "StartsAt": "1617714643650",
+                }
+              }
+            />
           </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="compare-plans-text"
           >
-            <button
-              className="btn btn-danger"
-              data-testid="remove-button"
-              disabled={false}
-              id="remove-button"
-              onClick={[Function]}
-              type="button"
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Remove License and Downgrade Server"
-                id="admin.license.keyRemove"
-              />
-            </button>
-            <br />
-            <br />
-            <p
-              className="help-text"
-            >
-              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
-            </p>
+              Compare Plans
+            </a>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -1486,27 +1279,27 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <div>
-              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
+        <AlertBanner
+          message={
+            <div
+              className="banner-start-trial"
+            >
               <p
+                className="license-trial-legal-terms"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
+                  id="admin.license.trial-request.title"
+                />
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
+                />
+              </p>
+              <div
                 className="trial"
               >
                 <button
@@ -1519,107 +1312,106 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <MemoizedFormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
                   </LoadingWrapper>
                 </button>
-              </p>
-              <p
-                className="trial-legal-terms"
-              >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-                  id="admin.license.trial-request.accept-terms"
-                />
-              </p>
+              </div>
             </div>
+          }
+          mode="info"
+          title={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Free 30 day trial!"
+              id="licensingPage.infoBanner.startTrialTitle"
+            />
+          }
+        />
+      </div>
+      <div
+        className="top-wrapper"
+      >
+        <div
+          className="left-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(StarterLeftPanel)
+              currentPlan={
+                <div
+                  className="current-plan-legend"
+                >
+                  <i
+                    className="icon-check-circle"
+                  />
+                  Current Plan
+                </div>
+              }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              fileName={null}
+              fileSelected={false}
+              handleChange={[Function]}
+              handleSubmit={[Function]}
+              isDisabled={false}
+              openEELicenseModal={[Function]}
+              serverError={null}
+              upgradedFromTE={false}
+              uploading={false}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            This software is offered under a commercial license.
-
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+            <Memo(StarterRightPanel) />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <div
-              className="file__upload"
-            >
-              <button
-                className="btn btn-primary"
-                type="button"
-              >
-                <MemoizedFormattedMessage
-                  defaultMessage="Choose File"
-                  id="admin.license.choose"
-                />
-              </button>
-              <input
-                accept=".mattermost-license"
-                disabled={false}
-                onChange={[Function]}
-                type="file"
-              />
-            </div>
-            <button
-              className="btn"
-              disabled={true}
-              id="upload-button"
-              onClick={[Function]}
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="Upload"
-                id="admin.license.upload"
-              />
-            </button>
-            <div
-              className="help-text m-0"
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="No file uploaded"
-                id="admin.license.noFile"
-              />
-            </div>
-            <br />
-            <p
-              className="help-text m-0"
-            >
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
-                id="admin.license.uploadDesc"
-              />
-            </p>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -1640,27 +1432,27 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <div>
-              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
+        <AlertBanner
+          message={
+            <div
+              className="banner-start-trial"
+            >
               <p
+                className="license-trial-legal-terms"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
+                  id="admin.license.trial-request.title"
+                />
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
+                />
+              </p>
+              <div
                 className="trial"
               >
                 <button
@@ -1673,142 +1465,106 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <MemoizedFormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
                   </LoadingWrapper>
                 </button>
-              </p>
-              <p
-                className="trial-legal-terms"
-              >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-                  id="admin.license.trial-request.accept-terms"
-                />
-              </p>
+              </div>
             </div>
+          }
+          mode="info"
+          title={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Free 30 day trial!"
+              id="licensingPage.infoBanner.startTrialTitle"
+            />
+          }
+        />
+      </div>
+      <div
+        className="top-wrapper"
+      >
+        <div
+          className="left-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(StarterLeftPanel)
+              currentPlan={
+                <div
+                  className="current-plan-legend"
+                >
+                  <i
+                    className="icon-check-circle"
+                  />
+                  Current Plan
+                </div>
+              }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              fileName={null}
+              fileSelected={false}
+              handleChange={[Function]}
+              handleSubmit={[Function]}
+              isDisabled={false}
+              openEELicenseModal={[Function]}
+              serverError={null}
+              upgradedFromTE={true}
+              uploading={false}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
-              </p>
-              <p>
-                See NOTICE.txt for information about open source software used in the system.
-              </p>
-            </div>
+            <Memo(StarterRightPanel) />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
-          <div
-            className="col-sm-8"
-          >
-            <div
-              className="file__upload"
-            >
-              <button
-                className="btn btn-primary"
-                type="button"
-              >
-                <MemoizedFormattedMessage
-                  defaultMessage="Choose File"
-                  id="admin.license.choose"
-                />
-              </button>
-              <input
-                accept=".mattermost-license"
-                disabled={false}
-                onChange={[Function]}
-                type="file"
-              />
-            </div>
-            <button
-              className="btn"
-              disabled={true}
-              id="upload-button"
-              onClick={[Function]}
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="Upload"
-                id="admin.license.upload"
-              />
-            </button>
-            <div
-              className="help-text m-0"
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="No file uploaded"
-                id="admin.license.noFile"
-              />
-            </div>
-            <br />
-            <p
-              className="help-text m-0"
-            >
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
-                id="admin.license.uploadDesc"
-              />
-            </p>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Enterprise Edition License:"
-              id="admin.license.enterprise-edition-license"
-            />
-          </label>
-          <div
-            className="col-sm-8 enterprise-license-text"
-          >
-            <div>
-              <p>
-                The Mattermost Enterprise Edition (EE) license (the “EE License”)
-              </p>
-              <p>
-                Copyright (c) 2016-present Mattermost, Inc.
-              </p>
-              <p>
-                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
-              </p>
-              <p>
-                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </p>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -1829,9 +1585,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
       >
         <RenewLicenseCard
           isDisabled={false}
@@ -1850,122 +1605,84 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           }
           totalUsers={10}
         />
+      </div>
+      <div
+        className="top-wrapper"
+      >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                Mattermost Starter Edition. A license is required to unlock enterprise features.
-              </p>
-              <div>
-                <p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    <LoadingWrapper
-                      loading={false}
-                      text={
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="Upgrading {percentage}%"
-                          id="admin.license.enterprise.upgrading"
-                          values={
-                            Object {
-                              "percentage": 0,
-                            }
-                          }
-                        />
-                      }
-                    >
-                      <MemoizedFormattedMessage
-                        defaultMessage="Upgrade to Enterprise Edition"
-                        id="admin.license.enterprise.upgrade"
-                      />
-                    </LoadingWrapper>
-                  </button>
-                </p>
-                <p
-                  className="upgrade-legal-terms"
+            <TeamEdition
+              currentPlan={
+                <div
+                  className="current-plan-legend"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
-                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
-                    id="admin.license.enterprise.upgrade.accept-terms"
+                  <i
+                    className="icon-check-circle"
                   />
-                </p>
-              </div>
-            </div>
+                  Current Plan
+                </div>
+              }
+              openEELicenseModal={[Function]}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
-              </p>
-              <p>
-                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
-              </p>
-              <p>
-                See NOTICE.txt for information about open source software used in the system.
-              </p>
-            </div>
+            <Memo(TeamEditionRightPanel)
+              handleRestart={[Function]}
+              handleUpgrade={[Function]}
+              openEEModal={[Function]}
+              restartError={null}
+              restarting={false}
+              upgradeError={null}
+              upgradingPercentage={0}
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Enterprise Edition License:"
-              id="admin.license.enterprise-edition-license"
-            />
-          </label>
-          <div
-            className="col-sm-8 enterprise-license-text"
-          >
-            <div>
-              <p>
-                The Mattermost Enterprise Edition (EE) license (the “EE License”)
-              </p>
-              <p>
-                Copyright (c) 2016-present Mattermost, Inc.
-              </p>
-              <p>
-                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
-              </p>
-              <p>
-                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </p>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -1986,126 +1703,86 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
+      />
+      <div
+        className="top-wrapper"
       >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                Mattermost Starter Edition. A license is required to unlock enterprise features.
-              </p>
-              <div>
-                <p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    <LoadingWrapper
-                      loading={false}
-                      text={
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="Upgrading {percentage}%"
-                          id="admin.license.enterprise.upgrading"
-                          values={
-                            Object {
-                              "percentage": 0,
-                            }
-                          }
-                        />
-                      }
-                    >
-                      <MemoizedFormattedMessage
-                        defaultMessage="Upgrade to Enterprise Edition"
-                        id="admin.license.enterprise.upgrade"
-                      />
-                    </LoadingWrapper>
-                  </button>
-                </p>
-                <p
-                  className="upgrade-legal-terms"
+            <TeamEdition
+              currentPlan={
+                <div
+                  className="current-plan-legend"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
-                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
-                    id="admin.license.enterprise.upgrade.accept-terms"
+                  <i
+                    className="icon-check-circle"
                   />
-                </p>
-              </div>
-            </div>
+                  Current Plan
+                </div>
+              }
+              openEELicenseModal={[Function]}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              <p>
-                When using Mattermost Team Edition, the software is offered under a Mattermost MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.
-              </p>
-              <p>
-                When using Mattermost Enterprise Edition, the software is offered under a commercial license. See below for “Enterprise Edition License” for details.
-              </p>
-              <p>
-                See NOTICE.txt for information about open source software used in the system.
-              </p>
-            </div>
+            <Memo(TeamEditionRightPanel)
+              handleRestart={[Function]}
+              handleUpgrade={[Function]}
+              openEEModal={[Function]}
+              restartError={null}
+              restarting={false}
+              upgradeError={null}
+              upgradingPercentage={0}
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
           </div>
         </div>
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Enterprise Edition License:"
-              id="admin.license.enterprise-edition-license"
-            />
-          </label>
-          <div
-            className="col-sm-8 enterprise-license-text"
-          >
-            <div>
-              <p>
-                The Mattermost Enterprise Edition (EE) license (the “EE License”)
-              </p>
-              <p>
-                Copyright (c) 2016-present Mattermost, Inc.
-              </p>
-              <p>
-                The subscription-only features of the Mattermost Enterprise Edition software and associated documentation files (the "Software") may only be used if you (and any entity that you represent) (i) have agreed to, and are in compliance with, the Mattermost Subscription Terms of Service, available at https://about.mattermost.com/enterprise-edition-terms/ (the “EE Terms”), and (ii) otherwise have a valid Mattermost Enterprise Edition subscription for the correct features, number of user seats and instances of Mattermost Enterprise Edition that you are running, accessing, or using.  You may, however, utilize the free version of the Software (with several features not enabled) under this license without a license key or subscription provided that you otherwise comply with the terms and conditions of this Agreement. Subject to the foregoing, except as explicitly permitted in the EE Terms, it is forbidden to copy, merge, modify, publish, distribute, sublicense, stream, perform, display, create derivative works of and/or sell the Software in either source or executable form without written agreement from Mattermost.  Notwithstanding anything to the contrary, free versions of the Software are provided “AS-IS” without indemnification, support, or warranties of any kind, expressed or implied. You assume all risk associated with any use of free versions of the Software.
-              </p>
-              <p>
-                EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </p>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -2126,128 +1803,379 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     <div
       className="admin-console__content"
     >
-      <form
-        className="form-horizontal"
-        role="form"
+      <div
+        className="admin-console__banner_section"
+      />
+      <div
+        className="top-wrapper"
       >
         <div
-          className="form-group"
+          className="left-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Edition: "
-              id="admin.license.edition"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div>
-              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
-              <div
-                className="purchase-card"
-              >
-                <PurchaseLink
-                  buttonTextElement={
-                    <Memo(MemoizedFormattedMessage)
-                      defaultMessage="Purchase a license"
-                      id="admin.license.trialCard.purchase_license"
-                    />
-                  }
-                  eventID="post_trial_purchase_license"
-                />
-                <ContactUsButton
-                  eventID="post_trial_contact_sales"
-                />
-              </div>
-            </div>
+            <Memo(StarterLeftPanel)
+              currentPlan={
+                <div
+                  className="current-plan-legend"
+                >
+                  <i
+                    className="icon-check-circle"
+                  />
+                  Current Plan
+                </div>
+              }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              fileName={null}
+              fileSelected={false}
+              handleChange={[Function]}
+              handleSubmit={[Function]}
+              isDisabled={false}
+              openEELicenseModal={[Function]}
+              serverError={null}
+              upgradedFromTE={false}
+              uploading={false}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License: "
-              id="admin.license.type"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            This software is offered under a commercial license.
+            <Memo(StarterRightPanel) />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
 
-See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot with cloud expiring license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <div
+        className="admin-console__banner_section"
+      />
+      <div
+        className="top-wrapper"
+      >
+        <div
+          className="left-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-14T12:00:00.000Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Cloud": "true",
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620993600000",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
         <div
-          className="form-group"
+          className="right-panel"
         >
-          <label
-            className="control-label col-sm-4"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="License Key: "
-              id="admin.license.key"
-            />
-          </label>
           <div
-            className="col-sm-8"
+            className="panel-card"
           >
-            <div
-              className="file__upload"
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Cloud": "true",
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620993600000",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <button
-                className="btn btn-primary"
-                type="button"
-              >
-                <MemoizedFormattedMessage
-                  defaultMessage="Choose File"
-                  id="admin.license.choose"
-                />
-              </button>
-              <input
-                accept=".mattermost-license"
-                disabled={false}
-                onChange={[Function]}
-                type="file"
-              />
-            </div>
-            <button
-              className="btn"
-              disabled={true}
-              id="upload-button"
-              onClick={[Function]}
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="Upload"
-                id="admin.license.upload"
-              />
-            </button>
-            <div
-              className="help-text m-0"
-            >
-              <MemoizedFormattedMessage
-                defaultMessage="No file uploaded"
-                id="admin.license.noFile"
-              />
-            </div>
-            <br />
-            <p
-              className="help-text m-0"
-            >
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
-                id="admin.license.uploadDesc"
-              />
-            </p>
+              Compare Plans
+            </a>
           </div>
         </div>
-      </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot with expiring license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <div
+        className="admin-console__banner_section"
+      >
+        <RenewLicenseCard
+          isDisabled={false}
+          isLicenseExpired={false}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "1620993600000",
+              "IsLicensed": "true",
+              "IssuedAt": "1517714643650",
+              "Name": "LicenseName",
+              "SkuShortName": "E20",
+              "StartsAt": "1517714643650",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
+      </div>
+      <div
+        className="top-wrapper"
+      >
+        <div
+          className="left-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-14T12:00:00.000Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620993600000",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
+            <a
+              href="https://about.mattermost.com/default-terms/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enterprise Edition Terms of Use
+            </a>
+             and 
+            <a
+              href="https://about.mattermost.com/default-privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
+          </div>
+        </div>
+        <div
+          className="right-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620993600000",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "E20",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
+          </div>
+          <div
+            className="compare-plans-text"
+          >
+            Curious about upgrading? 
+            <a
+              href="https://mattermost.com/pricing/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Compare Plans
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

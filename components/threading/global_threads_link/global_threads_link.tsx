@@ -15,6 +15,7 @@ import {t} from 'utils/i18n';
 
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {useThreadRouting} from '../hooks';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
@@ -39,7 +40,7 @@ const GlobalThreadsLink = () => {
     useEffect(() => {
         // load counts if necessary
         if (isFeatureEnabled) {
-            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
+            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5, totalsOnly: true}));
         }
     }, [currentTeamId, isFeatureEnabled]);
 
@@ -66,6 +67,7 @@ const GlobalThreadsLink = () => {
                     })}
                     role='listitem'
                     tabIndex={0}
+                    onClick={() => trackEvent('crt', 'go_to_global_threads')}
                 >
                     <span className='icon'>
                         <ThreadsIcon/>

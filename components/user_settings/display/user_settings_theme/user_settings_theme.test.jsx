@@ -1,16 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
 import React from 'react';
+import {shallow} from 'enzyme';
+import {IntlProvider} from 'react-intl';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
+import {render, fireEvent, screen} from '@testing-library/react';
 
 import {Preferences} from 'mattermost-redux/constants';
 
 import UserSettingsTheme from 'components/user_settings/display/user_settings_theme/user_settings_theme.jsx';
 
+jest.mock('utils/utils', () => ({
+    applyTheme: jest.fn(),
+    toTitleCase: jest.fn(),
+}));
+
 describe('components/user_settings/display/user_settings_theme/user_settings_theme.jsx', () => {
+    const mockStore = configureStore();
+    const initialState = {
+        entities: {
+            general: {
+                config: {},
+            },
+        },
+    };
+    const store = mockStore(initialState);
+
     const requiredProps = {
-        theme: Preferences.THEMES.default,
+        theme: Preferences.THEMES.denim,
         updateTheme: jest.fn(),
         currentTeamId: 'teamId',
         selected: false,
@@ -20,6 +39,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         actions: {
             saveTheme: jest.fn().mockResolvedValue({data: true}),
             deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
+            openModal: jest.fn(),
         },
         focused: false,
     };
@@ -54,6 +74,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
             actions: {
                 saveTheme: jest.fn().mockResolvedValue({data: true}),
                 deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
+                openModal: jest.fn(),
             },
         };
 
@@ -65,5 +86,26 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         await wrapper.instance().submitTheme();
 
         expect(props.actions.deleteTeamSpecificThemes).toHaveBeenCalled();
+    });
+
+    it('should call openModal when slack import theme button is clicked', async () => {
+        const props = {
+            ...requiredProps,
+            allowCustomThemes: true,
+            selected: true,
+        };
+
+        render(
+            <IntlProvider locale={'en'}>
+                <Provider store={store}>
+                    <UserSettingsTheme {...props}/>
+                </Provider>
+            </IntlProvider>,
+        );
+
+        // Click the Slack Import button
+        fireEvent.click(screen.getByText('Import theme colors from Slack'));
+
+        expect(props.actions.openModal).toHaveBeenCalledTimes(1);
     });
 });

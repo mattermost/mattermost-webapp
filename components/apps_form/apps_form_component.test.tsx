@@ -19,7 +19,7 @@ import {AppsForm, Props} from './apps_form_component';
 describe('AppsFormComponent', () => {
     const baseProps: Props = {
         intl: {} as any,
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         isEmbedded: false,
         actions: {
             performLookupCall: jest.fn(),

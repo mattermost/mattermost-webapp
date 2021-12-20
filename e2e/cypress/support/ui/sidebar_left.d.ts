@@ -85,11 +85,18 @@ declare namespace Cypress {
         uiAddDirectMessage(): Chainable;
 
         /**
-         * Get a button for channel switcher
+         * Get find channels button
          * @example
-         *   cy.uiGetChannelSwitcher();
+         *   cy.uiGetFindChannels();
          */
-        uiGetChannelSwitcher(): Chainable;
+        uiGetFindChannels(): Chainable;
+
+        /**
+         * Open find channels
+         * @example
+         *   cy.uiOpenFindChannels();
+         */
+        uiOpenFindChannels(): Chainable;
 
         /**
          * Open menu of a channel in the sidebar

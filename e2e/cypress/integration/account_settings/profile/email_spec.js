@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {reUrl, getRandomId} from '../../../utils';
 
-describe('Account Settings > Profile > Email', () => {
+describe('Profile > Profile Settings > Email', () => {
     let siteName;
     let testUser;
     let otherUser;
@@ -39,8 +39,8 @@ describe('Account Settings > Profile > Email', () => {
     });
 
     beforeEach(() => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal();
     });
 
     afterEach(() => {
@@ -58,7 +58,7 @@ describe('Account Settings > Profile > Email', () => {
         cy.get('#currentPassword').should('be.visible').type('SampleUs@r-1');
 
         // # Save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the email verification message is not showed.
         cy.get('.announcement-bar').should('not.exist');
@@ -69,7 +69,7 @@ describe('Account Settings > Profile > Email', () => {
         cy.get('#emailEdit').should('be.visible').click();
 
         // # Save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the correct error message is shown.
         cy.get('#clientError').should('be.visible').should('have.text', 'Please enter a valid email address');
@@ -85,7 +85,7 @@ describe('Account Settings > Profile > Email', () => {
         cy.get('#currentPassword').should('be.visible').type(otherUser.password);
 
         // # Save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the correct error message is shown.
         cy.get('#serverError').should('be.visible').should('have.text', 'An account with that email already exists.');
@@ -101,7 +101,7 @@ describe('Account Settings > Profile > Email', () => {
         cy.get('#currentPassword').should('be.visible').type('randompass');
 
         // # Save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the correct error message is shown.
         cy.get('#clientError').should('be.visible').should('have.text', 'The new emails you entered do not match.');
@@ -124,7 +124,7 @@ describe('Account Settings > Profile > Email', () => {
         cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
         // # Save the settings and close
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
         cy.uiClose();
 
         // * Verify the announcement bar
@@ -161,7 +161,7 @@ describe('Account Settings > Profile > Email', () => {
                 expect(subject).to.equal(`[${siteName}] Your email address has changed`);
             });
 
-            cy.uiOpenAccountSettingsModal();
+            cy.uiOpenProfileModal();
 
             // * Verify new email address
             cy.get('#emailDesc').should('be.visible').should('have.text', email);
@@ -182,7 +182,7 @@ describe('Account Settings > Profile > Email', () => {
         cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
         // # Save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // # Close modal then logout
         cy.get('body').type('{esc}');

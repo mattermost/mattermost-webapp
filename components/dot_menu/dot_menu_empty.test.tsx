@@ -9,7 +9,6 @@ import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/utils', () => {
     return {
-        isMobile: jest.fn(() => false),
         localizeMessage: jest.fn().mockReturnValue(''),
     };
 });
@@ -51,9 +50,10 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             appBindings: [],
             pluginMenuItems: [],
             appsEnabled: false,
+            isMobileView: false,
             isReadOnly: false,
             isCollapsedThreadsEnabled: false,
-            currentTeamId: '',
+            teamId: '',
             threadId: 'post_id_1',
             userId: 'user_id_1',
         };

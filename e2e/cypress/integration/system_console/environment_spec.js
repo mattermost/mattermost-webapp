@@ -48,14 +48,14 @@ describe('Environment', () => {
             // verify the settings picture button is visible to click
             cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-            // before uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('be.disabled');
+            // * Before uploading the picture the save button must be disabled
+            cy.uiSaveButton().should('be.disabled');
 
             // # Upload a file on center view
             cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
             // after uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
@@ -100,14 +100,14 @@ describe('Environment', () => {
             // verify the settings picture button is visible to click
             cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-            // before uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('be.disabled');
+            // * Before uploading the picture the save button must be disabled
+            cy.uiSaveButton().should('be.disabled');
 
             // # Upload a file on center view
             cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
-            // after uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+            // * After uploading the picture the save button must be disabled
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
@@ -152,14 +152,14 @@ describe('Environment', () => {
             // verify the settings picture button is visible to click
             cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-            // before uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('be.disabled');
+            // * Before uploading the picture the save button must be disabled
+            cy.uiSaveButton().should('be.disabled');
 
             // # Upload a file on center view
             cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
-            // after uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+            // * After uploading the picture the save button must be disabled
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();

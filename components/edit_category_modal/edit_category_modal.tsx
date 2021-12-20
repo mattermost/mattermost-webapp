@@ -16,7 +16,7 @@ import GenericModal from 'components/generic_modal';
 const MAX_LENGTH = 22;
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
     currentTeamId: string;
     categoryId?: string;
     initialCategoryName?: string;
@@ -121,7 +121,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
 
         return (
             <GenericModal
-                onHide={this.props.onHide}
+                onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 handleConfirm={this.handleConfirm}
                 handleCancel={this.handleCancel}

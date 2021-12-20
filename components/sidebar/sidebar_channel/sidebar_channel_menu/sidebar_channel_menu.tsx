@@ -7,11 +7,14 @@ import {IntlShape, injectIntl} from 'react-intl';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
+
 import CategoryMenuItems from 'components/category_menu_items';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
-import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
+
+import {ModalData} from 'types/actions';
+
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
 
@@ -36,7 +39,7 @@ type Props = {
         unfavoriteChannel: (channelId: string) => void;
         muteChannel: (userId: string, channelId: string) => void;
         unmuteChannel: (userId: string, channelId: string) => void;
-        openModal: (modalData: any) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 };
 
@@ -239,12 +242,10 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         );
     }
 
-    refCallback = (ref: SidebarMenuType) => {
-        if (ref) {
-            this.setState({
-                openUp: ref.state.openUp,
-            });
-        }
+    handleOpenDirectionChange = (openUp: boolean) => {
+        this.setState({
+            openUp,
+        });
     }
 
     onToggleMenu = (open: boolean) => {
@@ -265,11 +266,11 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
         return (
             <SidebarMenu
-                refCallback={this.refCallback}
                 id={`SidebarChannelMenu-${channel.id}`}
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
                 buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
                 isMenuOpen={isMenuOpen}
+                onOpenDirectionChange={this.handleOpenDirectionChange}
                 onToggleMenu={this.onToggleMenu}
                 tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
                 tabIndex={isCollapsed ? -1 : 0}

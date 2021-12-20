@@ -4,8 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
 import InstalledOAuthApp from 'components/integrations/installed_oauth_app/installed_oauth_app';
-import DeleteIntegration from 'components/integrations/delete_integration.jsx';
 
 describe('components/integrations/InstalledOAuthApp', () => {
     const FAKE_SECRET = '***************';
@@ -142,8 +142,8 @@ describe('components/integrations/InstalledOAuthApp', () => {
             <InstalledOAuthApp {...props}/>,
         );
 
-        expect(wrapper.find(DeleteIntegration).exists()).toBe(true);
-        wrapper.find(DeleteIntegration).props().onDelete();
+        expect(wrapper.find(DeleteIntegrationLink).exists()).toBe(true);
+        wrapper.find(DeleteIntegrationLink).props().onDelete();
         expect(newOnDelete).toBeCalled();
         expect(newOnDelete).toHaveBeenCalledWith(oauthApp);
     });

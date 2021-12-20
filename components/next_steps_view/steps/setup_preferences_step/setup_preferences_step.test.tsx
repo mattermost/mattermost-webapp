@@ -22,6 +22,11 @@ describe('components/next_steps_view/steps/setup_preferences_step', () => {
         isAdmin: false,
         onSkip: () => { },
         onFinish: () => {},
+        isLastStep: false,
+        completeStepButtonText: {
+            id: 'tID',
+            defaultMessage: 'defaultMessage',
+        },
     };
 
     test('should match snapshot', () => {

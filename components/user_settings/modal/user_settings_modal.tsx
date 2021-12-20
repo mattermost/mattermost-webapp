@@ -75,8 +75,7 @@ const holders = defineMessages({
 
 export type Props = {
     currentUser: UserProfile;
-    onHide: () => void;
-    onExit?: () => void;
+    onExited: () => void;
     intl: IntlShape;
     collapsedThreads: boolean;
     isContentProductSettings: boolean;
@@ -106,10 +105,6 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
     private afterConfirm: (() => void) | null;
-
-    static defaultProps = {
-        onExit: () => {},
-    };
 
     constructor(props: Props) {
         super(props);
@@ -195,8 +190,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             active_tab: this.props.isContentProductSettings ? 'notifications' : 'profile',
             active_section: '',
         });
-        this.props.onHide();
-        this.props.onExit?.();
+        this.props.onExited();
 
         if (this.showCRTBetaModal) {
             this.props.actions.openModal({
@@ -339,7 +333,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         ) : (
                             <FormattedMessage
                                 id='user.settings.modal.title'
-                                defaultMessage='Account Settings'
+                                defaultMessage='Profile'
                             />
                         )}
                     </Modal.Title>

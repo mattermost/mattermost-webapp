@@ -20,6 +20,8 @@ import groupsAvatar from 'images/groups-avatar.png';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
+import {ModalData} from 'types/actions';
+
 import * as Utils from 'utils/utils.jsx';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
@@ -35,12 +37,8 @@ type Props = {
                 teamID: string;
             };
         }>;
-        closeModal: (modalId: string) => Promise<{
-            data: boolean;
-        }>;
-        openModal: (params: {modalId: any; dialogType: any}) => Promise<{
-            data: boolean;
-        }>;
+        closeModal: (modalId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
         unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => Promise<{
             data: boolean;
         }>;

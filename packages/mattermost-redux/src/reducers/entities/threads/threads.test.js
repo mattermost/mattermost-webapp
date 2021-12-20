@@ -157,7 +157,17 @@ describe('threads', () => {
             unreadThreadsInTeam: {
                 a: ['a', 'id', 'c'],
             },
-            threads: {},
+            threads: {
+                id: {
+                    last_reply_at: 10,
+                },
+                a: {
+                    last_reply_at: 10,
+                },
+                c: {
+                    last_reply_at: 10,
+                },
+            },
             counts: {
                 a: {
                     total: 3,
@@ -173,6 +183,7 @@ describe('threads', () => {
                 },
             },
         });
+
         const nextState2 = threadsReducer(state, {
             type: ThreadTypes.READ_CHANGED_THREAD,
             data: {
@@ -471,5 +482,100 @@ describe('threads', () => {
         expect(nextState.threadsInTeam.b).toBe(state.threadsInTeam.b);
         expect(nextState.counts.b).toBe(state.counts.b);
         expect(nextState.countsIncludingDirect.b).toBe(state.countsIncludingDirect.b);
+    });
+
+    describe('RECEIVED_THREAD', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: ['t1', 't2'],
+            },
+            unreadThreadsInTeam: {
+                a: ['t2'],
+            },
+            threads: {
+                t1: {
+                    id: 't1',
+                    last_reply_at: 10,
+                },
+                t2: {
+                    id: 't2',
+                    last_reply_at: 20,
+                },
+            },
+            counts: {},
+            countsIncludingDirect: {},
+        });
+
+        test.each([
+            [{id: 't3', last_reply_at: 40, unread_mentions: 0, unread_replies: 0}, {all: ['t1', 't2', 't3'], unread: ['t2']}],
+            [{id: 't3', last_reply_at: 40, unread_mentions: 1, unread_replies: 1}, {all: ['t1', 't2', 't3'], unread: ['t2', 't3']}],
+            [{id: 't3', last_reply_at: 40, unread_mentions: 0, unread_replies: 1}, {all: ['t1', 't2', 't3'], unread: ['t2', 't3']}],
+            [{id: 't3', last_reply_at: 5, unread_mentions: 0, unread_replies: 0}, {all: ['t1', 't2'], unread: ['t2']}],
+            [{id: 't3', last_reply_at: 5, unread_mentions: 1, unread_replies: 1}, {all: ['t1', 't2'], unread: ['t2']}],
+
+            [{id: 't2', last_reply_at: 40, unread_mentions: 0, unread_replies: 0}, {all: ['t1', 't2'], unread: ['t2']}],
+            [{id: 't2', last_reply_at: 40, unread_mentions: 1, unread_replies: 1}, {all: ['t1', 't2'], unread: ['t2']}],
+            [{id: 't2', last_reply_at: 40, unread_mentions: 0, unread_replies: 1}, {all: ['t1', 't2'], unread: ['t2']}],
+            [{id: 't2', last_reply_at: 5, unread_mentions: 0, unread_replies: 0}, {all: ['t1', 't2'], unread: ['t2']}],
+            [{id: 't2', last_reply_at: 5, unread_mentions: 1, unread_replies: 1}, {all: ['t1', 't2'], unread: ['t2']}],
+        ])('should handle thread %o', (thread, expected) => {
+            const nextState = threadsReducer(state, {
+                type: ThreadTypes.RECEIVED_THREAD,
+                data: {
+                    thread,
+                    team_id: 'a',
+                },
+            });
+
+            expect(nextState.threadsInTeam.a).toEqual(expected.all);
+            expect(nextState.unreadThreadsInTeam.a).toEqual(expected.unread);
+        });
+    });
+
+    describe('unreadThreadsInTeam should handle READ_CHANGED_THREAD', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: ['t1', 't2'],
+            },
+            unreadThreadsInTeam: {
+                a: ['t2'],
+            },
+            threads: {
+                t1: {
+                    id: 't1',
+                    last_reply_at: 10,
+                },
+                t2: {
+                    id: 't2',
+                    last_reply_at: 20,
+                },
+                t3: {
+                    id: 't3',
+                    last_reply_at: 30,
+                },
+            },
+            counts: {},
+            countsIncludingDirect: {},
+        });
+
+        test.each([
+            [{id: 't1', teamId: 'a', mentions: 0, replies: 0}, ['t2']],
+            [{id: 't1', teamId: 'a', mentions: 1, replies: 0}, ['t2']],
+            [{id: 't2', teamId: 'a', mentions: 0, replies: 0}, []],
+            [{id: 't2', teamId: 'a', mentions: 1, replies: 1}, ['t2']],
+            [{id: 't3', teamId: 'a', mentions: 1, replies: 1}, ['t2', 't3']],
+            [{id: 't4', teamId: 'a', mentions: 1, replies: 1}, ['t2']],
+        ])('should handle thread %o', ({id, teamId, mentions, replies}, expected) => {
+            const nextState = threadsReducer(state, {
+                type: ThreadTypes.READ_CHANGED_THREAD,
+                data: {
+                    id,
+                    teamId,
+                    newUnreadMentions: mentions,
+                    newUnreadReplies: replies,
+                },
+            });
+            expect(nextState.unreadThreadsInTeam.a).toEqual(expected);
+        });
     });
 });

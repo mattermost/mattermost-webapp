@@ -6,7 +6,33 @@ exports[`components/file_preview_modal/file_preview_modal_footer/FilePreviewModa
 >
   <Memo(FilePreviewModalInfo)
     filename="img.png"
-    post={Object {}}
+    post={
+      Object {
+        "channel_id": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "edit_at": 0,
+        "hashtags": "",
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "metadata": Object {
+          "embeds": Array [],
+          "emojis": Array [],
+          "files": Array [],
+          "images": Object {},
+          "reactions": Array [],
+        },
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "reply_count": 0,
+        "root_id": "",
+        "type": "system_add_remove",
+        "update_at": 0,
+        "user_id": "user_id",
+      }
+    }
     showFileName={false}
   />
   <Memo(FilePreviewModalMainActions)
@@ -33,8 +59,6 @@ exports[`components/file_preview_modal/file_preview_modal_footer/FilePreviewModa
     fileURL="https://example.com/img.png"
     filename="img.png"
     handleModalClose={[MockFunction]}
-    handleNext={[MockFunction]}
-    handlePrev={[MockFunction]}
     isExternalFile={false}
     isMobile={false}
     onGetPublicLink={[MockFunction]}
@@ -53,7 +77,33 @@ exports[`components/file_preview_modal/file_preview_modal_footer/FilePreviewModa
 >
   <Memo(FilePreviewModalInfo)
     filename="img.png"
-    post={Object {}}
+    post={
+      Object {
+        "channel_id": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "edit_at": 0,
+        "hashtags": "",
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "metadata": Object {
+          "embeds": Array [],
+          "emojis": Array [],
+          "files": Array [],
+          "images": Object {},
+          "reactions": Array [],
+        },
+        "original_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "reply_count": 0,
+        "root_id": "",
+        "type": "system_add_remove",
+        "update_at": 0,
+        "user_id": "user_id",
+      }
+    }
     showFileName={false}
   />
   <Memo(FilePreviewModalMainActions)
@@ -80,8 +130,6 @@ exports[`components/file_preview_modal/file_preview_modal_footer/FilePreviewModa
     fileURL="https://example.com/img.png"
     filename="img.png"
     handleModalClose={[MockFunction]}
-    handleNext={[MockFunction]}
-    handlePrev={[MockFunction]}
     isExternalFile={false}
     isMobile={true}
     onGetPublicLink={[MockFunction]}

@@ -17,9 +17,7 @@ import {
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {
-    $ID,
     RelationOneToOne,
-    Dictionary,
     IDMappedObjects,
     RelationOneToMany,
 } from 'mattermost-redux/types/utilities';
@@ -94,7 +92,7 @@ export function removeUnneededMetadata(post: Post) {
     };
 }
 
-export function nextPostsReplies(state: {[x in $ID<Post>]: number} = {}, action: GenericAction) {
+export function nextPostsReplies(state: {[x in Post['id']]: number} = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_POST:
     case PostTypes.RECEIVED_NEW_POST: {
@@ -395,7 +393,7 @@ export function handlePendingPosts(state: string[] = [], action: GenericAction) 
     }
 }
 
-export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action: GenericAction, prevPosts: IDMappedObjects<Post>, nextPosts: Dictionary<Post>) {
+export function postsInChannel(state: Record<string, PostOrderBlock[]> = {}, action: GenericAction, prevPosts: IDMappedObjects<Post>, nextPosts: Record<string, Post>) {
     switch (action.type) {
     case PostTypes.RESET_POSTS_IN_CHANNEL: {
         return {};
@@ -804,7 +802,7 @@ export function removeNonRecentEmptyPostBlocks(blocks: PostOrderBlock[]) {
     return blocks.filter((block: PostOrderBlock) => block.order.length !== 0 || block.recent);
 }
 
-export function mergePostBlocks(blocks: PostOrderBlock[], posts: Dictionary<Post>) {
+export function mergePostBlocks(blocks: PostOrderBlock[], posts: Record<string, Post>) {
     let nextBlocks = [...blocks];
 
     // Remove any blocks that may have become empty by removing posts
@@ -861,7 +859,7 @@ export function mergePostBlocks(blocks: PostOrderBlock[], posts: Dictionary<Post
     return nextBlocks;
 }
 
-export function mergePostOrder(left: string[], right: string[], posts: Dictionary<Post>) {
+export function mergePostOrder(left: string[], right: string[], posts: Record<string, Post>) {
     const result = [...left];
 
     // Add without duplicates
@@ -885,7 +883,7 @@ export function mergePostOrder(left: string[], right: string[], posts: Dictionar
     return result;
 }
 
-export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action: GenericAction, prevPosts: Dictionary<Post>) {
+export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action: GenericAction, prevPosts: Record<string, Post>) {
     switch (action.type) {
     case PostTypes.RECEIVED_NEW_POST:
     case PostTypes.RECEIVED_POST: {
@@ -937,7 +935,7 @@ export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action:
             return state;
         }
 
-        const nextState: Dictionary<string[]> = {};
+        const nextState: Record<string, string[]> = {};
 
         for (const post of newPosts) {
             if (!post.root_id) {
@@ -1106,11 +1104,11 @@ function currentFocusedPostId(state = '', action: GenericAction) {
     }
 }
 
-export function reactions(state: RelationOneToOne<Post, Dictionary<Reaction>> = {}, action: GenericAction) {
+export function reactions(state: RelationOneToOne<Post, Record<string, Reaction>> = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_REACTIONS: {
         const reactionsList = action.data;
-        const nextReactions: Dictionary<Reaction> = {};
+        const nextReactions: Record<string, Reaction> = {};
         reactionsList.forEach((reaction: Reaction) => {
             nextReactions[reaction.user_id + '-' + reaction.emoji_name] = reaction;
         });
@@ -1184,7 +1182,7 @@ function storeReactionsForPost(state: any, post: Post) {
         return state;
     }
 
-    const reactionsForPost: Dictionary<Reaction> = {};
+    const reactionsForPost: Record<string, Reaction> = {};
     if (post.metadata.reactions && post.metadata.reactions.length > 0) {
         for (const reaction of post.metadata.reactions) {
             reactionsForPost[reaction.user_id + '-' + reaction.emoji_name] = reaction;
@@ -1197,7 +1195,7 @@ function storeReactionsForPost(state: any, post: Post) {
     };
 }
 
-export function openGraph(state: RelationOneToOne<Post, Dictionary<OpenGraphMetadata>> = {}, action: GenericAction) {
+export function openGraph(state: RelationOneToOne<Post, Record<string, OpenGraphMetadata>> = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_OPEN_GRAPH_METADATA: {
         const nextState = {...state};
@@ -1247,7 +1245,7 @@ function storeOpenGraphForPost(state: any, post: Post) {
 function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.ADD_MESSAGE_INTO_HISTORY: {
-        const nextIndex: Dictionary<number> = {};
+        const nextIndex: Record<string, number> = {};
         let nextMessages = state.messages ? [...state.messages] : [];
         nextMessages.push(action.data);
         nextIndex[Posts.MESSAGE_TYPES.POST] = nextMessages.length;
@@ -1263,7 +1261,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case PostTypes.RESET_HISTORY_INDEX: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1276,7 +1274,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case PostTypes.MOVE_HISTORY_INDEX_BACK: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1290,7 +1288,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case PostTypes.MOVE_HISTORY_INDEX_FORWARD: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1305,7 +1303,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case UserTypes.LOGOUT_SUCCESS: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1319,7 +1317,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
     }
 }
 
-export function expandedURLs(state: Dictionary<string> = {}, action: GenericAction) {
+export function expandedURLs(state: Record<string, string> = {}, action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.REDIRECT_LOCATION_SUCCESS:
         return {

@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments, AutoTourTreatments} from '../constants/config';
-
-import {Dictionary} from './utilities';
+import {AddChannelButtonTreatments, CollapsedThreads, AutoTourTreatments} from '../constants/config';
 
 import {ThemeKey} from './themes';
 
@@ -41,8 +39,6 @@ export type ClientConfig = {
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
     DefaultTheme: ThemeKey;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     DiagnosticId: string;
     DiagnosticsEnabled: string;
     EmailLoginButtonBorderColor: string;
@@ -159,7 +155,6 @@ export type ClientConfig = {
     PasswordRequireNumber: string;
     PasswordRequireSymbol: string;
     PasswordRequireUppercase: string;
-    PrewrittenMessages: PrewrittenMessagesTreatments;
     PluginsEnabled: string;
     PostEditTimeLimit: string;
     PrivacyPolicyLink: string;
@@ -185,10 +180,12 @@ export type ClientConfig = {
     TeammateNameDisplay: string;
     TermsOfServiceLink: string;
     TimeBetweenUserTypingUpdatesMilliseconds: string;
+    UpgradedFromTE: string;
     Version: string;
     WebsocketPort: string;
     WebsocketSecurePort: string;
     WebsocketURL: string;
+    ExperimentalSharedChannels: string;
 };
 
 export type License = {
@@ -358,8 +355,6 @@ export type TeamSettings = {
 export type ClientRequirements = {
     AndroidLatestVersion: string;
     AndroidMinVersion: string;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     IosLatestVersion: string;
     IosMinVersion: string;
 };
@@ -739,8 +734,8 @@ export type PluginSettings = {
     EnableHealthCheck: boolean;
     Directory: string;
     ClientDirectory: string;
-    Plugins: Dictionary<any>;
-    PluginStates: Dictionary<{Enable: boolean}>;
+    Plugins: Record<string, any>;
+    PluginStates: Record<string, {Enable: boolean}>;
     EnableMarketplace: boolean;
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;

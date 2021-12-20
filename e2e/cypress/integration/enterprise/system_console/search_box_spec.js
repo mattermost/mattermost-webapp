@@ -22,7 +22,7 @@ describe('System console', () => {
 
     it('MM-T897_1 - Focus should be in System Console search box on opening System Console or refreshing pages in System Console', () => {
         const pageIds = ['reporting\\/system_analytics', 'reporting\\/team_statistics', 'reporting\\/server_logs', 'user_management\\/users', 'user_management\\/teams'];
-        goToAdminConsole();
+        cy.visit('/admin_console');
 
         // * Assert the ID of the element is the ID of admin sidebar filter
         cy.focused().should('have.id', 'adminSidebarFilter');
@@ -43,14 +43,14 @@ describe('System console', () => {
     });
 
     it('MM-T897_2 - System Console menu footer should not cut off at the bottom', () => {
-        goToAdminConsole();
+        cy.visit('/admin_console');
 
         // * Scroll to the last item of the page and ensure it can be clicked
         cy.findByTestId('experimental.bleve').scrollIntoView().click();
     });
 
     it('MM-T1634 - Search box should remain visible / in the header as you scroll down the settings list in the left-hand-side', () => {
-        goToAdminConsole();
+        cy.visit('/admin_console');
 
         // * Scroll to bottom of left hand side
         cy.findByTestId('experimental.bleve').scrollIntoView().click();
@@ -59,9 +59,3 @@ describe('System console', () => {
         cy.get('#adminSidebarFilter').should('be.visible').click();
     });
 });
-
-// # Go to the System Scheme page as System Admin
-function goToAdminConsole() {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-}

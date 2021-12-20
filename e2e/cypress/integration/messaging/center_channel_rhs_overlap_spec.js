@@ -81,8 +81,8 @@ describe('Messaging', () => {
             cy.get('@replyTextBox').type(`post ${i}`).type('{enter}');
         }
 
-        // * Check if "Add Comment" button is visible
-        cy.get('#addCommentButton').scrollIntoView().should('be.visible').and('have.value', 'Add Comment');
+        // * Check if "Reply" button is visible
+        cy.uiGetReply().should('be.visible');
 
         // # Reset the viewport
         cy.viewport(1280, 900);

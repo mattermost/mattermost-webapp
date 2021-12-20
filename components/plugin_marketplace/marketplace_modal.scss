@@ -1,5 +1,3 @@
-@import 'compass/utilities';
-@import 'compass/css3';
 @import 'utils/variables';
 
 .modal-marketplace {
@@ -51,9 +49,8 @@
 
         > li {
             > a {
-                @include single-transition(all, 0.15s, ease);
-
                 padding: 10px 16px;
+                transition: all 0.15s ease;
             }
         }
     }

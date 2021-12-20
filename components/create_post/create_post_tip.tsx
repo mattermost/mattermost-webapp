@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 import {TutorialSteps} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -15,7 +14,6 @@ import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 import PrewrittenChips from './prewritten_chips';
 
 type Props = {
-    prewrittenMessages?: PrewrittenMessagesTreatments;
     prefillMessage: (msg: string, shouldFocus: boolean) => void;
     currentChannel: Channel;
     currentUserId: string;
@@ -23,18 +21,14 @@ type Props = {
 }
 
 function CreatePostTip(props: Props) {
-    let chips;
-    if (props.prewrittenMessages === PrewrittenMessagesTreatments.TOUR_POINT) {
-        chips = (
-            <PrewrittenChips
-                prewrittenMessages={props.prewrittenMessages}
-                prefillMessage={props.prefillMessage}
-                currentChannel={props.currentChannel}
-                currentUserId={props.currentUserId}
-                currentChannelTeammateUsername={props.currentChannelTeammateUsername}
-            />
-        );
-    }
+    const chips = (
+        <PrewrittenChips
+            prefillMessage={props.prefillMessage}
+            currentChannel={props.currentChannel}
+            currentUserId={props.currentUserId}
+            currentChannelTeammateUsername={props.currentChannelTeammateUsername}
+        />
+    );
     const screens = [
         <div key='screen'>
             <h4>

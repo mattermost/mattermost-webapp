@@ -112,7 +112,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.uiOpenTeamMenu('View Members');
         verifyEmojiPickerNotOpen();
 
-        cy.uiOpenAccountSettingsModal();
+        cy.uiOpenProfileModal();
         verifyEmojiPickerNotOpen();
 
         ['Edit Channel Header', 'Manage Members', 'Rename Channel'].forEach((modal) => {

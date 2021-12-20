@@ -7,14 +7,37 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import {mount} from 'enzyme';
 
-import ModalController from 'components/modal_controller';
+import {closeModal} from 'actions/views/modals';
 
-class TestModal extends React.PureComponent {
+import ModalController from '.';
+
+type TestModalProps = {
+    onExited: () => void;
+}
+
+type TestModalState = {
+    show: boolean;
+}
+
+class TestModal extends React.PureComponent<TestModalProps, TestModalState> {
+    constructor(props: TestModalProps) {
+        super(props);
+
+        this.state = {
+            show: true,
+        };
+    }
+
+    hideModal = () => {
+        this.setState({show: false});
+    }
+
     render() {
         return (
             <Modal
-                show={true}
-                onHide={jest.fn()}
+                show={this.state.show}
+                onHide={this.hideModal}
+                onExited={this.props.onExited}
             >
                 <Modal.Header closeButton={true}/>
                 <Modal.Body/>
@@ -25,6 +48,8 @@ class TestModal extends React.PureComponent {
 
 describe('components/ModalController', () => {
     const mockStore = configureStore();
+
+    const modalId = 'test_modal';
 
     test('component should match snapshot without any modals', () => {
         const state = {
@@ -53,7 +78,7 @@ describe('components/ModalController', () => {
             views: {
                 modals: {
                     modalState: {
-                        test_modal: {
+                        [modalId]: {
                             open: true,
                             dialogProps: {},
                             dialogType: TestModal,
@@ -72,5 +97,77 @@ describe('components/ModalController', () => {
         );
 
         expect(document.getElementsByClassName('modal-dialog').length).toBe(1);
+    });
+
+    test('should pass onExited to modal to allow a modal to remove itself', () => {
+        const state = {
+            views: {
+                modals: {
+                    modalState: {
+                        [modalId]: {
+                            open: true,
+                            dialogProps: {},
+                            dialogType: TestModal,
+                        },
+                    },
+                },
+            },
+        };
+
+        const store = mockStore(state);
+
+        const wrapper = mount(
+            <Provider store={store}>
+                <ModalController/>
+            </Provider>,
+        );
+
+        expect(wrapper.find(TestModal).exists()).toBe(true);
+        expect(wrapper.find(TestModal).prop('onExited')).toBeDefined();
+        expect(wrapper.find(Modal).prop('onExited')).toBeDefined();
+
+        wrapper.find(TestModal).prop('onExited')!();
+
+        expect(store.getActions()).toEqual([
+            closeModal(modalId),
+        ]);
+    });
+
+    test('should call a provided onExited in addition to removing the modal', () => {
+        const onExited = jest.fn();
+
+        const state = {
+            views: {
+                modals: {
+                    modalState: {
+                        [modalId]: {
+                            open: true,
+                            dialogProps: {
+                                onExited,
+                            },
+                            dialogType: TestModal,
+                        },
+                    },
+                },
+            },
+        };
+
+        const store = mockStore(state);
+
+        const wrapper = mount(
+            <Provider store={store}>
+                <ModalController/>
+            </Provider>,
+        );
+
+        expect(wrapper.find(TestModal).exists()).toBe(true);
+        expect(wrapper.find(TestModal).prop('onExited')).toBeDefined();
+        expect(wrapper.find(Modal).prop('onExited')).toBeDefined();
+
+        expect(onExited).not.toBeCalled();
+
+        wrapper.find(TestModal).prop('onExited')!();
+
+        expect(onExited).toBeCalled();
     });
 });

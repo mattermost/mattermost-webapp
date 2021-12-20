@@ -31,6 +31,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         isCollapsed: false,
         actions: {
             leaveChannel: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 

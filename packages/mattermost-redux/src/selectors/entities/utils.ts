@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {getMyChannelMemberships, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -12,17 +12,23 @@ import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/use
 import {getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
 import {General} from 'mattermost-redux/constants';
 
-import {NameMappedObjects} from 'mattermost-redux/types/utilities';
-
 export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: UserProfile[]) => UserProfileWithLastViewAt[] {
     return createSelector(
         'makeAddLastViewAtToProfiles',
         getCurrentUserId,
         getMyChannelMemberships,
         getAllChannels,
-        (state: GlobalState, profiles: UserProfile[]) => profiles,
+        (state: GlobalState, profiles: UserProfile[]) => {
+            return profiles.map((profile) => {
+                const status = getStatusForUserId(state, profile.id);
+                return {
+                    ...profile,
+                    status,
+                };
+            });
+        },
         (currentUserId, memberships, allChannels, profiles) => {
-            const DMchannels = Object.values(allChannels).reduce((acc: NameMappedObjects<Channel>, channel) => {
+            const DMchannels = Object.values(allChannels).reduce((acc: Record<string, Channel>, channel) => {
                 if (channel.type === General.DM_CHANNEL) {
                     return {
                         ...acc,

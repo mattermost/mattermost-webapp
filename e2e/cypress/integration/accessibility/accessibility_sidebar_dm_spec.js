@@ -70,13 +70,13 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.uiAddDirectMessage().click();
         searchAndSelectUser('user');
         searchAndSelectUser('user');
-        cy.get('#saveItems').click();
+        cy.uiGetButton('Go').click();
 
         // # Trigger DM with couple of users
         cy.uiAddDirectMessage().click();
         searchAndSelectUser('user');
         searchAndSelectUser('user');
-        cy.get('#saveItems').click();
+        cy.uiGetButton('Go').click();
 
         cy.wait(TIMEOUTS.TWO_SEC);
 

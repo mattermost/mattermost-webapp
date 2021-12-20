@@ -10,9 +10,11 @@ import {getMyTeamMembers} from 'mattermost-redux/actions/teams';
 import {closeModal, openModal} from 'actions/views/modals';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 import {Group, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
 import {TeamMembership} from 'mattermost-redux/types/teams';
+
+import {ModalData} from 'types/actions';
 
 import TeamGroupsManageModal from './team_groups_manage_modal';
 
@@ -34,12 +36,8 @@ type Actions = {
             teamID: string;
         };
     }>;
-    closeModal: (modalId: string) => Promise<{
-        data: boolean;
-    }>;
-    openModal: (params: {modalId: any; dialogType: any}) => Promise<{
-        data: boolean;
-    }>;
+    closeModal: (modalId: string) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
     unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => Promise<{
         data: boolean;
     }>;
@@ -51,8 +49,8 @@ type Actions = {
     }>;
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
-    actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
         getGroupsAssociatedToTeam,
         closeModal,
         openModal,

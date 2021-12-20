@@ -4,13 +4,11 @@
 import React, {ComponentProps} from 'react';
 import {Link} from 'react-router-dom';
 
-import {Tooltip} from 'react-bootstrap';
-
 import * as GlobalActions from 'actions/global_actions';
 import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants';
-import {isMobile as isMobileView} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
@@ -22,8 +20,8 @@ const POST_TOOLTIP_RANGES = [
 type Props = {
 
     /*
-         * If true, time will be rendered as a permalink to the post
-         */
+     * If true, time will be rendered as a permalink to the post
+     */
     isPermalink: boolean;
 
     /*
@@ -31,6 +29,7 @@ type Props = {
      */
     eventTime: number;
 
+    isMobileView: boolean;
     location: string;
 
     /*
@@ -48,7 +47,7 @@ export default class PostTime extends React.PureComponent<Props> {
     };
 
     handleClick = () => {
-        if (isMobileView()) {
+        if (this.props.isMobileView) {
             GlobalActions.emitCloseRightHandSide();
         }
     };

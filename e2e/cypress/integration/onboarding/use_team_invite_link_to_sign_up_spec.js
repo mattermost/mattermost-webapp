@@ -16,6 +16,7 @@ import {
     getWelcomeEmailTemplate,
     reUrl,
     verifyEmailBody,
+    stubClipboard,
 } from '../../utils';
 
 describe('Onboarding', () => {
@@ -48,15 +49,15 @@ describe('Onboarding', () => {
     });
 
     it('MM-T398 Use team invite link to sign up using email and password', () => {
+        stubClipboard().as('clipboard');
+
         // # Open the 'Invite People' full screen modal and get the invite url
         cy.uiOpenTeamMenu('Invite People');
 
-        if (isLicensed) {
-            // # Click "Invite members"
-            cy.findByTestId('inviteMembersLink').should('be.visible').click();
-        }
+        // # Copy invite link to clipboard
+        cy.findByTestId('InviteView__copyInviteLink').click();
 
-        cy.get('.share-link-input').invoke('val').then((val) => {
+        cy.get('@clipboard').its('contents').then((val) => {
             const inviteLink = val;
 
             // # Logout from admin account and visit the invite url

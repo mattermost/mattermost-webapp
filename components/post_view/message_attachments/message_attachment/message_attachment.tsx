@@ -8,7 +8,6 @@ import truncate from 'lodash/truncate';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
 import {MessageAttachment as MessageAttachmentType, MessageAttachmentField} from 'mattermost-redux/types/message_attachments';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {PostImage} from 'mattermost-redux/types/posts';
 
 import {isUrlSafe} from 'utils/url';
@@ -47,7 +46,7 @@ type Props = {
     /**
      * images object for dimensions
      */
-    imagesMetadata?: Dictionary<PostImage>;
+    imagesMetadata?: Record<string, PostImage>;
 
     actions: {
         doPostActionWithCookie: (postId: string, actionId: string, actionCookie: string, selectedOption?: string) => Promise<ActionResult>;

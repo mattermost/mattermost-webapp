@@ -13,8 +13,10 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         section: NotificationSections.DESKTOP,
         expand: false,
         memberNotificationLevel: NotificationLevels.ALL,
+        memberThreadsNotificationLevel: NotificationLevels.ALL,
         globalNotificationLevel: NotificationLevels.DEFAULT,
         onChange: () => {}, //eslint-disable-line no-empty-function
+        onChangeThreads: () => {}, //eslint-disable-line no-empty-function
         onSubmit: () => {}, //eslint-disable-line no-empty-function
         onUpdateSection: () => {}, //eslint-disable-line no-empty-function
         serverError: '',
