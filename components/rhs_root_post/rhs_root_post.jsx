@@ -74,6 +74,7 @@ export default class RhsRootPost extends React.PureComponent {
         recentEmojis: PropTypes.arrayOf(Emoji),
 
         isExpanded: PropTypes.bool,
+        isMobileView: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -97,8 +98,15 @@ export default class RhsRootPost extends React.PureComponent {
 
     handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
-            const {post, enableEmojiPicker, channelIsArchived,
-                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+            const {
+                channelIsArchived,
+                enableEmojiPicker,
+                isMobileView,
+                post,
+                actions: {
+                    emitShortcutReactToLastPostFrom,
+                },
+            } = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
@@ -116,7 +124,7 @@ export default class RhsRootPost extends React.PureComponent {
                 boundingRectOfPostInfo.bottom < (window.innerHeight);
 
             if (isPostHeaderVisibleToUser) {
-                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
+                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !isMobileView &&
                     !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
                     // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
                     // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
@@ -234,7 +242,15 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
+        const {
+            channelIsArchived,
+            collapsedThreadsEnabled,
+            isBot,
+            isMobileView,
+            isReadOnly,
+            post,
+            teamId,
+        } = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -352,7 +368,7 @@ export default class RhsRootPost extends React.PureComponent {
         );
 
         let postFlagIcon;
-        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && !Utils.isMobile();
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && !isMobileView;
         if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon

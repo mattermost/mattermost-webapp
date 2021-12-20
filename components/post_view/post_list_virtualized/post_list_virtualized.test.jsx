@@ -36,6 +36,7 @@ describe('PostList', () => {
         loadingOlderPosts: false,
         atOldestPost: false,
         atLatestPost: false,
+        isMobileView: false,
         actions: baseActions,
     };
 
@@ -227,8 +228,12 @@ describe('PostList', () => {
         test('should not show search channel hint on mobile', () => {
             const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
 
-            const wrapper = shallow(<PostList {...baseProps}/>);
-            wrapper.setState({isMobile: true});
+            const props = {
+                ...baseProps,
+                isMobileView: true,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
             const instance = wrapper.instance();
 
             const scrollHeight = 3000;
@@ -291,7 +296,10 @@ describe('PostList', () => {
 
             expect(wrapper.state('showSearchHint')).toBe(true);
 
-            wrapper.setState({isMobile: true});
+            wrapper.setProps({
+                isMobileView: true,
+            });
+
             instance.onScroll({
                 scrollDirection: 'forward',
                 scrollOffset,
@@ -529,17 +537,27 @@ describe('PostList', () => {
 
     describe('updateFloatingTimestamp', () => {
         test('should not update topPostId as is it not mobile view', () => {
-            const wrapper = shallow(<PostList {...baseProps}/>);
+            const props = {
+                ...baseProps,
+                isMobileView: false,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
             const instance = wrapper.instance();
-            wrapper.setState({isMobile: false});
+
             instance.onItemsRendered({visibleStartIndex: 0});
             expect(wrapper.state('topPostId')).toBe('');
         });
 
         test('should update topPostId with latest visible postId', () => {
-            const wrapper = shallow(<PostList {...baseProps}/>);
+            const props = {
+                ...baseProps,
+                isMobileView: true,
+            };
+
+            const wrapper = shallow(<PostList {...props}/>);
             const instance = wrapper.instance();
-            wrapper.setState({isMobile: true});
+
             instance.onItemsRendered({visibleStartIndex: 1});
             expect(wrapper.state('topPostId')).toBe('post2');
 
