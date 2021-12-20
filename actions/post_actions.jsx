@@ -246,6 +246,13 @@ export function unsetEditingPost() {
     };
 }
 
+// TODO@Michel: once inline post editing is available without using a feature flag remove this action
+export function hideEditPostModal() {
+    return {
+        type: ActionTypes.HIDE_EDIT_POST_MODAL,
+    };
+}
+
 export function markPostAsUnread(post, location) {
     return async (dispatch, getState) => {
         const state = getState();

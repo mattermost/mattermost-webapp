@@ -6,7 +6,13 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
+import {
+    get,
+    getIsInlinePostEditingEnabled,
+    isCollapsedThreadsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -82,7 +88,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         oneClickReactionsEnabled,
         recentEmojis: emojis,
         isExpanded: state.views.rhs.isSidebarExpanded,
-        isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
+
+        // TODO@Michel: remove the call to `getIsInlinePostEditingEnabled` once inline post editing is enabled by default
+        isPostBeingEdited: getIsInlinePostEditingEnabled(state) && getIsPostBeingEditedInRHS(state, ownProps.post.id),
         isMobileView: getIsMobileView(state),
     };
 }

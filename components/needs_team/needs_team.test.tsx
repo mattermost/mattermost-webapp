@@ -108,6 +108,9 @@ describe('components/needs_team', () => {
         previousTeamId: '',
         selectedThreadId: null,
         collapsedThreads: true,
+
+        // TODO@Michel: remove once the inline post editing feature is enabled by default
+        isInlinePostEditingEnabled: false,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

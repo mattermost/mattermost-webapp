@@ -7,7 +7,13 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {removePost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
+import {
+    get,
+    getIsInlinePostEditingEnabled,
+    isCollapsedThreadsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -19,7 +25,7 @@ import {Preferences} from 'utils/constants';
 import {shouldShowDotMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
-import {getEditingPost} from '../../../selectors/posts';
+import {getIsPostBeingEdited} from '../../../selectors/posts';
 
 import PostInfo from './post_info';
 
@@ -38,7 +44,6 @@ function makeMapStateToProps() {
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
-        const editingPost = getEditingPost(state);
 
         let emojis = [];
         const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
@@ -51,9 +56,10 @@ function makeMapStateToProps() {
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
-            isPostBeingEdited: ownProps.post.id === editingPost?.postId,
+
+            // TODO@Michel: remove the call to `getIsInlinePostEditingEnabled` once inline post editing is enabled by default
+            isPostBeingEdited: getIsInlinePostEditingEnabled(state) && getIsPostBeingEdited(state, ownProps.post.id),
             enableEmojiPicker,
-            editingPost,
             isReadOnly: channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),
             shortcutReactToLastPostEmittedFrom,

@@ -9,6 +9,9 @@ import ChannelController from './channel_controller';
 describe('components/channel_layout/ChannelController', () => {
     const props = {
         fetchingChannels: false,
+
+        // TODO@Michel: remove once the inline post editing feature is enabled by default
+        enableEditPostModal: true,
     };
 
     test('Should have app__body and channel-view classes on body after mount', () => {

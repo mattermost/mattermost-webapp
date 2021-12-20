@@ -124,14 +124,6 @@ type Props = {
         emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
     };
 
-    editingPost?: {
-        post: Post | null;
-        postId?: string;
-        refocusId?: string;
-        title?: string;
-        isRHS?: boolean;
-    };
-
     isPostBeingEdited: boolean;
 
     shouldShowDotMenu: boolean;

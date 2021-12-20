@@ -8,17 +8,29 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
 
-const defaultState = {};
+// TODO@Michel: can be reverted to `{}` once the inline post editing feature is enabled by default
+const defaultState = {
+    show: false,
+};
 
 function editingPost(state = defaultState, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.TOGGLE_EDITING_POST:
         return {
             ...action.data,
+
+            // TODO@Michel: this property is not needed once inline post editing is enabled by default
+            show: true,
+        };
+
+    // TODO@Michel: remove this case when inline post editing is enabled by default
+    case ActionTypes.HIDE_EDIT_POST_MODAL:
+        return {
+            show: false,
         };
 
     case UserTypes.LOGOUT_SUCCESS:
-        return {};
+        return defaultState;
     default:
         return state;
     }

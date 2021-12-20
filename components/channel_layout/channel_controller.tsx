@@ -4,6 +4,9 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
 
+// TODO@Michel: remove this (and the component files) when post inline editing is available by default
+import EditPostModal from 'components/edit_post_modal';
+
 import AnnouncementBarController from 'components/announcement_bar';
 
 import Pluggable from 'plugins/pluggable';
@@ -21,6 +24,9 @@ import ProductNoticesModal from 'components/product_notices_modal';
 
 interface Props {
     fetchingChannels: boolean;
+
+    // TODO@Michel: remove this prop once inline editing is enabled by default
+    enableEditPostModal: boolean;
 }
 
 export default class ChannelController extends React.PureComponent<Props> {
@@ -63,6 +69,8 @@ export default class ChannelController extends React.PureComponent<Props> {
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
+                    {/* TODO@Michel: remove this line once inline editing is enabled by default */}
+                    {this.props.enableEditPostModal && <EditPostModal/>}
                     <ResetStatusModal/>
                 </div>
             </div>
