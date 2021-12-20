@@ -18,20 +18,6 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={false}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
@@ -108,8 +94,9 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
-              upgradingPercentage={0}
+              upgradingPercentage={100}
             />
           </div>
           <div
@@ -150,20 +137,6 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={false}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
@@ -240,8 +213,9 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
-              upgradingPercentage={0}
+              upgradingPercentage={42}
             />
           </div>
           <div
@@ -402,20 +376,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
@@ -568,20 +528,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
@@ -734,20 +680,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
@@ -900,20 +832,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={true}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={true}
           isLicenseExpired={false}
@@ -1066,20 +984,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
@@ -1232,20 +1136,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <TrialLicenseCard
           license={
             Object {
@@ -1601,20 +1491,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={false}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
@@ -1691,6 +1567,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
               upgradingPercentage={0}
             />
@@ -1806,6 +1683,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
               upgradingPercentage={0}
             />
@@ -1847,22 +1725,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     >
       <div
         className="admin-console__banner_section"
-      >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
-      </div>
+      />
       <div
         className="top-wrapper"
       >
@@ -1967,22 +1830,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     >
       <div
         className="admin-console__banner_section"
-      >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
-      </div>
+      />
       <div
         className="top-wrapper"
       >
@@ -2119,20 +1967,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <TrialBanner
-          enterpriseReady={true}
-          gettingTrial={false}
-          gettingTrialError={null}
-          handleRestart={[Function]}
-          handleUpgrade={[Function]}
-          isDisabled={false}
-          openEEModal={[Function]}
-          requestLicense={[Function]}
-          restartError={null}
-          restarting={false}
-          upgradeError={null}
-          upgradingPercentage={0}
-        />
         <RenewLicenseCard
           isDisabled={false}
           isLicenseExpired={false}
