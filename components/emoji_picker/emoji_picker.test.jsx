@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import EmojiMap from 'utils/emoji_map';
 
-import EmojiPicker, {filterEmojiSearchInput} from 'components/emoji_picker/emoji_picker';
+import EmojiPicker from 'components/emoji_picker/emoji_picker';
 
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
@@ -22,22 +22,22 @@ describe('components/emoji_picker/EmojiPicker', () => {
         window.requestAnimationFrame.mockRestore();
     });
 
-    const testCases = [
-        {input: 'smile', output: 'smile'},
-        {input: 'SMILE', output: 'smile'},
-        {input: ':smile', output: 'smile'},
-        {input: ':SMILE', output: 'smile'},
-        {input: 'smile:', output: 'smile'},
-        {input: 'SMILE:', output: 'smile'},
-        {input: ':smile:', output: 'smile'},
-        {input: ':SMILE:', output: 'smile'},
-    ];
+    // const testCases = [
+    //     {input: 'smile', output: 'smile'},
+    //     {input: 'SMILE', output: 'smile'},
+    //     {input: ':smile', output: 'smile'},
+    //     {input: ':SMILE', output: 'smile'},
+    //     {input: 'smile:', output: 'smile'},
+    //     {input: 'SMILE:', output: 'smile'},
+    //     {input: ':smile:', output: 'smile'},
+    //     {input: ':SMILE:', output: 'smile'},
+    // ];
 
-    testCases.forEach((testCase) => {
-        test(`'${testCase.input}' should return '${testCase.output}'`, () => {
-            expect(filterEmojiSearchInput(testCase.input)).toEqual(testCase.output);
-        });
-    });
+    // testCases.forEach((testCase) => {
+    //     test(`'${testCase.input}' should return '${testCase.output}'`, () => {
+    //         expect(filterEmojiSearchInput(testCase.input)).toEqual(testCase.output);
+    //     });
+    // });
 
     const actions = {
         getCustomEmojis: jest.fn(),
