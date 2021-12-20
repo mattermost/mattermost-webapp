@@ -3068,7 +3068,6 @@
   "shortcuts.team_nav.switcher.mac": "특정 팀으로 전환: \tCtrl|Alt|[1-9]",
   "sidebar.directchannel.you": "{displayname} (당신) ",
   "sidebar.team_select": "{siteName} - 팀에 참여하기",
-  "sidebar.tutorialScreen3.body1": "**\"더보기...\"**를 클릭하여 새 채널을 만들거나 기존 채널에 가입하십시오.",
   "sidebar.types.channels": "채널",
   "sidebar.types.direct_messages": "개인 메시지",
   "sidebar.types.unreads": "읽지 않음",

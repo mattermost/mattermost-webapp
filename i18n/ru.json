@@ -3950,7 +3950,6 @@
   "sidebar.sortedByRecencyLabel": "Недавняя активность",
   "sidebar.sortedManually": "Вручную",
   "sidebar.team_select": "{siteName} - Присоединиться к команде",
-  "sidebar.tutorialScreen2.body2": "**{townsquare}** - это место для общения всей команды. Каждый в вашей команде является участником этого канала.",
   "sidebar.tutorialScreen3.body2": "Вы также можете создать новый канал нажав **символ \"+\"** рядом с заголовком списка публичных или приватных каналов.",
   "sidebar.types.channels": "КАНАЛЫ",
   "sidebar.types.direct_messages": "ЛИЧНЫЕ СООБЩЕНИЯ",
