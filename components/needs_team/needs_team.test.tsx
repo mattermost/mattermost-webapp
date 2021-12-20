@@ -108,6 +108,7 @@ describe('components/needs_team', () => {
         previousTeamId: '',
         selectedThreadId: null,
         collapsedThreads: true,
+        shouldShowAppBar: true,
 
         // TODO@Michel: remove once the inline post editing feature is enabled by default
         isInlinePostEditingEnabled: false,
