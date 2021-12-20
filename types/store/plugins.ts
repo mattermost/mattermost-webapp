@@ -15,6 +15,14 @@ export type PluginsState = {
 
     components: {
         Product: ProductComponent[];
+        CallButton: PluginComponent[];
+        PostDropdownMenu: PluginComponent[];
+        FilePreview: PluginComponent[];
+        MainMenu: PluginComponent[];
+        LinkTooltip: PluginComponent[];
+        RightHandSidebarComponent: PluginComponent[];
+        MobileChannelHeaderButton: PluginComponent[];
+        AppBar: PluginComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -55,6 +63,7 @@ export type PluginComponent = {
     dropdownText?: string;
     tooltipText?: string;
     icon?: React.ReactElement;
+    iconUrl?: string;
     mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
