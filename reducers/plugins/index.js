@@ -163,7 +163,19 @@ function plugins(state = {}, action) {
     }
 }
 
-function components(state = {}, action) {
+const initialComponents = {
+    AppBar: [],
+    CallButton: [],
+    FilePreview: [],
+    LinkTooltip: [],
+    MainMenu: [],
+    MobileChannelHeaderButton: [],
+    PostDropdownMenu: [],
+    Product: [],
+    RightHandSidebarComponent: [],
+};
+
+function components(state = initialComponents, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {

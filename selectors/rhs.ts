@@ -57,6 +57,18 @@ export function getPluggableId(state: GlobalState) {
     return state.views.rhs.pluggableId;
 }
 
+export function getActivePluginId(state: GlobalState) {
+    const pluggableId = getPluggableId(state);
+    const components = state.plugins.components.RightHandSidebarComponent;
+    const component = components.find((c) => c.id === pluggableId);
+
+    if (component) {
+        return component.pluginId;
+    }
+
+    return '';
+}
+
 function getRealSelectedPost(state: GlobalState) {
     return state.entities.posts.posts[getSelectedPostId(state)];
 }
