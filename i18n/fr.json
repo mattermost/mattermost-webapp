@@ -4059,7 +4059,6 @@
   "sidebar.tutorialProductSwitcher.admin": "Les administrateurs système peuvent aussi configurer et personnaliser Mattermost en utilisant la **Console système** et installer des Apps Mattermost depuis la **Place de marché**.",
   "sidebar.tutorialProductSwitcher.switchProducts": "Lancez d'autres produits Mattermost depuis ici, dont **Boards** et **Playbooks**.",
   "sidebar.tutorialProductSwitcher.title": "Essayez Boards et Playbooks",
-  "sidebar.tutorialScreen2.body2": "**{townsquare}** est un lieu de communication pour toute votre équipe. Tous les membres de votre équipe sont membres de ce canal.",
   "sidebar.tutorialScreen3.body2": "Vous pouvez également créer un nouveau canal en cliquant sur le symbole **« + »** à côté de l'entête du canal public ou privé.",
   "sidebar.tutorialSettings.settings": "Réglez votre disponibilité, ajoutez un statut personnalisé, et accédez aux **Préférences** et **Paramètres du compte** pour configurer votre expérience, dont les préférences de notification et les couleurs de thème personnalisé.",
   "sidebar.tutorialSettings.title": "Personnalisez votre expérience",
