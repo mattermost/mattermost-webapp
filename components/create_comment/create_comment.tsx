@@ -599,7 +599,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             }
         }
 
-        if (!useLDAPGroupMentions && mentions.length > 0) {
+        if (!useLDAPGroupMentions && !useCustomGroupMentions && mentions.length > 0) {
             const updatedDraft = {
                 ...draft,
                 props: {
