@@ -12,8 +12,6 @@ import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/use
 import {getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
 import {General} from 'mattermost-redux/constants';
 
-import {NameMappedObjects} from 'mattermost-redux/types/utilities';
-
 export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: UserProfile[]) => UserProfileWithLastViewAt[] {
     return createSelector(
         'makeAddLastViewAtToProfiles',
@@ -30,7 +28,7 @@ export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: Us
             });
         },
         (currentUserId, memberships, allChannels, profiles) => {
-            const DMchannels = Object.values(allChannels).reduce((acc: NameMappedObjects<Channel>, channel) => {
+            const DMchannels = Object.values(allChannels).reduce((acc: Record<string, Channel>, channel) => {
                 if (channel.type === General.DM_CHANNEL) {
                     return {
                         ...acc,

@@ -34,7 +34,8 @@ import StarterLeftPanel from './starter_edition/starter_left_panel';
 import StarterRightPanel from './starter_edition/starter_right_panel';
 import EnterpriseEditionLeftPanel from './enterprise_edition/enterprise_edition_left_panel';
 import EnterpriseEditionRightPanel from './enterprise_edition/enterprise_edition_right_panel';
-import EELicenseModal from './ee_license_modal/ee_license_modal';
+import EELicenseModal from './modals/ee_license_modal';
+import ConfirmLicenseRemovalModal from './modals/confirm_license_removal_modal';
 import {free30DayTrialBanner} from './license_utils/license_utils';
 
 import './license_settings.scss';
@@ -176,6 +177,14 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         });
     };
 
+    confirmLicenseRemoval = async () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CONFIRM_LICENSE_REMOVAL,
+            dialogType: ConfirmLicenseRemovalModal,
+            dialogProps: {handleRemove: this.handleRemove},
+        });
+    };
+
     handleRemove = async (e: any) => {
         e.preventDefault();
 
@@ -264,7 +273,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     termsAndPolicy = (
         <div className='terms-and-policy'>
             {'See also '}
-            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Service')}
+            {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Use')}
             {' and '}
             {this.createLink(AboutLinks.PRIVACY_POLICY, 'Privacy Policy')}
         </div>
@@ -369,7 +378,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     issued={issued}
                     startsAt={startsAt}
                     expiresAt={expiresAt}
-                    handleRemove={this.handleRemove}
+                    handleRemove={this.confirmLicenseRemoval}
                     isDisabled={isDisabled}
                     removing={this.state.removing}
                 />

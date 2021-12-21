@@ -16,10 +16,8 @@ import NoPermissionsView from './no_permissions_view';
 import InvitationModal, {Props, View, InvitationModal as BaseInvitationModal} from './invitation_modal';
 
 const defaultProps: Props = deepFreeze({
-    show: true,
     inviteToTeamTreatment: InviteToTeamTreatments.NONE,
     actions: {
-        closeModal: jest.fn(),
         searchChannels: jest.fn(),
         regenerateTeamInviteId: jest.fn(),
 
@@ -42,6 +40,7 @@ const defaultProps: Props = deepFreeze({
     canInviteGuests: true,
     intl: {} as IntlShape,
     townSquareDisplayName: '',
+    onExited: jest.fn(),
 });
 
 let props = defaultProps;

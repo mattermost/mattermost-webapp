@@ -21,6 +21,11 @@ const postIncomingWebhook = require('./post_incoming_webhook');
 const postMessageAs = require('./post_message_as');
 const postListOfMessages = require('./post_list_of_messages');
 const reactToMessageAs = require('./react_to_message_as');
+const {
+    shellFind,
+    shellRm,
+    shellUnzip,
+} = require('./shell');
 const urlHealthCheck = require('./url_health_check');
 
 const log = (message) => {
@@ -49,6 +54,9 @@ module.exports = (on, config) => {
         postListOfMessages,
         urlHealthCheck,
         reactToMessageAs,
+        shellFind,
+        shellRm,
+        shellUnzip,
     });
 
     on('before:browser:launch', (browser = {}, launchOptions) => {

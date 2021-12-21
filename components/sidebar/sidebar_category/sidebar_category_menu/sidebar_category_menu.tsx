@@ -11,11 +11,10 @@ import {trackEvent} from 'actions/telemetry_actions';
 import DeleteCategoryModal from 'components/delete_category_modal';
 import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
-import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
-import {Props as SubmenuItemProps} from 'components/widgets/menu/menu_items/submenu_item';
 import {ModalData} from 'types/actions';
+import {Menu as SubMenu} from 'types/store/plugins';
 
 type Props = {
     currentTeamId: string;
@@ -115,7 +114,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             );
         }
 
-        const sortMenuItems: SubmenuItemProps[] = [{
+        const sortMenuItems: SubMenu[] = [{
             id: 'sortAlphabetical',
             direction: 'right' as any,
             text: intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}),
@@ -214,12 +213,10 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         );
     }
 
-    refCallback = (ref: SidebarMenuType) => {
-        if (ref) {
-            this.setState({
-                openUp: ref.state.openUp,
-            });
-        }
+    handleOpenDirectionChange = (openUp: boolean) => {
+        this.setState({
+            openUp,
+        });
     }
 
     render() {
@@ -228,11 +225,11 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <SidebarMenu
-                    refCallback={this.refCallback}
                     id={`SidebarCategoryMenu-${category.id}`}
                     ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                     buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                     isMenuOpen={this.props.isMenuOpen}
+                    onOpenDirectionChange={this.handleOpenDirectionChange}
                     onToggleMenu={this.onToggleMenu}
                     tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
                 >

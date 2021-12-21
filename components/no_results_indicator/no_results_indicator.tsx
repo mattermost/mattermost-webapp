@@ -5,8 +5,6 @@ import React, {ReactNode, CSSProperties} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {t} from 'utils/i18n';
 
 import FlagIcon from 'components/widgets/icons/flag_icon';
@@ -22,8 +20,8 @@ interface Props {
     title?: ReactNode;
     subtitle?: ReactNode;
     variant?: NoResultsVariant;
-    titleValues?: Dictionary<ReactNode>;
-    subtitleValues?: Dictionary<ReactNode>;
+    titleValues?: Record<string, ReactNode>;
+    subtitleValues?: Record<string, ReactNode>;
     style?: CSSProperties;
 }
 

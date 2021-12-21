@@ -22,6 +22,7 @@ import {
     syncPostsInChannel,
     loadLatestPosts,
 } from 'actions/views/channel';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import PostList from './post_list.jsx';
 
@@ -82,6 +83,7 @@ function makeMapStateToProps() {
             postListIds: postIds,
             isPrefetchingInProcess,
             channelManuallyUnread,
+            isMobileView: getIsMobileView(state),
         };
     };
 }

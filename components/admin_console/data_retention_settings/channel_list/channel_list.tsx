@@ -7,7 +7,6 @@ import {debounce, isEqual} from 'lodash';
 
 import {Constants} from 'utils/constants';
 import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
 import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
@@ -30,8 +29,8 @@ type Props = {
 
     onRemoveCallback: (channel: ChannelWithTeamData) => void;
     onAddCallback: (channels: ChannelWithTeamData[]) => void;
-    channelsToRemove: Dictionary<ChannelWithTeamData>;
-    channelsToAdd: Dictionary<ChannelWithTeamData>;
+    channelsToRemove: Record<string, ChannelWithTeamData>;
+    channelsToAdd: Record<string, ChannelWithTeamData>;
 
     actions: {
         searchChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: ChannelWithTeamData[] }>;

@@ -53,6 +53,7 @@ type Props = {
     loadingMessageDefault?: string;
     emailInvitationsEnabled: boolean;
     extraErrorText?: React.ReactNode;
+    autoFocus?: boolean;
 }
 
 export type EmailInvite = {
@@ -339,6 +340,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                     tabSelectsValue={true}
                     value={values}
                     aria-label={this.props.ariaLabel}
+                    autoFocus={this.props.autoFocus}
                 />
                 {this.props.showError && (
                     <div className='InputErrorBox'>
