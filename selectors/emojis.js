@@ -52,10 +52,7 @@ export function isCustomEmojiEnabled(state) {
 export const getOneClickReactionEmojis = (state) => {
     const recentEmojis = getRecentEmojis(state).slice(-3);
     const emojiMap = getEmojiMap(state);
-    const emojis = [];
-    for (let i = 0; i < recentEmojis.length; i++) {
-        emojis.push(emojiMap.get(recentEmojis[i]));
-    }
 
-    return emojis.reverse();
+    const emojis = recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).reverse();
+    return emojis;
 };
