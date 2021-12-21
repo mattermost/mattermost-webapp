@@ -95,7 +95,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
               restartError={null}
               restarting={false}
               upgradeError={null}
-              upgradingPercentage={0}
+              upgradingPercentage={100}
             />
           </div>
           <div
@@ -213,7 +213,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
               restartError={null}
               restarting={false}
               upgradeError={null}
-              upgradingPercentage={0}
+              upgradingPercentage={42}
             />
           </div>
           <div
