@@ -54,7 +54,7 @@ type Props = {
         removeLicense: () => Promise<ActionResult>;
         getPrevTrialLicense: () => void;
         upgradeToE0: () => Promise<StatusOK>;
-        upgradeToE0Status: () => Promise<ActionResult>;
+        upgradeToE0Status: () => Promise<{percentage: number; error: any}>;
         restartServer: () => Promise<StatusOK>;
         ping: () => Promise<{status: string}>;
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
@@ -117,7 +117,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     }
 
     reloadPercentage = async () => {
-        const {data: percentage, error} = await this.props.actions.upgradeToE0Status();
+        const {percentage, error} = await this.props.actions.upgradeToE0Status();
         if (percentage === 100 || error) {
             if (this.interval) {
                 clearInterval(this.interval);
