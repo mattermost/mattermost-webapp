@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<div>
+  <div
+    class="emoji-picker__search-container"
+  >
+    <div
+      class="emoji-picker__text-container"
+    >
+      <span
+        class="icon-magnify icon emoji-picker__search-icon"
+      />
+      <input
+        aria-label="Search for an emoji"
+        autocomplete="off"
+        class="emoji-picker__search"
+        data-testid="emojiInputSearch"
+        id="emojiPickerSearch"
+        placeholder="Search Emoji"
+        type="text"
+        value=""
+      />
+    </div>
+    <div />
+  </div>
+</div>
+`;

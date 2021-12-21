@@ -464,39 +464,15 @@
         margin: 3px;
         vertical-align: top;
     }
-
-    .emoji-picker-items__container {
-        > span {
-            display: inline-block;
-            overflow: hidden;
-            width: 21px;
-            height: 21px;
-            padding: 0;
-            border: 0;
-            margin: 3px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-align: center;
-            vertical-align: top;
-        }
-    }
-
-    .emoji-picker__item-wrapper {
-        .emoji-picker__item {
-            width: auto;
-            min-width: 0;
-            max-width: 21px;
-            height: auto;
-            min-height: 0;
-            max-height: 21px;
-            margin: 0 auto;
-            font-size: 18px;
-        }
-    }
 }
 
 .emoji-picker__item:nth-of-type(9n) {
     margin-right: 0;
+}
+
+.emoji-picker__row {
+    display:flex;
+    justify-content: flex-start;
 }
 
 .emoji-picker__item {

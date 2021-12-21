@@ -1,18 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export type EmojiCategory = (
+export type EmojiCategory =
     | 'recent'
-    | 'people'
-    | 'nature'
-    | 'foods'
-    | 'activity'
-    | 'places'
+    | 'searchResults'
+    | 'smileys-emotion'
+    | 'people-body'
+    | 'animals-nature'
+    | 'food-drink'
+    | 'activities'
+    | 'travel-places'
     | 'objects'
     | 'symbols'
     | 'flags'
-    | 'custom'
-);
+    | 'custom';
+
 export type CustomEmoji = {
     id: string;
     create_at: number;

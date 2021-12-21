@@ -2,18 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
+import {injectIntl, WrappedComponentProps} from 'react-intl';
 import debounce from 'lodash/debounce';
 
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
-import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
-type Props = {
+interface Props extends WrappedComponentProps {
     emoji: Emoji;
     onItemOver: (categoryIndex: number, emojiIndex: number) => void;
     onItemClick: (emoji: Emoji) => void;
@@ -24,7 +24,6 @@ type Props = {
     containerRef: HTMLDivElement;
     containerTop: number;
     containerBottom: number;
-    intl: IntlShape;
 }
 
 class EmojiPickerItem extends React.Component<Props> {

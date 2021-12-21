@@ -2,22 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl, FormattedMessage, IntlShape} from 'react-intl';
+import {injectIntl, FormattedMessage, WrappedComponentProps} from 'react-intl';
+
+import {Category} from 'components/emoji_picker/types';
+
+import {Constants} from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {Constants} from 'utils/constants';
 
-type Category = {
-    name: string;
-    id: string;
-    className: string;
-    message: string;
-    offset: number;
-};
-
-type Props = {
-    intl: IntlShape;
+interface Props extends WrappedComponentProps {
     category: Category;
     icon: React.ReactNode;
     onCategoryClick: (categoryName: string) => void;
