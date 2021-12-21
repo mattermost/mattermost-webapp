@@ -230,10 +230,5 @@ export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatm
 }
 
 export function isCustomGroupsEnabled(state: GlobalState): boolean {
-    const license = getLicense(state);
-    return (
-        getFeatureFlagValue(state, 'CustomGroups') === 'true' &&
-        getConfig(state).EnableCustomGroups === 'true' &&
-        (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise)
-    );
+    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
 }
