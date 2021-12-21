@@ -35,6 +35,7 @@ import StarterRightPanel from './starter_edition/starter_right_panel';
 import EnterpriseEditionLeftPanel from './enterprise_edition/enterprise_edition_left_panel';
 import EnterpriseEditionRightPanel from './enterprise_edition/enterprise_edition_right_panel';
 import EELicenseModal from './modals/ee_license_modal';
+import UploadLicenseModal from './modals/upload_license_modal';
 import ConfirmLicenseRemovalModal from './modals/confirm_license_removal_modal';
 import {free30DayTrialBanner} from './license_utils/license_utils';
 
@@ -174,6 +175,13 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.ENTERPRISE_EDITION_LICENSE,
             dialogType: EELicenseModal,
+        });
+    };
+
+    openUploadModal = async () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.UPLOAD_LICENSE,
+            dialogType: UploadLicenseModal,
         });
     };
 
@@ -396,6 +404,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             leftPanel = (
                 <StarterLeftPanel
                     openEELicenseModal={this.openEELicenseModal}
+                    openUploadModal={this.openUploadModal}
                     currentPlan={this.currentPlan}
                     upgradedFromTE={this.props.upgradedFromTE}
                     serverError={this.state.serverError}

@@ -4,8 +4,6 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import Markdown from 'components/markdown/markdown';
-
 import './starter_edition.scss';
 export interface StarterEditionProps {
     openEELicenseModal: () => void;
@@ -19,20 +17,24 @@ export interface StarterEditionProps {
     isDisabled: boolean;
     handleChange: () => void;
     handleSubmit: (e: any) => Promise<void>;
+
+    openUploadModal: () => void;
 }
 
 const StarterLeftPanel: React.FC<StarterEditionProps> = ({
     openEELicenseModal,
     currentPlan,
     upgradedFromTE,
-    serverError,
-    fileSelected,
-    fileName,
-    uploading,
-    fileInputRef,
-    isDisabled,
-    handleChange,
-    handleSubmit,
+
+    // serverError,
+    // fileSelected,
+    // fileName,
+    // uploading,
+    // fileInputRef,
+    // isDisabled,
+    // handleChange,
+    // handleSubmit,
+    openUploadModal,
 }: StarterEditionProps) => {
     return (
         <div className='StarterLeftPanel'>
@@ -78,123 +80,98 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                 }
             </div>
             <div className='licenseInformation'>
-                {
-                    renderStarterContent(
-                        serverError,
-                        fileSelected,
-                        fileName,
-                        uploading,
-                        fileInputRef,
-                        isDisabled,
-                        handleChange,
-                        handleSubmit,
-                    )
-                }
+                <div
+                    className='licenseKeyTitle'
+                >
+                    <FormattedMessage
+                        id='admin.license.key'
+                        defaultMessage='License Key: '
+                    />
+                </div>
+                <div className='uploadButtons'>
+                    <button
+                        className='btn btn-upload light-blue-btn'
+                        onClick={openUploadModal}
+                        id='open-modal'
+                    >
+                        <FormattedMessage
+                            id='admin.license.uploadFile'
+                            defaultMessage='Upload File'
+                        />
+                    </button>
+                </div>
             </div>
         </div>
     );
 };
 
-const renderStarterContent = (
-    _serverError: string | null,
-    fileSelected: boolean,
-    _fileName: string | null,
-    uploading: boolean,
-    fileInputRef: any,
-    isDisabled: boolean,
-    handleChange: () => void,
-    handleSubmit: (e: any) => Promise<void>,
-) => {
-    let serverError: JSX.Element | null = null;
-    if (_serverError) {
-        serverError = (
-            <div className='has-error'>
-                <Markdown
-                    enableFormatting={true}
-                    message={_serverError}
-                />
-            </div>
-        );
-    }
+// const renderStarterContent = (
+//     _serverError: string | null,
+//     fileSelected: boolean,
+//     _fileName: string | null,
+//     uploading: boolean,
+//     fileInputRef: any,
+//     isDisabled: boolean,
+//     handleChange: () => void,
+//     handleSubmit: (e: any) => Promise<void>,
+// ) => {
+//     // let serverError: JSX.Element | null = null;
+//     // if (_serverError) {
+//     //     serverError = (
+//     //         <div className='has-error'>
+//     //             <Markdown
+//     //                 enableFormatting={true}
+//     //                 message={_serverError}
+//     //             />
+//     //         </div>
+//     //     );
+//     // }
 
-    let btnClass = '';
-    if (fileSelected) {
-        btnClass = 'light-blue-btn';
-    }
+//     let btnClass = '';
+//     if (fileSelected) {
+//         btnClass = 'light-blue-btn';
+//     }
 
-    let fileName;
-    if (_fileName) {
-        fileName = _fileName;
-    } else {
-        fileName = (
-            <FormattedMessage
-                id='admin.license.noFile'
-                defaultMessage='No file uploaded'
-            />
-        );
-    }
+//     // let fileName;
+//     // if (_fileName) {
+//     //     fileName = _fileName;
+//     // } else {
+//     //     fileName = (
+//     //         <FormattedMessage
+//     //             id='admin.license.noFile'
+//     //             defaultMessage='No file uploaded'
+//     //         />
+//     //     );
+//     // }
 
-    let uploadButtonText = (
-        <FormattedMessage
-            id='admin.license.upload'
-            defaultMessage='Upload'
-        />
-    );
-    if (uploading) {
-        uploadButtonText = (
-            <FormattedMessage
-                id='admin.license.uploading'
-                defaultMessage='Uploading License...'
-            />
-        );
-    }
-    return (
-        <>
-            <div
-                className='licenseKeyTitle'
-            >
-                <FormattedMessage
-                    id='admin.license.key'
-                    defaultMessage='License Key: '
-                />
-            </div>
-            <div className='uploadButtons'>
-                <div className='file__upload'>
-                    <button
-                        type='button'
-                        className='btn btn-primary btn-select'
-                    >
-                        <FormattedMessage
-                            id='admin.license.choose'
-                            defaultMessage='Choose File'
-                        />
-                    </button>
-                    <input
-                        ref={fileInputRef}
-                        type='file'
-                        accept='.mattermost-license'
-                        onChange={handleChange}
-                        disabled={isDisabled}
-                    />
-                </div>
-                <button
-                    className={`btn btn-upload ${btnClass}`}
-                    disabled={isDisabled || !fileSelected}
-                    onClick={handleSubmit}
-                    id='upload-button'
-                >
-                    {uploadButtonText}
-                </button>
-                <div className='help-text'>
-                    {fileName}
-                </div>
-                <br/>
-                <div className='serverError'>
-                    {serverError}
-                </div>
-            </div>
-        </>
-    );
-};
+//     const openUploadModal = () => {
+
+//     }
+
+//     return (
+//         <>
+//             <div
+//                 className='licenseKeyTitle'
+//             >
+//                 <FormattedMessage
+//                     id='admin.license.key'
+//                     defaultMessage='License Key: '
+//                 />
+//             </div>
+//             <div className='uploadButtons'>
+//                 <button
+//                     className='btn btn-upload light-blue-btn'
+//                     onClick={openUploadModal}
+//                     id='open-modal'
+//                 >
+//                     <FormattedMessage
+//                         id='admin.license.uploadFile'
+//                         defaultMessage='Upload File'
+//                     />
+//                 </button>
+//             </div>
+//         </>
+//     );
+// };
 
 export default React.memo(StarterLeftPanel);
