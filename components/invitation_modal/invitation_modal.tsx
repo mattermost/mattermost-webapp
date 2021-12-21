@@ -34,10 +34,8 @@ import './invitation_modal.scss';
 type Backdrop = 'static' | boolean
 
 export type Props = {
-    show: boolean;
     inviteToTeamTreatment: InviteToTeamTreatments;
     actions: {
-        closeModal: () => void;
         searchChannels: (teamId: string, term: string) => ActionFunc;
         regenerateTeamInviteId: (teamId: string) => void;
 
@@ -67,6 +65,7 @@ export type Props = {
     canAddUsers: boolean;
     canInviteGuests: boolean;
     intl: IntlShape;
+    onExited: () => void;
 }
 
 export const View = {
@@ -81,6 +80,7 @@ type State = {
     invite: InviteState;
     result: ResultState;
     termWithoutResults: string | null;
+    show: boolean;
 };
 
 const defaultState: State = deepFreeze({
@@ -88,6 +88,7 @@ const defaultState: State = deepFreeze({
     termWithoutResults: null,
     invite: defaultInviteState,
     result: defaultResultState,
+    show: true,
 });
 
 export class InvitationModal extends React.PureComponent<Props, State> {
@@ -104,7 +105,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
     }
 
     handleHide = () => {
-        this.props.actions.closeModal();
+        this.setState({show: false});
     }
 
     toggleCustomMessage = () => {
@@ -389,8 +390,9 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 data-testid='invitationModal'
                 dialogClassName='a11y__modal'
                 className='InvitationModal'
-                show={this.props.show}
+                show={this.state.show}
                 onHide={this.handleHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 backdrop={this.getBackdrop()}
                 aria-modal='true'
