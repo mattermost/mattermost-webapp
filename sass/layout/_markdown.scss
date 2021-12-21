@@ -155,7 +155,7 @@ h6.markdown__heading {
         white-space: pre-wrap;
     }
     &:hover .post-code__clipboard {
-        @include opacity(1);
+        opacity: 1;
     }
     &:hover .post-code__language {
         opacity: 1;
@@ -203,9 +203,20 @@ h6.markdown__heading {
 }
 
 .post-code__overlay {
+    position: absolute;
+    z-index: 5;
+    top: 5px;
+    right: 0;
+    padding: 4px 10px 5px;
+    background: #21586d;
+    border-radius: 0 0 0 2px;
+    color: $white;
+    opacity: 0;
+    transition: opacity, 0.6s;
+    user-select: none;
     >span {
-        @include opacity(0);
-        @include transition(opacity, 0.6s);
+        opacity: 0;
+        // @include transition(opacity, 0.6s);
         position: relative;
         top: 5px;
         padding: 4px 5px 5px;
