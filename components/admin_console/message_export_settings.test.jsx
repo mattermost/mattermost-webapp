@@ -7,6 +7,32 @@ import {shallow} from 'enzyme';
 import MessageExportSettings from 'components/admin_console/message_export_settings.jsx';
 
 describe('components/MessageExportSettings', () => {
+    test('should match snapshot, focalboard plugin available', () => {
+        const config = {
+            MessageExportSettings: {
+                EnableExport: false,
+                ExportFormat: 'csv',
+                DailyRunTime: '01:00',
+                ExportFromTimestamp: null,
+                BatchSize: 10000,
+            },
+            PluginSettings: {
+                PluginStates: {
+                    focalboard: {
+                        Enable: true,
+                    },
+                },
+            },
+        };
+
+        const wrapper = shallow(
+            <MessageExportSettings
+                config={config}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, disabled, actiance', () => {
         const config = {
             MessageExportSettings: {
@@ -15,6 +41,13 @@ describe('components/MessageExportSettings', () => {
                 DailyRunTime: '01:00',
                 ExportFromTimestamp: null,
                 BatchSize: 10000,
+            },
+            PluginSettings: {
+                PluginStates: {
+                    focalboard: {
+                        Enable: false,
+                    },
+                },
             },
         };
 
@@ -46,6 +79,13 @@ describe('components/MessageExportSettings', () => {
                 DailyRunTime: '01:00',
                 ExportFromTimestamp: 12345678,
                 BatchSize: 10000,
+            },
+            PluginSettings: {
+                PluginStates: {
+                    focalboard: {
+                        Enable: false,
+                    },
+                },
             },
         };
 
@@ -82,6 +122,13 @@ describe('components/MessageExportSettings', () => {
                     SMTPUsername: 'globalRelayUser',
                     SMTPPassword: 'globalRelayPassword',
                     EmailAddress: 'globalRelay@mattermost.com',
+                },
+            },
+            PluginSettings: {
+                PluginStates: {
+                    focalboard: {
+                        Enable: false,
+                    },
                 },
             },
         };
@@ -128,6 +175,13 @@ describe('components/MessageExportSettings', () => {
                     EmailAddress: 'globalRelay@mattermost.com',
                 },
             },
+            PluginSettings: {
+                PluginStates: {
+                    focalboard: {
+                        Enable: false,
+                    },
+                },
+            },
         };
 
         const wrapper = shallow(
@@ -167,6 +221,13 @@ describe('components/MessageExportSettings/getJobDetails', () => {
                 DailyRunTime: '01:00',
                 ExportFromTimestamp: 12345678,
                 BatchSize: 10000,
+            },
+            PluginSettings: {
+                PluginStates: {
+                    focalboard: {
+                        Enable: false,
+                    },
+                },
             },
         },
     };
