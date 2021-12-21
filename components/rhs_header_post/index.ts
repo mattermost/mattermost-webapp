@@ -26,6 +26,7 @@ import {
     toggleRhsExpanded,
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {allAtMentions} from '../../utils/text_formatting';
 
@@ -45,6 +46,7 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
 
     return {
         isExpanded: getIsRhsExpanded(state),
+        isMobileView: getIsMobileView(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
         currentTeamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
