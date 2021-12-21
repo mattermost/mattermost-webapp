@@ -9,7 +9,7 @@ import EmojiMap from 'utils/emoji_map';
 import EmojiPicker from 'components/emoji_picker/emoji_picker';
 
 import EmojiPickerCategory from './components/emoji_picker_category';
-import EmojiPickerCategorySection from './emoji_picker_category_section';
+import EmojiPickerCategorySection from './components/emoji_picker_category_row';
 
 describe('components/emoji_picker/EmojiPicker', () => {
     jest.useFakeTimers();
@@ -21,23 +21,6 @@ describe('components/emoji_picker/EmojiPicker', () => {
     afterEach(() => {
         window.requestAnimationFrame.mockRestore();
     });
-
-    // const testCases = [
-    //     {input: 'smile', output: 'smile'},
-    //     {input: 'SMILE', output: 'smile'},
-    //     {input: ':smile', output: 'smile'},
-    //     {input: ':SMILE', output: 'smile'},
-    //     {input: 'smile:', output: 'smile'},
-    //     {input: 'SMILE:', output: 'smile'},
-    //     {input: ':smile:', output: 'smile'},
-    //     {input: ':SMILE:', output: 'smile'},
-    // ];
-
-    // testCases.forEach((testCase) => {
-    //     test(`'${testCase.input}' should return '${testCase.output}'`, () => {
-    //         expect(filterEmojiSearchInput(testCase.input)).toEqual(testCase.output);
-    //     });
-    // });
 
     const actions = {
         getCustomEmojis: jest.fn(),
@@ -115,7 +98,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'recent'}).length).toBe(1);
     });
 
-    test('Update should have for all categories', async () => {
+    test('Update should have for all categories', () => {
         const props = {
             ...baseProps,
             recentEmojis: [
@@ -123,7 +106,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
             ],
         };
 
-        const wrapper = await shallow(
+        const wrapper = shallow(
             <EmojiPicker {...props}/>,
         );
 
