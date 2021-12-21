@@ -23,14 +23,6 @@ export function markAsUnreadShouldBeAbsent(postId, prefix = 'post', location = '
         });
 }
 
-export function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER') {
-    cy.get(`#${prefix}_${post.id}`).trigger('mouseover');
-    cy.clickPostDotMenu(post.id, location);
-    cy.get('.dropdown-menu').should('be.visible').within(() => {
-        cy.findByText('Mark as Unread').should('be.visible').click();
-    });
-}
-
 export function switchToChannel(channel) {
     cy.get(`#sidebarItem_${channel.name}`).click();
 

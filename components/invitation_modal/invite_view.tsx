@@ -248,6 +248,7 @@ export default function InviteView(props: Props) {
                     onInputChange={props.onUsersInputChange}
                     inputValue={props.usersEmailsSearch}
                     emailInvitationsEnabled={props.emailInvitationsEnabled}
+                    autoFocus={true}
                 />
                 {props.canInviteGuests && props.canAddUsers &&
                 <InviteAs

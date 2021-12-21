@@ -48,6 +48,9 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     case LicenseSkus.Professional:
         skuName = 'Professional';
         break;
+    case LicenseSkus.Starter:
+        skuName = 'Starter';
+        break;
     default:
         skuName = 'Enterprise';
         break;

@@ -215,9 +215,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 delayShow={1000}
                 overlay={
                   <Tooltip
-                    bsClass="tooltip"
                     id="team-description__tooltip"
-                    placement="right"
                   >
                     description
                   </Tooltip>
@@ -269,9 +267,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     delayShow={1000}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="team-description__tooltip"
-        placement="right"
       >
         description
       </Tooltip>
