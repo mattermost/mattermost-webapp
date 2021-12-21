@@ -1226,7 +1226,7 @@
   "admin.license.enterpriseEdition": "Enterprise Edition",
   "admin.license.enterpriseEdition.subtitle": "This is an Enterprise Edition for the Mattermost {skuName} plan",
   "admin.license.enterprisePlanSubtitle": "We’re here to work with you and your needs. Contact us today to get more seats on your plan.",
-  "admin.license.enterprisePlanTitle": "Need to increase your headcount?",
+  "admin.license.enterprisePlanTitle": "Need to increase user count?",
   "admin.license.key": "License Key: ",
   "admin.license.keyRemove": "Remove License and Downgrade Server",
   "admin.license.noFile": "No file uploaded",
