@@ -2418,6 +2418,7 @@
   "announcement_bar.warn.contact_support_text": "To renew your license, contact support at support@mattermost.com.",
   "announcement_bar.warn.email_support": "[Contact support](!{email}).",
   "announcement_bar.warn.no_internet_connection": "Looks like you do not have access to the internet.",
+  "announcement_bar.warn.renew_license_contact_sales": "Contact sales",
   "announcement_bar.warn.renew_license_now": "Renew license now",
   "api.channel.add_guest.added": "{addedUsername} added to the channel as a guest by {username}.",
   "api.channel.add_member.added": "{addedUsername} added to the channel by {username}.",
