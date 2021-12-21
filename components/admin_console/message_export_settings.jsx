@@ -124,9 +124,11 @@ export default class MessageExportSettings extends AdminSettings {
         const exportFormatOptions = [
             {value: exportFormats.EXPORT_FORMAT_ACTIANCE, text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
             {value: exportFormats.EXPORT_FORMAT_CSV, text: Utils.localizeMessage('admin.complianceExport.exportFormat.csv', 'CSV')},
-            {value: exportFormats.EXPORT_FORMAT_CSV_WITH_BOARDS, text: Utils.localizeMessage('admin.complianceExport.exportFormat.csv-with-boards', 'CSV (With Boards)')},
-            {value: exportFormats.EXPORT_FORMAT_GLOBALRELAY, text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
         ];
+        if (this.props.config.PluginSettings.PluginStates.focalboard?.Enable) {
+            exportFormatOptions.push({value: exportFormats.EXPORT_FORMAT_CSV_WITH_BOARDS, text: Utils.localizeMessage('admin.complianceExport.exportFormat.csv-with-boards', 'CSV (With Boards)')});
+        }
+        exportFormatOptions.push({value: exportFormats.EXPORT_FORMAT_GLOBALRELAY, text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')});
 
         // if the export format is globalrelay, the user needs to set some additional parameters
         let globalRelaySettings;
