@@ -13,14 +13,13 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import EmojiPicker from './emoji_picker.jsx';
 
 function mapStateToProps(state) {
-    const currentTeam = getCurrentTeam(state);
     return {
         customEmojisEnabled: state.entities.general.config.EnableCustomEmoji === 'true',
         customEmojiPage: state.views.emoji.emojiPickerCustomPage,
         emojiMap: getEmojiMap(state),
         recentEmojis: getRecentEmojis(state),
         userSkinTone: getUserSkinTone(state),
-        currentTeamName: currentTeam ? currentTeam.name : '',
+        currentTeamName: getCurrentTeam(state)?.name ?? '',
     };
 }
 
