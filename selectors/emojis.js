@@ -29,7 +29,7 @@ export const getRecentEmojis = createSelector(
     (state) => state.storage,
     getCurrentUserId,
     (storage, currentUserId) => {
-        const recentEmojis: string[] = LocalStorageStore.getRecentEmojis(currentUserId) ||
+        const recentEmojis = LocalStorageStore.getRecentEmojis(currentUserId) ||
             JSON.parse(getItemFromStorage(storage.storage, Constants.RECENT_EMOJI_KEY, null)); // Prior to release v5.9, recent emojis were saved as object in localforage.
 
         if (!recentEmojis) {
