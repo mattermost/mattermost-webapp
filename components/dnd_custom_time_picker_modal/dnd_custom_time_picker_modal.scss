@@ -5,10 +5,6 @@
 .DndModal {
     width: 600px;
 
-    .modal-footer {
-        display: none;
-    }
-
     .btn-primary {
         height: 4rem;
         padding: 0 2rem;
@@ -52,7 +48,7 @@
 
 .DndModal__content {
     display: flex;
-    margin: 32px -10px 0;
+    margin: 32px -10px 10px;
 
     > div {
         flex: 1;
@@ -125,9 +121,4 @@
     background: rgba(var(--center-channel-bg-rgb), 1);
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-size: 10px;
-}
-
-.DndModal__footer {
-    padding: 20px 0;
-    text-align: right;
 }
