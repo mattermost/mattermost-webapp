@@ -792,4 +792,31 @@ export default class PluginRegistry {
     registerGlobalComponent(component) {
         return dispatchPluginComponentAction('Global', this.id, component);
     }
+
+    // INTERNAL: Subject to change without notice.
+    // Add a component to the App Bar.
+    // Accepts the following:
+    // - iconUrl - A resolvable URL to use as the button's icon
+    // - action - A function called when the button is clicked, passed the channel and channel member as arguments
+    // - tooltip_text - A string or React element shown for tooltip appear on hover
+    // Returns a unique identifier.
+    registerAppBarComponent(iconUrl, action, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            iconUrl,
+            action,
+            tooltipText: resolveReactElement(tooltipText),
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'AppBar',
+            data,
+        });
+
+        return id;
+    }
 }
