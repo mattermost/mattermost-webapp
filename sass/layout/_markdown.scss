@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 h1.markdown__heading {
     font-size: 28px;
 }
@@ -27,9 +28,11 @@ h6.markdown__heading {
     margin: 10px 0;
     font-weight: 700;
     line-height: 1.5;
+
     &:first-child {
         margin: 5px 0 10px;
     }
+
     .emoticon {
         min-width: 1.5em;
         min-height: 1.5em;
@@ -39,6 +42,7 @@ h6.markdown__heading {
 
 .markdown__paragraph-inline {
     display: inline;
+
     +.markdown__paragraph-inline {
         margin-left: 4px;
     }
@@ -52,12 +56,14 @@ h6.markdown__heading {
         border-radius: 4px;
         -moz-force-broken-image-icon: 1;
     }
+
     div.markdown-inline-img {
         display: inline-block;
         width: 100%;
         min-width: 50px;
         vertical-align: top;
     }
+
     .post {
         &.post--system {
             .markdown-inline-img {
@@ -66,42 +72,52 @@ h6.markdown__heading {
             }
         }
     }
+
     .markdown-inline-img__container {
         display: inline-block;
         width: calc(100% - 5px);
     }
+
     .markdown-inline-img--loading {
         visibility: hidden;
     }
+
     .markdown-inline-img--hover {
         border: 1px solid transparent;
+
         &:hover {
             z-index: 2;
             box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
             transition: all 0.1s linear;
         }
     }
+
     .markdown-inline-img--no-border {
         border: unset;
     }
+
     .markdown-inline-img--scaled-down {
         max-height: 18px;
         margin: 2px;
         border-radius: 2px;
+
         &:hover {
             z-index: 2;
             box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
             transition: all 0.1s linear;
         }
     }
+
     .markdown-inline-img--scaled-down-loading {
         height: 18px;
         margin: 2px;
         visibility: hidden;
     }
+
     .broken-image {
         border-radius: unset;
     }
+
     .broken-image--scaled-down {
         max-height: 18px;
         margin: 2px;
@@ -116,25 +132,31 @@ h6.markdown__heading {
         border-radius: 2px;
         -moz-force-broken-image-icon: 1;
     }
+
     .markdown-inline-img--loading {
         height: 18px;
         visibility: hidden;
     }
+
     .markdown-inline-img--hover {
         border: 1px solid transparent;
+
         &:hover {
             z-index: 2;
             box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
             transition: all 0.1s linear;
         }
     }
+
     .markdown-inline-img--no-border {
         border: unset;
     }
+
     div.markdown__paragraph-inline {
         display: inline-block;
         line-height: 22px;
     }
+
     .broken-image {
         max-height: 18px;
         border-radius: unset;
@@ -145,6 +167,7 @@ h6.markdown__heading {
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
+
     code {
         position: relative;
         display: block;
@@ -154,17 +177,21 @@ h6.markdown__heading {
         text-align: left;
         white-space: pre-wrap;
     }
+
     &:hover .post-code__clipboard {
         opacity: 1;
     }
+
     &:hover .post-code__language {
         opacity: 1;
     }
+
     &.post-code--wrap {
         code {
             white-space: pre-wrap;
         }
     }
+
     .post-code__line-numbers {
         min-width: 36px;
         padding-right: 4px;
@@ -174,6 +201,7 @@ h6.markdown__heading {
         font-family: Menlo, Monaco, Consolas, "Courier New", monospace; // Match the fonts that code elements use
         user-select: none;
     }
+
     .hljs {
         position: relative;
         overflow-x: auto;
@@ -186,15 +214,18 @@ h6.markdown__heading {
     &.react-contextmenu {
         background-color: $white;
     }
+
     .react-contextmenu-item {
         .span {
             display: inline-block;
             padding: 3px 0;
         }
+
         &.react-contextmenu-item--divider {
             border-top: 1px solid rgba(63, 67, 80, 0.16);
             margin: 5px 15px;
         }
+
         &.react-contextmenu-item--divider:hover {
             background: unset;
             color: unset;
@@ -208,43 +239,57 @@ h6.markdown__heading {
     top: 5px;
     right: 0;
     padding: 4px 10px 5px;
-    background: #21586d;
     border-radius: 0 0 0 2px;
     color: $white;
-    opacity: 0;
     transition: opacity, 0.6s;
     user-select: none;
+
     >span {
-        opacity: 0;
-        // @include transition(opacity, 0.6s);
         position: relative;
         top: 5px;
         padding: 4px 5px 5px;
+        opacity: 0;
     }
+
     .post-code__clipboard {
         margin-right: 5px;
         background: $white;
         border-radius: 4px;
         cursor: pointer;
+
         &:hover {
             background: rgba(63, 67, 80, 0.08);
         }
+
         &:active {
             background: rgba(28, 88, 217, 0.08);
+
             i {
                 color: #1c58d9;
             }
         }
+
+        >i {
+            color: $black;
+        }
+
         .icon-check {
             @include fade-in;
+
             color: #3db887;
         }
     }
+
     .post-code__language {
+<<<<<<< HEAD
         position: absolute;
         z-index: 5;
         top: 5px;
         right: 0;
+=======
+        @include unselectable;
+
+>>>>>>> updated css for copy button
         padding: 4px 10px 5px;
         background: #21586d;
         border-radius: 0 0 0 2px;
@@ -271,6 +316,7 @@ h6.markdown__heading {
         background-color: #e7e7e7;
         opacity: 0.2;
     }
+
     .codespan__pre-wrap {
         code {
             cursor: auto;
@@ -282,17 +328,21 @@ h6.markdown__heading {
 .markdown__table {
     margin: 5px 0 10px;
     background: var(--center-channel-bg);
+
     th,
     td {
         padding: 6px 13px;
         border: 1px solid #ddd;
     }
+
     a {
         white-space: nowrap;
         word-break: initial;
     }
+
     tbody tr {
         background: var(--center-channel-bg);
+
         &:nth-child(2n) {
             background-color: #f8f8f8;
         }
@@ -303,9 +353,11 @@ ol.markdown__list {
     display: table;
     padding: 0;
     counter-reset: list;
+
     >li {
         display: table-row;
         counter-increment: list;
+
         &::before {
             display: table-cell;
             padding-right: 8px;
@@ -321,6 +373,7 @@ blockquote {
     border: none;
     margin-bottom: 0;
     font-size: inherit;
+
     &::before {
         position: absolute;
         top: 5px;
@@ -352,6 +405,7 @@ code {
     code {
         background: rgba(51, 51, 51, 0.1);
     }
+
     .hljs {
         display: block;
         padding: 0.5em;
@@ -359,11 +413,26 @@ code {
         color: #333;
         overflow-x: auto;
     }
+
     .container {
         margin-bottom: 40px;
     }
+
     .links {
         margin-top: 30px;
         font-size: 1.2em;
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+.container {
+    margin-bottom: 40px;
+}
+
+.links {
+    margin-top: 30px;
+    font-size: 1.2em;
+}
+>>>>>>> updated css for copy button
