@@ -18,9 +18,6 @@ function editingPost(state = defaultState, action: GenericAction) {
     case ActionTypes.TOGGLE_EDITING_POST:
         return {
             ...action.data,
-
-            // TODO@Michel: this property is not needed once inline post editing is enabled by default
-            show: true,
         };
 
     // TODO@Michel: remove this case when inline post editing is enabled by default

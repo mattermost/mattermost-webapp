@@ -108,8 +108,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         if (props.editingPost.show && !state.prevShowState) {
             return {
                 editText:
-          props.editingPost.post?.message_source ||
-          props.editingPost.post?.message,
+                    props.editingPost.post?.message_source ||
+                    props.editingPost.post?.message || '',
                 prevShowState: props.editingPost.show,
             };
         }
@@ -503,7 +503,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             return !this.props.canEditPost;
         }
 
-        if (this.state.editText.trim() !== '') {
+        if (this.state.editText?.trim() !== '') {
             return !this.props.canEditPost;
         }
 
