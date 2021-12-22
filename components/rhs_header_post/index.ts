@@ -28,21 +28,30 @@ import {
 import {getIsRhsExpanded} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
-import {allAtMentions} from '../../utils/text_formatting';
-
-import {matchUserMentionTriggersWithMessageMentions} from '../../utils/post_utils';
+import {allAtMentions} from 'utils/text_formatting';
+import {matchUserMentionTriggersWithMessageMentions} from 'utils/post_utils';
 
 import RhsHeaderPost from './rhs_header_post';
 
 type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
 
 function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
+    let isFollowingThread = false;
+
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
     const root = getPost(state, rootPostId);
-    const currentUserMentionKeys = getCurrentUserMentionKeys(state);
-    const rootMessageMentionKeys = allAtMentions(root.message);
-    const thread = getThreadOrSynthetic(state, root);
-    const isMentionedInRootPost = thread.reply_count === 0 &&
-        matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+
+    if (root && collapsedThreads) {
+        const thread = getThreadOrSynthetic(state, root);
+        isFollowingThread = thread.is_following;
+
+        if (isFollowingThread === null && thread.reply_count === 0) {
+            const currentUserMentionKeys = getCurrentUserMentionKeys(state);
+            const rootMessageMentionKeys = allAtMentions(root.message);
+
+            isFollowingThread = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+        }
+    }
 
     return {
         isExpanded: getIsRhsExpanded(state),
@@ -50,9 +59,8 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
         currentTeamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
-        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isFollowingThread: isCollapsedThreadsEnabled(state) && root && thread.is_following,
-        isMentionedInRootPost,
+        isCollapsedThreadsEnabled: collapsedThreads,
+        isFollowingThread,
     };
 }
 
