@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -10,6 +10,8 @@ import LeftControls from './left_controls/left_controls';
 import RightControls from './right_controls/right_controls';
 
 import {useCurrentProductId, useIsLoggedIn, useProducts} from './hooks';
+import Menu from 'components/menu/menu/Menu';
+import MenuPopover from 'components/menu/menu/MenuPopover';
 
 const GlobalHeaderContainer = styled.header`
     position: relative;
@@ -23,14 +25,6 @@ const GlobalHeaderContainer = styled.header`
     color: rgba(var(--global-header-text-rgb), 0.64);
     padding: 0 12px;
     z-index: 100;
-
-    > * + * {
-        margin-left: 12px;
-    }
-
-    @media screen and (max-width: 768px) {
-        display: none;
-    }
 `;
 
 const GlobalHeader = (): JSX.Element | null => {
@@ -45,6 +39,7 @@ const GlobalHeader = (): JSX.Element | null => {
     return (
         <GlobalHeaderContainer id='global-header'>
             <LeftControls/>
+            <Menu/>
             <CenterControls productId={currentProductID}/>
             <RightControls productId={currentProductID}/>
         </GlobalHeaderContainer>
