@@ -16,12 +16,13 @@ import {isModalOpen} from 'selectors/views/modals';
 
 import GenericModal from 'components/generic_modal';
 import WomanArmOnTable from 'components/common/svg_images_components/woman_arm_on_table_svg';
+import FileSvg from 'components/common/svg_images_components/file_svg';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {localizeMessage} from 'utils/utils';
 
 import './upload_license_modal.scss';
@@ -36,7 +37,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
     const isDisabled = false;
     const [fileSelected, setFileSelected] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
-    const [serverError, setServerError] = useState<string | null>(null);
+    const [serverError, setServerError] = useState<string | null>('There was an error uploading the file. Please try again.');
     const [fileObj, setFileObj] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,7 +48,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         }
         setFileSelected(true);
         setFileObj(element.files[0]);
-        setServerError(null);
+        // setServerError(null);
     };
 
     const handleSubmit = async (e: any) => {
@@ -70,7 +71,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         await dispatch(getLicenseConfig());
         setFileSelected(false);
         setFileObj(null);
-        setServerError(null);
+        // setServerError(null);
         setIsUploading(false);
     };
 
@@ -126,14 +127,26 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                             />
                         </div>
                         <div className='file-upload__inputSection'>
-                            <div className='help-text file-name'>
-                                {!fileSelected && (
+                            <div className='help-text file-name-section'>
+                                {fileSelected ? (
+                                    <>
+                                        <FileSvg
+                                            width={20}
+                                            height={20}
+                                        />
+                                        <span className='file-name'>
+                                            {fileObj?.name && fileObj?.name.length < 40 ? fileObj?.name : `${fileObj?.name.substr(0, 37)}...`}
+                                        </span>
+                                        <span className='file-size'>
+                                            {fileObj?.size && (fileObj?.size / 1024).toFixed(2) + 'MB'}
+                                        </span>
+                                    </>
+                                ) : (
                                     <FormattedMessage
                                         id='admin.license.no-file-selected'
                                         defaultMessage='No file selected'
                                     />
                                 )}
-                                {fileObj?.name}
                             </div>
                             <div className='file__upload'>
                                 {fileSelected ? (
@@ -164,11 +177,11 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                                         </a>
                                     </>
                                 )}
-
                             </div>
                         </div>
                     </div>
                     <div className='serverError'>
+                        <i className='icon icon-alert-outline'/>
                         {serverError}
                     </div>
                 </div>

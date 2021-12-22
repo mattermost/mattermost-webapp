@@ -44,7 +44,7 @@
         }
 
         .file-upload {
-            padding: 10px;
+            padding: 12px;
             margin-top: 15px;
             border: 1px solid rgba(63, 67, 80, 0.32);
             border-radius: 4px;
@@ -60,9 +60,17 @@
             &__inputSection {
                 display: flex;
                 justify-content: space-between;
+                margin-top: 10px;
 
-                .file-name {
+                .file-name-section {
+                    display: flex;
+                    svg {
+                        margin-right: 5px;
+                    }
 
+                    .file-size {
+                        margin-left: 20px;
+                    }
                 }
 
                 .file__upload {
@@ -73,6 +81,7 @@
 
                     a {
                         font-weight: 600;
+                        color: #1c58d9;
                     }
                 
                     input {
@@ -96,6 +105,10 @@
         .serverError {
             margin-top: 5px;
             color: var(--error-text);
+            float: left;
+            i {
+                margin-right: 5px;
+            }
         }
     }
 
