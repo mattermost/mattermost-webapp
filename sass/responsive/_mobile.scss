@@ -12,11 +12,10 @@
                 float: none;
 
                 .dropdown__icon {
-                    @include background-size(100% 100%);
-
                     display: inline-block;
                     width: 4px;
                     height: 16px;
+                    background-size: 100% 100%;
                 }
             }
 
@@ -35,8 +34,6 @@
             }
 
             .Menu {
-                @include single-transition(all, 0.35s, ease);
-
                 position: fixed;
                 top: 48px;
                 left: 0;
@@ -47,6 +44,7 @@
                 padding: 2.5em 0 0;
                 padding-bottom: 50px;
                 background: alpha-color($black, 0.9);
+                transition: all 0.35s ease;
 
                 body.announcement-bar--fixed & {
                     top: calc(48px + #{$announcement-bar-height});
@@ -67,8 +65,6 @@
             }
 
             .Menu__close {
-                @include border-radius(50%);
-
                 position: fixed;
                 top: 70px;
                 right: 20px;
@@ -78,6 +74,7 @@
                 padding-top: 13px;
                 border: 1px solid $white;
                 margin-left: -15px;
+                border-radius: 50%;
                 color: $white;
                 font-family: 'Open Sans', sans-serif;
                 font-size: 23px;
@@ -397,8 +394,6 @@
         .AddChannelDropdown,
         .GlobalThreads {
             .Menu {
-                @include border-radius(0);
-
                 position: fixed;
                 z-index: 9999;
                 top: 0;
@@ -413,6 +408,7 @@
                 border: 0;
                 margin: 0;
                 background: transparent;
+                border-radius: 0;
 
                 .Menu__content {
                     position: relative;
@@ -675,11 +671,10 @@
 
                 >div,
                 >button {
-                    @include border-radius(0);
-
                     height: auto;
                     padding: 15px 20px;
                     border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+                    border-radius: 0;
                 }
 
                 &:first-child {
@@ -735,7 +730,7 @@
 
     .more-modal__list {
         .more-modal__actions--round {
-            @include opacity(0.5);
+            opacity: 0.5;
         }
     }
 
@@ -812,10 +807,6 @@
     }
 
     #header-popover {
-        @include single-transition(all, 0.35s, ease);
-        @include translate3d(0, 100%, 0);
-        @include box-shadow(none);
-
         position: fixed;
         top: 40px !important;
         width: 100%;
@@ -823,9 +814,12 @@
         height: calc(100% - 50px);
         border: none;
         background: alpha-color($black, 0.9);
+        box-shadow: none;
+        transform: translate3d(0, 100%, 0);
+        transition: all 0.35s ease;
 
         &.in {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
 
         a {
@@ -851,8 +845,6 @@
         }
 
         .close {
-            @include border-radius(50%);
-
             position: fixed;
             bottom: 25px;
             left: 50%;
@@ -862,6 +854,7 @@
             padding-top: 13px;
             border: 1px solid $white;
             margin-left: -15px;
+            border-radius: 50%;
             color: $white;
             font-family: 'Open Sans', sans-serif;
             font-size: 23px;
@@ -910,11 +903,10 @@
     }
 
     .post-code__language {
-        @include opacity(1);
-        @include transition(none);
-
         position: relative;
         display: block;
+        opacity: 1;
+        transition: none;
     }
 
     .backstage-form__footer {
@@ -1417,8 +1409,7 @@
     }
 
     .search-bar__container {
-        @include flex(0 0 50px);
-
+        flex: 0 0 50px;
         padding: 0;
         background: var(--sidebar-header-bg);
         color: var(--sidebar-header-text-color);
@@ -1428,13 +1419,12 @@
         }
 
         .search__form {
-            @include single-transition(all, 0.2s, linear);
-            @include translateX(0);
-
             width: 100%;
             border-color: transparent;
             margin-top: 9px;
             background: var(--center-channel-bg);
+            transform: translateX(0);
+            transition: all 0.2s linear;
 
             &:hover,
             &--focused,
@@ -1444,11 +1434,10 @@
             }
 
             .form-control {
-                @include border-radius(3px);
-
                 padding: 0 31px;
                 border: none;
                 background: var(--center-channel-bg);
+                border-radius: 3px;
             }
         }
 
@@ -1458,11 +1447,10 @@
     }
 
     .sidebar--menu {
-        @include single-transition(transform, 0.35s, ease);
-        @include translate3d(290px, 0, 0);
-
         width: 290px;
         border: none;
+        transform: translate3d(290px, 0, 0);
+        transition: transform 0.35s ease;
         visibility: hidden;
 
         &.visible {
@@ -1471,9 +1459,8 @@
         }
 
         &.move--left {
-            @include translate3d(0, 0, 0);
-
             display: block;
+            transform: translate3d(0, 0, 0);
             visibility: visible;
         }
 
@@ -1488,18 +1475,17 @@
     }
 
     .sidebar--left {
-        @include single-transition(transform, 0.35s, ease);
-        @include translate3d(-290px, 0, 0);
-
         width: 290px;
         border: none;
+        transform: translate3d(-290px, 0, 0);
+        transition: transform 0.35s ease;
 
         &.sidebar--padded {
             padding-top: 0;
         }
 
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
 
         .team__header {
@@ -1555,14 +1541,13 @@
 
                     &.has-close {
                         .btn-close {
-                            @include opacity(0.5);
-
                             display: block;
                             width: 30px;
                             height: 30px;
                             margin-right: 4px;
                             font-size: 25px;
                             line-height: 30px;
+                            opacity: 0.5;
                         }
                     }
                 }
@@ -1586,18 +1571,17 @@
     }
 
     #SidebarContainer {
-        @include single-transition(transform, 0.35s, ease);
-        @include translate3d(-290px, 0, 0);
-
         width: 290px;
         border: none;
+        transform: translate3d(-290px, 0, 0);
+        transition: transform 0.35s ease;
 
         +.inner-wrap #app-content {
             margin-left: 0;
         }
 
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
 
         .team__header {
@@ -1682,14 +1666,13 @@
 
                     &.has-close {
                         .btn-close {
-                            @include opacity(0.5);
-
                             display: block;
                             width: 30px;
                             height: 30px;
                             margin-right: 4px;
                             font-size: 25px;
                             line-height: 30px;
+                            opacity: 0.5;
                         }
                     }
 
@@ -1726,10 +1709,9 @@
     }
 
     .sidebar--right {
-        @include translate3d(100%, 0, 0);
-
         right: 0;
         width: 100%;
+        transform: translate3d(100%, 0, 0);
 
         .browser--ie & {
             display: none;
@@ -1808,7 +1790,7 @@
     }
 
     .inner-wrap {
-        @include single-transition(all, 0.35s, ease);
+        transition: all 0.35s ease;
 
         .app__body & {
             &::before {
@@ -1826,31 +1808,28 @@
         }
 
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
 
             &::before {
-                @include single-transition(all, 0.35s, ease);
-
                 z-index: 9999;
                 background-color: rgba(0, 0, 0, 0.4);
+                transition: all 0.35s ease;
             }
         }
 
         &.move--left-small {
-            @include translate3d(-290px, 0, 0);
+            transform: translate3d(-290px, 0, 0);
 
             &::before {
-                @include single-transition(all, 0.35s, ease);
-
                 z-index: 9999;
                 background-color: rgba(0, 0, 0, 0.4);
+                transition: all 0.35s ease;
             }
         }
 
         &.move--left {
             margin: 0;
-
-            @include translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
         }
     }
 
@@ -1902,8 +1881,7 @@
 
             &.move--right {
                 display: flex;
-
-                @include translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
             }
         }
     }
@@ -2254,14 +2232,13 @@
 
     .sidebar--left,
     #SidebarContainer {
-        @include translate3d(-260px, 0, 0);
-
         width: 260px;
+        transform: translate3d(-260px, 0, 0);
     }
 
     .inner-wrap {
         &.move--right {
-            @include translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
     }
 
