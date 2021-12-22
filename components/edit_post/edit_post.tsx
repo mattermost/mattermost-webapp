@@ -214,16 +214,17 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             });
         }
 
-        setCaretPosition(0);
+        setCaretPosition(1);
         setPostError(null);
         setErrorClass('');
         setShowEmojiPicker(false);
         setRenderScrollbar(false);
+
+        actions.unsetEditingPost();
     };
 
     const handleHide = (doRefocus = true) => {
         setEditText(editingPost.post?.message || '');
-        actions.unsetEditingPost();
         handleRefocusAndExit(doRefocus && editingPost.refocusId ? editingPost.refocusId : null);
     };
 
