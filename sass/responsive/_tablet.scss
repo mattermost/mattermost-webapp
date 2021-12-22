@@ -35,7 +35,7 @@
                     }
 
                     .modal-close {
-                        @include opacity(1);
+                        opacity: 1;
                     }
                 }
 
@@ -187,7 +187,7 @@
         }
 
         &.move--left {
-            @include translateX(0);
+            transform: translateX(0);
 
             .search-bar__container {
                 display: none;
@@ -284,7 +284,7 @@
                         }
 
                         .post__time {
-                            @include opacity(0.6);
+                            opacity: 0.6;
                         }
                     }
                 }
@@ -420,7 +420,7 @@
         &.same--root {
             &.same--user {
                 .post__time {
-                    @include opacity(0);
+                    opacity: 0;
                 }
 
                 .post__header {
@@ -475,11 +475,10 @@
     }
 
     .sidebar--right {
-        @include single-transition(all, 0.35s, ease);
-        @include translateX(100%);
-
         z-index: 13;
         top: 0;
+        transform: translateX(100%);
+        transition: all 0.35s ease;
 
         .announcement-bar--fixed & {
             top: 32px;
