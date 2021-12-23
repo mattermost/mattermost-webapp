@@ -161,6 +161,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 showTutorialTip={showAddChannelTip}
                 addChannelButton={addChannelButton}
                 userGroupsEnabled={props.userGroupsEnabled}
+                canCreateCustomGroups={props.canCreateCustomGroups}
             />
         );
     }

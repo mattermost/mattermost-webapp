@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {General} from 'mattermost-redux/constants';
+
 import {createSelector} from 'reselect';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group, GroupMembership} from 'mattermost-redux/types/groups';
 import {filterGroupsMatchingTerm, sortGroups} from 'mattermost-redux/utils/group_utils';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -287,5 +289,21 @@ export const searchMyAllowReferencedGroups: (state: GlobalState, term: string) =
     (state: GlobalState, term: string) => term,
     (groups, term) => {
         return filterGroupsMatchingTerm(groups, term);
+    },
+);
+
+// getGroupMemberships returns the group memberships of the current user.
+//
+// All group memberships implicitly have the CUSTOM_GROUP_USER_ROLE because that's the only role currently supported for the feature.
+export const getGroupMemberships: (state: GlobalState) => Record<string, GroupMembership> = createSelector(
+    'getGroupMemberships',
+    (state: GlobalState) => state.entities.groups.myGroups,
+    (state: GlobalState) => state.entities.users.currentUserId,
+    (myGroupIDs: string[], currentUserID: string) => {
+        const groupMemberships: Record<string, GroupMembership> = {};
+        myGroupIDs.forEach((groupID) => {
+            groupMemberships[groupID] = {user_id: currentUserID, roles: General.CUSTOM_GROUP_USER_ROLE};
+        });
+        return groupMemberships;
     },
 );

@@ -77,4 +77,5 @@ export default {
     DEFAULT_OFF: 'default_off',
     ALWAYS_ON: 'always_on',
     DEFAULT_GROUP: 'board',
+    CUSTOM_GROUP_USER_ROLE: 'custom_group_user',
 };

@@ -18,6 +18,9 @@ import {setModalSearchTerm} from 'actions/views/search';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getProfilesInGroup as getUsersInGroup, searchProfiles} from 'mattermost-redux/actions/users';
 
+import {haveIGroupPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
+
 import ViewUserGroupModal from './view_user_group_modal';
 
 type Actions = {
@@ -47,11 +50,10 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users = getProfilesInGroup(state, ownProps.groupId);
     }
 
-    // TODO: Check Permissions here
-    const permissionToEditGroup = true;
-    const permissionToJoinGroup = true;
-    const permissionToLeaveGroup = true;
-    const permissionToArchiveGroup = true;
+    const permissionToEditGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.EDIT_CUSTOM_GROUP);
+    const permissionToJoinGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS);
+    const permissionToLeaveGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS);
+    const permissionToArchiveGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.DELETE_CUSTOM_GROUP);
 
     return {
         group,
