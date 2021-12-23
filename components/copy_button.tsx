@@ -42,6 +42,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
 
     return (
         <OverlayTrigger
+            shouldUpdatePosition={true}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='top'
             overlay={tooltip}

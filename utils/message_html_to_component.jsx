@@ -185,7 +185,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
 
     if (!('markdown' in options) || options.markdown) {
         processingInstructions.push({
-            shouldProcessNode: (node) => node.attribs && node.attribs['data-codeblock-code'] && node.attribs['data-codeblock-language'],
+            shouldProcessNode: (node) => node.attribs && node.attribs['data-codeblock-code'],
             processNode: (node) => {
                 return (
                     <CodeBlock
