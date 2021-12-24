@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {PostImage} from 'mattermost-redux/types/posts';
 import {PostAction} from 'mattermost-redux/types/integration_actions';
 
@@ -44,7 +43,7 @@ describe('components/post_view/MessageAttachment', () => {
                 height: 200,
                 width: 200,
             } as PostImage,
-        } as Dictionary<PostImage>,
+        } as Record<string, PostImage>,
     };
 
     test('should match snapshot', () => {
