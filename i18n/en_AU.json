@@ -4210,7 +4210,7 @@
   "start_trial.modal_btn.start": "Start 30-day trial",
   "start_trial.modal_title": "Start your free Enterprise trial now",
   "status_dropdown.dnd_sub_menu_header": "Clear after:",
-  "status_dropdown.dnd_sub_menu_item.custom": "Custom",
+  "status_dropdown.dnd_sub_menu_item.custom": "Choose date and time",
   "status_dropdown.dnd_sub_menu_item.one_hour": "1 hour",
   "status_dropdown.dnd_sub_menu_item.thirty_minutes": "30 minutes",
   "status_dropdown.dnd_sub_menu_item.tomorrow": "Tomorrow",
