@@ -92,14 +92,8 @@ describe('Edit Message', () => {
                 // # Click the edit button
                 cy.get(`#edit_post_${postId}`).click();
 
-                // # Edit modal should appear
-                cy.get('.edit-modal').should('be.visible');
-
                 // # Edit the post
                 cy.get('#edit_textbox').type('Some text {enter}');
-
-                // * Edit modal should disappear
-                cy.get('.edit-modal').should('not.exist');
 
                 // # Mouseover the post again
                 cy.get(`#post_${postId}`).trigger('mouseover');

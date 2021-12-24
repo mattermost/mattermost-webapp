@@ -769,12 +769,12 @@ describe('Messaging', () => {
             cy.get('#edit_textbox').should('be.visible');
 
             // # Check that a scrollbar exists
-            cy.get('.textarea-wrapper.scroll').should('be.visible');
+            cy.get('.post--editing__wrapper.scroll').should('be.visible');
 
             // # Update the message
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(' test').wait(TIMEOUTS.HALF_SEC);
 
-            // # Close the modal
+            // # finish editing
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
 
