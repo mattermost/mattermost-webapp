@@ -4129,7 +4129,6 @@
   "sidebar.tutorialProductSwitcher.admin": "Systemadministratoren können Mattermost auch über die **Systemkonsole** konfigurieren und anpassen und Mattermost-Apps über den **Marktplatz** installieren.",
   "sidebar.tutorialProductSwitcher.switchProducts": "Starten Sie von hier aus andere Mattermost-Produkte, einschließlich **Boards** und **Playbooks**.",
   "sidebar.tutorialProductSwitcher.title": "Versuchen Sie Boards und Playbooks",
-  "sidebar.tutorialScreen3.body2": "Sie können ebenfalls einen Kanal erstellen, indem Sie das **\"+\"**-Symbol neben der Kanalüberschrift eines öffentlichen oder privaten Kanals klicken.",
   "sidebar.tutorialSettings.settings": "Unter Profil, können Sie Ihre Verfügbarkeit, einen individuellen Status und Ihr Profilbild verwalten. Wählen Sie **Einstellungen** um individuelle Anpassungen, wie Benachrichtigungen, Farben- und Themen und mehr festzulegen.",
   "sidebar.tutorialSettings.title": "Passen Sie Ihr Benutzererlebnis an",
   "sidebar.types.channels": "KANÄLE",

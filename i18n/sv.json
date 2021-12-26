@@ -4124,7 +4124,6 @@
   "sidebar.tutorialProductSwitcher.admin": "Systemadministratörer kan också konfigurera och anpassa Mattermost med hjälp av **Systemkonsolen** och installera Mattermost Apps från **Marknadsplatsen**.",
   "sidebar.tutorialProductSwitcher.switchProducts": "Starta andra Mattermost-produkter härifrån, inklusive **Boards** och **Playbooks**.",
   "sidebar.tutorialProductSwitcher.title": "Testa Boards och Playbooks",
-  "sidebar.tutorialScreen3.body2": "Du kan även skapa en ny kanal genom att klicka på **\"+\"-tecknet** bredvid huvudet på publika eller privata kanalen.",
   "sidebar.tutorialSettings.settings": "Under profil kan du ställa in din tillgänglighet, ange status och välja profilbild. Välj **Inställningar** för att göra inställningar för notifiering, eget färgschema och annat.",
   "sidebar.tutorialSettings.title": "Anpassa ditt gränssnitt",
   "sidebar.types.channels": "KANALER",
