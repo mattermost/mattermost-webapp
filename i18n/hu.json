@@ -4127,7 +4127,6 @@
   "sidebar.tutorialProductSwitcher.admin": "Rendszer adminiszrátorok testre tudják szabni a Mattermost működését a **Rendszerkonzol** segítségével és új alkalmazásokat tudnak telepíteni a **Piactérről**.",
   "sidebar.tutorialProductSwitcher.switchProducts": "Indítson el innen más Mattermost termékeket, például **Táblák** vagy **Forgatókönyvek**.",
   "sidebar.tutorialProductSwitcher.title": "Próbálja ki a Táblák és Forgatókönyvek programokat",
-  "sidebar.tutorialScreen3.body2": "Új csatornát is létrehozhat, ha a nyilvános vagy privát csatorna fejlécének melletti **\"+\" szimbólumra** kattint.",
   "sidebar.tutorialSettings.settings": "A Profil alatt állítsa be elérhetőségét, adjon hozzá egyéni státuszt, és állítsa be profilképét. Válassza a **Beállítások** lehetőséget, hogy testreszabhassa felhasználói élményét, beleértve az értesítési beállításokat, az egyéni téma színeit és még sok mást.",
   "sidebar.tutorialSettings.title": "Élmény testreszabása",
   "sidebar.types.channels": "CSATORNÁK",
