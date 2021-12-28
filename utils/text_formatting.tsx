@@ -213,7 +213,7 @@ export function formatText(
     }
 
     let output = text;
-    const options = Object.assign({}, inputOptions);
+    const options = Object.assign({}, DEFAULT_OPTIONS, inputOptions);
     const hasPhrases = (/"([^"]*)"/).test(options.searchTerm || '');
 
     if (options.searchMatches && !hasPhrases) {
