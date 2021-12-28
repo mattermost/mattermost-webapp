@@ -516,11 +516,8 @@ describe('Messaging', () => {
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
             cy.get('#edit_textbox').should('be.visible');
 
-            // * Update the message
-            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(message2).wait(TIMEOUTS.HALF_SEC);
-
-            // * Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            // * Update the message and finish editing
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(message2).wait(TIMEOUTS.HALF_SEC).type('{enter}');
         });
 
         cy.getLastPostId().then((postId) => {
@@ -560,11 +557,8 @@ describe('Messaging', () => {
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
             cy.get('#edit_textbox').should('be.visible');
 
-            // * Update the message
-            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(message2).wait(TIMEOUTS.HALF_SEC);
-
-            // * Close the modal
-            cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
+            // * Update the message and finish editing
+            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(message2).wait(TIMEOUTS.HALF_SEC).type('{enter}');
         });
 
         cy.getLastPostId().then((postId) => {
