@@ -37,8 +37,8 @@ describe('Onboarding', () => {
             should('be.visible').
             and('contain', 'Send a message');
 
-        // # Close the posting messages tip
-        cy.get(selectors.tipNext).click();
+        // # Close the posting messages tip by pressing ENTER key
+        cy.get('body').type('{enter}');
 
         // # Click the tip on channels
         cy.get(`#sidebarItem_town-square ${selectors.tip}`).click();
@@ -62,8 +62,8 @@ describe('Onboarding', () => {
             should('be.visible').
             and('contain', 'Create and join channels');
 
-        // # Close the creating and joining channels tip
-        cy.get(selectors.tipNext).click();
+        // # Close the creating and joining channels tip by pressing ENTER key
+        cy.get('body').type('{enter}');
 
         // # Close the menu
         cy.uiGetLHSAddChannelButton().click();
