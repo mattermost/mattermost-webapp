@@ -512,6 +512,13 @@ body.announcement-bar--fixed {
         &.tip-overlay--threads-welcome {
             top: 17px;
         }
+
+        &.tip-overlay--threads-list {
+            top: unset;
+            right: unset;
+            bottom: -16px;
+            left: calc(50% - 16px);
+        }
     }
 
     .tip-overlay {

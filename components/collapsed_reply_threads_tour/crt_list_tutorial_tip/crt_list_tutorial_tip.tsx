@@ -3,11 +3,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {useSelector} from 'react-redux';
+
 import FormattedMarkdownMessage from '../../formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import {Constants, Preferences} from 'utils/constants';
 import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {getIsMobileView} from 'selectors/views/browser';
+import {GlobalState} from 'types/store';
+
 type Props = {
     autoTour: boolean;
 };
@@ -23,6 +28,7 @@ export const DownShortcut = () => {
 };
 
 const CRTListTutorialTip = ({autoTour}: Props) => {
+    const isMobileView = useSelector((state: GlobalState) => getIsMobileView(state));
     const title = (
         <FormattedMessage
             id='tutorial_threads.list.title'
@@ -48,6 +54,7 @@ const CRTListTutorialTip = ({autoTour}: Props) => {
                 />
             </p>
         </>);
+    const punchOutIds = isMobileView ? ['tutorial-threads-mobile-list', 'tutorial-threads-mobile-header'] : ['threads-list-container'];
 
     return (
         <TutorialTip
@@ -56,10 +63,11 @@ const CRTListTutorialTip = ({autoTour}: Props) => {
             showOptOut={false}
             step={Constants.CrtTutorialSteps.LIST_POPOVER}
             tutorialCategory={Preferences.CRT_TUTORIAL_STEP}
+            stopPropagation={true}
             screen={screen}
             overlayClass='tip-overlay--threads-list'
             autoTour={autoTour}
-            punchOut={useMeasurePunchouts(['threads-list-container'], [])}
+            punchOut={useMeasurePunchouts(punchOutIds, [])}
         />
     );
 };

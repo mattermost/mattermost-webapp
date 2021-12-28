@@ -30,6 +30,8 @@ import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import CRTUnreadTutorialTip
     from 'components/collapsed_reply_threads_tour/crt_unread_tutorial_tip/crt_unread_tutorial_tip';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
 import VirtualizedThreadList from './virtualized_thread_list';
 
 export enum ThreadFilter {
@@ -56,6 +58,7 @@ const ThreadList = ({
     unreadIds,
     ids,
 }: PropsWithChildren<Props>) => {
+    const isMobileView = useSelector(getIsMobileView);
     const unread = ThreadFilter.unread === currentFilter;
     const data = unread ? unreadIds : ids;
     const ref = React.useRef<HTMLDivElement>(null);
@@ -150,6 +153,7 @@ const ThreadList = ({
             id={'threads-list-container'}
         >
             <Header
+                id={'tutorial-threads-mobile-header'}
                 heading={(
                     <>
                         <div className={'tab-button-wrapper'}>
@@ -212,7 +216,7 @@ const ThreadList = ({
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
                 />
-                {showListTutorialTip && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
+                {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (
                     <NoResultsIndicator
                         expanded={true}

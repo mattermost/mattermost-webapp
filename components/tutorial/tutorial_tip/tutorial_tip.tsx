@@ -218,11 +218,13 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
-    public handlePrev = (): void => {
+    public handlePrev = (e?: React.MouseEvent): void => {
+        e?.preventDefault();
         this.handleSavePreferences(true, false, true);
     }
 
-    public handleNext = (auto = true): void => {
+    public handleNext = (auto = true, e?: React.MouseEvent): void => {
+        e?.preventDefault();
         if (this.props.telemetryTag) {
             const tag = this.props.telemetryTag + '_next';
             trackEvent('tutorial', tag);
@@ -319,7 +321,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     handleKeyDown = (e: KeyboardEvent): void => {
-        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && this.state.show) {
             this.handleNext();
         }
     }
@@ -405,7 +407,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                                     <button
                                         id='tipPreviousButton'
                                         className='tutorial-tip__btn tutorial-tip__cancel-btn'
-                                        onClick={this.handlePrev}
+                                        onClick={(e) => this.handlePrev(e)}
                                     >
                                         <i className='icon icon-chevron-left'/>
                                         <FormattedMessage
@@ -416,7 +418,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                                     <button
                                         id='tipNextButton'
                                         className='tutorial-tip__btn tutorial-tip__confirm-btn'
-                                        onClick={() => this.handleNext()}
+                                        onClick={(e) => this.handleNext(true, e)}
                                     >
                                         {this.getButtonText(this.props.tutorialCategory || Preferences.TUTORIAL_STEP)}
                                     </button>
