@@ -24,6 +24,11 @@
             margin-top: -20px;
         }
 
+        .hands-svg {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
         .title {
             margin: 10px 0;
             color: var(--sys-denim-center-channel-text);
@@ -44,16 +49,16 @@
         }
 
         .file-upload {
-            padding: 12px;
-            margin-top: 15px;
-            border: 1px solid rgba(63, 67, 80, 0.32);
-            border-radius: 4px;
             width: 90%;
+            padding: 12px;
+            border: 1px solid rgba(63, 67, 80, 0.32);
+            margin-top: 15px;
+            border-radius: 4px;
 
             &__titleSection {
                 color: rgba(63, 67, 80, 0.72);
-                font-weight: bold;
                 font-size: 12px;
+                font-weight: bold;
                 line-height: 16px;
             }
 
@@ -64,6 +69,7 @@
 
                 .file-name-section {
                     display: flex;
+
                     svg {
                         margin-right: 5px;
                     }
@@ -76,14 +82,14 @@
                 .file__upload {
                     position: relative;
                     display: flex;
-                    margin-left: auto;
                     align-self: flex-end;
+                    margin-left: auto;
 
                     a {
-                        font-weight: 600;
                         color: #1c58d9;
+                        font-weight: 600;
                     }
-                
+
                     input {
                         position: absolute;
                         z-index: 5;
@@ -93,7 +99,7 @@
                         height: 100%;
                         padding-left: 100%;
                         cursor: pointer;
-                
+
                         &[disabled] {
                             cursor: not-allowed;
                         }
@@ -106,6 +112,7 @@
             margin-top: 5px;
             color: var(--error-text);
             float: left;
+
             i {
                 margin-right: 5px;
             }
@@ -121,13 +128,13 @@
 
         button {
             height: 48px;
+            padding: 5px 24px;
+            border: 0 !important;
+            margin-top: 15px !important;
+            border-radius: 4px;
             font-size: 16px;
             font-weight: 600;
             line-height: 18px;
-            margin-top: 15px !important;
-            border-radius: 4px;
-            border: 0 !important;
-            padding: 5px 24px;
         }
     }
 

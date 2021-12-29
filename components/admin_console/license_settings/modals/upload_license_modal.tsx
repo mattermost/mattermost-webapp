@@ -4,11 +4,14 @@
 import React, {useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage} from 'react-intl';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {uploadLicense} from 'mattermost-redux/actions/admin';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {ClientLicense} from 'mattermost-redux/types/config';
+import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';
 
@@ -16,6 +19,7 @@ import {isModalOpen} from 'selectors/views/modals';
 
 import GenericModal from 'components/generic_modal';
 import WomanArmOnTable from 'components/common/svg_images_components/woman_arm_on_table_svg';
+import HandsSvg from 'components/common/svg_images_components/hands_svg';
 import FileSvg from 'components/common/svg_images_components/file_svg';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
@@ -24,6 +28,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {closeModal} from 'actions/views/modals';
 
 import {localizeMessage} from 'utils/utils';
+import {getMonthLong} from 'utils/i18n';
 
 import './upload_license_modal.scss';
 
@@ -37,9 +42,12 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
     const isDisabled = false;
     const [fileSelected, setFileSelected] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
-    const [serverError, setServerError] = useState<string | null>('There was an error uploading the file. Please try again.');
+    const [serverError, setServerError] = useState<string | null>();
     const [fileObj, setFileObj] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const currentLicense: ClientLicense = useSelector(getLicense);
+    const locale = useSelector(getCurrentLocale);
 
     const handleChange = () => {
         const element = fileInputRef.current;
@@ -48,7 +56,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         }
         setFileSelected(true);
         setFileObj(element.files[0]);
-        // setServerError(null);
+        setServerError(null);
     };
 
     const handleSubmit = async (e: any) => {
@@ -71,7 +79,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         await dispatch(getLicenseConfig());
         setFileSelected(false);
         setFileObj(null);
-        // setServerError(null);
+        setServerError(null);
         setIsUploading(false);
     };
 
@@ -92,6 +100,178 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         setFileSelected(false);
     };
 
+    let uploadLicenseContent = (
+        <>
+            <div className='content-body'>
+                <div className='svg-image'>
+                    <WomanArmOnTable
+                        width={200}
+                        height={200}
+                    />
+                </div>
+                <div className='title'>
+                    <FormattedMessage
+                        id='admin.license.upload-modal.title'
+                        defaultMessage='Upload a License Key'
+                    />
+                </div>
+                <div className='subtitle'>
+                    <FormattedMessage
+                        id='admin.license.upload-modal.subtitle'
+                        defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. '
+                    />
+                </div>
+                <div className='file-upload'>
+                    <div className='file-upload__titleSection'>
+                        <FormattedMessage
+                            id='admin.license.upload-modal.file'
+                            defaultMessage='File'
+                        />
+                    </div>
+                    <div className='file-upload__inputSection'>
+                        <div className='help-text file-name-section'>
+                            {fileSelected ? (
+                                <>
+                                    <FileSvg
+                                        width={20}
+                                        height={20}
+                                    />
+                                    <span className='file-name'>
+                                        {fileObj?.name && fileObj?.name.length < 40 ? fileObj?.name : `${fileObj?.name.substr(0, 37)}...`}
+                                    </span>
+                                    <span className='file-size'>
+                                        {fileObj?.size && (fileObj?.size / 1024).toFixed(2) + 'MB'}
+                                    </span>
+                                </>
+                            ) : (
+                                <FormattedMessage
+                                    id='admin.license.no-file-selected'
+                                    defaultMessage='No file selected'
+                                />
+                            )}
+                        </div>
+                        <div className='file__upload'>
+                            {fileSelected ? (
+                                <a
+                                    onClick={handleRemoveFile}
+                                >
+                                    <FormattedMessage
+                                        id='admin.license.remove'
+                                        defaultMessage='Remove'
+                                    />
+                                </a>
+                            ) : (
+                                <>
+                                    <input
+                                        ref={fileInputRef}
+                                        type='file'
+                                        accept='.mattermost-license'
+                                        onChange={handleChange}
+                                        disabled={isDisabled}
+                                    />
+                                    <a
+                                        className='btn-select'
+                                    >
+                                        <FormattedMessage
+                                            id='admin.license.choose'
+                                            defaultMessage='Choose File'
+                                        />
+                                    </a>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className='serverError'>
+                    {serverError && <i className='icon icon-alert-outline'/>}
+                    {serverError}
+                </div>
+            </div>
+            <div className='content-footer'>
+                <div className='btn-upload-wrapper'>
+                    <button
+                        className={`btn ${fileSelected && 'btn-primary'}`}
+                        disabled={isDisabled || !fileSelected}
+                        onClick={handleSubmit}
+                        id='upload-button'
+                    >
+                        <LoadingWrapper
+                            loading={Boolean(isUploading)}
+                            text={localizeMessage('admin.license.modal.uploading', 'Uploading')}
+                        >
+                            <FormattedMessage
+                                id='admin.license.modal.upload'
+                                defaultMessage='Upload'
+                            />
+                        </LoadingWrapper>
+                    </button>
+                </div>
+            </div>
+        </>
+    );
+    if (currentLicense.IsLicensed === 'true') {
+        const startsAt = (
+            <FormattedDate
+                value={new Date(parseInt(currentLicense.StartsAt, 10))}
+                day='2-digit'
+                month={getMonthLong(locale)}
+                year='numeric'
+            />
+        );
+        const expiresAt = (
+            <FormattedDate
+                value={new Date(parseInt(currentLicense.ExpiresAt, 10))}
+                day='2-digit'
+                month={getMonthLong(locale)}
+                year='numeric'
+            />
+        );
+        const licensedUsersNum = currentLicense.Users;
+        uploadLicenseContent = (
+            <>
+                <div className='content-body'>
+                    <div className='svg-image hands-svg'>
+                        <HandsSvg
+                            width={100}
+                            height={100}
+                        />
+                    </div>
+                    <div className='title'>
+                        <FormattedMessage
+                            id='admin.license.upload-modal.successfulUpgrade'
+                            defaultMessage='Successful Upgrade!'
+                        />
+                    </div>
+                    <div className='subtitle'>
+                        <FormattedMessage
+                            id='admin.license.upload-modal.successfulUpgradeText'
+                            defaultMessage='You have upgraded to the Starter plan for {licensedUsersNum} users. This is effective today, {startsAt} until {expiresAt}. '
+                            values={{
+                                expiresAt,
+                                startsAt,
+                                licensedUsersNum,
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className='content-footer'>
+                    <div className='btn-upload-wrapper'>
+                        <button
+                            className='btn btn-primary'
+                            onClick={handleOnClose}
+                            id='done-button'
+                        >
+                            <FormattedMessage
+                                id='admin.license.modal.done'
+                                defaultMessage='Done'
+                            />
+                        </button>
+                    </div>
+                </div>
+            </>
+        );
+    }
+
     return (
         <GenericModal
             className={'UploadLicenseModal'}
@@ -99,113 +279,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
             id='UploadLicenseModal'
             onExited={handleOnClose}
         >
-            <>
-                <div className='content-body'>
-                    <div className='svg-image'>
-                        <WomanArmOnTable
-                            width={200}
-                            height={200}
-                        />
-                    </div>
-                    <div className='title'>
-                        <FormattedMessage
-                            id='admin.license.upload-modal.title'
-                            defaultMessage='Upload a License Key'
-                        />
-                    </div>
-                    <div className='subtitle'>
-                        <FormattedMessage
-                            id='admin.license.upload-modal.subtitle'
-                            defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. '
-                        />
-                    </div>
-                    <div className='file-upload'>
-                        <div className='file-upload__titleSection'>
-                            <FormattedMessage
-                                id='admin.license.upload-modal.file'
-                                defaultMessage='File'
-                            />
-                        </div>
-                        <div className='file-upload__inputSection'>
-                            <div className='help-text file-name-section'>
-                                {fileSelected ? (
-                                    <>
-                                        <FileSvg
-                                            width={20}
-                                            height={20}
-                                        />
-                                        <span className='file-name'>
-                                            {fileObj?.name && fileObj?.name.length < 40 ? fileObj?.name : `${fileObj?.name.substr(0, 37)}...`}
-                                        </span>
-                                        <span className='file-size'>
-                                            {fileObj?.size && (fileObj?.size / 1024).toFixed(2) + 'MB'}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <FormattedMessage
-                                        id='admin.license.no-file-selected'
-                                        defaultMessage='No file selected'
-                                    />
-                                )}
-                            </div>
-                            <div className='file__upload'>
-                                {fileSelected ? (
-                                    <a
-                                        onClick={handleRemoveFile}
-                                    >
-                                        <FormattedMessage
-                                            id='admin.license.remove'
-                                            defaultMessage='Remove'
-                                        />
-                                    </a>
-                                ) : (
-                                    <>
-                                        <input
-                                            ref={fileInputRef}
-                                            type='file'
-                                            accept='.mattermost-license'
-                                            onChange={handleChange}
-                                            disabled={isDisabled}
-                                        />
-                                        <a
-                                            className='btn-select'
-                                        >
-                                            <FormattedMessage
-                                                id='admin.license.choose'
-                                                defaultMessage='Choose File'
-                                            />
-                                        </a>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <div className='serverError'>
-                        <i className='icon icon-alert-outline'/>
-                        {serverError}
-                    </div>
-                </div>
-                <div className='content-footer'>
-                    <div className='btn-upload-wrapper'>
-                        <button
-                            className={`btn ${fileSelected && 'btn-primary'}`}
-                            disabled={isDisabled || !fileSelected}
-                            onClick={handleSubmit}
-                            id='upload-button'
-                        >
-                            <LoadingWrapper
-                                loading={Boolean(isUploading)}
-                                text={localizeMessage('admin.license.modal.uploading', 'Uploading')}
-                            >
-                                <FormattedMessage
-                                    id='admin.license.modal.upload'
-                                    defaultMessage='Upload'
-                                />
-                            </LoadingWrapper>
-                        </button>
-                    </div>
-                </div>
-            </>
+            {uploadLicenseContent}
         </GenericModal>
     );
 };

@@ -25,15 +25,6 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
     openEELicenseModal,
     currentPlan,
     upgradedFromTE,
-
-    // serverError,
-    // fileSelected,
-    // fileName,
-    // uploading,
-    // fileInputRef,
-    // isDisabled,
-    // handleChange,
-    // handleSubmit,
     openUploadModal,
 }: StarterEditionProps) => {
     return (
@@ -104,74 +95,5 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
         </div>
     );
 };
-
-// const renderStarterContent = (
-//     _serverError: string | null,
-//     fileSelected: boolean,
-//     _fileName: string | null,
-//     uploading: boolean,
-//     fileInputRef: any,
-//     isDisabled: boolean,
-//     handleChange: () => void,
-//     handleSubmit: (e: any) => Promise<void>,
-// ) => {
-//     // let serverError: JSX.Element | null = null;
-//     // if (_serverError) {
-//     //     serverError = (
-//     //         <div className='has-error'>
-//     //             <Markdown
-//     //                 enableFormatting={true}
-//     //                 message={_serverError}
-//     //             />
-//     //         </div>
-//     //     );
-//     // }
-
-//     let btnClass = '';
-//     if (fileSelected) {
-//         btnClass = 'light-blue-btn';
-//     }
-
-//     // let fileName;
-//     // if (_fileName) {
-//     //     fileName = _fileName;
-//     // } else {
-//     //     fileName = (
-//     //         <FormattedMessage
-//     //             id='admin.license.noFile'
-//     //             defaultMessage='No file uploaded'
-//     //         />
-//     //     );
-//     // }
-
-//     const openUploadModal = () => {
-
-//     }
-
-//     return (
-//         <>
-//             <div
-//                 className='licenseKeyTitle'
-//             >
-//                 <FormattedMessage
-//                     id='admin.license.key'
-//                     defaultMessage='License Key: '
-//                 />
-//             </div>
-//             <div className='uploadButtons'>
-//                 <button
-//                     className='btn btn-upload light-blue-btn'
-//                     onClick={openUploadModal}
-//                     id='open-modal'
-//                 >
-//                     <FormattedMessage
-//                         id='admin.license.uploadFile'
-//                         defaultMessage='Upload File'
-//                     />
-//                 </button>
-//             </div>
-//         </>
-//     );
-// };
 
 export default React.memo(StarterLeftPanel);
