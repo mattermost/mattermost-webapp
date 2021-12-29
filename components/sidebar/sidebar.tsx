@@ -11,6 +11,7 @@ import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
 import InvitationModal from 'components/invitation_modal';
+import UserSettingsModal from 'components/user_settings/modal';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -24,7 +25,7 @@ import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_mod
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
-import LegacySidebarHeader from './legacy_sidebar_header';
+import MobileSidebarHeader from './mobile_sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 
 type Props = {
@@ -92,14 +93,28 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             this.props.actions.clearChannelSelection();
             return;
         }
-        const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
-        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH);
-        if (shortcutModalKeyCombo) {
-            event.preventDefault();
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
-                dialogType: KeyboardShortcutsModal,
-            });
+
+        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(event, true);
+
+        if (ctrlOrMetaKeyPressed) {
+            if (Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH)) {
+                event.preventDefault();
+
+                this.props.actions.openModal({
+                    modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+                    dialogType: KeyboardShortcutsModal,
+                });
+            } else if (Utils.isKeyPressed(event, Constants.KeyCodes.A)) {
+                event.preventDefault();
+
+                this.props.actions.openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {
+                        isContentProductSettings: true,
+                    },
+                });
+            }
         }
     }
 
@@ -199,7 +214,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     dragging: this.state.isDragging,
                 })}
             >
-                {this.props.isMobileView ? <LegacySidebarHeader/> : (
+                {this.props.isMobileView ? <MobileSidebarHeader/> : (
                     <SidebarHeader
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}

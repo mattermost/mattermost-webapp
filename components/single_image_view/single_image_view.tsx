@@ -22,7 +22,7 @@ const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 interface Props extends PropsFromRedux {
     postId: string;
-    fileInfo?: FileInfo;
+    fileInfo: FileInfo;
     isRhsOpen: boolean;
     compactDisplay?: boolean;
     isEmbedVisible?: boolean;

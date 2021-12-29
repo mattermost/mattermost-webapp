@@ -17,9 +17,8 @@ import {regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
-import {closeModal, CloseModalType} from 'actions/views/modals';
-import {isModalOpen} from 'selectors/views/modals';
-import {ModalIdentifiers, Constants} from 'utils/constants';
+import {CloseModalType} from 'actions/views/modals';
+import {Constants} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 import {makeAsyncComponent} from 'components/async_load';
@@ -81,7 +80,6 @@ export function mapStateToProps(state: GlobalState) {
         canAddUsers,
         isFreeTierWithNoFreeSeats,
         emailInvitationsEnabled,
-        show: isModalOpen(state, ModalIdentifiers.INVITATION),
         isCloud,
         isAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
@@ -93,7 +91,6 @@ export function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    closeModal: () => void;
     sendGuestsInvites: (teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     sendMembersInvites: (teamId: string, users: UserProfile[], emails: string[]) => Promise<{data: InviteResults}>;
     regenerateTeamInviteId: (teamId: string) => void;
@@ -104,7 +101,6 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | CloseModalType>, Actions>({
-            closeModal: () => closeModal(ModalIdentifiers.INVITATION),
             sendGuestsInvites,
             sendMembersInvites,
             regenerateTeamInviteId,

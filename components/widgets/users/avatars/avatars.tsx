@@ -21,10 +21,6 @@ import Avatar from 'components/widgets/users/avatar';
 import './avatars.scss';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
-// These should be removed once i18n-extract properly understands TypeScript
-t('avatars.overflowUsers');
-t('avatars.overflowUnnamedOnly');
-
 type Props = {
     userIds: Array<UserProfile['id']>;
     totalUsers?: number;
