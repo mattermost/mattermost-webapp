@@ -156,14 +156,6 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         return columns;
     }
     getMessageRetentionSetting = (enabled: boolean | undefined, days: number | undefined): JSX.Element => {
-        if (enabled === undefined) {
-            return (
-                <FormattedMessage
-                    id='admin.data_retention.form.not_set'
-                    defaultMessage='Not set'
-                />
-            );
-        }
         if (!enabled) {
             return (
                 <FormattedMessage
