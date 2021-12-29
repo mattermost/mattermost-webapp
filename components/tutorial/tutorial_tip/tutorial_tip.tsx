@@ -145,7 +145,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     public handleKeyDown = (event: KeyboardEvent): void => {
-        if (event.key === 'Enter' && this.state.show) {
+        if (event.key === Constants.KeyCodes.ENTER[0] && this.state.show) {
             this.handleNext();
         }
     }
