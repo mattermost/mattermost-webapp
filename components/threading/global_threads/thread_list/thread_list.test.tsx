@@ -14,6 +14,8 @@ import Header from 'components/widgets/header';
 
 import Button from '../../common/button';
 
+import {WindowSizes} from 'utils/constants';
+
 import ThreadList, {ThreadFilter} from './thread_list';
 
 const mockRouting = {
@@ -73,6 +75,11 @@ describe('components/threading/global_threads/thread_list', () => {
                 },
                 teams: {
                     currentTeamId: 'tid',
+                },
+            },
+            views: {
+                browser: {
+                    windowSize: WindowSizes.DESKTOP_VIEW,
                 },
             },
         };

@@ -41,6 +41,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
         </div>
       </React.Fragment>
     }
+    id="tutorial-threads-mobile-header"
     right={
       <div
         className="right-anchor"

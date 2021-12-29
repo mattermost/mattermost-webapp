@@ -3,7 +3,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import FormattedMarkdownMessage from '../../formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
@@ -12,6 +12,7 @@ import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
+import {open as openLhs} from 'actions/views/lhs.js';
 
 type Props = {
     autoTour: boolean;
@@ -29,6 +30,10 @@ export const DownShortcut = () => {
 
 const CRTListTutorialTip = ({autoTour}: Props) => {
     const isMobileView = useSelector((state: GlobalState) => getIsMobileView(state));
+    const dispatch = useDispatch();
+    const onPrevNavigateTo = () => {
+        dispatch(openLhs());
+    };
     const title = (
         <FormattedMessage
             id='tutorial_threads.list.title'
@@ -67,6 +72,7 @@ const CRTListTutorialTip = ({autoTour}: Props) => {
             screen={screen}
             overlayClass='tip-overlay--threads-list'
             autoTour={autoTour}
+            onPrevNavigateTo={onPrevNavigateTo}
             punchOut={useMeasurePunchouts(punchOutIds, [])}
         />
     );

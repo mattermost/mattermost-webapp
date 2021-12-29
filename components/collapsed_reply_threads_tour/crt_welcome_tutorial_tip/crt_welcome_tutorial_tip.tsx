@@ -3,12 +3,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
+import {close as closeLhs} from 'actions/views/lhs';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 import {browserHistory} from 'utils/browser_history';
@@ -19,7 +20,11 @@ type Props = {
 const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const nextUrl = `${teamUrl}/threads`;
-    const onNextNavigateTo = () => browserHistory.push(nextUrl);
+    const dispatch = useDispatch();
+    const onNextNavigateTo = () => {
+        browserHistory.push(nextUrl);
+        dispatch(closeLhs());
+    };
     const title = (
         <FormattedMessage
             id='tutorial_threads.welcome.title'
