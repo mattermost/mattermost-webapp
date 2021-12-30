@@ -96,7 +96,7 @@ describe('Onboarding', () => {
         cy.get(selectors.tipNext).click();
     });
 
-    it('MM-T4148 Takes the user through the steps of using the app using the ENTER key', () => {
+    it('Takes the user through the steps of using the app using the ENTER key', () => {
         // # Click the tip on posting messages
         cy.get(`#create_post ${selectors.tip}`).click();
 
