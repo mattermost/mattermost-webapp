@@ -9,7 +9,6 @@ import {getCurrentChannel, getDirectTeammate} from 'mattermost-redux/selectors/e
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {showNextSteps} from 'components/next_steps_view/steps';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
@@ -35,7 +34,6 @@ function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
-    const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
 
     let channelRolesLoading = true;
     if (channel && channel.id) {
@@ -57,7 +55,6 @@ function mapStateToProps(state: GlobalState) {
         channelRolesLoading,
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
-        showNextStepsEphemeral: state.views.nextSteps.show && enableOnboardingFlow && showNextSteps(state),
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
         isCloud: getLicense(state).Cloud === 'true',

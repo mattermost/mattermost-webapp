@@ -4,6 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import {matchPath} from 'react-router-dom';
+
+import {browserHistory} from 'utils/browser_history';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
@@ -24,13 +27,16 @@ import './sidebar_next_steps.scss';
 import RemoveNextStepsModal from './remove_next_steps_modal';
 
 type Props = {
-    active: boolean;
     showNextSteps: boolean;
     currentUserId: string;
     preferences: PreferenceType[];
     steps: StepType[];
     isAdmin: boolean;
     enableOnboardingFlow: boolean;
+    teamUrl: string;
+    location: {
+        pathname: string;
+    };
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -73,6 +79,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     showNextSteps = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
         this.props.actions.setShowNextStepsView(true);
+        browserHistory.push(`${this.props.teamUrl}/tips`);
     }
 
     onCloseModal = () => {
@@ -90,6 +97,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         this.props.actions.setShowNextStepsView(false);
 
         this.onCloseModal();
+
+        browserHistory.goBack();
     }
 
     render() {
@@ -116,6 +125,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         const total = this.props.steps.length;
         const complete = this.props.preferences.filter((pref) => pref.name !== RecommendedNextSteps.HIDE && pref.value === 'true').length;
 
+        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
+
         const header = (
             <FormattedMessage
                 id='sidebar_next_steps.gettingStarted'
@@ -137,7 +148,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         return (
             <div
                 className={classNames('SidebarNextSteps', {
-                    active: this.props.active,
+                    active: inTipsView,
                 })}
                 onClick={this.showNextSteps}
             >

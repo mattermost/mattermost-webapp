@@ -12,6 +12,7 @@ import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import PlaybookRunner from 'components/channel_layout/playbook_runner';
+import NextStepsView from 'components/next_steps_view';
 import {makeAsyncComponent} from 'components/async_load';
 
 const LazyGlobalThreads = makeAsyncComponent(
@@ -122,6 +123,10 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                         >
                             <PlaybookRunner/>
                         </Route>
+                        <Route
+                            path='/:team/tips'
+                            component={NextStepsView}
+                        />
                         {isCollapsedThreadsEnabled ? (
                             <Route
                                 path='/:team/threads/:threadIdentifier?'

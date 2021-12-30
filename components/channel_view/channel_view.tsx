@@ -9,7 +9,6 @@ import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
-import NextStepsView from 'components/next_steps_view';
 import PostView from 'components/post_view';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -24,7 +23,6 @@ type Props = {
             postid?: string;
         };
     };
-    showNextStepsEphemeral: boolean;
     channelIsArchived: boolean;
     viewArchivedChannels: boolean;
     isCloud: boolean;
@@ -125,12 +123,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         const {channelIsArchived} = this.props;
-
-        if (this.props.showNextStepsEphemeral) {
-            return (
-                <NextStepsView/>
-            );
-        }
 
         let createPost;
         if (this.props.deactivatedChannel) {

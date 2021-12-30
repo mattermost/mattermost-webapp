@@ -28,13 +28,10 @@ import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {showNextSteps} from 'components/next_steps_view/steps';
 
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
-import NextStepsView from 'components/next_steps_view';
 
 import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
@@ -58,9 +55,6 @@ const GlobalThreads = () => {
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
-    const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
-    const showSteps = useSelector((state: GlobalState) => showNextSteps(state));
-    const config = useSelector(getConfig);
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
@@ -137,11 +131,6 @@ const GlobalThreads = () => {
     const handleSelectUnread = useCallback(() => {
         setFilter(ThreadFilter.unread);
     }, []);
-
-    const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
-    if (showNextStepsEphemeral && enableOnboardingFlow && showSteps) {
-        return <NextStepsView/>;
-    }
 
     return (
         <div

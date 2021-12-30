@@ -3,11 +3,14 @@
 
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators} from 'redux';
+import {withRouter} from 'react-router-dom';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {getSteps} from '../../next_steps_view/steps';
 
@@ -23,13 +26,13 @@ function makeMapStateToProps() {
     const getCategory = makeGetCategory();
 
     return (state: GlobalState) => ({
-        active: state.views.nextSteps.show,
         steps: getSteps(state),
         showNextSteps: showNextSteps(state),
         currentUser: getCurrentUser(state),
         currentUserId: getCurrentUserId(state),
         preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
         isAdmin: isCurrentUserSystemAdmin(state),
+        teamUrl: getCurrentRelativeTeamUrl(state),
         enableOnboardingFlow: getConfig(state).EnableOnboardingFlow === 'true',
     });
 }
@@ -45,4 +48,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarNextSteps);
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(SidebarNextSteps));
