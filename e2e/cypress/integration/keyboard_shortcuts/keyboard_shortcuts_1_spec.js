@@ -441,6 +441,14 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#moreDmModal').should('not.exist');
     });
 
+    it('MM-40442 - CTRL/CMD+SHIFT+.', () => {
+        // # Type CTRL/CMD+SHIFT+. to open 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetRHS();
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetRHS().isExpanded();
+    });
+
     function markAsFavorite(channelName) {
         // # Visit the channel
         cy.get(`#sidebarItem_${channelName}`).scrollIntoView().click();
