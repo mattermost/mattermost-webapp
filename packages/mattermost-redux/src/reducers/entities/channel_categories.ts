@@ -8,7 +8,7 @@ import {ChannelCategoryTypes, TeamTypes, UserTypes, ChannelTypes} from 'mattermo
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
-import {$ID, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {removeItem} from 'mattermost-redux/utils/array_utils';
 
@@ -40,7 +40,7 @@ export function byId(state: IDMappedObjects<ChannelCategory> = {}, action: Gener
     }
 
     case ChannelCategoryTypes.CATEGORY_DELETED: {
-        const categoryId: $ID<ChannelCategory> = action.data;
+        const categoryId: ChannelCategory['id'] = action.data;
 
         const nextState = {...state};
 
@@ -100,7 +100,7 @@ export function byId(state: IDMappedObjects<ChannelCategory> = {}, action: Gener
     }
 }
 
-export function orderByTeam(state: RelationOneToOne<Team, Array<$ID<ChannelCategory>>> = {}, action: GenericAction) {
+export function orderByTeam(state: RelationOneToOne<Team, Array<ChannelCategory['id']>> = {}, action: GenericAction) {
     switch (action.type) {
     case ChannelCategoryTypes.RECEIVED_CATEGORY_ORDER: {
         const teamId: string = action.data.teamId;
@@ -113,7 +113,7 @@ export function orderByTeam(state: RelationOneToOne<Team, Array<$ID<ChannelCateg
     }
 
     case ChannelCategoryTypes.CATEGORY_DELETED: {
-        const categoryId: $ID<ChannelCategory> = action.data;
+        const categoryId: ChannelCategory['id'] = action.data;
 
         const nextState = {...state};
 

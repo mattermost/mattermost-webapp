@@ -10,7 +10,6 @@ import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
@@ -51,6 +50,7 @@ type Props = {
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
+    isMobileView: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -123,7 +123,7 @@ type Props = {
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;
@@ -354,7 +354,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, callRequest);
+            }
             break;
         default: {
             const errorMessage = intl.formatMessage({
@@ -400,8 +404,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     render() {
+        const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const isMobile = Utils.isMobile();
 
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {

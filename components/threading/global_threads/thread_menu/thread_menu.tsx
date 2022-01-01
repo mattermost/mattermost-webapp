@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -32,7 +31,7 @@ import {useThreadRouting} from '../../hooks';
 import './thread_menu.scss';
 
 type Props = {
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     isFollowing?: boolean;
     hasUnreads: boolean;
     children: ReactNode;

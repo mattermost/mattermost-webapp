@@ -17,10 +17,10 @@ import KeyboardShortcutSequence, {
 import {browserHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {isMobile} from 'utils/utils';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
+    isMobileView: boolean;
     rootPostId: string;
     previousRhsState?: string;
     relativeTeamUrl: string;
@@ -62,7 +62,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
     }
 
     handleJumpClick = () => {
-        if (isMobile()) {
+        if (this.props.isMobileView) {
             this.props.closeRightHandSide();
         }
 
