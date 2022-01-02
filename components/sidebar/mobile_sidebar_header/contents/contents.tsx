@@ -6,17 +6,14 @@ import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {localizeMessage} from 'utils/utils.jsx';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
-import MenuIcon from 'components/widgets/icons/menu_icon';
-import Constants, {ModalIdentifiers} from 'utils/constants';
-
-import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {ModalData} from 'types/actions';
+
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 const HeaderLine = styled.div`
     display: flex;
@@ -33,31 +30,30 @@ const VerticalStack = styled.div`
 `;
 
 type Props = {
-    showTutorialTip: boolean;
     teamDescription: string;
     teamId: string;
     currentUser: UserProfile;
     teamDisplayName: string;
+    actions: Actions;
+};
+
+type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
 };
 
-export default class SidebarHeaderDropdownButton extends React.PureComponent<Props> {
+export default class Contents extends React.PureComponent<Props> {
     handleCustomStatusEmojiClick = (event: React.MouseEvent) => {
         event.stopPropagation();
         const customStatusInputModalData = {
             modalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
         };
-        this.props.openModal(customStatusInputModalData);
+        this.props.actions.openModal(customStatusInputModalData);
     }
 
     render() {
-        let tutorialTip = null;
-
-        if (this.props.showTutorialTip) {
-            tutorialTip = (
-                <MenuTutorialTip onBottom={false}/>
-            );
+        if (!this.props.currentUser) {
+            return null;
         }
 
         let teamNameWithToolTip = (
@@ -87,7 +83,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
                 className='SidebarHeaderDropdownButton'
                 id='sidebarHeaderDropdownButton'
             >
-                {tutorialTip}
                 <HeaderLine
                     id='headerInfo'
                     className='header__info'
@@ -115,12 +110,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
                             />
                         </div>
                     </VerticalStack>
-                    <button
-                        className='style--none sidebar-header-dropdown__icon'
-                        aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
-                    >
-                        <MenuIcon/>
-                    </button>
                 </HeaderLine>
             </div>
         );
