@@ -9,15 +9,6 @@ export interface StarterEditionProps {
     openEELicenseModal: () => void;
     currentPlan: JSX.Element;
     upgradedFromTE: boolean;
-    serverError: string | null;
-    fileSelected: boolean;
-    fileName: string | null;
-    uploading: boolean;
-    fileInputRef: any;
-    isDisabled: boolean;
-    handleChange: () => void;
-    handleSubmit: (e: any) => Promise<void>;
-
     openUploadModal: () => void;
 }
 
