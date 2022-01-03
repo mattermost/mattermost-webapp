@@ -7,12 +7,9 @@ import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
@@ -31,6 +28,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
 import BackgroundSvg from 'components/common/svg_images_components/background.svg';
@@ -60,7 +58,7 @@ type Props = {
     customer: CloudCustomer | undefined;
     show: boolean;
     isDevMode: boolean;
-    products: Dictionary<Product> | undefined;
+    products: Record<string, Product> | undefined;
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
@@ -89,12 +87,12 @@ type State = {
 
 /**
  *
- * @param products  Dictionary<Product> | undefined - the list of current cloud products
+ * @param products  Record<string, Product> | undefined - the list of current cloud products
  * @param productId String - a valid product id used to find a particular product in the dictionary
  * @param productSku String - the sku value of the product of type either cloud-starter | cloud-professional | cloud-enterprise
  * @returns Product
  */
-function findProductInDictionary(products: Dictionary<Product> | undefined, productId?: string | null, productSku?: string): Product | null {
+function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string): Product | null {
     if (!products) {
         return null;
     }
@@ -120,7 +118,7 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
+function getSelectedProduct(products: Record<string, Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
 
     let nextSku = CloudProducts.PROFESSIONAL;

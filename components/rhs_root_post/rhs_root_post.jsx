@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -15,6 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
@@ -80,6 +80,7 @@ export default class RhsRootPost extends React.PureComponent {
          * check if the current post is being edited at the moment
          */
         isPostBeingEdited: PropTypes.bool,
+        isMobileView: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -103,8 +104,15 @@ export default class RhsRootPost extends React.PureComponent {
 
     handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
-            const {post, enableEmojiPicker, channelIsArchived,
-                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+            const {
+                channelIsArchived,
+                enableEmojiPicker,
+                isMobileView,
+                post,
+                actions: {
+                    emitShortcutReactToLastPostFrom,
+                },
+            } = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
@@ -122,7 +130,7 @@ export default class RhsRootPost extends React.PureComponent {
                 boundingRectOfPostInfo.bottom < (window.innerHeight);
 
             if (isPostHeaderVisibleToUser) {
-                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
+                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !isMobileView &&
                     !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
                     // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
                     // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
@@ -143,16 +151,12 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
             shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
         if (shortcutReactToLastPostEmittedFromRHS) {
             this.handleShortcutReactToLastPost(isLastPost);
-        }
-
-        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
-            this.handleDropdownOpened(false);
         }
     }
 
@@ -248,7 +252,16 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot, isPostBeingEdited} = this.props;
+        const {
+            channelIsArchived,
+            collapsedThreadsEnabled,
+            isBot,
+            isMobileView,
+            isReadOnly,
+            post,
+            teamId,
+            isPostBeingEdited,
+        } = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -363,7 +376,7 @@ export default class RhsRootPost extends React.PureComponent {
         );
 
         let postFlagIcon;
-        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && !Utils.isMobile();
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && !isMobileView;
         if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon

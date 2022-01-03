@@ -7,7 +7,6 @@ import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Product, Subscription, CloudCustomer, Invoice, SubscriptionStats} from 'mattermost-redux/types/cloud';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -29,14 +28,14 @@ function customer(state: CloudCustomer | null = null, action: GenericAction) {
     }
 }
 
-function products(state: Dictionary<Product> | null = null, action: GenericAction) {
+function products(state: Record<string, Product> | null = null, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_PRODUCTS: {
         const productList: Product[] = action.data;
         const productDict = productList.reduce((map, obj) => {
             map[obj.id] = obj;
             return map;
-        }, {} as Dictionary<Product>);
+        }, {} as Record<string, Product>);
         return {
             ...state,
             ...productDict,
@@ -47,14 +46,14 @@ function products(state: Dictionary<Product> | null = null, action: GenericActio
     }
 }
 
-function invoices(state: Dictionary<Invoice> | null = null, action: GenericAction) {
+function invoices(state: Record<string, Invoice> | null = null, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_INVOICES: {
         const invoiceList: Invoice[] = action.data;
         const invoiceDict = invoiceList.reduce((map, obj) => {
             map[obj.id] = obj;
             return map;
-        }, {} as Dictionary<Invoice>);
+        }, {} as Record<string, Invoice>);
         return {
             ...state,
             ...invoiceDict,

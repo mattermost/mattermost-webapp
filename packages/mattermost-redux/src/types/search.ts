@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Dictionary} from './utilities';
-
 export type Search = {
     terms: string;
     isOrSearch: boolean;
@@ -13,7 +11,7 @@ export type SearchState = {
     results: string[];
     fileResults: string[];
     flagged: string[];
-    pinned: Dictionary<string[]>;
+    pinned: Record<string, string[]>;
     isSearchingTerm: boolean;
     isSearchGettingMore: boolean;
     recent: {

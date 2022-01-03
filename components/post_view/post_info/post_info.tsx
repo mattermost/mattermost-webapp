@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -17,6 +16,7 @@ import Constants, {Locations} from 'utils/constants';
 import CommentIcon from 'components/post_view/comment_icon';
 import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
@@ -122,14 +122,6 @@ type Props = {
          * Function to set or unset emoji picker for last message
          */
         emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
-    };
-
-    editingPost?: {
-        post?: Post;
-        postId?: string;
-        refocusId?: string;
-        title?: string;
-        isRHS?: boolean;
     };
 
     isPostBeingEdited: boolean;
@@ -327,16 +319,12 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props): void {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isPostBeingEdited} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
         shortcutReactToLastPostEmittedFrom === Locations.CENTER;
         if (shortcutReactToLastPostEmittedFromCenter && isLastPost !== undefined) {
             this.handleShortcutReactToLastPost(isLastPost);
-        }
-
-        if (!prevProps.isPostBeingEdited && isPostBeingEdited) {
-            this.props.handleDropdownOpened(false);
         }
     }
 

@@ -57,7 +57,7 @@ export type Props = {
     maxPostSize: number;
     useChannelMentions: boolean;
     editingPost: {
-        post?: Post;
+        post: Post | null;
         postId?: string;
         refocusId?: string;
         title?: string;
@@ -94,14 +94,35 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
     const textboxRef = useRef<TextboxClass>(null);
     const emojiButtonRef = useRef<HTMLButtonElement>(null);
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
 
     const {formatMessage} = useIntl();
 
-    useEffect(() => textboxRef?.current?.focus(), []);
+    const shouldScroll = (elementRect: DOMRect, containerRect: DOMRect): boolean => {
+        if (!elementRect || !containerRect) {
+            return false;
+        }
+
+        return elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom;
+    };
+
     useEffect(() => {
-        const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth', block: 'end'} : false;
-        setTimeout(() => scrollRef?.current?.scrollIntoView(scrollOptions), 0);
+        const className = `post-list__dynamic${editingPost.isRHS ? '--RHS' : ''}`;
+        const postListElement = document.getElementsByClassName(className)[0];
+
+        const elementCR = wrapperRef?.current?.getBoundingClientRect();
+        const parentCR = postListElement?.getBoundingClientRect();
+
+        if (elementCR && parentCR) {
+            const shouldScrollIntoView = shouldScroll(elementCR, parentCR);
+
+            if (shouldScrollIntoView) {
+                const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth', block: 'nearest'} : false;
+                wrapperRef?.current?.scrollIntoView(scrollOptions);
+            }
+        }
+
+        textboxRef?.current?.focus();
     }, []);
 
     useEffect(() => {
@@ -193,16 +214,17 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             });
         }
 
-        setCaretPosition(0);
+        setCaretPosition(1);
         setPostError(null);
         setErrorClass('');
         setShowEmojiPicker(false);
         setRenderScrollbar(false);
+
+        actions.unsetEditingPost();
     };
 
     const handleHide = (doRefocus = true) => {
         setEditText(editingPost.post?.message || '');
-        actions.unsetEditingPost();
         handleRefocusAndExit(doRefocus && editingPost.refocusId ? editingPost.refocusId : null);
     };
 
@@ -334,10 +356,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
     };
 
     const handleEmojiClick = (emoji?: Emoji) => {
-        const emojiAlias =
-            emoji &&
-            (((emoji as SystemEmoji).short_names && (emoji as SystemEmoji).short_names[0]) ||
-                emoji.name);
+        const emojiAlias = emoji && (((emoji as SystemEmoji).short_names && (emoji as SystemEmoji).short_names[0]) || emoji.name);
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -427,7 +446,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             className={classNames('post--editing__wrapper', {
                 scroll: renderScrollbar,
             })}
-            ref={scrollRef}
+            ref={wrapperRef}
         >
             <Textbox
                 tabIndex={0}

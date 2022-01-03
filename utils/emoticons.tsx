@@ -94,12 +94,16 @@ export function renderEmoji(name: string, matchText: string): string {
 // - has `skin_variations` then it uses the default skin (yellow)
 // - has `skins` it's first value is considered the skin version (it can contain more values)
 // - any other case it doesn't have variations or is a custom emoji.
-function getSkin(emoji: Emoji) {
+export function getSkin(emoji: Emoji): string | null {
     if ('skin_variations' in emoji) {
         return 'default';
     }
     if ('skins' in emoji) {
-        return emoji.skins && emoji.skins[0];
+        const skin = emoji?.skins?.[0] ?? '';
+
+        if (skin.length !== 0) {
+            return skin;
+        }
     }
     return null;
 }

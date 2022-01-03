@@ -113,30 +113,34 @@ exports[`components/RhsComment should match snapshot 1`] = `
       <div
         className="post__body post--edited"
       >
-        <MessageWithAdditionalContent
-          isEmbedVisible={false}
-          pluginPostTypes={Object {}}
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+        <div
+          className=""
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
             }
-          }
-          previewCollapsed=""
-          previewEnabled={false}
-        />
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
         <Connect(ReactionList)
           isReadOnly={false}
           post={
@@ -323,30 +327,34 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
       <div
         className="post__body post--edited"
       >
-        <MessageWithAdditionalContent
-          isEmbedVisible={false}
-          pluginPostTypes={Object {}}
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+        <div
+          className=""
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
             }
-          }
-          previewCollapsed=""
-          previewEnabled={false}
-        />
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
         <Connect(ReactionList)
           isReadOnly={false}
           post={
@@ -500,31 +508,35 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
       <div
         className="post__body post--edited"
       >
-        <MessageWithAdditionalContent
-          isEmbedVisible={false}
-          pluginPostTypes={Object {}}
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "root_id": "",
-              "state": "DELETED",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+        <div
+          className=""
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "state": "DELETED",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
             }
-          }
-          previewCollapsed=""
-          previewEnabled={false}
-        />
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
         <Connect(ReactionList)
           isReadOnly={false}
           post={
@@ -707,30 +719,34 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
       <div
         className="post__body post--edited"
       >
-        <MessageWithAdditionalContent
-          isEmbedVisible={false}
-          pluginPostTypes={Object {}}
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+        <div
+          className=""
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
             }
-          }
-          previewCollapsed=""
-          previewEnabled={false}
-        />
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
         <Connect(ReactionList)
           isReadOnly={false}
           post={
@@ -867,27 +883,16 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             }
           />
         </div>
+      </div>
+      <div
+        className="post__body post--edited"
+      >
         <div
-          className="col post-menu"
-          data-testid="post-menu-id"
+          className=""
         >
-          <Connect(PostReaction)
-            channelId="channel_id"
-            getDotMenuRef={[Function]}
-            location="RHS_COMMENT"
-            postId="id"
-            showEmojiPicker={false}
-            teamId="team_id"
-            toggleEmojiPicker={[Function]}
-          />
-          <Connect(injectIntl(DotMenuClass))
-            enableEmojiPicker={true}
-            handleAddReactionClick={[Function]}
-            handleDropdownOpened={[Function]}
-            isFlagged={true}
-            isMenuOpen={false}
-            isReadOnly={false}
-            location="RHS_COMMENT"
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
             post={
               Object {
                 "channel_id": "channel_id",
@@ -906,36 +911,10 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
                 "user_id": "user_id",
               }
             }
+            previewCollapsed=""
+            previewEnabled={false}
           />
         </div>
-      </div>
-      <div
-        className="post__body post--edited"
-      >
-        <MessageWithAdditionalContent
-          isEmbedVisible={false}
-          pluginPostTypes={Object {}}
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
-            }
-          }
-          previewCollapsed=""
-          previewEnabled={false}
-        />
         <Connect(ReactionList)
           isReadOnly={false}
           post={
@@ -1077,6 +1056,34 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
         className="post__body post--edited"
       >
         <Connect(EditPost) />
+        <div
+          className="invisible"
+        >
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+            previewCollapsed=""
+            previewEnabled={false}
+          />
+        </div>
         <Connect(ReactionList)
           isReadOnly={false}
           post={
@@ -1213,18 +1220,16 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             }
           />
         </div>
+      </div>
+      <div
+        className="post__body post--edited"
+      >
         <div
-          className="col post-menu"
-          data-testid="post-menu-id"
+          className=""
         >
-          <Connect(injectIntl(DotMenuClass))
-            enableEmojiPicker={true}
-            handleAddReactionClick={[Function]}
-            handleDropdownOpened={[Function]}
-            isFlagged={true}
-            isMenuOpen={false}
-            isReadOnly={false}
-            location="RHS_COMMENT"
+          <MessageWithAdditionalContent
+            isEmbedVisible={false}
+            pluginPostTypes={Object {}}
             post={
               Object {
                 "channel_id": "channel_id",
@@ -1243,45 +1248,10 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
                 "user_id": "user_id",
               }
             }
-          />
-          <Connect(PostReaction)
-            channelId="channel_id"
-            getDotMenuRef={[Function]}
-            location="RHS_COMMENT"
-            postId="id"
-            showEmojiPicker={false}
-            teamId="team_id"
-            toggleEmojiPicker={[Function]}
+            previewCollapsed=""
+            previewEnabled={false}
           />
         </div>
-      </div>
-      <div
-        className="post__body post--edited"
-      >
-        <MessageWithAdditionalContent
-          isEmbedVisible={false}
-          pluginPostTypes={Object {}}
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
-            }
-          }
-          previewCollapsed=""
-          previewEnabled={false}
-        />
         <Connect(ReactionList)
           isReadOnly={false}
           post={

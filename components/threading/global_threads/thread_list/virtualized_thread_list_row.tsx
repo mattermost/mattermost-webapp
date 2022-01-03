@@ -4,15 +4,14 @@
 import React, {memo} from 'react';
 import {areEqual} from 'react-window';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import ThreadItem from '../thread_item';
 
 type Props = {
     data: {
-        ids: Array<$ID<UserThread>>;
-        selectedThreadId?: $ID<UserThread>;
+        ids: Array<UserThread['id']>;
+        selectedThreadId?: UserThread['id'];
     };
     index: number;
     style: any;

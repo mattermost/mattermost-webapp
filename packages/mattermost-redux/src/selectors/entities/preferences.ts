@@ -174,6 +174,11 @@ export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = create
     },
 );
 
+// TODO@Michel: remove this once inliene post editing is enabled by default
+export function getIsInlinePostEditingEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'InlinePostEditing') === 'true';
+}
+
 export function getCollapsedThreadsPreference(state: GlobalState): string {
     const configValue = getConfig(state)?.CollapsedThreads;
     let preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;
@@ -214,6 +219,10 @@ export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButt
 
 export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | undefined {
     return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
+}
+
+export function getCreateGuidedChannel(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
 }
 
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {

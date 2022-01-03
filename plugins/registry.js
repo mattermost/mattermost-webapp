@@ -716,9 +716,10 @@ export default class PluginRegistry {
     // - mainComponent - The component to be displayed below the global header when your route is active.
     // - headerComponent - A component to fill the generic area in the center of
     //                     the global header when your route is active.
+    // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar = false) {
         const id = generateId();
 
         store.dispatch({
@@ -734,6 +735,7 @@ export default class PluginRegistry {
                 mainComponent,
                 headerCentreComponent,
                 headerRightComponent,
+                showTeamSidebar,
             },
         });
 
@@ -789,5 +791,32 @@ export default class PluginRegistry {
     // Returns a unique identifier.
     registerGlobalComponent(component) {
         return dispatchPluginComponentAction('Global', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Add a component to the App Bar.
+    // Accepts the following:
+    // - iconUrl - A resolvable URL to use as the button's icon
+    // - action - A function called when the button is clicked, passed the channel and channel member as arguments
+    // - tooltip_text - A string or React element shown for tooltip appear on hover
+    // Returns a unique identifier.
+    registerAppBarComponent(iconUrl, action, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            iconUrl,
+            action,
+            tooltipText: resolveReactElement(tooltipText),
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'AppBar',
+            data,
+        });
+
+        return id;
     }
 }

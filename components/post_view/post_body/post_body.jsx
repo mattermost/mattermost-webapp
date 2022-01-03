@@ -220,6 +220,8 @@ export default class PostBody extends React.PureComponent {
             ephemeralPostClass = 'post--ephemeral';
         }
 
+        const isBeingEdited = isPostBeingEdited && !isPostBeingEditedInRHS;
+
         return (
             <div>
                 {comment}
@@ -227,7 +229,8 @@ export default class PostBody extends React.PureComponent {
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    {isPostBeingEdited && !isPostBeingEditedInRHS ? <EditPost/> : messageWithAdditionalContent}
+                    <div className={isBeingEdited ? 'invisible' : ''}>{messageWithAdditionalContent}</div>
+                    {isPostBeingEdited && !isPostBeingEditedInRHS && <EditPost/>}
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>

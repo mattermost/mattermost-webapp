@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {Button, Tooltip} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
@@ -17,6 +17,7 @@ import logoImage from 'images/logo.png';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 type State = {
     isLoading: boolean;
