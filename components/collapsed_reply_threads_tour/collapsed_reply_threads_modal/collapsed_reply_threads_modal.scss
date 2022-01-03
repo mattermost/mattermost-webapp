@@ -7,12 +7,12 @@
 
     .modal-content {
         padding: 16px 15px;
+
         @media screen and (max-width: 767px) {
             .app__body .modal & {
                 padding: 24px;
             }
         }
-
     }
 
     .CollapsedReplyThreadsModal__img {
