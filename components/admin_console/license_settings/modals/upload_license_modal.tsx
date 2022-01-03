@@ -39,11 +39,10 @@ type Props = {
 const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null => {
     const dispatch = useDispatch<DispatchFunc>();
 
-    const isDisabled = false;
     const [fileSelected, setFileSelected] = useState(false);
+    const [fileObj, setFileObj] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
     const [serverError, setServerError] = useState<string | null>();
-    const [fileObj, setFileObj] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const currentLicense: ClientLicense = useSelector(getLicense);
@@ -59,7 +58,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         setServerError(null);
     };
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (fileObj === null) {
             return;
@@ -167,7 +166,6 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                                         type='file'
                                         accept='.mattermost-license'
                                         onChange={handleChange}
-                                        disabled={isDisabled}
                                     />
                                     <a
                                         className='btn-select'
@@ -191,7 +189,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                 <div className='btn-upload-wrapper'>
                     <button
                         className={`btn ${fileSelected && 'btn-primary'}`}
-                        disabled={isDisabled || !fileSelected}
+                        disabled={!fileSelected}
                         onClick={handleSubmit}
                         id='upload-button'
                     >
@@ -226,6 +224,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                 year='numeric'
             />
         );
+
         const licensedUsersNum = currentLicense.Users;
         uploadLicenseContent = (
             <>

@@ -20,7 +20,7 @@ export interface EnterpriseEditionProps {
     issued: JSX.Element;
     startsAt: JSX.Element;
     expiresAt: JSX.Element;
-    handleRemove: (e: any) => Promise<void>;
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
 }
@@ -130,7 +130,7 @@ const renderLicenseContent = (
     issued: JSX.Element,
     startsAt: JSX.Element,
     expiresAt: JSX.Element,
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
     skuName: string,
@@ -139,7 +139,13 @@ const renderLicenseContent = (
 
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
-    const licenseValues = [
+    const licenseValues: Array<{
+        legend: string;
+        value: string;
+    } | {
+        legend: string;
+        value: JSX.Element | null;
+    }> = [
         {legend: 'START DATE:', value: startsAt},
         {legend: 'EXPIRES:', value: expiresAt},
         {legend: 'USERS:', value: license.Users},
@@ -151,7 +157,7 @@ const renderLicenseContent = (
 
     return (
         <div className='licenseElements'>
-            {licenseValues.map((item: {legend: string; value: any}, i: number) => {
+            {licenseValues.map((item: {legend: string; value: JSX.Element | null | string}, i: number) => {
                 return (
                     <div
                         className='item-element'
@@ -169,7 +175,7 @@ const renderLicenseContent = (
 };
 
 const renderRemoveButton = (
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
 ) => {

@@ -52,7 +52,7 @@ type Props = {
         removeLicense: () => Promise<ActionResult>;
         getPrevTrialLicense: () => void;
         upgradeToE0: () => Promise<StatusOK>;
-        upgradeToE0Status: () => Promise<{percentage: number; error: any}>;
+        upgradeToE0Status: () => Promise<{percentage: number; error: string | JSX.Element}>;
         restartServer: () => Promise<StatusOK>;
         ping: () => Promise<{status: string}>;
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
@@ -151,7 +151,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         });
     };
 
-    handleRemove = async (e: any) => {
+    handleRemove = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.setState({removing: true});
@@ -167,7 +167,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         this.setState({serverError: null, removing: false});
     }
 
-    handleUpgrade = async (e?: any) => {
+    handleUpgrade = async (e?: React.MouseEvent<HTMLButtonElement>) => {
         if (e) {
             e.preventDefault();
         }
@@ -184,7 +184,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         }
     }
 
-    requestLicense = async (e?: any) => {
+    requestLicense = async (e?: React.MouseEvent<HTMLButtonElement>) => {
         if (e) {
             e.preventDefault();
         }
@@ -209,7 +209,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         });
     }
 
-    handleRestart = async (e?: any) => {
+    handleRestart = async (e?: React.MouseEvent<HTMLButtonElement>) => {
         if (e) {
             e.preventDefault();
         }

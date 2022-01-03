@@ -25,7 +25,7 @@ import store from 'stores/redux_store.jsx';
 interface TrialBannerProps {
     isDisabled: boolean;
     gettingTrialError: string | null;
-    requestLicense: (e?: any, reload?: boolean) => Promise<void>;
+    requestLicense: (e?: React.MouseEvent<HTMLButtonElement>, reload?: boolean) => Promise<void>;
     gettingTrial: boolean;
     enterpriseReady: boolean;
     upgradingPercentage: number;
@@ -35,7 +35,7 @@ interface TrialBannerProps {
 
     handleRestart: () => Promise<void>;
 
-    openEEModal: any;
+    openEEModal: () => void;
 
     restarting: boolean;
 }
