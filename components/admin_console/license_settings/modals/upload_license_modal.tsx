@@ -244,7 +244,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                     <div className='subtitle'>
                         <FormattedMessage
                             id='admin.license.upload-modal.successfulUpgradeText'
-                            defaultMessage='You have upgraded to the Starter plan for {licensedUsersNum} users. This is effective today, {startsAt} until {expiresAt}. '
+                            defaultMessage='You have upgraded to the Starter plan for {licensedUsersNum} users. This is effective from {startsAt} until {expiresAt}. '
                             values={{
                                 expiresAt,
                                 startsAt,
