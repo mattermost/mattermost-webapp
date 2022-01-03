@@ -13,10 +13,16 @@ import PostView from 'components/post_view';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import {browserHistory} from 'utils/browser_history';
+
 type Props = {
     channelId: string;
     deactivatedChannel: boolean;
     channelRolesLoading: boolean;
+    showNextStepsEphemeral: boolean;
+    enableOnboardingFlow: boolean;
+    showNextSteps: boolean;
+    teamUrl: string;
     match: {
         url: string;
         params: {
@@ -28,6 +34,7 @@ type Props = {
     isCloud: boolean;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
+        setShowNextStepsView: (x: boolean) => void;
     };
 };
 
@@ -122,7 +129,11 @@ export default class ChannelView extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {channelIsArchived} = this.props;
+        const {channelIsArchived, enableOnboardingFlow, showNextSteps, showNextStepsEphemeral, teamUrl} = this.props;
+        if (enableOnboardingFlow && showNextSteps && !showNextStepsEphemeral) {
+            this.props.actions.setShowNextStepsView(true);
+            browserHistory.push(`${teamUrl}/tips`);
+        }
 
         let createPost;
         if (this.props.deactivatedChannel) {
