@@ -78,7 +78,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
 
     showNextSteps = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
-        this.props.actions.setShowNextStepsView(true);
+        // this.props.actions.setShowNextStepsView(true);
         browserHistory.push(`${this.props.teamUrl}/tips`);
     }
 
@@ -94,7 +94,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             value: 'true',
         }]);
 
-        this.props.actions.setShowNextStepsView(false);
+        // this.props.actions.setShowNextStepsView(false);
 
         this.onCloseModal();
 
