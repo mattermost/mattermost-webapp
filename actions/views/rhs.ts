@@ -376,8 +376,8 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
+            unsetEditingPost(),
         ]));
-        dispatch(unsetEditingPost());
         return {data: true};
     };
 }
