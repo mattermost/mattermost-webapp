@@ -68,8 +68,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
 
     includeBoards = this.props.config.PluginSettings?.PluginStates?.focalboard?.Enable
     getGlobalPolicyColumns = (): Column[] => {
-        const columns =
-        [
+        const columns: Column[] = [
             {
                 name: (
                     <FormattedMessage
@@ -97,14 +96,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 ),
                 field: 'files',
             },
-            {
-                name: '',
-                field: 'actions',
-                className: 'actionIcon',
-            },
         ];
         if (this.includeBoards) {
-            columns.splice(columns.length - 1, 0,
+            columns.push(
                 {
                     name: (
                         <FormattedMessage
@@ -116,10 +110,17 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 },
             );
         }
+        columns.push(
+            {
+                name: '',
+                field: 'actions',
+                className: 'actionIcon',
+            },
+        );
         return columns;
     }
     getCustomPolicyColumns = (): Column[] => {
-        const columns = [
+        const columns: Column[] = [
             {
                 name: (
                     <FormattedMessage
