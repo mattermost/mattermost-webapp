@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {SystemSetting} from 'mattermost-redux/types/general';
 
 import {General} from '../constants';
@@ -465,6 +467,10 @@ export default class Client4 {
 
         if (this.userAgent) {
             headers[HEADER_USER_AGENT] = this.userAgent;
+        }
+
+        if (options.body) {
+            headers['Content-Type'] = 'application/json';
         }
 
         if (newOptions.headers) {
