@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {FormattedDate, FormattedMessage} from 'react-intl';
@@ -39,10 +39,9 @@ type Props = {
 const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null => {
     const dispatch = useDispatch<DispatchFunc>();
 
-    const [fileSelected, setFileSelected] = useState(false);
-    const [fileObj, setFileObj] = useState<File | null>(null);
-    const [isUploading, setIsUploading] = useState(false);
-    const [serverError, setServerError] = useState<string | null>();
+    const [fileObj, setFileObj] = React.useState<File | null>(null);
+    const [isUploading, setIsUploading] = React.useState(false);
+    const [serverError, setServerError] = React.useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const currentLicense: ClientLicense = useSelector(getLicense);
@@ -53,7 +52,6 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         if (element === null || element.files === null || element.files.length === 0) {
             return;
         }
-        setFileSelected(true);
         setFileObj(element.files[0]);
         setServerError(null);
     };
@@ -68,7 +66,6 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         const {error} = await dispatch(uploadLicense(fileObj));
 
         if (error) {
-            setFileSelected(false);
             setFileObj(null);
             setServerError(error.message);
             setIsUploading(false);
@@ -76,7 +73,6 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         }
 
         await dispatch(getLicenseConfig());
-        setFileSelected(false);
         setFileObj(null);
         setServerError(null);
         setIsUploading(false);
@@ -96,7 +92,6 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
 
     const handleRemoveFile = () => {
         setFileObj(null);
-        setFileSelected(false);
     };
 
     let uploadLicenseContent = (
@@ -129,17 +124,17 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                     </div>
                     <div className='file-upload__inputSection'>
                         <div className='help-text file-name-section'>
-                            {fileSelected ? (
+                            {fileObj?.name && fileObj?.size ? (
                                 <>
                                     <FileSvg
                                         width={20}
                                         height={20}
                                     />
                                     <span className='file-name'>
-                                        {fileObj?.name && fileObj?.name.length < 40 ? fileObj?.name : `${fileObj?.name.substr(0, 37)}...`}
+                                        {fileObj.name.length < 40 ? fileObj?.name : `${fileObj?.name.substr(0, 37)}...`}
                                     </span>
                                     <span className='file-size'>
-                                        {fileObj?.size && (fileObj?.size / 1024).toFixed(2) + 'MB'}
+                                        {(fileObj?.size / 1024).toFixed(2) + 'MB'}
                                     </span>
                                 </>
                             ) : (
@@ -150,7 +145,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                             )}
                         </div>
                         <div className='file__upload'>
-                            {fileSelected ? (
+                            {fileObj?.name ? (
                                 <a
                                     onClick={handleRemoveFile}
                                 >
@@ -188,8 +183,8 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
             <div className='content-footer'>
                 <div className='btn-upload-wrapper'>
                     <button
-                        className={`btn ${fileSelected && 'btn-primary'}`}
-                        disabled={!fileSelected}
+                        className={`btn ${(fileObj?.name && fileObj?.name.length > 0) && 'btn-primary'}`}
+                        disabled={!(fileObj?.name && fileObj?.name.length > 0)}
                         onClick={handleSubmit}
                         id='upload-button'
                     >

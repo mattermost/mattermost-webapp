@@ -89,7 +89,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should display upload btn disabled on initial load', () => {
+    test('should display upload btn Disabled on initial load and no file selected', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <UploadLicenseModal {...props}/>
@@ -97,6 +97,47 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         );
         const uploadButton = wrapper.find('UploadLicenseModal').find('button#upload-button');
         expect(uploadButton.prop('disabled')).toBe(true);
+    });
+
+    test('should display upload btn Enabled when file is loaded', () => {
+        const realUseState = React.useState;
+        const initialStateForFileObj = {name: 'testing.license', size: 10240000} as File;
+
+        jest.spyOn(React, 'useState').mockImplementationOnce(() => realUseState(initialStateForFileObj as any));
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UploadLicenseModal {...props}/>
+            </Provider>,
+        );
+        const uploadButton = wrapper.find('UploadLicenseModal').find('button#upload-button');
+        expect(uploadButton.prop('disabled')).toBe(false);
+    });
+
+    test('should display no file selected text when no file is loaded', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UploadLicenseModal {...props}/>
+            </Provider>,
+        );
+        const fileText = wrapper.find('UploadLicenseModal').find('.file-name-section span');
+        expect(fileText.text()).toEqual('No file selected');
+    });
+
+    test('should display the file name when is selected', () => {
+        const realUseState = React.useState;
+        const initialStateForFileObj = {name: 'testing.license', size: (5 * 1024)} as File;
+
+        jest.spyOn(React, 'useState').mockImplementationOnce(() => realUseState(initialStateForFileObj as any));
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UploadLicenseModal {...props}/>
+            </Provider>,
+        );
+        const fileTextName = wrapper.find('UploadLicenseModal').find('.file-name-section span.file-name');
+        const fileTextSize = wrapper.find('UploadLicenseModal').find('.file-name-section span.file-size');
+
+        expect(fileTextName.text()).toEqual('testing.license');
+        expect(fileTextSize.text()).toEqual('5.00MB');
     });
 
     test('should show success image when open and there is a license (successful license upload)', () => {
