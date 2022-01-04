@@ -161,18 +161,17 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
-    private handleSavePreferences = (autoTour: boolean, isNextStep?: boolean, isPrevStep?: boolean, jumpToStep?: number): void => {
+    private handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
         const {currentUserId, tutorialCategory, actions, singleTip} = this.props;
         const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
         let stepValue = this.props.currentStep;
-        if (isNextStep) {
-            stepValue = (this.props.currentStep + 1);
-        } else if (isPrevStep) {
-            stepValue = (this.props.currentStep - 1);
-        }
-        if (jumpToStep !== undefined) {
-            stepValue = jumpToStep;
+        if (nextStep === true) {
+            stepValue += 1;
+        } else if (nextStep === false) {
+            stepValue -= 1;
+        } else {
+            stepValue = nextStep;
         }
         const preferences = [
             {
@@ -211,16 +210,16 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             setFirstChannelName('');
         }
         const {onNextNavigateTo, onPrevNavigateTo} = this.props;
-        if (onNextNavigateTo && isNextStep && autoTour) {
+        if (onNextNavigateTo && nextStep === true && autoTour) {
             onNextNavigateTo();
-        } else if (onPrevNavigateTo && isPrevStep && autoTour) {
+        } else if (onPrevNavigateTo && nextStep === false && autoTour) {
             onPrevNavigateTo();
         }
     }
 
     public handlePrev = (e?: React.MouseEvent): void => {
         e?.preventDefault();
-        this.handleSavePreferences(true, false, true);
+        this.handleSavePreferences(true, false);
     }
 
     public handleNext = (auto = true, e?: React.MouseEvent): void => {
@@ -230,9 +229,9 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             trackEvent('tutorial', tag);
         }
         if (this.getLastStep(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
-            this.handleSavePreferences(auto, false, false, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
+            this.handleSavePreferences(auto, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
         } else {
-            this.handleSavePreferences(auto, true, false);
+            this.handleSavePreferences(auto, true);
         }
     }
 
@@ -346,7 +345,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                             key={'dotactive' + i}
                             className={className}
                             data-screen={i}
-                            onClick={() => this.handleSavePreferences(true, false, false, i)}
+                            onClick={() => this.handleSavePreferences(true, i)}
                         />
                     </div>,
                 );
