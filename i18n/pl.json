@@ -4129,7 +4129,6 @@
   "sidebar.tutorialProductSwitcher.admin": "Administratorzy systemu mogą również konfigurować i dostosowywać Mattermost za pomocą **Konsoli systemowej** oraz instalować Aplikacje Mattermost z **Marketplace**.",
   "sidebar.tutorialProductSwitcher.switchProducts": "Uruchom tutaj inne produkty Mattermost, w tym **Tablice** i **Playbooki**.",
   "sidebar.tutorialProductSwitcher.title": "Wypróbuj Tablice i Playbooki",
-  "sidebar.tutorialScreen3.body2": "Możesz również utworzyć nowy kanał, klikając symbol **\"+\"** obok nagłówka publicznego lub prywatnego kanału.",
   "sidebar.tutorialSettings.settings": "W sekcji Profil ustaw swoją dostępność, dodaj niestandardowy status i ustaw swoje zdjęcie profilowe. Wybierz **Ustawienia**, aby dostosować ustawienia, w tym preferencje powiadomień, niestandardowe kolory motywów i nie tylko.",
   "sidebar.tutorialSettings.title": "Dostosuj swoje doświadczenie",
   "sidebar.types.channels": "KANAŁY",
