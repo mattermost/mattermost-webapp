@@ -169,7 +169,19 @@ function plugins(state: IDMappedObjects<ClientPluginManifest> = {}, action: Gene
     }
 }
 
-function components(state: PluginsState['components'] = {Product: []}, action: GenericAction) {
+const initialComponents: PluginsState['components'] = {
+    AppBar: [],
+    CallButton: [],
+    FilePreview: [],
+    LinkTooltip: [],
+    MainMenu: [],
+    MobileChannelHeaderButton: [],
+    PostDropdownMenu: [],
+    Product: [],
+    RightHandSidebarComponent: [],
+};
+
+function components(state: PluginsState['components'] = initialComponents, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
