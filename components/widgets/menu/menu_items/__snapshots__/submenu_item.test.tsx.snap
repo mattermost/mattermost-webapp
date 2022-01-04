@@ -15,6 +15,7 @@ exports[`components/widgets/menu/menu_items/submenu_item empty subMenu should ma
   <li
     className="SubMenuItem MenuItem"
     id="1_menuitem"
+    onClick={[Function]}
     role="menuitem"
   >
     <div
@@ -82,6 +83,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
   <li
     className="SubMenuItem MenuItem"
     id="1_menuitem"
+    onClick={[Function]}
     role="menuitem"
   >
     <div
@@ -132,6 +134,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
             <li
               className="SubMenuItem MenuItem"
               id="A_menuitem"
+              onClick={[Function]}
               role="menuitem"
             >
               <div
@@ -186,6 +189,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
             <li
               className="SubMenuItem MenuItem"
               id="B_menuitem"
+              onClick={[Function]}
               role="menuitem"
             >
               <div

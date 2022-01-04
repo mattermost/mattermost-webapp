@@ -10,6 +10,13 @@ declare module 'dynamic-virtualized-list' {
         scrollHeight: number;
     }
 
+    export type OnItemsRenderedArgs = {
+        overscanStartIndex: number;
+        overscanStopIndex: number;
+        visibleStartIndex: number;
+        visibleStopIndex: number;
+    }
+
     interface DynamicSizeListProps {
         canLoadMorePosts: (id?: string) => void;
         children: ({data: any, itemId: any, style: any}) => JSX.Element;

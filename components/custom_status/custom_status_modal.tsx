@@ -33,7 +33,7 @@ import 'components/category_modal.scss';
 import './custom_status.scss';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
 };
 
 // This is the same limit set
@@ -295,7 +295,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     return (
         <GenericModal
             enforceFocus={false}
-            onHide={props.onHide}
+            onExited={props.onExited}
             modalHeaderText={
                 <FormattedMessage
                     id='custom_status.set_status'

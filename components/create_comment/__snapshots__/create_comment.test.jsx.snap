@@ -87,10 +87,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -218,10 +214,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -337,10 +329,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -468,10 +456,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -623,9 +607,5 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;

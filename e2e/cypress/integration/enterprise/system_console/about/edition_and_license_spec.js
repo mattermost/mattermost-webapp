@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @not_cloud @system_console
+// Group: @enterprise @not_cloud @system_console @license_removal
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {getAdminAccount} from '../../../../support/env';

@@ -27,7 +27,7 @@ import Pluggable from 'plugins/pluggable';
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-const BackstageController = makeAsyncComponent(LazyBackstageController);
+const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
 let wakeUpInterval: number;
 let lastTime = Date.now();
@@ -76,6 +76,7 @@ type Props = {
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
     selectedThreadId: string | null;
+    shouldShowAppBar: boolean;
 }
 
 type State = {
@@ -327,6 +328,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
+                            shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}

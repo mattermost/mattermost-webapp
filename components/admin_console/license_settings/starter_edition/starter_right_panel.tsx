@@ -13,6 +13,7 @@ const StarterRightPanel: React.FC = () => {
         'OpenID Connect',
         'Office365 suite integration',
         'Read-only announcement channels',
+        'And more...',
     ];
 
     const purchaseLicenseBtns = (
@@ -58,10 +59,6 @@ const StarterRightPanel: React.FC = () => {
                         </div>
                     );
                 })}
-                <FormattedMessage
-                    id='admin.license.andMore'
-                    defaultMessage='And more...'
-                />
             </div>
             <div className='purchase_buttons'>
                 {purchaseLicenseBtns}

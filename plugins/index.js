@@ -28,6 +28,11 @@ window.plugins = {};
 // During the beta, plugins manipulated the global window.plugins data structure directly. This
 // remains possible, but is officially deprecated and may be removed in a future release.
 function registerPlugin(id, plugin) {
+    const oldPlugin = window.plugins[id];
+    if (oldPlugin && oldPlugin.uninitialize) {
+        oldPlugin.uninitialize();
+    }
+
     window.plugins[id] = plugin;
 }
 window.registerPlugin = registerPlugin;

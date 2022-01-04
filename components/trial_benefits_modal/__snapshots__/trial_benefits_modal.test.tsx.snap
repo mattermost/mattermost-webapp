@@ -33,7 +33,7 @@ exports[`components/trial_benefits_modal/trial_benefits_modal should match snaps
   }
 >
   <TrialBenefitsModal
-    onClose={[MockFunction]}
+    onExited={[MockFunction]}
     trialJustStarted={false}
   />
 </ContextProvider>
@@ -72,6 +72,7 @@ exports[`components/trial_benefits_modal/trial_benefits_modal should match snaps
   }
 >
   <TrialBenefitsModal
+    onExited={[MockFunction]}
     trialJustStarted={true}
   />
 </ContextProvider>

@@ -17,7 +17,7 @@ describe('components/next_steps_view/steps/setup_preferences_step', () => {
         onSkip: () => {},
         onFinish: () => {},
         isLastStep: false,
-        finishButtonText: {
+        completeStepButtonText: {
             id: 'tID',
             defaultMessage: 'defaultMessage',
         },

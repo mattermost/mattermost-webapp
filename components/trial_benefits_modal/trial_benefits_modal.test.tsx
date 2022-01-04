@@ -36,7 +36,7 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
     };
 
     const props = {
-        onClose: jest.fn(),
+        onExited: jest.fn(),
         trialJustStarted: false,
     };
 
@@ -55,7 +55,10 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
     test('should match snapshot when trial has already started', () => {
         const wrapper = shallow(
             <Provider store={store}>
-                <TrialBenefitsModal trialJustStarted={true}/>
+                <TrialBenefitsModal
+                    {...props}
+                    trialJustStarted={true}
+                />
             </Provider>,
         );
         expect(wrapper).toMatchSnapshot();

@@ -90,6 +90,8 @@ export default class PostList extends React.PureComponent {
 
         lastViewedAt: PropTypes.string,
 
+        isMobileView: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -125,10 +127,8 @@ export default class PostList extends React.PureComponent {
         super(props);
 
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
-        const isMobile = Utils.isMobile();
         this.state = {
             isScrolling: false,
-            isMobile,
 
             /* Intentionally setting null so that toast can determine when the first time this state is defined */
             atBottom: null,
@@ -148,7 +148,7 @@ export default class PostList extends React.PureComponent {
 
         this.listRef = React.createRef();
         this.postListRef = React.createRef();
-        if (isMobile) {
+        if (this.props.isMobileView) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
 
@@ -197,6 +197,10 @@ export default class PostList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.isMobileView && !prevProps.isMobileView) {
+            this.scrollStopAction = new DelayedAction(this.handleScrollStop);
+        }
+
         if (!this.postListRef.current) {
             return;
         }
@@ -223,7 +227,7 @@ export default class PostList extends React.PureComponent {
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props, state) {
         const postListIds = props.postListIds;
         let newPostListIds;
 
@@ -243,9 +247,30 @@ export default class PostList extends React.PureComponent {
             }
         }
 
-        return {
+        const nextState = {
             postListIds: newPostListIds,
         };
+
+        if (props.isMobileView !== state.isMobileView) {
+            nextState.isMobileView = props.isMobileView;
+
+            const dynamicListStyle = state.dynamicListStyle;
+            if (state.postMenuOpened) {
+                if (!props.isMobileView && dynamicListStyle.willChange === 'unset') {
+                    nextState.dynamicListStyle = {
+                        ...dynamicListStyle,
+                        willChange: 'transform',
+                    };
+                } else if (props.isMobileView && dynamicListStyle.willChange === 'transform') {
+                    nextState.dynamicListStyle = {
+                        ...dynamicListStyle,
+                        willChange: 'unset',
+                    };
+                }
+            }
+        }
+
+        return nextState;
     }
 
     getNewMessagesSeparatorIndex = (postListIds) => {
@@ -256,31 +281,16 @@ export default class PostList extends React.PureComponent {
 
     handleWindowResize = () => {
         this.props.actions.checkAndSetMobileView();
-        const isMobile = Utils.isMobile();
-        if (isMobile !== this.state.isMobile) {
-            const dynamicListStyle = this.state.dynamicListStyle;
-            if (this.state.postMenuOpened) {
-                if (!isMobile && dynamicListStyle.willChange === 'unset') {
-                    dynamicListStyle.willChange = 'transform';
-                } else if (isMobile && dynamicListStyle.willChange === 'transform') {
-                    dynamicListStyle.willChange = 'unset';
-                }
-            }
-
-            this.setState({
-                isMobile,
-                dynamicListStyle,
-            });
-            this.scrollStopAction = new DelayedAction(this.handleScrollStop);
-        }
-
         this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
     togglePostMenu = (opened) => {
-        const dynamicListStyle = this.state.dynamicListStyle;
-        if (this.state.isMobile) {
-            dynamicListStyle.willChange = opened ? 'unset' : 'transform';
+        let dynamicListStyle = this.state.dynamicListStyle;
+        if (this.props.isMobileView) {
+            dynamicListStyle = {
+                ...dynamicListStyle,
+                opened: opened ? 'unset' : 'transform',
+            };
         }
 
         this.setState({
@@ -356,7 +366,7 @@ export default class PostList extends React.PureComponent {
             this.props.actions.loadNewerPosts();
         }
 
-        if (this.state.isMobile) {
+        if (this.props.isMobileView) {
             if (!this.state.isScrolling) {
                 this.setState({
                     isScrolling: true,
@@ -386,13 +396,13 @@ export default class PostList extends React.PureComponent {
             }
         }
 
-        if (this.state.isMobile && this.state.showSearchHint) {
+        if (this.props.isMobileView && this.state.showSearchHint) {
             this.setState({
                 showSearchHint: false,
             });
         }
 
-        if (!this.state.isMobile && !this.state.isSearchHintDismissed) {
+        if (!this.props.isMobileView && !this.state.isSearchHintDismissed) {
             this.setState({
                 showSearchHint: offsetFromBottom > this.showSearchHintThreshold,
             });
@@ -452,7 +462,7 @@ export default class PostList extends React.PureComponent {
     }
 
     updateFloatingTimestamp = (visibleTopItem) => {
-        if (!this.state.isMobile) {
+        if (!this.props.isMobileView) {
             return;
         }
 
@@ -561,11 +571,10 @@ export default class PostList extends React.PureComponent {
                 data-a11y-loop-navigation={false}
                 aria-label={Utils.localizeMessage('accessibility.sections.centerContent', 'message list main region')}
             >
-                {this.state.isMobile && (
+                {this.props.isMobileView && (
                     <React.Fragment>
                         <FloatingTimestamp
                             isScrolling={this.state.isScrolling}
-                            isMobile={true}
                             postId={this.state.topPostId}
                         />
                         <ScrollToBottomArrows

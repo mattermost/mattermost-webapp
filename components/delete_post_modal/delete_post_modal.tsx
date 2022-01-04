@@ -15,8 +15,8 @@ const urlFormatForDMGMPermalink = '/:teamName/messages/:username/:postid';
 const urlFormatForChannelPermalink = '/:teamName/channels/:channelname/:postid';
 
 type Props = {
-    channelName: string;
-    teamName: string;
+    channelName?: string;
+    teamName?: string;
     post: Post;
     commentCount: number;
     isRHS: boolean;

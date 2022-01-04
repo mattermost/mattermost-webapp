@@ -19,7 +19,7 @@ exports[`ProductNoticesModal Match snapshot for single notice 1`] = `
       title
     </span>
   }
-  onHide={[Function]}
+  onExited={[Function]}
   show={true}
 >
   <span
@@ -69,7 +69,7 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
       title
     </span>
   }
-  onHide={[Function]}
+  onExited={[Function]}
   show={true}
 >
   <span
@@ -140,7 +140,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
       for sysadmin
     </span>
   }
-  onHide={[Function]}
+  onExited={[Function]}
   show={true}
 >
   <span

@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import tinycolor from 'tinycolor2';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
@@ -23,7 +22,7 @@ import './avatars.scss';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 type Props = {
-    userIds: Array<$ID<UserProfile>>;
+    userIds: Array<UserProfile['id']>;
     totalUsers?: number;
     breakAt?: number;
     size?: ComponentProps<typeof Avatar>['size'];
@@ -54,7 +53,7 @@ function UserAvatar({
     overlayProps,
     ...props
 }: {
-    userId: $ID<UserProfile>;
+    userId: UserProfile['id'];
     overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
 } & ComponentProps<typeof Avatar>) {
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;

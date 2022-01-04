@@ -76,5 +76,33 @@ declare namespace Cypress {
          *   cy.uiGetRHSSearchContainer();
          */
         uiGetRHSSearchContainer(option: Record<string, boolean>): Chainable;
+
+        /**
+         * Get file filter button from RHS.
+         *
+         * @example
+         *   cy.uiGetFileFilterButton().click();
+         */
+        uiGetFileFilterButton(): Chainable;
+
+        /**
+         * Get file filter menu from RHS
+         *
+         * @param {bool} option.exist - Set to false to check whether file filter menu should not exist at RHS. Otherwise, true (default) to check visibility.
+         *
+         * @example
+         *   cy.uiGetFileFilterMenu();
+         */
+        uiGetFileFilterMenu(): Chainable;
+
+        /**
+         * Open file filter menu from RHS
+         * @param {string} item - such as `'Documents'`, `'Spreadsheets'`, `'Presentations'`, `'Code'`, `'Images'`, `'Audio'` and `'Videos'`.
+         * @return the file filter menu
+         *
+         * @example
+         *   cy.uiOpenFileFilterMenu();
+         */
+        uiOpenFileFilterMenu(): Chainable;
     }
 }

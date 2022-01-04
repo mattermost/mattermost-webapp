@@ -18,6 +18,8 @@ interface TeamEditionRightPanelProps {
 
     handleRestart: (e: any) => Promise<void>;
 
+    setClickNormalUpgradeBtn: () => void;
+
     openEEModal: any;
 
     restarting: boolean;
@@ -31,12 +33,21 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
     handleRestart,
     restarting,
     openEEModal,
+    setClickNormalUpgradeBtn,
 }: TeamEditionRightPanelProps) => {
     let upgradeButton = null;
+    const onHandleUpgrade = (e: any) => {
+        if (!handleUpgrade) {
+            return;
+        }
+        setClickNormalUpgradeBtn();
+        handleUpgrade(e);
+    };
     const upgradeAdvantages = [
-        'AD?LDAP Group Sync',
+        'AD/LDAP Group Sync',
         'High Availability',
         'Advanced compliance',
+        'And more...',
     ];
     if (upgradingPercentage !== 100) {
         upgradeButton = (
@@ -44,7 +55,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                 <p>
                     <button
                         type='button'
-                        onClick={handleUpgrade}
+                        onClick={onHandleUpgrade}
                         className='btn btn-primary'
                     >
                         <LoadingWrapper
@@ -80,7 +91,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                     </a>
                     <FormattedMarkdownMessage
                         id='admin.license.enterprise.upgrade.acceptTermsFinal'
-                        defaultMessage=' .Upgrading will download the binary and update your team edition.'
+                        defaultMessage='. Upgrading will download the binary and update your team edition.'
                     />
                 </p>
                 {upgradeError && (
@@ -165,10 +176,6 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                         </div>
                     );
                 })}
-                <FormattedMessage
-                    id='admin.license.andMore'
-                    defaultMessage='And more...'
-                />
             </div>
             {upgradeButton}
         </div>

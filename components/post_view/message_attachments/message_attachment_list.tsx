@@ -4,7 +4,6 @@ import React from 'react';
 
 import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
 import {PostImage} from 'mattermost-redux/types/posts';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {TextFormattingOptions} from 'utils/text_formatting';
 
@@ -30,7 +29,7 @@ type Props = {
     /**
      * Images object used for creating placeholders to prevent scroll popup
      */
-    imagesMetadata?: Dictionary<PostImage>;
+    imagesMetadata?: Record<string, PostImage>;
 }
 
 export default class MessageAttachmentList extends React.PureComponent<Props> {

@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Role} from 'mattermost-redux/types/roles';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 
@@ -26,8 +25,8 @@ export type Props = {
     totalCount: number;
     term: string;
     currentUserId: string;
-    usersToRemove: Dictionary<UserProfile>;
-    usersToAdd: Dictionary<UserProfile>;
+    usersToRemove: Record<string, UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
     actions: {
@@ -45,8 +44,8 @@ export type Props = {
 type State = {
     loading: boolean;
     page: number;
-    includeUsers: Dictionary<UserProfile>;
-    excludeUsers: Dictionary<UserProfile>;
+    includeUsers: Record<string, UserProfile>;
+    excludeUsers: Record<string, UserProfile>;
 }
 
 const USERS_PER_PAGE = 10;

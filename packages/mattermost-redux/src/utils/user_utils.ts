@@ -5,7 +5,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects, $ID, Dictionary} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 export function getFullName(user: UserProfile): string {
     if (user.first_name && user.last_name) {
         return user.first_name + ' ' + user.last_name;
@@ -92,14 +92,14 @@ export function hasPostAllPublicRole(roles: string): boolean {
 }
 
 export function profileListToMap(profileList: UserProfile[]): IDMappedObjects<UserProfile> {
-    const profiles: Dictionary<UserProfile> = {};
+    const profiles: Record<string, UserProfile> = {};
     for (let i = 0; i < profileList.length; i++) {
         profiles[profileList[i].id] = profileList[i];
     }
     return profiles;
 }
 
-export function removeUserFromList(userId: $ID<UserProfile>, list: UserProfile[]): UserProfile[] {
+export function removeUserFromList(userId: UserProfile['id'], list: UserProfile[]): UserProfile[] {
     for (let i = list.length - 1; i >= 0; i--) {
         if (list[i].id === userId) {
             list.splice(i, 1);

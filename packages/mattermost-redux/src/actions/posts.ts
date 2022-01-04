@@ -18,7 +18,6 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -938,7 +937,7 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         return Promise.resolve();
     }
 
-    const postsDictionary: Dictionary<Post> = {};
+    const postsDictionary: Record<string, Post> = {};
     for (let i = 0; i < postsArray.length; i++) {
         postsDictionary[postsArray[i].id] = postsArray[i];
     }
@@ -998,8 +997,29 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     return Promise.all(promises);
 }
 
+export function getPostsByIds(ids: string[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let posts;
+
+        try {
+            posts = await Client4.getPostsByIds(ids);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: PostTypes.RECEIVED_POSTS,
+            data: {posts},
+        });
+
+        return {data: {posts}};
+    };
+}
+
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
-    let usersByUsername: Dictionary<UserProfile>; // Populate this lazily since it's relatively expensive
+    let usersByUsername: Record<string, UserProfile>; // Populate this lazily since it's relatively expensive
 
     const usernamesToLoad = new Set<string>();
 

@@ -10,13 +10,19 @@ type Props = {
     onText?: React.ReactNode;
     offText?: React.ReactNode;
     id?: string;
+    overrideTestId?: boolean;
 }
 
 const Toggle: React.FC<Props> = (props: Props) => {
-    const {onToggle, toggled, disabled, onText, offText, id} = props;
+    const {onToggle, toggled, disabled, onText, offText, id, overrideTestId} = props;
+    let dataTestId = `${id}-button`;
+    if (overrideTestId) {
+        dataTestId = id || '';
+    }
     return (
         <button
-            data-testid={`${id}-button`}
+            data-testid={dataTestId}
+            id={id}
             type='button'
             onClick={onToggle}
             className={`btn btn-lg btn-toggle ${toggled ? 'active' : ''} ${disabled ? 'disabled' : ''}`}

@@ -36,10 +36,16 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
 }: StarterEditionProps) => {
     return (
         <div className='StarterLeftPanel'>
+            <div className='pre-title'>
+                <FormattedMessage
+                    id='admin.license.enterpriseEdition'
+                    defaultMessage='Enterprise Edition'
+                />
+            </div>
             <div className='title'>
                 <FormattedMessage
                     id='admin.license.starterEdition.title'
-                    defaultMessage='Starter Edition'
+                    defaultMessage='Starter'
                 />
             </div>
             <div className='currentPlanLegend'>
@@ -48,7 +54,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
             <div className='subtitle'>
                 <FormattedMessage
                     id='admin.license.starterEdition.subtitle'
-                    defaultMessage='Purchase Professional or Enterprise to unlock enterprise fatures.'
+                    defaultMessage='Purchase Professional or Enterprise to unlock enterprise features.'
                 />
             </div>
             <hr/>
@@ -113,7 +119,7 @@ const renderStarterContent = (
 
     let btnClass = '';
     if (fileSelected) {
-        btnClass = 'btn-primary';
+        btnClass = 'light-blue-btn';
     }
 
     let fileName;

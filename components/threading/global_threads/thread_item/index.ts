@@ -26,10 +26,10 @@ function makeMapStateToProps() {
         const post = getPost(state, threadId);
 
         return {
+            post,
             channel: getChannel(state, {id: post.channel_id}),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
             displayName: getDisplayName(state, post.user_id, true),
-            post,
             postsInThread: getPostsForThread(state, post.id),
             thread: getThread(state, threadId),
         };

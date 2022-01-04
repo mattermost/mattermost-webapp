@@ -6,14 +6,6 @@ import {shallow} from 'enzyme';
 
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
-
 describe('components/KeyboardShortcutsModal', () => {
     test('should match snapshot modal', () => {
         const wrapper = shallow(
