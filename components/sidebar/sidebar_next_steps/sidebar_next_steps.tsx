@@ -41,7 +41,6 @@ type Props = {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
-        setShowNextStepsView: (show: boolean) => void;
     };
 };
 
@@ -78,7 +77,6 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
 
     showNextSteps = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
-        // this.props.actions.setShowNextStepsView(true);
         browserHistory.push(`${this.props.teamUrl}/tips`);
     }
 
@@ -93,8 +91,6 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             name: RecommendedNextSteps.HIDE,
             value: 'true',
         }]);
-
-        // this.props.actions.setShowNextStepsView(false);
 
         this.onCloseModal();
 

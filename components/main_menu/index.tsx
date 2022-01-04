@@ -34,7 +34,7 @@ import {
 
 import {GlobalState} from 'types/store';
 
-import MainMenu from './main_menu';
+import MainMenu, {MainMenuProps} from './main_menu';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -99,4 +99,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainMenu));
+export default withRouter<MainMenuProps, any>(connect(mapStateToProps, mapDispatchToProps)(MainMenu));
