@@ -35,7 +35,7 @@ import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 export type Props = {
-    mobile: boolean;
+    mobile: boole;
     id?: string;
     teamId?: string;
     teamName?: string;
