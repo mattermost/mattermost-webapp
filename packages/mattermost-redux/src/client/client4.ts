@@ -123,6 +123,7 @@ import {TelemetryHandler} from './telemetry';
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';
+const HEADER_CONTENT_TYPE = 'Content-Type';
 const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
 const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
@@ -470,7 +471,7 @@ export default class Client4 {
         }
 
         if (options.body) {
-            headers['Content-Type'] = 'application/json';
+            headers[HEADER_CONTENT_TYPE] = 'application/json';
         }
 
         if (newOptions.headers) {
