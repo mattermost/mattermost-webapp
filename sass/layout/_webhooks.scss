@@ -1,11 +1,10 @@
 @charset "utf-8";
 
 .webhooks__container {
-    @include border-radius(3px);
-
     padding: 0 13px 15px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
     margin-top: 10px;
+    border-radius: 3px;
     background: rgba(var(--center-channel-color-rgb), 0.05);
 }
 
@@ -182,8 +181,6 @@
             }
 
             .btn-close {
-                @include opacity(0.4);
-
                 position: absolute;
                 z-index: 5;
                 left: -7px;
@@ -196,6 +193,7 @@
                 font-size: 21px;
                 font-weight: 500;
                 line-height: 20px;
+                opacity: 0.4;
                 outline: none;
                 text-align: center;
                 text-decoration: none;
@@ -208,7 +206,7 @@
                 }
 
                 &:hover {
-                    @include opacity(0.9);
+                    opacity: 0.9;
                 }
             }
 
@@ -280,7 +278,7 @@
         }
 
         .attachment__author-name {
-            @include opacity(0.6);
+            opacity: 0.6;
         }
 
         .attachment__title {
@@ -308,11 +306,10 @@
         }
 
         .attachment__author-icon {
-            @include border-radius(50px);
-
             width: 14px;
             height: 14px;
             margin-right: 5px;
+            border-radius: 50px;
         }
 
         .attachment__thumb-container {
@@ -369,8 +366,6 @@
             }
 
             button {
-                @include border-radius(3px);
-
                 height: auto;
                 padding: 6px 12px;
                 border-width: 1px;
@@ -378,6 +373,7 @@
                 border-color: rgba(var(--center-channel-color-rgb), 0.16);
                 margin: 8px 8px 0 0;
                 background: var(--center-channel-bg);
+                border-radius: 3px;
                 font-size: 13px;
                 font-weight: 700;
                 outline: 0;

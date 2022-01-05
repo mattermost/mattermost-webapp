@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
@@ -27,7 +25,7 @@ type Props = {
     serverVersion: string;
     config: Partial<ClientConfig>;
     license: ClientLicense;
-    analytics?: Dictionary<number | AnalyticsRow[]>;
+    analytics?: Record<string, number | AnalyticsRow[]>;
     actions: {
         savePreferences(userId: string, preferences: PreferenceType[]): void;
         dismissNotice(type: string): void;

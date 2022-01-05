@@ -7,12 +7,14 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {getToastStatus} from 'selectors/views/channel';
+import {getThreadToastStatus} from 'selectors/views/threads';
 import {GlobalState} from 'types/store';
 
 import FloatingTimestamp from './floating_timestamp';
 
 type OwnProps = {
     postId: string;
+    isRhsPost: boolean;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
@@ -25,7 +27,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const post = getPost(state, postId);
 
-    const toastPresent = getToastStatus(state);
+    const toastPresent = ownProps.isRhsPost ? getThreadToastStatus(state) : getToastStatus(state);
     return {
         createAt: post ? post.create_at : 0,
         toastPresent,

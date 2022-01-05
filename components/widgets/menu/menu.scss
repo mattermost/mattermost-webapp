@@ -1,17 +1,13 @@
-@import 'compass/utilities';
-@import 'compass/css3';
-
 .Menu {
     z-index: 10000;
 
     .dropdown-menu {
-        @include border-radius(4px);
-
         display: block;
         min-width: 220px;
         max-width: 270px;
         max-height: 80vh;
         padding: 8px 0;
+        border-radius: 4px;
 
         ul {
             padding: 8px 0;

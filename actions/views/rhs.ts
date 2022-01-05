@@ -20,7 +20,7 @@ import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'matte
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
-import {DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -30,6 +30,7 @@ import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
+import {getPostsByIds} from 'mattermost-redux/actions/posts';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -284,7 +285,7 @@ export function showPinnedPosts(channelId?: string) {
 }
 
 export function showChannelFiles(channelId: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult|[ActionResult, ActionResult]>, getState: GetStateFunc) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
 
@@ -294,10 +295,25 @@ export function showChannelFiles(channelId: string) {
             state: RHSStates.CHANNEL_FILES,
         });
 
-        const results: any = await dispatch(performSearch('channel:' + channelId));
+        const results = await dispatch(performSearch('channel:' + channelId));
+        const fileData = results instanceof Array ? results[0].data : null;
+        const missingPostIds: string[] = [];
+
+        if (fileData) {
+            Object.values(fileData.file_infos).forEach((file: any) => {
+                const postId = file?.post_id;
+
+                if (postId && !getPost(state, postId)) {
+                    missingPostIds.push(postId);
+                }
+            });
+        }
+        if (missingPostIds.length > 0) {
+            await dispatch(getPostsByIds(missingPostIds));
+        }
 
         let data: any;
-        if (results && results.length === 2 && 'data' in results[1]) {
+        if (results && results instanceof Array && results.length === 2 && 'data' in results[1]) {
             data = results[1].data;
         }
 

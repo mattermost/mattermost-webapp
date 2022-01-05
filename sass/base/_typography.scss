@@ -59,7 +59,7 @@ label {
 }
 
 .light {
-    @include opacity(0.56);
+    opacity: 0.56;
 }
 
 .word-break--all {

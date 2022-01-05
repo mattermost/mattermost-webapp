@@ -82,8 +82,8 @@ describe('Authentication', () => {
             cy.apiLogin(testUserAlreadyInTeam);
             cy.visit('/');
 
-            // # Open Account Settings
-            cy.uiOpenAccountSettingsModal();
+            // # Open Profile
+            cy.uiOpenProfileModal();
 
             // # Click "Edit" to the right of "Email"
             cy.get('#emailEdit').should('be.visible').click();

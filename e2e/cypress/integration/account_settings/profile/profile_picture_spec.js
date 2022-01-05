@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-describe('Account Settings > Profile > Profile Picture', () => {
+describe('Profile > Profile Settings > Profile Picture', () => {
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             cy.visit(offTopicUrl);
@@ -28,8 +28,8 @@ describe('Account Settings > Profile > Profile Picture', () => {
             should('have.attr', 'src').
             and('not.include', customImageMatch);
 
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal();
 
         // # Click "Edit" to the right of "Profile Picture"
         cy.get('#pictureEdit').should('be.visible').click();
@@ -47,8 +47,8 @@ describe('Account Settings > Profile > Profile Picture', () => {
             should('have.attr', 'src').
             and('include', customImageMatch);
 
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal();
 
         // # Click "Edit" to the right of "Profile Picture"
         cy.get('#pictureEdit').should('be.visible').click();
@@ -57,7 +57,7 @@ describe('Account Settings > Profile > Profile Picture', () => {
         cy.findByTestId('removeSettingPicture').click();
         cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
-        // * Check that we are back in the "General" section of the Account Settings
+        // * Check that we are back in the "General" section of the Profile
         cy.get('#pictureEdit').should('be.visible');
 
         // # Close modal

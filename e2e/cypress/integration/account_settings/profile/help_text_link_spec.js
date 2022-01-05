@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 describe('Account Settings', () => {
@@ -18,8 +19,8 @@ describe('Account Settings', () => {
     });
 
     it('MM-T2045 Full Name - Link in help text', () => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal();
 
         // * Ensure that the Profile tab is loaded
         cy.get('#generalSettingsTitle').should('be.visible').should('contain', 'Profile');
@@ -32,8 +33,8 @@ describe('Account Settings', () => {
             cy.findByText('Notifications').click();
         });
 
-        // * Verify that the modal switched to "Settings" modal
-        cy.findByRole('dialog', {name: 'Settings'}).should('be.visible');
+        // * Verify that the modal switched to "Profile" modal
+        cy.findByRole('dialog', {name: 'Profile'}).should('be.visible');
 
         // * Verify that the view switches to notifications tab
         cy.get('#notificationSettingsTitle').should('be.visible').should('contain', 'Notifications');

@@ -46,7 +46,7 @@ describe('Message Draft and Switch Channels', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // * Verify that the switch model is shown
-        cy.findAllByRole('dialog').first().findByText('Switch Channels').should('be.visible');
+        cy.findAllByRole('dialog').first().findByText('Find Channels').should('be.visible');
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.findByRole('textbox', {name: 'quick switch input'}).type(displayName.substring(0, 3));

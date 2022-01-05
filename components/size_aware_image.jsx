@@ -111,9 +111,13 @@ export default class SizeAwareImage extends React.PureComponent {
         }
     };
 
+    handleImageClick = (e) => {
+        this.props.onClick(e, this.props.src);
+    }
+
     onEnterKeyDown = (e) => {
         if (e.key === 'Enter') {
-            this.props.onClick(e);
+            this.handleImageClick(e);
         }
     }
 
@@ -142,6 +146,7 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'onImageLoadFail');
         Reflect.deleteProperty(props, 'dimensions');
         Reflect.deleteProperty(props, 'handleSmallImageContainer');
+        Reflect.deleteProperty(props, 'onClick');
 
         let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
         if (fileInfo) {
@@ -153,6 +158,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 {...props}
                 aria-label={ariaLabelImage}
                 tabIndex='0'
+                onClick={this.handleImageClick}
                 onKeyDown={this.onEnterKeyDown}
                 className={
                     this.props.className +
@@ -172,7 +178,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
             return (
                 <div
-                    onClick={this.props.onClick}
+                    onClick={this.handleImageClick}
                     className={className}
                     style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
                         width: this.state.imageWidth + 2, // 2px to account for the border

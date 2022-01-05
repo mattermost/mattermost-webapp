@@ -24,13 +24,13 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -145,13 +145,13 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -289,13 +289,13 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -425,13 +425,13 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -551,13 +551,13 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"

@@ -10,7 +10,7 @@ import './generic_modal.scss';
 
 type Props = {
     className?: string;
-    onHide: () => void;
+    onExited: () => void;
     modalHeaderText?: React.ReactNode;
     show?: boolean;
     handleCancel?: () => void;
@@ -48,7 +48,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
     }
 
     onHide = () => {
-        this.setState({show: false}, this.props.onHide);
+        this.setState({show: false});
     }
 
     handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -126,7 +126,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 dialogClassName={classNames('a11y__modal GenericModal', this.props.className)}
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.onHide}
+                onExited={this.props.onExited}
                 enforceFocus={this.props.enforceFocus}
                 restoreFocus={true}
                 role='dialog'

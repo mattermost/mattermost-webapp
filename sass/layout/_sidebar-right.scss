@@ -1,8 +1,6 @@
 @charset "utf-8";
 
 .sidebar--right {
-    @include translateX(100%);
-
     position: absolute;
     z-index: 11;
     right: 0;
@@ -10,6 +8,7 @@
     height: 100%;
     padding: 0;
     color: var(--center-channel-color);
+    transform: translateX(100%);
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -20,9 +19,8 @@
     }
 
     &.sidebar--right--expanded {
-        @include box-shadow(0 8px 24px alpha-color($black, 0.24));
-
         z-index: 13;
+        box-shadow: 0 8px 24px alpha-color($black, 0.24);
 
         .sidebar-right__body {
             overflow: hidden;
@@ -73,15 +71,12 @@
     }
 
     .sidebar--right__content {
-        @include display-flex;
-        @include flex-direction(column);
-
+        display: flex;
         height: 100%;
+        flex-direction: column;
     }
 
     .sidebar--right__back {
-        @include single-transition(all, 0.2s, ease-in);
-
         display: flex;
         width: 2.4rem;
         height: 2.4rem;
@@ -92,6 +87,7 @@
         color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 12px;
         text-decoration: none;
+        transition: all 0.2s ease-in;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -105,11 +101,10 @@
     }
 
     .sidebar-right__body {
-        @include display-flex;
-        @include flex(1 1 auto);
-        @include flex-direction(column);
-
+        display: flex;
         height: calc(100% - 56px);
+        flex: 1 1 auto;
+        flex-direction: column;
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         background: v(center-channel-bg);
 
@@ -135,13 +130,12 @@
     }
 
     .sidebar__overlay {
-        @include opacity(0.1);
-
         position: absolute;
         z-index: 5;
         width: 100%;
         height: 100%;
         background-color: $yellow;
+        opacity: 0.1;
         pointer-events: none;
     }
 
@@ -213,10 +207,9 @@
     }
 
     .sidebar--right__header {
-        @include flex(0 0 56px);
-
         display: flex;
         overflow: hidden;
+        flex: 0 0 56px;
         align-items: center;
         justify-content: space-between;
         padding: 0 16px 0 0;
@@ -237,8 +230,7 @@
     }
 
     .sidebar--right__loading {
-        @include opacity(0.7);
-
+        opacity: 0.7;
         text-align: center;
 
         .fa {
@@ -247,12 +239,11 @@
     }
 
     .sidebar--right__subheader {
-        @include single-transition(width, 0.25s, ease-in);
-
         width: 100%;
         padding-bottom: 10vh;
         margin: auto;
         font-size: 1em;
+        transition: width 0.25s ease-in;
 
         &.search__hints {
             margin: 0;
@@ -264,10 +255,9 @@
         }
 
         ul {
-            @include opacity(0.7);
-
             padding: 0 0 0 30px;
             margin: 0;
+            opacity: 0.7;
         }
 
         li {
@@ -276,12 +266,11 @@
         }
 
         .usage__icon {
-            @include opacity(0.9);
-
             position: relative;
             top: 3px;
             margin: 0 3px;
             fill: var(--center-channel-color);
+            opacity: 0.9;
         }
 
         &.sidebar-expanded {
@@ -303,9 +292,6 @@
 }
 
 .sidebar-collapse {
-    @include single-transition(all, 0.2s, linear);
-    @include translateX(0);
-
     z-index: 5;
     display: flex;
     width: 45px;
@@ -314,6 +300,8 @@
     justify-content: center;
     cursor: pointer;
     text-align: center;
+    transform: translateX(0);
+    transition: all 0.2s linear;
 
     .fa {
         position: relative;

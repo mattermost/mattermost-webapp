@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {IntegrationTypes, UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Command, IncomingWebhook, OutgoingWebhook, OAuthApp} from 'mattermost-redux/types/integrations';
-import {Dictionary, IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 function incomingHooks(state: IDMappedObjects<IncomingWebhook> = {}, action: GenericAction) {
     switch (action.type) {
@@ -143,7 +143,7 @@ function commands(state: IDMappedObjects<Command> = {}, action: GenericAction) {
 function systemCommands(state: IDMappedObjects<Command> = {}, action: GenericAction) {
     switch (action.type) {
     case IntegrationTypes.RECEIVED_COMMANDS: {
-        const nextCommands: Dictionary<Command> = {};
+        const nextCommands: Record<string, Command> = {};
         for (const command of action.data) {
             if (!command.id) {
                 nextCommands[command.trigger] = command;

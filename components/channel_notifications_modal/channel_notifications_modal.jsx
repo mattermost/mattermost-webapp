@@ -18,9 +18,9 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     static propTypes = {
 
         /**
-         * Function that is called when modal is hidden
+         * Function that is called when the modal has been hidden and should be removed
          */
-        onHide: PropTypes.func.isRequired,
+        onExited: PropTypes.func.isRequired,
 
         /**
          * Object with info about current channel
@@ -110,7 +110,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
     handleExit = () => {
         this.updateSection(NotificationSections.NONE);
-        this.props.onHide();
+        this.props.onExited();
     }
 
     updateSection = (section = NotificationSections.NONE) => {

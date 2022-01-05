@@ -122,7 +122,7 @@ describe('Authentication', () => {
         });
     });
 
-    it('MM-T1777 - Multi-factor Authentication option hidden in Account Settings when disabled', () => {
+    it('MM-T1777 - Multi-factor Authentication option hidden in Profile when disabled', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: false,
@@ -131,14 +131,14 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal('Security');
+        // # Go to Profile
+        cy.uiOpenProfileModal('Security');
 
         // * Assert that Multi-factor Authentication text does not exist
         cy.findByText('Multi-factor Authentication').should('not.exist');
     });
 
-    it('MM-T1779 - Multi-factor Authentication option appears in Account Settings when enabled', () => {
+    it('MM-T1779 - Multi-factor Authentication option appears in Profile when enabled', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
@@ -147,8 +147,8 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal('Security');
+        // # Go to Profile
+        cy.uiOpenProfileModal('Security');
 
         // * Assert that Multi-factor Authentication text does exist
         cy.findByText('Multi-factor Authentication').should('be.visible');

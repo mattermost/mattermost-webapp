@@ -27,7 +27,6 @@ import {getRhsState} from 'selectors/rhs';
 
 import {
     showOnboarding,
-    showNextStepsTips,
     showNextSteps,
 } from 'components/next_steps_view/steps';
 
@@ -80,7 +79,6 @@ function mapStateToProps(state: GlobalState) {
         isLicensedForLDAPGroups:
             state.entities.general.license.LDAPGroups === 'true',
         showGettingStarted: showOnboarding(state),
-        showNextStepsTips: showNextStepsTips(state),
         showNextSteps: showNextSteps(state),
     };
 }

@@ -4,9 +4,10 @@
 import React, {ReactNode, MouseEventHandler} from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
+import {OverlayTriggerProps} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 import Constants from 'utils/constants';
@@ -22,10 +23,15 @@ export type Props = {
     showActions?: boolean; //used for showing jump actions
     width: number;
     extraClasses?: string;
+    overlayPlacement?: OverlayTriggerProps['placement'];
 }
 
 export default class Toast extends React.PureComponent<Props> {
     private mounted!: boolean;
+
+    static defaultProps = {
+        overlayPlacement: 'bottom',
+    }
 
     componentDidMount() {
         this.mounted = true;
@@ -43,7 +49,7 @@ export default class Toast extends React.PureComponent<Props> {
 
     render() {
         let toastClass = 'toast';
-        const {show, extraClasses, showActions, width} = this.props;
+        const {show, extraClasses, showActions, width, overlayPlacement} = this.props;
         if (extraClasses) {
             toastClass += ` ${extraClasses}`;
         }
@@ -97,7 +103,7 @@ export default class Toast extends React.PureComponent<Props> {
                 </div>
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
+                    placement={overlayPlacement}
                     overlay={closeTooltip}
                 >
                     <div

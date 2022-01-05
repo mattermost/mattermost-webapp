@@ -120,6 +120,9 @@ export const Preferences = {
 
     // Category for actions/interactions that will happen just once
     UNIQUE: 'unique',
+
+    // A/B test preference value
+    AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -130,6 +133,8 @@ export const Touched = {
 // Category for actions/interactions that will happen just once
 export const Unique = {
     HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
+    REQUEST_TRIAL_AFTER_SERVER_UPGRADE: 'request_trial_after_upgrade',
+    CLICKED_UPGRADE_AND_TRIAL_BTN: 'clicked_upgradeandtrial_btn',
 };
 
 export const TrialPeriodDays = {
@@ -164,15 +169,7 @@ export const ActionTypes = keyMirror({
     CANCEL_NAVIGATION: null,
     CONFIRM_NAVIGATION: null,
 
-    TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
-    TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
-    TOGGLE_GET_PUBLIC_LINK_MODAL: null,
-    TOGGLE_QUICK_SWITCH_MODAL: null,
-    TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
-    TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
-    TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
@@ -247,6 +244,7 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+    UPDATE_THREAD_TOAST_STATUS: null,
 
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
@@ -266,6 +264,8 @@ export const ActionTypes = keyMirror({
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
+
+    FIRST_CHANNEL_NAME: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -296,6 +296,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_ROLE: 'add_user_to_role',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
@@ -327,6 +328,7 @@ export const ModalIdentifiers = {
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
     TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
@@ -339,7 +341,15 @@ export const ModalIdentifiers = {
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
+    POST_DELETED_MODAL: 'post_deleted_modal',
+    FILE_PREVIEW_MODAL: 'file_preview_modal',
+    IMPORT_THEME_MODAL: 'import_theme_modal',
+    LEAVE_PRIVATE_CHANNEL_MODAL: 'leave_private_channel_modal',
+    GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
+    KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
+    USERS_TO_BE_REMOVED: 'users_to_be_removed',
 };
 
 export const UserStatuses = {
@@ -463,6 +473,7 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
+    ADD_FIRST_CHANNEL: -1,
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
@@ -484,6 +495,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     DOWNLOAD_APPS: 'download_apps',
+    CREATE_FIRST_CHANNEL: 'create_first_channel',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -867,6 +879,20 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
     [Permissions.MANAGE_SECURE_CONNECTIONS]: 'system_scope',
+    [Permissions.PLAYBOOK_PUBLIC_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC]: 'playbook_scope',
+    [Permissions.RUN_CREATE]: 'playbook_scope',
+    [Permissions.RUN_MANAGE_MEMBERS]: 'run_scope',
+    [Permissions.RUN_MANAGE_PROPERTIES]: 'run_scope',
+    [Permissions.RUN_VIEW]: 'run_scope',
 };
 
 export const DefaultRolePermissions = {

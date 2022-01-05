@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings > Security > View Access History', () => {
+describe('Profile > Security > View Access History', () => {
     before(() => {
         // # Login as new user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
@@ -19,8 +19,8 @@ describe('Account Settings > Security > View Access History', () => {
     });
 
     beforeEach(() => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal('Security');
+        // # Go to Profile
+        cy.uiOpenProfileModal('Security');
 
         // * Check that the Security tab is loaded
         cy.get('#securityButton').should('be.visible');

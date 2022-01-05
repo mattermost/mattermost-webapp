@@ -30,7 +30,7 @@ type Props = {
     excludeUsers: { [userId: string]: UserProfile };
     includeUsers: { [userId: string]: UserProfile };
     onAddCallback: (users: UserProfile[]) => void;
-    onHide?: () => void;
+    onExited?: () => void;
 
     actions: {
         getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
@@ -100,8 +100,8 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
     }
 
     private handleExit = () => {
-        if (this.props.onHide) {
-            this.props.onHide();
+        if (this.props.onExited) {
+            this.props.onExited();
         }
     }
 

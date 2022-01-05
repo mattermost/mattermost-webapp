@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import type {Post} from './posts';
 import type {Team} from './teams';
 import type {Channel} from './channels';
 import type {UserProfile} from './users';
-import type {$ID, IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
+import type {IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 
 export enum UserThreadType {
     Synthetic = 'S' // derived from post
@@ -15,7 +16,7 @@ export type UserThread = {
     reply_count: number;
     last_reply_at: number;
     last_viewed_at: number;
-    participants: Array<{id: $ID<UserProfile>} | UserProfile>;
+    participants: Array<{id: UserProfile['id']} | UserProfile>;
     unread_replies: number;
     unread_mentions: number;
     is_following: boolean;
@@ -27,8 +28,8 @@ export type UserThread = {
      * use normalized post store/selectors as those are kept up-to-date in the store
      */
     post: {
-        channel_id: $ID<Channel>;
-        user_id: $ID<UserProfile>;
+        channel_id: Channel['id'];
+        user_id: UserProfile['id'];
     };
 };
 

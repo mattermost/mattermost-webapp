@@ -1,46 +1,52 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo} from 'react';
-
-import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
 
-import Avatar from '../../widgets/users/avatar/avatar';
-import {imageURLForUser} from '../../../utils/utils';
-import {GlobalState} from '../../../types/store';
+import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {
     getUser as selectUser,
     makeGetDisplayName,
 } from 'mattermost-redux/selectors/entities/users';
+import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {getChannel as selectChannel} from 'mattermost-redux/selectors/entities/channels';
-import Post from '../../post_view/post/post';
+
+import Avatar from 'components/widgets/users/avatar/avatar';
+
+import {GlobalState} from 'types/store';
+
+import {imageURLForUser} from 'utils/utils';
 
 import './file_preview_modal_info.scss';
 
 interface Props {
     showFileName: boolean;
     filename: string;
-    post: React.ComponentProps<typeof Post>;
+    post?: Post;
 }
 
 const displayNameGetter = makeGetDisplayName();
 
 const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
-    const user = useSelector((state: GlobalState) => selectUser(state, props.post.user_id)) as UserProfile | undefined;
-    const channel = useSelector((state: GlobalState) => selectChannel(state, props.post.channel_id));
-    const name = useSelector((state: GlobalState) => displayNameGetter(state, props.post.user_id, true));
+    const user = useSelector((state: GlobalState) => selectUser(state, props.post?.user_id ?? '')) as UserProfile | undefined;
+    const channel = useSelector((state: GlobalState) => {
+        const getChannel = makeGetChannel();
+        return getChannel(state, {id: props.post?.channel_id ?? ''});
+    });
+    const name = useSelector((state: GlobalState) => displayNameGetter(state, props.post?.user_id ?? '', true));
 
     let info;
-    const channelName = (
+    const channelName = channel ? (
         <FormattedMessage
             id='file_preview_modal_info.shared_in'
             defaultMessage='Shared in ~{name}'
             values={{
-                name: channel.name,
+                name: channel.display_name || channel.name,
             }}
         />
-    );
+    ) : null;
     if (props.showFileName) {
         info = (
             <>
@@ -65,11 +71,15 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
 
     return (
         <div className='file-preview-modal__info'>
-            <Avatar
-                size='lg'
-                url={imageURLForUser(props.post.user_id, user?.last_picture_update)}
-                className='file-preview-modal__avatar'
-            />
+            {
+                (props.post && Object.keys(props.post).length > 0) &&
+                <Avatar
+                    size='lg'
+                    url={imageURLForUser(props.post.user_id, user?.last_picture_update)}
+                    className='file-preview-modal__avatar'
+                />
+            }
+
             <div className='file-preview-modal__info-details'>
                 {info}
             </div>

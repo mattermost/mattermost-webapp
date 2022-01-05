@@ -9,14 +9,6 @@ import {TestHelper} from 'utils/test_helper';
 
 import ProductMenuList, {Props as ProductMenuListProps} from './product_menu_list';
 
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
-
 describe('components/global/product_switcher_menu', () => {
     // Neccessary for components enhanced by HOCs due to issue with enzyme.
     // See https://github.com/enzymejs/enzyme/issues/539

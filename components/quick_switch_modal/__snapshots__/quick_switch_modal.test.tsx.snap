@@ -45,7 +45,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
     >
       <h1>
         <MemoizedFormattedMessage
-          defaultMessage="Switch Channels"
+          defaultMessage="Find Channels"
           id="quick_switch_modal.switchChannels"
         />
       </h1>

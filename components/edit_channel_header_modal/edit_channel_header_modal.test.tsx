@@ -45,10 +45,10 @@ describe('components/EditChannelHeaderModal', () => {
         ctrlSend: false,
         show: false,
         shouldShowPreview: false,
+        onExited: jest.fn(),
         actions: {
-            closeModal: jest.fn(),
             setShowPreview: jest.fn(),
-            patchChannel: jest.fn().mockResolvedValueOnce({error: serverError}).mockResolvedValue({}),
+            patchChannel: jest.fn().mockResolvedValue({}),
         },
     };
 
@@ -102,30 +102,49 @@ describe('components/EditChannelHeaderModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match state and called actions on handleSave', async () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-        );
+    describe('handleSave', () => {
+        test('on no change, should hide the modal without trying to patch a channel', async () => {
+            const wrapper = shallow<EditChannelHeaderModal>(
+                <EditChannelHeaderModal {...baseProps}/>,
+            );
 
-        const instance = wrapper.instance() as EditChannelHeaderModalClass;
+            await wrapper.instance().handleSave();
 
-        // on no change, should hide the modal without trying to patch a channel
-        await instance.handleSave();
-        expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.patchChannel).toHaveBeenCalledTimes(0);
+            expect(wrapper.state('show')).toBe(false);
 
-        // on error, should not close modal and set server error state
-        wrapper.setState({header: 'New header'});
+            expect(baseProps.actions.patchChannel).not.toHaveBeenCalled();
+        });
 
-        await instance.handleSave();
-        expect(baseProps.actions.patchChannel).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(1);
-        expect(wrapper.state('serverError')).toBe(serverError);
+        test('on error, should not close modal and set server error state', async () => {
+            baseProps.actions.patchChannel.mockResolvedValueOnce({error: serverError});
 
-        // on success, should close modal
-        await instance.handleSave();
-        expect(baseProps.actions.patchChannel).toHaveBeenCalledTimes(2);
-        expect(baseProps.actions.closeModal).toHaveBeenCalledTimes(2);
+            const wrapper = shallow<EditChannelHeaderModal>(
+                <EditChannelHeaderModal {...baseProps}/>,
+            );
+
+            wrapper.setState({header: 'New header'});
+
+            await wrapper.instance().handleSave();
+
+            expect(wrapper.state('show')).toBe(true);
+            expect(wrapper.state('serverError')).toBe(serverError);
+
+            expect(baseProps.actions.patchChannel).toHaveBeenCalled();
+        });
+
+        test('on success, should close modal', async () => {
+            const wrapper = shallow<EditChannelHeaderModal>(
+                <EditChannelHeaderModal {...baseProps}/>,
+            );
+
+            wrapper.setState({header: 'New header'});
+
+            await wrapper.instance().handleSave();
+
+            expect(wrapper.state('show')).toBe(false);
+
+            expect(baseProps.actions.patchChannel).toHaveBeenCalled();
+        });
     });
 
     test('change header', () => {

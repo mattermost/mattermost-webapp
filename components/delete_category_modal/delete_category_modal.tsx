@@ -13,7 +13,7 @@ import GenericModal from 'components/generic_modal';
 
 type Props = {
     category: ChannelCategory;
-    onHide: () => void;
+    onExited: () => void;
     actions: {
         deleteCategory: (categoryId: string) => void;
     };
@@ -39,7 +39,7 @@ export default class DeleteCategoryModal extends React.PureComponent<Props, Stat
     render() {
         return (
             <GenericModal
-                onHide={this.props.onHide}
+                onExited={this.props.onExited}
                 modalHeaderText={(
                     <FormattedMessage
                         id='delete_category_modal.deleteCategory'

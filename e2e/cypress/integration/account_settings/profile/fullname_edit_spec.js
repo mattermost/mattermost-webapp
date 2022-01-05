@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings > Profile > Full Name', () => {
+describe('Profile > Profile Settings > Full Name', () => {
     let testUser;
 
     before(() => {
@@ -22,8 +22,8 @@ describe('Account Settings > Profile > Full Name', () => {
     });
 
     it('MM-T2043 Enter first name', () => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal();
 
         // # Click "Edit" to the right of "Full Name"
         cy.get('#nameEdit').should('be.visible').click();

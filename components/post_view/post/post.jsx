@@ -18,6 +18,7 @@ import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import {trackEvent} from 'actions/telemetry_actions';
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
@@ -195,6 +196,7 @@ export default class Post extends React.PureComponent {
             (fromAutoResponder || !isSystemMessage) &&
             isEligibleForClick(e)
         ) {
+            trackEvent('crt', 'clicked_to_reply');
             this.props.actions.selectPost(post);
         }
 

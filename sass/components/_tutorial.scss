@@ -14,8 +14,6 @@ $tip-index: 1000;
 }
 
 .tip-overlay {
-    @include border-radius(3px);
-
     position: absolute;
     z-index: $tip-index;
     width: 350px;
@@ -23,6 +21,7 @@ $tip-index: 1000;
     padding: 20px;
     background: var(--center-channel-bg);
     color: var(--center-channel-color);
+    border-radius: 3px;
 
     .arrow {
         position: absolute;
@@ -32,6 +31,18 @@ $tip-index: 1000;
         border-width: 10px;
         border-style: solid;
         border-color: transparent;
+    }
+
+    .svg-wrapper {
+        display: flex;
+
+        svg {
+            margin: 0 auto;
+        }
+    }
+
+    .handSvg.svg-wrapper {
+        margin: 20px 0 30px 0;
     }
 
     &.tip-overlay--sidebar {
@@ -166,11 +177,10 @@ $tip-index: 1000;
     }
 
     .btn {
-        @include border-radius(3px);
-
         border: none;
         margin: 10px 0;
         background: alpha-color($black, 0.3);
+        border-radius: 3px;
         color: $white;
 
         &:hover,
@@ -186,7 +196,7 @@ $tip-index: 1000;
         font-size: 12px;
 
         span {
-            @include opacity(0.9);
+            opacity: 0.9;
         }
     }
 
@@ -224,7 +234,7 @@ $tip-index: 1000;
         right: 2px;
 
         .tip-button {
-            @include opacity(0.8);
+            opacity: 0.8;
         }
     }
 
@@ -243,10 +253,9 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--sidebar {
-        @include opacity(0.8);
-
         top: 10px;
         right: 21px;
+        opacity: 0.8;
     }
 
     &.tip-overlay--add-channels {
@@ -334,19 +343,17 @@ $tip-index: 1000;
     margin: 2em 0;
 
     .circle {
-        @include border-radius(9px);
-        @include opacity(0.2);
-
         display: inline-block;
         width: 9px;
         height: 9px;
         margin: 0 5px;
         background: var(--center-channel-color);
+        border-radius: 9px;
+        opacity: 0.2;
 
         &.active {
-            @include opacity(1);
-
             background: var(--button-bg);
+            opacity: 1;
         }
     }
 }

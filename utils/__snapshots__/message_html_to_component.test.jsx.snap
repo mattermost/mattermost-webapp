@@ -80,11 +80,10 @@ exports[`messageHtmlToComponent Inline markdown image 1`] = `
 <div
   className="markdown-inline-img__container"
 >
-  <MarkdownImage
+  <Memo(Connect(MarkdownImage))
     alt="Mattermost"
     className="markdown-inline-img"
     imageIsLink={false}
-    imageMetadata={Object {}}
     postId="post_id"
     postType="system_header_change"
     src="/images/icon.png"
@@ -111,11 +110,10 @@ exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = 
     rel="noreferrer"
     target="_blank"
   >
-    <MarkdownImage
+    <Memo(Connect(MarkdownImage))
       alt="Mattermost"
       className="markdown-inline-img"
       imageIsLink={true}
-      imageMetadata={Object {}}
       postId="post_id"
       postType="system_header_change"
       src="images/icon.png"

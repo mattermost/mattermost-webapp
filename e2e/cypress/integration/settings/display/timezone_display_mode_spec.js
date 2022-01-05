@@ -17,7 +17,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getTimezoneLabel} from '../../../utils/timezone';
 import {getAdminAccount} from '../../../support/env';
 
-describe('Account Settings > Display > Timezone', () => {
+describe('Profile > Display > Timezone', () => {
     const sysadmin = getAdminAccount();
 
     const date1 = Date.UTC(2020, 0, 5, 4, 30); // Jan 5, 2020 04:30

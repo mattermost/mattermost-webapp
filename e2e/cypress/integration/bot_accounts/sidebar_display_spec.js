@@ -66,7 +66,7 @@ describe('Bot accounts', () => {
         cy.apiAdminLogin();
     });
 
-    it('MM-T1836_2 Bot accounts display', () => {
+    it('MM-T1836 Bot accounts display', () => {
         // # Login as regular user and visit a channel
         cy.apiLogin(testUser);
         cy.visit(`/${team.name}/messages/@${bots[0].username}`);

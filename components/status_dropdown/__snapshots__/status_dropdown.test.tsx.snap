@@ -101,36 +101,53 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -161,7 +178,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -184,7 +201,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -348,36 +365,53 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -408,7 +442,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -431,7 +465,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -579,36 +613,53 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -639,7 +690,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -662,7 +713,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -810,36 +861,53 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -870,7 +938,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -893,7 +961,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -1042,36 +1110,53 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1102,7 +1187,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1125,7 +1210,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -1250,36 +1335,53 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1310,7 +1412,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1333,7 +1435,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>
@@ -1454,36 +1556,53 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
             Object {
               "direction": "right",
               "id": "dndSubMenu-header",
+              "isHeader": true,
               "text": "Disable notifications until:",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30mins",
+              "id": "dndTime-thirty_minutes",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1hour",
+              "id": "dndTime-one_hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2hours",
+              "id": "dndTime-two_hours",
               "text": "2 hours",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
+              "id": "dndTime-tomorrow",
+              "text": <React.Fragment>
+                Tomorrow
+                <span
+                  className="dndTime-tomorrow_timestamp"
+                >
+                  <FormattedDate
+                    value={2021-11-03T22:48:57.000Z}
+                    weekday="short"
+                  />
+                  , 
+                  <FormattedTime
+                    hour12={true}
+                    timeStyle="short"
+                    value={2021-11-03T22:48:57.000Z}
+                  />
+                </span>
+              </React.Fragment>,
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Custom",
+              "id": "dndTime-custom",
               "text": "Custom",
             },
           ]
@@ -1514,7 +1633,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Account Settings"
+        ariaLabel="Profile"
         dialogProps={
           Object {
             "isContentProductSettings": false,
@@ -1537,7 +1656,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         id="accountSettings"
         modalId="user_settings"
         show={true}
-        text="Account Settings"
+        text="Profile"
       />
     </MenuGroup>
     <MenuGroup>

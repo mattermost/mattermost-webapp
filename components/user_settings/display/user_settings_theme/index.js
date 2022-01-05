@@ -8,6 +8,7 @@ import {getTheme, makeGetCategory} from 'mattermost-redux/selectors/entities/pre
 import {getCurrentTeamId, getMyTeamsCount} from 'mattermost-redux/selectors/entities/teams';
 
 import {saveTheme, deleteTeamSpecificThemes} from 'mattermost-redux/actions/preferences';
+import {openModal} from 'actions/views/modals';
 
 import {Preferences} from 'utils/constants';
 
@@ -31,6 +32,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             saveTheme,
             deleteTeamSpecificThemes,
+            openModal,
         }, dispatch),
     };
 }
