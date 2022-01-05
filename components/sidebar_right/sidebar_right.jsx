@@ -20,14 +20,10 @@ export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
-        isSuppressed: PropTypes.bool,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
-        postRightSameAsSelectedThread: PropTypes.bool,
         postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
-        isMentionSearch: PropTypes.bool,
-        isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
         isChannelFiles: PropTypes.bool,
         isPluginView: PropTypes.bool,
@@ -62,10 +58,8 @@ export default class SidebarRight extends React.PureComponent {
 
         this.previous = {
             searchVisible: this.props.searchVisible,
-            isMentionSearch: this.props.isMentionSearch,
             isPinnedPosts: this.props.isPinnedPosts,
             isChannelFiles: this.props.isChannelFiles,
-            isFlaggedPosts: this.props.isFlaggedPosts,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
@@ -168,9 +162,6 @@ export default class SidebarRight extends React.PureComponent {
     render() {
         const {
             rhsChannel,
-            isFlaggedPosts,
-            isPinnedPosts,
-            isChannelFiles,
             postRightVisible,
             postCardVisible,
             previousRhsState,
@@ -178,7 +169,6 @@ export default class SidebarRight extends React.PureComponent {
             isPluginView,
             isOpen,
             isExpanded,
-            isSuppressed,
         } = this.props;
 
         let content = null;
@@ -222,7 +212,6 @@ export default class SidebarRight extends React.PureComponent {
                 />
                 <div className='sidebar-right-container'>
                     <Search
-                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles && !isSuppressed}
                         isSideBarRight={true}
                         isSideBarRightOpen={this.state.isOpened}
                         getFocus={this.getSearchBarFocus}
