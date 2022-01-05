@@ -216,6 +216,10 @@ export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | u
     return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
 }
 
+export function getCreateGuidedChannel(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
+}
+
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
 }

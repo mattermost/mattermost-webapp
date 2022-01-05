@@ -6,9 +6,8 @@ import {combineReducers} from 'redux';
 import {GroupTypes} from 'mattermost-redux/action_types';
 import {GroupChannel, GroupSyncablesState, GroupTeam, Group} from 'mattermost-redux/types/groups';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
-function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericAction) {
+function syncables(state: Record<string, GroupSyncablesState> = {}, action: GenericAction) {
     switch (action.type) {
     case GroupTypes.RECEIVED_GROUP_TEAMS: {
         return {
@@ -169,7 +168,7 @@ function stats(state: any = {}, action: GenericAction) {
     }
 }
 
-function groups(state: Dictionary<Group> = {}, action: GenericAction) {
+function groups(state: Record<string, Group> = {}, action: GenericAction) {
     switch (action.type) {
     case GroupTypes.PATCHED_GROUP:
     case GroupTypes.RECEIVED_GROUP: {

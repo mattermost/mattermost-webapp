@@ -3,8 +3,6 @@
 
 import {ClientConfig, ClientLicense, WarnMetricStatus} from './config';
 
-import {Dictionary} from './utilities';
-
 export type GeneralState = {
     appState: boolean;
     credentials: any;
@@ -14,7 +12,7 @@ export type GeneralState = {
     firstAdminVisitMarketplaceStatus: boolean;
     license: ClientLicense;
     serverVersion: string;
-    warnMetricsStatus: Dictionary<WarnMetricStatus>;
+    warnMetricsStatus: Record<string, WarnMetricStatus>;
 };
 
 export type SystemSetting = {

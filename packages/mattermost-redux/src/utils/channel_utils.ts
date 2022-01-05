@@ -8,7 +8,7 @@ import {Channel, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} fro
 import {Post} from 'mattermost-redux/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Dictionary, IDMappedObjects, RelationOneToManyUnique, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, RelationOneToManyUnique, RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {displayUsername} from './user_utils';
 
@@ -353,7 +353,7 @@ export function filterChannelsMatchingTerm(channels: Channel[], term: string): C
 }
 
 export function channelListToMap(channelList: Channel[]): IDMappedObjects<Channel> {
-    const channels: Dictionary<Channel> = {};
+    const channels: Record<string, Channel> = {};
     for (let i = 0; i < channelList.length; i++) {
         channels[channelList[i].id] = channelList[i];
     }
