@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {SystemSetting} from 'mattermost-redux/types/general';
 
 import {General} from '../constants';
@@ -121,6 +123,7 @@ import {TelemetryHandler} from './telemetry';
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';
+const HEADER_CONTENT_TYPE = 'Content-Type';
 const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
 const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
@@ -465,6 +468,10 @@ export default class Client4 {
 
         if (this.userAgent) {
             headers[HEADER_USER_AGENT] = this.userAgent;
+        }
+
+        if (options.body) {
+            headers[HEADER_CONTENT_TYPE] = 'application/json';
         }
 
         if (newOptions.headers) {
