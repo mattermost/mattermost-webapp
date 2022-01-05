@@ -551,14 +551,13 @@
         }
 
         .post-error {
-            @include opacity(0.55);
-
             position: absolute;
             top: 4px;
             display: inline-block;
             margin-bottom: 0;
             font-size: 0.85em;
             font-weight: normal;
+            opacity: 0.55;
         }
 
         .msg-typing {
