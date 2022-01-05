@@ -443,7 +443,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             <>
                 {isMobile && topRhsPostId && !this.props.useRelativeTimestamp && (
                     <FloatingTimestamp
-                        isMobile={true}
                         isRhsPost={true}
                         isScrolling={this.state.isScrolling}
                         postId={topRhsPostId}

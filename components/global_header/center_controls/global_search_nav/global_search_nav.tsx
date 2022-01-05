@@ -8,7 +8,7 @@ import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import Search from 'components/search';
-import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import {
     Constants,
@@ -19,7 +19,6 @@ import * as Utils from 'utils/utils';
 const GlobalSearchNav = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
-    const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
 
     useEffect(() => {
         document.addEventListener('keydown', handleShortcut);
@@ -53,7 +52,6 @@ const GlobalSearchNav = (): JSX.Element => {
             alignment='center'
         >
             <Search
-                isFocus={Utils.isMobile() || (isRhsOpen && Boolean(rhsState))}
                 enableFindShortcut={true}
             />
         </Flex>

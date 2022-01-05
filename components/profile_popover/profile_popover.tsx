@@ -68,6 +68,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      */
     isRHS?: boolean;
     isBusy?: boolean;
+    isMobileView: boolean;
 
     /**
      * Returns state of modals in redux for determing which need to be closed
@@ -189,7 +190,7 @@ ProfilePopoverState
         this.setState({loadingDMChannel: user.id});
         actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
             if (!result.error) {
-                if (Utils.isMobile()) {
+                if (this.props.isMobileView) {
                     GlobalActions.emitCloseRightHandSide();
                 }
                 this.setState({loadingDMChannel: undefined});
