@@ -37,7 +37,7 @@ import {
     getStatusForUserId,
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
-import {fetchMyAllTeamsChannels, searchAllChannels} from 'mattermost-redux/actions/channels';
+import {fetchAllMyTeamsChannels, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
@@ -430,7 +430,7 @@ export default class SwitchChannelProvider extends Provider {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
         }
 
-        const channelsAsync = searchAllChannels(channelPrefix, {}, true)(store.dispatch, store.getState);
+        const channelsAsync = searchAllChannels(channelPrefix, {nonAdminSearch: true})(store.dispatch, store.getState);
 
         let usersFromServer = [];
         let channelsFromServer = [];
@@ -693,7 +693,7 @@ export default class SwitchChannelProvider extends Provider {
         if (!teamId) {
             return;
         }
-        const channelsAsync = fetchMyAllTeamsChannels()(store.dispatch, store.getState);
+        const channelsAsync = fetchAllMyTeamsChannels()(store.dispatch, store.getState);
         let channels;
 
         try {

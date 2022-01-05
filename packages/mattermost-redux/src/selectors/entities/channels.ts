@@ -341,13 +341,12 @@ export const getChannelSetAllTeam: (state: GlobalState) => string[] = createSele
     getAllChannels,
     (allChannels): string[] => {
         const channelSet: string[] = [];
-        Object.entries(allChannels).forEach((channelEntry: [string, Channel]) => {
-            const [, channel] = channelEntry;
+        Object.values(allChannels).forEach((channel: Channel) => {
             if (channel.type !== General.GM_CHANNEL && channel.type !== General.DM_CHANNEL) {
                 channelSet.push(channel.id);
             }
         });
-        return channelSet || [];
+        return channelSet;
     },
 );
 

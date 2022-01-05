@@ -1615,7 +1615,8 @@ export default class Client4 {
             `${this.getTeamRoute(teamId)}/channels${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
-    };
+    }
+
     getAllTeamsChannels = () => {
         return this.doFetch<ServerChannel[]>(
             `${this.getUsersRoute()}/me/channels`,
@@ -1769,15 +1770,17 @@ export default class Client4 {
         );
     };
 
-    searchAllChannels = (term: string, opts: ChannelSearchOpts = {}, nonAdminSearch?: boolean) => {
+    searchAllChannels = (term: string, opts: ChannelSearchOpts = {}) => {
         const body = {
             term,
             ...opts,
         };
         const includeDeleted = Boolean(opts.include_deleted);
+        const nonAdminSearch = Boolean(opts.nonAdminSearch);
         let queryParams: {include_deleted?: boolean; system_console?: boolean} = {include_deleted: includeDeleted};
         if (nonAdminSearch) {
             queryParams = {system_console: false};
+            delete body.nonAdminSearch;
         }
         return this.doFetch<Channel[] | ChannelsWithTotalCount>(
             `${this.getChannelsRoute()}/search${buildQueryString(queryParams)}`,
