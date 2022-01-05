@@ -45,7 +45,6 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
                 return {error: makeCallErrorResponse(errMsg)};
             }
 
-            dispatch(openAppsModal(binding.form, context));
             const res: AppCallResponse = {
                 type: AppCallResponseTypes.FORM,
                 form: binding.form,
@@ -75,7 +74,7 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
 }
 
 export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
+    return async () => {
         try {
             const call: AppCallRequest = {
                 ...inCall,
@@ -102,7 +101,6 @@ export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): Act
                 }
 
                 cleanForm(res.form);
-                dispatch(openAppsModal(res.form, inCall.context));
                 return {data: res};
 
             case AppCallResponseTypes.NAVIGATE: {

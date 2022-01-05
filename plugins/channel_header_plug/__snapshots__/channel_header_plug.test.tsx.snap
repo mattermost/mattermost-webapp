@@ -48,6 +48,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
       "timeZone": "Etc/UTC",
     }
   }
+  sidebarOpen={false}
   theme={Object {}}
 />
 `;
@@ -113,6 +114,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       "timeZone": "Etc/UTC",
     }
   }
+  sidebarOpen={false}
   theme={Object {}}
 >
   <HeaderIconWrapper
@@ -134,10 +136,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -156,7 +156,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -195,7 +194,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -428,6 +426,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
       "timeZone": "Etc/UTC",
     }
   }
+  sidebarOpen={false}
   theme={Object {}}
 >
   <HeaderIconWrapper
@@ -449,10 +448,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -471,7 +468,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -510,7 +506,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -558,10 +553,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -580,7 +573,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -619,7 +611,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -667,10 +658,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -689,7 +678,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -728,7 +716,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -776,10 +763,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -798,7 +783,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -837,7 +821,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -885,10 +868,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -907,7 +888,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -946,7 +926,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -994,10 +973,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1016,7 +993,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1055,7 +1031,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1103,10 +1078,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1125,7 +1098,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1164,7 +1136,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1212,10 +1183,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1234,7 +1203,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1273,7 +1241,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1321,10 +1288,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1343,7 +1308,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1382,7 +1346,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1430,10 +1393,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1452,7 +1413,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1491,7 +1451,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1539,10 +1498,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1561,7 +1518,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1600,7 +1556,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1648,10 +1603,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1670,7 +1623,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1709,7 +1661,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1757,10 +1708,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1779,7 +1728,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1818,7 +1766,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1866,10 +1813,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1888,7 +1833,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -1927,7 +1871,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text
@@ -1975,10 +1918,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         delayShow={400}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className=""
             id="pluginTooltip"
-            placement="right"
           >
             <span>
               some tooltip text
@@ -1997,7 +1938,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className=""
               id="pluginTooltip"
               intl={
@@ -2036,7 +1976,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                   "wrapRichTextChunksInFragment": undefined,
                 }
               }
-              placement="right"
             >
               <span>
                 some tooltip text

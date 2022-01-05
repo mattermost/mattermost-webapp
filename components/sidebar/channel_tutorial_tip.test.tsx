@@ -43,4 +43,30 @@ describe('component/legacy_sidebar/ChannelTutorialTip', () => {
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).toBeCalled();
     });
+
+    test('should match snapshot, with firstChannelName set', () => {
+        const props = {...defaultProps, firstChannelName: 'firstChannelName'};
+        const wrapper = shallow(
+            <ChannelTutorialTip {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('when setting up a first channel, the tutorial tip must show the first channel info tip', () => {
+        const props = {...defaultProps, firstChannelName: 'firstChannelName'};
+        const wrapper = shallow(
+            <ChannelTutorialTip {...props}/>,
+        );
+        const telemetryTag = wrapper.prop('telemetryTag');
+        expect(telemetryTag).toEqual('tutorial_tip_0_first_channel');
+    });
+
+    test('when there is not the first channel, the tutorial tip must show the normal channel tip', () => {
+        const props = {...defaultProps, firstChannelName: ''};
+        const wrapper = shallow(
+            <ChannelTutorialTip {...props}/>,
+        );
+        const telemetryTag = wrapper.prop('telemetryTag');
+        expect(telemetryTag).toEqual('tutorial_tip_2_channels');
+    });
 });

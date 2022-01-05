@@ -9,9 +9,9 @@ import {useHistory} from 'react-router-dom';
 import moment from 'moment';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {GlobalState} from 'mattermost-redux/types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {GlobalState} from 'types/store';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
@@ -109,10 +109,10 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
                     )}
                 </div>
             }
-            <div className='handSvg svg-wrapper'>
+            <div className='handsSvg svg-wrapper'>
                 <HandsSvg
-                    width={400}
-                    height={400}
+                    width={150}
+                    height={100}
                 />
             </div>
             <div className='bottom-text-left-message'>

@@ -9,7 +9,6 @@ import './thread_footer.scss';
 
 import {GlobalState} from 'types/store';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {Post} from 'mattermost-redux/types/posts';
 import {threadIsSynthetic, UserThread} from 'mattermost-redux/types/threads';
 
@@ -31,7 +30,7 @@ import {THREADING_TIME} from 'components/threading/common/options';
 import {trackEvent} from 'actions/telemetry_actions';
 
 type Props = {
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     replyClick?: React.EventHandler<React.MouseEvent>;
 };
 

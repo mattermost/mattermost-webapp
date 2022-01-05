@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
@@ -30,7 +29,7 @@ const StatTypes = Constants.StatTypes;
 
 type Props = {
     isLicensed: boolean;
-    stats?: Dictionary<number | AnalyticsRow[]>;
+    stats?: Record<string, number | AnalyticsRow[]>;
 }
 
 export default class SystemAnalytics extends React.PureComponent<Props> {

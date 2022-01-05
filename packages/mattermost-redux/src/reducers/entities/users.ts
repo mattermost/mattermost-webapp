@@ -7,7 +7,7 @@ import {UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 import {profileListToMap} from 'mattermost-redux/utils/user_utils';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {UserAccessToken, UserProfile, UserStatus} from 'mattermost-redux/types/users';
-import {RelationOneToMany, IDMappedObjects, RelationOneToOne, Dictionary} from 'mattermost-redux/types/utilities';
+import {RelationOneToMany, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Group} from 'mattermost-redux/types/groups';
@@ -510,7 +510,7 @@ function isManualStatus(state: RelationOneToOne<UserProfile, boolean> = {}, acti
     }
 }
 
-function myUserAccessTokens(state: Dictionary<UserAccessToken> = {}, action: GenericAction) {
+function myUserAccessTokens(state: Record<string, UserAccessToken> = {}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_MY_USER_ACCESS_TOKEN: {
         const nextState = {...state};

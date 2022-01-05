@@ -14,6 +14,7 @@ import ChannelMembersModal from 'components/channel_members_modal';
 import PurchaseModal from 'components/purchase_modal';
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import Textbox from './textbox';
 
@@ -50,4 +51,5 @@ window.Components = {
     ChannelMembersModal,
     Avatar,
     imageURLForUser,
+    BotBadge,
 };

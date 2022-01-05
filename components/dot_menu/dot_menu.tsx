@@ -4,19 +4,18 @@
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {HandleBindingClick, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
@@ -51,6 +50,7 @@ type Props = {
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
+    isMobileView: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -121,7 +121,7 @@ type Props = {
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;
@@ -293,27 +293,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: Menu) => {
-        if (menuRef) {
-            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-            let y;
-            if (typeof buttonRect?.y === 'undefined') {
-                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
-            } else {
-                y = buttonRect?.y;
-            }
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-            });
-        }
-    }
-
     renderDivider = (suffix: string) => {
         return (
             <li
@@ -356,7 +335,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, callRequest);
+            }
             break;
         default: {
             const errorMessage = intl.formatMessage({
@@ -376,9 +359,34 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         });
     }
 
+    handleDropdownOpened = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
+
+        if (!open) {
+            return;
+        }
+
+        const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+        let y;
+        if (typeof buttonRect?.y === 'undefined') {
+            y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+        } else {
+            y = buttonRect?.y;
+        }
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+        this.setState({
+            openUp: (spaceOnTop > spaceOnBottom),
+        });
+    }
+
     render() {
+        const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const isMobile = Utils.isMobile();
 
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
@@ -437,7 +445,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
 
         return (
-            <MenuWrapper onToggle={this.props.handleDropdownOpened}>
+            <MenuWrapper onToggle={this.handleDropdownOpened}>
                 <OverlayTrigger
                     className='hidden-xs'
                     delayShow={500}
@@ -462,7 +470,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
-                    ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <Menu.ItemAction

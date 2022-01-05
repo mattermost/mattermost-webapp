@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useMemo} from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import RenderEmoji from 'components/emoji/render_emoji';
 import {CustomStatusDuration} from 'mattermost-redux/types/users';
 import {getCurrentUserTimezone} from 'selectors/general';

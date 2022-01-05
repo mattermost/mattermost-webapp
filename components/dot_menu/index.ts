@@ -40,13 +40,16 @@ import {
     setEditingPost,
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
+
+import {getIsMobileView} from 'selectors/views/browser';
+
 import * as PostUtils from 'utils/post_utils';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import {Locations} from 'utils/constants';
-import {allAtMentions} from '../../utils/text_formatting';
+import {allAtMentions} from 'utils/text_formatting';
 
 import {matchUserMentionTriggersWithMessageMentions} from 'utils/post_utils';
 
@@ -141,7 +144,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         threadReplyCount,
         appBindings,
         appsEnabled: apps,
-        ...ownProps,
+        isMobileView: getIsMobileView(state),
     };
 }
 
