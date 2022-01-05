@@ -7,11 +7,11 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 
-import {HandleBindingClick, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForPost, OpenAppsModal} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -115,6 +115,11 @@ type Props = {
          * Function to get the post menu bindings for this post.
          */
         fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+
+        /**
+         * Function to open the Apps modal with a form fetched for the dot menu item.
+         */
+        openAppsModal: OpenAppsModal;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
 
@@ -338,7 +343,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
-                this.props.actions.openAppsModal(callResp.form, callRequest);
+                this.props.actions.openAppsModal(callResp.form, context);
             }
             break;
         default: {

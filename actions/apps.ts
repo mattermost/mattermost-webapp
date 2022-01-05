@@ -157,9 +157,6 @@ export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any, ope
                     return {error: makeCallErrorResponse(errMsg)};
                 }
                 cleanForm(res.form);
-                if (openModal) {
-                    dispatch(openAppsModal(res.form, call.context));
-                }
                 return {data: res};
             default: {
                 const errMsg = intl.formatMessage({

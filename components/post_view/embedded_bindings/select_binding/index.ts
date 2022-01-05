@@ -8,9 +8,9 @@ import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {getChannel} from 'mattermost-redux/actions/channels';
 
-import {PostEphemeralCallResponseForPost, HandleBindingClick} from 'types/apps';
+import {PostEphemeralCallResponseForPost, HandleBindingClick, OpenAppsModal} from 'types/apps';
 
-import {postEphemeralCallResponseForPost, handleBindingClick} from 'actions/apps';
+import {postEphemeralCallResponseForPost, handleBindingClick, openAppsModal} from 'actions/apps';
 
 import SelectBinding from './select_binding';
 
@@ -18,6 +18,7 @@ type Actions = {
     handleBindingClick: HandleBindingClick;
     getChannel: (channelId: string) => Promise<ActionResult>;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+    openAppsModal: OpenAppsModal;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -26,6 +27,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             handleBindingClick,
             getChannel,
             postEphemeralCallResponseForPost,
+            openAppsModal,
         }, dispatch),
     };
 }

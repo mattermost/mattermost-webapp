@@ -12,7 +12,7 @@ import {Theme} from 'mattermost-redux/types/themes';
 
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext} from 'utils/apps';
-import {HandleBindingClick, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 type Props = {
 
@@ -38,6 +38,7 @@ type Props = {
     actions: {
         handleBindingClick: HandleBindingClick;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
+        openAppsModal: OpenAppsModal;
     };
 }
 
@@ -160,7 +161,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
             break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
-                this.props.actions.openAppsModal(callResp.form, callRequest);
+                this.props.actions.openAppsModal(callResp.form, context);
             }
             break;
         default: {

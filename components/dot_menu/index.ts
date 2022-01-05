@@ -23,14 +23,14 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {HandleBindingClick, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForPost} from 'types/apps';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {makeFetchBindings, postEphemeralCallResponseForPost, handleBindingClick} from 'actions/apps';
+import {makeFetchBindings, postEphemeralCallResponseForPost, handleBindingClick, openAppsModal} from 'actions/apps';
 
 import {
     flagPost,
@@ -160,6 +160,7 @@ type Actions = {
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
     fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+    openAppsModal: OpenAppsModal;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -176,6 +177,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             postEphemeralCallResponseForPost,
             setThreadFollow,
             fetchBindings,
+            openAppsModal,
         }, dispatch),
     };
 }

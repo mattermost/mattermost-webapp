@@ -11,7 +11,7 @@ import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/consta
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {PostEphemeralCallResponseForPost, HandleBindingClick} from 'types/apps';
+import {PostEphemeralCallResponseForPost, HandleBindingClick, OpenAppsModal} from 'types/apps';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
@@ -25,6 +25,7 @@ type Props = {
         handleBindingClick: HandleBindingClick;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+        openAppsModal: OpenAppsModal;
     };
 }
 
@@ -84,7 +85,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
-                this.props.actions.openAppsModal(callResp.form, callRequest);
+                this.props.actions.openAppsModal(callResp.form, context);
             }
             break;
         default: {

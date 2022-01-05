@@ -3,7 +3,7 @@
 
 import {IntlShape} from 'react-intl';
 
-import {AppBinding, AppCallRequest, AppCallResponse, AppContext} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppCallResponse, AppContext, AppForm} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
 
 export type DoAppCallResult<Res=unknown> = {
@@ -37,4 +37,8 @@ export interface PostEphemeralCallResponseForChannel {
 
 export interface PostEphemeralCallResponseForContext {
     (response: AppCallResponse, message: string, context: AppContext): void;
+}
+
+export interface OpenAppsModal<Res=unknown> {
+    (form: AppForm, context: AppContext): void;
 }

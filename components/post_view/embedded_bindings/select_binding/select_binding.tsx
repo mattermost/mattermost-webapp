@@ -14,7 +14,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {HandleBindingClick, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
@@ -34,6 +34,7 @@ type Props = {
         handleBindingClick: HandleBindingClick;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+        openAppsModal: OpenAppsModal;
     };
 };
 
@@ -137,7 +138,7 @@ class SelectBinding extends React.PureComponent<Props, State> {
             break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
-                this.props.actions.openAppsModal(callResp.form, callRequest);
+                this.props.actions.openAppsModal(callResp.form, context);
             }
             break;
         default: {
