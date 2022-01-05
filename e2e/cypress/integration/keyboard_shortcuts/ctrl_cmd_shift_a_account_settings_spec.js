@@ -16,9 +16,9 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('MM-T4441_1 CTRL/CMD+A - Settings should open in desktop view', () => {
-        // # Type CTRL/CMD+A to open 'Settings'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('A');
+    it('MM-T4441_1 CTRL/CMD+SHIFT+A - Settings should open in desktop view', () => {
+        // # Type CTRL/CMD+SHIFT+A to open 'Settings'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
 
         // * Ensure account settings modal is open
         cy.get('#accountSettingsModal').should('be.visible');
@@ -26,16 +26,24 @@ describe('Keyboard Shortcuts', () => {
         cy.uiClose();
     });
 
-    it('MM-T4441_2 CTRL/CMD+A - Settings should open in mobile view view', () => {
+    it('MM-T4441_2 CTRL/CMD+SHIFT+A - Settings should open in mobile view view', () => {
         // # Resize the window to mobile view
         cy.viewport('iphone-6');
 
-        // # Type CTRL/CMD+A to open 'Settings'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('A');
+        // # Type CTRL/CMD+SHIFT+A to open 'Settings'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
 
         // * Ensure Settings modal is open
         cy.get('#accountSettingsModal').should('be.visible');
 
         cy.uiClose();
+    });
+
+    it('CTRL+A - Should not open Settings', () => {
+        // # Type CTRL/CMD+A to select the text
+        cy.get('#post_textbox').cmdOrCtrlShortcut('A');
+
+        // * Ensure Settings modal is not open
+        cy.get('#accountSettingsModal').should('not.exist');
     });
 });
