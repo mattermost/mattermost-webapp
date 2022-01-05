@@ -208,13 +208,13 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
             <>
                 <p className='upgrade-legal-terms'>
                     <FormattedMarkdownMessage
-                        id='admin.license.upgrade-and-trial-request.accept-terms'
-                        defaultMessage='By clicking **Upgrade And Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails. Also, I agree to the terms of the Mattermost '
+                        id='admin.license.upgrade-and-trial-request.accept-terms-initial-part'
+                        defaultMessage='By selecting **Upgrade And Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails. '
                     />
-                    {eeModalTerms}
-                    <FormattedMarkdownMessage
-                        id='admin.license.enterprise.upgrade.upgradeAndTrialTerms'
-                        defaultMessage='. Upgrading will download the binary and update your team edition.'
+                    <FormattedMessage
+                        id='admin.license.upgrade-and-trial-request.accept-terms-final-part'
+                        defaultMessage='Also, I agree to the terms of the Mattermost {eeModalTerms}. Upgrading will download the binary and update your Team Edition instance.'
+                        values={{eeModalTerms}}
                     />
                 </p>
                 {upgradeError && (
