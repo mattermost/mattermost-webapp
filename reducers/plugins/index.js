@@ -114,6 +114,7 @@ function removePluginComponents(state, action) {
 }
 
 function removePluginComponent(state, action) {
+    let newState = state;
     const types = Object.keys(state);
     for (let i = 0; i < types.length; i++) {
         const componentType = types[i];
@@ -122,11 +123,11 @@ function removePluginComponent(state, action) {
             if (componentList[j].id === action.id) {
                 const nextArray = [...componentList];
                 nextArray.splice(j, 1);
-                return {...state, [componentType]: nextArray};
+                newState = {...newState, [componentType]: nextArray};
             }
         }
     }
-    return state;
+    return newState;
 }
 
 function plugins(state = {}, action) {
@@ -169,6 +170,7 @@ const initialComponents = {
     FilePreview: [],
     LinkTooltip: [],
     MainMenu: [],
+    ChannelHeaderButton: [],
     MobileChannelHeaderButton: [],
     PostDropdownMenu: [],
     Product: [],
