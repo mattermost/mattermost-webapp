@@ -26,7 +26,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
 
         setTimeout(() => {
             setIsCopied(false);
-        }, 5000);
+        }, 2000);
 
         copyToClipboard(props.content);
     };
