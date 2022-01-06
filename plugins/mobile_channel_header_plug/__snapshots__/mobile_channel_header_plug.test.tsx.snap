@@ -5,6 +5,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no binding, 
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -58,6 +59,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no bindings 
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -111,6 +113,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -164,6 +167,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -217,6 +221,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding 
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -275,6 +280,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding,
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -357,6 +363,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -409,6 +416,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -516,6 +524,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -595,6 +604,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -675,6 +685,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -755,6 +766,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -832,6 +844,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -906,6 +919,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
   actions={
     Object {
       "handleBindingClick": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
