@@ -552,10 +552,10 @@ export default class EmojiPicker extends React.PureComponent {
             newEmojiId = emoji.skin_variations[userSkinTone].unified;
         } else if (userSkinTone === 'default') {
             // If default (yellow) skin is selected, remove the skin code from emoji id
-            newEmojiId = emoji.unified.replace(`-${emojiSkin}`, '');
+            newEmojiId = emoji.unified.replaceAll(`-${emojiSkin}`, '');
         } else {
             // If non default skin is selected, add the new skin selected code to emoji id
-            newEmojiId = emoji.unified.replace(emojiSkin, userSkinTone);
+            newEmojiId = emoji.unified.replaceAll(emojiSkin, userSkinTone);
         }
 
         const emojiIndex = Emoji.EmojiIndicesByUnicode.get(newEmojiId.toLowerCase());
@@ -588,13 +588,19 @@ export default class EmojiPicker extends React.PureComponent {
 
             recentEmojiIds.forEach((emojiId) => {
                 const emoji = this.state.allEmojis[emojiId];
-                const emojiSkin = getSkin(emoji);
 
-                if (emojiSkin) {
-                    const emojiWithUserSkin = this.convertEmojiToUserSkinTone(emoji, emojiSkin, this.props.userSkinTone);
-                    recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
-                } else {
+                // If its a custom emoji
+                if (emoji.category === 'custom') {
                     recentEmojis.set(emojiId, emoji);
+                } else {
+                    // If its a system emoji
+                    const emojiSkin = getSkin(emoji);
+                    if (emojiSkin) {
+                        const emojiWithUserSkin = this.convertEmojiToUserSkinTone(emoji, emojiSkin, this.props.userSkinTone);
+                        recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
+                    } else {
+                        recentEmojis.set(emojiId, emoji);
+                    }
                 }
             });
 
