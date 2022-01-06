@@ -1,3 +1,4 @@
+@import 'sass/utils/_mixins';
 // MM-40611 workaround to not show outline on Microsoft browsers
 // had to be this specific, i.e. `button.InviteView__copyLink:focus`
 // does not work
@@ -17,41 +18,7 @@ button.InviteView__copyLink.tertiary-button:focus {
     }
 
     &__copyLink {
-        &.tertiary-button {
-            display: inline-flex;
-            height: 40px;
-            align-items: center;
-            padding: 0 20px;
-            border: 0;
-            background: rgba(var(--button-bg-rgb), 0.08);
-            border-radius: 4px;
-            color: var(--button-bg);
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.15s ease-out;
-
-            &:disabled {
-                background: rgba(var(--center-channel-color-rgb), 0.08);
-                color: rgba(var(--center-channel-color-rgb), 0.32);
-            }
-
-            &:hover:enabled {
-                background: rgba(var(--button-bg-rgb), 0.12);
-            }
-
-            &:active:enabled {
-                background: rgba(var(--button-bg-rgb), 0.16);
-            }
-
-            i {
-                display: flex;
-                font-size: 18px;
-
-                &::before {
-                    margin: 0 7px 0 0;
-                }
-            }
-        }
+        @include tertiary-button;
 
         display: flex;
         align-items: center;
