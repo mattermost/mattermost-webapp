@@ -147,14 +147,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         }
     }, [isMobileView, searchTerms]);
 
-    useEffect((): void => {
-        if (props.isFocus && !props.isRhsOpen) {
-            handleFocus();
-        } else {
-            handleBlur();
-        }
-    }, [props.isRhsOpen]);
-
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
 
@@ -462,7 +454,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 suggestionProviders={suggestionProviders.current}
                 isSideBarRight={props.isSideBarRight}
                 isSearchingTerm={props.isSearchingTerm}
-                isFocus={props.isFocus}
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}
@@ -541,7 +532,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 const defaultProps: Partial<Props> = {
     searchTerms: '',
     channelDisplayName: '',
-    isFocus: false,
     isSideBarRight: false,
     getFocus: () => {},
 };
