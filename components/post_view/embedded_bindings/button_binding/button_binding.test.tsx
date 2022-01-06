@@ -53,6 +53,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
                 },
             }),
             postEphemeralCallResponseForPost: jest.fn(),
+            openAppsModal: jest.fn(),
         },
     };
 
@@ -111,6 +112,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
                     },
                 }),
                 postEphemeralCallResponseForPost: jest.fn(),
+                openAppsModal: jest.fn(),
             },
             intl,
         };

@@ -39,6 +39,6 @@ export interface PostEphemeralCallResponseForContext {
     (response: AppCallResponse, message: string, context: AppContext): void;
 }
 
-export interface OpenAppsModal<Res=unknown> {
+export interface OpenAppsModal {
     (form: AppForm, context: AppContext): void;
 }

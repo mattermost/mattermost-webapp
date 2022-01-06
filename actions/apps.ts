@@ -30,7 +30,7 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
                 context,
             );
 
-            const res = await dispatch(doAppFetchForm<Res>(callRequest, intl, true));
+            const res = await dispatch(doAppFetchForm<Res>(callRequest, intl));
             return {data: res};
         }
 
@@ -139,8 +139,8 @@ export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): Act
     };
 }
 
-export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any, openModal = false): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
+export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any): ActionFunc {
+    return async () => {
         try {
             const res = await Client4.executeAppCall(call, false) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
