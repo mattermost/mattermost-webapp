@@ -22,6 +22,9 @@ describe('Keyboard Shortcuts', () => {
         // # Type CTRL/CMD+K to open 'Switch Channels'
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
+        // * Verify that the suggestion list is visible
+        cy.get('#suggestionList').should('be.visible');
+
         // # Type ENTER to switch to new channel
         cy.get('#quickSwitchInput').type('{enter}');
 
