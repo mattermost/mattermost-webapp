@@ -56,6 +56,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -78,6 +79,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 intl={intl}
             />,
@@ -107,6 +109,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -129,6 +132,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -151,6 +155,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 intl={intl}
             />,
@@ -180,6 +185,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -202,6 +208,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -224,6 +231,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -246,6 +254,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -269,6 +278,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 intl={intl}
             />,
@@ -300,6 +310,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -322,6 +333,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -345,6 +357,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 intl={intl}
             />,
@@ -376,6 +389,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
             />,
         );
@@ -409,6 +423,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 intl={intl}
             />,
@@ -437,6 +452,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 actions={{
                     handleBindingClick,
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 intl={intl}
             />,
