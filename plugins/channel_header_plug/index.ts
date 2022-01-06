@@ -8,9 +8,9 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {appBarEnabled, appsEnabled, getChannelHeaderAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {HandleBindingClick, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
-import {handleBindingClick, postEphemeralCallResponseForChannel} from 'actions/apps';
+import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
 import {getChannelHeaderPluginComponents} from 'selectors/plugins';
@@ -32,6 +32,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     handleBindingClick: HandleBindingClick;
     postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
+    openAppsModal: OpenAppsModal;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -39,6 +40,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             handleBindingClick,
             postEphemeralCallResponseForChannel,
+            openAppsModal,
         }, dispatch),
     };
 }
