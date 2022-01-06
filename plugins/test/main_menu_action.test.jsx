@@ -33,6 +33,11 @@ describe('plugins/MainMenuActions', () => {
         moreTeamsToJoin: true,
         teamIsGroupConstrained: true,
         showGettingStarted: true,
+        showDueToStepsNotFinished: false,
+        teamUrl: '/team',
+        location: {
+            pathname: '/team',
+        },
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),

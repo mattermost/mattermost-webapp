@@ -58,6 +58,11 @@ describe('components/Menu', () => {
         isMentionSearch: false,
         showGettingStarted: false,
         intl: createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
+        showDueToStepsNotFinished: false,
+        teamUrl: '/team',
+        location: {
+            pathname: '/team',
+        },
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),

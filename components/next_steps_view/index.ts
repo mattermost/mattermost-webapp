@@ -10,6 +10,7 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -44,6 +45,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 setShowNextStepsView,
                 getProfiles,
                 closeRightHandSide,
+                selectChannel,
             },
             dispatch,
         ),
