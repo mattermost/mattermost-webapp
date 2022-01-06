@@ -3,11 +3,10 @@
 
 import React from 'react';
 
-import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
-
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {Team} from 'mattermost-redux/types/teams';
+import {mountWithIntl} from '../../tests/helpers/intl-test-helper';
 
 import InviteAs, {InviteType} from './invite_as';
 import InviteView, {Props} from './invite_view';
@@ -64,7 +63,7 @@ describe('InviteView', () => {
     });
 
     it('shows InviteAs component when user can choose to invite guests or users', () => {
-        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
+        const wrapper = mountWithIntl(<InviteView {...props}/>);
         expect(wrapper.find(InviteAs).length).toBe(1);
     });
 
@@ -74,7 +73,7 @@ describe('InviteView', () => {
             canAddUsers: false,
         };
 
-        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
+        const wrapper = mountWithIntl(<InviteView {...props}/>);
         expect(wrapper.find(InviteAs).length).toBe(0);
     });
 
@@ -84,7 +83,7 @@ describe('InviteView', () => {
             canInviteGuests: false,
         };
 
-        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
+        const wrapper = mountWithIntl(<InviteView {...props}/>);
         expect(wrapper.find(InviteAs).length).toBe(0);
     });
 });
