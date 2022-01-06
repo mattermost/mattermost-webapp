@@ -45,7 +45,8 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannelNavigator_jumpToButton').should('be.visible').click();
 
         // # Search for Off-Topic and press Enter
-        cy.get('.channel-switcher__suggestion-box #quickSwitchInput').click().type('Off-Topic');
+        cy.get('.channel-switcher__suggestion-box #quickSwitchInput').click().type('Off');
+        cy.get('.channel-switcher__suggestion-box #quickSwitchInput').click().type('-Topic');
         cy.get('.channel-switcher__suggestion-box #suggestionList').should('be.visible');
         cy.get('.channel-switcher__suggestion-box #quickSwitchInput').type('{enter}');
 

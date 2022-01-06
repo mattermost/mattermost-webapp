@@ -215,9 +215,7 @@ class SwitchChannelSuggestion extends Suggestion {
             >
                 {icon}
                 <div className={classNames('suggestion-list__ellipsis', {'suggestion-list__flex': !isPartOfOnlyOneTeam})}>
-                    <span className='suggestion-list__main'>
-                        {name}
-                    </span>
+                    <span className='suggestion-list__main'>{name}</span>
                     {isPartOfOnlyOneTeam && <span className='ml-2'>{description}</span>}
                     {!isPartOfOnlyOneTeam &&
                     <>
@@ -229,7 +227,7 @@ class SwitchChannelSuggestion extends Suggestion {
                     </>
                     }
                 </div>
-                {isPartOfOnlyOneTeam && <>{customStatus} {sharedIcon} {tag} {badge}</>}
+                {isPartOfOnlyOneTeam && <>{customStatus}{sharedIcon}{tag}{badge}</>}
             </div>
         );
     }
