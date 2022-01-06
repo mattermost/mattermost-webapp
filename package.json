@@ -295,9 +295,7 @@
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
     "check-types": "tsc",
-    "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs",
-    "preinstall": "node skip_integrity_check.js",
-    "postinstall": "node skip_integrity_check.js"
+    "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs"
   },
   "workspaces": []
 }
