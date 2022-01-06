@@ -10,7 +10,7 @@ import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
 import Toggle from 'components/toggle';
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import InviteAs, {Props, InviteType} from './invite_as';
 
@@ -29,7 +29,7 @@ describe('InviteAs', () => {
     });
     describe('title', () => {
         it('does not mention guest in radio mode', () => {
-            const wrapper = mountWithIntl(<InviteAs {...props}/>);
+            const wrapper = mountWithThemedIntl(<InviteAs {...props}/>);
             expect(wrapper.find('.' + props.titleClass).at(0).text()).toBe('Invite as');
         });
 
@@ -38,7 +38,7 @@ describe('InviteAs', () => {
                 ...props,
                 inviteToTeamTreatment: InviteToTeamTreatments.TOGGLE,
             };
-            const wrapper = mountWithIntl(<InviteAs {...props}/>);
+            const wrapper = mountWithThemedIntl(<InviteAs {...props}/>);
             expect(wrapper.find('.' + props.titleClass).at(0).text()).toBe('Invite as Guest');
         });
     });
