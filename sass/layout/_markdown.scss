@@ -171,7 +171,7 @@ h6.markdown__heading {
     code {
         position: relative;
         display: block;
-        padding: 0;
+        padding: 4px;
         background-color: inherit;
         font-size: 13px;
         text-align: left;
@@ -186,6 +186,14 @@ h6.markdown__heading {
         opacity: 1;
     }
 
+    &:hover .post-code__overlay {
+        top: 6px;
+        right: 1px;
+        padding: 6px 6px 0;
+        background: var(--center-channel-bg);
+        border-radius: 4px;
+    }
+
     &.post-code--wrap {
         code {
             white-space: pre-wrap;
@@ -194,6 +202,7 @@ h6.markdown__heading {
 
     .post-code__line-numbers {
         min-width: 36px;
+        padding: 4px;
         padding-right: 4px;
         border-right: 1px solid #ccc;
         margin-right: 12px;
@@ -250,12 +259,11 @@ h6.markdown__heading {
     padding: 8px;
     border-radius: 0 0 0 2px;
     color: $white;
-    transition: opacity, 0.6s;
     user-select: none;
 
     >span {
         position: relative;
-        padding: 4px 5px 5px;
+        padding: 4px;
         opacity: 0;
     }
 
@@ -266,11 +274,6 @@ h6.markdown__heading {
         // background: $white;
         border-radius: 4px;
         cursor: pointer;
-
-        &:hover {
-            background-color: rgba(var(--center-channel-color-rgb), 0.08);
-            color: rgba(var(--center-channel-color-rgb), 0.72);
-        }
 
         &:active {
             background: rgba(28, 88, 217, 0.08);
