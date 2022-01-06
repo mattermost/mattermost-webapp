@@ -4,11 +4,11 @@
 import React from 'react';
 import {IntlShape} from 'react-intl';
 
-import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
-
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {Team} from 'mattermost-redux/types/teams';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import ResultView from './result_view';
 import InviteView from './invite_view';
@@ -51,12 +51,12 @@ describe('InvitationModal', () => {
     });
 
     it('shows invite view when view state is invite', () => {
-        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
+        const wrapper = mountWithIntl(<InvitationModal {...props}/>);
         expect(wrapper.find(InviteView).length).toBe(1);
     });
 
     it('shows result view when view state is result', () => {
-        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
+        const wrapper = mountWithIntl(<InvitationModal {...props}/>);
         wrapper.find(BaseInvitationModal).at(0).setState({view: View.RESULT});
 
         wrapper.update();
@@ -69,7 +69,7 @@ describe('InvitationModal', () => {
             canAddUsers: false,
             canInviteGuests: false,
         };
-        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
+        const wrapper = mountWithIntl(<InvitationModal {...props}/>);
 
         expect(wrapper.find(NoPermissionsView).length).toBe(1);
     });
