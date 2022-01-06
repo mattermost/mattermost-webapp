@@ -279,8 +279,8 @@
             align-items: center;
             padding: 0 20px;
             background: var(--button-bg);
-            color: var(--button-color);
             border-radius: 50px;
+            color: var(--button-color);
             cursor: pointer;
         }
 
@@ -1394,7 +1394,7 @@
         }
 
         path {
-            fill: inherit;
+            fill: currentColor;
         }
 
         .profile-icon {
@@ -1423,7 +1423,7 @@
         overflow: hidden;
         max-height: 1000px;
         padding-top: 5px;
-        transition: max-height 0.5 ease;
+        transition: max-height 500ms ease;
 
         &[hidden] {
             max-height: 0;
@@ -1975,10 +1975,6 @@
         font-weight: bold;
         line-height: 24px;
         transition: all 0.15s ease;
-
-        &:hover {
-            color: var(--center-channel-bg);
-        }
 
         .fa {
             position: relative;

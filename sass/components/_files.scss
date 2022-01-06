@@ -9,7 +9,6 @@
     flex-shrink: 0;
     flex-wrap: nowrap;
     margin: 1px 0 5px;
-    overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
 }
@@ -201,9 +200,9 @@
             max-width: 100%;
             min-height: 40px;
             max-height: 350px;
+            border-color: rgba(var(--center-channel-color-rgb), 0.12);
             border-radius: 4px;
             transition: all 0.1s linear;
-            border-color: rgba(var(--center-channel-color-rgb), 0.12);
 
             .file-preview__button {
                 display: block;
@@ -568,16 +567,15 @@
             width: 30px;
             height: 30px;
             border: 1px solid rgba(var(--center-channel-color-rgb), 0.35);
-            stroke: rgba(var(--center-channel-color-rgb), 0.4);
             border-radius: 50%;
             opacity: 0.7;
+            stroke: rgba(var(--center-channel-color-rgb), 0.4);
             transition: all 0.1s linear;
 
             &:hover {
-                opacity: 1;
-
                 border-color: var(--button-bg);
                 background: var(--button-bg);
+                opacity: 1;
                 stroke: var(--button-color);
             }
         }

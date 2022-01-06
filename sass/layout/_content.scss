@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .inner-wrap {
     &.move--left {
@@ -64,7 +64,6 @@
 
 #archive-link-home {
     flex: 0 0 auto;
-
     background: rgba(var(--center-channel-color-rgb), 0.15);
     cursor: pointer;
     font-size: 13px;

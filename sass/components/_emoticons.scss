@@ -524,9 +524,7 @@ $emoji-half-height: 33px;
 
 .emoji-picker__custom {
     flex-shrink: 0;
-    margin: $emoji-picker-footer-margin {
-        left: 0;
-    }
+    margin: $emoji-picker-footer-margin;
     text-decoration: none;
 
     a,
@@ -547,8 +545,8 @@ $emoji-half-height: 33px;
 
 .emoji-picker__preview {
     overflow: hidden;
-    margin: $emoji-picker-footer-margin;
     border-color: rgba(var(--center-channel-color-rgb), 0.2);
+    margin: $emoji-picker-footer-margin;
     background: var(--center-channel-bg);
     text-overflow: ellipsis;
     white-space: nowrap;
