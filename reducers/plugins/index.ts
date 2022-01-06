@@ -120,6 +120,7 @@ function removePluginComponents(state: PluginsState['components'], action: Gener
 }
 
 function removePluginComponent(state: PluginsState['components'], action: GenericAction) {
+    let newState = state;
     const types = Object.keys(state);
     for (let i = 0; i < types.length; i++) {
         const componentType = types[i];
@@ -128,11 +129,11 @@ function removePluginComponent(state: PluginsState['components'], action: Generi
             if (componentList[j].id === action.id) {
                 const nextArray = [...componentList];
                 nextArray.splice(j, 1);
-                return {...state, [componentType]: nextArray};
+                newState = {...newState, [componentType]: nextArray};
             }
         }
     }
-    return state;
+    return newState;
 }
 
 function plugins(state: IDMappedObjects<ClientPluginManifest> = {}, action: GenericAction) {
@@ -175,6 +176,7 @@ const initialComponents: PluginsState['components'] = {
     FilePreview: [],
     LinkTooltip: [],
     MainMenu: [],
+    ChannelHeaderButton: [],
     MobileChannelHeaderButton: [],
     PostDropdownMenu: [],
     Product: [],
