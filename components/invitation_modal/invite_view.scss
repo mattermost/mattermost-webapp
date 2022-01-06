@@ -1,7 +1,7 @@
 // MM-40611 workaround to not show outline on Microsoft browsers
 // had to be this specific, i.e. `button.InviteView__copyLink:focus`
 // does not work
-button.btn.btn-cancel.InviteView__copyLink:focus {
+button.InviteView__copyLink.tertiary-button:focus {
     outline: none;
 }
 
@@ -17,32 +17,29 @@ button.btn.btn-cancel.InviteView__copyLink:focus {
     }
 
     &__copyLink {
-
         &.tertiary-button {
             display: inline-flex;
-            align-items: center;
             height: 40px;
-            border-radius: 4px;
-            border: 0px;
-            font-weight: 600;
-            font-size: 14px;
             align-items: center;
             padding: 0 20px;
+            border: 0;
+            background: rgba(var(--button-bg-rgb), 0.08);
+            border-radius: 4px;
+            color: var(--button-bg);
+            font-size: 14px;
+            font-weight: 600;
             transition: all 0.15s ease-out;
 
-            color: var(--button-bg);
-            background: rgba(var(--button-bg-rgb), 0.08);
-
             &:disabled {
-                color: rgba(var(--center-channel-color-rgb), 0.32);
                 background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.32);
             }
 
             &:hover:enabled {
                 background: rgba(var(--button-bg-rgb), 0.12);
             }
 
-            &:active:enabled  {
+            &:active:enabled {
                 background: rgba(var(--button-bg-rgb), 0.16);
             }
 
@@ -50,12 +47,11 @@ button.btn.btn-cancel.InviteView__copyLink:focus {
                 display: flex;
                 font-size: 18px;
 
-                &:before {
+                &::before {
                     margin: 0 7px 0 0;
                 }
             }
         }
-
 
         display: flex;
         align-items: center;
