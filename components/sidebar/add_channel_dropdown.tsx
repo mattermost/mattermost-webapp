@@ -31,6 +31,7 @@ type Props = {
     offTopicDisplayName: string;
     showTutorialTip: boolean;
     addChannelButton?: AddChannelButtonTreatments;
+    canCreateCustomGroups: boolean;
 };
 
 type State = {
@@ -61,7 +62,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = () => {
-        const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
+        const {intl, canCreateChannel, canJoinPublicChannel, canCreateCustomGroups} = this.props;
 
         const invitePeople = (
             <Menu.Group>
@@ -121,14 +122,17 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             />
         );
 
-        const createUserGroup = (
-            <Menu.ItemAction
-                id={'createUserGroup'}
-                onClick={this.props.showCreateUserGroupModal}
-                icon={<i className='icon-account-multiple-plus-outline'/>}
-                text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create new user group'})}
-            />
-        );
+        let createUserGroup;
+        if (canCreateCustomGroups) {
+            createUserGroup = (
+                <Menu.ItemAction
+                    id={'createUserGroup'}
+                    onClick={this.props.showCreateUserGroupModal}
+                    icon={<i className='icon-account-multiple-plus-outline'/>}
+                    text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create new user group'})}
+                />
+            );
+        }
 
         return (
             <>

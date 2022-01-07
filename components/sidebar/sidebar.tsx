@@ -46,6 +46,7 @@ type Props = {
     unreadFilterEnabled: boolean;
     isMobileView: boolean;
     userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
 };
 
 type State = {
@@ -236,6 +237,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
                         userGroupsEnabled={this.props.userGroupsEnabled}
+                        canCreateCustomGroups={this.props.canCreateCustomGroups}
                     />
                 )}
                 <div

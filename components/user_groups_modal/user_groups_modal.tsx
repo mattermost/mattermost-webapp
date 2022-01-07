@@ -11,7 +11,7 @@ import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import * as Utils from 'utils/utils.jsx';
-import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
+import {Group, GroupSearachParams, GroupPermissions} from 'mattermost-redux/types/groups';
 
 import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -32,10 +32,7 @@ export type Props = {
     searchTerm: string;
     currentUserId: string;
     backButtonAction: () => void;
-    permissionToViewGroup: boolean;
-    permissionToJoinGroup: boolean;
-    permissionToLeaveGroup: boolean;
-    permissionToArchiveGroup: boolean;
+    groupPermissionsMap: Record<string, GroupPermissions>;
     actions: {
         getGroups: (
             filterAllowReference?: boolean,
@@ -243,8 +240,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     leaveGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
 
-        // TODO: Permission check here
-
         // Should do some redux thing where I decrement the member_count of the group
 
         await actions.removeUsersFromGroup(groupId, [currentUserId]);
@@ -252,8 +247,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
     joinGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
-
-        // TODO: Permission check here
 
         // Should do some redux thing where I increment the member_count of the group
 
@@ -296,6 +289,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
     render() {
         const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
+        const {groupPermissionsMap} = this.props;
 
         return (
             <Modal
@@ -396,9 +390,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     className='group-row'
                                     key={group.id}
                                     onClick={() => {
-                                        if (this.props.permissionToViewGroup) {
-                                            this.goToViewGroupModal(group);
-                                        }
+                                        this.goToViewGroupModal(group);
                                     }}
                                 >
                                     <span className='group-display-name'>
@@ -435,7 +427,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                             >
                                                 <Menu.Group>
                                                     <Menu.ItemAction
-                                                        show={this.props.permissionToViewGroup}
                                                         onClick={() => {
                                                             this.goToViewGroupModal(group);
                                                         }}
@@ -444,7 +435,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                         disabled={false}
                                                     />
                                                     <Menu.ItemAction
-                                                        show={this.props.permissionToJoinGroup}
+                                                        show={groupPermissionsMap[group.id].can_manage_members}
                                                         onClick={() => {
                                                             this.joinGroup(group.id);
                                                         }}
@@ -455,7 +446,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                 </Menu.Group>
                                                 <Menu.Group>
                                                     <Menu.ItemAction
-                                                        show={this.props.permissionToLeaveGroup}
+                                                        show={groupPermissionsMap[group.id].can_manage_members}
                                                         onClick={() => {
                                                             this.leaveGroup(group.id);
                                                         }}
@@ -465,7 +456,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                         isDangerous={true}
                                                     />
                                                     <Menu.ItemAction
-                                                        show={this.props.permissionToArchiveGroup}
+                                                        show={groupPermissionsMap[group.id].can_delete}
                                                         onClick={() => {
                                                             this.archiveGroup(group.id);
                                                         }}

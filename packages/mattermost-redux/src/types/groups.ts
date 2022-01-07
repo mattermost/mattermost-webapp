@@ -148,3 +148,13 @@ export type GroupSearachParams = {
     include_member_count: boolean;
     user_id?: string;
 }
+
+export type GroupMembership = {
+    user_id: string;
+    roles: string;
+}
+
+export type GroupPermissions = {
+    can_delete: boolean;
+    can_manage_members: boolean;
+}
