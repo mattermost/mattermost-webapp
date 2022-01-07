@@ -66,7 +66,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         this.loadPage(0);
     }
 
-    includeBoards = this.props.config.PluginSettings?.PluginStates?.focalboard?.Enable
+    includeBoards = this.props.config.PluginSettings?.PluginStates?.focalboard?.Enable && this.props.config.FeatureFlags?.BoardsDataRetention
     getGlobalPolicyColumns = (): Column[] => {
         const columns: Column[] = [
             {

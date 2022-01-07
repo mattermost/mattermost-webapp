@@ -59,7 +59,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
         };
     }
 
-    includeBoards = this.props.config.PluginSettings?.PluginStates?.focalboard?.Enable
+    includeBoards = this.props.config.PluginSettings?.PluginStates?.focalboard?.Enable && this.props.config.FeatureFlags?.BoardsDataRetention
 
     getDefaultInputValue = (isEnabled: boolean | undefined, days: number | undefined): string => {
         if (!isEnabled || days === undefined) {
@@ -170,8 +170,10 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
                                     <div id='global_direct_message_dropdown'>
                                         <DropdownInputHybrid
                                             onDropdownChange={(value) => {
-                                                this.setState({messageRetentionDropdownValue: value, saveNeeded: true});
-                                                this.props.actions.setNavigationBlocked(true);
+                                                if (this.state.messageRetentionDropdownValue.value !== value.value) {
+                                                    this.setState({messageRetentionDropdownValue: value, saveNeeded: true});
+                                                    this.props.actions.setNavigationBlocked(true);
+                                                }
                                             }}
                                             onInputChange={(e) => {
                                                 this.setState({messageRetentionInputValue: e.target.value, saveNeeded: true});
@@ -194,8 +196,10 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
                                     <div id='global_file_dropdown'>
                                         <DropdownInputHybrid
                                             onDropdownChange={(value) => {
-                                                this.setState({fileRetentionDropdownValue: value, saveNeeded: true});
-                                                this.props.actions.setNavigationBlocked(true);
+                                                if (this.state.fileRetentionDropdownValue.value !== value.value) {
+                                                    this.setState({fileRetentionDropdownValue: value, saveNeeded: true});
+                                                    this.props.actions.setNavigationBlocked(true);
+                                                }
                                             }}
                                             onInputChange={(e) => {
                                                 this.setState({fileRetentionInputValue: e.target.value, saveNeeded: true});
@@ -219,8 +223,10 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
                                     <div id='global_boards_dropdown'>
                                         <DropdownInputHybrid
                                             onDropdownChange={(value) => {
-                                                this.setState({boardsRetentionDropdownValue: value, saveNeeded: true});
-                                                this.props.actions.setNavigationBlocked(true);
+                                                if (this.state.boardsRetentionDropdownValue.value !== value.value) {
+                                                    this.setState({boardsRetentionDropdownValue: value, saveNeeded: true});
+                                                    this.props.actions.setNavigationBlocked(true);
+                                                }
                                             }}
                                             onInputChange={(e) => {
                                                 this.setState({boardsRetentionInputValue: e.target.value, saveNeeded: true});
