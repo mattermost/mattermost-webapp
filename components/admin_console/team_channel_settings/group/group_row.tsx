@@ -18,7 +18,6 @@ import {localizeMessage} from 'utils/utils.jsx';
 interface GroupRowProps {
     group: Partial<Group>;
     removeGroup: (gid: string) => void;
-    key?: string;
     setNewGroupRole: (gid: string) => void;
     type: string;
     isDisabled?: boolean;

@@ -79,6 +79,8 @@ export default class PostList extends React.PureComponent {
          */
         isPrefetchingInProcess: PropTypes.bool.isRequired,
 
+        isMobileView: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -315,6 +317,7 @@ export default class PostList extends React.PureComponent {
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             latestPostId={this.props.latestPostId}
+                            isMobileView={this.props.isMobileView}
                         />
                     </div>
                 </div>
