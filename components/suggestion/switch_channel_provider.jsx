@@ -381,7 +381,7 @@ export default class SwitchChannelProvider extends Provider {
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
-            const formattedData = this.formatList(channelPrefix, channels, users);
+            const formattedData = this.formatList(channelPrefix, channels, users, true, true);
             if (formattedData) {
                 resultsCallback(formattedData);
             }
@@ -490,7 +490,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatList(channelPrefix, allChannels, users, skipNotMember = true) {
+    formatList(channelPrefix, allChannels, users, skipNotMember = true, localData = false) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -589,6 +589,13 @@ export default class SwitchChannelProvider extends Provider {
         const channelNames = channels.
             sort(quickSwitchSorter).
             map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
+
+        if (localData && !channels.length) {
+            channels.push({
+                type: Constants.MENTION_MORE_CHANNELS,
+                loading: true,
+            });
+        }
 
         return {
             matchedPretext: channelPrefix,

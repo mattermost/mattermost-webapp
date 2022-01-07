@@ -67,8 +67,8 @@ describe('Onboarding - Sysadmin invite members by email', () => {
             });
         });
 
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Invite members to the team header
         cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
@@ -90,8 +90,8 @@ describe('Onboarding - Sysadmin invite members by email', () => {
     });
 
     it('MM-T3332_2 Invite with invalid emails', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Invite members to the team header
         cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
@@ -110,8 +110,8 @@ describe('Onboarding - Sysadmin invite members by email', () => {
     });
 
     it('MM-T3332_3 Invite with invalid emails when next button is pressed', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Invite members to the team header
         cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
@@ -130,8 +130,8 @@ describe('Onboarding - Sysadmin invite members by email', () => {
     });
 
     it('MM-T3332_4 Pressing next with empty input finishes the step', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Invite members to the team header
         cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();

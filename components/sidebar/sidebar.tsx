@@ -104,7 +104,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
                     dialogType: KeyboardShortcutsModal,
                 });
-            } else if (Utils.isKeyPressed(event, Constants.KeyCodes.A)) {
+            } else if (Utils.isKeyPressed(event, Constants.KeyCodes.A) && event.shiftKey) {
                 event.preventDefault();
 
                 this.props.actions.openModal({
