@@ -119,7 +119,6 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
 import {TelemetryHandler} from './telemetry';
-import { instanceOf } from 'prop-types';
 
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
