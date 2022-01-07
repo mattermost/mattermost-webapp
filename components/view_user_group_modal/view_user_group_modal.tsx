@@ -225,7 +225,9 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
         // Should do some redux thing where I decrement the member_count of the group
 
-        await actions.removeUsersFromGroup(groupId, [currentUserId]);
+        await actions.removeUsersFromGroup(groupId, [currentUserId]).then(() => {
+            this.decrementMemberCount();
+        });
     }
 
     joinGroup = async (groupId: string) => {
