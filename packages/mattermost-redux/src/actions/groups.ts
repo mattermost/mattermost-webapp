@@ -353,7 +353,7 @@ export function addUsersToGroup(groupId: string, userIds: string[]): ActionFunc 
 
         dispatch(
             {
-                type: UserTypes.RECEIVED_PROFILES_LIST_IN_GROUP,
+                type: UserTypes.RECEIVED_PROFILES_FOR_GROUP,
                 data,
                 id: groupId,
             },

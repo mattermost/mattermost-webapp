@@ -61,6 +61,7 @@ type State = {
     loading: boolean;
     show: boolean;
     selectedFilter: string;
+    memberCount: number;
 }
 
 export default class ViewUserGroupModal extends React.PureComponent<Props, State> {
@@ -78,7 +79,16 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             loading: true,
             show: true,
             selectedFilter: 'all',
+            memberCount: props.group.member_count,
         };
+    }
+
+    incrementMemberCount = () => {
+        this.setState({memberCount: this.state.memberCount + 1});
+    }
+
+    decrementMemberCount = () => {
+        this.setState({memberCount: this.state.memberCount - 1});
     }
 
     doHide = () => {
@@ -203,7 +213,9 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     removeUserFromGroup = async (userId: string) => {
         const {groupId, actions} = this.props;
 
-        await actions.removeUsersFromGroup(groupId, [userId]);
+        await actions.removeUsersFromGroup(groupId, [userId]).then(() => {
+            this.decrementMemberCount();
+        });
     }
 
     leaveGroup = async (groupId: string) => {
@@ -223,7 +235,9 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
         // Should do some redux thing where I increment the member_count of the group
 
-        await actions.addUsersToGroup(groupId, [currentUserId]);
+        await actions.addUsersToGroup(groupId, [currentUserId]).then(() => {
+            this.incrementMemberCount();
+        });
     }
 
     archiveGroup = async (groupId: string) => {
@@ -382,7 +396,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                 id='view_user_group_modal.memberCount'
                                 defaultMessage='{member_count} {member_count, plural, one {Member} other {Members}}'
                                 values={{
-                                    member_count: group.member_count,
+                                    member_count: this.state.memberCount,
                                 }}
                             />
                         </h2>
