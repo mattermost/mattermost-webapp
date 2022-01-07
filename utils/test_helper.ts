@@ -294,7 +294,7 @@ export class TestHelper {
         return Object.assign({}, defaultPost, override);
     }
 
-    public static getFileInfoMock(override: Partial<FileInfo>): FileInfo {
+    public static getFileInfoMock(override: Partial<FileInfo> = {}): FileInfo {
         const defaultFileInfo: FileInfo = {
             id: 'file_info_id',
             user_id: 'user_id',

@@ -30,7 +30,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T329 Image link preview', () => {
-        const link = 'http://www.traveller.com.au/content/dam/images/g/u/n/q/h/0/image.related.articleLeadwide.620x349.gunpvd.png/1488330286332.png';
+        const link = 'https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
         const baseUrl = Cypress.config('baseUrl');
         const encodedIconUrl = encodeURIComponent(link);
 
@@ -51,15 +51,18 @@ describe('Image Link Preview', () => {
 
             cy.uiGetContentFilePreviewModal().find('img').should((img) => {
                 // * Verify image is rendered
-                expect(img.height()).to.be.closeTo(349, 2);
-                expect(img.width()).to.be.closeTo(620, 2);
+                expect(img.height()).to.be.closeTo(165, 2);
+                expect(img.width()).to.be.closeTo(1041, 2);
             });
+
+            // * Verify "Get Public Link" icon does not exist
+            cy.uiGetPublicLink({exist: false});
 
             // # Close modal
             cy.uiCloseFilePreviewModal();
         });
 
-        // # Verify modal is closed
+        // * Verify modal is closed
         cy.uiGetFilePreviewModal({exist: false});
 
         cy.uiGetPostBody().find('.markdown__link').then((el) => {

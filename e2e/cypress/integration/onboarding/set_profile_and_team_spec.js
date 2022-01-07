@@ -57,8 +57,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3330_1 Sysadmin - Set full name and profile image', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Clear full name
         cy.apiPatchUser(sysadmin.id, {first_name: '', last_name: ''}).then(() => {
@@ -89,8 +89,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3330_2 Sysadmin - Set full name and profile image - no name provided', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
@@ -106,8 +106,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3330_3 Sysadmin - Set full name and profile image - upload file of wrong type', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
@@ -120,8 +120,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3331_1 Sysadmin - Set team name and team icon', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Name your team header
         cy.get('button.NextStepsView__cardHeader:contains(Name your team)').should('be.visible').click();
@@ -146,8 +146,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3331_2 Sysadmin - Set team name and team icon - no name provided', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Name your team header
         cy.get('button.NextStepsView__cardHeader:contains(Name your team)').should('be.visible').click();
@@ -166,8 +166,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3331_3 Sysadmin - Set team name and team icon - upload file of wrong type', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Name your team header
         cy.get('button.NextStepsView__cardHeader:contains(Name your team)').should('be.visible').click();

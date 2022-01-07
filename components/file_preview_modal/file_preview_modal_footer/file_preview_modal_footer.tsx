@@ -1,25 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo} from 'react';
 
-import Post from '../../post_view/post/post';
+import {FileInfo} from 'mattermost-redux/types/files';
+import {Post} from 'mattermost-redux/types/posts';
+
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
+import {LinkInfo} from '../types';
 
 import './file_preview_modal_footer.scss';
-import {FileInfo} from 'mattermost-redux/types/files';
 
 interface Props {
-    fileInfo: FileInfo;
+    fileInfo: FileInfo | LinkInfo;
     filename: string;
-    post: React.ComponentProps<typeof Post>;
+    post?: Post;
     fileURL: string;
     showPublicLink?: boolean;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
     isExternalFile: boolean;
-    handlePrev: () => void;
-    handleNext: () => void;
     handleModalClose: () => void;
 }
 

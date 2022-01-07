@@ -67,6 +67,7 @@ describe('components/next_steps_view', () => {
             savePreferences: jest.fn(),
             closeRightHandSide: jest.fn(),
             getProfiles: jest.fn(),
+            selectChannel: jest.fn(),
         },
     };
 

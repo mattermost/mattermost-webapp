@@ -9,27 +9,21 @@
 
 // Group: @keyboard_shortcuts
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Keyboard Shortcuts', () => {
-    let testTeam;
-    let testChannel;
-    let testUser;
     before(() => {
-        cy.apiInitSetup().then(({team, channel, user}) => {
-            testTeam = team;
-            testChannel = channel;
-            testUser = user;
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            // # Visit test channel
+            cy.visit(channelUrl);
         });
     });
 
     it('MM-T1255 CTRL/CMD+UP or DOWN no action on draft post', () => {
         const message = 'Test message from User 1';
-        cy.apiLogin(testUser);
-
-        // # Visit the channel using the channel name
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Type a message in the input box but do not post it
-        cy.get('#post_textbox').type(message);
+        cy.get('#post_textbox').type(message).wait(TIMEOUTS.ONE_SEC);
 
         // # Press CMD/CTRL+DOWN arrow
         cy.get('#post_textbox').cmdOrCtrlShortcut('{downarrow}');

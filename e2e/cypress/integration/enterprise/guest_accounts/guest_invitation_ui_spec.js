@@ -50,7 +50,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
     });
 
-    it('MM-18041 Verify UI Elements of Guest User Invitation Flow', () => {
+    it('MM-T4451 Verify UI Elements of Guest User Invitation Flow', () => {
         // # Open team menu and click 'Invite People'
         cy.uiOpenTeamMenu('Invite People');
 
@@ -109,7 +109,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
     });
 
-    it('MM-18050 Verify when different feature settings are disabled', () => {
+    it('MM-T1386 Verify when different feature settings are disabled', () => {
         // # Disable Guest Accounts
         // # Enable Email Invitations
         changeGuestFeatureSettings(false, true);
@@ -145,7 +145,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#inviteGuestButton').should('be.disabled');
     });
 
-    it('MM-22037 Invite Guest via Email containing upper case letters', () => {
+    it('MM-T4449 Invite Guest via Email containing upper case letters', () => {
         // # Reset Guest Feature settings
         changeGuestFeatureSettings();
 

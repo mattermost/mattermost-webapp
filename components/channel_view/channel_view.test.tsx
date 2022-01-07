@@ -19,6 +19,8 @@ describe('components/channel_view', () => {
         showNextSteps: false,
         isOnboardingHidden: true,
         showNextStepsEphemeral: false,
+        enableOnboardingFlow: true,
+        teamUrl: '/team',
         channelIsArchived: false,
         viewArchivedChannels: false,
         isCloud: false,
