@@ -108,10 +108,10 @@ export default class RhsCardHeader extends React.PureComponent<Props> {
                     defaultMessage='Expand the right sidebar'
                 />
                 <KeyboardShortcutSequence
-                     shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
-                     hideDescription={true}
-                     isInsideTooltip={true}
-                 />
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
+                />
             </Tooltip>
         );
 
@@ -122,10 +122,10 @@ export default class RhsCardHeader extends React.PureComponent<Props> {
                     defaultMessage='Collapse the right sidebar'
                 />
                 <KeyboardShortcutSequence
-                     shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
-                     hideDescription={true}
-                     isInsideTooltip={true}
-                 />
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
+                />
             </Tooltip>
         );
 
