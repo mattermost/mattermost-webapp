@@ -102,7 +102,7 @@ export default class RhsCardHeader extends React.PureComponent<Props> {
             <Tooltip id='expandSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand Sidebar'
+                    defaultMessage='Expand the right sidebar'
                 />
             </Tooltip>
         );
@@ -111,7 +111,7 @@ export default class RhsCardHeader extends React.PureComponent<Props> {
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.collapseSidebarTooltip'
-                    defaultMessage='Collapse Sidebar'
+                    defaultMessage='Collapse the right sidebar'
                 />
             </Tooltip>
         );
@@ -149,7 +149,7 @@ export default class RhsCardHeader extends React.PureComponent<Props> {
                 <div className='pull-right'>
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement='bottom'
                         overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
                         <button

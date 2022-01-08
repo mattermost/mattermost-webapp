@@ -128,7 +128,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
             <Tooltip id='expandSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand Sidebar'
+                    defaultMessage='Expand the right sidebar'
                 />
                 <KeyboardShortcutSequence
                     shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
@@ -142,7 +142,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.collapseSidebarTooltip'
-                    defaultMessage='Collapse Sidebar'
+                    defaultMessage='Collapse the right sidebar'
                 />
                 <KeyboardShortcutSequence
                     shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
@@ -203,7 +203,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement='bottom'
                         overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
                         <button

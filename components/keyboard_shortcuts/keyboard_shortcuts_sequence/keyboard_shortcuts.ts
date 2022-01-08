@@ -165,11 +165,11 @@ export const KEYBOARD_SHORTCUTS = {
     navExpandSidebar: {
         default: {
             id: t('shortcuts.nav.expand_sidebar'),
-            defaultMessage: 'Expand the sidebar:\tCtrl|Shift|.',
+            defaultMessage: 'Expand the right sidebar:\tCtrl|Shift|.',
         },
         mac: {
             id: t('shortcuts.nav.expand_sidebar.mac'),
-            defaultMessage: 'Expand the sidebar:\t⌘|Shift|.',
+            defaultMessage: 'Expand the right sidebar:\t⌘|Shift|.',
         },
     },
     msgEdit: {

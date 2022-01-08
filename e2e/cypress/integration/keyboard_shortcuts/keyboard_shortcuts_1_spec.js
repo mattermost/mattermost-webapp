@@ -441,12 +441,14 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#moreDmModal').should('not.exist');
     });
 
-    it('MM-40442 - CTRL/CMD+SHIFT+.', () => {
+    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS', () => {
         // # Type CTRL/CMD+SHIFT+. to open 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
         cy.uiGetRHS();
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
         cy.uiGetRHS().isExpanded();
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetRHS();
     });
 
     function markAsFavorite(channelName) {
