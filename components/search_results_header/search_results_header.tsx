@@ -7,6 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -37,6 +40,11 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                     id='rhs_header.expandSidebarTooltip'
                     defaultMessage='Expand the right sidebar'
                 />
+                <KeyboardShortcutSequence
+                     shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                     hideDescription={true}
+                     isInsideTooltip={true}
+                 />
             </Tooltip>
         );
 
@@ -46,6 +54,11 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                     id='rhs_header.collapseSidebarTooltip'
                     defaultMessage='Collapse the right sidebar'
                 />
+                <KeyboardShortcutSequence
+                     shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                     hideDescription={true}
+                     isInsideTooltip={true}
+                 />
             </Tooltip>
         );
 
