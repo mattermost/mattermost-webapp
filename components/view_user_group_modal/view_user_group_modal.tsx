@@ -221,8 +221,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     leaveGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
 
-        // TODO: Permission check here
-
         // Should do some redux thing where I decrement the member_count of the group
 
         await actions.removeUsersFromGroup(groupId, [currentUserId]);
@@ -230,8 +228,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
     joinGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
-
-        // TODO: Permission check here
 
         // Should do some redux thing where I increment the member_count of the group
 
