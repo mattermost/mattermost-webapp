@@ -25,20 +25,9 @@ export interface EnterpriseEditionProps {
     removing: boolean;
 }
 
-const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
-    openEELicenseModal,
-    upgradedFromTE,
-    license,
-    isTrialLicense,
-    issued,
-    startsAt,
-    expiresAt,
-    handleRemove,
-    isDisabled,
-    removing,
-}: EnterpriseEditionProps) => {
+export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
     let skuName = '';
-    switch (license.SkuShortName) {
+    switch (skuShortName) {
     case LicenseSkus.E20:
         skuName = 'Enterprise E20';
         break;
@@ -56,10 +45,25 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
         break;
     }
 
+    skuName += isGovSku ? ' Gov' : '';
+
+    return skuName;
+};
+
+const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
+    openEELicenseModal,
+    upgradedFromTE,
+    license,
+    isTrialLicense,
+    issued,
+    startsAt,
+    expiresAt,
+    handleRemove,
+    isDisabled,
+    removing,
+}: EnterpriseEditionProps) => {
+    const skuName = getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
-
-    skuName += license.IsGovSku === 'true' ? ' Gov' : '';
-
     return (
         <div className='EnterpriseEditionLeftPanel'>
             <div className='pre-title'>

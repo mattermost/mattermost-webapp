@@ -27,6 +27,8 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
 
+import {getSkuDisplayName} from '../enterprise_edition/enterprise_edition_left_panel';
+
 import {fileSizeToString, localizeMessage} from 'utils/utils';
 import {getMonthLong} from 'utils/i18n';
 
@@ -233,6 +235,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         );
 
         const licensedUsersNum = currentLicense.Users;
+        const skuName = getSkuDisplayName(currentLicense.SkuShortName, currentLicense.IsGovSku === 'true');
         uploadLicenseContent = (
             <>
                 <div className='content-body'>
@@ -251,11 +254,12 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                     <div className='subtitle'>
                         <FormattedMessage
                             id='admin.license.upload-modal.successfulUpgradeText'
-                            defaultMessage='You have upgraded to the Starter plan for {licensedUsersNum} users. This is effective from {startsAt} until {expiresAt}. '
+                            defaultMessage='You have upgraded to the {skuName} plan for {licensedUsersNum} users. This is effective from {startsAt} until {expiresAt}. '
                             values={{
                                 expiresAt,
                                 startsAt,
                                 licensedUsersNum,
+                                skuName,
                             }}
                         />
                     </div>
