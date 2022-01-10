@@ -27,7 +27,7 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
 
-import {localizeMessage} from 'utils/utils';
+import {fileSizeToString, localizeMessage} from 'utils/utils';
 import {getMonthLong} from 'utils/i18n';
 
 import './upload_license_modal.scss';
@@ -47,9 +47,11 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
     const currentLicense: ClientLicense = useSelector(getLicense);
     const locale = useSelector(getCurrentLocale);
 
+    const LICENSE_EXTENSION = '.mattermost-license';
+
     const handleChange = () => {
         const element = fileInputRef.current;
-        if (element === null || element.files === null || element.files.length === 0) {
+        if (element === null || element.files === null || element.files.length === 0 || element.files[0].size === 0) {
             return;
         }
         setFileObj(element.files[0]);
@@ -84,6 +86,9 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
     }
 
     const handleOnClose = () => {
+        if (isUploading) {
+            return;
+        }
         if (props.onExited) {
             props.onExited();
         }
@@ -92,6 +97,13 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
 
     const handleRemoveFile = () => {
         setFileObj(null);
+    };
+
+    const displayFileName = (fileName: string) => {
+        const extLen = LICENSE_EXTENSION.length;
+        let fileNameWithoutExt = fileName.split(LICENSE_EXTENSION)[0];
+        fileNameWithoutExt = fileNameWithoutExt.length < (40 - extLen) ? fileNameWithoutExt : `${fileNameWithoutExt.substr(0, (37 - extLen))}...`;
+        return `${fileNameWithoutExt}${LICENSE_EXTENSION}`;
     };
 
     let uploadLicenseContent = (
@@ -131,10 +143,10 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                                         height={20}
                                     />
                                     <span className='file-name'>
-                                        {fileObj.name.length < 40 ? fileObj?.name : `${fileObj?.name.substr(0, 37)}...`}
+                                        {displayFileName(fileObj.name)}
                                     </span>
                                     <span className='file-size'>
-                                        {(fileObj?.size / 1024).toFixed(2) + 'MB'}
+                                        {fileSizeToString(fileObj.size)}
                                     </span>
                                 </>
                             ) : (
@@ -159,7 +171,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                                     <input
                                         ref={fileInputRef}
                                         type='file'
-                                        accept='.mattermost-license'
+                                        accept={LICENSE_EXTENSION}
                                         onChange={handleChange}
                                     />
                                     <a
