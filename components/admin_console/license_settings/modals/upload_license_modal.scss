@@ -31,7 +31,7 @@
 
         .title {
             margin: 10px 0;
-            color: var(--sys-denim-center-channel-text);
+            color: #3f4350;
             font-family: Metropolis;
             font-size: 22px;
             font-weight: 700;
@@ -40,7 +40,7 @@
 
         .subtitle {
             width: 90%;
-            color: var(--sys-denim-center-channel-text);
+            color: #3f4350;
             font-size: 14px;
             font-style: normal;
             font-weight: normal;
@@ -109,13 +109,19 @@
         }
 
         .serverError {
+            display: flex;
             width: 90%;
             margin-top: 5px;
             color: var(--error-text);
             float: left;
 
             i {
+                display: inline;
                 margin-right: 5px;
+            }
+
+            span.server-error-text {
+                display: inline-flex;
             }
         }
     }

@@ -6,6 +6,8 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
+import marked from 'marked';
+
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {uploadLicense} from 'mattermost-redux/actions/admin';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
@@ -189,10 +191,13 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                         </div>
                     </div>
                 </div>
-                <div className='serverError'>
-                    {serverError && <i className='icon icon-alert-outline'/>}
-                    {serverError}
-                </div>
+                {serverError && <div className='serverError'>
+                    <i className='icon icon-alert-outline'/>
+                    <span
+                        className='server-error-text'
+                        dangerouslySetInnerHTML={{__html: marked(serverError)}}
+                    />
+                </div>}
             </div>
             <div className='content-footer'>
                 <div className='btn-upload-wrapper'>
