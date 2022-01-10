@@ -39,6 +39,7 @@ type Props = {
         setShowNextStepsView: (show: boolean) => void;
         closeRightHandSide: () => void;
         getProfiles: () => void;
+        selectChannel: (channelId: string) => void;
     };
 };
 
@@ -59,6 +60,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
+        this.props.actions.selectChannel('');
         await this.props.actions.getProfiles();
 
         // eslint-disable-next-line react/no-did-mount-set-state

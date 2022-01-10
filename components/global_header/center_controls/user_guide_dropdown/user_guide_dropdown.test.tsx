@@ -26,6 +26,11 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         reportAProblemLink: 'reportAProblemLink',
         enableAskCommunityLink: 'true',
         showGettingStarted: false,
+        location: {
+            pathname: '/team/channel/channelId',
+        },
+        showDueToStepsNotFinished: false,
+        teamUrl: '/team',
         actions: {
             unhideNextSteps: jest.fn(),
             openModal: jest.fn(),
