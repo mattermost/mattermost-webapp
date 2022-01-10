@@ -1,13 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import deepEqual from 'fast-deep-equal';
-
-import {batchActions} from 'mattermost-redux/types/actions';
-
-import {getGlobalItem} from 'selectors/storage';
-
-import {StoragePrefixes, StorageTypes} from 'utils/constants';
+import {StorageTypes} from 'utils/constants';
 import {getPrefix} from 'utils/storage_utils';
 
 export function setItem(name, value) {
@@ -65,36 +59,6 @@ export function actionOnGlobalItemsWithPrefix(prefix, action) {
     return {
         type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
         data: {prefix, action},
-    };
-}
-
-// Temporary action to manually rehydrate drafts from localStorage.
-export function rehydrateDrafts() {
-    return (dispatch, getState) => {
-        const actions = [];
-
-        const state = getState();
-
-        for (const [key, value] of Object.entries(localStorage)) {
-            if (!key.startsWith(StoragePrefixes.DRAFT) && !key.startsWith(StoragePrefixes.COMMENT_DRAFT)) {
-                continue;
-            }
-
-            const parsed = JSON.parse(value);
-
-            const existing = getGlobalItem(state, key);
-            if (existing && deepEqual(existing, parsed)) {
-                continue;
-            }
-
-            actions.push(setGlobalItem(key, parsed));
-        }
-
-        if (actions.length === 0) {
-            return {data: false};
-        }
-
-        return dispatch(batchActions(actions));
     };
 }
 
