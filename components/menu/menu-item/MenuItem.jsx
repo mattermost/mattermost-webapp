@@ -1,6 +1,6 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import classNames from 'classnames';
+import React from "react";
+import styled, { css } from "styled-components";
+import classNames from "classnames";
 
 const MenuItemLabel = styled.span(
     () => css`
@@ -22,15 +22,15 @@ const LabelWrapper = styled.div(
     ({ leadingElement }) => css`
         display: flex;
         flex-direction: column;
-        padding-left: ${leadingElement ? '10px' : 0}
+        padding-left: ${leadingElement ? "10px" : 0};
     `
-)
+);
 
 const MenuItemRoot = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    background-color: rgb(255,255,255);
+    background-color: rgb(255, 255, 255);
     cursor: pointer;
     width: 100%;
     flex-basis: 100%;
@@ -49,7 +49,7 @@ const MenuItemRoot = styled.div`
         }
     }
 
-    &.disabled { 
+    &.disabled {
         cursor: not-allowed;
         > * {
             color: rgba(var(--center-channel-color-rgb), 0.72);
@@ -63,7 +63,8 @@ const MenuItemRoot = styled.div`
         background-color: rgba(var(--button-bg-rgb), 0.08);
     }
     :focus {
-        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.32), inset 0 0 0 2px blue;
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.32),
+            inset 0 0 0 2px blue;
     }
     :focus:not(:focus-visible) {
         box-shadow: none;
@@ -76,8 +77,7 @@ const MenuItemRoot = styled.div`
         box-shadow 250ms ease-in-out;
 `;
 
-const MenuItem = React.forwardRef(
-    (props, reference) => {
+const MenuItem = React.forwardRef((props, reference) => {
     const {
         label,
         description,
@@ -98,19 +98,29 @@ const MenuItem = React.forwardRef(
     };
 
     return (
-        <MenuItemRoot ref={reference} className={classNames({disabled, destructive})} {...rootProperties}>
+        <MenuItemRoot
+            ref={reference}
+            className={classNames({ disabled, destructive })}
+            {...rootProperties}
+        >
             {leadingElement}
             <LabelWrapper leadingElement={leadingElement}>
                 <MenuItemLabel>{label}</MenuItemLabel>
                 {description && (
-                    <MenuItemDescription>
-                        {description}
-                    </MenuItemDescription>
+                    <MenuItemDescription>{description}</MenuItemDescription>
                 )}
             </LabelWrapper>
-            <div style={{display: 'flex', alignItems: 'center', justifyItems: 'flex-start'}}>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyItems: "flex-start",
+                }}
+            >
                 {trailingElement && trailingElementLabel && (
-                    <MenuItemDescription>{trailingElementLabel}</MenuItemDescription>
+                    <MenuItemDescription>
+                        {trailingElementLabel}
+                    </MenuItemDescription>
                 )}
                 {trailingElement}
             </div>
