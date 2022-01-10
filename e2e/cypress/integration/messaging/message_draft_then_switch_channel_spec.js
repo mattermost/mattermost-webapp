@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import {verifyDraftIcon} from './helpers';
+
 describe('Message Draft and Switch Channels', () => {
     let testTeam;
     let testChannel;
@@ -64,13 +66,6 @@ describe('Message Draft and Switch Channels', () => {
         cy.findByRole('textbox', `write to ${displayName.toLowerCase()}`).should('be.visible').and('have.text', message);
     });
 });
-
-function verifyDraftIcon(name, isVisible) {
-    cy.uiGetLhsSection('CHANNELS').find(`#sidebarItem_${name}`).
-        should('be.visible').
-        findByTestId('draftIcon').
-        should(isVisible ? 'be.visible' : 'not.exist');
-}
 
 function openChannelFromLhs(teamName, channelName, name) {
     // # Go to test channel and check if it opened correctly
