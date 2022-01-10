@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import classNames from "classnames";
 
@@ -22,19 +22,21 @@ function processViewSizeChange(event) {
     setViewIsMobile(event.matches);
 }
 
-const MenuItems = styled.div(({ isMobile }) => {
+const MenuItems = styled.div(({ isMobile, isSubmenu }) => {
     return isMobile
         ? css`
               background-color: rgba(var(--sidebar-text-rgb));
               min-height: 340px;
               height: auto;
               border-radius: 5%;
-              transform: translateY(100%);
+
+              transform: ${isSubmenu ? "translateX(100%)" : "translateY(100%)"};
               transition: transform 500ms ease-in-out 0ms, &.open {
                   transform: translateY(0);
               }
-              &:not(:first-child) {
-                  transform: translateX(100%);
+
+              &.closeSubmenuDown {
+                  transform: translateY(100%);
               }
 
               &.open.active {
@@ -89,7 +91,17 @@ const MenuHeader = styled.div`
 `;
 
 const MenuData = (props) => {
-    const { title, open, groups, trigger, placement, active } = props;
+    const {
+        title,
+        open,
+        groups,
+        trigger,
+        placement,
+        active,
+        isSubmenu,
+        closeSubmenu,
+        closeSubmenuDown,
+    } = props;
     console.log(viewIsMobile);
     return (
         <>
@@ -103,7 +115,8 @@ const MenuData = (props) => {
                 <MenuItems
                     isMobile={viewIsMobile}
                     active={active}
-                    className={classNames({ open, active })}
+                    isSubmenu={isSubmenu}
+                    className={classNames({ open, active, closeSubmenuDown })}
                 >
                     {title && (
                         <>
@@ -113,6 +126,17 @@ const MenuData = (props) => {
                     )}
                     {groups.map((group) => (
                         <div>
+                            {isSubmenu && (
+                                <button
+                                    style={{
+                                        fontSize: "20px",
+                                        color: "rebeccapurple",
+                                    }}
+                                    onClick={closeSubmenu}
+                                >
+                                    go back
+                                </button>
+                            )}
                             {group.title && <label>{group.title}</label>}
                             {group.menuItems}
                             {groups.length > 1 && <Divider />}
@@ -123,12 +147,50 @@ const MenuData = (props) => {
         </>
     );
 };
+function usePrevious(value) {
+    // The ref object is a generic container whose current property is mutable ...
+    // ... and can hold any value, similar to an instance property on a class
+    const ref = useRef();
+    // Store current value in ref
+    useEffect(() => {
+        ref.current = value;
+    }, [value]); // Only re-run if value changes
+    // Return previous value (happens before update in useEffect above)
+    return ref.current;
+}
 
+const Overlay = styled.div(() => {
+    return css`
+        background-color: rgba(0, 0, 0, 0);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 100%;
+        min-height: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        position: fixed;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        pointer-events: auto;
+        -ms-scroll-chaining: none;
+        transition: 1s;
+        transition-property: background-color;
+        visibility: hidden;
+    `;
+});
 const Menu = (props) => {
     const [open, setOpen] = useState(false);
     const [submenuOpen, setSubmenuOpen] = useState(false);
     const buttonReference = useRef(null);
     const menuItemReference = useRef(null);
+    const prevOpen = usePrevious(open);
+    const prevSubmenuOpen = usePrevious(submenuOpen);
+
+    const closeSubmenuDown =
+        prevOpen && prevSubmenuOpen && !submenuOpen && !open;
 
     const menuGroup = [
         {
@@ -181,7 +243,18 @@ const Menu = (props) => {
 
     return (
         <>
-            <button onClick={() => setOpen(!open)} ref={buttonReference} />
+            <button onClick={() => setOpen(!open)} ref={buttonReference}>
+                trigger
+            </button>
+            <button
+                onClick={() => {
+                    setOpen(false);
+                    setSubmenuOpen(false);
+                }}
+            >
+                close all
+            </button>
+
             <MenuData
                 groups={menuGroup}
                 trigger={buttonReference}
@@ -192,6 +265,9 @@ const Menu = (props) => {
             <MenuData
                 trigger={menuItemReference}
                 open={submenuOpen}
+                isSubmenu={true}
+                closeSubmenu={() => setSubmenuOpen(false)}
+                closeSubmenuDown={closeSubmenuDown}
                 active={submenuOpen}
                 groups={submenuGroup}
                 placement={"right-end"}
