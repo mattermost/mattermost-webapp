@@ -101,7 +101,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
     test('should display upload btn Enabled when file is loaded', () => {
         const realUseState = React.useState;
-        const initialStateForFileObj = {name: 'testing.license', size: 10240000} as File;
+        const initialStateForFileObj = {name: 'testing.mattermost-license', size: 10240000} as File;
 
         jest.spyOn(React, 'useState').mockImplementationOnce(() => realUseState(initialStateForFileObj as any));
         const wrapper = mountWithIntl(
@@ -125,7 +125,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
     test('should display the file name when is selected', () => {
         const realUseState = React.useState;
-        const initialStateForFileObj = {name: 'testing.license', size: (5 * 1024)} as File;
+        const initialStateForFileObj = {name: 'testing.mattermost-license', size: (5 * 1024)} as File;
 
         jest.spyOn(React, 'useState').mockImplementationOnce(() => realUseState(initialStateForFileObj as any));
         const wrapper = mountWithIntl(
@@ -137,7 +137,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         const fileTextSize = wrapper.find('UploadLicenseModal').find('.file-name-section span.file-size');
 
         expect(fileTextName.text()).toEqual('testing.mattermost-license');
-        expect(fileTextSize.text()).toEqual('5.00MB');
+        expect(fileTextSize.text()).toEqual('5KB');
     });
 
     test('should show success image when open and there is a license (successful license upload)', () => {
