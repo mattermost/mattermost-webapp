@@ -136,7 +136,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         const fileTextName = wrapper.find('UploadLicenseModal').find('.file-name-section span.file-name');
         const fileTextSize = wrapper.find('UploadLicenseModal').find('.file-name-section span.file-size');
 
-        expect(fileTextName.text()).toEqual('testing.license');
+        expect(fileTextName.text()).toEqual('testing.mattermost-license');
         expect(fileTextSize.text()).toEqual('5.00MB');
     });
 
