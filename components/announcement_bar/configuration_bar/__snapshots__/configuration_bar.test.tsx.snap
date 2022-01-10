@@ -40,6 +40,8 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
 />
 `;
 
+exports[`components/ConfigurationBar should match snapshot, expired, cloud license, show nothing 1`] = `""`;
+
 exports[`components/ConfigurationBar should match snapshot, expired, in grace period 1`] = `
 <Connect(AnnouncementBar)
   message={
@@ -97,5 +99,7 @@ exports[`components/ConfigurationBar should match snapshot, expired, regular use
   type="critical"
 />
 `;
+
+exports[`components/ConfigurationBar should match snapshot, expiring, cloud license, show nothing 1`] = `""`;
 
 exports[`components/ConfigurationBar should match snapshot, show nothing 1`] = `""`;

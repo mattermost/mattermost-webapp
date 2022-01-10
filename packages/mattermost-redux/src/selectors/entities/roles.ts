@@ -14,15 +14,14 @@ import {getTeamMemberships, getCurrentTeamId} from 'mattermost-redux/selectors/e
 
 import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 export {getMySystemPermissions, getMySystemRoles, getRoles};
 
-export const getMyTeamRoles: (state: GlobalState) => Dictionary<Set<string>> = createSelector(
+export const getMyTeamRoles: (state: GlobalState) => Record<string, Set<string>> = createSelector(
     'getMyTeamRoles',
     getTeamMemberships,
     (teamsMemberships) => {
-        const roles: Dictionary<Set<string>> = {};
+        const roles: Record<string, Set<string>> = {};
         if (teamsMemberships) {
             for (const key in teamsMemberships) {
                 if (teamsMemberships.hasOwnProperty(key) && teamsMemberships[key].roles) {
@@ -34,14 +33,14 @@ export const getMyTeamRoles: (state: GlobalState) => Dictionary<Set<string>> = c
     },
 );
 
-export function getMyChannelRoles(state: GlobalState): Dictionary<Set<string>> {
+export function getMyChannelRoles(state: GlobalState): Record<string, Set<string>> {
     return state.entities.channels.roles;
 }
 
 export const getMyRoles: (state: GlobalState) => {
     system: Set<string>;
-    team: Dictionary<Set<string>>;
-    channel: Dictionary<Set<string>>;
+    team: Record<string, Set<string>>;
+    channel: Record<string, Set<string>>;
 } = createSelector(
     'getMyRoles',
     getMySystemRoles,
@@ -56,11 +55,11 @@ export const getMyRoles: (state: GlobalState) => {
     },
 );
 
-export const getRolesById: (state: GlobalState) => Dictionary<Role> = createSelector(
+export const getRolesById: (state: GlobalState) => Record<string, Role> = createSelector(
     'getRolesById',
     getRoles,
     (rolesByName) => {
-        const rolesById: Dictionary<Role> = {};
+        const rolesById: Record<string, Role> = {};
         for (const role of Object.values(rolesByName)) {
             rolesById[role.id] = role;
         }
@@ -140,7 +139,7 @@ export const getMyTeamPermissions: (state: GlobalState, team: string) => Set<str
     },
 );
 
-const myChannelPermissions: Dictionary<ReturnType<typeof makeGetMyChannelPermissions>> = {};
+const myChannelPermissions: Record<string, ReturnType<typeof makeGetMyChannelPermissions>> = {};
 
 export function getMyChannelPermissions(state: GlobalState, team: string, channel: string): Set<string> {
     let selector = myChannelPermissions[channel];

@@ -13,8 +13,6 @@ import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {$ID} from 'mattermost-redux/types/utilities';
-
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
@@ -54,7 +52,7 @@ export type Props = {
 
 export type State = {
     teams: TeamMembership[];
-    teamIds: Array<$ID<Team>>;
+    teamIds: Array<Team['id']>;
     loading: boolean;
     searching: boolean;
     showPasswordModal: boolean;

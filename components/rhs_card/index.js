@@ -7,6 +7,7 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getSelectedPostCard} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import RhsCard from './rhs_card.jsx';
 
@@ -17,6 +18,7 @@ function mapStateToProps(state) {
 
     return {
         enablePostUsernameOverride,
+        isMobileView: getIsMobileView(state),
         selected,
         pluginPostCardTypes: state.plugins.postCardTypes,
         teamUrl: getCurrentRelativeTeamUrl(state),

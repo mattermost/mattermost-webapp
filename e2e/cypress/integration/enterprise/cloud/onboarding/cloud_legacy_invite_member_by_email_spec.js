@@ -59,8 +59,8 @@ describe('Cloud Onboarding - Sysadmin invite members by email for legacy cloud p
             },
         });
 
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Click Invite members to the team header
         cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').scrollIntoView().should('be.visible').click();

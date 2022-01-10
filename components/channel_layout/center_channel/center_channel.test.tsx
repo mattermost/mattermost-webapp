@@ -23,6 +23,7 @@ describe('components/channel_layout/CenterChannel', () => {
         showNextSteps: false,
         isOnboardingHidden: true,
         showNextStepsEphemeral: false,
+        enableTipsViewRoute: false,
         actions: {
             setShowNextStepsView: jest.fn,
             getProfiles: jest.fn,

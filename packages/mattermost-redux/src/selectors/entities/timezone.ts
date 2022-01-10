@@ -9,7 +9,6 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 import {createSelector} from 'reselect';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {getUserCurrentTimezone, getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
 
 export function getUserTimezone(state: GlobalState, id: string) {
@@ -45,7 +44,7 @@ export const makeGetUserTimezone: (state: GlobalState, userId: string) => UserTi
     },
 );
 
-export const getTimezoneLabel: (state: GlobalState, userId: $ID<UserProfile>) => string = createSelector(
+export const getTimezoneLabel: (state: GlobalState, userId: UserProfile['id']) => string = createSelector(
     'getTimezoneLabel',
     () => timezones,
     makeGetUserTimezone,
