@@ -69,7 +69,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         const value = e.target.value;
         let mention = this.state.mention;
         if (!this.state.mentionUpdatedManually) {
-            mention = value.replace(/[^A-Za-z0-9@]/g, '-').toLowerCase();
+            mention = value.replace(/[^A-Za-z0-9@]/g, '').toLowerCase();
             if (mention.substring(0, 1) !== '@') {
                 mention = `@${mention}`;
             }
@@ -164,31 +164,43 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             >
                 <Modal.Header closeButton={true}>
                     {
-                        typeof this.props.backButtonCallback === 'function' &&
-                        <button
-                            type='button'
-                            className='modal-header-back-button btn-icon'
-                            aria-label='Close'
-                            onClick={() => {
-                                this.goBack();
-                            }}
+                        typeof this.props.backButtonCallback === 'function' ?
+                        <>
+                            <button
+                                type='button'
+                                className='modal-header-back-button btn-icon'
+                                aria-label='Back'
+                                onClick={() => {
+                                    this.goBack();
+                                }}
+                            >
+                                <LocalizedIcon
+                                    className='icon icon-arrow-left'
+                                    ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                                />
+                            </button>
+                            <Modal.Title
+                                componentClass='h1'
+                                id='createGroupsModalTitleWithBack'
+                            >
+                                <FormattedMessage
+                                    id='user_groups_modal.createTitle'
+                                    defaultMessage='Create Group'
+                                />
+                            </Modal.Title>
+                        </> :
+                        <Modal.Title
+                            componentClass='h1'
+                            id='createGroupsModalTitle'
                         >
-                            <LocalizedIcon
-                                className='icon icon-arrow-left'
-                                ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                            <FormattedMessage
+                                id='user_groups_modal.createTitle'
+                                defaultMessage='Create Group'
                             />
-                        </button>
+                        </Modal.Title>
                     }
 
-                    <Modal.Title
-                        componentClass='h1'
-                        id='userGroupsModalLabel'
-                    >
-                        <FormattedMessage
-                            id='user_groups_modal.createTitle'
-                            defaultMessage='Create Group'
-                        />
-                    </Modal.Title>
+                    
                 </Modal.Header>
                 <Modal.Body
                     className='overflow--visible'

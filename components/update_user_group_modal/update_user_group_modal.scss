@@ -1,5 +1,10 @@
 .modal {
     .user-groups-modal-update {
+        .modal-header {
+            h1#updateGroupsModalTitle {
+                margin-left: 44px;
+            }
+        }
         .modal-body {
             .update-buttons-wrapper {
                 display: flex;

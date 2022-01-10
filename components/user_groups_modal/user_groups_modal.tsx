@@ -18,6 +18,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {ModalData} from 'types/actions';
 import {debounce} from 'mattermost-redux/actions/helpers';
+import Input from 'components/input';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import LoadingScreen from 'components/loading_screen';
 import ViewUserGroupModal from 'components/view_user_group_modal';
@@ -311,47 +312,33 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                             defaultMessage='User Groups'
                         />
                     </Modal.Title>
-                    <a
-                        id='test'
+                    <button
                         className='user-groups-create btn btn-md btn-primary'
-                        href='#'
                         onClick={this.goToCreateModal}
                     >
                         <FormattedMessage
                             id='user_groups_modal.createNew'
                             defaultMessage='Create Group'
                         />
-                    </a>
+                    </button>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='user-groups-search'>
-                        <div className='user-groups-searchbar'>
-                            <span
-                                className='user-groups-search-icon'
-                                aria-hidden='true'
-                            >
-                                <FaSearchIcon/>
-                            </span>
-
-                            <input
-                                type='text'
-                                placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                                onChange={this.handleSearch}
-                                value={this.props.searchTerm}
-                                data-testid='searchInput'
-                            />
-                            <i
-                                className={'user-groups-clear-button fa fa-times-circle ' + (this.props.searchTerm.length ? '' : 'hidden')}
-                                onClick={this.resetSearch}
-                                data-testid='clear-search'
-                            />
-                        </div>
+                        <FaSearchIcon />
+                        <Input
+                            type='text'
+                            placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
+                            onChange={this.handleSearch}
+                            value={this.props.searchTerm}
+                            data-testid='searchInput'
+                            className={'user-group-search-input'}
+                        />
                     </div>
                     <div className='more-modal__dropdown'>
                         <MenuWrapper id='groupsFilterDropdown'>
                             <a>
                                 <span>{this.state.selectedFilter === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups')}</span>
-                                <span className='caret'/>
+                                <span className='icon icon-chevron-down'/>
                             </a>
                             <Menu
                                 openLeft={false}
@@ -414,11 +401,9 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                             stopPropagationOnToggle={true}
                                             id={`customWrapper-${group.id}`}
                                         >
-                                            <div className='text-right'>
-                                                <button className='action-wrapper'>
-                                                    <i className='icon icon-dots-vertical'/>
-                                                </button>
-                                            </div>
+                                            <button className='action-wrapper'>
+                                                <i className='icon icon-dots-vertical'/>
+                                            </button>
                                             <Menu
                                                 openLeft={true}
                                                 openUp={false}

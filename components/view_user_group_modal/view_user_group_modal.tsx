@@ -28,6 +28,7 @@ import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import Input from 'components/input';
 
 const USERS_PER_PAGE = 60;
 
@@ -283,17 +284,15 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                     </Modal.Title>
                     {
                         group.source.toLowerCase() !== 'ldap' &&
-                        <a
-                            id='test'
-                            className='btn btn-md btn-primary'
-                            href='#'
+                        <button
+                            className='user-groups-create btn btn-md btn-primary'
                             onClick={this.goToAddPeopleModal}
                         >
                             <FormattedMessage
                                 id='user_groups_modal.addPeople'
                                 defaultMessage='AddPeople'
                             />
-                        </a>
+                        </button>
                     }
                     {
                         group.source.toLowerCase() !== 'ldap' &&
@@ -303,11 +302,12 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                 stopPropagationOnToggle={false}
                                 id={`detailsCustomWrapper-${group.id}`}
                             >
-                                <div className='text-right'>
-                                    <button className='action-wrapper'>
-                                        <i className='icon icon-dots-vertical'/>
-                                    </button>
-                                </div>
+                                <button className='action-wrapper btn-icon'>
+                                    <LocalizedIcon
+                                        className='icon icon-dots-vertical'
+                                        ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                                    />
+                                </button>
                                 <Menu
                                     openLeft={false}
                                     openUp={false}
@@ -366,27 +366,15 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         }
                     </div>
                     <div className='user-groups-search'>
-                        <div className='user-groups-searchbar'>
-                            <span
-                                className='user-groups-search-icon'
-                                aria-hidden='true'
-                            >
-                                <FaSearchIcon/>
-                            </span>
-
-                            <input
-                                type='text'
-                                placeholder={Utils.localizeMessage('search_bar.searchGroupMembers', 'Search group members')}
-                                onChange={this.handleSearch}
-                                value={this.props.searchTerm}
-                                data-testid='searchInput'
-                            />
-                            <i
-                                className={'user-groups-clear-button fa fa-times-circle ' + (this.props.searchTerm.length ? '' : 'hidden')}
-                                onClick={this.resetSearch}
-                                data-testid='clear-search'
-                            />
-                        </div>
+                        <FaSearchIcon />
+                        <Input
+                            type='text'
+                            placeholder={Utils.localizeMessage('search_bar.searchGroupMembers', 'Search group members')}
+                            onChange={this.handleSearch}
+                            value={this.props.searchTerm}
+                            data-testid='searchInput'
+                            className={'user-group-search-input'}
+                        />
                     </div>
                     <div
                         className='user-groups-modal__content group-member-list'

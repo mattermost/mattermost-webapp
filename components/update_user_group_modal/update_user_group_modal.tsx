@@ -148,7 +148,7 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
                     </button>
                     <Modal.Title
                         componentClass='h1'
-                        id='userGroupsModalLabel'
+                        id='updateGroupsModalTitle'
                     >
                         <FormattedMessage
                             id='user_groups_modal.editGroupTitle'
