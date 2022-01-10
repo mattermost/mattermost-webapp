@@ -15,7 +15,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DATE_LINE, makeCombineUserActivityPosts, START_OF_NEW_MESSAGES, CREATE_COMMENT} from 'mattermost-redux/utils/post_list';
+import {DATE_LINE, makeCombineUserActivityPosts, START_OF_NEW_MESSAGES} from 'mattermost-redux/utils/post_list';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
@@ -152,8 +152,6 @@ export function makeFilterRepliesAndAddSeparators() {
 
                 out.push(post.id);
             }
-
-            out.push(CREATE_COMMENT);
 
             // Flip it back to newest to oldest
             return out.reverse();
