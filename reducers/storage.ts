@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
+import {REHYDRATE} from 'redux-persist/constants';
 
 import {General} from 'mattermost-redux/constants';
 
@@ -9,8 +10,33 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {StorageTypes} from 'utils/constants';
 
+type StorageEntry = {
+    timestamp: Date;
+    data: any;
+}
+
 function storage(state: Record<string, any> = {}, action: GenericAction) {
     switch (action.type) {
+    case REHYDRATE: {
+        if (!action.payload) {
+            return state;
+        }
+
+        // We have to do some transformation here to correct for the transformation we do when persisting storage state
+        const nextState = {...state};
+
+        for (const [key, value] of Object.entries(action.payload)) {
+            if (key.startsWith('storage:')) {
+                const nextValue = {...value as StorageEntry};
+                if (nextValue.timestamp && typeof nextValue.timestamp === 'string') {
+                    nextValue.timestamp = new Date(nextValue.timestamp);
+                }
+                nextState[key.substring('storage:'.length)] = nextValue;
+            }
+        }
+
+        return nextState;
+    }
     case StorageTypes.SET_ITEM: {
         if (!state[action.data.prefix + action.data.name] ||
             !state[action.data.prefix + action.data.name].timestamp ||

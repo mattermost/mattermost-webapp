@@ -11,7 +11,7 @@ import {persistStore} from 'redux-persist';
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
 
-import {storageRehydrate, rehydrateDrafts} from 'actions/storage';
+import {storageRehydrate} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
 import appReducer from 'reducers';
 import {getBasePath} from 'selectors/general';
@@ -49,9 +49,6 @@ export default function configureStore(initialState) {
 
     const keyPrefix = 'reduxPersist:';
     const persistOptions = {
-        autoRehydrate: {
-            log: false,
-        },
         keyPrefix,
         storage: localforage,
         whitelist,
@@ -111,18 +108,6 @@ export default function configureStore(initialState) {
             changeDetection: true,
         });
 
-        // Initial rehydration from storage
-        const restoredState = {};
-        localforage.iterate((value, key) => {
-            if (key && key.indexOf(keyPrefix + 'storage:') === 0) {
-                const keyspace = key.substring((keyPrefix + 'storage:').length);
-                restoredState[keyspace] = value;
-            }
-        }).then(() => {
-            storageRehydrate(restoredState, persistor)(store.dispatch, store.getState);
-            store.dispatch(rehydrateDrafts());
-        });
-
         // Rehydrating when another tab changes
         observable.subscribe({
             next: (args) => {
@@ -160,6 +145,9 @@ export default function configureStore(initialState) {
                 });
             }
         });
+    }).catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error('Failed to initialize localforage', e);
     });
 
     return store;
