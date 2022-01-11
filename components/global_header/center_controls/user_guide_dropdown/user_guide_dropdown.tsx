@@ -8,7 +8,6 @@ import {matchPath} from 'react-router-dom';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import * as Utils from 'utils/utils';
 import {ModalIdentifiers} from 'utils/constants';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -65,7 +64,11 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = (): React.ReactNode => {
-        const {intl, showDueToStepsNotFinished} = this.props;
+        const {
+            intl,
+            isMobileView,
+            showDueToStepsNotFinished,
+        } = this.props;
         const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
 
         return (
@@ -88,7 +91,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     show={showDueToStepsNotFinished && !inTipsView}
                     onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
                     text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
-                    icon={Utils.isMobile() && <i className='icon icon-play'/>}
+                    icon={isMobileView && <i className='icon icon-play'/>}
                 />
                 <Menu.ItemExternalLink
                     id='reportAProblemLink'

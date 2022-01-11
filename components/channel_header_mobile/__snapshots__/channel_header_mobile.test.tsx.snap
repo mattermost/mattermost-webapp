@@ -24,10 +24,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(NavbarInfoButton)
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "display_name",
+            "group_constrained": false,
+            "header": "header",
             "id": "channel_id",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "O",
+            "update_at": 0,
           }
         }
       />
@@ -35,10 +46,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "display_name",
+            "group_constrained": false,
+            "header": "header",
             "id": "channel_id",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "O",
+            "update_at": 0,
           }
         }
         isDropdown={false}
@@ -73,11 +95,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(NavbarInfoButton)
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "Town Square",
+            "group_constrained": false,
+            "header": "header",
             "id": "123",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "town-square",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "O",
+            "update_at": 0,
           }
         }
       />
@@ -85,11 +117,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "Town Square",
+            "group_constrained": false,
+            "header": "header",
             "id": "123",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "town-square",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "O",
+            "update_at": 0,
           }
         }
         isDropdown={false}
@@ -124,10 +166,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(NavbarInfoButton)
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "display_name",
+            "group_constrained": false,
+            "header": "header",
             "id": "channel_id",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "P",
+            "update_at": 0,
           }
         }
       />
@@ -135,10 +188,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "display_name",
+            "group_constrained": false,
+            "header": "header",
             "id": "channel_id",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "P",
+            "update_at": 0,
           }
         }
         isDropdown={false}
@@ -149,7 +213,7 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
 </nav>
 `;
 
-exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, if WebRTC is not enabled 1`] = `
+exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, if DM channel 1`] = `
 <nav
   className="navbar navbar-default navbar-fixed-top"
   id="navbar"
@@ -173,60 +237,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(NavbarInfoButton)
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "display_name",
+            "group_constrained": false,
+            "header": "header",
             "id": "channel_id",
-            "team_id": "team_id",
-            "type": "O",
-          }
-        }
-      />
-      <Connect(ShowSearchButton) />
-      <Connect(injectIntl(MobileChannelHeaderPlug))
-        channel={
-          Object {
-            "display_name": "display_name",
-            "id": "channel_id",
-            "team_id": "team_id",
-            "type": "O",
-          }
-        }
-        isDropdown={false}
-      />
-      <Connect(CollapseRhsButton) />
-    </div>
-  </div>
-</nav>
-`;
-
-exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, if enabled WebRTC and DM channel 1`] = `
-<nav
-  className="navbar navbar-default navbar-fixed-top"
-  id="navbar"
-  role="navigation"
->
-  <div
-    className="container-fluid theme"
-  >
-    <div
-      className="navbar-header"
-    >
-      <Connect(CollapseLhsButton) />
-      <div
-        className="navbar-brand"
-      >
-        <Connect(MobileChannelHeaderDropdown) />
-      </div>
-      <div
-        className="spacer"
-      />
-      <Connect(NavbarInfoButton)
-        channel={
-          Object {
-            "display_name": "display_name",
-            "id": "channel_id",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "user_id_1__user_id_2",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "D",
+            "update_at": 0,
           }
         }
       />
@@ -234,60 +259,21 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
             "display_name": "display_name",
+            "group_constrained": false,
+            "header": "header",
             "id": "channel_id",
+            "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "user_id_1__user_id_2",
+            "purpose": "purpose",
+            "scheme_id": "id",
             "team_id": "team_id",
             "type": "D",
-          }
-        }
-        isDropdown={false}
-      />
-      <Connect(CollapseRhsButton) />
-    </div>
-  </div>
-</nav>
-`;
-
-exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapshot, if not licensed 1`] = `
-<nav
-  className="navbar navbar-default navbar-fixed-top"
-  id="navbar"
-  role="navigation"
->
-  <div
-    className="container-fluid theme"
-  >
-    <div
-      className="navbar-header"
-    >
-      <Connect(CollapseLhsButton) />
-      <div
-        className="navbar-brand"
-      >
-        <Connect(MobileChannelHeaderDropdown) />
-      </div>
-      <div
-        className="spacer"
-      />
-      <Connect(NavbarInfoButton)
-        channel={
-          Object {
-            "display_name": "display_name",
-            "id": "channel_id",
-            "team_id": "team_id",
-            "type": "O",
-          }
-        }
-      />
-      <Connect(ShowSearchButton) />
-      <Connect(injectIntl(MobileChannelHeaderPlug))
-        channel={
-          Object {
-            "display_name": "display_name",
-            "id": "channel_id",
-            "team_id": "team_id",
-            "type": "O",
+            "update_at": 0,
           }
         }
         isDropdown={false}

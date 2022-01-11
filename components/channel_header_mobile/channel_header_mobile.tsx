@@ -1,17 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import classNames from 'classnames';
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
 
-import classNames from 'classnames';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {MobileChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
-
-import * as Utils from 'utils/utils';
 
 import CollapseLhsButton from './collapse_lhs_button';
 import CollapseRhsButton from './collapse_rhs_button';
@@ -19,65 +18,43 @@ import ChannelInfoButton from './channel_info_button';
 import ShowSearchButton from './show_search_button';
 import UnmuteChannelButton from './unmute_channel_button';
 
-export default class ChannelHeaderMobile extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    channel?: Channel;
 
-        /**
-         *
-         */
-        user: PropTypes.object.isRequired,
+    /**
+     * Relative url for the team, used to redirect if a link in the channel header is clicked
+     */
+    currentRelativeTeamUrl?: string;
 
-        /**
-         * Object with info about current channel
-         */
-        channel: PropTypes.object,
-
-        /**
-         * Bool whether the current channel is read only
-         */
-        isReadOnly: PropTypes.bool,
-
-        /**
-         * Bool whether the current channel is muted
-         */
-        isMuted: PropTypes.bool,
-
-        /**
-         * Bool whether the right hand side is open
-         */
-        isRHSOpen: PropTypes.bool,
-
-        /**
-         * Relative url for the team, used to redirect if a link in the channel header is clicked
-         */
-        currentRelativeTeamUrl: PropTypes.string,
-
-        inGlobalThreads: PropTypes.bool,
-
-        /**
-         * Object with action creators
-         */
-        actions: PropTypes.shape({
-            closeLhs: PropTypes.func.isRequired,
-            closeRhs: PropTypes.func.isRequired,
-            closeRhsMenu: PropTypes.func.isRequired,
-        }).isRequired,
-
+    inGlobalThreads?: boolean;
+    isMobileView: boolean;
+    isMuted?: boolean;
+    isReadOnly?: boolean;
+    isRHSOpen?: boolean;
+    user: UserProfile;
+    actions: {
+        closeLhs: () => void;
+        closeRhs: () => void;
+        closeRhsMenu: () => void;
     };
+}
 
+export default class ChannelHeaderMobile extends React.PureComponent<Props> {
     componentDidMount() {
-        document.querySelector('.inner-wrap').addEventListener('click', this.hideSidebars);
+        document.querySelector('.inner-wrap')?.addEventListener('click', this.hideSidebars);
     }
 
     componentWillUnmount() {
-        document.querySelector('.inner-wrap').removeEventListener('click', this.hideSidebars);
+        document.querySelector('.inner-wrap')?.removeEventListener('click', this.hideSidebars);
     }
 
-    hideSidebars = (e) => {
-        if (Utils.isMobile()) {
+    hideSidebars = (e: Event) => {
+        if (this.props.isMobileView) {
             this.props.actions.closeRhs();
 
-            if (e.target.className !== 'navbar-toggle' && e.target.className !== 'icon-bar') {
+            const target = e.target as HTMLElement | undefined;
+
+            if (target && target.className !== 'navbar-toggle' && target.className !== 'icon-bar') {
                 this.props.actions.closeLhs();
                 this.props.actions.closeRhsMenu();
             }

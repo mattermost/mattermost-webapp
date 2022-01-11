@@ -266,7 +266,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <Memo(MemoizedFormattedMessage)
       defaultMessage="Email notifications are not enabled"
@@ -280,7 +280,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications = true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <Memo(MemoizedFormattedMessage)
       defaultMessage="Never"
@@ -294,7 +294,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <Memo(MemoizedFormattedMessage)
       defaultMessage="Immediately"
