@@ -1,10 +1,11 @@
-import React, { useRef, useState, useEffect, ChangeEvent } from "react";
+import React, { useRef, useState, useEffect, forwardRef } from "react";
 import styled, { css } from "styled-components";
 import classNames from "classnames";
 import { Placement } from "popper.js";
 
 import MenuItem from "../menu-item/MenuItem";
 import MenuPopover from "./MenuPopover";
+import { useClickOutsideRef } from "components/global_header/hooks";
 
 const Divider = () => (
     <div style={{ height: "1px", width: "auto", backgroundColor: "#e0e0e0" }} />
@@ -110,13 +111,14 @@ interface MenuDataProps {
     trigger: React.RefObject<HTMLElement>;
     placement: Placement;
     active: boolean;
+    isMobile: boolean;
     title?: string;
     isSubmenu?: boolean;
     closeSubmenuDown?: boolean;
     closeSubmenu?: () => void;
 }
 
-const MenuData: React.ComponentType<MenuDataProps> = (props) => {
+const MenuData = forwardRef<HTMLDivElement, MenuDataProps>((props, ref) => {
     const {
         title,
         open,
@@ -127,9 +129,8 @@ const MenuData: React.ComponentType<MenuDataProps> = (props) => {
         isSubmenu,
         closeSubmenu,
         closeSubmenuDown,
+        isMobile,
     } = props;
-
-    const isMobile = useIsMobile();
 
     return (
         <>
@@ -141,6 +142,7 @@ const MenuData: React.ComponentType<MenuDataProps> = (props) => {
                 isMobile={isMobile}
             >
                 <MenuItems
+                    ref={ref}
                     isMobile={isMobile}
                     isSubmenu={Boolean(isSubmenu)}
                     className={classNames({ open, active, closeSubmenuDown })}
@@ -173,7 +175,8 @@ const MenuData: React.ComponentType<MenuDataProps> = (props) => {
             </MenuPopover>
         </>
     );
-};
+});
+
 function usePrevious<T extends unknown>(value: T): T | undefined {
     // The ref object is a generic container whose current property is mutable ...
     // ... and can hold any value, similar to an instance property on a class
@@ -195,9 +198,20 @@ const Menu: React.ComponentType<MenuProps> = (props) => {
     const [open, setOpen] = useState(false);
     const [submenuOpen, setSubmenuOpen] = useState(false);
     const buttonReference = useRef<HTMLButtonElement>(null);
+    const menuRef = useRef(null);
+    const submenuRef = useRef(null);
     const menuItemReference = useRef(null);
     const prevOpen = usePrevious(open);
     const prevSubmenuOpen = usePrevious(submenuOpen);
+    const isMobile = useIsMobile();
+
+    useClickOutsideRef([buttonReference, menuRef, submenuRef], () => {
+        if (!open || isMobile) {
+            return;
+        }
+        setOpen(false);
+        setSubmenuOpen(false);
+    });
 
     const closeSubmenuDown = Boolean(
         prevOpen && prevSubmenuOpen && !submenuOpen && !open
@@ -267,13 +281,16 @@ const Menu: React.ComponentType<MenuProps> = (props) => {
             </button>
 
             <MenuData
+                ref={menuRef}
                 groups={menuGroup}
                 trigger={buttonReference}
                 open={open}
                 active={open && !submenuOpen}
                 placement={"right-end"}
+                isMobile={isMobile}
             />
             <MenuData
+                ref={submenuRef}
                 trigger={menuItemReference}
                 open={submenuOpen}
                 isSubmenu={true}
@@ -282,6 +299,7 @@ const Menu: React.ComponentType<MenuProps> = (props) => {
                 active={submenuOpen}
                 groups={submenuGroup}
                 placement={"right-end"}
+                isMobile={isMobile}
             />
         </>
     );
