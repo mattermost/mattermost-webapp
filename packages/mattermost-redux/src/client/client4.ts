@@ -1645,6 +1645,13 @@ export default class Client4 {
         );
     };
 
+    getAllChannelsMembers = (userId: string) => {
+        return this.doFetch<ChannelMembership[]>(
+            `${this.getUserRoute(userId)}/channel_members`,
+            {method: 'get'},
+        );
+    };
+
     getMyChannelMember = (channelId: string) => {
         return this.doFetch<ChannelMembership>(
             `${this.getChannelMemberRoute(channelId, 'me')}`,

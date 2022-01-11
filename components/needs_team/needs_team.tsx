@@ -48,7 +48,7 @@ type Props = {
     currentTeamId?: string;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
-        fetchAllMyTeamsChannels: () => Promise<{ data: { channels: Channel[]} }>;
+        fetchAllMyTeamsChannelsAndChannelMembers: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -265,7 +265,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     fetchAllTeams = () => {
-        this.props.actions.fetchAllMyTeamsChannels();
+        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
     }
 
     updateCurrentTeam = (props: Props) => {
