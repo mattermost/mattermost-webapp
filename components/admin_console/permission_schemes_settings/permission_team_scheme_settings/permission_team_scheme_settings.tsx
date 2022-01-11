@@ -34,6 +34,8 @@ import {ServerError} from 'mattermost-redux/types/errors';
 
 import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
 
+import GeneralConstants from 'mattermost-redux/constants/general';
+
 import TeamInList from './team_in_list';
 
 type RolesMap = {
@@ -111,7 +113,19 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
     }
 
     componentDidMount() {
-        this.props.actions.loadRolesIfNeeded(['team_admin', 'team_user', 'channel_admin', 'channel_user', 'team_guest', 'channel_guest', 'playbook_admin', 'playbook_member', 'run_member']);
+        const rolesNeeded = [
+            GeneralConstants.TEAM_GUEST_ROLE,
+            GeneralConstants.TEAM_USER_ROLE,
+            GeneralConstants.TEAM_ADMIN_ROLE,
+            GeneralConstants.CHANNEL_GUEST_ROLE,
+            GeneralConstants.CHANNEL_USER_ROLE,
+            GeneralConstants.CHANNEL_ADMIN_ROLE,
+            GeneralConstants.PLAYBOOK_ADMIN_ROLE,
+            GeneralConstants.PLAYBOOK_MEMBER_ROLE,
+            GeneralConstants.RUN_MEMBER_ROLE,
+            GeneralConstants.RUN_ADMIN_ROLE,
+        ];
+        this.props.actions.loadRolesIfNeeded(rolesNeeded);
         if (this.props.schemeId) {
             this.props.actions.loadScheme(this.props.schemeId).then((result) => {
                 this.props.actions.loadRolesIfNeeded([
