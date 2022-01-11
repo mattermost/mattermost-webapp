@@ -70,16 +70,6 @@ describe('Actions.Storage', () => {
         );
     });
 
-    it('clear', async () => {
-        store.dispatch(Actions.setGlobalItem('key', 'value'));
-        store.dispatch(Actions.setGlobalItem('excluded', 'not-cleared'));
-
-        store.dispatch(Actions.clear({exclude: ['excluded']}));
-
-        assert.equal(store.getState().storage.storage.excluded.value, 'not-cleared');
-        assert.equal(typeof store.getState().storage.storage.key, 'undefined');
-    });
-
     it('rehydrate', async () => {
         const RealDate = Date;
         const now = new Date(1487076708000);

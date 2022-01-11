@@ -45,16 +45,6 @@ export function removeGlobalItem(name) {
     };
 }
 
-export function clear(options = {exclude: []}) {
-    return (dispatch) => {
-        dispatch({
-            type: StorageTypes.CLEAR,
-            data: options,
-        });
-        return {data: true};
-    };
-}
-
 export function actionOnGlobalItemsWithPrefix(prefix, action) {
     return {
         type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,

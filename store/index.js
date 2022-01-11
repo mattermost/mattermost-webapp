@@ -140,11 +140,6 @@ export default function configureStore(initialState) {
                     // used by the application such as extra and redirect_to.
                     window.location.href = `${basePath}${window.location.search}`;
 
-                    store.dispatch({
-                        type: General.OFFLINE_STORE_RESET,
-                        data: Object.assign({}, reduxInitialState, initialState),
-                    });
-
                     setTimeout(() => {
                         purging = false;
                     }, 500);
