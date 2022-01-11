@@ -1385,6 +1385,8 @@
   "admin.permissions.documentationLinkText": "documentation",
   "admin.permissions.group.convert_public_channel_to_private.description": "Convert public channels to private",
   "admin.permissions.group.convert_public_channel_to_private.name": "Convert Channels",
+  "admin.permissions.group.custom_groups.description": "Create, edit, delete and manage the members of custom groups.",
+  "admin.permissions.group.custom_groups.name": "Custom Groups",
   "admin.permissions.group.delete_posts.description": "Delete own and others' posts.",
   "admin.permissions.group.delete_posts.name": "Delete Posts",
   "admin.permissions.group.edit_posts.description": "Edit own and others' posts.",

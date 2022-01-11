@@ -899,6 +899,10 @@ export const PermissionsScope = {
     [Permissions.RUN_MANAGE_MEMBERS]: 'run_scope',
     [Permissions.RUN_MANAGE_PROPERTIES]: 'run_scope',
     [Permissions.RUN_VIEW]: 'run_scope',
+    [Permissions.CREATE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.EDIT_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.DELETE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.MANAGE_CUSTOM_GROUP_MEMBERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -938,6 +942,10 @@ export const DefaultRolePermissions = {
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.USE_GROUP_MENTIONS,
+        Permissions.CREATE_CUSTOM_GROUP,
+        Permissions.EDIT_CUSTOM_GROUP,
+        Permissions.DELETE_CUSTOM_GROUP,
+        Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
