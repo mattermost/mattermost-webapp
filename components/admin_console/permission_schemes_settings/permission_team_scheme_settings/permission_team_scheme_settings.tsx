@@ -123,7 +123,6 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             GeneralConstants.PLAYBOOK_ADMIN_ROLE,
             GeneralConstants.PLAYBOOK_MEMBER_ROLE,
             GeneralConstants.RUN_MEMBER_ROLE,
-            GeneralConstants.RUN_ADMIN_ROLE,
         ];
         this.props.actions.loadRolesIfNeeded(rolesNeeded);
         if (this.props.schemeId) {
@@ -175,7 +174,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             props.roles.channel_admin &&
             props.roles.playbook_admin &&
             props.roles.playbook_member &&
-            props.roles.run_admin) {
+            props.roles.run_member) {
             return true;
         }
         return false;
