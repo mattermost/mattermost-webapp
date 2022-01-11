@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes, WindowSizes} from 'utils/constants';
@@ -20,6 +21,9 @@ function windowSize(state = WindowSizes.DESKTOP_VIEW, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.BROWSER_WINDOW_RESIZED:
         return action.data;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
