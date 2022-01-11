@@ -37,7 +37,7 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
     closeLabel="Close"
   >
     <button
-      aria-label="Close"
+      aria-label="Back"
       className="modal-header-back-button btn-icon"
       onClick={[Function]}
       type="button"
@@ -55,7 +55,7 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
     <ModalTitle
       bsClass="modal-title"
       componentClass="h1"
-      id="userGroupsModalLabel"
+      id="createGroupsModalTitleWithBack"
     >
       <MemoizedFormattedMessage
         defaultMessage="Create Group"
@@ -164,7 +164,7 @@ exports[`component/create_user_groups_modal should match snapshot without back b
     <ModalTitle
       bsClass="modal-title"
       componentClass="h1"
-      id="userGroupsModalLabel"
+      id="createGroupsModalTitle"
     >
       <MemoizedFormattedMessage
         defaultMessage="Create Group"

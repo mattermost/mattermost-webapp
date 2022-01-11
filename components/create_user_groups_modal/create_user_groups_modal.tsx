@@ -165,42 +165,41 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                 <Modal.Header closeButton={true}>
                     {
                         typeof this.props.backButtonCallback === 'function' ?
-                        <>
-                            <button
-                                type='button'
-                                className='modal-header-back-button btn-icon'
-                                aria-label='Back'
-                                onClick={() => {
-                                    this.goBack();
-                                }}
-                            >
-                                <LocalizedIcon
-                                    className='icon icon-arrow-left'
-                                    ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                                />
-                            </button>
+                            <>
+                                <button
+                                    type='button'
+                                    className='modal-header-back-button btn-icon'
+                                    aria-label='Back'
+                                    onClick={() => {
+                                        this.goBack();
+                                    }}
+                                >
+                                    <LocalizedIcon
+                                        className='icon icon-arrow-left'
+                                        ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                                    />
+                                </button>
+                                <Modal.Title
+                                    componentClass='h1'
+                                    id='createGroupsModalTitleWithBack'
+                                >
+                                    <FormattedMessage
+                                        id='user_groups_modal.createTitle'
+                                        defaultMessage='Create Group'
+                                    />
+                                </Modal.Title>
+                            </> :
                             <Modal.Title
                                 componentClass='h1'
-                                id='createGroupsModalTitleWithBack'
+                                id='createGroupsModalTitle'
                             >
                                 <FormattedMessage
                                     id='user_groups_modal.createTitle'
                                     defaultMessage='Create Group'
                                 />
                             </Modal.Title>
-                        </> :
-                        <Modal.Title
-                            componentClass='h1'
-                            id='createGroupsModalTitle'
-                        >
-                            <FormattedMessage
-                                id='user_groups_modal.createTitle'
-                                defaultMessage='Create Group'
-                            />
-                        </Modal.Title>
                     }
 
-                    
                 </Modal.Header>
                 <Modal.Body
                     className='overflow--visible'

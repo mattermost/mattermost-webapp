@@ -63,7 +63,7 @@ function mapStateToProps(state: GlobalState) {
     [...groups, ...myGroups].forEach((g) => {
         groupPermissionsMap[g.id] = {
             can_delete: haveIGroupPermission(state, g.id, Permissions.DELETE_CUSTOM_GROUP),
-            can_manage_members: haveIGroupPermission(state, g.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS), 
+            can_manage_members: haveIGroupPermission(state, g.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS),
         };
     });
 

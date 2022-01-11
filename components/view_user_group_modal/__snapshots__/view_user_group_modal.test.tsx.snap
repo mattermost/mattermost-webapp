@@ -58,17 +58,15 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
     >
       Group Name
     </ModalTitle>
-    <a
-      className="btn btn-md btn-primary"
-      href="#"
-      id="test"
+    <button
+      className="user-groups-create btn btn-md btn-primary"
       onClick={[Function]}
     >
       <MemoizedFormattedMessage
         defaultMessage="AddPeople"
         id="user_groups_modal.addPeople"
       />
-    </a>
+    </button>
     <div
       className="details-action"
     >
@@ -79,17 +77,19 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
         isDisabled={false}
         stopPropagationOnToggle={false}
       >
-        <div
-          className="text-right"
+        <button
+          className="action-wrapper btn-icon"
         >
-          <button
-            className="action-wrapper"
-          >
-            <i
-              className="icon icon-dots-vertical"
-            />
-          </button>
-        </div>
+          <LocalizedIcon
+            ariaLabel={
+              Object {
+                "defaultMessage": "Back",
+                "id": "user_groups_modal.goBackLabel",
+              }
+            }
+            className="icon icon-dots-vertical"
+          />
+        </button>
         <Menu
           ariaLabel="User Actions Menu"
           openLeft={false}
@@ -141,28 +141,15 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
     <div
       className="user-groups-search"
     >
-      <div
-        className="user-groups-searchbar"
-      >
-        <span
-          aria-hidden="true"
-          className="user-groups-search-icon"
-        >
-          <SearchIcon />
-        </span>
-        <input
-          data-testid="searchInput"
-          onChange={[Function]}
-          placeholder="Search group members"
-          type="text"
-          value=""
-        />
-        <i
-          className="user-groups-clear-button fa fa-times-circle hidden"
-          data-testid="clear-search"
-          onClick={[Function]}
-        />
-      </div>
+      <SearchIcon />
+      <Input
+        className="user-group-search-input"
+        data-testid="searchInput"
+        onChange={[Function]}
+        placeholder="Search group members"
+        type="text"
+        value=""
+      />
     </div>
     <div
       className="user-groups-modal__content group-member-list"

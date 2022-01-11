@@ -149,15 +149,20 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-              "create_post",
             ],
           },
           Object {
             "id": "integrations",
-            "permissions": Array [],
+            "permissions": Array [
+              "create_post",
+            ],
           },
           Object {
             "id": "manage_shared_channels",
+            "permissions": Array [],
+          },
+          Object {
+            "id": "custom_groups",
             "permissions": Array [],
           },
         ]
@@ -331,11 +336,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-              "create_post",
             ],
           },
           Object {
             "id": "integrations",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -347,7 +357,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "custom_groups",
             "permissions": Array [],
           },
         ]
@@ -521,11 +531,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-              "create_post",
             ],
           },
           Object {
             "id": "integrations",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -537,7 +552,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "custom_groups",
             "permissions": Array [],
           },
         ]
@@ -711,11 +726,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-              "create_post",
             ],
           },
           Object {
             "id": "integrations",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -727,7 +747,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "custom_groups",
             "permissions": Array [],
           },
         ]
@@ -901,11 +921,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-              "create_post",
             ],
           },
           Object {
             "id": "integrations",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -917,7 +942,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "custom_groups",
             "permissions": Array [],
           },
         ]
@@ -1091,11 +1116,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-              "create_post",
             ],
           },
           Object {
             "id": "integrations",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -1107,7 +1137,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "custom_groups",
             "permissions": Array [],
           },
         ]
@@ -1287,11 +1317,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-              "create_post",
             ],
           },
           Object {
             "id": "integrations",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "id": "manage_shared_channels",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -1303,7 +1338,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "custom_groups",
             "permissions": Array [],
           },
         ]

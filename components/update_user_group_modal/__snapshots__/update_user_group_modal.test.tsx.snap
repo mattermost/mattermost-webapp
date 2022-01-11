@@ -55,7 +55,7 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h1"
-      id="userGroupsModalLabel"
+      id="updateGroupsModalTitle"
     >
       <MemoizedFormattedMessage
         defaultMessage="Edit Group Details"

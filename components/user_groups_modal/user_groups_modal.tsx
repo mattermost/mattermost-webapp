@@ -324,7 +324,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='user-groups-search'>
-                        <FaSearchIcon />
+                        <FaSearchIcon/>
                         <Input
                             type='text'
                             placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
