@@ -24,32 +24,37 @@ describe('components/PopoverListMembers', () => {
         id: 'channel_id',
         name: 'channel-name',
         display_name: 'Channel Name',
-        type: Constants.DM_CHANNEl || 'D',
+        type: Constants.DM_CHANNEL || 'D',
     };
-    const users = [
+
+    const usersToDisplay = [
         {id: 'member_id_1', delete_at: 0},
         {id: 'member_id_2', delete_at: 0},
     ];
+
     const statuses = {
         member_id_1: 'online',
         member_id_2: 'offline',
     };
 
     const actions = {
+        getChannelMembers: jest.fn(),
         loadProfilesAndStatusesInChannel: jest.fn(),
+        loadProfilesAndTeamMembersAndChannelMembers: jest.fn(),
         openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'channelname'}}),
         openModal: jest.fn(),
     };
 
     const baseProps = {
-        channel,
-        statuses,
-        users,
-        manageMembers: true,
-        memberCount: 2,
+        usersToDisplay,
+        currentTeamId: 'current_team_id',
         currentUserId: 'current_user_id',
+        memberCount: 2,
+        statuses,
+        teamUrl: 'team_url',
+        manageMembers: true,
+        channel,
         actions,
-        sortedUsers: [{id: 'member_id_1'}, {id: 'member_id_2'}],
     };
 
     test('should match snapshot', () => {

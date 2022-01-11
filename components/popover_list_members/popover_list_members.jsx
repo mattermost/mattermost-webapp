@@ -25,19 +25,20 @@ import PopoverListMembersItem from 'components/popover_list_members/popover_list
 
 export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
+        usersToDisplay: PropTypes.array.isRequired,
         channel: PropTypes.object.isRequired,
-        statuses: PropTypes.object.isRequired,
-        users: PropTypes.array.isRequired,
-        memberCount: PropTypes.number,
+        currentTeamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
+        memberCount: PropTypes.number,
+        statuses: PropTypes.object.isRequired,
         teamUrl: PropTypes.string,
         manageMembers: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
             loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
+            loadProfilesAndTeamMembersAndChannelMembers: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
-        sortedUsers: PropTypes.array,
         addMembersABTest: PropTypes.string,
     };
 
@@ -47,19 +48,20 @@ export default class PopoverListMembers extends React.PureComponent {
 
         this.state = {
             showPopover: false,
-            users: props.users,
-            statuses: props.statuses,
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.users !== prevState.users || nextProps.statuses !== prevState.statuses) {
-            return {
-                users: nextProps.users,
-                statuses: nextProps.statuses,
-            };
-        }
-        return null;
+    async componentDidMount() {
+        const {
+            actions,
+            channel,
+            currentTeamId,
+        } = this.props;
+
+        await Promise.all([
+            actions.loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, currentTeamId, channel.id, {active: true}),
+            actions.loadProfilesAndStatusesInChannel(channel.id, 0, undefined, 'status', {active: true}),
+        ]);
     }
 
     handleShowDirectChannel = (user) => {
@@ -119,7 +121,7 @@ export default class PopoverListMembers extends React.PureComponent {
 
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
-        const items = this.props.sortedUsers.map((user) => (
+        const items = this.props.usersToDisplay.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}

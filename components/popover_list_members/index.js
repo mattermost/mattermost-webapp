@@ -6,58 +6,69 @@ import {bindActionCreators} from 'redux';
 
 import {createSelector} from 'reselect';
 
-import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentChannelStats, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl, getMembersInCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId, getUserStatuses, getProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 import {getTeammateNameDisplaySetting, getAddMembersToChannel} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
-import {loadProfilesAndStatusesInChannel} from 'actions/user_actions.jsx';
+import {loadProfilesAndStatusesInChannel, loadProfilesAndTeamMembersAndChannelMembers} from 'actions/user_actions.jsx';
 import {openModal} from 'actions/views/modals';
+
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import {sortUsersByStatusAndDisplayName} from 'utils/utils.jsx';
 
 import PopoverListMembers from './popover_list_members.jsx';
 
-const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel) => {
-    return createSelector(
-        'makeSortUsersByStatusAndDisplayName',
-        (state, channelId) => doGetProfilesInChannel(state, channelId, true),
-        getUserStatuses,
-        getTeammateNameDisplaySetting,
-        (users, statuses, teammateNameDisplay) => sortUsersByStatusAndDisplayName(users, statuses, teammateNameDisplay),
-    );
-};
+const getUsersToDisplay = createSelector(
+    'getUsersToDisplay',
+    getProfilesInCurrentChannel,
+    getMembersInCurrentTeam,
+    getUserStatuses,
+    getTeammateNameDisplaySetting,
+    (users = [], teamMembers = {}, statuses, teammateNameDisplay) => {
+        const usersToDisplay = [];
 
-function makeMapStateToProps() {
-    const doGetProfilesInChannel = makeGetProfilesInChannel();
-    const doSortUsersByStatusAndDisplayName = makeSortUsersByStatusAndDisplayName(doGetProfilesInChannel);
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i];
 
-    return function mapStateToProps(state, ownProps) {
-        const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
-        const users = doGetProfilesInChannel(state, ownProps.channel.id, true);
-        const statuses = getUserStatuses(state);
+            if (teamMembers[user.id] && user.delete_at === 0) {
+                usersToDisplay.push(user);
+            }
+        }
 
         return {
-            currentUserId: getCurrentUserId(state),
-            memberCount: stats.member_count,
-            users,
-            statuses,
-            teamUrl: getCurrentRelativeTeamUrl(state),
-            manageMembers: canManageMembers(state, ownProps.channel),
-            sortedUsers: doSortUsersByStatusAndDisplayName(state, ownProps.channel.id),
-            addMembersABTest: getAddMembersToChannel(state),
+            usersToDisplay: sortUsersByStatusAndDisplayName(usersToDisplay, statuses, teammateNameDisplay),
         };
+    },
+);
+
+function mapStateToProps(state) {
+    const stats = getCurrentChannelStats(state) || {member_count: 0};
+    const statuses = getUserStatuses(state);
+    const currentChannel = getCurrentChannel(state);
+
+    return {
+        ...getUsersToDisplay(state),
+        currentChannel,
+        currentTeamId: getCurrentTeamId(state),
+        currentUserId: getCurrentUserId(state),
+        memberCount: stats.member_count,
+        statuses,
+        teamUrl: getCurrentRelativeTeamUrl(state),
+        manageMembers: canManageMembers(state, currentChannel),
+        addMembersABTest: getAddMembersToChannel(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            openModal,
             loadProfilesAndStatusesInChannel,
+            loadProfilesAndTeamMembersAndChannelMembers,
             openDirectChannelToUserId,
+            openModal,
         }, dispatch),
     };
 }
-export default connect(makeMapStateToProps, mapDispatchToProps)(PopoverListMembers);
+export default connect(mapStateToProps, mapDispatchToProps)(PopoverListMembers);
