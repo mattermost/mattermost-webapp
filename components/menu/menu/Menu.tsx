@@ -1,11 +1,20 @@
-import React, { useRef, useState, useEffect, forwardRef } from "react";
+import React, {
+    useRef,
+    useState,
+    useEffect,
+    forwardRef,
+    useCallback,
+} from "react";
 import styled, { css } from "styled-components";
 import classNames from "classnames";
 import { Placement } from "popper.js";
+import { CSSTransition } from "react-transition-group";
 
 import MenuItem from "../menu-item/MenuItem";
 import MenuPopover from "./MenuPopover";
 import { useClickOutsideRef } from "components/global_header/hooks";
+
+export const MENU_APPEAR_TRANSITION_DURATION = 300;
 
 const Divider = () => (
     <div style={{ height: "1px", width: "auto", backgroundColor: "#e0e0e0" }} />
@@ -40,12 +49,16 @@ const MenuItems = styled.div<{ isMobile: boolean; isSubmenu: boolean }>(
                   background-color: rgba(var(--sidebar-text-rgb));
                   min-height: 340px;
                   height: auto;
-                  border-radius: 5%;
+                  border-radius: 8px 8px 0 0;
+                  max-height: ${document.documentElement.clientHeight}px;
+                  overflow-y: scroll;
 
                   transform: ${isSubmenu
                       ? "translateX(100%)"
                       : "translateY(100%)"};
-                  transition: transform 500ms ease-in-out 0ms, &.open {
+                  transition: transform ${MENU_APPEAR_TRANSITION_DURATION}ms
+                          ease-in-out 0ms,
+                      &.open {
                       transform: translateY(0);
                   }
 
@@ -65,27 +78,38 @@ const MenuItems = styled.div<{ isMobile: boolean; isSubmenu: boolean }>(
                       visibility: hidden;
                   }
 
-                  transition: transform 300ms 0ms ease-in-out,
-                      visibility 300ms 0ms step-end;
+                  transition: transform ${MENU_APPEAR_TRANSITION_DURATION}ms 0ms
+                          ease-in-out,
+                      visibility ${MENU_APPEAR_TRANSITION_DURATION}ms 0ms
+                          step-end;
 
                   &.open.active {
-                      transition: transform 300ms 0ms ease-in-out,
-                          visibility 300ms 0ms step-start;
+                      transition: transform ${MENU_APPEAR_TRANSITION_DURATION}ms
+                              0ms ease-in-out,
+                          visibility ${MENU_APPEAR_TRANSITION_DURATION}ms 0ms
+                              step-start;
                   }
 
                   &.open:not(.active) {
-                      transition: transform 300ms 0ms ease-in-out,
-                          visibility 300ms 0ms step-end;
+                      transition: transform ${MENU_APPEAR_TRANSITION_DURATION}ms
+                              0ms ease-in-out,
+                          visibility ${MENU_APPEAR_TRANSITION_DURATION}ms 0ms
+                              step-end;
                   }
               `
             : css`
-                  border-radius: 8px;
+                  border-radius: 4px;
                   background-color: rgba(var(--sidebar-text-rgb));
                   padding: 1rem 0;
                   transform: scale(0);
                   opacity: 0;
-                  transition: opacity 300ms ease-in-out 0ms,
-                      transform 300ms ease-in-out 0ms;
+                  box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.12);
+                  transition: opacity ${MENU_APPEAR_TRANSITION_DURATION}ms
+                          ease-in-out 0ms,
+                      transform ${MENU_APPEAR_TRANSITION_DURATION}ms ease-in-out
+                          0ms;
+                  max-height: ${document.documentElement.clientHeight}px;
+                  overflow-y: scroll;
 
                   &.open {
                       transform: scale(1);
@@ -96,14 +120,71 @@ const MenuItems = styled.div<{ isMobile: boolean; isSubmenu: boolean }>(
 );
 
 const MenuHeader = styled.div`
-    @media screen and min-width(400px) {
-        display: none;
+    display: flex;
+    justify-content: center;
+
+    &.isMobile {
+        height: 52px;
     }
 
-    text-align: center;
-    color: var(--center-channel-color);
-    padding: 1rem;
+    &.hasArrow {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+    }
 `;
+
+const MenuTitle = styled.div`
+    display: flex;
+    align-items: center;
+    color: var(--center-channel-color);
+`;
+
+const Overlay = styled.div(() => {
+    return css`
+        background-color: rgba(0, 0, 0, 0);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 100%;
+        min-height: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        position: fixed;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        pointer-events: auto;
+        -ms-scroll-chaining: none;
+        transition: 1s;
+        transition-property: background-color;
+        transition-timing-function: ease-in-out;
+
+        &.fade-enter {
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        &.fade-enter-active {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        &.fade-enter-done {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        &.fade-exit {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        &.fade-exit-active {
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        &.fade-exit-done {
+            background-color: rgba(0, 0, 0, 0);
+        }
+    `;
+});
 
 interface MenuDataProps {
     open: boolean;
@@ -112,6 +193,7 @@ interface MenuDataProps {
     placement: Placement;
     active: boolean;
     isMobile: boolean;
+    menuTitle?: string;
     title?: string;
     isSubmenu?: boolean;
     closeSubmenuDown?: boolean;
@@ -130,6 +212,7 @@ const MenuData = forwardRef<HTMLDivElement, MenuDataProps>((props, ref) => {
         closeSubmenu,
         closeSubmenuDown,
         isMobile,
+        menuTitle,
     } = props;
 
     return (
@@ -145,8 +228,30 @@ const MenuData = forwardRef<HTMLDivElement, MenuDataProps>((props, ref) => {
                     ref={ref}
                     isMobile={isMobile}
                     isSubmenu={Boolean(isSubmenu)}
-                    className={classNames({ open, active, closeSubmenuDown })}
+                    className={classNames({
+                        open,
+                        active,
+                        closeSubmenuDown,
+                    })}
                 >
+                    <MenuHeader
+                        className={classNames({
+                            hasArrow: isSubmenu && isMobile,
+                            isMobile,
+                        })}
+                    >
+                        {isSubmenu && isMobile && (
+                            <i
+                                className="icon icon-arrow-back-ios"
+                                style={{
+                                    margin: "0 auto 0 23px",
+                                    color: "#3D3C40",
+                                }}
+                                onClick={closeSubmenu}
+                            />
+                        )}
+                        {menuTitle && <MenuTitle>{menuTitle}</MenuTitle>}
+                    </MenuHeader>
                     {title && (
                         <>
                             <label>{title}</label>
@@ -155,17 +260,6 @@ const MenuData = forwardRef<HTMLDivElement, MenuDataProps>((props, ref) => {
                     )}
                     {groups.map((group) => (
                         <div>
-                            {isSubmenu && (
-                                <button
-                                    style={{
-                                        fontSize: "20px",
-                                        color: "rebeccapurple",
-                                    }}
-                                    onClick={closeSubmenu}
-                                >
-                                    go back
-                                </button>
-                            )}
                             {group.title && <label>{group.title}</label>}
                             {group.menuItems}
                             {groups.length > 1 && <Divider />}
@@ -204,19 +298,26 @@ const Menu: React.ComponentType<MenuProps> = (props) => {
     const prevOpen = usePrevious(open);
     const prevSubmenuOpen = usePrevious(submenuOpen);
     const isMobile = useIsMobile();
+    const isOverlayVisible = isMobile && open;
+
+    const closeMenu = useCallback(() => {
+        setOpen(false);
+        setSubmenuOpen(false);
+    }, []);
 
     useClickOutsideRef([buttonReference, menuRef, submenuRef], () => {
         if (!open || isMobile) {
             return;
         }
-        setOpen(false);
-        setSubmenuOpen(false);
+        closeMenu();
     });
 
     const closeSubmenuDown = Boolean(
         prevOpen && prevSubmenuOpen && !submenuOpen && !open
     );
 
+    const menuTitle = "Parent Menu";
+    const submenuTitle = "sub Menu title";
     const menuGroup: MenuGroup = [
         {
             menuItems: [
@@ -280,16 +381,26 @@ const Menu: React.ComponentType<MenuProps> = (props) => {
                 close all
             </button>
 
+            <CSSTransition
+                timeout={MENU_APPEAR_TRANSITION_DURATION}
+                classNames="fade"
+                in={isOverlayVisible}
+                unmountOnExit
+            >
+                <Overlay onClick={closeMenu} />
+            </CSSTransition>
             <MenuData
+                menuTitle={menuTitle}
                 ref={menuRef}
                 groups={menuGroup}
                 trigger={buttonReference}
                 open={open}
                 active={open && !submenuOpen}
-                placement={"right-end"}
+                placement={"right-start"}
                 isMobile={isMobile}
             />
             <MenuData
+                menuTitle={submenuTitle}
                 ref={submenuRef}
                 trigger={menuItemReference}
                 open={submenuOpen}
@@ -298,7 +409,7 @@ const Menu: React.ComponentType<MenuProps> = (props) => {
                 closeSubmenuDown={closeSubmenuDown}
                 active={submenuOpen}
                 groups={submenuGroup}
-                placement={"right-end"}
+                placement={"right-start"}
                 isMobile={isMobile}
             />
         </>
