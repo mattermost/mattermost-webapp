@@ -1,17 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useRef, useState } from 'react';
-
+import React from 'react';
 import styled from 'styled-components';
+
+import Menu from 'components/menu/menu/Menu';
 
 import CenterControls from './center_controls/center_controls';
 import LeftControls from './left_controls/left_controls';
 import RightControls from './right_controls/right_controls';
-
 import {useCurrentProductId, useIsLoggedIn, useProducts} from './hooks';
-import Menu from 'components/menu/menu/Menu';
-import MenuPopover from 'components/menu/menu/MenuPopover';
 
 const GlobalHeaderContainer = styled.header`
     position: relative;

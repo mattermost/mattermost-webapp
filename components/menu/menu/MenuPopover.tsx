@@ -1,13 +1,16 @@
-import { Placement } from "popper.js";
-import { Instance } from "@popperjs/core";
-import React, { useEffect } from "react";
-import { usePopper } from "react-popper";
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
-import { MENU_APPEAR_TRANSITION_DURATION } from "./Menu";
+import {Placement} from 'popper.js';
+import {Instance} from '@popperjs/core';
+import React, {useEffect} from 'react';
+import {usePopper} from 'react-popper';
+
+import {MENU_APPEAR_TRANSITION_DURATION} from './Menu';
 
 export const useUpdateOnVisibilityChange = (
-    update: Instance["update"] | null,
-    isVisible: boolean
+    update: Instance['update'] | null,
+    isVisible: boolean,
 ) => {
     const updateComponent = async () => {
         if (!update) {
@@ -37,7 +40,7 @@ const MenuPopover = ({
     triggerRef,
     isVisible,
     isMobile,
-    placement = "auto",
+    placement = 'auto',
     offset = [0, -4],
     children,
 }: MenuPopoverProps): JSX.Element | null => {
@@ -45,16 +48,16 @@ const MenuPopover = ({
         React.useState<HTMLDivElement | null>(null);
 
     const {
-        styles: { popper },
+        styles: {popper},
         attributes,
         update,
     } = usePopper(triggerRef.current, popperElement, {
-        placement: placement,
+        placement,
         modifiers: [
             {
-                name: "offset",
+                name: 'offset',
                 options: {
-                    offset: offset,
+                    offset,
                 },
             },
         ],
@@ -62,7 +65,7 @@ const MenuPopover = ({
     useUpdateOnVisibilityChange(update, isVisible);
 
     const mobileStyle = isMobile && {
-        position: "fixed",
+        position: 'fixed',
         bottom: 0,
         left: 0,
         right: 0,
@@ -76,7 +79,11 @@ const MenuPopover = ({
     Object.assign(style, mobileStyle || popper);
 
     return (
-        <div ref={setPopperElement} style={style} {...attributes.popper}>
+        <div
+            ref={setPopperElement}
+            style={style}
+            {...attributes.popper}
+        >
             {children}
         </div>
     );

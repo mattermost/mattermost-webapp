@@ -1,15 +1,16 @@
-import React from "react";
-import type { ForwardedRef } from "react";
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
-import styled, { css } from "styled-components";
-import classNames from "classnames";
+import React, {ForwardedRef} from 'react';
+import styled, {css} from 'styled-components';
+import classNames from 'classnames';
 
 const MenuItemLabel = styled.span(
     () => css`
         font-size: 14px;
         line-height: 20px;
         margin: 0 8px 0 0;
-    `
+    `,
 );
 
 const MenuItemDescription = styled.span(
@@ -18,14 +19,14 @@ const MenuItemDescription = styled.span(
         font-size: 12px;
         line-height: 16px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
-    `
+    `,
 );
-const LabelWrapper = styled.div<{ leadingElement: boolean }>(
-    ({ leadingElement }) => css`
+const LabelWrapper = styled.div<{leadingElement: boolean}>(
+    ({leadingElement}) => css`
         display: flex;
         flex-direction: column;
-        padding-left: ${leadingElement ? "10px" : 0};
-    `
+        padding-left: ${leadingElement ? '10px' : 0};
+    `,
 );
 
 const MenuItemRoot = styled.div`
@@ -115,7 +116,7 @@ const MenuItem = React.forwardRef(
         return (
             <MenuItemRoot
                 ref={reference}
-                className={classNames({ disabled, destructive })}
+                className={classNames({disabled, destructive})}
                 {...rootProperties}
             >
                 {leadingElement}
@@ -127,9 +128,9 @@ const MenuItem = React.forwardRef(
                 </LabelWrapper>
                 <div
                     style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyItems: "flex-start",
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyItems: 'flex-start',
                     }}
                 >
                     {trailingElement && trailingElementLabel && (
@@ -141,6 +142,6 @@ const MenuItem = React.forwardRef(
                 </div>
             </MenuItemRoot>
         );
-    }
+    },
 );
 export default MenuItem;

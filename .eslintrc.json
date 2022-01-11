@@ -1,9 +1,6 @@
 {
   "root": true,
-  "extends": [
-    "plugin:mattermost/react",
-    "plugin:cypress/recommended"
-  ],
+  "extends": ["plugin:mattermost/react", "plugin:cypress/recommended"],
   "plugins": [
     "babel",
     "mattermost",
@@ -20,8 +17,8 @@
   "settings": {
     "import/resolver": "webpack",
     "react": {
-        "pragma": "React",
-        "version": "detect"
+      "pragma": "React",
+      "version": "detect"
     }
   },
   "rules": {
@@ -37,10 +34,7 @@
         "groups": [
           "builtin",
           "external",
-          [
-            "internal",
-            "parent"
-          ],
+          ["internal", "parent"],
           "sibling",
           "index"
         ]
@@ -52,30 +46,34 @@
     "react/prop-types": [
       2,
       {
-        "ignore": [
-          "location",
-          "history",
-          "component"
-        ]
+        "ignore": ["location", "history", "component"]
       }
     ],
     "react/no-string-refs": 2,
-    "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}],
-    "react/style-prop-object": [2, {
-      "allow": ["Timestamp"]
-    }],
-    "no-restricted-imports": ["error", {
-      "paths": [
-        {"name": "react-bootstrap", "importNames": ["OverlayTrigger"], "message": "Please use OverlayTrigger from '/components/overlay_trigger' instead"}
-      ]
-    }]
+    "no-only-tests/no-only-tests": ["error", { "focus": ["only", "skip"] }],
+    "react/style-prop-object": [
+      2,
+      {
+        "allow": ["Timestamp"]
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-bootstrap",
+            "importNames": ["OverlayTrigger"],
+            "message": "Please use OverlayTrigger from '/components/overlay_trigger' instead"
+          }
+        ]
+      }
+    ]
   },
   "overrides": [
     {
       "files": ["**/*.tsx", "**/*.ts"],
-      "extends": [
-        "plugin:@typescript-eslint/recommended"
-      ],
+      "extends": ["plugin:@typescript-eslint/recommended"],
       "rules": {
         "camelcase": 0,
         "no-shadow": 0,

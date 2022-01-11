@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { MutableRefObject, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router";
+import {MutableRefObject, useEffect, useRef} from 'react';
+import {useSelector} from 'react-redux';
+import {useLocation} from 'react-router';
 
-import { GlobalState } from "types/store";
-import { ProductComponent } from "types/store/plugins";
-import { Preferences } from "utils/constants";
+import {GlobalState} from 'types/store';
+import {ProductComponent} from 'types/store/plugins';
+import {Preferences} from 'utils/constants';
 
-import { UserProfile } from "mattermost-redux/types/users";
+import {UserProfile} from 'mattermost-redux/types/users';
 import {
     getCurrentUser,
     getCurrentUserId,
-} from "mattermost-redux/selectors/entities/users";
-import { getInt } from "mattermost-redux/selectors/entities/preferences";
+} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
-import { isModalOpen } from "selectors/views/modals";
-import { getCurrentProductId } from "../../utils/products";
+import {isModalOpen} from 'selectors/views/modals';
+import {getCurrentProductId} from '../../utils/products';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
@@ -30,9 +30,9 @@ export const useProducts = (): ProductComponent[] | undefined => {
  */
 export function useClickOutsideRef(
     refOrRefs:
-        | MutableRefObject<HTMLElement | null>
-        | Array<MutableRefObject<HTMLElement | null>>,
-    handler: () => void
+    | MutableRefObject<HTMLElement | null>
+    | Array<MutableRefObject<HTMLElement | null>>,
+    handler: () => void,
 ): void {
     useEffect(() => {
         function onMouseDown(event: MouseEvent) {
@@ -48,9 +48,7 @@ export function useClickOutsideRef(
                 return;
             }
 
-            const someRefContainTarget = refOrRefs
-                .filter((ref) => ref.current)
-                .some((ref) => ref.current?.contains(target));
+            const someRefContainTarget = refOrRefs.filter((ref) => ref.current).some((ref) => ref.current?.contains(target));
 
             if (someRefContainTarget) {
                 return;
@@ -60,16 +58,16 @@ export function useClickOutsideRef(
         }
 
         // Bind the event listener
-        document.addEventListener("mousedown", onMouseDown);
+        document.addEventListener('mousedown', onMouseDown);
         return () => {
             // Unbind the event listener on clean up
-            document.removeEventListener("mousedown", onMouseDown);
+            document.removeEventListener('mousedown', onMouseDown);
         };
     }, [refOrRefs, handler]);
 }
 
 export const useCurrentProductId = (
-    products?: ProductComponent[]
+    products?: ProductComponent[],
 ): string | null => {
     if (!products) {
         return null;
@@ -96,10 +94,10 @@ export const useIsLoggedIn = (): boolean => {
  * - returns both the direct boolean for regular use and a ref that contains the boolean for usage in a callback
  */
 export const useIsModalOpen = (
-    modalIdentifier: string
+    modalIdentifier: string,
 ): [boolean, React.RefObject<boolean>] => {
     const modalOpenState = useSelector((state: GlobalState) =>
-        isModalOpen(state, modalIdentifier)
+        isModalOpen(state, modalIdentifier),
     );
     const modalOpenStateRef = useRef(modalOpenState);
 

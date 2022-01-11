@@ -1,38 +1,32 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noEmit": true,
-    "experimentalDecorators": true,
-    "jsx": "react",
-    "baseUrl": ".",
-    "paths": {
-        "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
-        "reselect": ["packages/reselect/src"],
-    }
-  },
-  "include": [
-    "./**/*"
-  ],
-  "exclude": [
-    "dist",
-    "e2e",
-    "!node_modules/@types",
-    "storybook-static",
-    "coverage"
-  ]
+    "compilerOptions": {
+        "target": "esnext",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "noEmit": true,
+        "experimentalDecorators": true,
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
+            "reselect": ["packages/reselect/src"]
+        }
+    },
+    "include": ["./**/*"],
+    "exclude": [
+        "dist",
+        "e2e",
+        "!node_modules/@types",
+        "storybook-static",
+        "coverage"
+    ]
 }
