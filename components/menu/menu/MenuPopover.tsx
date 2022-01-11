@@ -1,5 +1,15 @@
+import { Placement } from "popper.js";
 import React from "react";
 import { usePopper } from "react-popper";
+
+interface MenuPopoverProps {
+    triggerRef: React.RefObject<HTMLElement>;
+    isVisible: boolean;
+    isMobile: boolean;
+    placement?: Placement;
+    offset?: [number, number];
+    children?: React.ReactNode;
+}
 
 const MenuPopover = ({
     triggerRef,
@@ -8,8 +18,9 @@ const MenuPopover = ({
     placement = "auto",
     offset = [0, 4],
     children,
-}) => {
-    const [popperElement, setPopperElement] = React.useState(null);
+}: MenuPopoverProps): JSX.Element | null => {
+    const [popperElement, setPopperElement] =
+        React.useState<HTMLDivElement | null>(null);
 
     const {
         styles: { popper },
