@@ -36,6 +36,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props> {
 
     getCloseHandler = () => {
         const {channel} = this.props;
+
         if (channel.type === Constants.OPEN_CHANNEL && channel.name !== Constants.DEFAULT_CHANNEL) {
             return this.handleLeavePublicChannel;
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
