@@ -28,13 +28,13 @@ export default function configureStore(preloadedState: any, appReducer: any, get
     middleware = composeWithDevTools(middleware);
 
     const store = createStore(
-        createReducer(baseState, serviceReducer as any, appReducer),
+        createReducer(serviceReducer as any, appReducer),
         baseState,
         middleware,
     );
 
     reducerRegistry.setChangeListener((reducers: any) => {
-        store.replaceReducer(createReducer(baseState, reducers));
+        store.replaceReducer(createReducer(reducers));
     });
 
     if (module.hot) {

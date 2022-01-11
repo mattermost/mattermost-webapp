@@ -6,6 +6,7 @@ import {REHYDRATE} from 'redux-persist/constants';
 
 import {General} from 'mattermost-redux/constants';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {StorageTypes} from 'utils/constants';
@@ -75,17 +76,6 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
         Reflect.deleteProperty(nextState, action.data.name);
         return nextState;
     }
-    case StorageTypes.CLEAR: {
-        const cleanState: Record<string, any> = {};
-        if (action.data && action.data.exclude && action.data.exclude.forEach) {
-            action.data.exclude.forEach((excluded: any) => {
-                if (state[excluded]) {
-                    cleanState[excluded] = state[excluded];
-                }
-            });
-        }
-        return cleanState;
-    }
     case StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: {
         const nextState = {...state};
         let changed = false;
@@ -113,6 +103,9 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
     case StorageTypes.STORAGE_REHYDRATE: {
         return {...state, ...action.data};
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }

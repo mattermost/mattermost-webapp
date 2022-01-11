@@ -9,7 +9,7 @@ import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import reducerRegistry from './reducer_registry';
 
-export function createReducer(baseState: GlobalState, ...reducers: Reducer[]): Reducer<GlobalState, Action> {
+export function createReducer(...reducers: Reducer[]): Reducer<GlobalState, Action> {
     reducerRegistry.setReducers(Object.assign({}, ...reducers));
     const baseReducer = combineReducers(reducerRegistry.getReducers());
 
