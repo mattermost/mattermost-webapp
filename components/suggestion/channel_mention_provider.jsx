@@ -18,13 +18,23 @@ export class ChannelMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
+        const channelIsArchived = item.channel.delete_at && item.channel.delete_at !== 0;
 
         const channelName = item.channel.display_name;
-        const channelIcon = (
-            <span className='suggestion-list__icon suggestion-list__icon--large'>
-                <i className={`icon icon--no-spacing icon-${item.channel.type === Constants.OPEN_CHANNEL ? 'globe' : 'lock'}`}/>
-            </span>
-        );
+        let channelIcon;
+        if (channelIsArchived) {
+            channelIcon = (
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-archive-outline'/>
+                </span>
+            );
+        } else {
+            channelIcon = (
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className={`icon icon--no-spacing icon-${item.channel.type === Constants.OPEN_CHANNEL ? 'globe' : 'lock'}`}/>
+                </span>
+            );
+        }
 
         let className = 'suggestion-list__item';
         if (isSelection) {
