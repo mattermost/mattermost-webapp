@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Placement} from 'popper.js';
 import {Instance} from '@popperjs/core';
 import React, {useEffect} from 'react';
 import {usePopper} from 'react-popper';
-
-import {MENU_APPEAR_TRANSITION_DURATION} from './Menu';
+import { MenuPopoverProps } from './Menu.types';
 
 export const useUpdateOnVisibilityChange = (
     update: Instance['update'] | null,
@@ -26,15 +24,6 @@ export const useUpdateOnVisibilityChange = (
         updateComponent();
     }, [isVisible]);
 };
-
-interface MenuPopoverProps {
-    triggerRef: React.RefObject<HTMLElement>;
-    isVisible: boolean;
-    isMobile: boolean;
-    placement?: Placement;
-    offset?: [number | null | undefined, number | null | undefined];
-    children?: React.ReactNode;
-}
 
 const MenuPopover = ({
     triggerRef,
@@ -69,7 +58,7 @@ const MenuPopover = ({
         bottom: 0,
         left: 0,
         right: 0,
-        transition: `visibility ${MENU_APPEAR_TRANSITION_DURATION}ms 0ms step-end`,
+        transition: `visibility 300ms 0ms step-end`,
     };
 
     const style = {

@@ -4,6 +4,7 @@
 import React, {ForwardedRef} from 'react';
 import styled, {css} from 'styled-components';
 import classNames from 'classnames';
+import { MenuItemProps } from './Menu.types';
 
 const MenuItemLabel = styled.span(
     () => css`
@@ -79,18 +80,6 @@ const MenuItemRoot = styled.div`
     transition: background 250ms ease-in-out, color 250ms ease-in-out,
         box-shadow 250ms ease-in-out;
 `;
-
-interface MenuItemProps {
-    label: string;
-    description?: string;
-    destructive?: boolean;
-    disabled?: boolean;
-    leadingElement?: React.ReactNode;
-    trailingElementLabel?: string;
-    trailingElement?: React.ReactNode;
-    onClick?: () => void;
-    onHover?: () => void;
-}
 
 const MenuItem = React.forwardRef(
     (props: MenuItemProps, reference: ForwardedRef<null>): JSX.Element => {
