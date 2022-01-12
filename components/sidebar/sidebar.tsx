@@ -90,6 +90,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     handleKeyDownEvent = (event: KeyboardEvent) => {
         if (Utils.isKeyPressed(event, Constants.KeyCodes.ESCAPE)) {
+            event.stopPropagation();
             this.props.actions.clearChannelSelection();
             return;
         }

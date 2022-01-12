@@ -773,6 +773,7 @@ export default class A11yController {
                 return;
             }
             event.preventDefault();
+            event.stopProagation();
             this.cancelNavigation();
             break;
         case isKeyPressed(event, Constants.KeyCodes.ENTER):

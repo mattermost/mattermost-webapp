@@ -69,6 +69,10 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
 
     private keyboardClose = (e: KeyboardEvent) => {
         if (e.key === Constants.KeyCodes.ESCAPE[0]) {
+            if (this.state.open) {
+                e.stopPropagation();
+            }
+
             this.close();
         }
 
