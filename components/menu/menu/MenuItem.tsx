@@ -4,7 +4,8 @@
 import React, {ForwardedRef} from 'react';
 import styled, {css} from 'styled-components';
 import classNames from 'classnames';
-import { MenuItemProps } from './Menu.types';
+
+import {MenuItemProps} from './Menu.types';
 
 const MenuItemLabel = styled.span(
     () => css`

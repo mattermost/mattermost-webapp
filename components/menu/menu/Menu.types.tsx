@@ -1,4 +1,7 @@
-import { Placement } from "popper.js";
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {Placement} from 'popper.js';
 
 export interface MenuItemProps {
     label: string;
@@ -12,9 +15,9 @@ export interface MenuItemProps {
     onHover?: () => void;
 }
 
-export type MenuGroup = { 
+export type MenuGroup = {
     menuItems: MenuItemProps[];
-    title?: string
+    title?: string;
 };
 
 export interface MenuPopoverProps {
@@ -43,8 +46,8 @@ export interface MenuDataProps {
 export interface MenuProps {
     title?: string;
     submenuTitle?: string;
-    trigger: React.RefObject<HTMLElement>,
-    submenuTrigger?: React.RefObject<HTMLElement>,
+    trigger: React.RefObject<HTMLElement>;
+    submenuTrigger?: React.RefObject<HTMLElement>;
     hasSubmenu?: boolean;
     groups: MenuGroup[];
     submenuGroups?: MenuGroup[];

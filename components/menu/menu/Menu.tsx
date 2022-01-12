@@ -7,14 +7,13 @@ import React, {
     useEffect,
     useCallback,
 } from 'react';
-
+import styled, {css} from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 
 import {useClickOutsideRef} from 'components/global_header/hooks';
 
 import MenuData from './MenuData';
-import styled, { css } from 'styled-components';
-import { MenuProps } from './Menu.types';
+import {MenuProps} from './Menu.types';
 
 const Overlay = styled.div(() => {
     return css`
@@ -99,7 +98,7 @@ function usePrevious<T extends unknown>(value: T): T | undefined {
     return ref.current;
 }
 
-const Menu = (props: MenuProps): JSX.Element => {   
+const Menu = (props: MenuProps): JSX.Element => {
     const [open, setOpen] = useState(false);
     const [submenuOpen, setSubmenuOpen] = useState(false);
     const menuRef = useRef(null);
@@ -142,23 +141,25 @@ const Menu = (props: MenuProps): JSX.Element => {
                 trigger={trigger}
                 open={open}
                 active={open && !submenuOpen}
-                placement={'right-start'}
+                placement={placement || 'right-start'}
                 isMobile={isMobile}
             />
-            
-            {hasSubmenu && submenuGroups && <MenuData
-                title={submenuTitle}
-                ref={submenuRef}
-                trigger={submenuRef}
-                open={submenuOpen}
-                isSubmenu={true}
-                closeSubmenu={() => setSubmenuOpen(false)}
-                closeSubmenuDown={closeSubmenuDown}
-                active={submenuOpen}
-                groups={submenuGroups}
-                placement={'right-start'}
-                isMobile={isMobile}
-            />}
+
+            {hasSubmenu && submenuGroups && submenuTrigger &&
+                <MenuData
+                    title={submenuTitle}
+                    ref={submenuRef}
+                    trigger={submenuTrigger}
+                    open={submenuOpen}
+                    isSubmenu={true}
+                    closeSubmenu={() => setSubmenuOpen(false)}
+                    closeSubmenuDown={closeSubmenuDown}
+                    active={submenuOpen}
+                    groups={submenuGroups}
+                    placement={'right-start'}
+                    isMobile={isMobile}
+                />
+            }
         </>
     );
 };

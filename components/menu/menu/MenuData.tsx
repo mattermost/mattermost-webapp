@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {forwardRef} from 'react';
+import React, {ForwardedRef} from 'react';
 import styled, {css} from 'styled-components';
 import classNames from 'classnames';
+
 import MenuPopover from './MenuPopover';
-import { MenuDataProps } from './Menu.types';
+import {MenuDataProps} from './Menu.types';
 
 const Divider = () => (
     <div style={{height: '1px', width: 'auto', backgroundColor: '#e0e0e0'}}/>
@@ -104,7 +105,7 @@ const MenuTitle = styled.div`
     color: var(--center-channel-color);
 `;
 
-const MenuData = forwardRef<HTMLDivElement, MenuDataProps>((props, ref) => {
+const MenuData = React.forwardRef((props: MenuDataProps, ref: ForwardedRef<null>): JSX.Element => {
     const {
         title,
         open,
@@ -154,7 +155,7 @@ const MenuData = forwardRef<HTMLDivElement, MenuDataProps>((props, ref) => {
                         )}
                         {title && <MenuTitle>{title}</MenuTitle>}
                     </MenuHeader>
-                    {groups.map((group, i) => (
+                    {groups.map((group) => (
                         <>
                             {group.title && <label>{group.title}</label>}
                             {group.menuItems}

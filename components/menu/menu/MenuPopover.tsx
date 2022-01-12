@@ -4,7 +4,8 @@
 import {Instance} from '@popperjs/core';
 import React, {useEffect} from 'react';
 import {usePopper} from 'react-popper';
-import { MenuPopoverProps } from './Menu.types';
+
+import {MenuPopoverProps} from './Menu.types';
 
 export const useUpdateOnVisibilityChange = (
     update: Instance['update'] | null,
@@ -58,7 +59,7 @@ const MenuPopover = ({
         bottom: 0,
         left: 0,
         right: 0,
-        transition: `visibility 300ms 0ms step-end`,
+        transition: 'visibility 300ms 0ms step-end',
     };
 
     const style = {
