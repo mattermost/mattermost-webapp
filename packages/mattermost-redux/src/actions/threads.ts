@@ -26,6 +26,8 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
+import Constants from 'utils/constants';
+
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
@@ -264,7 +266,10 @@ export function decrementThreadCounts(post: ExtendedPost) {
         }
 
         const channel = getChannel(state, post.channel_id);
-        const teamId = channel?.team_id;
+        let teamId = channel?.team_id;
+        if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
+            teamId = getCurrentTeamId(state);
+        }
 
         return dispatch({
             type: ThreadTypes.DECREMENT_THREAD_COUNTS,
