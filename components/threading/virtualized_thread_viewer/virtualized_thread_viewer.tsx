@@ -38,6 +38,7 @@ type Props = {
     teamId: string;
     useRelativeTimestamp: boolean;
     isThreadView: boolean;
+    isFollowing: boolean;
 }
 
 type State = {
@@ -421,14 +422,17 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     renderToast = (width: number) => {
-        const {lastViewedBottom, userScrolledToBottom} = this.state;
-        const isNewMessagesVisible = this.isNewMessagesVisible();
+        const {visibleStopIndex, lastViewedBottom, userScrolledToBottom} = this.state;
+        const canShow =
+            visibleStopIndex !== 0 &&
+            !this.isNewMessagesVisible() &&
+            !userScrolledToBottom;
 
         return (
             <NewRepliesBanner
                 threadId={this.props.selected.id}
                 lastViewedBottom={lastViewedBottom}
-                canShow={!(userScrolledToBottom || isNewMessagesVisible)}
+                canShow={canShow}
                 onDismiss={this.handleToastDismiss}
                 width={width}
                 onClick={this.handleToastClick}
