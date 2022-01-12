@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
-import {Invoice} from 'mattermost-redux/types/cloud';
+import {Invoice, InvoiceLineItemType} from 'mattermost-redux/types/cloud';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -53,6 +53,54 @@ const noBillingHistorySection = (
         </a>
     </div>
 );
+
+function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Element {
+    const fullUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Full).reduce((val, item) => val + item.quantity, 0);
+    const partialUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Partial).reduce((val, item) => val + item.quantity, 0);
+    const meteredUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Metered).reduce((val, item) => val + item.quantity, 0);
+    if (meteredUsers) {
+        if (fullUsers || partialUsers) {
+            return (
+                <div className='BillingHistory__table-bottomDesc'>
+                    <FormattedMarkdownMessage
+                        id='admin.billing.history.fractionalUsers'
+                        defaultMessage='{fractionalUsers} users'
+                        values={{
+                            fractionalUsers: meteredUsers,
+                        }}
+                    />
+                </div>
+            );
+        }
+
+        return (
+            <div className='BillingHistory__table-bottomDesc'>
+                <FormattedMarkdownMessage
+                    id='admin.billing.history.fractionalAndRatedUsers'
+                    defaultMessage='{fractionalUsers} metered users, {fullUsers} users at full rate, {partialUsers} users with partial charges'
+                    values={{
+                        fractionalUsers: meteredUsers,
+                        fullUsers,
+                        partialUsers,
+                    }}
+                />
+            </div>
+        );
+    }
+
+    return (
+        <div className='BillingHistory__table-bottomDesc'>
+            <FormattedMarkdownMessage
+                id='admin.billing.history.usersAndRates'
+                defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
+                values={{
+                    fullUsers,
+                    partialUsers,
+                }}
+            />
+        </div>
+    );
+}
 
 const getPaymentStatus = (status: string) => {
     switch (status) {
@@ -185,60 +233,46 @@ const BillingHistory: React.FC<Props> = () => {
                     </th>
                     <th>{''}</th>
                 </tr>
-                {billingHistory.map((invoice: Invoice) => {
-                    const fullUsers = invoice.line_items.filter((item) => item.type === 'full').reduce((val, item) => val + item.quantity, 0);
-                    const partialUsers = invoice.line_items.filter((item) => item.type === 'partial').reduce((val, item) => val + item.quantity, 0);
-
-                    return (
-                        <tr
-                            className='BillingHistory__table-row'
-                            key={invoice.id}
-                        >
-                            <td>
-                                <FormattedDate
-                                    value={new Date(invoice.period_start)}
-                                    month='2-digit'
-                                    day='2-digit'
-                                    year='numeric'
-                                    timeZone='UTC'
-                                />
-                            </td>
-                            <td>
-                                <div>{product?.name}</div>
-                                <div className='BillingHistory__table-bottomDesc'>
-                                    <FormattedMarkdownMessage
-                                        id='admin.billing.history.usersAndRates'
-                                        defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
-                                        values={{
-                                            fullUsers,
-                                            partialUsers,
-                                        }}
-                                    />
-                                </div>
-                            </td>
-                            <td className='BillingHistory__table-total'>
-                                <FormattedNumber
-                                    value={(invoice.total / 100.0)}
-                                    // eslint-disable-next-line react/style-prop-object
-                                    style='currency'
-                                    currency='USD'
-                                />
-                            </td>
-                            <td>
-                                {getPaymentStatus(invoice.status)}
-                            </td>
-                            <td className='BillingHistory__table-invoice'>
-                                <a
-                                    target='_new'
-                                    rel='noopener noreferrer'
-                                    href={Client4.getInvoicePdfUrl(invoice.id)}
-                                >
-                                    <i className='icon icon-file-pdf-outline'/>
-                                </a>
-                            </td>
-                        </tr>
-                    );
-                })}
+                {billingHistory.map((invoice: Invoice) => (
+                    <tr
+                        className='BillingHistory__table-row'
+                        key={invoice.id}
+                    >
+                        <td>
+                            <FormattedDate
+                                value={new Date(invoice.period_start)}
+                                month='2-digit'
+                                day='2-digit'
+                                year='numeric'
+                                timeZone='UTC'
+                            />
+                        </td>
+                        <td>
+                            <div>{product?.name}</div>
+                            <InvoiceUserCount invoice={invoice}/>
+                        </td>
+                        <td className='BillingHistory__table-total'>
+                            <FormattedNumber
+                                value={(invoice.total / 100.0)}
+                                // eslint-disable-next-line react/style-prop-object
+                                style='currency'
+                                currency='USD'
+                            />
+                        </td>
+                        <td>
+                            {getPaymentStatus(invoice.status)}
+                        </td>
+                        <td className='BillingHistory__table-invoice'>
+                            <a
+                                target='_new'
+                                rel='noopener noreferrer'
+                                href={Client4.getInvoicePdfUrl(invoice.id)}
+                            >
+                                <i className='icon icon-file-pdf-outline'/>
+                            </a>
+                        </td>
+                    </tr>
+                ))}
             </table>
             {paging}
         </>
