@@ -38,7 +38,7 @@ type Actions = {
     removeLicense: () => Promise<ActionResult>;
     getPrevTrialLicense: () => void;
     upgradeToE0: StatusOKFunc;
-    upgradeToE0Status: () => Promise<{percentage: number; error: any}>;
+    upgradeToE0Status: () => Promise<{percentage: number; error: string | JSX.Element}>;
     restartServer: StatusOKFunc;
     ping: PromiseStatusFunc;
     requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;

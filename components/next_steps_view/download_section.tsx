@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {isDesktopApp, isWindows, isMac} from 'utils/user_agent';
-import {isMobile} from 'utils/utils';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Card from 'components/card/card';
@@ -16,11 +15,12 @@ import {getAnalyticsCategory} from './step_helpers';
 
 type Props = {
     isFirstAdmin: boolean;
+    isMobileView: boolean;
     withinNextStep?: boolean;
 }
 
 function DownloadSection(props: Props): JSX.Element | null {
-    if (isMobile()) {
+    if (props.isMobileView) {
         return (
             <div className='NextStepsView__tipsMobileMessage'>
                 <Card expanded={true}>
