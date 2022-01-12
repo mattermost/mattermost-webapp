@@ -38,7 +38,6 @@ type Props = {
     teamId: string;
     useRelativeTimestamp: boolean;
     isThreadView: boolean;
-    isFollowing: boolean;
 }
 
 type State = {
