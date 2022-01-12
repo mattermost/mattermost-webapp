@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
-import {Invoice, InvoiceLineItemType} from 'mattermost-redux/types/cloud';
+import {Invoice} from 'mattermost-redux/types/cloud';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -18,6 +18,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
 
 import {CloudLinks} from 'utils/constants';
+
+import InvoiceUserCount from './invoice_user_count';
 
 import './billing_history.scss';
 
@@ -53,54 +55,6 @@ const noBillingHistorySection = (
         </a>
     </div>
 );
-
-function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Element {
-    const fullUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Full).reduce((val, item) => val + item.quantity, 0);
-    const partialUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Partial).reduce((val, item) => val + item.quantity, 0);
-    const meteredUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Metered).reduce((val, item) => val + item.quantity, 0);
-    if (meteredUsers) {
-        if (fullUsers || partialUsers) {
-            return (
-                <div className='BillingHistory__table-bottomDesc'>
-                    <FormattedMarkdownMessage
-                        id='admin.billing.history.fractionalUsers'
-                        defaultMessage='{fractionalUsers} users'
-                        values={{
-                            fractionalUsers: meteredUsers,
-                        }}
-                    />
-                </div>
-            );
-        }
-
-        return (
-            <div className='BillingHistory__table-bottomDesc'>
-                <FormattedMarkdownMessage
-                    id='admin.billing.history.fractionalAndRatedUsers'
-                    defaultMessage='{fractionalUsers} metered users, {fullUsers} users at full rate, {partialUsers} users with partial charges'
-                    values={{
-                        fractionalUsers: meteredUsers,
-                        fullUsers,
-                        partialUsers,
-                    }}
-                />
-            </div>
-        );
-    }
-
-    return (
-        <div className='BillingHistory__table-bottomDesc'>
-            <FormattedMarkdownMessage
-                id='admin.billing.history.usersAndRates'
-                defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
-                values={{
-                    fullUsers,
-                    partialUsers,
-                }}
-            />
-        </div>
-    );
-}
 
 const getPaymentStatus = (status: string) => {
     switch (status) {
@@ -249,7 +203,9 @@ const BillingHistory: React.FC<Props> = () => {
                         </td>
                         <td>
                             <div>{product?.name}</div>
-                            <InvoiceUserCount invoice={invoice}/>
+                            <div className='BillingHistory__table-bottomDesc'>
+                                <InvoiceUserCount invoice={invoice}/>
+                            </div>
                         </td>
                         <td className='BillingHistory__table-total'>
                             <FormattedNumber
