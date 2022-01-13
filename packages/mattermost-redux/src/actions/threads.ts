@@ -26,8 +26,6 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import Constants from 'utils/constants';
-
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
