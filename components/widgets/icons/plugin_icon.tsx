@@ -4,13 +4,19 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function PluginIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
+type Props = React.HTMLAttributes<HTMLSpanElement> & {
+    size: string;
+}
+
+export default function PluginIcon(props: Props) {
     const {formatMessage} = useIntl();
+
+    const pixelSize = props.size + 'px';
     return (
         <span {...props}>
             <svg
-                width='61px'
-                height='61px'
+                width={pixelSize}
+                height={pixelSize}
                 viewBox='0 0 61 61'
                 aria-label={formatMessage({id: 'generic_icons.plugin', defaultMessage: 'Plugin Icon'})}
             >
@@ -42,3 +48,7 @@ export default function PluginIcon(props: React.HTMLAttributes<HTMLSpanElement>)
         </span>
     );
 }
+
+PluginIcon.defaultProps = {
+    size: '61',
+};

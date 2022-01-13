@@ -69,7 +69,10 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
 
     if (imageLoadState === ImageLoadState.ERROR) {
         content = (
-            <PluginIcon className='icon__plugin'/>
+            <PluginIcon
+                size='20'
+                className='icon__plugin'
+            />
         );
     }
 
