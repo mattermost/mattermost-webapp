@@ -11,7 +11,6 @@ import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {StatusOK} from 'mattermost-redux/types/client4';
 
-import * as Utils from 'utils/utils.jsx';
 import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
@@ -34,6 +33,7 @@ import EnterpriseEditionLeftPanel from './enterprise_edition/enterprise_edition_
 import EnterpriseEditionRightPanel from './enterprise_edition/enterprise_edition_right_panel';
 import TrialBanner from './trial_banner/trial_banner';
 import EELicenseModal from './modals/ee_license_modal';
+import UploadLicenseModal from './modals/upload_license_modal';
 import ConfirmLicenseRemovalModal from './modals/confirm_license_removal_modal';
 
 import './license_settings.scss';
@@ -52,7 +52,7 @@ type Props = {
         removeLicense: () => Promise<ActionResult>;
         getPrevTrialLicense: () => void;
         upgradeToE0: () => Promise<StatusOK>;
-        upgradeToE0Status: () => Promise<{percentage: number; error: any}>;
+        upgradeToE0Status: () => Promise<{percentage: number; error: string | JSX.Element}>;
         restartServer: () => Promise<StatusOK>;
         ping: () => Promise<{status: string}>;
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
@@ -67,7 +67,6 @@ type State = {
     gettingTrialError: string | null;
     gettingTrial: boolean;
     removing: boolean;
-    uploading: boolean;
     upgradingPercentage: number;
     upgradeError: string | null;
     restarting: boolean;
@@ -75,7 +74,6 @@ type State = {
     clickNormalUpgradeBtn: boolean;
 };
 export default class LicenseSettings extends React.PureComponent<Props, State> {
-    private fileInputRef: React.RefObject<HTMLInputElement>;
     private interval: ReturnType<typeof setInterval> | null;
 
     constructor(props: Props) {
@@ -89,15 +87,12 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             gettingTrialError: null,
             gettingTrial: false,
             removing: false,
-            uploading: false,
             upgradingPercentage: 0,
             upgradeError: null,
             restarting: false,
             restartError: null,
             clickNormalUpgradeBtn: false,
         };
-
-        this.fileInputRef = React.createRef();
     }
 
     componentDidMount() {
@@ -134,46 +129,17 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         this.setState({upgradingPercentage: percentage || 0, upgradeError: error as string});
     }
 
-    handleChange = () => {
-        const element = this.fileInputRef.current;
-        if (element !== null && element.files !== null) {
-            if (element.files.length > 0) {
-                this.setState({fileSelected: true, fileName: element.files[0].name});
-            }
-        }
-    }
-
-    handleSubmit = async (e: any) => {
-        e.preventDefault();
-
-        const element = this.fileInputRef.current;
-        if (!element || (element && element.files?.length === 0)) {
-            return;
-        }
-        const files = element.files;
-        const file = files && files.length > 0 ? files[0] : null;
-
-        if (file === null) {
-            return;
-        }
-
-        this.setState({uploading: true});
-
-        const {error} = await this.props.actions.uploadLicense(file);
-        if (error) {
-            Utils.clearFileInput(element);
-            this.setState({fileSelected: false, fileName: null, serverError: error.message, uploading: false});
-            return;
-        }
-
-        await this.props.actions.getLicenseConfig();
-        this.setState({fileSelected: false, fileName: null, serverError: null, uploading: false});
-    }
-
     openEELicenseModal = async () => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.ENTERPRISE_EDITION_LICENSE,
             dialogType: EELicenseModal,
+        });
+    };
+
+    openUploadModal = async () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.UPLOAD_LICENSE,
+            dialogType: UploadLicenseModal,
         });
     };
 
@@ -185,23 +151,23 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         });
     };
 
-    handleRemove = async (e: any) => {
+    handleRemove = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.setState({removing: true});
 
         const {error} = await this.props.actions.removeLicense();
         if (error) {
-            this.setState({fileSelected: false, fileName: null, serverError: error.message, removing: false});
+            this.setState({serverError: error.message, removing: false});
             return;
         }
 
         this.props.actions.getPrevTrialLicense();
         await this.props.actions.getLicenseConfig();
-        this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
+        this.setState({serverError: null, removing: false});
     }
 
-    handleUpgrade = async (e?: any) => {
+    handleUpgrade = async (e?: React.MouseEvent<HTMLButtonElement>) => {
         if (e) {
             e.preventDefault();
         }
@@ -218,7 +184,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         }
     }
 
-    requestLicense = async (e?: any) => {
+    requestLicense = async (e?: React.MouseEvent<HTMLButtonElement>) => {
         if (e) {
             e.preventDefault();
         }
@@ -243,7 +209,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         });
     }
 
-    handleRestart = async (e?: any) => {
+    handleRestart = async (e?: React.MouseEvent<HTMLButtonElement>) => {
         if (e) {
             e.preventDefault();
         }
@@ -298,7 +264,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     render() {
         const {license, upgradedFromTE, isDisabled} = this.props;
-        const {uploading} = this.state;
 
         const issued = (
             <>
@@ -334,7 +299,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     setClickNormalUpgradeBtn={this.setClickNormalUpgradeBtn}
                 />
             );
-        } else if (license.IsLicensed === 'true' && !uploading) {
+        } else if (license.IsLicensed === 'true') {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             leftPanel = (
                 <EnterpriseEditionLeftPanel
@@ -363,16 +328,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             leftPanel = (
                 <StarterLeftPanel
                     openEELicenseModal={this.openEELicenseModal}
+                    openUploadModal={this.openUploadModal}
                     currentPlan={this.currentPlan}
                     upgradedFromTE={this.props.upgradedFromTE}
-                    serverError={this.state.serverError}
-                    fileSelected={this.state.fileSelected}
-                    fileName={this.state.fileName}
-                    uploading={this.state.uploading}
-                    fileInputRef={this.fileInputRef}
-                    isDisabled={this.props.isDisabled}
-                    handleChange={this.handleChange}
-                    handleSubmit={this.handleSubmit}
                 />
             );
 

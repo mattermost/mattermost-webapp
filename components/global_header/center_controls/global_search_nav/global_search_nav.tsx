@@ -8,8 +8,11 @@ import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import Search from 'components/search';
+
 import {getRhsState} from 'selectors/rhs';
+
 import {GlobalState} from 'types/store';
+
 import {
     Constants,
     RHSStates,
