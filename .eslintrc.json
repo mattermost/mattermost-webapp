@@ -132,6 +132,7 @@
     },
     {
       "files": ["tests/**", "**/*.test.*", "tests/*.js"],
+      "excludedFiles": ["pa11y/*"],
       "env": {
         "jest": true
       },
