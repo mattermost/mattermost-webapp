@@ -78,6 +78,7 @@
                 &.group-member-list {
                     max-height: 450px;
                     border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                    padding-bottom: 16px;
                     overflow-y: scroll; // for Firefox and browsers that doesn't support overflow-y:overlay property
                     overflow-y: overlay;
 
@@ -108,10 +109,6 @@
                         align-items: center;
                         padding: 8px 32px;
 
-                        &:hover {
-                            background: rgba(var(--center-channel-color-rgb), 0.08);
-                        }
-
                         .group-member-name {
                             padding-left: 12px;
                         }
@@ -130,6 +127,7 @@
                             margin-left: auto;
                             color: rgba(var(--center-channel-color-rgb), 0.56);
                             font-size: inherit;
+                            display: none;
 
                             &:hover {
                                 background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -146,6 +144,14 @@
                             i {
                                 font-size: 14px;
                                 line-height: 14px;
+                            }
+                        }
+
+                        &:hover {
+                            background: rgba(var(--center-channel-color-rgb), 0.08);
+
+                            button.remove-group-member {
+                                display: block;
                             }
                         }
                     }

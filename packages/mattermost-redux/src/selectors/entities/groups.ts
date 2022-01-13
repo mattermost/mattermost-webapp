@@ -307,3 +307,18 @@ export const getGroupMemberships: (state: GlobalState) => Record<string, GroupMe
         return groupMemberships;
     },
 );
+
+export const isMyGroup: (state: GlobalState, groupId: string) => boolean = createSelector(
+    'isMyGroup',
+    (state: GlobalState) => state.entities.groups.myGroups,
+    (state: GlobalState, groupId: string) => groupId,
+    (myGroupIDs: string[], groupId: string) => {
+        let isMyGroup = false;
+        myGroupIDs.forEach((myGroupId) => {
+            if (myGroupId === groupId) {
+                isMyGroup = true;
+            }
+        });
+        return isMyGroup;
+    },
+);

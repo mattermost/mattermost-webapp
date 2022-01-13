@@ -99,7 +99,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                 onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='createUserGroupsModalLabel'
-                id='createUserGroupsModal'
+                id='addUsersToGroupsModal'
             >
                 <Modal.Header closeButton={true}>
                     <button
@@ -117,7 +117,7 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
                     </button>
                     <Modal.Title
                         componentClass='h1'
-                        id='userGroupsModalLabel'
+                        id='addUsersToGroupsModalLabel'
                     >
                         <FormattedMessage
                             id='user_groups_modal.addPeopleTitle'

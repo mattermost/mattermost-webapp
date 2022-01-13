@@ -21,6 +21,12 @@
                 background: transparent;
                 color: inherit;
 
+                h1#createGroupsModalTitleWithBack,
+                h1#updateGroupsModalTitle,
+                h1#addUsersToGroupsModalLabel {
+                    margin-left: 44px;
+                }
+
                 button.modal-header-back-button {
                     width: 4rem;
                     height: 4rem;
@@ -136,10 +142,11 @@
             width: 100%;
             padding: 0 24px 24px;
             border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-            margin-bottom: 24px;
 
             #groupsFilterDropdown {
                 padding: 6px;
+                border-radius: 4px;
+                line-height: 12px;
 
                 &:hover {
                     background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -149,8 +156,14 @@
                     background: rgba(var(--button-bg-rgb), 0.08);
                 }
 
-                a span {
-                    color: var(--button-bg);
+                a {
+                    line-height: 12px;
+
+                    span {
+                        color: var(--button-bg);
+                        line-height: 12px;
+                        font-size: 12px;
+                    }
                 }
             }
 
@@ -172,6 +185,8 @@
             &.user-groups-list {
                 position: relative;
                 max-height: 450px;
+                padding-top: 24px;
+                padding-bottom: 16px;
                 overflow-y: scroll; // for Firefox and browsers that doesn't support overflow-y:overlay property
                 overflow-y: overlay;
 

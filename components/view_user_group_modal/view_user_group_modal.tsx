@@ -45,6 +45,7 @@ export type Props = {
     permissionToJoinGroup: boolean;
     permissionToLeaveGroup: boolean;
     permissionToArchiveGroup: boolean;
+    isGroupMember: boolean;
     actions: {
         getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
@@ -222,8 +223,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     leaveGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
 
-        // Should do some redux thing where I decrement the member_count of the group
-
         await actions.removeUsersFromGroup(groupId, [currentUserId]).then(() => {
             this.decrementMemberCount();
         });
@@ -231,8 +230,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
     joinGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
-
-        // Should do some redux thing where I increment the member_count of the group
 
         await actions.addUsersToGroup(groupId, [currentUserId]).then(() => {
             this.incrementMemberCount();
@@ -246,7 +243,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     }
 
     render() {
-        const {group, users} = this.props;
+        const {group, users, isGroupMember} = this.props;
 
         return (
             <Modal
@@ -318,7 +315,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                         disabled={false}
                                     />
                                     <Menu.ItemAction
-                                        show={this.props.permissionToJoinGroup}
+                                        show={this.props.permissionToJoinGroup && !isGroupMember}
                                         onClick={() => {
                                             this.joinGroup(group.id);
                                         }}
@@ -326,7 +323,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                         disabled={false}
                                     />
                                     <Menu.ItemAction
-                                        show={this.props.permissionToLeaveGroup}
+                                        show={this.props.permissionToLeaveGroup && isGroupMember}
                                         onClick={() => {
                                             this.leaveGroup(group.id);
                                         }}

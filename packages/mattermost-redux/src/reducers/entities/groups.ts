@@ -142,6 +142,14 @@ function syncables(state: Record<string, GroupSyncablesState> = {}, action: Gene
 
 function myGroups(state: string[] = [], action: GenericAction) {
     switch (action.type) {
+    case GroupTypes.ADD_MY_GROUP: {
+        const groupId = action.id;
+        const nextState = [...state];
+        if (state.indexOf(groupId) === -1) {
+            nextState.push(groupId);
+        }
+        return nextState;
+    }
     case GroupTypes.RECEIVED_MY_GROUPS: {
         const groups: Group[] = action.data;
         const nextState = [...state];
