@@ -312,7 +312,12 @@ export default class DesktopNotificationSettings extends React.PureComponent {
     buildMinimizedSetting = () => {
         let formattedMessageProps;
         const hasSoundOption = Utils.hasSoundOptions();
-        if (this.props.activity === NotificationLevels.MENTION) {
+        if (this.props.areNotificationsDisabled) {
+            formattedMessageProps = {
+                id: t('user.settings.notifications.desktop.disabledMessage'),
+                defaultMessage: 'Your operating system notifications are disabled',
+            };
+        } else if (this.props.activity === NotificationLevels.MENTION) {
             if (hasSoundOption && this.props.sound !== 'false') {
                 formattedMessageProps = {
                     id: t('user.settings.notifications.desktop.mentionsSound'),
