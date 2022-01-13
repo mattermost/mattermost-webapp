@@ -12,6 +12,7 @@ import InvoiceUserCount from './invoice_user_count';
 function makeInvoice(...lines: Array<[number, typeof InvoiceLineItemType[keyof typeof InvoiceLineItemType]]>): Invoice {
     return {
         id: '',
+        current_product_name: '',
         number: '',
         create_at: 0,
         total: 0,
