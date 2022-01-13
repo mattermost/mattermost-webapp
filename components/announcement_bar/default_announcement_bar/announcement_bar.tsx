@@ -99,7 +99,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         if (this.props.showCloseButton) {
             closeButton = (
                 <button
-                    className='announcement-bar__btn announcement-bar__btn--icon'
+                    className='announcement-bar__btn announcement-bar__btn--icon announcement-bar__close-btn'
                     style={linkStyle}
                     onClick={this.handleClose}
                 >

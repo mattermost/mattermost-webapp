@@ -91,12 +91,12 @@
     .announcement-bar__btn {
         height: 24px;
         box-sizing: border-box;
-        padding: 6px 10px;
+        padding: $announcement-bar-btn-vertical-padding $announcement-bar-btn-horizontal-padding;
         border: 1px solid #fff;
         background-color: inherit;
         border-radius: 4px;
         font-family: Open Sans;
-        font-size: 11px;
+        font-size: 12px;
         font-style: normal;
         font-weight: 600;
         line-height: 10px;
@@ -118,7 +118,7 @@
 
         &.announcement-bar__btn--tertiary {
             border: none;
-            color: var(--sidebar-text);
+            color: rgba(var(--sidebar-text-rgb), 0.72);
 
             &:hover {
                 background-color: rgba(255, 255, 255, 0.16);
@@ -134,11 +134,13 @@
         }
 
         &.announcement-bar__btn--icon {
-            padding: 6px;
+            width: $announcement-bar-icon-btn-width + $announcement-bar-icon-btn-padding;
+            height: 24px;
+            padding: $announcement-bar-icon-btn-padding;
             border: none;
             color: rgba(var(--sidebar-text-rgb), 0.64);
-            font-size: 14.4px;
-            line-height: 14px;
+            font-size: 18px;
+            font-weight: normal;
             text-decoration: none;
 
             &:hover {
@@ -159,9 +161,13 @@
         margin-left: 8px;
     }
 
+    .announcement-bar__close-btn {
+        margin-right: $announcement-bar-close-btn-right-margin;
+    }
+
     .announcement-bar__dont-ask-again {
-        margin-right: 20px;
         margin-left: auto;
+        margin-right: $announcement-bar-dont-ask-again-btn-right-margin;
         visibility: hidden;
     }
 

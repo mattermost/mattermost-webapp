@@ -21,7 +21,13 @@ $font-weight--semibold: 600;
 // Page Variables
 $border-gray: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
 $announcement-bar-height: 40px;
+$announcement-bar-btn-vertical-padding: 6px;
+$announcement-bar-btn-horizontal-padding: 10px;
 $announcement-bar-content-min-height: 28px;
+$announcement-bar-icon-btn-width: 18px;
+$announcement-bar-icon-btn-padding: 6px;
+$announcement-bar-close-btn-right-margin: 12px - $announcement-bar-icon-btn-padding;
+$announcement-bar-dont-ask-again-btn-right-margin: 27px - $announcement-bar-btn-horizontal-padding - $announcement-bar-icon-btn-padding / 2;
 $backstage-bar-height: 43px;
 
 // Random variables
