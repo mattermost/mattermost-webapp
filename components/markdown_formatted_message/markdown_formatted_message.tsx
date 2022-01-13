@@ -39,6 +39,7 @@ export const MarkdownFormattedMessage: React.ComponentType<MarkdownFormattedMess
 
         const htmlFormattedText = formatText(message, undefined, emojiMap);
 
+        console.log(htmlFormattedText, 'htmlFormattedText')
         return (
             <MessageComponentContainer
                 className={classNames({

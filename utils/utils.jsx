@@ -1732,9 +1732,25 @@ const ITALIC_MD = '*';
  * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
  */
-export function applyHotkeyMarkdown(e) {
+export function applyHotkeyMarkdown(e, options) {
+
+    const {markdownMode} = options
+    if (markdownMode) {
+        if (typeof options.selectionStart ==='undefined'||typeof options.selectionEnd ==='undefined') {
+            return
+        }
+        if (markdownMode==='bold'|| markdownMode === 'italic') {
+            return applyBoldItalicMarkdown(e, options);
+        }
+        if (markdownMode==='link') {
+            return applyLinkMarkdown(e, options);
+        }
+        
+    throw Error('Unsupported markdown mode: ' + markdownMode);
+
+    }
     e.preventDefault();
-    
+    console.log(e.keyCode, 'keycode')
     if (e.keyCode === Constants.KeyCodes.B[1] || e.keyCode === Constants.KeyCodes.I[1]) {
         // KeyboardEvent.keyCode is Deprecated: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
         return applyBoldItalicMarkdown(e);
@@ -1745,9 +1761,21 @@ export function applyHotkeyMarkdown(e) {
     throw Error('Unsupported key code: ' + e.keyCode);
 }
 
-function applyBoldItalicMarkdown(e) {
-    const el = e.target;
-    const {selectionEnd, selectionStart, value} = el;
+function applyBoldItalicMarkdown(e, options) {
+    let selectionEnd, selectionStart, value,isForceItalic,isForceBold
+    
+if (options) {
+    selectionEnd = options.selectionEnd
+    selectionStart = options.selectionStart
+    value = options.value
+    isForceItalic=options.markdownMode==='italic'
+    isForceBold =  options.markdownMode === 'bold'
+} else{
+    selectionEnd=e.target.selectionEnd
+    selectionStart = e.target.selectionStart
+    value = e.target.value
+}
+    
 
     // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);
@@ -1758,9 +1786,9 @@ function applyBoldItalicMarkdown(e) {
     let isItalicFollowedByBold = false;
     let delimiter = '';
 
-    if (e.keyCode === Constants.KeyCodes.B[1]) {
+    if (isForceBold || e.keyCode === Constants.KeyCodes.B[1]) {
         delimiter = BOLD_MD;
-    } else if (e.keyCode === Constants.KeyCodes.I[1]) {
+    } else if (isForceItalic || e.keyCode === Constants.KeyCodes.I[1]) {
         delimiter = ITALIC_MD;
         isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
     }
@@ -1793,9 +1821,19 @@ function applyBoldItalicMarkdown(e) {
     };
 }
 
-function applyLinkMarkdown(e) {
-    const el = e.target;
-    const {selectionEnd, selectionStart, value} = el;
+function applyLinkMarkdown(e, options) {
+    let selectionEnd, selectionStart, value
+
+    if (options) {
+        selectionEnd = options.selectionEnd
+        selectionStart = options.selectionStart
+        value = options.value
+    } else{
+        selectionEnd=e.target.selectionEnd
+        selectionStart = e.target.selectionStart
+        value = e.target.value
+    }
+
 
     // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);

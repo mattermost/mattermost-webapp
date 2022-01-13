@@ -67,6 +67,9 @@ import CreatePostTip from "./create_post_tip";
 
 import { Props, State } from "./create_post.types";
 import { MarkdownFormattedMessage, MarkdownMessageType } from "components/markdown_formatted_message/markdown_formatted_message";
+import { ToggleFormattingBar } from "components/toggle_formatting_bar/toggle_formatting_bar";
+import { FormattingBar } from "components/formatting_bar/formatting_bar";
+import { ApplyHotkeyMarkdownOptions } from "utils/utils.jsx";
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -129,6 +132,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             errorClass: null,
             serverError: null,
             showFormat: false,
+            isFormattingBarVisible: false,
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
@@ -1117,8 +1121,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             .then(() => this.fillMessageFromHistory());
     };
 
-    applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
-        const res = Utils.applyHotkeyMarkdown(e);
+    applyHotkeyMarkdown = (e: React.KeyboardEvent,options?:ApplyHotkeyMarkdownOptions) => {
+        const res = Utils.applyHotkeyMarkdown(e,options);
 
         this.setState(
             {
@@ -1126,6 +1130,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             },
             () => {
                 const textbox = this.textboxRef.current?.getInputBox();
+                console.log(textbox, 'lalalalalallalal')
                 Utils.setSelectionRange(
                     textbox,
                     res.selectionStart,
@@ -1378,7 +1383,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             callButton = <CallButton />;
         }
 
-        let fileUpload, showFormat;
+        let fileUpload, showFormat,toggleFormattingBar;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
@@ -1401,6 +1406,15 @@ class CreatePost extends React.PureComponent<Props, State> {
                     }}
                     postType="post"
                     channelId={currentChannel.id}
+                />
+            );
+            toggleFormattingBar = (
+                <ToggleFormattingBar
+                    onClick={() => {
+                        this.setState({ isFormattingBarVisible: !this.state.isFormattingBarVisible });
+                    }}
+                    // postType="post"
+                    // channelId={currentChannel.id}
                 />
             );
         }
@@ -1534,11 +1548,13 @@ class CreatePost extends React.PureComponent<Props, State> {
                                     this.props.useChannelMentions
                                 }
                             />
+                            <FormattingBar applyMarkdown={this.applyHotkeyMarkdown} value={this.state.message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
 
                             <span
                                 ref={this.createPostControlsRef}
-                                className="post-body__actions"
+                                className={classNames('post-body__actions', {formattingBarOpen: this.state.isFormattingBarVisible})}
                             >
+                                {toggleFormattingBar}
                                 {callButton}
                                 {showFormat}
                                 {fileUpload}

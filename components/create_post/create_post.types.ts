@@ -270,4 +270,5 @@ export type State = {
     serverError: (ServerError & { submittedMessage?: string }) | null;
     postError?: React.ReactNode;
     showFormat: boolean;
+    isFormattingBarVisible: boolean;
 };

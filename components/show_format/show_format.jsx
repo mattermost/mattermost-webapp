@@ -121,7 +121,7 @@ class ShowFormat extends PureComponent {
                     aria-label={ariaLabel}
                     className="style--none post-action icon icon--attachment"
                 >
-                    <AttachmentIcon className="d-flex" />
+                <i class="fa fa-eye"></i>
                 </button>
                 <input
                     id="fileUploadInput"

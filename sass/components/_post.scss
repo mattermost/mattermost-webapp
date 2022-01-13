@@ -441,6 +441,7 @@
     .post-create-body {
         position: relative;
         padding: 0 0 2px;
+        border: 1px solid;
 
         .post-body__cell {
             position: relative;
@@ -543,6 +544,12 @@
     right: 0;
     display: flex;
     margin: 0 1px 0 0;
+
+    &.formattingBarOpen{
+        // todo: fix animation https://www.figma.com/proto/4fiyoFl9xZSeGXHZFqf5dw/%E2%9C%85MM-21168-Advanced-Text-Editor?node-id=52%3A59001&viewport=-716%2C-2719%2C0.4407515227794647&scaling=min-zoom
+        // top: 100%;
+        // transform:translateY(-100%);
+    }
 
     > div {
         margin: 0 4px 0 0;
