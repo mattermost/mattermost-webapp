@@ -26,13 +26,13 @@ export function files(state: Record<string, FileInfo> = {}, action: GenericActio
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
-        return storeFilesForPost(state, post);
+        return storeAllFilesForPost(state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
 
-        return posts.reduce(storeFilesForPost, state);
+        return posts.reduce(storeAllFilesForPost, state);
     }
 
     case PostTypes.POST_DELETED:
@@ -72,6 +72,25 @@ export function filesFromSearch(state: Record<string, FileSearchResultItem> = {}
     }
 }
 
+function storeAllFilesForPost(state: Record<string, FileInfo>, post: Post) {
+    let currentState = state;
+
+    // Handle permalink embedded files
+    if (post.metadata && post.metadata.embeds) {
+        const embeds = post.metadata.embeds;
+
+        currentState = embeds.reduce((nextState, embed) => {
+            if (embed && embed.type === 'permalink' && embed.data && 'post' in embed.data && embed.data.post) {
+                return storeFilesForPost(nextState, embed.data.post);
+            }
+
+            return nextState;
+        }, currentState);
+    }
+
+    return storeFilesForPost(currentState, post);
+}
+
 function storeFilesForPost(state: Record<string, FileInfo>, post: Post) {
     if (!post.metadata || !post.metadata.files) {
         return state;
@@ -104,13 +123,13 @@ export function fileIdsByPostId(state: Record<string, string[]> = {}, action: Ge
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
-        return storeFilesIdsForPost(state, post);
+        return storeAllFilesIdsForPost(state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
 
-        return posts.reduce(storeFilesIdsForPost, state);
+        return posts.reduce(storeAllFilesIdsForPost, state);
     }
 
     case PostTypes.POST_DELETED:
@@ -129,6 +148,25 @@ export function fileIdsByPostId(state: Record<string, string[]> = {}, action: Ge
     default:
         return state;
     }
+}
+
+function storeAllFilesIdsForPost(state: Record<string, string[]>, post: Post) {
+    let currentState = state;
+
+    // Handle permalink embedded files
+    if (post.metadata && post.metadata.embeds) {
+        const embeds = post.metadata.embeds;
+
+        currentState = embeds.reduce((nextState, embed) => {
+            if (embed && embed.type === 'permalink' && embed.data && 'post' in embed.data && embed.data.post) {
+                return storeFilesIdsForPost(nextState, embed.data.post);
+            }
+
+            return nextState;
+        }, currentState);
+    }
+
+    return storeFilesIdsForPost(currentState, post);
 }
 
 function storeFilesIdsForPost(state: Record<string, string[]>, post: Post) {

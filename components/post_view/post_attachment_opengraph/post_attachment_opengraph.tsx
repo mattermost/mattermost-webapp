@@ -36,6 +36,7 @@ export type Props = {
     actions: {
         editPost: (post: { id: string; props: Record<string, any> }) => void;
     };
+    isInPermalink?: boolean;
 };
 
 export default class PostAttachmentOpenGraph extends React.PureComponent<Props> {
@@ -68,6 +69,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
     };
 
     renderImageToggle() {
+        if (this.props.isInPermalink) {
+            return undefined;
+        }
+
         return (
             <button
                 className={'style--none post__embed-visibility color--link'}
@@ -177,7 +182,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
         const hasLargeImage = this.isLargeImage(imageMetadata);
 
         let removePreviewButton;
-        if (this.props.currentUserId === this.props.post.user_id) {
+        if (this.props.currentUserId === this.props.post.user_id && !this.props.isInPermalink) {
             removePreviewButton = (
                 <button
                     type='button'
@@ -195,24 +200,24 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
         if (data.description || imageUrl) {
             body = (
                 <div className={'attachment__body attachment__body--opengraph'}>
-                    <div>
+                    <div className={this.props.isInPermalink ? 'permalink__body--opengraph' : ''}>
                         {this.truncateText(data.description)}
                         {' '}
                         {imageUrl && hasLargeImage && this.renderImageToggle()}
                     </div>
-                    {imageUrl && hasLargeImage && this.renderLargeImage(imageUrl, imageMetadata)}
+                    {!this.props.isInPermalink && imageUrl && hasLargeImage && this.renderLargeImage(imageUrl, imageMetadata)}
                 </div>
             );
         }
 
         return (
-            <div className='attachment attachment--opengraph'>
+            <div className={this.props.isInPermalink ? 'attachment attachment--opengraph permalink' : 'attachment attachment--opengraph'}>
                 <div className='attachment__content'>
                     <div className={'clearfix attachment__container attachment__container--opengraph'}>
                         <div className={'attachment__body__wrap attachment__body__wrap--opengraph'}>
-                            <span className='sitename'>
+                            {!this.props.isInPermalink && <span className='sitename'>
                                 {this.truncateText(data.site_name)}
-                            </span>
+                            </span>}
                             {removePreviewButton}
                             <h1 className={'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')}>
                                 <a
@@ -227,7 +232,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
                             </h1>
                             {body}
                         </div>
-                        {imageUrl && !hasLargeImage && this.renderSmallImage(imageUrl, imageMetadata)}
+                        {!this.props.isInPermalink && imageUrl && !hasLargeImage && this.renderSmallImage(imageUrl, imageMetadata)}
                     </div>
                 </div>
             </div>
