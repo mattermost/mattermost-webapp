@@ -40,6 +40,8 @@ i18n-extract: ## Extract strings for translation from the source code
 node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
 
+	node skip_integrity_check.js
+
 	npm install
 	touch $@
 

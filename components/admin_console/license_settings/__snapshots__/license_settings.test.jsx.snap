@@ -291,20 +291,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={false}
-              uploading={false}
             />
           </div>
           <div
@@ -1286,20 +1275,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={false}
-              uploading={false}
             />
           </div>
           <div
@@ -1406,20 +1384,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={true}
-              uploading={false}
             />
           </div>
           <div
@@ -1746,20 +1713,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={false}
-              uploading={false}
             />
           </div>
           <div

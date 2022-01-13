@@ -18,12 +18,16 @@ import {
     showNextSteps,
 } from 'components/next_steps_view/steps';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
 import UserGuideDropdown from './user_guide_dropdown';
 
 function mapStateToProps(state: GlobalState) {
     const {HelpLink, ReportAProblemLink, EnableAskCommunityLink} = getConfig(state);
+
     return {
         helpLink: HelpLink || '',
+        isMobileView: getIsMobileView(state),
         reportAProblemLink: ReportAProblemLink || '',
         enableAskCommunityLink: EnableAskCommunityLink || '',
         showDueToStepsNotFinished: showNextSteps(state),

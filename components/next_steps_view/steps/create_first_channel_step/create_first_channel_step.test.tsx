@@ -69,6 +69,7 @@ describe('components/next_steps_view/steps/create_first_channel_step', () => {
         expanded: true,
         isAdmin: false,
         isLastStep: false,
+        isMobileView: false,
         onSkip: () => {},
         onFinish: () => {},
         completeStepButtonText: {

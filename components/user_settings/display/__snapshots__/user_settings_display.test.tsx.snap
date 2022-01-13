@@ -55,7 +55,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -70,7 +70,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -91,7 +91,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -106,7 +106,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -121,7 +121,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -136,7 +136,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -151,7 +151,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -166,7 +166,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -258,7 +258,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -273,7 +273,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -347,7 +347,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -362,7 +362,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -383,7 +383,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -398,7 +398,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -413,7 +413,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -428,7 +428,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -443,7 +443,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -535,7 +535,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -550,7 +550,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -565,7 +565,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -716,7 +716,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -737,7 +737,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -752,7 +752,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -767,7 +767,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -782,7 +782,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -797,7 +797,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -812,7 +812,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -827,7 +827,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -842,7 +842,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -857,7 +857,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -931,7 +931,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -946,7 +946,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -967,7 +967,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -982,7 +982,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1074,7 +1074,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1089,7 +1089,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1104,7 +1104,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1119,7 +1119,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1134,7 +1134,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1149,7 +1149,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -1223,7 +1223,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1238,7 +1238,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -1259,7 +1259,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1274,7 +1274,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1289,7 +1289,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1304,7 +1304,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1319,7 +1319,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1334,7 +1334,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1349,7 +1349,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1364,7 +1364,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1458,7 +1458,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1473,7 +1473,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -1494,7 +1494,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1509,7 +1509,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1524,7 +1524,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1539,7 +1539,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1554,7 +1554,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1569,7 +1569,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1584,7 +1584,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1599,7 +1599,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -1673,7 +1673,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1688,7 +1688,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -1709,7 +1709,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1801,7 +1801,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1816,7 +1816,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1831,7 +1831,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1846,7 +1846,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1861,7 +1861,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1876,7 +1876,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1891,7 +1891,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -1965,7 +1965,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1980,7 +1980,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -2001,7 +2001,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2016,7 +2016,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2031,7 +2031,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2141,7 +2141,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2156,7 +2156,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2171,7 +2171,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2186,7 +2186,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2201,7 +2201,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -2275,7 +2275,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2290,7 +2290,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -2311,7 +2311,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2326,7 +2326,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2341,7 +2341,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2356,7 +2356,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2371,7 +2371,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2386,7 +2386,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2401,7 +2401,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2416,7 +2416,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2431,7 +2431,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -2505,7 +2505,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2520,7 +2520,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -2541,7 +2541,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2556,7 +2556,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2571,7 +2571,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2586,7 +2586,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2601,7 +2601,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2616,7 +2616,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2631,7 +2631,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2646,7 +2646,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2661,7 +2661,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -2735,7 +2735,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2750,7 +2750,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -2771,7 +2771,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2786,7 +2786,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2801,7 +2801,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2816,7 +2816,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2831,7 +2831,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2846,7 +2846,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2861,7 +2861,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2876,7 +2876,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2891,7 +2891,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -2977,7 +2977,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2992,7 +2992,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -3013,7 +3013,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3028,7 +3028,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3043,7 +3043,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3058,7 +3058,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3073,7 +3073,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3088,7 +3088,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3103,7 +3103,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3118,7 +3118,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3133,7 +3133,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
@@ -3207,7 +3207,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3222,7 +3222,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show first and last name"
@@ -3243,7 +3243,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="availabilityStatus"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3258,7 +3258,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3273,7 +3273,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3288,7 +3288,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="message_display"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3303,7 +3303,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="collapsed_reply_threads"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3318,7 +3318,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3333,7 +3333,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="channel_display_mode"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3348,7 +3348,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         section="one_click_reactions_enabled"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3363,7 +3363,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <SettingItemMin
+      <Connect(SettingItemMin)
         describe="English (US)"
         section="languages"
         title={
