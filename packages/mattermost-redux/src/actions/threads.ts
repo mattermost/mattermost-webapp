@@ -266,10 +266,7 @@ export function decrementThreadCounts(post: ExtendedPost) {
         }
 
         const channel = getChannel(state, post.channel_id);
-        let teamId = channel?.team_id;
-        if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
-            teamId = getCurrentTeamId(state);
-        }
+        const teamId = channel?.team_id || getCurrentTeamId(state);
 
         return dispatch({
             type: ThreadTypes.DECREMENT_THREAD_COUNTS,

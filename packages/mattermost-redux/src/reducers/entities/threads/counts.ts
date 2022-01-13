@@ -106,8 +106,8 @@ function handleDecrementThreadCounts(state: ThreadsState['counts'], action: Gene
         ...state,
         [teamId]: {
             total: Math.max(counts.total - 1, 0),
-            total_unread_mentions: Math.max(counts.total_unread_mentions - mentions, 0) || 0,
-            total_unread_threads: Math.max(counts.total_unread_threads - replies, 0) || 0,
+            total_unread_mentions: Math.max(counts.total_unread_mentions - mentions, 0),
+            total_unread_threads: Math.max(counts.total_unread_threads - replies, 0),
         },
     };
 }
