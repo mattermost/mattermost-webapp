@@ -60,7 +60,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const wrapper = shallow(
             <UserSettingsNotifications {...requiredProps}/>,
         );
-        expect(wrapper.exists('SettingItemMin[section="comments"]')).toBe(true);
+        expect(wrapper.exists('Connect(SettingItemMin)[section="comments"]')).toBe(true);
     });
 
     test('should not show reply notifications section when CRT on', () => {
@@ -70,6 +70,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
                 isCollapsedThreadsEnabled={true}
             />,
         );
-        expect(wrapper.exists('SettingItemMin[section="comments"]')).toBe(false);
+        expect(wrapper.exists('Connect(SettingItemMin)[section="comments"]')).toBe(false);
     });
 });

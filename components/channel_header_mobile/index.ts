@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Location} from 'history';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter, matchPath} from 'react-router-dom';
 
 import {createSelector} from 'reselect';
@@ -22,6 +23,9 @@ import {
 import {close as closeLhs} from 'actions/views/lhs';
 
 import {getIsRhsOpen} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
+
+import {GlobalState} from 'types/store';
 
 import ChannelHeaderMobile from './channel_header_mobile';
 
@@ -31,17 +35,22 @@ const isCurrentChannelMuted = createSelector(
     (membership) => isChannelMuted(membership),
 );
 
-const mapStateToProps = (state, {location: {pathname}}) => ({
+type OwnProps = {
+    location: Location;
+}
+
+const mapStateToProps = (state: GlobalState, ownProps: OwnProps) => ({
     user: getCurrentUser(state),
     channel: getCurrentChannel(state),
+    isMobileView: getIsMobileView(state),
     isMuted: isCurrentChannelMuted(state),
     isReadOnly: false,
     isRHSOpen: getIsRhsOpen(state),
     currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
-    inGlobalThreads: Boolean(matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'})),
+    inGlobalThreads: Boolean(matchPath(ownProps.location.pathname, {path: '/:team/threads/:threadIdentifier?'})),
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions: bindActionCreators({
         closeLhs,
         closeRhs,
