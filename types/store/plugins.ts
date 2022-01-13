@@ -21,6 +21,7 @@ export type PluginsState = {
         MainMenu: PluginComponent[];
         LinkTooltip: PluginComponent[];
         RightHandSidebarComponent: PluginComponent[];
+        ChannelHeaderButton: PluginComponent[];
         MobileChannelHeaderButton: PluginComponent[];
         AppBar: PluginComponent[];
         [componentName: string]: PluginComponent[];
