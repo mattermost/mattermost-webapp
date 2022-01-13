@@ -85,7 +85,13 @@ class SwitchChannelSuggestion extends Suggestion {
         if (member && member.notify_props) {
             const unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
             if (unreadMentions > 0) {
-                badge = <span className='badge'>{unreadMentions}</span>;
+                badge = (<div className={classNames('suggestion-list_unread-mentions', (isPartOfOnlyOneTeam ? 'position-end' : ''))}>
+                    <span
+                        className='badge'
+                    >
+                        {unreadMentions}
+                    </span>
+                </div>);
             }
         }
 
@@ -194,6 +200,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 />
             );
         }
+
         let teamName = null;
         if (channel.team_id && team) {
             teamName = (<span className='ml-2 suggestion-list__team-name'>{team.display_name}</span>);
@@ -214,20 +221,17 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <div className={classNames('suggestion-list__ellipsis', {'suggestion-list__flex': !isPartOfOnlyOneTeam})}>
+                <div className={classNames('suggestion-list__ellipsis', 'suggestion-list__flex')}>
                     <span className='suggestion-list__main'>{name}</span>
                     {isPartOfOnlyOneTeam && <span className='ml-2'>{description}</span>}
-                    {!isPartOfOnlyOneTeam &&
-                    <>
+                    {<>
                         {customStatus}
                         {sharedIcon}
                         {tag}
                         {badge}
-                        {teamName}
-                    </>
-                    }
+                        {!isPartOfOnlyOneTeam && teamName}
+                    </>}
                 </div>
-                {isPartOfOnlyOneTeam && <>{customStatus}{sharedIcon}{tag}{badge}</>}
             </div>
         );
     }

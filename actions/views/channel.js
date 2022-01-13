@@ -93,13 +93,8 @@ export function switchToChannelById(channelId) {
 export function switchToChannel(channel) {
     return async (dispatch, getState) => {
         const state = getState();
-        let teamUrl;
         const selectedTeamId = channel.team_id;
-        if (selectedTeamId) {
-            teamUrl = `/${getTeam(state, selectedTeamId).name}`;
-        } else {
-            teamUrl = getCurrentRelativeTeamUrl(state);
-        }
+        const teamUrl = selectedTeamId ? `/${getTeam(state, selectedTeamId).name}` : getCurrentRelativeTeamUrl(state);
 
         if (channel.userId) {
             const username = channel.userId ? channel.name : channel.display_name;

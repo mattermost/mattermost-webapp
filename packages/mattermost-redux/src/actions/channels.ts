@@ -541,15 +541,13 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
 
 export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let channels;
-        let channelsMembers;
         const state = getState();
         const {currentUserId} = state.entities.users;
+        let channels;
+        let channelsMembers;
         try {
-            const channelRequest = Client4.getAllTeamsChannels();
-            const channelsMembersRequest = Client4.getAllChannelsMembers(currentUserId);
-            channels = await channelRequest;
-            channelsMembers = await channelsMembersRequest;
+            channels = await Client4.getAllTeamsChannels();
+            channelsMembers = await Client4.getAllChannelsMembers(currentUserId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(batchActions([
