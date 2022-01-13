@@ -94,8 +94,9 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
-              upgradingPercentage={0}
+              upgradingPercentage={100}
             />
           </div>
           <div
@@ -212,8 +213,9 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
-              upgradingPercentage={0}
+              upgradingPercentage={42}
             />
           </div>
           <div
@@ -254,52 +256,19 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <AlertBanner
-          message={
-            <div
-              className="banner-start-trial"
-            >
-              <p
-                className="license-trial-legal-terms"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
-                  id="admin.license.trial-request.title"
-                />
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-                  id="admin.license.trial-request.accept-terms"
-                />
-              </p>
-              <div
-                className="trial"
-              >
-                <button
-                  className="btn btn-primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <LoadingWrapper
-                    loading={false}
-                    text="Getting trial"
-                  >
-                    <Memo(MemoizedFormattedMessage)
-                      defaultMessage="Start trial"
-                      id="admin.license.trial-request.submit"
-                    />
-                  </LoadingWrapper>
-                </button>
-              </div>
-            </div>
-          }
-          mode="info"
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Free 30 day trial!"
-              id="licensingPage.infoBanner.startTrialTitle"
-            />
-          }
+        <TrialBanner
+          enterpriseReady={true}
+          gettingTrial={false}
+          gettingTrialError={null}
+          handleRestart={[Function]}
+          handleUpgrade={[Function]}
+          isDisabled={false}
+          openEEModal={[Function]}
+          requestLicense={[Function]}
+          restartError={null}
+          restarting={false}
+          upgradeError={null}
+          upgradingPercentage={0}
         />
       </div>
       <div
@@ -322,20 +291,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={false}
-              uploading={false}
             />
           </div>
           <div
@@ -1282,52 +1240,19 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <AlertBanner
-          message={
-            <div
-              className="banner-start-trial"
-            >
-              <p
-                className="license-trial-legal-terms"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
-                  id="admin.license.trial-request.title"
-                />
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-                  id="admin.license.trial-request.accept-terms"
-                />
-              </p>
-              <div
-                className="trial"
-              >
-                <button
-                  className="btn btn-primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <LoadingWrapper
-                    loading={false}
-                    text="Getting trial"
-                  >
-                    <Memo(MemoizedFormattedMessage)
-                      defaultMessage="Start trial"
-                      id="admin.license.trial-request.submit"
-                    />
-                  </LoadingWrapper>
-                </button>
-              </div>
-            </div>
-          }
-          mode="info"
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Free 30 day trial!"
-              id="licensingPage.infoBanner.startTrialTitle"
-            />
-          }
+        <TrialBanner
+          enterpriseReady={true}
+          gettingTrial={false}
+          gettingTrialError={null}
+          handleRestart={[Function]}
+          handleUpgrade={[Function]}
+          isDisabled={false}
+          openEEModal={[Function]}
+          requestLicense={[Function]}
+          restartError={null}
+          restarting={false}
+          upgradeError={null}
+          upgradingPercentage={0}
         />
       </div>
       <div
@@ -1350,20 +1275,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={false}
-              uploading={false}
             />
           </div>
           <div
@@ -1435,52 +1349,19 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       <div
         className="admin-console__banner_section"
       >
-        <AlertBanner
-          message={
-            <div
-              className="banner-start-trial"
-            >
-              <p
-                className="license-trial-legal-terms"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. "
-                  id="admin.license.trial-request.title"
-                />
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-                  id="admin.license.trial-request.accept-terms"
-                />
-              </p>
-              <div
-                className="trial"
-              >
-                <button
-                  className="btn btn-primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <LoadingWrapper
-                    loading={false}
-                    text="Getting trial"
-                  >
-                    <Memo(MemoizedFormattedMessage)
-                      defaultMessage="Start trial"
-                      id="admin.license.trial-request.submit"
-                    />
-                  </LoadingWrapper>
-                </button>
-              </div>
-            </div>
-          }
-          mode="info"
-          title={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Free 30 day trial!"
-              id="licensingPage.infoBanner.startTrialTitle"
-            />
-          }
+        <TrialBanner
+          enterpriseReady={true}
+          gettingTrial={false}
+          gettingTrialError={null}
+          handleRestart={[Function]}
+          handleUpgrade={[Function]}
+          isDisabled={false}
+          openEEModal={[Function]}
+          requestLicense={[Function]}
+          restartError={null}
+          restarting={false}
+          upgradeError={null}
+          upgradingPercentage={0}
         />
       </div>
       <div
@@ -1503,20 +1384,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={true}
-              uploading={false}
             />
           </div>
           <div
@@ -1664,6 +1534,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
               upgradingPercentage={0}
             />
@@ -1705,7 +1576,22 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
     >
       <div
         className="admin-console__banner_section"
-      />
+      >
+        <TrialBanner
+          enterpriseReady={false}
+          gettingTrial={false}
+          gettingTrialError={null}
+          handleRestart={[Function]}
+          handleUpgrade={[Function]}
+          isDisabled={false}
+          openEEModal={[Function]}
+          requestLicense={[Function]}
+          restartError={null}
+          restarting={false}
+          upgradeError={null}
+          upgradingPercentage={0}
+        />
+      </div>
       <div
         className="top-wrapper"
       >
@@ -1764,6 +1650,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               openEEModal={[Function]}
               restartError={null}
               restarting={false}
+              setClickNormalUpgradeBtn={[Function]}
               upgradeError={null}
               upgradingPercentage={0}
             />
@@ -1826,20 +1713,9 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
-              fileInputRef={
-                Object {
-                  "current": null,
-                }
-              }
-              fileName={null}
-              fileSelected={false}
-              handleChange={[Function]}
-              handleSubmit={[Function]}
-              isDisabled={false}
               openEELicenseModal={[Function]}
-              serverError={null}
+              openUploadModal={[Function]}
               upgradedFromTE={false}
-              uploading={false}
             />
           </div>
           <div

@@ -78,7 +78,7 @@ $tip-index: 1000;
         .arrow {
             top: 34px;
             left: -10px;
-            border-right-color: $white;
+            border-right-color: var(--center-channel-bg);
             border-left-width: 0;
         }
 
@@ -126,7 +126,7 @@ $tip-index: 1000;
         .arrow {
             top: 82px;
             left: -10px;
-            border-right-color: $white;
+            border-right-color: var(--center-channel-bg);
             border-left-width: 0;
         }
 
@@ -145,7 +145,7 @@ $tip-index: 1000;
             top: -10px;
             left: 18px;
             border-top-width: 0;
-            border-bottom-color: $white;
+            border-bottom-color: var(--center-channel-bg);
         }
     }
 
@@ -156,7 +156,7 @@ $tip-index: 1000;
             top: -10px;
             right: 44px;
             border-top-width: 0;
-            border-bottom-color: $white;
+            border-bottom-color: var(--center-channel-bg);
         }
     }
 

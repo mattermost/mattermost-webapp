@@ -63,7 +63,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
             return (
                 <FormattedMessage
                     id='admin.license.enterprisePlanTitle'
-                    defaultMessage='Need to increase your headcount?'
+                    defaultMessage='Need to increase user count?'
                 />
             );
         }

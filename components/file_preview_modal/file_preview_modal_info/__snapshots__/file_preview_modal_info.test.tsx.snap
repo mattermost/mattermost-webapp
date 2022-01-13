@@ -25,7 +25,7 @@ exports[`components/FilePreviewModalInfo should match snapshot 1`] = `
         id="file_preview_modal_info.shared_in"
         values={
           Object {
-            "name": "DN",
+            "name": "name",
           }
         }
       />

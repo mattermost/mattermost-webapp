@@ -355,7 +355,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
       }
       id="gettingStarted"
       onClick={[Function]}
-      show={true}
+      show={false}
       text="Getting Started"
     />
     <MenuItemExternalLink
