@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
+import {getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
 import {Invoice} from 'mattermost-redux/types/cloud';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -94,13 +94,6 @@ const getPaymentStatus = (status: string) => {
 const BillingHistory: React.FC<Props> = () => {
     const dispatch = useDispatch();
     const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
 
     const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
     const [firstRecord, setFirstRecord] = useState(1);
@@ -118,8 +111,6 @@ const BillingHistory: React.FC<Props> = () => {
         // TODO: When server paging, check if there are more invoices
     };
     useEffect(() => {
-        dispatch(getCloudProducts());
-        dispatch(getCloudSubscription());
         dispatch(getInvoices());
         pageVisited('cloud_admin', 'pageview_billing_history');
     }, []);
@@ -202,7 +193,7 @@ const BillingHistory: React.FC<Props> = () => {
                             />
                         </td>
                         <td>
-                            <div>{product?.name}</div>
+                            <div>{invoice.current_product_name}</div>
                             <div className='BillingHistory__table-bottomDesc'>
                                 <InvoiceUserCount invoice={invoice}/>
                             </div>

@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {mountWithIntl} from '../../../tests/helpers/intl-test-helper';
 
 import {Invoice, InvoiceLineItemType} from 'mattermost-redux/types/cloud';
+
 import InvoiceUserCount from './invoice_user_count';
 
-function makeInvoice(...lines: [number, typeof InvoiceLineItemType[keyof typeof InvoiceLineItemType]][]): Invoice {
+function makeInvoice(...lines: Array<[number, typeof InvoiceLineItemType[keyof typeof InvoiceLineItemType]]>): Invoice {
     return {
         id: '',
         number: '',
@@ -27,7 +29,7 @@ function makeInvoice(...lines: [number, typeof InvoiceLineItemType[keyof typeof 
                 price_per_unit: 0,
                 description: '',
                 type,
-                metadata: {} as Record<string,string>,
+                metadata: {} as Record<string, string>,
             };
             if (type === InvoiceLineItemType.Full || type === InvoiceLineItemType.Partial) {
                 lineItem.metadata.type = type;
@@ -36,7 +38,7 @@ function makeInvoice(...lines: [number, typeof InvoiceLineItemType[keyof typeof 
             }
             return lineItem;
         }),
-    }
+    };
 }
 
 describe('InvoiceUserCount', () => {
@@ -93,5 +95,5 @@ describe('InvoiceUserCount', () => {
             const wrapper = mountWithIntl(<InvoiceUserCount invoice={invoice}/>);
             expect(wrapper.text()).toBe(expected);
         });
-    })
+    });
 });

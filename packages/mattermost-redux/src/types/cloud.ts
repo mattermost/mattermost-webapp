@@ -100,6 +100,7 @@ export type Invoice = {
     period_end: number;
     subscription_id: string;
     line_items: InvoiceLineItem[];
+    current_product_name: string;
 }
 
 // actual string values come from customer-web-server and should be kept in sync with values seen there
