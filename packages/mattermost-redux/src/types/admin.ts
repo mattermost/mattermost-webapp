@@ -10,7 +10,7 @@ import {PluginRedux, PluginStatusRedux} from './plugins';
 import {SamlCertificateStatus, SamlMetadataResponse} from './saml';
 import {Team} from './teams';
 import {UserAccessToken, UserProfile} from './users';
-import {Dictionary, RelationOneToOne} from './utilities';
+import {RelationOneToOne} from './utilities';
 
 export type ConsoleAccess = {
     read: Record<string, boolean>;
@@ -19,20 +19,20 @@ export type ConsoleAccess = {
 
 export type AdminState = {
     logs: string[];
-    audits: Dictionary<Audit>;
+    audits: Record<string, Audit>;
     config: Partial<AdminConfig>;
     environmentConfig: Partial<EnvironmentConfig>;
-    complianceReports: Dictionary<Compliance>;
-    ldapGroups: Dictionary<MixedUnlinkedGroupRedux>;
+    complianceReports: Record<string, Compliance>;
+    ldapGroups: Record<string, MixedUnlinkedGroupRedux>;
     ldapGroupsCount: number;
-    userAccessTokens: Dictionary<UserAccessToken>;
+    userAccessTokens: Record<string, UserAccessToken>;
     clusterInfo: ClusterInfo[];
     samlCertStatus?: SamlCertificateStatus;
-    analytics?: Dictionary<number | AnalyticsRow[]>;
-    teamAnalytics?: RelationOneToOne<Team, Dictionary<number | AnalyticsRow[]>>;
-    userAccessTokensByUser?: RelationOneToOne<UserProfile, Dictionary<UserAccessToken>>;
-    plugins?: Dictionary<PluginRedux>;
-    pluginStatuses?: Dictionary<PluginStatusRedux>;
+    analytics?: Record<string, number | AnalyticsRow[]>;
+    teamAnalytics?: RelationOneToOne<Team, Record<string, number | AnalyticsRow[]>>;
+    userAccessTokensByUser?: RelationOneToOne<UserProfile, Record<string, UserAccessToken>>;
+    plugins?: Record<string, PluginRedux>;
+    pluginStatuses?: Record<string, PluginStatusRedux>;
     samlMetadataResponse?: SamlMetadataResponse;
     dataRetentionCustomPolicies: DataRetentionCustomPolicies;
     dataRetentionCustomPoliciesCount: number;

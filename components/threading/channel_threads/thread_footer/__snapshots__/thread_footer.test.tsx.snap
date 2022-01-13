@@ -104,7 +104,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               onEntered={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="name-5"
                   placement="top"
@@ -127,7 +126,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 onEntered={[Function]}
                 overlay={
                   <OverlayWrapper
-                    bsClass="tooltip"
                     className="hidden-xs"
                     id="name-5"
                     intl={
@@ -246,7 +244,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               onEntered={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="name-4"
                   placement="top"
@@ -269,7 +266,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 onEntered={[Function]}
                 overlay={
                   <OverlayWrapper
-                    bsClass="tooltip"
                     className="hidden-xs"
                     id="name-4"
                     intl={
@@ -388,7 +384,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               onEntered={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="name-3"
                   placement="top"
@@ -411,7 +406,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 onEntered={[Function]}
                 overlay={
                   <OverlayWrapper
-                    bsClass="tooltip"
                     className="hidden-xs"
                     id="name-3"
                     intl={
@@ -512,7 +506,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             onEntered={[Function]}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="names-overflow"
                 placement="top"
@@ -535,7 +528,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               onEntered={[Function]}
               overlay={
                 <OverlayWrapper
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="names-overflow"
                   intl={
@@ -853,7 +845,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         delayShow={500}
         overlay={
           <Tooltip
-            bsClass="tooltip"
             className="hidden-xs"
             id="threadFooterIndicator"
             placement="top"
@@ -882,7 +873,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           delayShow={500}
           overlay={
             <OverlayWrapper
-              bsClass="tooltip"
               className="hidden-xs"
               id="threadFooterIndicator"
               intl={
@@ -1005,7 +995,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               onEntered={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="name-5"
                   placement="top"
@@ -1028,7 +1017,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 onEntered={[Function]}
                 overlay={
                   <OverlayWrapper
-                    bsClass="tooltip"
                     className="hidden-xs"
                     id="name-5"
                     intl={
@@ -1147,7 +1135,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               onEntered={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="name-4"
                   placement="top"
@@ -1170,7 +1157,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 onEntered={[Function]}
                 overlay={
                   <OverlayWrapper
-                    bsClass="tooltip"
                     className="hidden-xs"
                     id="name-4"
                     intl={
@@ -1289,7 +1275,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               onEntered={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="name-3"
                   placement="top"
@@ -1312,7 +1297,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 onEntered={[Function]}
                 overlay={
                   <OverlayWrapper
-                    bsClass="tooltip"
                     className="hidden-xs"
                     id="name-3"
                     intl={
@@ -1413,7 +1397,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             onEntered={[Function]}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 className="hidden-xs"
                 id="names-overflow"
                 placement="top"
@@ -1436,7 +1419,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               onEntered={[Function]}
               overlay={
                 <OverlayWrapper
-                  bsClass="tooltip"
                   className="hidden-xs"
                   id="names-overflow"
                   intl={

@@ -70,6 +70,7 @@ describe('components/SearchResultsItem', () => {
         status: 'hello',
         enablePostUsernameOverride: false,
         isBot: false,
+        isMobileView: false,
         actions: {
             closeRightHandSide: mockFunc,
             selectPost: mockFunc,

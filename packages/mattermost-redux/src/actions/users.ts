@@ -16,8 +16,6 @@ import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/g
 
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
 import {getAllCustomEmojis} from './emojis';
@@ -351,7 +349,7 @@ export function getMissingProfilesByUsernames(usernames: string[]): ActionFunc {
         const usernameProfiles = Object.values(profiles).reduce((acc, profile: any) => {
             acc[profile.username] = profile;
             return acc;
-        }, {} as Dictionary<UserProfile>);
+        }, {} as Record<string, UserProfile>);
         const missingUsernames: string[] = [];
         usernames.forEach((username) => {
             if (!usernameProfiles[username]) {

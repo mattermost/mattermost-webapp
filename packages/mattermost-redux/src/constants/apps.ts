@@ -10,6 +10,7 @@ import {AppCallResponseType, AppCallType, AppExpandLevel, AppFieldType} from 'ma
 export const AppBindingLocations = {
     POST_MENU_ITEM: '/post_menu',
     CHANNEL_HEADER_ICON: '/channel_header',
+    APP_BAR: '/app_bar',
     COMMAND: '/command',
     IN_POST: '/in_post',
 };

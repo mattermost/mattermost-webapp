@@ -74,9 +74,7 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -123,9 +121,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -172,9 +168,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -221,9 +215,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -270,9 +262,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -319,9 +309,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -368,9 +356,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -417,9 +403,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -466,9 +450,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"
@@ -515,9 +497,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"

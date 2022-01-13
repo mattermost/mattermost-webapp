@@ -9,9 +9,9 @@ import {useHistory} from 'react-router-dom';
 import moment from 'moment';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {GlobalState} from 'mattermost-redux/types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {GlobalState} from 'types/store';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 

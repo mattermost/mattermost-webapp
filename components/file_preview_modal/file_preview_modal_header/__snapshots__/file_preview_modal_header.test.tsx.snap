@@ -41,7 +41,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
     handleNext={[MockFunction]}
     handlePrev={[MockFunction]}
     isExternalFile={false}
-    isMobile={false}
+    isMobileView={false}
     onGetPublicLink={[MockFunction]}
     showOnlyClose={false}
     showPublicLink={false}
@@ -80,7 +80,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
     handleNext={[MockFunction]}
     handlePrev={[MockFunction]}
     isExternalFile={false}
-    isMobile={true}
+    isMobileView={true}
     onGetPublicLink={[MockFunction]}
     showOnlyClose={true}
     showPublicLink={false}

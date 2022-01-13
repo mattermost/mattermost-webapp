@@ -4,8 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getRhsState} from 'selectors/rhs';
-
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
@@ -24,6 +22,9 @@ import {
     selectPostCardFromRightHandSideSearch,
     setRhsExpanded,
 } from 'actions/views/rhs';
+
+import {getRhsState} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
@@ -85,6 +86,7 @@ export function mapStateToProps() {
             displayName: getDisplayNameByUser(state, directTeammate),
             replyCount: getReplyCount(state, post),
             canReply,
+            isMobileView: getIsMobileView(state),
         };
     };
 }

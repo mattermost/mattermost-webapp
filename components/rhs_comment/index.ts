@@ -18,6 +18,7 @@ import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_ac
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {isEmbedVisible} from 'selectors/posts';
 import {getHighlightedPostId} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
@@ -81,6 +82,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         oneClickReactionsEnabled,
         recentEmojis: emojis,
         isExpanded: state.views.rhs.isSidebarExpanded,
+        isMobileView: getIsMobileView(state),
     };
 }
 

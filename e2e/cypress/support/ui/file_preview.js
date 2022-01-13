@@ -17,6 +17,13 @@ Cypress.Commands.add('uiGetFilePreviewModal', (options = {exist: true}) => {
     return cy.get('.file-preview-modal').should('not.exist');
 });
 
+Cypress.Commands.add('uiGetPublicLink', (options = {exist: true}) => {
+    if (options.exist) {
+        return cy.get('.icon-link-variant').should('be.visible');
+    }
+    return cy.get('.icon-link-variant').should('not.exist');
+});
+
 Cypress.Commands.add('uiGetHeaderFilePreviewModal', () => {
     return cy.uiGetFilePreviewModal().find('.file-preview-modal-header').should('be.visible');
 });

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -10,6 +9,7 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {closeRightHandSide, showFlaggedPosts} from 'actions/views/rhs';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import {getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';

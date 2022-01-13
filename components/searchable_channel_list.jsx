@@ -128,13 +128,13 @@ export default class SearchableChannelList extends React.PureComponent {
         this.setState({page: this.state.page + 1, nextDisabled: true});
         this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
         this.props.nextPage(this.state.page + 1);
-        this.channelListScroll.current?.scrollTo(0);
+        this.channelListScroll.current?.scrollTo({top: 0});
     }
 
     previousPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page - 1});
-        this.channelListScroll.current?.scrollTo(0);
+        this.channelListScroll.current?.scrollTo({top: 0});
     }
 
     doSearch = () => {

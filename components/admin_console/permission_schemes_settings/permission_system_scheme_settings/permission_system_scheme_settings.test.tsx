@@ -43,6 +43,10 @@ describe('components/admin_console/permission_schemes_settings/permission_system
             system_admin: defaultRole,
             team_admin: defaultRole,
             channel_admin: defaultRole,
+            playbook_admin: defaultRole,
+            playbook_member: defaultRole,
+            run_admin: defaultRole,
+            run_member: defaultRole,
         },
         actions: {
             loadRolesIfNeeded: jest.fn().mockReturnValue(Promise.resolve()),
@@ -143,7 +147,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper).toMatchSnapshot();
 
         await wrapper.instance().handleSubmit();
-        expect(editRole).toHaveBeenCalledTimes(8);
+        expect(editRole).toHaveBeenCalledTimes(11);
     });
 
     test('should save roles based on license', async () => {
@@ -164,7 +168,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper).toMatchSnapshot();
 
         await wrapper.instance().handleSubmit();
-        expect(editRole).toHaveBeenCalledTimes(5);
+        expect(editRole).toHaveBeenCalledTimes(8);
         license.GuestAccountsPermissions = 'true';
         editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
         const wrapper2 = shallow<PermissionSystemSchemeSettings>(
@@ -178,7 +182,7 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper2).toMatchSnapshot();
 
         await wrapper2.instance().handleSubmit();
-        expect(editRole).toHaveBeenCalledTimes(8);
+        expect(editRole).toHaveBeenCalledTimes(11);
     });
 
     test('should show error if editRole fails', async () => {
