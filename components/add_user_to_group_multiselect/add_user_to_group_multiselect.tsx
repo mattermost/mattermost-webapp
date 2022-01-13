@@ -19,7 +19,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Constants from 'utils/constants';
 
 const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 20;
+const MAX_SELECTABLE_VALUES = 256;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -50,6 +50,7 @@ export type Props = {
     buttonSubmitLoadingText?: string;
     backButtonClick?: () => void;
     backButtonClass?: string;
+    backButtonText?: string;
 
     actions: {
         getProfiles: (page?: number, perPage?: number) => Promise<ActionResult>;
@@ -265,6 +266,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 savingEnabled={this.props.savingEnabled}
                 backButtonClick={this.props.backButtonClick}
                 backButtonClass={this.props.backButtonClass}
+                backButtonText={this.props.backButtonText}
+                numRemainingText={<></>}
             />
         );
     }

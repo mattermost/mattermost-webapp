@@ -33,6 +33,7 @@ export type Props<T extends Value> = {
     ariaLabelRenderer: getOptionValue<T>;
     backButtonClick?: () => void;
     backButtonClass?: string;
+    backButtonText?: string;
     buttonSubmitLoadingText?: ReactNode;
     buttonSubmitText?: ReactNode;
     handleAdd: (value: T) => void;
@@ -517,7 +518,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                             }}
                             className={classNames('btn', this.props.backButtonClass)}
                         >
-                            {localizeMessage('multiselect.backButton', 'Back')}
+                            {this.props.backButtonText || localizeMessage('multiselect.backButton', 'Back')}
                         </button>
                     }
                     <SaveButton

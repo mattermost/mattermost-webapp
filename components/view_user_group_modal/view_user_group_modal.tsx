@@ -29,6 +29,8 @@ import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import Input from 'components/input';
+import NoResultsIndicator from 'components/no_results_indicator';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const USERS_PER_PAGE = 60;
 
@@ -358,75 +360,90 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                             </span>
                         }
                     </div>
-                    <div className='user-groups-search'>
-                        <FaSearchIcon/>
-                        <Input
-                            type='text'
-                            placeholder={Utils.localizeMessage('search_bar.searchGroupMembers', 'Search group members')}
-                            onChange={this.handleSearch}
-                            value={this.props.searchTerm}
-                            data-testid='searchInput'
-                            className={'user-group-search-input'}
-                        />
-                    </div>
-                    <div
-                        className='user-groups-modal__content group-member-list'
-                        onScroll={this.onScroll}
-                        ref={this.divScrollRef}
-                    >
-                        <h2 className='group-member-count'>
-                            <FormattedMessage
-                                id='view_user_group_modal.memberCount'
-                                defaultMessage='{member_count} {member_count, plural, one {Member} other {Members}}'
-                                values={{
-                                    member_count: this.state.memberCount,
-                                }}
-                            />
-                        </h2>
-                        {users.map((user) => {
-                            return (
-                                <div
-                                    key={user.id}
-                                    className='group-member-row'
-                                >
-                                    <>
-                                        <Avatar
-                                            username={user.username}
-                                            size={'sm'}
-                                            url={Utils.imageURLForUser(user?.id ?? '')}
-                                            className={'avatar-post-preview'}
-                                        />
-                                    </>
-                                    <div className='group-member-name'>
-                                        {Utils.getFullName(user)}
-                                    </div>
-                                    <div className='group-member-username'>
-                                        {`@${user.username}`}
-                                    </div>
-                                    {
-                                        group.source.toLowerCase() !== 'ldap' &&
-                                        <button
-                                            type='button'
-                                            className='remove-group-member btn-icon'
-                                            aria-label='Close'
-                                            onClick={() => {
-                                                this.removeUserFromGroup(user.id);
+                    {(users.length === 0 && !this.props.searchTerm) ?
+                        <NoResultsIndicator
+                            variant={NoResultsVariant.UserGroupMembers}
+                        /> :
+                        <>
+                            <div className='user-groups-search'>
+                                <FaSearchIcon/>
+                                <Input
+                                    type='text'
+                                    placeholder={Utils.localizeMessage('search_bar.searchGroupMembers', 'Search group members')}
+                                    onChange={this.handleSearch}
+                                    value={this.props.searchTerm}
+                                    data-testid='searchInput'
+                                    className={'user-group-search-input'}
+                                />
+                            </div>
+                            <div
+                                className='user-groups-modal__content group-member-list'
+                                onScroll={this.onScroll}
+                                ref={this.divScrollRef}
+                            >
+                                {(users.length !== 0) &&
+                                    <h2 className='group-member-count'>
+                                        <FormattedMessage
+                                            id='view_user_group_modal.memberCount'
+                                            defaultMessage='{member_count} {member_count, plural, one {Member} other {Members}}'
+                                            values={{
+                                                member_count: this.state.memberCount,
                                             }}
+                                        />
+                                    </h2>
+                                }
+                                {(users.length === 0 && this.props.searchTerm) &&
+                                    <NoResultsIndicator
+                                        variant={NoResultsVariant.ChannelSearch}
+                                        titleValues={{channelName: `"${this.props.searchTerm}"`}}
+                                    />
+                                }
+                                {users.map((user) => {
+                                    return (
+                                        <div
+                                            key={user.id}
+                                            className='group-member-row'
                                         >
-                                            <LocalizedIcon
-                                                className='icon icon-trash-can-outline'
-                                                ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                                            />
-                                        </button>
-                                    }
-                                </div>
-                            );
-                        })}
-                        {
-                            this.state.loading &&
-                            <LoadingScreen/>
-                        }
-                    </div>
+                                            <>
+                                                <Avatar
+                                                    username={user.username}
+                                                    size={'sm'}
+                                                    url={Utils.imageURLForUser(user?.id ?? '')}
+                                                    className={'avatar-post-preview'}
+                                                />
+                                            </>
+                                            <div className='group-member-name'>
+                                                {Utils.getFullName(user)}
+                                            </div>
+                                            <div className='group-member-username'>
+                                                {`@${user.username}`}
+                                            </div>
+                                            {
+                                                group.source.toLowerCase() !== 'ldap' &&
+                                                <button
+                                                    type='button'
+                                                    className='remove-group-member btn-icon'
+                                                    aria-label='Close'
+                                                    onClick={() => {
+                                                        this.removeUserFromGroup(user.id);
+                                                    }}
+                                                >
+                                                    <LocalizedIcon
+                                                        className='icon icon-trash-can-outline'
+                                                        ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                                                    />
+                                                </button>
+                                            }
+                                        </div>
+                                    );
+                                })}
+                                {
+                                    this.state.loading &&
+                                    <LoadingScreen/>
+                                }
+                            </div>
+                        </>
+                    }
                 </Modal.Body>
             </Modal>
         );

@@ -40,6 +40,7 @@ type State = {
     mentionInputErrorText: string;
     nameInputErrorText: string;
     showUnknownError: boolean;
+    mentionUpdatedManually: boolean;
 }
 
 export default class UpdateUserGroupModal extends React.PureComponent<Props, State> {
@@ -50,11 +51,12 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
             saving: false,
             show: true,
             name: this.props.group.display_name,
-            mention: this.props.group.name,
+            mention: `@${this.props.group.name}`,
             mentionInputErrorText: '',
             nameInputErrorText: '',
             hasUpdated: false,
             showUnknownError: false,
+            mentionUpdatedManually: false,
         };
     }
 
@@ -68,12 +70,19 @@ export default class UpdateUserGroupModal extends React.PureComponent<Props, Sta
 
     updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        this.setState({name: value, hasUpdated: true});
+        let mention = this.state.mention;
+        if (!this.state.mentionUpdatedManually) {
+            mention = value.replace(/[^A-Za-z0-9@]/g, '').toLowerCase();
+            if (mention.substring(0, 1) !== '@') {
+                mention = `@${mention}`;
+            }
+        }
+        this.setState({name: value, hasUpdated: true, mention});
     }
 
     updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        this.setState({mention: value, hasUpdated: true});
+        this.setState({mention: value, hasUpdated: true, mentionUpdatedManually: true});
     }
 
     patchGroup = async () => {

@@ -20,6 +20,7 @@ import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect'
 import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
+import {localizeMessage} from 'utils/utils';
 
 export type Props = {
     onExited: () => void;
@@ -243,6 +244,13 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                     savingEnabled={this.isSaveEnabled()}
                                     addUserCallback={this.addUserCallback}
                                     deleteUserCallback={this.deleteUserCallback}
+                                    backButtonText={localizeMessage('multiselect.cancelButton', 'Cancel')}
+                                    backButtonClick={
+                                        typeof this.props.backButtonCallback === 'function' ?
+                                        this.goBack :
+                                        this.doHide
+                                    }
+                                    backButtonClass={'multiselect-back'}
                                 />
                             </div>
                             {
