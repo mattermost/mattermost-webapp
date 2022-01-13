@@ -13,10 +13,10 @@ import configureServiceStore from 'mattermost-redux/store';
 
 import {storageRehydrate} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
-import appReducer from 'reducers';
+import appReducers from 'reducers';
 import {getBasePath} from 'selectors/general';
 
-function getAppReducer() {
+function getAppReducers() {
     return require('../reducers'); // eslint-disable-line global-require
 }
 
@@ -42,8 +42,8 @@ const whitelist = {
 
 window.Observable = Observable;
 
-export default function configureStore(initialState) {
-    const store = configureServiceStore(initialState, appReducer, getAppReducer);
+export default function configureStore(preloadedState) {
+    const store = configureServiceStore({preloadedState, appReducers, getAppReducers});
 
     const localforage = extendPrototype(localForage);
 
