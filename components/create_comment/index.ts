@@ -41,6 +41,7 @@ import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal} from 'actions/views/modals';
 
 import CreateComment from './create_comment';
+import { getEmojiMap } from 'selectors/emojis';
 
 type OwnProps = {
     rootId: string;
@@ -97,6 +98,7 @@ function makeMapStateToProps() {
             groupsWithAllowReference,
             useGroupMentions,
             channelMemberCountsByGroup,
+            emojiMap: getEmojiMap(state),
         };
     };
 }

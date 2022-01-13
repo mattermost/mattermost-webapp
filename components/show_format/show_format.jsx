@@ -60,7 +60,7 @@ const customStyles = {
     top: "auto",
 };
 
-export class ShowFormat extends PureComponent {
+class ShowFormat extends PureComponent {
     static propTypes = {
         channelId: PropTypes.string.isRequired,
 
@@ -103,6 +103,7 @@ export class ShowFormat extends PureComponent {
 
     render() {
         const { formatMessage } = this.props.intl;
+        console.log(formatMessage, 'formatMessage')
         if (isMobileApp()) {
             //do nothing
         }
@@ -134,6 +135,7 @@ export class ShowFormat extends PureComponent {
 
         return (
             <OverlayTrigger
+                onClick={this.props.onClick}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement="top"
                 trigger="hover"

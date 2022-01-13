@@ -1734,8 +1734,9 @@ const ITALIC_MD = '*';
  */
 export function applyHotkeyMarkdown(e) {
     e.preventDefault();
-
+    
     if (e.keyCode === Constants.KeyCodes.B[1] || e.keyCode === Constants.KeyCodes.I[1]) {
+        // KeyboardEvent.keyCode is Deprecated: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
         return applyBoldItalicMarkdown(e);
     } else if (e.keyCode === Constants.KeyCodes.K[1]) {
         return applyLinkMarkdown(e);

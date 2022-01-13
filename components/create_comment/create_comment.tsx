@@ -48,6 +48,9 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
+import ShowFormat from 'components/show_format/show_format';
+import EmojiMap from 'utils/emoji_map';
+import { MarkdownFormattedMessage, MarkdownMessageType } from 'components/markdown_formatted_message/markdown_formatted_message';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -245,6 +248,8 @@ type Props = {
       * Function to open a modal
       */
     openModal: <P>(modalData: ModalData<P>) => void;
+
+    emojiMap: EmojiMap;
 }
 
 type State = {
@@ -260,6 +265,7 @@ type State = {
     postError?: React.ReactNode;
     errorClass: string | null;
     serverError: (ServerError & {submittedMessage?: string}) | null;
+    showFormat:boolean
 }
 
 class CreateComment extends React.PureComponent<Props, State> {
@@ -304,6 +310,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             scrollbarWidth: 0,
             errorClass: null,
             serverError: null,
+            showFormat: false
         };
 
         this.textboxRef = React.createRef();
@@ -687,7 +694,9 @@ class CreateComment extends React.PureComponent<Props, State> {
             this.setState({
                 postError: null,
                 serverError: null,
+                showFormat:false
             });
+
         } catch (err: any) {
             if (isErrorInvalidSlashCommand(err)) {
                 this.props.onUpdateCommentDraft(draft);
@@ -1140,7 +1149,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             addButtonClass += ' disabled';
         }
 
-        let fileUpload;
+        let fileUpload,showFormat;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
@@ -1155,6 +1164,15 @@ class CreateComment extends React.PureComponent<Props, State> {
                     rootId={this.props.rootId}
                     channelId={this.props.channelId}
                     postType={this.props.isThreadView ? 'thread' : 'comment'}
+                />
+            );
+            showFormat = (
+                <ShowFormat
+                    onClick={() => {
+                        this.setState({ showFormat: !this.state.showFormat });
+                    }}
+                    postType="post"
+                    channelId={this.props.channelId}
                 />
             );
         }
@@ -1201,6 +1219,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             scrollbarClass = ' scroll';
         }
 
+        const message = readOnlyChannel ? '' : draft.message
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -1226,11 +1245,16 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}
-                                value={readOnlyChannel ? '' : draft.message}
+                                value={message}
                                 onBlur={this.handleBlur}
                                 createMessage={createMessage}
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 channelId={this.props.channelId}
+                                inputComponent={
+                                    this.state.showFormat
+                                        ? () => <MarkdownFormattedMessage  messageType={MarkdownMessageType.Comment} message={message} emojiMap={this.props.emojiMap}/>
+                                        : undefined
+                                }
                                 rootId={this.props.rootId}
                                 isRHS={true}
                                 id='reply_textbox'
@@ -1247,6 +1271,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 ref={this.createCommentControlsRef}
                                 className='post-body__actions'
                             >
+                                {showFormat}
                                 {fileUpload}
                                 {emojiPicker}
                             </span>
