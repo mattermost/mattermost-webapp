@@ -69,9 +69,7 @@ $channel-view-padding: 63px;
             overflow: hidden;
             width: $app-bar-icon-size;
             height: $app-bar-icon-size;
-            padding: 2px;
             margin: 0 auto;
-            background-color: white;
             border-radius: 50%;
             line-height: 1;
 
@@ -85,11 +83,12 @@ $channel-view-padding: 63px;
         }
 
         span {
-            // color: #3f4350;
             fill: var(--button-bg);
             font-size: 14px;
             line-height: 20px;
             vertical-align: middle;
+            background-color: white;
+            padding: 2px;
 
             &.CompassIcon,
             &.icon-brand-zoom {
