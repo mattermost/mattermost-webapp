@@ -15,9 +15,7 @@ exports[`components/AnnouncementBar should match snapshot, "Don't ask again" but
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="announcement-bar__tooltip"
-        placement="right"
       >
         <injectIntl(FormattedMarkdownMessage)
           id="text"

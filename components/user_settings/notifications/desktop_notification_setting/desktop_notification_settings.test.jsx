@@ -65,6 +65,15 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, on min setting, with notifications disabled', () => {
+        const props = {...baseProps, areNotificationsDisabled: true};
+        const wrapper = shallow(
+            <DesktopNotificationSettings {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should call props.updateSection and props.cancel on handleMinUpdateSection', () => {
         const props = {...baseProps, updateSection: jest.fn(), cancel: jest.fn()};
         const wrapper = shallow(
