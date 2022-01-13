@@ -688,7 +688,7 @@ async function handlePostDeleteEvent(msg) {
     const state = getState();
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
-    if (post.root_id === '' && collapsedThreads) {
+    if (!post.root_id && collapsedThreads) {
         dispatch(decrementThreadCounts(post));
     }
 

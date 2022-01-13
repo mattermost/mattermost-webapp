@@ -383,7 +383,7 @@ export function deletePost(post: ExtendedPost) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const delPost = {...post};
-        if (post.root_id === '' && isCollapsedThreadsEnabled(state)) {
+        if (!post.root_id && isCollapsedThreadsEnabled(state)) {
             dispatch(decrementThreadCounts(post));
         }
         if (delPost.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && delPost.system_post_ids) {
