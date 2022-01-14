@@ -87,6 +87,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // # Verify that the mentions in the channels of this team are displayed
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
         cy.get('#suggestionList').
             findByTestId(team1Channels[0].name).should('be.visible').and('have.class', 'suggestion--selected').
             find('.badge').should('be.visible').and('have.text', baseCount);

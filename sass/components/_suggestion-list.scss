@@ -19,8 +19,9 @@
         top: 8px;
         right: 10px;
         background: rgba(var(--center-channel-color-rgb), 0.48);
-        color: var(--center-channel-color);
+        color: var(--center-channel-bg);
         font-size: 10px;
+        font-weight: 700;
     }
 
     .LoadingSpinner {
