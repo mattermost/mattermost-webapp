@@ -206,7 +206,7 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
     }, [theme.codeTheme]);
 
     useEffect(() => {
-        setCompassTheme({
+        const newCompassTheme = {
             ...compassTheme,
             palette: {
                 ...compassTheme.palette,
@@ -235,7 +235,12 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
                 ...compassTheme.text,
                 primary: theme.sidebarHeaderTextColor,
             },
-        });
+        };
+
+        setCompassTheme(newCompassTheme);
+
+        window.theme = theme || {};
+        window.compassTheme = newCompassTheme || {};
     }, [theme]);
 
     return (
