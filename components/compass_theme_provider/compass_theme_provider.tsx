@@ -238,8 +238,6 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
         });
     }, [theme]);
 
-    console.log('theme', theme);
-
     return (
         <ThemeProvider theme={compassTheme}>
             <CssVariables oldTheme={theme}/>
