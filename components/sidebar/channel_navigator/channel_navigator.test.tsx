@@ -32,6 +32,7 @@ describe('Components/ChannelNavigator', () => {
             showTutorialTip: true,
             isQuickSwitcherOpen: false,
             userGroupsEnabled: false,
+            canCreateCustomGroups: true,
             actions: {
                 openModal: jest.fn(),
                 closeModal: jest.fn(),

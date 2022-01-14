@@ -106,6 +106,7 @@ export type Props = {
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
     userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
 }
 
 const noop = () => {};

@@ -2,7 +2,7 @@
     .view-user-groups-modal {
         .modal-content .modal-header {
             overflow: visible;
-            padding-bottom: 0px;
+            padding-bottom: 0;
 
             .modal-title {
                 margin-left: 46px;
@@ -31,8 +31,8 @@
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.08);
                         border-radius: 4px;
-                        fill: rgba(var(--center-channel-color-rgb), 0.72);
                         color: rgba(var(--center-channel-color-rgb), 0.72);
+                        fill: rgba(var(--center-channel-color-rgb), 0.72);
                     }
 
                     &:active {
@@ -41,9 +41,9 @@
                     }
 
                     i.icon {
+                        display: inline;
                         font-size: 24px;
                         line-height: 24px;
-                        display: inline;
                     }
                 }
             }
@@ -81,8 +81,8 @@
             .user-groups-modal__content {
                 &.group-member-list {
                     max-height: 450px;
-                    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                     padding-bottom: 16px;
+                    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                     overflow-y: scroll; // for Firefox and browsers that doesn't support overflow-y:overlay property
                     overflow-y: overlay;
 
@@ -93,12 +93,12 @@
                     &::-webkit-scrollbar-track {
                         background: rgba(0, 0, 0, 0);
                     }
-                    
+
                     &::-webkit-scrollbar-thumb {
-                        background: rgba(var(--center-channel-color-rgb), 0.24);
                         border: 8px rgba(0, 0, 0, 0) solid;
-                        border-radius: 9999px;
+                        background: rgba(var(--center-channel-color-rgb), 0.24);
                         background-clip: padding-box;
+                        border-radius: 9999px;
                     }
 
                     h2.group-member-count {
@@ -125,21 +125,21 @@
                         }
 
                         button.remove-group-member {
+                            display: none;
                             width: 2.4rem;
                             height: 2.4rem;
                             margin-right: 0;
                             margin-left: auto;
                             color: rgba(var(--center-channel-color-rgb), 0.56);
                             font-size: inherit;
-                            display: none;
 
                             &:hover {
                                 background: rgba(var(--center-channel-color-rgb), 0.08);
                                 border-radius: 4px;
-                                fill: rgba(var(--center-channel-color-rgb), 0.72);
                                 color: rgba(var(--center-channel-color-rgb), 0.72);
+                                fill: rgba(var(--center-channel-color-rgb), 0.72);
                             }
-        
+
                             &:active {
                                 background-color: rgba(var(--button-bg-rgb), 0.08);
                                 color: var(--button-bg);

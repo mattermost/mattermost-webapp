@@ -28,11 +28,11 @@
                 }
 
                 button.modal-header-back-button {
+                    position: absolute;
+                    left: 18px;
                     width: 4rem;
                     height: 4rem;
-                    left: 18px;
                     color: rgba(var(--center-channel-color-rgb), 0.56);
-                    position: absolute;
                     float: left;
 
                     &:hover {
@@ -52,12 +52,12 @@
                 }
 
                 button.user-groups-create {
+                    box-sizing: border-box;
                     border: 1px solid var(--button-bg);
                     margin: auto;
                     margin-right: 46px;
                     background-color: var(--center-channel-bg);
                     border-radius: 4px;
-                    box-sizing: border-box;
                     color: var(--button-bg);
 
                     &:hover {
@@ -76,19 +76,19 @@
 
                 .close {
                     right: 18px;
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
                     width: 4rem;
                     height: 4rem;
-                    font-size: 32px;
-                    line-height: 30px;
-                    font-weight: normal;
                     margin-top: 0;
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                    font-size: 32px;
+                    font-weight: normal;
+                    line-height: 30px;
 
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.08);
                         border-radius: 4px;
-                        fill: rgba(var(--center-channel-color-rgb), 0.72);
                         color: rgba(var(--center-channel-color-rgb), 0.72);
+                        fill: rgba(var(--center-channel-color-rgb), 0.72);
                     }
 
                     &:active {
@@ -114,29 +114,29 @@
             }
 
             .user-groups-search {
-                margin: 2px 24px 8px;
                 position: relative;
+                margin: 2px 24px 8px;
 
                 .Input_container {
                     .Input_wrapper {
                         padding-left: 40px;
-                        line-height: 38px;
                         margin: 6px 0;
+                        line-height: 38px;
                     }
 
                     .Input {
-                        line-height: 38px;
                         font-size: 14px;
+                        line-height: 38px;
                     }
                 }
 
                 .fa-search {
                     position: absolute;
+                    top: 15px;
+                    left: 16px;
                     color: rgba(var(--center-channel-color-rgb), 0.64);
                     font-size: 16px;
                     pointer-events: none;
-                    top: 15px;
-                    left: 16px;
                 }
             }
 
@@ -163,8 +163,8 @@
 
                         span {
                             color: var(--button-bg);
-                            line-height: 12px;
                             font-size: 12px;
+                            line-height: 12px;
                         }
                     }
                 }
@@ -199,12 +199,12 @@
                     &::-webkit-scrollbar-track {
                         background: rgba(0, 0, 0, 0);
                     }
-                    
+
                     &::-webkit-scrollbar-thumb {
-                        background: rgba(var(--center-channel-color-rgb), 0.24);
                         border: 8px rgba(0, 0, 0, 0) solid;
-                        border-radius: 9999px;
+                        background: rgba(var(--center-channel-color-rgb), 0.24);
                         background-clip: padding-box;
+                        border-radius: 9999px;
                     }
 
                     .group-row {
@@ -291,10 +291,10 @@
                             &:hover {
                                 background: rgba(var(--center-channel-color-rgb), 0.08);
                                 border-radius: 4px;
-                                fill: rgba(var(--center-channel-color-rgb), 0.72);
                                 color: rgba(var(--center-channel-color-rgb), 0.72);
+                                fill: rgba(var(--center-channel-color-rgb), 0.72);
                             }
-        
+
                             &:active {
                                 background-color: rgba(var(--button-bg-rgb), 0.08);
                                 color: var(--button-bg);
@@ -324,13 +324,13 @@
 
                     .Input_container {
                         .Input_wrapper {
-                            line-height: 38px;
                             margin: 6px 0;
-                        }
-        
-                        .Input {
                             line-height: 38px;
+                        }
+
+                        .Input {
                             font-size: 14px;
+                            line-height: 38px;
                         }
                     }
                 }
@@ -349,8 +349,9 @@
 
                 .group-add-user {
                     .multi-select__wrapper {
-                        margin-top: 0px;
+                        margin-top: 0;
                     }
+
                     .multi-select__footer {
                         padding-top: 24px;
 
