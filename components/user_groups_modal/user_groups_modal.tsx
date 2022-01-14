@@ -36,6 +36,7 @@ export type Props = {
     currentUserId: string;
     backButtonAction: () => void;
     groupPermissionsMap: Record<string, GroupPermissions>;
+    canCreateCustomGroups: boolean;
     actions: {
         getGroups: (
             filterAllowReference?: boolean,
@@ -292,7 +293,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
     render() {
         const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
-        const {groupPermissionsMap} = this.props;
+        const {groupPermissionsMap, canCreateCustomGroups} = this.props;
 
         return (
             <Modal
@@ -314,15 +315,19 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                             defaultMessage='User Groups'
                         />
                     </Modal.Title>
-                    <button
-                        className='user-groups-create btn btn-md btn-primary'
-                        onClick={this.goToCreateModal}
-                    >
-                        <FormattedMessage
-                            id='user_groups_modal.createNew'
-                            defaultMessage='Create Group'
-                        />
-                    </button>
+                    {
+                        canCreateCustomGroups &&
+                        <button
+                            className='user-groups-create btn btn-md btn-primary'
+                            onClick={this.goToCreateModal}
+                        >
+                            <FormattedMessage
+                                id='user_groups_modal.createNew'
+                                defaultMessage='Create Group'
+                            />
+                        </button>
+                    }
+                    
                 </Modal.Header>
                 <Modal.Body>
                     {(groups.length === 0 && !this.props.searchTerm) ?

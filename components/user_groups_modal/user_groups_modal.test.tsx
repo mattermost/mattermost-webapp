@@ -17,6 +17,7 @@ describe('component/user_groups_modal', () => {
         currentUserId: '',
         backButtonAction: jest.fn(),
         groupPermissionsMap: {},
+        canCreateCustomGroups: true,
         actions: {
             openModal: jest.fn(),
             getGroups: jest.fn(),

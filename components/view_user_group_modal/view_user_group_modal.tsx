@@ -244,6 +244,18 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         await actions.archiveGroup(groupId);
     }
 
+    showSubMenu = (source: string) => {
+        const {permissionToEditGroup, permissionToJoinGroup, permissionToLeaveGroup, permissionToArchiveGroup} = this.props;
+
+        return source.toLowerCase() !== 'ldap' && 
+            (
+                permissionToEditGroup ||
+                permissionToJoinGroup ||
+                permissionToLeaveGroup ||
+                permissionToArchiveGroup
+            );
+    }
+
     render() {
         const {group, users, isGroupMember} = this.props;
 
@@ -278,7 +290,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         {group.display_name}
                     </Modal.Title>
                     {
-                        group.source.toLowerCase() !== 'ldap' &&
+                        (group.source.toLowerCase() !== 'ldap' && this.props.permissionToJoinGroup) &&
                         <button
                             className='user-groups-create btn btn-md btn-primary'
                             onClick={this.goToAddPeopleModal}
@@ -290,7 +302,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                         </button>
                     }
                     {
-                        group.source.toLowerCase() !== 'ldap' &&
+                        this.showSubMenu(group.source) &&
                         <div className='details-action'>
                             <MenuWrapper
                                 isDisabled={false}
@@ -419,7 +431,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                                 {`@${user.username}`}
                                             </div>
                                             {
-                                                group.source.toLowerCase() !== 'ldap' &&
+                                                (group.source.toLowerCase() !== 'ldap' && this.props.permissionToLeaveGroup) &&
                                                 <button
                                                     type='button'
                                                     className='remove-group-member btn-icon'

@@ -18,7 +18,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
-import {haveIGroupPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIGroupPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import UserGroupsModal from './user_groups_modal';
 
@@ -67,6 +67,8 @@ function mapStateToProps(state: GlobalState) {
         };
     });
 
+    const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP});
+
     return {
         showModal: isModalOpen(state, ModalIdentifiers.USER_GROUPS),
         groups,
@@ -74,6 +76,7 @@ function mapStateToProps(state: GlobalState) {
         myGroups,
         currentUserId: getCurrentUserId(state),
         groupPermissionsMap,
+        canCreateCustomGroups,
     };
 }
 
