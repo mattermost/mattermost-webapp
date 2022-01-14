@@ -59,6 +59,7 @@ export default class SearchDateSuggestion extends Suggestion {
 
         return (
             <DayPicker
+                showOverlay={true}
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}
                 modifiers={modifiers}

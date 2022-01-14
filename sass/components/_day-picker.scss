@@ -25,22 +25,27 @@
             min-width: 32px;
             height: 32px;
             padding: 0;
-            border-radius: 100%;
+            background: none;
             font-weight: 600;
 
-            &:hover {
-                background: var(--center-channel-bg) !important;
-            }
-
-            &::before {
+            &::before,
+            &::after {
                 position: absolute;
-                z-index: -1;
                 top: 0;
-                left: 15px;
+                left: 50%;
                 width: 32px;
                 height: 32px;
                 border-radius: 32px;
                 content: " ";
+                transform: translateX(-50%);
+            }
+
+            &::before {
+                z-index: -2;
+            }
+
+            &::after {
+                z-index: -1;
             }
         }
 
@@ -86,18 +91,22 @@
         }
     }
 
-    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)::after {
         background-color: var(--button-bg);
     }
 
-    &:not(.DayPicker--interactionDisabled) {
+    .DayPicker:not(.DayPicker--interactionDisabled) {
         .DayPicker-Day {
             &:not(.DayPicker-Day--disabled) {
                 &:not(.DayPicker-Day--selected) {
                     &:not(.DayPicker-Day--outside) {
                         &:hover {
-                            background: var(--button-bg);
+                            background-color: transparent;
                             color: var(--button-color);
+
+                            &::after {
+                                background-color: var(--button-bg);
+                            }
                         }
                     }
                 }
