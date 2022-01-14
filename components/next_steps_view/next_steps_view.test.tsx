@@ -60,6 +60,7 @@ describe('components/next_steps_view', () => {
         isFirstAdmin: true,
         isAdmin: true,
         isCloud: false,
+        isMobileView: false,
         team: {name: 'TestTeam'} as Team,
         downloadAppsAsNextStep: false,
         actions: {

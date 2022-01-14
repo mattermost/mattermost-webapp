@@ -12,15 +12,15 @@ import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/w
 
 interface TeamEditionRightPanelProps {
     upgradingPercentage: number;
-    handleUpgrade: (e: any) => Promise<void>;
+    handleUpgrade: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     upgradeError: string | null;
     restartError: string | null;
 
-    handleRestart: (e: any) => Promise<void>;
+    handleRestart: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 
     setClickNormalUpgradeBtn: () => void;
 
-    openEEModal: any;
+    openEEModal: () => void;
 
     restarting: boolean;
 }
@@ -36,7 +36,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
     setClickNormalUpgradeBtn,
 }: TeamEditionRightPanelProps) => {
     let upgradeButton = null;
-    const onHandleUpgrade = (e: any) => {
+    const onHandleUpgrade = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (!handleUpgrade) {
             return;
         }
