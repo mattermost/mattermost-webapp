@@ -327,7 +327,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                             />
                         </button>
                     }
-                    
                 </Modal.Header>
                 <Modal.Body>
                     {(groups.length === 0 && !this.props.searchTerm) ?

@@ -247,7 +247,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     showSubMenu = (source: string) => {
         const {permissionToEditGroup, permissionToJoinGroup, permissionToLeaveGroup, permissionToArchiveGroup} = this.props;
 
-        return source.toLowerCase() !== 'ldap' && 
+        return source.toLowerCase() !== 'ldap' &&
             (
                 permissionToEditGroup ||
                 permissionToJoinGroup ||
