@@ -436,27 +436,8 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                                                 text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
                                                                 disabled={false}
                                                             />
-                                                            <Menu.ItemAction
-                                                                show={groupPermissionsMap[group.id].can_manage_members}
-                                                                onClick={() => {
-                                                                    this.joinGroup(group.id);
-                                                                }}
-                                                                icon={<i className='icon-account-multiple-outline'/>}
-                                                                text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
-                                                                disabled={false}
-                                                            />
                                                         </Menu.Group>
                                                         <Menu.Group>
-                                                            <Menu.ItemAction
-                                                                show={groupPermissionsMap[group.id].can_manage_members}
-                                                                onClick={() => {
-                                                                    this.leaveGroup(group.id);
-                                                                }}
-                                                                icon={<i className='icon-exit-to-app'/>}
-                                                                text={Utils.localizeMessage('user_groups_modal.leaveGroup', 'Leave Group')}
-                                                                disabled={false}
-                                                                isDangerous={true}
-                                                            />
                                                             <Menu.ItemAction
                                                                 show={groupPermissionsMap[group.id].can_delete}
                                                                 onClick={() => {
