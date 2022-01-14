@@ -46,17 +46,15 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
         id="user_groups_modal.title"
       />
     </ModalTitle>
-    <a
+    <button
       className="user-groups-create btn btn-md btn-primary"
-      href="#"
-      id="test"
       onClick={[Function]}
     >
       <MemoizedFormattedMessage
         defaultMessage="Create Group"
         id="user_groups_modal.createNew"
       />
-    </a>
+    </button>
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"
@@ -65,28 +63,15 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
     <div
       className="user-groups-search"
     >
-      <div
-        className="user-groups-searchbar"
-      >
-        <span
-          aria-hidden="true"
-          className="user-groups-search-icon"
-        >
-          <SearchIcon />
-        </span>
-        <input
-          data-testid="searchInput"
-          onChange={[Function]}
-          placeholder="Search"
-          type="text"
-          value=""
-        />
-        <i
-          className="user-groups-clear-button fa fa-times-circle hidden"
-          data-testid="clear-search"
-          onClick={[Function]}
-        />
-      </div>
+      <SearchIcon />
+      <Input
+        className="user-group-search-input"
+        data-testid="searchInput"
+        onChange={[Function]}
+        placeholder="Search Groups"
+        type="text"
+        value=""
+      />
     </div>
     <div
       className="more-modal__dropdown"
@@ -101,7 +86,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
             Show: All Groups
           </span>
           <span
-            className="caret"
+            className="icon icon-chevron-down"
           />
         </a>
         <Menu
@@ -174,17 +159,13 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
             isDisabled={false}
             stopPropagationOnToggle={true}
           >
-            <div
-              className="text-right"
+            <button
+              className="action-wrapper"
             >
-              <button
-                className="action-wrapper"
-              >
-                <i
-                  className="icon icon-dots-vertical"
-                />
-              </button>
-            </div>
+              <i
+                className="icon icon-dots-vertical"
+              />
+            </button>
             <Menu
               ariaLabel="User Actions Menu"
               className="group-actions-menu"
@@ -284,17 +265,13 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
             isDisabled={false}
             stopPropagationOnToggle={true}
           >
-            <div
-              className="text-right"
+            <button
+              className="action-wrapper"
             >
-              <button
-                className="action-wrapper"
-              >
-                <i
-                  className="icon icon-dots-vertical"
-                />
-              </button>
-            </div>
+              <i
+                className="icon icon-dots-vertical"
+              />
+            </button>
             <Menu
               ariaLabel="User Actions Menu"
               className="group-actions-menu"
@@ -394,17 +371,13 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
             isDisabled={false}
             stopPropagationOnToggle={true}
           >
-            <div
-              className="text-right"
+            <button
+              className="action-wrapper"
             >
-              <button
-                className="action-wrapper"
-              >
-                <i
-                  className="icon icon-dots-vertical"
-                />
-              </button>
-            </div>
+              <i
+                className="icon icon-dots-vertical"
+              />
+            </button>
             <Menu
               ariaLabel="User Actions Menu"
               className="group-actions-menu"
@@ -520,17 +493,15 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
         id="user_groups_modal.title"
       />
     </ModalTitle>
-    <a
+    <button
       className="user-groups-create btn btn-md btn-primary"
-      href="#"
-      id="test"
       onClick={[Function]}
     >
       <MemoizedFormattedMessage
         defaultMessage="Create Group"
         id="user_groups_modal.createNew"
       />
-    </a>
+    </button>
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"
@@ -539,28 +510,15 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
     <div
       className="user-groups-search"
     >
-      <div
-        className="user-groups-searchbar"
-      >
-        <span
-          aria-hidden="true"
-          className="user-groups-search-icon"
-        >
-          <SearchIcon />
-        </span>
-        <input
-          data-testid="searchInput"
-          onChange={[Function]}
-          placeholder="Search"
-          type="text"
-          value=""
-        />
-        <i
-          className="user-groups-clear-button fa fa-times-circle hidden"
-          data-testid="clear-search"
-          onClick={[Function]}
-        />
-      </div>
+      <SearchIcon />
+      <Input
+        className="user-group-search-input"
+        data-testid="searchInput"
+        onChange={[Function]}
+        placeholder="Search Groups"
+        type="text"
+        value=""
+      />
     </div>
     <div
       className="more-modal__dropdown"
@@ -575,7 +533,7 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
             Show: My Groups
           </span>
           <span
-            className="caret"
+            className="icon icon-chevron-down"
           />
         </a>
         <Menu
@@ -648,17 +606,13 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
             isDisabled={false}
             stopPropagationOnToggle={true}
           >
-            <div
-              className="text-right"
+            <button
+              className="action-wrapper"
             >
-              <button
-                className="action-wrapper"
-              >
-                <i
-                  className="icon icon-dots-vertical"
-                />
-              </button>
-            </div>
+              <i
+                className="icon icon-dots-vertical"
+              />
+            </button>
             <Menu
               ariaLabel="User Actions Menu"
               className="group-actions-menu"
@@ -788,71 +742,9 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
     bsClass="modal-body"
     componentClass="div"
   >
-    <div
-      className="user-groups-search"
-    >
-      <SearchIcon />
-      <Input
-        className="user-group-search-input"
-        data-testid="searchInput"
-        onChange={[Function]}
-        placeholder="Search Groups"
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="more-modal__dropdown"
-    >
-      <MenuWrapper
-        animationComponent={[Function]}
-        className=""
-        id="groupsFilterDropdown"
-      >
-        <a>
-          <span>
-            Show: All Groups
-          </span>
-          <span
-            className="icon icon-chevron-down"
-          />
-        </a>
-        <Menu
-          ariaLabel="Groups Filter Menu"
-          openLeft={false}
-        >
-          <MenuItemAction
-            buttonClass="groups-filter-btn"
-            id="groupsDropdownAll"
-            onClick={[Function]}
-            rightDecorator={
-              <i
-                className="icon icon-check"
-              />
-            }
-            show={true}
-            text="All Groups"
-          />
-          <MenuItemAction
-            buttonClass="groups-filter-btn"
-            id="groupsDropdownMy"
-            onClick={[Function]}
-            rightDecorator={false}
-            show={true}
-            text="My Groups"
-          />
-        </Menu>
-      </MenuWrapper>
-    </div>
-    <div
-      className="user-groups-modal__content user-groups-list"
-      onScroll={[Function]}
-    >
-      <LoadingScreen
-        position="relative"
-        style={Object {}}
-      />
-    </div>
+    <NoResultsIndicator
+      variant="UserGroups"
+    />
   </ModalBody>
 </Modal>
 `;

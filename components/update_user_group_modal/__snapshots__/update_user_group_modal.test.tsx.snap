@@ -96,7 +96,7 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
             onChange={[Function]}
             placeholder="Mention"
             type="text"
-            value="group"
+            value="@group"
           />
         </div>
         <div

@@ -10,7 +10,7 @@ exports[`component/add_users_to_group_modal should match snapshot 1`] = `
   dialogClassName="a11y__modal user-groups-modal-create"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  id="createUserGroupsModal"
+  id="addUsersToGroupsModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -55,7 +55,7 @@ exports[`component/add_users_to_group_modal should match snapshot 1`] = `
     <ModalTitle
       bsClass="modal-title"
       componentClass="h1"
-      id="userGroupsModalLabel"
+      id="addUsersToGroupsModalLabel"
     >
       <MemoizedFormattedMessage
         defaultMessage="Add people to {group}"

@@ -53,6 +53,7 @@ describe('component/update_user_group_modal', () => {
         permissionToJoinGroup: true,
         permissionToLeaveGroup: true,
         permissionToArchiveGroup: true,
+        isGroupMember: false,
         actions: {
             getGroup: jest.fn().mockImplementation(() => Promise.resolve()),
             getUsersInGroup: jest.fn().mockImplementation(() => Promise.resolve()),
