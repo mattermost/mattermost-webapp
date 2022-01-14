@@ -51,7 +51,7 @@ describe('InvoiceUserCount', () => {
                 [1, InvoiceLineItemType.Full],
                 [1, InvoiceLineItemType.Partial],
             ),
-            expected: '1.00 metered users, 1 users at full rate, 1 users with partial charges',
+            expected: '1 metered users, 1 users at full rate, 1 users with partial charges',
         },
         {
             name: 'Supports cloud invoices with only metered line items',
@@ -59,6 +59,20 @@ describe('InvoiceUserCount', () => {
                 [12.34, InvoiceLineItemType.Metered],
             ),
             expected: '12.34 users',
+        },
+        {
+            name: 'Shows minimum decimal necessary',
+            invoice: makeInvoice(
+                [12.499, InvoiceLineItemType.Metered],
+            ),
+            expected: '12.5 users',
+        },
+        {
+            name: 'hides insignificant decimals',
+            invoice: makeInvoice(
+                [12.002, InvoiceLineItemType.Metered],
+            ),
+            expected: '12 users',
         },
         {
             name: 'Supports cloud invoices with only non-metered line items',
@@ -78,7 +92,7 @@ describe('InvoiceUserCount', () => {
             expected: '0 users at full rate, 0 users with partial charges',
         },
         {
-            name: 'Shows default of 0 full users, 0 partial users when there no line items in invoice',
+            name: 'Shows default of 0 full users, 0 partial users when there are no line items in invoice',
             invoice: makeInvoice(),
             expected: '0 users at full rate, 0 users with partial charges',
         },

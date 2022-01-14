@@ -2006,3 +2006,23 @@ export function makeIsEligibleForClick(selector = '') {
         return true;
     };
 }
+
+export function numberToFixedDynamic(num, places) {
+    const str = num.toFixed(Math.max(places, 0));
+    if (!str.includes('.')) {
+        return str;
+    }
+    let indexToExclude = -1;
+    let i = str.length - 1;
+    while (str[i] === '0') {
+        indexToExclude = i;
+        i -= 1;
+    }
+    if (str[i] === '.') {
+        indexToExclude -= 1;
+    }
+    if (indexToExclude === -1) {
+        return str;
+    }
+    return str.slice(0, indexToExclude);
+}

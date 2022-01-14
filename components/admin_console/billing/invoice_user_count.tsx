@@ -5,6 +5,8 @@ import React from 'react';
 
 import {Invoice, InvoiceLineItemType} from 'mattermost-redux/types/cloud';
 
+import {numberToFixedDynamic} from 'utils/utils';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Element {
@@ -18,9 +20,9 @@ export default function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Ele
                     id='admin.billing.history.fractionalAndRatedUsers'
                     defaultMessage='{fractionalUsers} metered users, {fullUsers} users at full rate, {partialUsers} users with partial charges'
                     values={{
-                        fractionalUsers: meteredUsers.toFixed(2),
-                        fullUsers,
-                        partialUsers,
+                        fractionalUsers: numberToFixedDynamic(meteredUsers, 2),
+                        fullUsers: fullUsers.toFixed(0),
+                        partialUsers: partialUsers.toFixed(0),
                     }}
                 />
             );
@@ -31,7 +33,7 @@ export default function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Ele
                 id='admin.billing.history.fractionalUsers'
                 defaultMessage='{fractionalUsers} users'
                 values={{
-                    fractionalUsers: meteredUsers.toFixed(2),
+                    fractionalUsers: numberToFixedDynamic(meteredUsers, 2),
                 }}
             />
         );
@@ -42,8 +44,8 @@ export default function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Ele
             id='admin.billing.history.usersAndRates'
             defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
             values={{
-                fullUsers,
-                partialUsers,
+                fullUsers: fullUsers.toFixed(0),
+                partialUsers: partialUsers.toFixed(0),
             }}
         />
     );
