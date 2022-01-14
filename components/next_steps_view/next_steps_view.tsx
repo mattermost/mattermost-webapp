@@ -31,6 +31,7 @@ type Props = {
     preferences: PreferenceType[];
     isFirstAdmin: boolean;
     isAdmin: boolean;
+    isMobileView: boolean;
     steps: StepType[];
     isCloud: boolean;
     actions: {
@@ -207,6 +208,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         id={id}
                         expanded={expandedKey === id}
                         isAdmin={this.props.isFirstAdmin}
+                        isMobileView={this.props.isMobileView}
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded, lastNonCompletedStep?.id === id)}
                         onSkip={this.onSkip(setExpanded)}
