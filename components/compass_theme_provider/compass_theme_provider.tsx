@@ -74,6 +74,32 @@ type CSSVariableProps = {
 
 const CssVariables = createGlobalStyle<CSSVariableProps>`
     :root {
+        // Hex CSS variables
+        --sidebar-bg: ${({oldTheme}) => oldTheme.sidebarBg};
+        --sidebar-text: ${({oldTheme}) => oldTheme.sidebarText};
+        --sidebar-unread-text: ${({oldTheme}) => oldTheme.sidebarUnreadText};
+        --sidebar-text-hover-bg: ${({oldTheme}) => oldTheme.sidebarTextHoverBg};
+        --sidebar-text-active-border: ${({oldTheme}) => oldTheme.sidebarTextActiveBorder};
+        --sidebar-text-active-color: ${({oldTheme}) => oldTheme.sidebarTextActiveColor};
+        --sidebar-header-bg: ${({oldTheme}) => oldTheme.sidebarHeaderBg};
+        --sidebar-teambar-bg: ${({oldTheme}) => oldTheme.sidebarTeamBarBg};
+        --sidebar-header-text-color: ${({oldTheme}) => oldTheme.sidebarHeaderTextColor};
+        --online-indicator: ${({oldTheme}) => oldTheme.onlineIndicator};
+        --away-indicator: ${({oldTheme}) => oldTheme.awayIndicator};
+        --dnd-indicator: ${({oldTheme}) => oldTheme.dndIndicator};
+        --mention-bg: ${({oldTheme}) => oldTheme.mentionBg};
+        --mention-color: ${({oldTheme}) => oldTheme.mentionColor};
+        --center-channel-bg: ${({oldTheme}) => oldTheme.centerChannelBg};
+        --center-channel-color: ${({oldTheme}) => oldTheme.centerChannelColor};
+        --new-message-separator: ${({oldTheme}) => oldTheme.newMessageSeparator};
+        --link-color: ${({oldTheme}) => oldTheme.linkColor};
+        --button-bg: ${({oldTheme}) => oldTheme.buttonBg};
+        --button-bg-hover: ${({oldTheme}) => rgbToHex(changeColor(oldTheme.buttonBg, -0.15))};
+        --button-color: ${({oldTheme}) => oldTheme.buttonColor};
+        --error-text: ${({oldTheme}) => oldTheme.errorTextColor};
+        --mention-highlight-bg: ${({oldTheme}) => oldTheme.mentionHighlightBg};
+        --mention-highlight-link: ${({oldTheme}) => oldTheme.mentionHighlightLink};
+
         // RGB values derived from theme hex values i.e. '255, 255, 255'
         // (do not apply opacity mutations here)
         --away-indicator-rgb: ${({oldTheme}) => stripRGBDeclarator(convertToRgb(oldTheme.awayIndicator))};
@@ -104,32 +130,6 @@ const CssVariables = createGlobalStyle<CSSVariableProps>`
         --sidebar-text-active-color-rgb: ${({oldTheme}) => stripRGBDeclarator(convertToRgb(oldTheme.sidebarTextActiveColor))};
         --sidebar-text-hover-bg-rgb: ${({oldTheme}) => stripRGBDeclarator(convertToRgb(oldTheme.sidebarTextHoverBg))};
         --sidebar-unread-text-rgb: ${({oldTheme}) => stripRGBDeclarator(convertToRgb(oldTheme.sidebarUnreadText))};
-
-        // Hex CSS variables
-        --sidebar-bg: ${({oldTheme}) => oldTheme.sidebarBg};
-        --sidebar-text: ${({oldTheme}) => oldTheme.sidebarText};
-        --sidebar-unread-text: ${({oldTheme}) => oldTheme.sidebarUnreadText};
-        --sidebar-text-hover-bg: ${({oldTheme}) => oldTheme.sidebarTextHoverBg};
-        --sidebar-text-active-border: ${({oldTheme}) => oldTheme.sidebarTextActiveBorder};
-        --sidebar-text-active-color: ${({oldTheme}) => oldTheme.sidebarTextActiveColor};
-        --sidebar-header-bg: ${({oldTheme}) => oldTheme.sidebarHeaderBg};
-        --sidebar-teambar-bg: ${({oldTheme}) => oldTheme.sidebarTeamBarBg};
-        --sidebar-header-text-color: ${({oldTheme}) => oldTheme.sidebarHeaderTextColor};
-        --online-indicator: ${({oldTheme}) => oldTheme.onlineIndicator};
-        --away-indicator: ${({oldTheme}) => oldTheme.awayIndicator};
-        --dnd-indicator: ${({oldTheme}) => oldTheme.dndIndicator};
-        --mention-bg: ${({oldTheme}) => oldTheme.mentionBg};
-        --mention-color: ${({oldTheme}) => oldTheme.mentionColor};
-        --center-channel-bg: ${({oldTheme}) => oldTheme.centerChannelBg};
-        --center-channel-color: ${({oldTheme}) => oldTheme.centerChannelColor};
-        --new-message-separator: ${({oldTheme}) => oldTheme.newMessageSeparator};
-        --link-color: ${({oldTheme}) => oldTheme.linkColor};
-        --button-bg: ${({oldTheme}) => oldTheme.buttonBg};
-        --button-bg-hover: ${({oldTheme}) => rgbToHex(changeColor(oldTheme.buttonBg, -0.15))};
-        --button-color: ${({oldTheme}) => oldTheme.buttonColor};
-        --error-text: ${({oldTheme}) => oldTheme.errorTextColor};
-        --mention-highlight-bg: ${({oldTheme}) => oldTheme.mentionHighlightBg};
-        --mention-highlight-link: ${({oldTheme}) => oldTheme.mentionHighlightLink};
 
         // Legacy variables with baked in opacity, do not use!
         --sidebar-text-08: ${({oldTheme}) => setAlpha(oldTheme.sidebarText, 0.08)};
@@ -237,6 +237,8 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
             },
         });
     }, [theme]);
+
+    console.log('theme', theme);
 
     return (
         <ThemeProvider theme={compassTheme}>
