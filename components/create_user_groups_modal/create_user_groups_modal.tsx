@@ -247,8 +247,8 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                     backButtonText={localizeMessage('multiselect.cancelButton', 'Cancel')}
                                     backButtonClick={
                                         typeof this.props.backButtonCallback === 'function' ?
-                                        this.goBack :
-                                        this.doHide
+                                            this.goBack :
+                                            this.doHide
                                     }
                                     backButtonClass={'multiselect-back'}
                                 />

@@ -325,7 +325,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                     </button>
                 </Modal.Header>
                 <Modal.Body>
-                    {(groups.length === 0 && !this.props.searchTerm) ? 
+                    {(groups.length === 0 && !this.props.searchTerm) ?
                         <NoResultsIndicator
                             variant={NoResultsVariant.UserGroups}
                         /> :
@@ -477,7 +477,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                             </div>
                         </>
                     }
-                    
+
                 </Modal.Body>
             </Modal>
         );

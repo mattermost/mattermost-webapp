@@ -1311,8 +1311,7 @@ function handleGroupAddedMemberEvent(msg) {
         const state = doGetState();
         const currentUserId = getCurrentUserId(state);
         const data = JSON.parse(msg.data.group_member);
-console.log(currentUserId);
-console.log(data.user_id);
+
         if (currentUserId === data.user_id) {
             dispatch(
                 {
