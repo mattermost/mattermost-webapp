@@ -51,10 +51,15 @@ export function isCustomEmojiEnabled(state: GlobalState) {
     return config && config.EnableCustomEmoji === 'true';
 }
 
-export const getOneClickReactionEmojis = (state: GlobalState) => {
-    const recentEmojis = getRecentEmojis(state).slice(-3);
-    const emojiMap = getEmojiMap(state);
+export const getOneClickReactionEmojis = createSelector(
+    'getOneClickReactionEmojis',
+    getEmojiMap,
+    getRecentEmojis,
+    (emojiMap, recentEmojis) => {
+        if (recentEmojis.length === 0) {
+            return [];
+        }
 
-    const emojis = recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).reverse();
-    return emojis;
-};
+        return recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).slice(-3).reverse();
+    },
+);
