@@ -245,6 +245,16 @@ export const infoBanner = (handleHide: () => void) => {
 };
 
 export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean) => void) => {
+    const updatePaymentLink = (
+        <BlockableLink
+            to='/admin_console/billing/payment_info'
+        >
+            <FormattedMessage
+                id='admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation'
+                defaultMessage='update your payment information'
+            />
+        </BlockableLink>
+    );
     return (
         <AlertBanner
             mode='danger'
@@ -255,24 +265,11 @@ export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean
                 />
             }
             message={
-                <>
-                    <FormattedMessage
-                        id='admin.billing.subscription.creditCardHasExpired.please'
-                        defaultMessage='Please '
-                    />
-                    <BlockableLink
-                        to='/admin_console/billing/payment_info'
-                    >
-                        <FormattedMessage
-                            id='admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation'
-                            defaultMessage='update your payment information'
-                        />
-                    </BlockableLink>
-                    <FormattedMessage
-                        id='admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption'
-                        defaultMessage=' to avoid any disruption.'
-                    />
-                </>
+                <FormattedMessage
+                    id='admin.billing.subscription.creditCardHasExpired.description'
+                    defaultMessage='Please {updateYourPaymentInformation} to avoid any disruption.'
+                    values={{updateYourPaymentInformation: updatePaymentLink}}
+                />
             }
             onDismiss={() => setShowCreditCardBanner(false)}
         />
