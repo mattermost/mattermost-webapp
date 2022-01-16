@@ -11,7 +11,7 @@ export function isMessageDescriptor(descriptor: KeyboardShortcutDescriptor): des
     return Boolean((descriptor as MessageDescriptor).id);
 }
 
-export const KEYBOARD_SHORTCUTS = {
+export const KEYBOARD_SHORTCUTS: {[key:string]: KeyboardShortcutDescriptor} = {
     mainHeader: {
         default: {
             id: t('shortcuts.header'),
@@ -220,6 +220,66 @@ export const KEYBOARD_SHORTCUTS = {
         mac: {
             id: t('shortcuts.msgs.markdown.bold.mac'),
             defaultMessage: 'Bold:\t⌘|B',
+        },
+    },
+    msgMarkdownCode: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+    },
+    msgMarkdownStrike: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+    },
+    msgMarkdownHeading: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+    },
+    msgMarkdownQuote: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+    },
+    msgMarkdownOl: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+    },
+    msgMarkdownUl: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: '(╥_╥)',
         },
     },
     msgMarkdownItalic: {

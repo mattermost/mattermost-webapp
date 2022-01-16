@@ -30,6 +30,7 @@ import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 import {Post} from 'mattermost-redux/types/posts';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
+import { ApplyHotkeyMarkdownOptions } from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
@@ -403,16 +404,32 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             !this.state.showEmojiPicker
         ) {
             this.handleHide();
-        } else if (
-            (ctrlKeyCombo && markdownHotkey) ||
-            (ctrlAltCombo && markdownLinkKey)
-        ) {
-            this.applyHotkeyMarkdown(e);
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            this.applyMarkdown({
+                markdownMode:'link',
+                selectionStart: (e.target as any ).selectionStart,
+                selectionEnd: (e.target as any ).selectionEnd,
+                value: (e.target as any).value
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
+            this.applyMarkdown({
+                markdownMode:'bold',
+                selectionStart: (e.target as any ).selectionStart,
+                selectionEnd: (e.target as any ).selectionEnd,
+                value: (e.target as any).value
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
+            this.applyMarkdown({
+                markdownMode:'italic',
+                selectionStart: (e.target as any ).selectionStart,
+                selectionEnd: (e.target as any ).selectionEnd,
+                value: (e.target as any).value
+            });
         }
     };
 
-    applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
-        const res = Utils.applyHotkeyMarkdown(e);
+    applyMarkdown = (options: ApplyHotkeyMarkdownOptions) => {
+        const res = Utils.applyMarkdown(options);
 
         this.setState(
             {

@@ -1732,50 +1732,310 @@ const ITALIC_MD = '*';
  * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
  */
-export function applyHotkeyMarkdown(e, options) {
+export function applyMarkdown(params) {
+    // e.preventDefault(); TODO!!!!
+    
+    const {selectionEnd, selectionStart, value, markdownMode} = params
 
-    const {markdownMode} = options
-    if (markdownMode) {
-        if (typeof options.selectionStart ==='undefined'||typeof options.selectionEnd ==='undefined') {
-            return
-        }
         if (markdownMode==='bold'|| markdownMode === 'italic') {
-            return applyBoldItalicMarkdown(e, options);
+            return applyBoldItalicMarkdown({selectionEnd, selectionStart, value, markdownMode});
         }
         if (markdownMode==='link') {
-            return applyLinkMarkdown(e, options);
+            return applyLinkMarkdown({selectionEnd, selectionStart, value});
         }
         
+        if (markdownMode === 'strike') {
+            return applyStrikeMarkdown({selectionEnd, selectionStart, value});
+        }
+        
+        if (markdownMode === 'code') {
+            return applyCodeMarkdown({selectionEnd, selectionStart, value});
+        }
+        
+        if (markdownMode === 'heading') {
+            return applyHeadingMarkdown({selectionEnd, selectionStart, value});
+        }
+        
+        if (markdownMode === 'quote') {
+            return applyQuoteMarkdown({selectionEnd, selectionStart, value});
+        }
+        
+        if (markdownMode === 'ul') {
+            return applyUlMarkdown({selectionEnd, selectionStart, value});
+        }
+        
+        if (markdownMode === 'ol') {
+            return applyOlMarkdown({selectionEnd, selectionStart, value});
+        }
     throw Error('Unsupported markdown mode: ' + markdownMode);
-
-    }
-    e.preventDefault();
-    console.log(e.keyCode, 'keycode')
-    if (e.keyCode === Constants.KeyCodes.B[1] || e.keyCode === Constants.KeyCodes.I[1]) {
-        // KeyboardEvent.keyCode is Deprecated: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
-        return applyBoldItalicMarkdown(e);
-    } else if (e.keyCode === Constants.KeyCodes.K[1]) {
-        return applyLinkMarkdown(e);
-    }
-
-    throw Error('Unsupported key code: ' + e.keyCode);
 }
 
-function applyBoldItalicMarkdown(e, options) {
-    let selectionEnd, selectionStart, value,isForceItalic,isForceBold
+const applyOlMarkdown=({selectionEnd,selectionStart,value})  =>{ 
+    let prefix = value.substring(0, selectionStart);
+    let selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
     
-if (options) {
-    selectionEnd = options.selectionEnd
-    selectionStart = options.selectionStart
-    value = options.value
-    isForceItalic=options.markdownMode==='italic'
-    isForceBold =  options.markdownMode === 'bold'
-} else{
-    selectionEnd=e.target.selectionEnd
-    selectionStart = e.target.selectionStart
-    value = e.target.value
+    const delimiterLength = 3
+    const getDelimiter=(number) => {
+        getDelimiter.counter = number ? number : getDelimiter.counter
+        return `${getDelimiter.counter++}. `
+    }
+    getDelimiter.counter = 0
+    // 'tsrnie \n srtnei \n \n nei \n'
+
+    // const hasCurrentMarkdown = prefix.substring(prefix.lastIndexOf('\n')).includes(delimiter) && selection.split('\n') === selection.split('### ')
+    // console.log(hasCurrentMarkdown, 'hasCurrentMarkdown')
+
+    prefix = insert(prefix, prefix.lastIndexOf('\n')+1, getDelimiter())
+    // console.log(JSON.stringify(selection), delimiter)
+    // selection = selection.replace(/\n/g, `\n${getDelimiter()}`)
+    const selectionArr = Array.from(selection)
+    for (let i = 0; i <  selectionArr.length; i++) {
+        if (selectionArr[i]==='\n') {
+            selectionArr[i] = `\n${getDelimiter()}`
+        }
+    }
+    selection = selectionArr.join('')
+
+    console.log(prefix, selection, suffix, selectionEnd,selectionStart,value, 'llllllllll')
+
+
+    
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    newValue=prefix  + selection  + suffix
+    // // Does the selection have current hotkey's markdown?
+    // if (hasCurrentMarkdown) {
+    //     // selection already has the markdown; remove it
+    //     newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+    //     newStart = selectionStart - delimiter.length;
+    //     newEnd = selectionEnd - delimiter.length;
+    // } else {
+    //     // Add strike markdown
+        // newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiterLength;
+        newEnd = selectionEnd + delimiterLength;
+    // }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
 }
+const applyUlMarkdown=({selectionEnd,selectionStart,value})  =>{ 
+    let prefix = value.substring(0, selectionStart);
+    let selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
     
+    const delimiter = '- '
+    // 'tsrnie \n srtnei \n \n nei \n'
+
+    // const hasCurrentMarkdown = prefix.substring(prefix.lastIndexOf('\n')).includes(delimiter) && selection.split('\n') === selection.split('### ')
+    // console.log(hasCurrentMarkdown, 'hasCurrentMarkdown')
+
+    prefix = insert(prefix, prefix.lastIndexOf('\n')+1, delimiter)
+    console.log(JSON.stringify(selection), delimiter)
+    selection = selection.replace(/\n/g, `\n${delimiter}`)
+
+    console.log(prefix, selection, suffix, selectionEnd,selectionStart,value, 'llllllllll')
+
+
+    // // Does the selection have current hotkey's markdown?
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    newValue=prefix  + selection  + suffix
+    // if (hasCurrentMarkdown) {
+    //     // selection already has the markdown; remove it
+    //     newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+    //     newStart = selectionStart - delimiter.length;
+    //     newEnd = selectionEnd - delimiter.length;
+    // } else {
+    //     // Add strike markdown
+        // newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    // }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+const applyQuoteMarkdown=({selectionEnd,selectionStart,value})  =>{ 
+    let prefix = value.substring(0, selectionStart);
+    let selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+    
+    const delimiter = '> '
+    // 'tsrnie \n srtnei \n \n nei \n'
+
+    // const hasCurrentMarkdown = prefix.substring(prefix.lastIndexOf('\n')).includes(delimiter) && selection.split('\n') === selection.split('### ')
+    // console.log(hasCurrentMarkdown, 'hasCurrentMarkdown')
+
+    prefix = insert(prefix, prefix.lastIndexOf('\n')+1, delimiter)
+    console.log(JSON.stringify(selection), delimiter)
+    selection = selection.replace(/\n/g, `\n${delimiter}`)
+
+    console.log(prefix, selection, suffix, selectionEnd,selectionStart,value, 'llllllllll')
+
+
+    // // Does the selection have current hotkey's markdown?
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    newValue=prefix  + selection  + suffix
+    // if (hasCurrentMarkdown) {
+    //     // selection already has the markdown; remove it
+    //     newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+    //     newStart = selectionStart - delimiter.length;
+    //     newEnd = selectionEnd - delimiter.length;
+    // } else {
+    //     // Add strike markdown
+    //     newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    // }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+function insert(str, index, value) {
+    return str.substr(0, index) + value + str.substr(index);
+}
+export const applyHeadingMarkdown = ({selectionEnd,selectionStart,value}) => {
+    let prefix = value.substring(0, selectionStart);
+    let selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+    
+    const delimiter = '### '
+    // 'tsrnie \n srtnei \n \n nei \n'
+    // 'tsrnie \n srt'
+
+    const isIgnorePrefix = prefix.lastIndexOf('\n') === -1
+    const hasCurrentMarkdown = (prefix.substring(prefix.lastIndexOf('\n')) === delimiter || isIgnorePrefix) && selection.split('\n').length === selection.split(delimiter).length
+    // console.log(hasCurrentMarkdown, 'hasCurrentMarkdown')
+    // const hasCurrentMarkdown = prefix.endsWith(delimiter);
+
+    
+    console.log(JSON.stringify(selection), delimiter)
+    
+
+
+
+    // // Does the selection have current hotkey's markdown?
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    console.log(
+        'hasCurrentMarkdown', hasCurrentMarkdown,
+        'prefix', prefix,
+        'selection', selection,
+        'suffix', suffix,
+        'selectionStart', selectionStart,
+        'selectionEnd', selectionEnd,
+    )
+    // if (hasCurrentMarkdown) {
+        //     // selection already has the markdown; remove it
+    //         newValue = prefix.substring(prefix.length - delimiter.length-1) + selection + suffix
+    //     newStart = selectionStart - delimiter.length;
+    //     newEnd = selectionEnd - delimiter.length;
+    // } else {
+        //     // Add strike markdown
+        // newValue = prefix + delimiter + selection + delimiter + suffix;
+        selection = selection.replace(/\n/g, `\n${delimiter}`)
+        prefix = insert(prefix, prefix.lastIndexOf('\n')+1, delimiter)
+        newValue=prefix  + selection  + suffix
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    // }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+const applyCodeMarkdown = ({selectionEnd,selectionStart,value}) => {
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    const delimiter = '`'
+
+    // Does the selection have current hotkey's markdown?
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    if (hasCurrentMarkdown) {
+        // selection already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+        newStart = selectionStart - delimiter.length;
+        newEnd = selectionEnd - delimiter.length;
+    } else {
+        // Add strike markdown
+        newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+const applyStrikeMarkdown = ({selectionEnd,selectionStart,value}) => {
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    const delimiter = '~~'
+
+    // Does the selection have current hotkey's markdown?
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    if (hasCurrentMarkdown) {
+        // selection already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+        newStart = selectionStart - delimiter.length;
+        newEnd = selectionEnd - delimiter.length;
+    } else {
+        // Add strike markdown
+        newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+function applyBoldItalicMarkdown({selectionEnd, selectionStart, value, markdownMode}) {
+    
+    const isForceItalic = markdownMode === 'italic'
+    const isForceBold = markdownMode === 'bold'
 
     // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);
@@ -1786,9 +2046,9 @@ if (options) {
     let isItalicFollowedByBold = false;
     let delimiter = '';
 
-    if (isForceBold || e.keyCode === Constants.KeyCodes.B[1]) {
+    if (isForceBold) {
         delimiter = BOLD_MD;
-    } else if (isForceItalic || e.keyCode === Constants.KeyCodes.I[1]) {
+    } else if (isForceItalic) {
         delimiter = ITALIC_MD;
         isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
     }
@@ -1821,19 +2081,7 @@ if (options) {
     };
 }
 
-function applyLinkMarkdown(e, options) {
-    let selectionEnd, selectionStart, value
-
-    if (options) {
-        selectionEnd = options.selectionEnd
-        selectionStart = options.selectionStart
-        value = options.value
-    } else{
-        selectionEnd=e.target.selectionEnd
-        selectionStart = e.target.selectionStart
-        value = e.target.value
-    }
-
+function applyLinkMarkdown({selectionEnd, selectionStart, value}) {
 
     // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);

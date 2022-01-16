@@ -141,8 +141,8 @@ export function enableDevModeFeatures(): void;
 
 export function getClosestParent(elem: HTMLElement, selector: string): void;
 
-export interface ApplyHotkeyMarkdownOptions {markdownMode: 'bold'|'italic'|'link', selectionStart:number|null, selectionEnd:number|null, value: string}
-export function applyHotkeyMarkdown(e: KeyEvent, options?:ApplyHotkeyMarkdownOptions): {message: string; selectionStart: number; selectionEnd: number};
+export interface ApplyHotkeyMarkdownOptions {markdownMode: 'bold'|'italic'|'link'|'strike'|'code'| 'heading' | 'quote' | 'ul' | 'ol', selectionStart:number|null, selectionEnd:number|null, value: string}
+export function applyMarkdown<T extends ''>(params: ApplyHotkeyMarkdownOptions): {message: string; selectionStart: number; selectionEnd: number};
 export function adjustSelection(inputBox: HTMLInputElement, e: KeyEvent): void;
 
 export function getNextBillingDate(): string;

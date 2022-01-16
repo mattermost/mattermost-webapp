@@ -19,8 +19,6 @@ export const MarkdownFormattedMessage: React.ComponentType<MarkdownFormattedMess
     ({ message, emojiMap, messageType }) => {
         const MessageComponentContainer = styled.div`
             padding: 13px 125px 12px 16px;
-            box-shadow: inset 0 0 0 1px
-                rgba(var(--center-channel-color-rgb), 0.24);
             border-radius: 4px;
             line-height: 20px;
 

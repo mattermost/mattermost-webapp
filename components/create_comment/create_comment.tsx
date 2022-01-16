@@ -51,11 +51,13 @@ import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 import ShowFormat from 'components/show_format/show_format';
 import EmojiMap from 'utils/emoji_map';
 import { MarkdownFormattedMessage, MarkdownMessageType } from 'components/markdown_formatted_message/markdown_formatted_message';
+import { ApplyHotkeyMarkdownOptions } from 'utils/utils.jsx';
+import { FormattingBar } from 'components/formatting_bar/formatting_bar';
+import { ToggleFormattingBar } from 'components/toggle_formatting_bar/toggle_formatting_bar';
 
 const KeyCodes = Constants.KeyCodes;
 
 const CreateCommentDraftTimeoutMilliseconds = 500;
-
 type Props = {
 
     /**
@@ -266,6 +268,7 @@ type State = {
     errorClass: string | null;
     serverError: (ServerError & {submittedMessage?: string}) | null;
     showFormat:boolean
+    isFormattingBarVisible:boolean
 }
 
 class CreateComment extends React.PureComponent<Props, State> {
@@ -310,7 +313,8 @@ class CreateComment extends React.PureComponent<Props, State> {
             scrollbarWidth: 0,
             errorClass: null,
             serverError: null,
-            showFormat: false
+            showFormat: false,
+            isFormattingBarVisible: false
         };
 
         this.textboxRef = React.createRef();
@@ -872,14 +876,31 @@ class CreateComment extends React.PureComponent<Props, State> {
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
-            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B) ||
-                Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
-                this.applyHotkeyMarkdown(e);
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode:'bold',
+                    selectionStart: (e.target as any ).selectionStart,
+                    selectionEnd: (e.target as any ).selectionEnd,
+                    value: (e.target as any).value
+                });
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode:'italic',
+                    selectionStart: (e.target as any ).selectionStart,
+                    selectionEnd: (e.target as any ).selectionEnd,
+                    value: (e.target as any).value
+                });
             }
-        }
-
-        if (ctrlAltCombo && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            this.applyHotkeyMarkdown(e);
+        } else if (ctrlAltCombo && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+            e.preventDefault()
+            this.applyMarkdown({
+                markdownMode:'link',
+                selectionStart: (e.target as any ).selectionStart,
+                selectionEnd: (e.target as any ).selectionEnd,
+                value: (e.target as any).value
+            });
         }
 
         if (lastMessageReactionKeyCombo) {
@@ -887,8 +908,9 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
     }
 
-    applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
-        const res = Utils.applyHotkeyMarkdown(e);
+    applyMarkdown = (options: ApplyHotkeyMarkdownOptions) => {
+
+        const res = Utils.applyMarkdown(options);
 
         const draft = this.state.draft!;
         const modifiedDraft = {
@@ -1149,7 +1171,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             addButtonClass += ' disabled';
         }
 
-        let fileUpload,showFormat;
+        let fileUpload,showFormat,toggleFormattingBar;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
@@ -1173,6 +1195,15 @@ class CreateComment extends React.PureComponent<Props, State> {
                     }}
                     postType="post"
                     channelId={this.props.channelId}
+                />
+            );
+            toggleFormattingBar = (
+                <ToggleFormattingBar
+                    onClick={() => {
+                        this.setState({ isFormattingBarVisible: !this.state.isFormattingBarVisible });
+                    }}
+                    // postType="post"
+                    // channelId={currentChannel.id}
                 />
             );
         }
@@ -1267,10 +1298,12 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
                             />
+                            <FormattingBar isRenderedInCommentSection={true} applyMarkdown={this.applyMarkdown} value={message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
                             <span
                                 ref={this.createCommentControlsRef}
                                 className='post-body__actions'
                             >
+                                {toggleFormattingBar}
                                 {showFormat}
                                 {fileUpload}
                                 {emojiPicker}

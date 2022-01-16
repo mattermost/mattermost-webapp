@@ -1032,9 +1032,6 @@ class CreatePost extends React.PureComponent<Props, State> {
             Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo =
             Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
-        const markdownHotkey =
-            Utils.isKeyPressed(e, KeyCodes.B) ||
-            Utils.isKeyPressed(e, KeyCodes.I);
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
@@ -1059,11 +1056,27 @@ class CreatePost extends React.PureComponent<Props, State> {
             Utils.isKeyPressed(e, KeyCodes.DOWN)
         ) {
             this.loadNextMessage(e);
-        } else if (
-            (ctrlKeyCombo && markdownHotkey) ||
-            (ctrlAltCombo && markdownLinkKey)
-        ) {
-            this.applyHotkeyMarkdown(e);
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            this.applyMarkdown({
+                markdownMode:'link',
+                selectionStart: (e.target as any ).selectionStart,
+                selectionEnd: (e.target as any ).selectionEnd,
+                value: (e.target as any).value
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
+            this.applyMarkdown({
+                markdownMode:'bold',
+                selectionStart: (e.target as any ).selectionStart,
+                selectionEnd: (e.target as any ).selectionEnd,
+                value: (e.target as any).value
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
+            this.applyMarkdown({
+                markdownMode:'italic',
+                selectionStart: (e.target as any ).selectionStart,
+                selectionEnd: (e.target as any ).selectionEnd,
+                value: (e.target as any).value
+            });
         }
     };
 
@@ -1121,8 +1134,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             .then(() => this.fillMessageFromHistory());
     };
 
-    applyHotkeyMarkdown = (e: React.KeyboardEvent,options?:ApplyHotkeyMarkdownOptions) => {
-        const res = Utils.applyHotkeyMarkdown(e,options);
+    applyMarkdown = (params: ApplyHotkeyMarkdownOptions) => {
+        const res = Utils.applyMarkdown(params);
 
         this.setState(
             {
@@ -1130,7 +1143,6 @@ class CreatePost extends React.PureComponent<Props, State> {
             },
             () => {
                 const textbox = this.textboxRef.current?.getInputBox();
-                console.log(textbox, 'lalalalalallalal')
                 Utils.setSelectionRange(
                     textbox,
                     res.selectionStart,
@@ -1548,7 +1560,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                                     this.props.useChannelMentions
                                 }
                             />
-                            <FormattingBar applyMarkdown={this.applyHotkeyMarkdown} value={this.state.message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
+                            <FormattingBar applyMarkdown={this.applyMarkdown} value={message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
 
                             <span
                                 ref={this.createPostControlsRef}
