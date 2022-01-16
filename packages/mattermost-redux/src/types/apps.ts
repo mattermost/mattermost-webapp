@@ -48,6 +48,7 @@ export type AppManifest = {
     requested_permissions?: string[];
     requested_locations?: string[];
     root_url?: string;
+    
     // aws_lambda?: string;
     // kubeless_functions?: string;
     plugin_id?: string;
