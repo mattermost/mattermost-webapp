@@ -9,33 +9,28 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
-
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+import {Posts} from 'mattermost-redux/constants';
 
 import * as Utils from 'utils/utils';
-
-import './thread_item.scss';
-
+import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
+import {GlobalState} from 'types/store';
+import {getIsMobileView} from 'selectors/views/browser';
 import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
-
+import CRTListTutorialTip from 'components/collapsed_reply_threads_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
-
-import ThreadMenu from '../thread_menu';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
-import {Posts} from 'mattermost-redux/constants';
-import CRTListTutorialTip from 'components/collapsed_reply_threads_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
-import {GlobalState} from 'types/store';
-import {getIsMobileView} from 'selectors/views/browser';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import ThreadMenu from '../thread_menu';
+import './thread_item.scss';
 
 export type OwnProps = {
     isSelected: boolean;

@@ -25,7 +25,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
     const title = (
         <FormattedMessage
             id='sidebar_header.tutorial.title'
-            defaultMessage='Invite people'
+            defaultMessage={'Invite people'}
         />
     );
     const screen = (
@@ -33,7 +33,7 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom, stopPropagation}: Pro
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar_header.tutorial.body1'
-                    defaultMessage='Use this menu to **Invite People** to your team and access **Team Settings** if you’re an Admin.'
+                    defaultMessage={'Use this menu to **Invite People** to your team and access **Team Settings** if you’re an Admin.'}
                 />
             </p>
         </>

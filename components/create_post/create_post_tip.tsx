@@ -29,24 +29,26 @@ function CreatePostTip(props: Props) {
             currentChannelTeammateUsername={props.currentChannelTeammateUsername}
         />
     );
+
     const title = (
         <FormattedMessage
             id='create_post.tutorialTip.title'
-            defaultMessage='Send a message'
+            defaultMessage={'Send a message'}
         />
     );
+
     const screen = (
         <>
             <p>
                 <FormattedMarkdownMessage
                     id='create_post.tutorialTip1'
-                    defaultMessage='Select or type your first message and select **Enter** to send it.'
+                    defaultMessage={'Select or type your first message and select **Enter** to send it.'}
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='create_post.tutorialTip2'
-                    defaultMessage='Use the **Attachments** and **Emoji** buttons to add to your messages.'
+                    defaultMessage={'Use the **Attachments** and **Emoji** buttons to add to your messages.'}
                 />
             </p>
             <p>

@@ -17,10 +17,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
+import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
-
-import {getIsMobileView} from '../../../../selectors/views/browser';
 
 import SidebarChannelLink from './sidebar_channel_link';
 

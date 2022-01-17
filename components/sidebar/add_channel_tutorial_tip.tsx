@@ -36,9 +36,10 @@ export default function ChannelTutorialTip(props: Props) {
     const title = (
         <FormattedMessage
             id='sidebar.tutorialAddChannel.title'
-            defaultMessage='Create and join channels'
+            defaultMessage={'Create and join channels'}
         />
     );
+
     const screen = (
         <>
             <p>
@@ -71,7 +72,8 @@ export default function ChannelTutorialTip(props: Props) {
                     }}
                 />
             </p>
-        </>);
+        </>
+    );
 
     let overlayClass = 'tip-overlay--add-channels';
     if (props.addChannelButton === AddChannelButtonTreatments.BY_TEAM_NAME || props.addChannelButton === AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR) {

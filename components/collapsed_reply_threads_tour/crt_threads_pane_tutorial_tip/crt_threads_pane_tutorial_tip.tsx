@@ -3,17 +3,19 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from '../../formatted_markdown_message';
+import {Constants, Preferences} from 'utils/constants';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {Constants, Preferences} from '../../../utils/constants';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+
 const CRTThreadsPaneTutorialTip = () => {
     const title = (
         <FormattedMessage
             id='tutorial_threads.threads_pane.title'
-            defaultMessage='Viewing a thread in the sidebar'
+            defaultMessage={'Viewing a thread in the sidebar'}
         />
     );
+
     const screen = (
         <p>
             <FormattedMarkdownMessage

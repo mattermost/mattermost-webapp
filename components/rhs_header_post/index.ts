@@ -41,7 +41,7 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
 
     const collapsedThreads = isCollapsedThreadsEnabled(state);
     const root = getPost(state, rootPostId);
-    const currentUserId = getCurrentUserId(state) as string;
+    const currentUserId = getCurrentUserId(state);
     const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
 
     if (root && collapsedThreads) {
@@ -57,6 +57,7 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     }
 
     const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER && isCollapsedThreadsEnabled(state);
+
     return {
         isExpanded: getIsRhsExpanded(state),
         isMobileView: getIsMobileView(state),

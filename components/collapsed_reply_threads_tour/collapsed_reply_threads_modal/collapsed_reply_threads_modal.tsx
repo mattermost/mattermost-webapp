@@ -1,27 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import crtBetaImg from 'images/crt-beta.gif';
-
 import {closeModal} from 'actions/views/modals';
-
 import GenericModal from 'components/generic_modal';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Constants, ModalIdentifiers, Preferences} from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 import './collapsed_reply_threads_modal.scss';
-import NextIcon from '../../widgets/icons/fa_next_icon';
-import FormattedMarkdownMessage from '../../formatted_markdown_message';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import * as Utils from 'utils/utils';
+
 type Props = {
     onExited: () => void;
 }
+
 function CollapsedReplyThreadsModal(props: Props) {
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
@@ -30,6 +29,7 @@ function CollapsedReplyThreadsModal(props: Props) {
             onNext();
         }
     }, []);
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
         return () => {
@@ -48,7 +48,7 @@ function CollapsedReplyThreadsModal(props: Props) {
             }];
             dispatch(savePreferences(currentUserId, preferences));
         }
-    }, []);
+    }, [currentUserId]);
 
     const onNext = useCallback(() => {
         const preferences = [{
@@ -59,7 +59,7 @@ function CollapsedReplyThreadsModal(props: Props) {
         }];
         dispatch(savePreferences(currentUserId, preferences));
         onHide(false);
-    }, []);
+    }, [currentUserId]);
 
     return (
         <GenericModal
@@ -86,12 +86,10 @@ function CollapsedReplyThreadsModal(props: Props) {
                 </>
             )}
             cancelButtonText={
-                <>
-                    <FormattedMessage
-                        id={'collapsed_reply_threads_modal.skip_tour'}
-                        defaultMessage='Skip Tour'
-                    />
-                </>
+                <FormattedMessage
+                    id={'collapsed_reply_threads_modal.skip_tour'}
+                    defaultMessage='Skip Tour'
+                />
             }
         >
             <div>
@@ -110,4 +108,4 @@ function CollapsedReplyThreadsModal(props: Props) {
     );
 }
 
-export default memo(CollapsedReplyThreadsModal);
+export default CollapsedReplyThreadsModal;

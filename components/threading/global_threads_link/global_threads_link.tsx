@@ -31,14 +31,14 @@ import Constants, {
     Preferences,
     TutorialSteps,
 } from 'utils/constants';
-import './global_threads_link.scss';
 import CollapsedReplyThreadsModal
     from 'components/collapsed_reply_threads_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
 
-import PulsatingDot from '../../widgets/pulsating_dot';
-import {openModal} from '../../../actions/views/modals';
+import PulsatingDot from 'components/widgets/pulsating_dot';
+import {openModal} from 'actions/views/modals';
 
 import ThreadsIcon from './threads_icon';
+import './global_threads_link.scss';
 
 const GlobalThreadsLink = () => {
     const {formatMessage} = useIntl();

@@ -2,35 +2,37 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {useDispatch, useSelector} from 'react-redux';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import TutorialTip from 'components/tutorial/tutorial_tip';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
-import {close as closeLhs} from 'actions/views/lhs';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import TutorialTip from 'components/tutorial/tutorial_tip';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {close as closeLhs} from 'actions/views/lhs';
 import {browserHistory} from 'utils/browser_history';
 
 type Props = {
     autoTour: boolean;
 };
+
 const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
+    const dispatch = useDispatch();
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const nextUrl = `${teamUrl}/threads`;
-    const dispatch = useDispatch();
     const onNextNavigateTo = () => {
         browserHistory.push(nextUrl);
         dispatch(closeLhs());
     };
+
     const title = (
         <FormattedMessage
             id='tutorial_threads.welcome.title'
-            defaultMessage='Welcome to the Threads view!'
+            defaultMessage={'Welcome to the Threads view!'}
         />
     );
+
     const screen = (
         <p>
             <FormattedMarkdownMessage

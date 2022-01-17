@@ -10,8 +10,6 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Constants, {RecommendedNextSteps} from 'utils/constants';
-import {t} from 'utils/i18n';
-
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
 import * as Utils from 'utils/utils';
@@ -139,11 +137,11 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private autoShow(couldAutoShow: boolean) {
-        const {autoTour, firstChannelName} = this.props;
+        const {autoTour, currentStep, step, firstChannelName} = this.props;
         if (!couldAutoShow) {
             return;
         }
-        const isShowable = firstChannelName || (autoTour && !this.state.hasShown && this.props.currentStep === this.props.step);
+        const isShowable = firstChannelName || (autoTour && !this.state.hasShown && currentStep === step);
         if (isShowable) {
             // POST_POPOVER is the only tip that is not automatically rendered if it is the currentStep.
             // This is because tips and next steps may display.
@@ -162,7 +160,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
-        const {currentUserId, tutorialCategory, actions, singleTip} = this.props;
+        const {currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
         const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
         let stepValue = this.props.currentStep;
@@ -209,7 +207,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             savePreferences(currentUserId, abPreferences);
             setFirstChannelName('');
         }
-        const {onNextNavigateTo, onPrevNavigateTo} = this.props;
+
         if (onNextNavigateTo && nextStep === true && autoTour) {
             onNextNavigateTo();
         } else if (onPrevNavigateTo && nextStep === false && autoTour) {
@@ -217,8 +215,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
-    public handlePrev = (e?: React.MouseEvent): void => {
-        e?.preventDefault();
+    public handlePrev = (e: React.MouseEvent): void => {
+        e.preventDefault();
         this.handleSavePreferences(true, false);
     }
 
@@ -272,8 +270,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         let buttonText = (
             <>
                 <FormattedMessage
-                    id={t('tutorial_tip.ok')}
-                    defaultMessage='Next'
+                    id={'tutorial_tip.ok'}
+                    defaultMessage={'Next'}
                 />
                 <i className='icon icon-chevron-right'/>
             </>
@@ -281,8 +279,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         if (this.props.singleTip) {
             buttonText = (
                 <FormattedMessage
-                    id={t('tutorial_tip.got_it')}
-                    defaultMessage='Got it'
+                    id={'tutorial_tip.got_it'}
+                    defaultMessage={'Got it'}
                 />
             );
             return buttonText;
@@ -292,8 +290,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         if (this.props.step === lastStep) {
             buttonText = (
                 <FormattedMessage
-                    id={t('tutorial_tip.finish_tour')}
-                    defaultMessage='Finish tour'
+                    id={'tutorial_tip.finish_tour'}
+                    defaultMessage={'Finish tour'}
                 />
             );
         }

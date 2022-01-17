@@ -23,9 +23,10 @@ export default function SettingsTip() {
     const title = (
         <FormattedMessage
             id='sidebar.tutorialSettings.title'
-            defaultMessage='Customize your experience'
+            defaultMessage={'Customize your experience'}
         />
     );
+
     const screen = (
         <>
             <p>

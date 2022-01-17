@@ -21,12 +21,14 @@ function checkHasPlaybooks(products: ProductComponent[]): boolean {
 function checkHasBoards(products: ProductComponent[]): boolean {
     return products.some((x) => x.switcherText === TopLevelProducts.BOARDS);
 }
+
 const title = (
     <FormattedMessage
         id='sidebar.tutorialProductSwitcher.title'
-        defaultMessage='Try Boards and Playbooks'
+        defaultMessage={'Try Boards and Playbooks'}
     />
 );
+
 const screen = (
     <>
         <p>
