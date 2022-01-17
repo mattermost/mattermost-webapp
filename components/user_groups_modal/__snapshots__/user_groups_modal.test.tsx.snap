@@ -184,31 +184,8 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   show={true}
                   text="View Group"
                 />
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-account-multiple-outline"
-                    />
-                  }
-                  onClick={[Function]}
-                  show={true}
-                  text="Join Group"
-                />
               </MenuGroup>
               <MenuGroup>
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-exit-to-app"
-                    />
-                  }
-                  isDangerous={true}
-                  onClick={[Function]}
-                  show={true}
-                  text="Leave Group"
-                />
                 <MenuItemAction
                   disabled={false}
                   icon={
@@ -290,31 +267,8 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   show={true}
                   text="View Group"
                 />
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-account-multiple-outline"
-                    />
-                  }
-                  onClick={[Function]}
-                  show={true}
-                  text="Join Group"
-                />
               </MenuGroup>
               <MenuGroup>
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-exit-to-app"
-                    />
-                  }
-                  isDangerous={true}
-                  onClick={[Function]}
-                  show={true}
-                  text="Leave Group"
-                />
                 <MenuItemAction
                   disabled={false}
                   icon={
@@ -396,31 +350,8 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
                   show={true}
                   text="View Group"
                 />
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-account-multiple-outline"
-                    />
-                  }
-                  onClick={[Function]}
-                  show={true}
-                  text="Join Group"
-                />
               </MenuGroup>
               <MenuGroup>
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-exit-to-app"
-                    />
-                  }
-                  isDangerous={true}
-                  onClick={[Function]}
-                  show={true}
-                  text="Leave Group"
-                />
                 <MenuItemAction
                   disabled={false}
                   icon={
@@ -631,31 +562,8 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
                   show={true}
                   text="View Group"
                 />
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-account-multiple-outline"
-                    />
-                  }
-                  onClick={[Function]}
-                  show={true}
-                  text="Join Group"
-                />
               </MenuGroup>
               <MenuGroup>
-                <MenuItemAction
-                  disabled={false}
-                  icon={
-                    <i
-                      className="icon-exit-to-app"
-                    />
-                  }
-                  isDangerous={true}
-                  onClick={[Function]}
-                  show={true}
-                  text="Leave Group"
-                />
                 <MenuItemAction
                   disabled={false}
                   icon={
