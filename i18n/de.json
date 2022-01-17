@@ -4255,7 +4255,6 @@
   "status_dropdown.set_online": "Online",
   "status_dropdown.set_ooo": "Nicht im Büro",
   "status_dropdown.set_ooo.extra": "Automatische Antworten sind aktiviert",
-  "status_dropdown.set_your_status": "Status",
   "string.id": "Standardnachricht",
   "suggestion.archive": "Archivierte Kanäle",
   "suggestion.mention.all": "Benachrichtigt jeden in diesem Kanal",
