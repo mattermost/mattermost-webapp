@@ -3,8 +3,6 @@
 
 import {ProductComponent} from '../types/store/plugins';
 
-import {getBasePath} from './url';
-
 export const getCurrentProductId = (products: ProductComponent[], pathname: string): string | null => {
     if (!products) {
         return null;
