@@ -8,10 +8,8 @@ import {removePost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
-// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
 import {
     get,
-    getIsInlinePostEditingEnabled,
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -57,8 +55,7 @@ function makeMapStateToProps() {
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
 
-            // TODO@Michel: remove the call to `getIsInlinePostEditingEnabled` once inline post editing is enabled by default
-            isPostBeingEdited: getIsInlinePostEditingEnabled(state) && getIsPostBeingEdited(state, ownProps.post.id),
+            isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
             enableEmojiPicker,
             isReadOnly: channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),

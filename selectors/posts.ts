@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
+import {getIsInlinePostEditingEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {createSelector} from 'reselect';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -13,12 +15,14 @@ import {StoragePrefixes} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 
 export function getIsPostBeingEdited(state: GlobalState, postId: string) {
-    return state.views.posts.editingPost.postId === postId;
+    // TODO@Michel: remove `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
+    return getIsInlinePostEditingEnabled(state) && state.views.posts.editingPost.postId === postId;
 }
 export function getIsPostBeingEditedInRHS(state: GlobalState, postId: string) {
     const editingPost = getEditingPost(state);
 
-    return editingPost.isRHS && editingPost.postId === postId;
+    // TODO@Michel: remove `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
+    return getIsInlinePostEditingEnabled(state) && editingPost.isRHS && editingPost.postId === postId;
 }
 
 export const getEditingPost = createSelector(

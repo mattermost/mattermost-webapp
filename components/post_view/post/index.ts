@@ -7,11 +7,9 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
-// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
 import {
     get,
     isCollapsedThreadsEnabled,
-    getIsInlinePostEditingEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -26,7 +24,7 @@ import {GlobalState} from 'types/store';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 import {areConsecutivePostsBySameUser} from 'utils/post_utils';
-import {getEditingPost} from '../../../selectors/posts';
+import {getIsPostBeingEdited} from '../../../selectors/posts';
 
 import PostComponent from './post';
 
@@ -59,7 +57,6 @@ function makeMapStateToProps() {
     return (state: GlobalState, ownProps: OwnProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
         const channel = getChannel(state, post.channel_id);
-        const editingPost = getEditingPost(state);
 
         let previousPost = null;
         if (ownProps.previousPostId) {
@@ -76,9 +73,7 @@ function makeMapStateToProps() {
 
         return {
             post,
-
-            // TODO@Michel: remove the call to `getIsInlinePostEditingEnabled` once inline post editing is enabled by default
-            isBeingEdited: getIsInlinePostEditingEnabled(state) && editingPost.postId === post.id,
+            isBeingEdited: getIsPostBeingEdited(state, post.id),
             currentUserId: getCurrentUserId(state),
             isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
             consecutivePostByUser,
