@@ -3,6 +3,6 @@
 
 import React from 'react';
 
-const ServerHealthDashboard = () => <div>{'Health of Server Dashboard'}</div>;
+const WorkspaceOptimizationDashboard = () => <div>{'Workspace Optimization Dashboard'}</div>;
 
-export default ServerHealthDashboard;
+export default WorkspaceOptimizationDashboard;
