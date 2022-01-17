@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -16,7 +15,7 @@ export default class ScrollToBottomArrows extends React.PureComponent {
 
     render() {
         // only show on mobile
-        if ($(window).width() > 768) {
+        if (window.innerWidth > 768) {
             return null;
         }
 

@@ -1,0 +1,115 @@
+$app-bar-icon-size: 24px;
+$app-bar-width: 48px;
+$channel-view-padding: 63px;
+
+.app-bar-enabled .sidebar--right {
+    @media screen and (min-width: 769px) {
+        right: $app-bar-width;
+    }
+}
+
+.channel-view-inner.app-bar-enabled {
+    @media screen and (min-width: 769px) {
+        padding-right: $channel-view-padding;
+    }
+}
+
+.app-bar {
+    // Do not show App Bar if on mobile
+    @media (max-width: 768px) {
+        display: none;
+    }
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: $app-bar-width;
+    padding-top: 16px;
+    border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
+    background-color: rgba(var(--center-channel-color-rgb), 0.04);
+    -ms-overflow-style: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    text-align: center;
+
+    .app-bar__icon {
+        position: relative;
+        width: 100%;
+        border-left: none;
+        margin-bottom: 16px;
+        cursor: pointer;
+
+        &--active {
+            &::before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 3px;
+                height: $app-bar-icon-size;
+                background-color: var(--sidebar-text-active-border);
+                border-radius: 0 2px 2px 0;
+                content: '';
+            }
+
+            .app-bar__icon-inner,
+            span {
+                outline: solid 2px var(--sidebar-text-active-border);
+
+                &:hover {
+                    outline: solid 2px rgba(var(--sidebar-text-active-border-rgb), 0.92) !important;
+                }
+            }
+        }
+
+        .app-bar__icon-inner,
+        span {
+            display: block;
+            overflow: hidden;
+            width: $app-bar-icon-size;
+            height: $app-bar-icon-size;
+            padding: 2px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 50%;
+            line-height: 1;
+
+            &:hover {
+                outline: solid 2px rgba(var(--center-channel-color-rgb), 0.16);
+            }
+
+            img {
+                border-radius: 50%;
+            }
+        }
+
+        span {
+            // color: #3f4350;
+            fill: var(--button-bg);
+            font-size: 14px;
+            line-height: 20px;
+            vertical-align: middle;
+
+            &.CompassIcon,
+            &.icon-brand-zoom {
+                font-size: 20px;
+
+                &::before {
+                    margin: 0 0 0 0.5px;
+                }
+            }
+        }
+    }
+
+    .app-bar__icon.channel-header__icon--active {
+        background: rgba(var(--button-bg-rgb), 0.08);
+        color: var(--button-bg);
+        fill: var(--button-bg);
+    }
+}
+
+// This style is defined outside the .app-bar block above because it doesn't seem to work when defined there
+.app-bar::-webkit-scrollbar {
+    display: none;
+}

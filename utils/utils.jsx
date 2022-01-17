@@ -55,6 +55,7 @@ import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
@@ -466,12 +467,14 @@ export function applyTheme(theme) {
             // Fade out effect for collapsed posts that are being hovered over
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient',
+                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient, ' +
+                '.app__body .ThreadPane .post:hover .post-collapse__gradient ',
                 `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
             );
             changeCss(
                 '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more',
+                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more, ' +
+                '.app__body .ThreadPane .post:hover .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
             changeCss(
@@ -480,12 +483,14 @@ export function applyTheme(theme) {
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient',
+                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient, ' +
+                '.app__body .ThreadPane .post.post--hovered .post-collapse__gradient',
                 `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
             );
             changeCss(
                 '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
+                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more, ' +
+                '.app__body .ThreadPane .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
         }
@@ -518,7 +523,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.buttonBg) {
-        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
+        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover:before, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
         changeCss('.app__body .system-notice__logo svg', 'fill:' + theme.buttonBg);
         changeCss('.app__body .post-image__details .post-image__download svg:hover', 'border-color:' + theme.buttonBg);
         changeCss('.app__body .btn.btn-primary:hover, .app__body .btn.btn-primary:active, .app__body .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.15));
@@ -1009,7 +1014,7 @@ export function isValidBotUsername(name) {
 }
 
 export function isMobile() {
-    return window.innerWidth > 0 && window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
+    return getIsMobileView(store.getState());
 }
 
 export function loadImage(url, onLoad, onProgress) {
@@ -1301,14 +1306,6 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     }
 
     return otherUserId;
-}
-
-export function windowWidth() {
-    return window.innerWidth;
-}
-
-export function windowHeight() {
-    return window.innerHeight;
 }
 
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss

@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
@@ -9,14 +10,18 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
+import {makeAsyncComponent} from 'components/async_load';
 
 import {getSteps, isFirstAdmin} from './steps';
-import NextStepsView from './next_steps_view';
+
+const NextStepsView = makeAsyncComponent('NextStepsView', React.lazy(() => import('./next_steps_view')));
 
 function makeMapStateToProps() {
     const getCategory = makeGetCategory();
@@ -29,6 +34,7 @@ function makeMapStateToProps() {
             steps: getSteps(state),
             isFirstAdmin: isFirstAdmin(state),
             isCloud: getLicense(state).Cloud === 'true',
+            isMobileView: getIsMobileView(state),
         };
     };
 }
@@ -41,6 +47,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 setShowNextStepsView,
                 getProfiles,
                 closeRightHandSide,
+                selectChannel,
             },
             dispatch,
         ),

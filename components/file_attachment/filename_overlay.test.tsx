@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay';
-import DownloadIcon from 'components/widgets/icons/download_icon';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 
 describe('components/file_attachment/FilenameOverlay', () => {
@@ -59,19 +58,19 @@ describe('components/file_attachment/FilenameOverlay', () => {
         const props = {...baseProps, canDownload: true};
         const wrapper = shallow(
             <FilenameOverlay {...props}>
-                <DownloadIcon/>
+                <AttachmentIcon/>
             </FilenameOverlay>,
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(DownloadIcon).exists()).toBe(true);
+        expect(wrapper.find(AttachmentIcon).exists()).toBe(true);
     });
 
     test('should match snapshot, standard but not downloadable', () => {
         const props = {...baseProps, canDownload: false};
         const wrapper = shallow(
             <FilenameOverlay {...props}>
-                <DownloadIcon/>
+                <AttachmentIcon/>
             </FilenameOverlay>,
         );
 

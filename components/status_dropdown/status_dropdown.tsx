@@ -10,7 +10,7 @@ import classNames from 'classnames';
 
 import React, {ReactNode} from 'react';
 
-import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
+import {FormattedDate, FormattedTime} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -314,6 +314,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                 id: 'dndSubMenu-header',
                 direction: 'right',
                 text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
+                isHeader: true,
             } as any,
         ].concat(
             this.dndTimes.map(({id, label, labelDefault}, index) => {
@@ -390,14 +391,6 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id={'statusDropdownMenu'}
                 >
-                    {!this.props.isCustomStatusEnabled && (
-                        <Menu.Header>
-                            <FormattedMessage
-                                id='status_dropdown.set_your_status'
-                                defaultMessage='Status'
-                            />
-                        </Menu.Header>
-                    )}
                     {globalHeader && currentUser && (
                         <Menu.Header>
                             {this.renderProfilePicture('lg')}
@@ -482,7 +475,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     <Menu.Group>
                         <Menu.ItemToggleModalRedux
                             id='accountSettings'
-                            ariaLabel='Profile}'
+                            ariaLabel='Profile'
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}

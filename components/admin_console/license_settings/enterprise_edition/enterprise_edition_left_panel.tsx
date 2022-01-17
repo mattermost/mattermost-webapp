@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -20,10 +20,35 @@ export interface EnterpriseEditionProps {
     issued: JSX.Element;
     startsAt: JSX.Element;
     expiresAt: JSX.Element;
-    handleRemove: (e: any) => Promise<void>;
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
 }
+
+export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
+    let skuName = '';
+    switch (skuShortName) {
+    case LicenseSkus.E20:
+        skuName = 'Enterprise E20';
+        break;
+    case LicenseSkus.E10:
+        skuName = 'Enterprise E10';
+        break;
+    case LicenseSkus.Professional:
+        skuName = 'Professional';
+        break;
+    case LicenseSkus.Starter:
+        skuName = 'Starter';
+        break;
+    default:
+        skuName = 'Enterprise';
+        break;
+    }
+
+    skuName += isGovSku ? ' Gov' : '';
+
+    return skuName;
+};
 
 const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     openEELicenseModal,
@@ -37,24 +62,8 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     isDisabled,
     removing,
 }: EnterpriseEditionProps) => {
-    let skuName = '';
-    switch (license.SkuShortName) {
-    case LicenseSkus.E20:
-        skuName = 'Enterprise E20';
-        break;
-    case LicenseSkus.E10:
-        skuName = 'Enterprise E10';
-        break;
-    case LicenseSkus.Professional:
-        skuName = 'Professional';
-        break;
-    default:
-        skuName = 'Enterprise';
-        break;
-    }
-
+    const skuName = getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
-
     return (
         <div className='EnterpriseEditionLeftPanel'>
             <div className='pre-title'>
@@ -125,16 +134,22 @@ const renderLicenseContent = (
     issued: JSX.Element,
     startsAt: JSX.Element,
     expiresAt: JSX.Element,
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
     skuName: string,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
-    const sku = license.SkuShortName ? <>{`Mattermost ${skuName}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
+    const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
-    const licenseValues = [
+    const licenseValues: Array<{
+        legend: string;
+        value: string;
+    } | {
+        legend: string;
+        value: JSX.Element | null;
+    }> = [
         {legend: 'START DATE:', value: startsAt},
         {legend: 'EXPIRES:', value: expiresAt},
         {legend: 'USERS:', value: license.Users},
@@ -146,7 +161,7 @@ const renderLicenseContent = (
 
     return (
         <div className='licenseElements'>
-            {licenseValues.map((item: {legend: string; value: any}, i: number) => {
+            {licenseValues.map((item: {legend: string; value: JSX.Element | null | string}, i: number) => {
                 return (
                     <div
                         className='item-element'
@@ -164,7 +179,7 @@ const renderLicenseContent = (
 };
 
 const renderRemoveButton = (
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
 ) => {

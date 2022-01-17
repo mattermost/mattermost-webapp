@@ -31,6 +31,7 @@ type Props = {
     preferences: PreferenceType[];
     isFirstAdmin: boolean;
     isAdmin: boolean;
+    isMobileView: boolean;
     steps: StepType[];
     isCloud: boolean;
     actions: {
@@ -38,6 +39,7 @@ type Props = {
         setShowNextStepsView: (show: boolean) => void;
         closeRightHandSide: () => void;
         getProfiles: () => void;
+        selectChannel: (channelId: string) => void;
     };
 };
 
@@ -58,6 +60,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
+        this.props.actions.selectChannel('');
         await this.props.actions.getProfiles();
 
         // eslint-disable-next-line react/no-did-mount-set-state
@@ -168,7 +171,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     renderStep = (step: StepType, index: number) => {
-        const {id, title, finishButtonText} = step;
+        const {id, title, completeStepButtonText} = step;
 
         let icon = (
             <div className='NextStepsView__cardHeaderBadge'>
@@ -185,6 +188,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             <Card
                 className={classNames({complete: this.isStepComplete(id)})}
                 expanded={expandedKey === id}
+                key={`key_${id}_${index}`}
             >
                 <Card.Header>
                     <button
@@ -204,11 +208,12 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         id={id}
                         expanded={expandedKey === id}
                         isAdmin={this.props.isFirstAdmin}
+                        isMobileView={this.props.isMobileView}
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded, lastNonCompletedStep?.id === id)}
                         onSkip={this.onSkip(setExpanded)}
                         isLastStep={lastNonCompletedStep?.id === id}
-                        finishButtonText={finishButtonText}
+                        completeStepButtonText={completeStepButtonText}
                     />
                 </Card.Body>
             </Card>

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {createSelector} from 'reselect';
 
 import {Group} from 'mattermost-redux/types/groups';
@@ -9,8 +10,6 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-
-import {Dictionary, NameMappedObjects} from 'mattermost-redux/types/utilities';
 
 const emptyList: any[] = [];
 const emptySyncables = {
@@ -54,11 +53,11 @@ export function getGroupChannels(state: GlobalState, id: string) {
     return getGroupSyncables(state, id).channels;
 }
 
-export const getAssociatedGroupsByName: (state: GlobalState, teamID: string, channelId: string) => NameMappedObjects<Group> = createSelector(
+export const getAssociatedGroupsByName: (state: GlobalState, teamID: string, channelId: string) => Record<string, Group> = createSelector(
     'getAssociatedGroupsByName',
     getAssociatedGroupsForReference,
     (groups) => {
-        const groupsByName: Dictionary<Group> = {};
+        const groupsByName: Record<string, Group> = {};
 
         for (const id in groups) {
             if (groups.hasOwnProperty(id)) {
@@ -192,11 +191,11 @@ export const getAllAssociatedGroupsForReference: (state: GlobalState) => Group[]
     },
 );
 
-export const getAllGroupsForReferenceByName: (state: GlobalState) => NameMappedObjects<Group> = createSelector(
+export const getAllGroupsForReferenceByName: (state: GlobalState) => Record<string, Group> = createSelector(
     'getAllGroupsForReferenceByName',
     getAllAssociatedGroupsForReference,
     (groups) => {
-        const groupsByName: Dictionary<Group> = {};
+        const groupsByName: Record<string, Group> = {};
 
         for (const id in groups) {
             if (groups.hasOwnProperty(id)) {

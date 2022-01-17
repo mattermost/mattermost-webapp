@@ -20,6 +20,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
     channelIsArchived={true}
     channelRolesLoading={true}
     deactivatedChannel={false}
+    enableOnboardingFlow={true}
     isCloud={false}
     isOnboardingHidden={true}
     match={
@@ -31,6 +32,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
     showNextSteps={false}
     showNextStepsEphemeral={false}
     showTutorial={false}
+    teamUrl="/team"
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -82,6 +84,7 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
     channelIsArchived={false}
     channelRolesLoading={true}
     deactivatedChannel={false}
+    enableOnboardingFlow={true}
     isCloud={false}
     isOnboardingHidden={true}
     match={
@@ -93,6 +96,7 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
     showNextSteps={false}
     showNextStepsEphemeral={false}
     showTutorial={false}
+    teamUrl="/team"
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -121,6 +125,7 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     channelIsArchived={false}
     channelRolesLoading={false}
     deactivatedChannel={false}
+    enableOnboardingFlow={true}
     isCloud={false}
     isOnboardingHidden={true}
     match={
@@ -132,6 +137,7 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     showNextSteps={false}
     showNextStepsEphemeral={false}
     showTutorial={false}
+    teamUrl="/team"
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper

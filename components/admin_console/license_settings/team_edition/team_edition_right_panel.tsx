@@ -12,13 +12,15 @@ import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/w
 
 interface TeamEditionRightPanelProps {
     upgradingPercentage: number;
-    handleUpgrade: (e: any) => Promise<void>;
+    handleUpgrade: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     upgradeError: string | null;
     restartError: string | null;
 
-    handleRestart: (e: any) => Promise<void>;
+    handleRestart: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 
-    openEEModal: any;
+    setClickNormalUpgradeBtn: () => void;
+
+    openEEModal: () => void;
 
     restarting: boolean;
 }
@@ -31,10 +33,18 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
     handleRestart,
     restarting,
     openEEModal,
+    setClickNormalUpgradeBtn,
 }: TeamEditionRightPanelProps) => {
     let upgradeButton = null;
+    const onHandleUpgrade = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (!handleUpgrade) {
+            return;
+        }
+        setClickNormalUpgradeBtn();
+        handleUpgrade(e);
+    };
     const upgradeAdvantages = [
-        'AD?LDAP Group Sync',
+        'AD/LDAP Group Sync',
         'High Availability',
         'Advanced compliance',
         'And more...',
@@ -45,7 +55,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                 <p>
                     <button
                         type='button'
-                        onClick={handleUpgrade}
+                        onClick={onHandleUpgrade}
                         className='btn btn-primary'
                     >
                         <LoadingWrapper
@@ -81,7 +91,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                     </a>
                     <FormattedMarkdownMessage
                         id='admin.license.enterprise.upgrade.acceptTermsFinal'
-                        defaultMessage=' .Upgrading will download the binary and update your team edition.'
+                        defaultMessage='. Upgrading will download the binary and update your team edition.'
                     />
                 </p>
                 {upgradeError && (
