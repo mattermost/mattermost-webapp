@@ -353,7 +353,7 @@ const AdminDefinition = {
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
         health_of_server: {
             url: 'reporting/server-health-dashboard',
-            title: t('admin.sidebar.serverHealthDasboard'),
+            title: t('admin.sidebar.serverHealthDashboard'),
             title_default: 'Health of Server Dashboard',
             schema: {
                 id: 'ServerHealthDashboard',
