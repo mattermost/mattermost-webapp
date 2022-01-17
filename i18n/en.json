@@ -2091,6 +2091,7 @@
   "admin.sidebar.signup": "Signup",
   "admin.sidebar.site": "Site Configuration",
   "admin.sidebar.siteStatistics": "Site Statistics",
+  "admin.sidebar.workspaceOptimization": "Workspace Optimization",
   "admin.sidebar.smtp": "SMTP",
   "admin.sidebar.subscription": "Subscription",
   "admin.sidebar.systemRoles": "System Roles",
