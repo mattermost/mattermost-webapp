@@ -18,24 +18,14 @@ type Props = {
     autoTour: boolean;
 };
 
-export const UpShortcut = () => {
-    return (
-        <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'UP'}</ShortcutKey>
-    );
-};
+export const UpShortcut = () => <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'UP'}</ShortcutKey>;
 
-export const DownShortcut = () => {
-    return (
-        <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'DOWN'}</ShortcutKey>
-    );
-};
+export const DownShortcut = () => <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'DOWN'}</ShortcutKey>;
 
 const CRTListTutorialTip = ({autoTour}: Props) => {
     const isMobileView = useSelector((state: GlobalState) => getIsMobileView(state));
     const dispatch = useDispatch();
-    const onPrevNavigateTo = () => {
-        dispatch(openLhs());
-    };
+    const onPrevNavigateTo = () => dispatch(openLhs());
 
     const title = (
         <FormattedMessage

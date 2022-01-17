@@ -24,11 +24,11 @@ import BalloonIllustration from '../../common/balloon_illustration';
 
 import {useThreadRouting} from '../../hooks';
 import './thread_list.scss';
-import CRTListTutorialTip from 'components/collapsed_reply_threads_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
+import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
 import {GlobalState} from 'types/store';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import CRTUnreadTutorialTip
-    from 'components/collapsed_reply_threads_tour/crt_unread_tutorial_tip/crt_unread_tutorial_tip';
+    from 'components/crt_tour/crt_unread_tutorial_tip/crt_unread_tutorial_tip';
 
 import {getIsMobileView} from 'selectors/views/browser';
 

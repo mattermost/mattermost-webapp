@@ -15,7 +15,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
 import CRTThreadsPaneTutorialTip
-    from '../collapsed_reply_threads_tour/crt_threads_pane_tutorial_tip/crt_threads_pane_tutorial_tip';
+    from 'components/crt_tour/crt_threads_pane_tutorial_tip/crt_threads_pane_tutorial_tip';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;

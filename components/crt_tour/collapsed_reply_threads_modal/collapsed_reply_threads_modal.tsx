@@ -32,9 +32,7 @@ function CollapsedReplyThreadsModal(props: Props) {
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
+        return () => document.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
     const onHide = useCallback((skipTour: boolean) => {

@@ -21,7 +21,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 import CRTWelcomeTutorialTip
-    from '../../collapsed_reply_threads_tour/crt_welcome_tutorial_tip/crt_welcome_tutorial_tip';
+    from '../../crt_tour/crt_welcome_tutorial_tip/crt_welcome_tutorial_tip';
 import {GlobalState} from 'types/store';
 import {isAnyModalOpen} from 'selectors/views/modals';
 import Constants, {
@@ -32,7 +32,7 @@ import Constants, {
     TutorialSteps,
 } from 'utils/constants';
 import CollapsedReplyThreadsModal
-    from 'components/collapsed_reply_threads_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
+    from 'components/crt_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
 
 import PulsatingDot from 'components/widgets/pulsating_dot';
 import {openModal} from 'actions/views/modals';

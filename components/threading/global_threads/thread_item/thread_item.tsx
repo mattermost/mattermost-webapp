@@ -24,7 +24,7 @@ import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
-import CRTListTutorialTip from 'components/collapsed_reply_threads_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
+import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
 
 import {THREADING_TIME} from '../../common/options';
