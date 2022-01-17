@@ -55,6 +55,24 @@ describe('components/ConfigurationBar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, expired, cloud license, show nothing', () => {
+        const props = {...baseProps, canViewSystemErrors: false, license: {Id: '1234', IsLicensed: 'true', Cloud: 'true', ExpiresAt: Date.now() - (11 * millisPerDay)}};
+        const wrapper = shallowWithIntl(
+            <ConfigurationBar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, expiring, cloud license, show nothing', () => {
+        const props = {...baseProps, canViewSystemErrors: false, license: {Id: '1234', IsLicensed: 'true', Cloud: 'true', ExpiresAt: Date.now()}};
+        const wrapper = shallowWithIntl(
+            <ConfigurationBar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, show nothing', () => {
         const props = {...baseProps, license: {Id: '1234', IsLicensed: 'true', ExpiresAt: Date.now() + (61 * millisPerDay)}};
         const wrapper = shallowWithIntl(

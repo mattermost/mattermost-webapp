@@ -94,7 +94,7 @@ export default function InviteView(props: Props) {
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
             aria-label='team invite link'
-            className='btn btn-cancel style--none InviteView__copyLink'
+            className='InviteView__copyLink tertiary-button'
         >
             {!copyText.copiedRecently && (
                 <>
