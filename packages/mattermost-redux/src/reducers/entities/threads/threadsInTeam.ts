@@ -45,8 +45,20 @@ function handlePostRemoved(state: State, action: GenericAction) {
     };
 }
 
-export function handleReceivedThread(state: State, action: GenericAction, extra: ExtraData) {
-    const {thread, team_id: teamId} = action.data;
+// adds thread to all teams in state
+function handleAllTeamsReceivedThread(state: State, thread: UserThread, teamId: Team['id'], extra: ExtraData) {
+    const teamIds = Object.keys(state);
+
+    let newState = {...state};
+    for (const teamId of teamIds) {
+        newState = handleSingleTeamReceivedThread(newState, thread, teamId, extra);
+    }
+
+    return newState;
+}
+
+// adds thread to single team
+function handleSingleTeamReceivedThread(state: State, thread: UserThread, teamId: Team['id'], extra: ExtraData) {
     const nextSet = new Set(state[teamId] || []);
 
     // thread exists in state
@@ -67,6 +79,16 @@ export function handleReceivedThread(state: State, action: GenericAction, extra:
     }
 
     return state;
+}
+
+export function handleReceivedThread(state: State, action: GenericAction, extra: ExtraData) {
+    const {thread, team_id: teamId} = action.data;
+
+    if (!teamId) {
+        return handleAllTeamsReceivedThread(state, thread, teamId, extra);
+    }
+
+    return handleSingleTeamReceivedThread(state, thread, teamId, extra);
 }
 
 // add the thread only if it's 'newer' than other threads

@@ -83,7 +83,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         type: ThreadTypes.RECEIVED_THREAD,
         data: {
             thread,
-            team_id: teamId || currentTeamId,
+            team_id: teamId,
         },
     });
 
