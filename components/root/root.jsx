@@ -56,6 +56,7 @@ const LazySelectTeam = React.lazy(() => import('components/select_team'));
 const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
+const LazySetup = React.lazy(() => import('components/fullscreen_wizard/fullscreen_wizard'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -87,6 +88,7 @@ const LinkingLandingPage = makeAsyncComponent('LinkingLandingPage', LazyLinkingL
 const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
 const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
+const Setup = makeAsyncComponent('Setup', LazySetup);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -435,6 +437,10 @@ export default class Root extends React.PureComponent {
                     <LoggedInRoute
                         path={'/mfa'}
                         component={Mfa}
+                    />
+                    <LoggedInRoute
+                        path={'/setup'}
+                        component={Setup}
                     />
                     <Redirect
                         from={'/_redirect/integrations/:subpath*'}

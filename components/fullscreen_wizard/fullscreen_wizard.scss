@@ -1,0 +1,212 @@
+@import 'utils/variables';
+
+$transition_time: 4000ms;
+
+@mixin absolutely-fullscreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+}
+
+.FullscreenWizard {
+    color: green !important;
+
+    &-enter {
+        opacity: 0;
+    }
+
+    &-enter-active {
+        opacity: 1;
+        transition: opacity 200ms;
+    }
+
+    &-exit {
+        opacity: 1;
+    }
+
+    &-exit-active {
+        opacity: 0;
+        transition: opacity 200ms;
+    }
+
+    &__progress {
+        z-index: 1;
+        display: flex;
+        width: 120px;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+
+        .tutorial__circles {
+            display: flex;
+            flex-direction: column;
+            margin: 2em 0;
+
+            .circle {
+                display: inline-block;
+                width: 6px;
+                height: 6px;
+                margin: 5px 0;
+                background: $primary-color;
+                border-radius: 6px;
+                opacity: 0.2;
+
+                &.active {
+                    opacity: 1;
+
+                    &::after {
+                        position: relative;
+                        width: 12px;
+                        height: 12px;
+                        background: $primary-color;
+                        border-radius: 12px;
+                        content: '';
+                        opacity: 0.2;
+                    }
+                }
+            }
+        }
+    }
+
+    &__logo {
+        position: fixed;
+        z-index: 1;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+.Plugins-body {
+    @include absolutely-fullscreen;
+}
+
+.UseCase-body {
+    @include absolutely-fullscreen;
+
+    display: flex;
+}
+
+.UseCase-form-wrapper {
+    padding-top: 116px;
+}
+
+.UseCase,
+.UseCase--backward {
+    &-enter {
+        transform: translateY(100vh);
+    }
+
+    &-enter-active {
+        transform: translateY(0);
+        transition: transform $transition_time linear;
+    }
+
+    &-enter-done {
+        transform: translateY(0);
+    }
+}
+// on forward, it goes up screen on exit
+// on backward, it goes down screen on enter
+
+.UseCase--backward {
+    &-enter {
+        transform: translateY(-100vh);
+    }
+
+    &-enter-active {
+        transform: translateY(0);
+        transition: transform $transition_time linear;
+    }
+
+    &-enter-done {
+        transform: translateY(0);
+    }
+
+    &-exit {
+        transform: translateY(0);
+    }
+
+    &-exit-active {
+        transform: translateY(100vh);
+        transition: transform $transition_time linear;
+    }
+
+    &-exit-done {
+        transform: translateY(100vh);
+    }
+}
+
+.Plugins {
+    @include absolutely-fullscreen;
+
+    &-enter {
+        transform: translateY(100vh);
+    }
+
+    &-enter-active {
+        transform: translateY(0);
+        transition: transform $transition_time linear;
+    }
+
+    &-enter-done {
+        transform: translateY(0);
+    }
+    // &-exit {
+    //     transform: translateY(0);
+    // }
+    // &-exit-active {
+    //     transform: translateY(-100vh);
+    //     transition: transform $transition_time linear;
+    // }
+    // &-exit-done {
+    //     transform: translateY(-100vh);
+    // }
+}
+
+.Plugins--backup {
+    @include absolutely-fullscreen;
+
+    &-exit {
+        transform: translateY(0);
+    }
+
+    &-exit-active {
+        transform: translateY(100vh);
+        transition: transform $transition_time linear;
+    }
+
+    &-exit-done {
+        transform: translateY(100vh);
+    }
+}
+
+.fullscreen-wizard-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.fullscreen-page-container {
+    position: relative;
+    width: calc(100vw - 120px);
+}
+
+.UseCase-left-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.PageLine {
+    position: relative;
+    left: 60px;
+    width: 1px;
+    background-color: black;
+
+    &--no-left {
+        left: initial;
+    }
+
+    /* background-color: rgba(var(--center-channel-rgb), 0.24); */
+}
