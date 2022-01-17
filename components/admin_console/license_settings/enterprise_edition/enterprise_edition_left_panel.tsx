@@ -20,25 +20,14 @@ export interface EnterpriseEditionProps {
     issued: JSX.Element;
     startsAt: JSX.Element;
     expiresAt: JSX.Element;
-    handleRemove: (e: any) => Promise<void>;
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
 }
 
-const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
-    openEELicenseModal,
-    upgradedFromTE,
-    license,
-    isTrialLicense,
-    issued,
-    startsAt,
-    expiresAt,
-    handleRemove,
-    isDisabled,
-    removing,
-}: EnterpriseEditionProps) => {
+export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
     let skuName = '';
-    switch (license.SkuShortName) {
+    switch (skuShortName) {
     case LicenseSkus.E20:
         skuName = 'Enterprise E20';
         break;
@@ -56,10 +45,25 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
         break;
     }
 
+    skuName += isGovSku ? ' Gov' : '';
+
+    return skuName;
+};
+
+const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
+    openEELicenseModal,
+    upgradedFromTE,
+    license,
+    isTrialLicense,
+    issued,
+    startsAt,
+    expiresAt,
+    handleRemove,
+    isDisabled,
+    removing,
+}: EnterpriseEditionProps) => {
+    const skuName = getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
-
-    skuName += license.IsGovSku === 'true' ? ' Gov' : '';
-
     return (
         <div className='EnterpriseEditionLeftPanel'>
             <div className='pre-title'>
@@ -130,7 +134,7 @@ const renderLicenseContent = (
     issued: JSX.Element,
     startsAt: JSX.Element,
     expiresAt: JSX.Element,
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
     skuName: string,
@@ -139,7 +143,13 @@ const renderLicenseContent = (
 
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
-    const licenseValues = [
+    const licenseValues: Array<{
+        legend: string;
+        value: string;
+    } | {
+        legend: string;
+        value: JSX.Element | null;
+    }> = [
         {legend: 'START DATE:', value: startsAt},
         {legend: 'EXPIRES:', value: expiresAt},
         {legend: 'USERS:', value: license.Users},
@@ -151,7 +161,7 @@ const renderLicenseContent = (
 
     return (
         <div className='licenseElements'>
-            {licenseValues.map((item: {legend: string; value: any}, i: number) => {
+            {licenseValues.map((item: {legend: string; value: JSX.Element | null | string}, i: number) => {
                 return (
                     <div
                         className='item-element'
@@ -169,7 +179,7 @@ const renderLicenseContent = (
 };
 
 const renderRemoveButton = (
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
 ) => {

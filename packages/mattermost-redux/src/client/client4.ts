@@ -471,7 +471,10 @@ export default class Client4 {
         }
 
         if (options.body) {
-            headers[HEADER_CONTENT_TYPE] = 'application/json';
+            // when the body is an instance of FormData we let fetch to set the Content-Type header so it defines a correct boundary
+            if (!(options.body instanceof FormData)) {
+                headers[HEADER_CONTENT_TYPE] = 'application/json';
+            }
         }
 
         if (newOptions.headers) {

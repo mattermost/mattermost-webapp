@@ -33,6 +33,7 @@ export type StepComponentProps = {
     id: string;
     expanded: boolean;
     isAdmin: boolean;
+    isMobileView: boolean;
     currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;

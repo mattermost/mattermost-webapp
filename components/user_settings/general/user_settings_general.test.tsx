@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 
 import {UserProfile} from 'mattermost-redux/types/users';
+
+import configureStore from 'store';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
@@ -48,14 +49,10 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         ldapPictureAttributeSet: false,
     };
 
-    const mockStore = configureStore();
-    const state = {
-        views: {
-            settings: {},
-        },
-    };
-
-    const store = mockStore(state);
+    let store: ReturnType<typeof configureStore>;
+    beforeEach(() => {
+        store = configureStore();
+    });
 
     test('submitUser() should have called updateMe', () => {
         const updateMe = jest.fn().mockResolvedValue({data: true});
