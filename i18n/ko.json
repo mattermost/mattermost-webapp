@@ -1,5 +1,5 @@
 {
-  "about.buildnumber": "빌드 넘버:",
+  "about.buildnumber": "빌드 번호:",
   "about.cloudEdition": "클라우드",
   "about.copyright": "Copyright 2015 - {currentYear} Mattermost, Inc. 무단 전재와 무단 복제를 금합니다",
   "about.database": "데이터베이스:",
