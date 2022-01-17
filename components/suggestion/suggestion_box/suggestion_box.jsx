@@ -734,7 +734,7 @@ export default class SuggestionBox extends React.PureComponent {
         this.container = container;
     };
 
-    getListposition = (listPosition) => {
+    getListPosition = (listPosition) => {
         if (!this.state.suggestionBoxAlgn) {
             return listPosition;
         }
@@ -806,7 +806,7 @@ export default class SuggestionBox extends React.PureComponent {
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
-                            position={this.getListposition(listPosition)}
+                            position={this.getListPosition(listPosition)}
                             renderDividers={renderDividers}
                             renderNoResults={renderNoResults}
                             onCompleteWord={this.handleCompleteWord}
