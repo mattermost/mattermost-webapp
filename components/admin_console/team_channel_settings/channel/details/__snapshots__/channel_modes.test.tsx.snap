@@ -15,13 +15,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelModes should match s
     <div
       className="group-teams-and-channels--body"
     >
-      <SyncGroupsToggle
-        isDefault={false}
-        isDisabled={false}
-        isPublic={true}
-        isSynced={false}
-        onToggle={[MockFunction]}
-      />
       <AllowAllToggle
         isDefault={false}
         isDisabled={false}
