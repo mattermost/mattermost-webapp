@@ -1,12 +1,82 @@
 @import 'utils/variables';
+@import 'utils/mixins';
 
-$transition_time: 4000ms;
+$transition_time: 300ms;
 
 @mixin absolutely-fullscreen {
     position: absolute;
     top: 0;
     left: 0;
     height: 100vh;
+}
+
+@mixin simple-in-and-out-after($classPrefix) {
+    .#{$classPrefix}--enter-from-after {
+        &-enter {
+            transform: translateY(-100vh);
+        }
+
+        &-enter-active {
+            transform: translateY(0);
+            transition: transform $transition_time linear;
+        }
+
+        &-enter-done {
+            transform: translateY(0);
+        }
+    }
+
+    .#{$classPrefix}--exit-to-after {
+        &-exit {
+            transform: translateY(0);
+        }
+
+        &-exit-active {
+            transform: translateY(-100vh);
+            transition: transform $transition_time linear;
+        }
+
+        &-exit-done {
+            transform: translateY(-100vh);
+        }
+    }
+}
+
+@mixin simple-in-and-out-before($classPrefix) {
+    .#{$classPrefix}--enter-from-before {
+        &-enter {
+            transform: translateY(100vh);
+        }
+
+        &-enter-active {
+            transform: translateY(0);
+            transition: transform $transition_time linear;
+        }
+
+        &-enter-done {
+            transform: translateY(0);
+        }
+    }
+
+    .#{$classPrefix}--exit-to-before {
+        &-exit {
+            transform: translateY(0);
+        }
+
+        &-exit-active {
+            transform: translateY(100vh);
+            transition: transform $transition_time linear;
+        }
+
+        &-exit-done {
+            transform: translateY(100vh);
+        }
+    }
+}
+
+@mixin simple-in-and-out($classPrefix) {
+    @include simple-in-and-out-before($classPrefix);
+    @include simple-in-and-out-after($classPrefix);
 }
 
 .FullscreenWizard {
@@ -91,8 +161,49 @@ $transition_time: 4000ms;
     padding-top: 116px;
 }
 
-.UseCase,
-.UseCase--backward {
+.UseCase-left-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@include simple-in-and-out-after("UseCase");
+@include simple-in-and-out("Plugins");
+@include simple-in-and-out("Channel");
+@include simple-in-and-out-before("InviteMembers");
+
+.ChannelsPreview-body {
+    position: absolute;
+    top: calc(50vh - 250px);
+    right: 0;
+}
+
+.TeamMembers-body {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    .wave {
+        position: absolute;
+        top: 250px;
+        right: 150px;
+    }
+
+    .smile {
+        position: absolute;
+        top: 125px;
+        right: 225px;
+    }
+
+    .elbow {
+        position: absolute;
+        top: 200px;
+        right: 425px;
+    }
+}
+
+.TeamMembers--enter-from-before {
     &-enter {
         transform: translateY(100vh);
     }
@@ -106,67 +217,8 @@ $transition_time: 4000ms;
         transform: translateY(0);
     }
 }
-// on forward, it goes up screen on exit
-// on backward, it goes down screen on enter
 
-.UseCase--backward {
-    &-enter {
-        transform: translateY(-100vh);
-    }
-
-    &-enter-active {
-        transform: translateY(0);
-        transition: transform $transition_time linear;
-    }
-
-    &-enter-done {
-        transform: translateY(0);
-    }
-
-    &-exit {
-        transform: translateY(0);
-    }
-
-    &-exit-active {
-        transform: translateY(100vh);
-        transition: transform $transition_time linear;
-    }
-
-    &-exit-done {
-        transform: translateY(100vh);
-    }
-}
-
-.Plugins {
-    @include absolutely-fullscreen;
-
-    &-enter {
-        transform: translateY(100vh);
-    }
-
-    &-enter-active {
-        transform: translateY(0);
-        transition: transform $transition_time linear;
-    }
-
-    &-enter-done {
-        transform: translateY(0);
-    }
-    // &-exit {
-    //     transform: translateY(0);
-    // }
-    // &-exit-active {
-    //     transform: translateY(-100vh);
-    //     transition: transform $transition_time linear;
-    // }
-    // &-exit-done {
-    //     transform: translateY(-100vh);
-    // }
-}
-
-.Plugins--backup {
-    @include absolutely-fullscreen;
-
+.TeamMembers--exit-to-after {
     &-exit {
         transform: translateY(0);
     }
@@ -184,18 +236,15 @@ $transition_time: 4000ms;
 .fullscreen-wizard-container {
     display: flex;
     flex-direction: row;
+
+    .tertiary-button {
+        @include tertiary-button;
+    }
 }
 
 .fullscreen-page-container {
     position: relative;
     width: calc(100vw - 120px);
-}
-
-.UseCase-left-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
 }
 
 .PageLine {

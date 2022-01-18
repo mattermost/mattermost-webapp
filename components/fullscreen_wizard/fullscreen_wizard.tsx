@@ -6,8 +6,11 @@ import {RouteComponentProps} from 'react-router';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import './fullscreen_wizard.scss';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
+
+import QuickInput from 'components/quick_input';
+
+import './fullscreen_wizard.scss';
 
 import BoardsSVG from './boards.svg';
 import PlaybooksSVG from './playbooks.svg';
@@ -19,7 +22,12 @@ import JiraSVG from './jira.svg';
 import ZoomSVG from './zoom.svg';
 import TodoSVG from './todo.svg';
 
+import ChannelsPreviewSVG from './channels-preview.svg';
 import LaptopSVG from './laptop.svg';
+
+import PersonWaveSVG from './person-wave.svg';
+import PersonSmileSVG from './person-smile.svg';
+import PersonElbowSVG from './person-elbow.svg';
 
 const WizardSteps = {
     UseCase: 'UseCase',
@@ -32,14 +40,28 @@ const WizardSteps = {
 type WizardStep = typeof WizardSteps[keyof typeof WizardSteps];
 
 const Animations = {
-    PAGE_SLIDE: 4000,
+    PAGE_SLIDE: 300,
+    Reasons: {
+        EnterFromBefore: 'EnterFromBefore',
+        EnterFromAfter: 'EnterFromAfter',
+        ExitToBefore: 'ExitToBefore',
+        ExitToAfter: 'ExitToAfter',
+    } as const,
 };
+
+type AnimationReason = typeof Animations['Reasons'][keyof typeof Animations['Reasons']];
 
 const UseCases = {
     Boards: 'Boards',
     Channels: 'Channels',
     Playbooks: 'Playbooks',
 } as const;
+
+// enter from before
+// enter from after
+// exit to before
+// exit to after
+//
 type UseCase = typeof UseCases [keyof typeof UseCases];
 
 type Form = {
@@ -58,8 +80,14 @@ type Form = {
         // set if user clicks skip for now
         skipped: boolean;
     };
-    channel: string;
-    teamMembers: string[];
+    channel: {
+        name: string;
+        skipped: boolean;
+    };
+    teamMembers: {
+        invites: string[];
+        skipped: boolean;
+    };
 }
 const emptyForm = deepFreeze({
     useCase: {
@@ -77,8 +105,14 @@ const emptyForm = deepFreeze({
         // set if user clicks skip for now
         skipped: false,
     },
-    channel: '',
-    teamMembers: [],
+    channel: {
+        name: '',
+        skipped: false,
+    },
+    teamMembers: {
+        invites: [],
+        skipped: false,
+    },
 });
 
 type Props = {
@@ -89,24 +123,32 @@ type Props = {
 }
 
 type TransitionProps = {
-    direction: 'backward' | 'current' | 'forward' ;
+    direction: AnimationReason;
+    next?: () => void;
+    skip?: () => void;
+    previous?: JSX.Element;
     show: boolean;
 }
 
 type UseCaseProps = TransitionProps & {
     options: Form['useCase'];
     setOption: (options: keyof Form['useCase']) => void;
-    next: () => void;
 }
 
 const UseCase = (props: UseCaseProps) => {
     const className = (() => {
-        if (props.direction === 'backward') {
-            return 'UseCase--backward';
-        } else if (props.direction === 'forward') {
-            return 'UseCase--forward';
+        switch (props.direction) {
+        case Animations.Reasons.ExitToBefore:
+            return 'UseCase--exit-to-before';
+        case Animations.Reasons.ExitToAfter:
+            return 'UseCase--exit-to-after';
+        case Animations.Reasons.EnterFromAfter:
+            return 'UseCase--enter-from-after';
+        case Animations.Reasons.EnterFromBefore:
+            return 'UseCase--enter-from-before';
+        default:
+            return 'UseCase--enter-from-before';
         }
-        return 'UseCase';
     })();
     return (
         <CSSTransition
@@ -235,20 +277,23 @@ const PageLine = (props: PageLineProps) => {
 };
 
 type PluginsProps = TransitionProps & {
-    previous: JSX.Element;
     options: Form['plugins'];
     setOption: (option: keyof Form['plugins']) => void;
-    next: () => void;
-    skip: () => void;
 }
 const Plugins = (props: PluginsProps) => {
     const className = (() => {
-        if (props.direction === 'backward') {
-            return 'Plugins--backward';
-        } else if (props.direction === 'forward') {
-            return 'Plugins--forward';
+        switch (props.direction) {
+        case Animations.Reasons.ExitToBefore:
+            return 'Plugins--exit-to-before';
+        case Animations.Reasons.ExitToAfter:
+            return 'Plugins--exit-to-after';
+        case Animations.Reasons.EnterFromAfter:
+            return 'Plugins--enter-from-after';
+        case Animations.Reasons.EnterFromBefore:
+            return 'Plugins--enter-from-before';
+        default:
+            return 'Plugins--enter-from-before';
         }
-        return 'Plugins';
     })();
     const {formatMessage} = useIntl();
     return (
@@ -341,34 +386,249 @@ const Plugins = (props: PluginsProps) => {
                         />
                     </ul>
                 }
-                <button className='btn btn-primary'>
+                <button
+                    className='btn btn-primary'
+                    onClick={props.next}
+                >
                     <FormattedMessage
                         id={'onboarding_wizard.next'}
                         defaultMessage='Continue'
                     />
                 </button>
-                <button className='tertiary-button'>
+                <button
+                    className='tertiary-button'
+                    onClick={props.skip}
+                >
                     <FormattedMessage
                         id={'onboarding_wizard.skip'}
                         defaultMessage='Skip for now'
                     />
                 </button>
-                {'line'}
+                <PageLine height={'calc(100vh - 100px - 400px'}/>
             </div>
         </CSSTransition>
     );
 };
 
-const Channel = () => {
-    return (<div>
-        {'channel'}
-    </div>);
+type ChannelProps = TransitionProps & {
+    name: string;
+    onChange: (newValue: string) => void;
+}
+const Channel = (props: ChannelProps) => {
+    const className = (() => {
+        switch (props.direction) {
+        case Animations.Reasons.ExitToBefore:
+            return 'Channel--exit-to-before';
+        case Animations.Reasons.ExitToAfter:
+            return 'Channel--exit-to-after';
+        case Animations.Reasons.EnterFromAfter:
+            return 'Channel--enter-from-after';
+        case Animations.Reasons.EnterFromBefore:
+            return 'Channel--enter-from-before';
+        default:
+            return 'Channel--enter-from-before';
+        }
+    })();
+
+    return (
+        <CSSTransition
+            in={props.show}
+            timeout={Animations.PAGE_SLIDE}
+            classNames={className}
+            mountOnEnter={true}
+            unmountOnExit={true}
+        >
+            <div className='Channel-body'>
+                <PageLine height={'100px'}/>
+                {props.previous}
+                <FormattedMessage
+                    id={'onboarding_wizard.channel.title'}
+                    defaultMessage="Let's create your first channel"
+                />
+                <FormattedMessage
+                    id={'onboarding_wizard.channel.description'}
+                    defaultMessage='Channels are where you can communicate with your team about a topic or project. What are you working on right now?'
+                />
+                <button
+                    className='btn btn-primary'
+                    onClick={props.next}
+                >
+                    <FormattedMessage
+                        id={'onboarding_wizard.next'}
+                        defaultMessage='Continue'
+                    />
+                </button>
+                <button
+                    className='tertiary-button'
+                    onClick={props.skip}
+                >
+                    <FormattedMessage
+                        id={'onboarding_wizard.skip'}
+                        defaultMessage='Skip for now'
+                    />
+                </button>
+                <QuickInput
+                    value={props.name}
+                    onChange={(e) => props.onChange(e.target.value)}
+                    autoFocus={true}
+                />
+                <PageLine height={'calc(100vh - 100px - 400px'}/>
+            </div>
+        </CSSTransition>
+    );
 };
 
-const TeamMember = () => {
-    return (<div>
-        {'team member'}
-    </div>);
+type ChannelsPreviewProps = {
+    channelName: string;
+    teamName: string;
+    show: boolean;
+    step: WizardStep;
+    direction: AnimationReason;
+}
+const ChannelsPreview = (props: ChannelsPreviewProps) => {
+    // TODO: Need to edit The SVG some so that the text appears in the SVG
+    const className = (() => {
+        switch (props.direction) {
+        case Animations.Reasons.ExitToBefore:
+            return 'ChannelsPreview--exit-to-before';
+        case Animations.Reasons.ExitToAfter:
+            return 'ChannelsPreview--exit-to-after';
+        case Animations.Reasons.EnterFromAfter:
+            return 'ChannelsPreview--enter-from-after';
+        case Animations.Reasons.EnterFromBefore:
+            return 'ChannelsPreview--enter-from-before';
+        default:
+            return 'ChannelsPreview--enter-from-before';
+        }
+    })();
+
+    return (
+        <CSSTransition
+            in={props.show}
+            timeout={Animations.PAGE_SLIDE}
+            classNames={className}
+            mountOnEnter={true}
+            unmountOnExit={true}
+        >
+            <div className='ChannelsPreview-body'>
+                {props.channelName}
+                {props.teamName}
+                <ChannelsPreviewSVG/>
+                <TeamMembers
+                    show={props.step === WizardSteps.InviteMembers}
+                    direction={(() => {
+                        if (props.step === WizardSteps.Channel) {
+                            return Animations.Reasons.ExitToBefore;
+                        } else if (props.step === WizardSteps.InviteMembers) {
+                            return Animations.Reasons.EnterFromBefore;
+                        }
+                        return Animations.Reasons.EnterFromBefore;
+                    })()}
+                />
+            </div>
+        </CSSTransition>
+    );
+};
+
+type InviteMembersProps = TransitionProps & {
+}
+const InviteMembers = (props: InviteMembersProps) => {
+    const className = (() => {
+        switch (props.direction) {
+        case Animations.Reasons.ExitToBefore:
+            return 'InviteMembers--exit-to-before';
+        case Animations.Reasons.ExitToAfter:
+            return 'InviteMembers--exit-to-after';
+        case Animations.Reasons.EnterFromAfter:
+            return 'InviteMembers--enter-from-after';
+        case Animations.Reasons.EnterFromBefore:
+            return 'InviteMembers--enter-from-before';
+        default:
+            return 'InviteMembers--enter-from-before';
+        }
+    })();
+
+    return (
+        <CSSTransition
+            in={props.show}
+            timeout={Animations.PAGE_SLIDE}
+            classNames={className}
+            mountOnEnter={true}
+            unmountOnExit={true}
+        >
+            <div className='InviteMembers-body'>
+                <PageLine height={'100px'}/>
+                {props.previous}
+
+                <FormattedMessage
+                    id={'onboarding_wizard.invite_members.title'}
+                    defaultMessage='Invite your team members'
+                />
+                <FormattedMessage
+                    id={'onboarding_wizard.invite_members.description'}
+                    defaultMessage='Collaboration is tough by yourself. Invite a few team members. Separate each email address with a space or comma.'
+                />
+                <button
+                    className='btn btn-primary'
+                    onClick={props.next}
+                >
+                    <FormattedMessage
+                        id={'onboarding_wizard.invite_members.next'}
+                        defaultMessage='Send invites'
+                    />
+                </button>
+                <button
+                    className='tertiary-button'
+                    onClick={props.skip}
+                >
+                    <FormattedMessage
+                        id={'onboarding_wizard.invite_members.skip'}
+                        defaultMessage="I'll do this later"
+                    />
+                </button>
+                {/*TODO: <UsersEmailsInput> or something like it here*/}
+                <PageLine height={'calc(100vh - 100px - 400px'}/>
+            </div>
+        </CSSTransition>
+    );
+};
+
+type TeamMembersProps = {
+    direction: AnimationReason;
+    show: boolean;
+}
+
+const TeamMembers = (props: TeamMembersProps) => {
+    const className = (() => {
+        switch (props.direction) {
+        case Animations.Reasons.ExitToBefore:
+            return 'TeamMembers--exit-to-before';
+        case Animations.Reasons.ExitToAfter:
+            return 'TeamMembers--exit-to-after';
+        case Animations.Reasons.EnterFromAfter:
+            return 'TeamMembers--enter-from-after';
+        case Animations.Reasons.EnterFromBefore:
+            return 'TeamMembers--enter-from-before';
+        default:
+            return 'TeamMembers--enter-from-before';
+        }
+    })();
+
+    return (
+        <CSSTransition
+            in={props.show}
+            timeout={Animations.PAGE_SLIDE}
+            classNames={className}
+            mountOnEnter={true}
+            unmountOnExit={true}
+        >
+            <div className='TeamMembers-body'>
+                <PersonWaveSVG className={'wave'}/>
+                <PersonSmileSVG className={'smile'}/>
+                <PersonElbowSVG className={'elbow'}/>
+            </div>
+        </CSSTransition>
+    );
 };
 
 const stepOrder = [
@@ -411,9 +671,9 @@ const Progress = (props: StepDotsProps) => {
 export default function FullscreenWizard(props: Props & RouteComponentProps) {
     // TODO: figure out why CSSTransition isn't working for this top level route.
     const shouldShowSetup = props.location.pathname.includes('/setup');
-    const [wizardStep, setWizardStep] = useState<WizardStep>(WizardSteps.UseCase);
+    const [currentStep, setCurrentStep] = useState<WizardStep>(WizardSteps.UseCase);
 
-    // const [_priorWizardStep, setPriorWizardStep] = useState<WizardStep>(WizardSteps.UseCase);
+    const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(WizardSteps.UseCase);
     const [form, setForm] = useState(emptyForm);
     const makeNext = useCallback((currentStep: WizardStep) => {
         return function innerMakeNext() {
@@ -421,30 +681,49 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
             if (stepIndex === -1 || stepIndex >= stepOrder.length) {
                 return;
             }
-            setWizardStep(stepOrder[stepIndex + 1]);
+            setCurrentStep(stepOrder[stepIndex + 1]);
 
-            // setPriorWizardStep(currentStep);
+            setMostRecentStep(currentStep);
         };
     }, []);
 
-    const getTransitionDirection = (step: WizardStep): 'backward' | 'current' | 'forward' => {
-        if (step === wizardStep) {
-            return 'current';
-        }
+    const getTransitionDirection = (step: WizardStep): AnimationReason => {
         const stepIndex = stepOrder.indexOf(step);
-        const currentStepIndex = stepOrder.indexOf(wizardStep);
-        if (stepIndex === -1 || currentStepIndex === -1) {
-            return 'current';
+        const currentStepIndex = stepOrder.indexOf(currentStep);
+        const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
+        if (stepIndex === -1 || currentStepIndex === -1 || mostRecentStepIndex === -1) {
+            return Animations.Reasons.EnterFromBefore;
         }
-        return currentStepIndex < stepIndex ? 'backward' : 'forward';
+        if (currentStep === step) {
+            return currentStepIndex > mostRecentStepIndex ? Animations.Reasons.EnterFromBefore : Animations.Reasons.EnterFromAfter;
+        }
+        return stepIndex > mostRecentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
+    };
+
+    const getTransitionDirectionMultiStep = (steps: WizardStep[]): AnimationReason => {
+        if (steps.length === 0) {
+            return Animations.Reasons.EnterFromBefore;
+        }
+        const stepIndexes = steps.map((step) => stepOrder.indexOf(step));
+        stepIndexes.sort();
+        const [stepIndexesMin, stepIndexesMax] = [stepIndexes[0], stepIndexes.length - 1];
+        const currentStepIndex = stepOrder.indexOf(currentStep);
+        const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
+        if (steps.length === 0 || stepIndexes.some((step) => step === -1) || currentStepIndex === -1 || mostRecentStepIndex === -1) {
+            return Animations.Reasons.EnterFromBefore;
+        }
+        if (currentStepIndex >= stepIndexesMin && currentStepIndex <= stepIndexesMax) {
+            return currentStepIndex > mostRecentStepIndex ? Animations.Reasons.EnterFromBefore : Animations.Reasons.EnterFromAfter;
+        }
+        return stepIndexesMax > mostRecentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
     };
     const goPrevious = useCallback(() => {
-        const stepIndex = stepOrder.indexOf(wizardStep);
+        const stepIndex = stepOrder.indexOf(currentStep);
         if (stepIndex <= 0) {
             return;
         }
-        setWizardStep(stepOrder[stepIndex - 1]);
-    }, [wizardStep]);
+        setCurrentStep(stepOrder[stepIndex - 1]);
+    }, [currentStep]);
     const skipPlugins = useCallback((skipped: boolean) => {
         if (skipped === form.plugins.skipped) {
             return;
@@ -457,6 +736,31 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
             },
         });
     }, [form]);
+    const skipChannel = useCallback((skipped: boolean) => {
+        if (skipped === form.channel.skipped) {
+            return;
+        }
+        setForm({
+            ...form,
+            channel: {
+                ...form.channel,
+                skipped,
+            },
+        });
+    }, [form]);
+    const skipTeamMembers = useCallback((skipped: boolean) => {
+        if (skipped === form.teamMembers.skipped) {
+            return;
+        }
+        setForm({
+            ...form,
+            teamMembers: {
+                ...form.teamMembers,
+                skipped,
+            },
+        });
+    }, [form]);
+
     const previous = (<div onClick={goPrevious}>
         {'^ '}
         <FormattedMessage
@@ -483,7 +787,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                 <div className='FullscreenWizard__logo'>
                     {'mattermost logo'}
                 </div>
-                <Progress step={wizardStep}/>
+                <Progress step={currentStep}/>
                 <div className='fullscreen-page-container'>
                     {
                         <UseCase
@@ -497,7 +801,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                                     },
                                 });
                             }}
-                            show={wizardStep === WizardSteps.UseCase}
+                            show={currentStep === WizardSteps.UseCase}
                             next={makeNext(WizardSteps.UseCase)}
                             direction={getTransitionDirection(WizardSteps.UseCase)}
                         />
@@ -523,15 +827,57 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                                 });
                             }}
                             previous={previous}
-                            show={wizardStep === WizardSteps.Plugins}
+                            show={currentStep === WizardSteps.Plugins}
                             direction={getTransitionDirection(WizardSteps.Plugins)}
                         />
                     }
                     {
-                        false && <Channel/>
+                        <Channel
+                            next={() => {
+                                makeNext(WizardSteps.Channel)();
+                                skipChannel(false);
+                            }}
+                            skip={() => {
+                                makeNext(WizardSteps.Channel)();
+                                skipChannel(true);
+                            }}
+                            previous={previous}
+                            show={currentStep === WizardSteps.Channel}
+                            direction={getTransitionDirection(WizardSteps.Channel)}
+                            name={form.channel.name}
+                            onChange={(newValue: string) => setForm({
+                                ...form,
+                                channel: {
+                                    ...form.channel,
+                                    name: newValue,
+                                },
+                            })}
+                        />
                     }
                     {
-                        false && <TeamMember/>
+                        <InviteMembers
+                            next={() => {
+                                // sendEmails and await response, then show the success button, then do the next transition
+                                makeNext(WizardSteps.InviteMembers)();
+                                skipTeamMembers(false);
+                            }}
+                            skip={() => {
+                                makeNext(WizardSteps.InviteMembers)();
+                                skipTeamMembers(true);
+                            }}
+                            previous={previous}
+                            show={currentStep === WizardSteps.InviteMembers}
+                            direction={getTransitionDirection(WizardSteps.InviteMembers)}
+                        />
+                    }
+                    {
+                        <ChannelsPreview
+                            show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
+                            step={currentStep}
+                            direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
+                            channelName={form.channel.name}
+                            teamName={'form.teamName'}
+                        />
                     }
                 </div>
             </div>
