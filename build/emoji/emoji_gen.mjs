@@ -20,19 +20,11 @@
 # 7. Restart Mattermost.
  */
 
-/* eslint-disable no-console */
-/* eslint-disable no-process-env */
-
-// eslint-disable-next-line import/no-unresolved
+import path from 'path';
 import * as Fs from 'fs/promises';
 import {readFileSync} from 'fs';
-import * as readline from 'readline';
 
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
-
-import path from 'path';
-
 import jsonData from 'emoji-datasource/emoji.json';
 import jsonCategories from 'emoji-datasource/categories.json';
 
@@ -43,22 +35,34 @@ const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
 const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
 
-const argv = yargs(hideBin(process.argv)).scriptName('emoji_gen').option('excluded-emoji-file', {
-    description: 'Path to a file containing emoji short names to exclude',
-    type: 'string',
-}).help().alias('help', 'h').argv;
+const argv = yargs(process.argv.slice(2)).
+    scriptName('emoji_gen').
+    option('excluded-emoji-file', {
+        description: 'Path to a file containing emoji short names to exclude',
+        type: 'string',
+    }).
+    help().
+    alias('help', 'h').argv;
+
+const argsExcludedEmojiFile = argv['excluded-emoji-file'];
+
+// eslint-disable-next-line no-console
+const log = console.log;
+const successLogColor = '\x1b[32m%s\x1b[0m';
+const errorLogColor = '\x1b[31m%s\x1b[0m';
+const warnLogColor = '\x1b[33m%s\x1b[0m';
 
 // copy image files
 const source = `node_modules/emoji-datasource-apple/img/apple/${EMOJI_SIZE}/`;
 const readDirPromise = Fs.readdir(source);
 endResults.push(readDirPromise);
 readDirPromise.then((images) => {
-    console.log(`I will now copy ${images.length} emoji images, this might take a while`);
+    log(`Copying ${images.length} emoji images, this might take a while`);
+
     for (const imageFile of images) {
-        endResults.push(Fs.copyFile(
-            path.join(source, imageFile),
-            path.join('images/emoji', imageFile),
-        ).catch((err) => console.log(`[ERROR] Failed to copy ${imageFile}: ${err}`)));
+        endResults.push(
+            Fs.copyFile(path.join(source, imageFile), path.join('images/emoji', imageFile)).
+                catch((err) => log(errorLogColor, `[ERROR] Failed to copy ${imageFile}: ${err}`)));
     }
 });
 Fs.copyFile('images/icon64x64.png', 'images/emoji/mattermost.png');
@@ -66,8 +70,8 @@ Fs.copyFile('images/icon64x64.png', 'images/emoji/mattermost.png');
 // copy sheet image
 const sheetSource = `node_modules/emoji-datasource-apple/img/apple/sheets/${EMOJI_SIZE}.png`;
 const sheetFile = 'images/emoji-sheets/apple-sheet.png';
-console.log('Copy sprite sheet');
-Fs.copyFile(sheetSource, sheetFile).catch((err) => console.log(`[ERROR] Failed to copy sheet file: ${err}`));
+log('Copying sprite sheet');
+Fs.copyFile(sheetSource, sheetFile).catch((err) => log(errorLogColor, `[ERROR] Failed to copy sheet file: ${err}`));
 
 // we'll load it as a two dimensional array so we can generate a Map out of it
 const emojiIndicesByAlias = [];
@@ -87,7 +91,6 @@ const skinCodes = {
     '1F3FF': 'dark_skin_tone',
     default: 'default',
 };
-
 const skinNames = {
     '1F3FB': 'LIGHT SKIN TONE',
     '1F3FC': 'MEDIUM LIGHT SKIN TONE',
@@ -109,7 +112,7 @@ function writeFile(fileName, filePath, data) {
     const promise = Fs.writeFile(filePath, data, writeOptions);
 
     promise.then(() => {
-        console.log(`${fileName} generated successfully.`);
+        log(successLogColor, `${fileName} generated successfully.`);
     });
     return promise;
 }
@@ -149,10 +152,12 @@ function genSkinVariations(emoji, index, nextOrder) {
 
 // Extract excluded emoji shortnames as an array
 const excludedEmoji = [];
-readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach(function(line){
-    excludedEmoji.push(line);
-});
-console.warn(`The following emoji will be excluded from the webapp: ${excludedEmoji}`);
+if (argsExcludedEmojiFile) {
+    readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach((line) => {
+        excludedEmoji.push(line);
+    });
+    log(warnLogColor, `[WARNING] The following emoji will be excluded from the webapp: ${excludedEmoji}`);
+}
 
 // Remove unwanted emoji
 const filteredEmojiJson = jsonData.filter((element) => {
@@ -312,7 +317,9 @@ endResults.push(goPromise);
 
 // If SERVER_DIR is defined we can update the file emoji_data.go in
 // the server directory
+// eslint-disable-next-line no-process-env
 if (process.env.SERVER_DIR) {
+    // eslint-disable-next-line no-process-env
     const destination = path.join(process.env.SERVER_DIR, 'model/emoji_data.go');
     goPromise.then(() => {
         // this is an obvious race condition, as goPromise might be the last one, and then executed out of the `all` call below,
@@ -320,15 +327,14 @@ if (process.env.SERVER_DIR) {
         const mvPromise = Fs.rename('emoji_data.go', destination);
         endResults.push(mvPromise);
         mvPromise.catch((err) => {
-            console.error(`ERROR: There was an error trying to move the emoji_data.go file: ${err}`);
+            log(errorLogColor, `[ERROR] There was an error trying to move the emoji_data.go file: ${err}`);
         });
     });
 } else {
-    console.warn('WARNING: $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server');
+    log(warnLogColor, '[WARNING] $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server');
 }
 
 // sprite css file
-
 const cssCats = categoryNames.filter((cat) => cat !== 'custom').map((cat) => `.emoji-category-${cat} { background-image: url('${sheetFile}'); }`);
 const cssEmojis = [];
 for (const key of emojiFilePositions.keys()) {
@@ -381,13 +387,8 @@ ${cssEmojis.join('\n')};
 endResults.push(writeFile('_emojisprite.scss', 'sass/components/_emojisprite.scss', cssRules));
 
 Promise.all(endResults).then(() => {
-    console.log('\n\nRemember to run `make i18n-extract` as categories might have changed.');
+    log(warnLogColor, '\nRemember to run `make i18n-extract` as categories might have changed.');
 }).catch((err) => {
     control.abort(); // cancel any other file writing
-    console.error(`ERROR: There was an error writing emojis: ${err}`);
-    // eslint-disable-next-line no-process-exit
-    process.exit(-1);
+    log(errorLogColor, `[ERROR] There was an error writing emojis: ${err}`);
 });
-
-/* eslint-enable no-console */
-/* eslint-enable no-process-env */
