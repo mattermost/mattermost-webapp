@@ -2,13 +2,15 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import Accordion from 'components/common/accordion/accordion';
+
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
+import Accordion from 'components/common/accordion/accordion';
+
 import {testSiteURL} from '../../../actions/admin_actions';
 
-import {Props} from '../admin_console';
+// import {Props} from '../admin_console';
 
 import './dashboard.scss';
 
@@ -62,7 +64,7 @@ const getItemColor = (status: string): string => {
     }
 };
 
-const WorkspaceOptimizationDashboard = (props: Props) => {
+const WorkspaceOptimizationDashboard = () => {
     const [loading, setLoading] = useState(true);
 
     const {location} = document;

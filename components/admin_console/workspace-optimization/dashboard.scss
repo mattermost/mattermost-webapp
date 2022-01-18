@@ -1,28 +1,30 @@
 .WorkspaceOptimizationDashboard {
     margin-left: 25px;
+
     ul.Accordion {
         width: 872px;
+
         li.accordion-item {
-            margin-top: 10px;
             border: 1px solid rgba(63, 67, 80, 0.08) !important;
+            margin-top: 10px;
 
             .accordion-item-header {
                 &__title {
-                    cursor: pointer;
                     margin-bottom: 5px;
-                    font-weight: 600;
+                    color: #1c58d9;
+                    cursor: pointer;
                     font-size: 14px;
-                    line-height: 14px;    
-                    color: #1C58D9;
-                  }
+                    font-weight: 600;
+                    line-height: 14px;
+                }
 
-                  &__description {
+                &__description {
+                    color: #3d3c40;
+                    font-size: 14px;
                     font-style: normal;
                     font-weight: normal;
-                    font-size: 14px;
                     line-height: 20px;
-                    color: #3D3C40;
-                  }
+                }
             }
 
             .accordion-item-container {

@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {RefObject} from 'react';
 
 import AccordionItem from './accordion_item';
 import './accordion.scss';
@@ -14,7 +14,7 @@ export type AccordionData = {
 type Props = {
     items: AccordionData[];
     openMultiple?: boolean;
-    headerClick: <T>(...args: T[]) => T | void;
+    headerClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
 };
 
 const Accordion = ({

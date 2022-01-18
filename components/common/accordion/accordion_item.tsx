@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect, useRef, useState} from 'react';
+import React, {RefObject, useEffect, useRef, useState} from 'react';
 
 import {AccordionData} from './accordion';
 
@@ -11,7 +11,7 @@ type Props = {
     isOpen: boolean;
     btnOnClick: () => void;
     openMultiple: boolean;
-    headerClick: <T>(...args: T[]) => T | void;
+    headerClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
 }
 
 const AccordionItem = ({
@@ -22,7 +22,7 @@ const AccordionItem = ({
     headerClick,
 }: Props): JSX.Element | null => {
     const contentRef = useRef<HTMLDivElement>(null);
-    const itemRef = useRef<HTMLDivElement>(null);
+    const itemRef = useRef<HTMLLIElement>(null);
 
     const [height, setHeight] = useState(0);
 
@@ -30,7 +30,7 @@ const AccordionItem = ({
 
     const toggle = () => {
         if (openMultiple) {
-            setOpen((currentValue: number) => !currentValue);
+            setOpen((currentValue: boolean) => !currentValue);
         } else if (btnOnClick) {
             btnOnClick();
         }
@@ -41,8 +41,11 @@ const AccordionItem = ({
     };
 
     useEffect(() => {
+        if (!contentRef?.current) {
+            return;
+        }
         if (isOpen || open) {
-            const contentEl = contentRef?.current;
+            const contentEl = contentRef.current;
             setHeight(contentEl.scrollHeight);
         } else {
             setHeight(0);
