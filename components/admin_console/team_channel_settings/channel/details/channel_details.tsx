@@ -46,6 +46,7 @@ export interface ChannelDetailsProps {
     channelPermissions: ChannelPermissions[];
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
+    channelGroupsEnabled: boolean;
     isDisabled?: boolean;
     actions: ChannelDetailsActions;
 }
@@ -734,19 +735,22 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     isDefault={isDefault}
                     onToggle={this.setToggles}
                     isDisabled={this.props.isDisabled}
+                    groupsSupported={this.props.channelGroupsEnabled}
                 />
 
-                <ChannelGroups
-                    synced={isSynced}
-                    channel={channel}
-                    totalGroups={totalGroups}
-                    groups={groups}
-                    removedGroups={removedGroups}
-                    onAddCallback={this.handleGroupChange}
-                    onGroupRemoved={this.handleGroupRemoved}
-                    setNewGroupRole={this.setNewGroupRole}
-                    isDisabled={this.props.isDisabled}
-                />
+                {this.props.channelGroupsEnabled &&
+                    <ChannelGroups
+                        synced={isSynced}
+                        channel={channel}
+                        totalGroups={totalGroups}
+                        groups={groups}
+                        removedGroups={removedGroups}
+                        onAddCallback={this.handleGroupChange}
+                        onGroupRemoved={this.handleGroupRemoved}
+                        setNewGroupRole={this.setNewGroupRole}
+                        isDisabled={this.props.isDisabled}
+                    />
+                }
 
                 {!isSynced &&
                     <ChannelMembers

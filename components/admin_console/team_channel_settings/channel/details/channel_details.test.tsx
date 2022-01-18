@@ -94,6 +94,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
         const additionalProps = {
             channelPermissions: [],
             guestAccountsEnabled: true,
+            channelGroupsEnabled: true,
             isDisabled: false,
         };
 

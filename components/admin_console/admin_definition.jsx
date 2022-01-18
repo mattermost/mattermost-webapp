@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
+import {LicenseSkus} from 'mattermost-redux/types/general';
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -197,6 +198,7 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
     },
@@ -532,7 +534,10 @@ const AdminDefinition = {
             title: t('admin.sidebar.channels'),
             title_default: 'Channels',
             isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.any(
+                    it.licensedForFeature('LDAPGroups'),
+                    it.licensedForSku(LicenseSkus.Professional),
+                )),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
@@ -548,6 +553,7 @@ const AdminDefinition = {
             title_default: 'Channels',
             isHidden: it.any(
                 it.licensedForFeature('LDAPGroups'),
+                it.licensedForSku(LicenseSkus.Professional),
                 it.not(it.enterpriseReady),
             ),
             schema: {
