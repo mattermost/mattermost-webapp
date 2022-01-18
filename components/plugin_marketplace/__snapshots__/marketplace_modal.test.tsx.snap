@@ -7,6 +7,7 @@ exports[`components/marketplace/ AllListing should render with no plugins 1`] = 
   <br />
   <PluginIcon
     className="icon__plugin"
+    size="61px"
   />
   <div
     className="mt-3 light"
@@ -128,6 +129,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
   <br />
   <PluginIcon
     className="icon__plugin"
+    size="61px"
   />
   <div
     className="mt-3 light"
