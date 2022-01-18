@@ -355,10 +355,6 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -743,10 +739,6 @@ exports[`components/create_post should match snapshot, can post; preview enabled
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -839,10 +831,6 @@ exports[`components/create_post should match snapshot, cannot post; preview disa
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -935,10 +923,6 @@ exports[`components/create_post should match snapshot, cannot post; preview enab
       <div />
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
