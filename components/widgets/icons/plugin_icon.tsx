@@ -11,12 +11,11 @@ type Props = React.HTMLAttributes<HTMLSpanElement> & {
 export default function PluginIcon(props: Props) {
     const {formatMessage} = useIntl();
 
-    const pixelSize = props.size + 'px';
     return (
         <span {...props}>
             <svg
-                width={pixelSize}
-                height={pixelSize}
+                width={props.size}
+                height={props.size}
                 viewBox='0 0 61 61'
                 aria-label={formatMessage({id: 'generic_icons.plugin', defaultMessage: 'Plugin Icon'})}
             >
@@ -50,5 +49,5 @@ export default function PluginIcon(props: Props) {
 }
 
 PluginIcon.defaultProps = {
-    size: '61',
+    size: '61px',
 };
