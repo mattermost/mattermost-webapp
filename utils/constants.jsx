@@ -264,6 +264,9 @@ export const ActionTypes = keyMirror({
     UNSUPPRESS_RHS: null,
 
     FIRST_CHANNEL_NAME: null,
+
+    POST_DRAFT_UPDATED: null,
+    COMMENT_DRAFT_UPDATED: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -625,8 +628,8 @@ export const StorageTypes = keyMirror({
 
 export const StoragePrefixes = {
     EMBED_VISIBLE: 'isVisible_',
-    COMMENT_DRAFT: 'comment_draft_',
-    DRAFT: 'draft_',
+    COMMENT_DRAFT: 'comment_draft_', // TODO remove me
+    DRAFT: 'draft_', // TODO remove me
     LOGOUT: '__logout__',
     LOGIN: '__login__',
     ANNOUNCEMENT: '__announcement__',

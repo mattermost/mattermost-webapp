@@ -8,11 +8,10 @@ import {Post, PostType} from 'mattermost-redux/types/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {GlobalState} from 'types/store';
-import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
+import {RhsState, FakePost, SearchType} from 'types/store/rhs';
 
 export function getSelectedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostId;
@@ -129,21 +128,6 @@ export function getIsSearchingPinnedPost(state: GlobalState): boolean {
 
 export function getIsSearchGettingMore(state: GlobalState): boolean {
     return state.entities.search.isSearchGettingMore;
-}
-
-export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
-    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: []};
-    const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
-
-    if (
-        typeof draft.message !== 'undefined' &&
-        typeof draft.uploadsInProgress !== 'undefined' &&
-        typeof draft.fileInfos !== 'undefined'
-    ) {
-        return draft;
-    }
-
-    return defaultDraft;
 }
 
 export function getIsRhsSuppressed(state: GlobalState): boolean {

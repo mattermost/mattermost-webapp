@@ -6,8 +6,6 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store/index.js';
 
-import {PostDraft} from 'types/store/rhs.js';
-
 import {ModalData} from 'types/actions.js';
 
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
@@ -24,22 +22,25 @@ import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selecto
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {Constants, StoragePrefixes} from 'utils/constants';
+import {Constants} from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
+import {updateCommentDraft} from 'actions/drafts';
 import {
     clearCommentDraftUploads,
-    updateCommentDraft,
     makeOnMoveHistoryIndex,
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
-import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
+import {getCommentDraft} from 'selectors/drafts';
+import {getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal} from 'actions/views/modals';
 import {isFeatureEnabled} from 'utils/utils';
+
+import {PostDraft} from 'types/drafts';
 
 import CreateComment from './create_comment';
 
@@ -55,7 +56,7 @@ function makeMapStateToProps() {
     return (state: GlobalState, ownProps: OwnProps) => {
         const err = state.requests.posts.createPost.error || {};
 
-        const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, ownProps.rootId);
+        const draft = getCommentDraft(state, ownProps.rootId);
 
         const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
         const messageInHistory = getMessageInHistoryItem(state);
@@ -103,15 +104,10 @@ function makeMapStateToProps() {
     };
 }
 
-function makeOnUpdateCommentDraft(rootId: string) {
-    return (draft?: PostDraft) => updateCommentDraft(rootId, draft);
-}
-
 type Actions = {
     clearCommentDraftUploads: () => void;
-    onUpdateCommentDraft: (draft?: PostDraft) => void;
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
-    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
+    updateCommentDraft: (rootId: string, draft?: PostDraft) => void;
+    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean; postProps?: Record<string, any>}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
     onMoveHistoryIndexForward: () => void;
@@ -125,7 +121,6 @@ type Actions = {
 }
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft: (draft?: PostDraft) => void;
     let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
@@ -141,7 +136,6 @@ function makeMapDispatchToProps() {
 
     return (dispatch: Dispatch, ownProps: OwnProps) => {
         if (rootId !== ownProps.rootId) {
-            onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId);
             onMoveHistoryIndexBack = makeOnMoveHistoryIndex(ownProps.rootId, -1);
             onMoveHistoryIndexForward = makeOnMoveHistoryIndex(ownProps.rootId, 1);
         }
@@ -160,8 +154,7 @@ function makeMapDispatchToProps() {
 
         return bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             clearCommentDraftUploads,
-            onUpdateCommentDraft,
-            updateCommentDraftWithRootId: updateCommentDraft,
+            updateCommentDraft,
             onSubmit,
             onResetHistoryIndex,
             onMoveHistoryIndexBack,

@@ -75,6 +75,8 @@ export default function configureStore(preloadedState) {
                     payload[reducerKey] = JSON.parse(newValue[reducerKey]);
                 }
 
+                // Note that this modifies everything in persisted reducers even if it doesn't produce a visible difference.
+                // We'll revisit this if that causes problems.
                 store.dispatch({
                     type: REHYDRATE,
                     key,

@@ -14,8 +14,6 @@ import {ActionResult} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from 'mattermost-redux/types/integrations.js';
 
-import {PostDraft} from 'types/store/rhs.js';
-
 import {ModalData} from 'types/actions.js';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -44,21 +42,26 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 
 import {connectionErrorCount} from 'selectors/views/system';
 
+import {updatePostDraft} from 'actions/drafts';
 import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
+import {getIsRhsExpanded} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 import {isFeatureEnabled} from 'utils/utils';
+
+import {getPostDraft} from 'selectors/drafts';
+
+import {PostDraft} from 'types/drafts';
 
 import CreatePost from './create_post';
 
@@ -70,7 +73,7 @@ function makeMapStateToProps() {
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
         const currentChannelTeammateUsername = getUser(state, currentChannel.teammate_id || '')?.username;
-        const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
+        const draft = getPostDraft(state, currentChannel.id);
         const latestReplyablePostId = getLatestReplyablePostId(state);
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
@@ -148,28 +151,16 @@ type Actions = {
     clearDraftUploads: () => void;
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
-    setDraft: (name: string, value: PostDraft | null) => void;
+    updatePostDraft: (name: string, value?: PostDraft) => void;
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
-    closeModal: (modalId: string) => void;
     executeCommand: (message: string, args: CommandArgs) => ActionResult;
     getChannelTimezones: (channelId: string) => ActionResult;
     scrollPostListToBottom: () => void;
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
-}
-
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
-function setDraft(key: string, value: PostDraft) {
-    if (value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, value);
 }
 
 function clearDraftUploads() {
@@ -191,7 +182,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             moveHistoryIndexForward,
             addReaction,
             removeReaction,
-            setDraft,
+            updatePostDraft,
             clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,

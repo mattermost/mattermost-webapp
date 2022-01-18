@@ -25,7 +25,7 @@ describe('components/CreateComment', () => {
     });
 
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
-    const rootId = '';
+    const rootId = 'rootId';
     const latestPostId = '3498nv24823948v23m4nv34';
 
     const baseProps = {
@@ -43,8 +43,7 @@ describe('components/CreateComment', () => {
         latestPostId,
         locale: 'en',
         clearCommentDraftUploads: jest.fn(),
-        onUpdateCommentDraft: jest.fn(),
-        updateCommentDraftWithRootId: jest.fn(),
+        updateCommentDraft: jest.fn(),
         onSubmit: jest.fn(),
         onResetHistoryIndex: jest.fn(),
         onMoveHistoryIndexBack: jest.fn(),
@@ -163,14 +162,13 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly update draft when handleEmojiClick is called', () => {
-        const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: '',
             uploadsInProgress: [],
             fileInfos: [],
         };
         const enableAddButton = false;
-        const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
+        const props = {...baseProps, draft, enableAddButton};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -191,10 +189,11 @@ describe('components/CreateComment', () => {
         wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
-        expect(onUpdateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.updateCommentDraft).toHaveBeenCalled();
 
         // Empty message case
-        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+        expect(baseProps.updateCommentDraft.mock.calls[0][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[0][1]).toEqual(
             expect.objectContaining({message: ':smile: '}),
         );
         expect(wrapper.state().draft.message).toBe(':smile: ');
@@ -205,7 +204,8 @@ describe('components/CreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
-        expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
+        expect(baseProps.updateCommentDraft.mock.calls[1][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[1][1]).toEqual(
             expect.objectContaining({message: 'test :smile:  '}),
         );
         expect(wrapper.state().draft.message).toBe('test :smile:  ');
@@ -216,7 +216,8 @@ describe('components/CreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
-        expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
+        expect(baseProps.updateCommentDraft.mock.calls[2][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[2][1]).toEqual(
             expect.objectContaining({message: 'test  :smile:  '}),
         );
         expect(wrapper.state().draft.message).toBe('test  :smile:  ');
@@ -237,13 +238,12 @@ describe('components/CreateComment', () => {
     });
 
     test('handleUploadError should update state with the correct error', () => {
-        const updateCommentDraftWithRootId = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft, updateCommentDraftWithRootId};
+        const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -256,9 +256,9 @@ describe('components/CreateComment', () => {
         instance.draftsForPost[props.rootId] = draft;
         instance.handleUploadError(testError1, 1, null, props.rootId);
 
-        expect(updateCommentDraftWithRootId).toHaveBeenCalled();
-        expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
-        expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
+        expect(baseProps.updateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.updateCommentDraft.mock.calls[0][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[0][1]).toEqual(
             expect.objectContaining({uploadsInProgress: [2, 3]}),
         );
         expect(wrapper.state().serverError.message).toBe(testError1);
@@ -268,8 +268,8 @@ describe('components/CreateComment', () => {
         const testError2 = 'test error 2';
         instance.handleUploadError(testError2, -1, null, props.rootId);
 
-        // should not call onUpdateCommentDraft
-        expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
+        // should not call updateCommentDraft
+        expect(baseProps.updateCommentDraft.mock.calls.length).toBe(1);
         expect(wrapper.state().serverError.message).toBe(testError2);
     });
 
@@ -298,13 +298,12 @@ describe('components/CreateComment', () => {
     });
 
     test('handleUploadStart should update comment draft correctly', () => {
-        const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, onUpdateCommentDraft, draft};
+        const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -315,8 +314,9 @@ describe('components/CreateComment', () => {
         wrapper.instance().focusTextbox = focusTextbox;
         wrapper.instance().handleUploadStart([4, 5]);
 
-        expect(onUpdateCommentDraft).toHaveBeenCalled();
-        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+        expect(baseProps.updateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.updateCommentDraft.mock.calls[0][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[0][1]).toEqual(
             expect.objectContaining({uploadsInProgress: [1, 2, 3, 4, 5]}),
         );
 
@@ -325,14 +325,13 @@ describe('components/CreateComment', () => {
     });
 
     test('handleFileUploadComplete should update comment draft correctly', () => {
-        const updateCommentDraftWithRootId = jest.fn();
         const fileInfos = [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}];
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos,
         };
-        const props = {...baseProps, updateCommentDraftWithRootId, draft};
+        const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -345,9 +344,9 @@ describe('components/CreateComment', () => {
         const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
         instance.handleFileUploadComplete(uploadCompleteFileInfo, [3], null, props.rootId);
-        expect(updateCommentDraftWithRootId).toHaveBeenCalled();
-        expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
-        expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
+        expect(baseProps.updateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.updateCommentDraft.mock.calls[0][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[0][1]).toEqual(
             expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos}),
         );
 
@@ -367,13 +366,12 @@ describe('components/CreateComment', () => {
     });
 
     test('should open PostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
-        const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
         };
-        const props = {...baseProps, onUpdateCommentDraft, draft};
+        const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -388,13 +386,12 @@ describe('components/CreateComment', () => {
     });
 
     test('should open PostDeletedModal when message is submitted to deleted root', () => {
-        const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
         };
-        const props = {...baseProps, onUpdateCommentDraft, draft};
+        const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -492,12 +489,13 @@ describe('components/CreateComment', () => {
         wrapper.instance().handleChange({target: {value: testMessage}});
 
         // The callback won't we called until after a short delay
-        expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
+        expect(baseProps.updateCommentDraft).not.toHaveBeenCalled();
 
         jest.runOnlyPendingTimers();
 
-        expect(baseProps.onUpdateCommentDraft).toHaveBeenCalled();
-        expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+        expect(baseProps.updateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.updateCommentDraft.mock.calls[0][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[0][1]).toEqual(
             expect.objectContaining({message: testMessage}),
         );
         expect(wrapper.state().draft.message).toBe(testMessage);
@@ -505,8 +503,6 @@ describe('components/CreateComment', () => {
     });
 
     it('handleChange should throw away invalid command error if user resumes typing', async () => {
-        const onUpdateCommentDraft = jest.fn();
-
         const error = new Error('No command found');
         error.server_error_id = 'api.command.execute_command.not_found.app_error';
         const onSubmit = jest.fn(() => Promise.reject(error));
@@ -516,7 +512,7 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, onUpdateCommentDraft, draft, onSubmit};
+        const props = {...baseProps, draft, onSubmit};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -528,7 +524,7 @@ describe('components/CreateComment', () => {
             message: '/fakecommand other text',
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
-        }, {ignoreSlash: false});
+        }, {ignoreSlash: false, postProps: {}});
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
@@ -540,7 +536,7 @@ describe('components/CreateComment', () => {
             message: 'some valid text',
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
-        }, {ignoreSlash: false});
+        }, {ignoreSlash: false, postProps: {}});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
@@ -803,7 +799,12 @@ describe('components/CreateComment', () => {
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(
+                ['@developers'],
+                0,
+                10,
+                expect.any(Function),
+            );
             expect(props.openModal).toHaveBeenCalled();
         });
 
@@ -877,7 +878,12 @@ describe('components/CreateComment', () => {
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(
+                ['@developers', '@boss', '@love', '@you', '@software-developers'],
+                0,
+                40,
+                expect.any(Function),
+            );
             expect(props.openModal).toHaveBeenCalled();
         });
 
@@ -919,7 +925,11 @@ describe('components/CreateComment', () => {
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 5, 10);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(
+                ['@developers'],
+                5,
+                10, expect.any(Function),
+            );
             expect(props.openModal).toHaveBeenCalled();
         });
 
@@ -948,7 +958,7 @@ describe('components/CreateComment', () => {
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
                 fileInfos: [{}, {}, {}],
-            }, {ignoreSlash: false});
+            }, {ignoreSlash: false, postProps: {}});
             expect(preventDefault).toHaveBeenCalled();
 
             wrapper.setProps({onSubmit});
@@ -958,7 +968,7 @@ describe('components/CreateComment', () => {
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
                 fileInfos: [{}, {}, {}],
-            }, {ignoreSlash: true});
+            }, {ignoreSlash: true, postProps: {}});
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
 
@@ -982,22 +992,24 @@ describe('components/CreateComment', () => {
             );
 
             const submitPromise = wrapper.instance().handleSubmit({preventDefault});
-            expect(props.onUpdateCommentDraft).not.toHaveBeenCalled();
+            expect(baseProps.updateCommentDraft).not.toHaveBeenCalled();
 
             await submitPromise;
-            expect(props.onUpdateCommentDraft).toHaveBeenCalledWith(props.draft);
+            expect(baseProps.updateCommentDraft).toHaveBeenCalledWith(rootId, props.draft);
         });
         ['channel', 'all', 'here'].forEach((mention) => {
             it(`should set mentionHighlightDisabled when user does not have permission and message contains channel @${mention}`, async () => {
+                const draft = {
+                    message: `Test message @${mention}`,
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                };
+
                 const props = {
                     ...baseProps,
                     useChannelMentions: false,
                     enableConfirmNotificationsToChannel: false,
-                    draft: {
-                        message: `Test message @${mention}`,
-                        uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
-                    },
+                    draft,
                     onSubmit,
                 };
 
@@ -1006,8 +1018,7 @@ describe('components/CreateComment', () => {
                 );
 
                 wrapper.instance().handleSubmit({preventDefault});
-                expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props.mentionHighlightDisabled).toBe(true);
+                expect(onSubmit.mock.calls[0][1].postProps).toEqual({mentionHighlightDisabled: true});
             });
 
             it(`should not set mentionHighlightDisabled when user does have permission and message contains channel channel @${mention}`, async () => {
@@ -1028,8 +1039,7 @@ describe('components/CreateComment', () => {
                 );
 
                 wrapper.instance().handleSubmit({preventDefault});
-                expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props).toBe(undefined);
+                expect(onSubmit.mock.calls[0][1].postProps).toEqual({});
             });
         });
 
@@ -1050,19 +1060,17 @@ describe('components/CreateComment', () => {
             );
 
             wrapper.instance().handleSubmit({preventDefault});
-            expect(onSubmit).toHaveBeenCalled();
-            expect(wrapper.state('draft').props).toBe(undefined);
+            expect(onSubmit.mock.calls[0][1].postProps).toEqual({});
         });
     });
 
     test('removePreview should remove file info and upload in progress with corresponding id', () => {
-        const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [4, 5, 6],
             fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
-        const props = {...baseProps, draft, onUpdateCommentDraft};
+        const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -1071,14 +1079,16 @@ describe('components/CreateComment', () => {
         wrapper.setState({draft});
 
         wrapper.instance().removePreview(3);
-        expect(onUpdateCommentDraft).toHaveBeenCalled();
-        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+        expect(baseProps.updateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.updateCommentDraft.mock.calls[0][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[0][1]).toEqual(
             expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]}),
         );
         expect(wrapper.state().draft.fileInfos).toEqual([{id: 1}, {id: 2}]);
 
         wrapper.instance().removePreview(5);
-        expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
+        expect(baseProps.updateCommentDraft.mock.calls[1][0]).toEqual(props.rootId);
+        expect(baseProps.updateCommentDraft.mock.calls[1][1]).toEqual(
             expect.objectContaining({uploadsInProgress: [4, 6]}),
         );
         expect(wrapper.state().draft.uploadsInProgress).toEqual([4, 6]);

@@ -13,7 +13,6 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {
     clearCommentDraftUploads,
-    updateCommentDraft,
     makeOnMoveHistoryIndex,
     submitPost,
     submitReaction,
@@ -21,9 +20,10 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
+import {updateCommentDraft} from 'actions/drafts';
 import * as HookActions from 'actions/hooks';
 import {StoragePrefixes} from 'utils/constants';
 
@@ -66,7 +66,6 @@ jest.mock('actions/storage', () => {
     const original = jest.requireActual('actions/storage');
     return {
         ...original,
-        setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
         actionOnGlobalItemsWithPrefix: (...args) => ({type: 'MOCK_ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', args}),
     };
 });
@@ -83,6 +82,9 @@ const latestPostId = 'latestPostId';
 
 describe('rhs view actions', () => {
     const initialState = {
+        drafts: {
+            commentDrafts: {},
+        },
         entities: {
             posts: {
                 posts: {
@@ -155,8 +157,15 @@ describe('rhs view actions', () => {
 
     let store;
 
+    const realDateNow = Date.now;
+
     beforeEach(() => {
+        Date.now = () => 12345;
         store = mockStore(initialState);
+    });
+
+    afterEach(() => {
+        Date.now = realDateNow;
     });
 
     describe('clearCommentDraftUploads', () => {
@@ -184,20 +193,6 @@ describe('rhs view actions', () => {
         });
     });
 
-    describe('updateCommentDraft', () => {
-        const draft = {message: 'test msg', fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
-
-        test('it calls setGlobalItem action correctly', () => {
-            store.dispatch(updateCommentDraft(rootId, draft));
-
-            const testStore = mockStore(initialState);
-
-            testStore.dispatch(setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft));
-
-            expect(store.getActions()).toEqual(testStore.getActions());
-        });
-    });
-
     describe('makeOnMoveHistoryIndex', () => {
         test('it moves comment history index back', () => {
             const onMoveHistoryIndex = makeOnMoveHistoryIndex(rootId, -1);
@@ -220,7 +215,14 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
 
-            testStore.dispatch(updateCommentDraft(rootId, {message: 'test message', fileInfos: [], uploadsInProgress: []}));
+            testStore.dispatch(updateCommentDraft(rootId, {
+                message: 'test message',
+                fileInfos: [],
+                uploadsInProgress: [],
+                channelId,
+                createAt: Date.now(),
+                updateAt: Date.now(),
+            }));
 
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),

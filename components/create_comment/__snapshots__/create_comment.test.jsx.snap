@@ -13,7 +13,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
   >
     <div
       className="post-create-body comment-create-body"
-      id=""
+      id="rootId"
     >
       <div
         className="post-body__cell"
@@ -39,7 +39,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           onMouseUp={[Function]}
           onSelect={[Function]}
           preview={false}
-          rootId=""
+          rootId="rootId"
           suggestionList={[Function]}
           useChannelMentions={true}
           value=""
@@ -60,7 +60,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
         >
           <Connect(MsgTyping)
             channelId="g6139tbospd18cmxroesdk3kkc"
-            postId=""
+            postId="rootId"
           />
         </div>
         <div
@@ -104,7 +104,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
   >
     <div
       className="post-create-body comment-create-body"
-      id=""
+      id="rootId"
     >
       <div
         className="post-body__cell"
@@ -130,7 +130,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onMouseUp={[Function]}
           onSelect={[Function]}
           preview={false}
-          rootId=""
+          rootId="rootId"
           suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
@@ -148,7 +148,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
-            rootId=""
+            rootId="rootId"
           />
           <div>
             <EmojiPickerOverlay
@@ -188,7 +188,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         >
           <Connect(MsgTyping)
             channelId="g6139tbospd18cmxroesdk3kkc"
-            postId=""
+            postId="rootId"
           />
         </div>
         <div
@@ -231,7 +231,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
   >
     <div
       className="post-create-body comment-create-body"
-      id=""
+      id="rootId"
     >
       <div
         className="post-body__cell"
@@ -257,7 +257,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onMouseUp={[Function]}
           onSelect={[Function]}
           preview={false}
-          rootId=""
+          rootId="rootId"
           suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
@@ -275,7 +275,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
             onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
-            rootId=""
+            rootId="rootId"
           />
         </span>
       </div>
@@ -291,7 +291,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         >
           <Connect(MsgTyping)
             channelId="g6139tbospd18cmxroesdk3kkc"
-            postId=""
+            postId="rootId"
           />
         </div>
         <div
@@ -346,7 +346,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
   >
     <div
       className="post-create-body comment-create-body"
-      id=""
+      id="rootId"
     >
       <div
         className="post-body__cell"
@@ -372,7 +372,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onMouseUp={[Function]}
           onSelect={[Function]}
           preview={false}
-          rootId=""
+          rootId="rootId"
           suggestionList={[Function]}
           useChannelMentions={true}
           value=""
@@ -390,7 +390,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
-            rootId=""
+            rootId="rootId"
           />
           <div>
             <EmojiPickerOverlay
@@ -430,7 +430,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         >
           <Connect(MsgTyping)
             channelId="g6139tbospd18cmxroesdk3kkc"
-            postId=""
+            postId="rootId"
           />
         </div>
         <div
@@ -473,7 +473,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   >
     <div
       className="post-create-body comment-create-body"
-      id=""
+      id="rootId"
     >
       <div
         className="post-body__cell"
@@ -499,7 +499,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onMouseUp={[Function]}
           onSelect={[Function]}
           preview={false}
-          rootId=""
+          rootId="rootId"
           suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
@@ -517,7 +517,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             onUploadProgress={[Function]}
             onUploadStart={[Function]}
             postType="comment"
-            rootId=""
+            rootId="rootId"
           />
           <div>
             <EmojiPickerOverlay
@@ -557,7 +557,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         >
           <Connect(MsgTyping)
             channelId="g6139tbospd18cmxroesdk3kkc"
-            postId=""
+            postId="rootId"
           />
         </div>
         <div

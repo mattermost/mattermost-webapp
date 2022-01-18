@@ -12,7 +12,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
+import Constants, {ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
     containsAtChannel,
@@ -45,7 +45,7 @@ import TextboxLinks from 'components/textbox/textbox_links';
 
 import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/drafts';
 import {Post, PostMetadata} from 'mattermost-redux/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import EmojiMap from 'utils/emoji_map';
@@ -262,7 +262,7 @@ type Props = {
         /**
       *  func called for setting drafts
       */
-        setDraft: (name: string, value: PostDraft | null) => void;
+        updatePostDraft: (channelId: string, value?: PostDraft) => void;
 
         /**
       *  func called for editing posts
@@ -327,7 +327,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
     private lastBlurAt = 0;
     private lastChannelSwitchAt = 0;
-    private draftsForChannel: {[channelID: string]: PostDraft | null} = {}
+    private draftsForChannel: {[channelID: string]: PostDraft | undefined} = {}
     private lastOrientation?: string;
     private saveDraftFrame?: number | null;
 
@@ -422,7 +422,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     saveDraft = (props = this.props) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
-            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            props.actions.updatePostDraft(channelId, this.draftsForChannel[channelId]);
             clearTimeout(this.saveDraftFrame);
             this.saveDraftFrame = null;
         }
@@ -586,8 +586,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             clearTimeout(this.saveDraftFrame);
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
-        this.draftsForChannel[channelId] = null;
+        this.props.actions.updatePostDraft(channelId, undefined);
+        this.draftsForChannel[channelId] = undefined;
 
         const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER;
         if (shouldCompleteTip) {
@@ -792,8 +792,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             this.props.actions.removeReaction(postId, emojiName);
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
-        this.draftsForChannel[channelId] = null;
+        this.props.actions.updatePostDraft(channelId, undefined);
+        this.draftsForChannel[channelId] = undefined;
     }
 
     focusTextbox = (keepFocus = false) => {
@@ -884,7 +884,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
 
         this.saveDraftFrame = window.setTimeout(() => {
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+            this.props.actions.updatePostDraft(channelId, draft);
         }, CreatePostDraftTimeoutMilliseconds);
         this.draftsForChannel[channelId] = draft;
     }
@@ -932,7 +932,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             uploadsInProgress,
         };
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.updatePostDraft(channelId, draft);
         this.draftsForChannel[channelId] = draft;
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
@@ -964,7 +964,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
 
         this.draftsForChannel[channelId] = draft;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.updatePostDraft(channelId, draft);
     }
 
     handleUploadError = (err: string | ServerError, clientId: string, channelId: string) => {
@@ -984,7 +984,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                     ...draft,
                     uploadsInProgress,
                 };
-                this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
+                this.props.actions.updatePostDraft(channelId, modifiedDraft);
                 this.draftsForChannel[channelId] = modifiedDraft;
             }
         }
@@ -1026,7 +1026,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             };
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
+        this.props.actions.updatePostDraft(channelId, modifiedDraft);
         this.draftsForChannel[channelId] = modifiedDraft;
 
         this.handleFileUploadChange();
@@ -1224,7 +1224,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             message,
         };
         const channelId = this.props.currentChannel.id;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.updatePostDraft(channelId, draft);
         this.draftsForChannel[channelId] = draft;
 
         if (shouldFocus) {
@@ -1552,4 +1552,3 @@ class CreatePost extends React.PureComponent<Props, State> {
 }
 
 export default injectIntl(CreatePost);
-/* eslint-enable react/no-string-refs */

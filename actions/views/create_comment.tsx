@@ -20,16 +20,19 @@ import {
 import {Posts} from 'mattermost-redux/constants';
 import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
-import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
+import {updateCommentDraft} from 'actions/drafts';
+import * as PostActions from 'actions/post_actions.jsx';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import EmojiMap from 'utils/emoji_map';
-import {getPostDraft} from 'selectors/rhs';
+
+import {getCommentDraft} from 'selectors/drafts';
+
+import {PostDraft} from 'types/drafts';
 
 import * as Utils from 'utils/utils.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
-import {PostDraft} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -43,24 +46,15 @@ export function clearCommentDraftUploads() {
     });
 }
 
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
-export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
-    const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
-    if (draft) {
-        localStorage.setItem(key, JSON.stringify(draft));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, draft);
-}
-
 export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
 
     return () => (dispatch: DispatchFunc, getState: () => GlobalState) => {
-        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
-        if (draft.message !== '' && draft.message !== getMessageInHistory(getState())) {
+        const state = getState();
+
+        const draft = getCommentDraft(state, rootId);
+
+        if (draft.message !== '' && draft.message !== getMessageInHistory(state)) {
             return {data: true};
         }
 
@@ -77,7 +71,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     };
 }
 
-export function submitPost(channelId: string, rootId: string, draft: PostDraft) {
+export function submitPost(channelId: string, rootId: string, draft: PostDraft, postProps?: Record<string, any>) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -94,7 +88,7 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft) 
             user_id: userId,
             create_at: time,
             metadata: {},
-            props: {...draft.props},
+            props: {...postProps},
         };
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));
@@ -158,12 +152,12 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
 }
 
 export function makeOnSubmit(channelId: string, rootId: string, latestPostId: string) {
-    return (draft: PostDraft, options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
+    return (draft: PostDraft, options: {ignoreSlash?: boolean; postProps?: Record<string, any>} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
 
-        dispatch(updateCommentDraft(rootId, null));
+        dispatch(updateCommentDraft(rootId));
 
         const isReaction = Utils.REACTION_PATTERN.exec(message);
 
@@ -180,7 +174,7 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
                 throw err;
             }
         } else {
-            dispatch(submitPost(channelId, rootId, draft));
+            dispatch(submitPost(channelId, rootId, draft, options.postProps));
         }
         return {data: true};
     };

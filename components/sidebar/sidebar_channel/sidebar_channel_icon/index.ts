@@ -8,8 +8,8 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {getPostDraft} from 'selectors/rhs';
-import {StoragePrefixes} from 'utils/constants';
+import {hasPostDraft} from 'selectors/drafts';
+
 import {GlobalState} from 'types/store';
 
 import SidebarChannelIcon from './sidebar_channel_icon';
@@ -18,16 +18,13 @@ type OwnProps = {
     channel?: Channel;
 }
 
-function hasDraft(draft: any, currentChannelId?: string, channel?: Channel) {
-    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel?.id;
-}
-
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const channel = ownProps.channel;
+
     const currentChannelId = getCurrentChannelId(state);
-    const draft = ownProps.channel?.id ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id) : false;
 
     return {
-        hasDraft: hasDraft(draft, currentChannelId, ownProps.channel),
+        hasDraft: currentChannelId !== channel?.id && hasPostDraft(state, channel?.id ?? ''),
     };
 }
 

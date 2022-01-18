@@ -40,9 +40,9 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
-import {getPostDraft} from 'selectors/rhs';
+import {hasPostDraft} from 'selectors/drafts';
 import store from 'stores/redux_store.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -222,7 +222,6 @@ class SwitchChannelSuggestion extends Suggestion {
 function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const channel = ownProps.item && ownProps.item.channel;
     const channelId = channel ? channel.id : '';
-    const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
     const user = channel && getUser(state, channel.userId);
     const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
     let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && getDirectTeammate(state, channel.id);
@@ -236,7 +235,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
 
     return {
         channelMember: getMyChannelMemberships(state)[channelId],
-        hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length),
+        hasDraft: hasPostDraft(state, channel.id),
         userImageUrl,
         dmChannelTeammate,
         status,

@@ -13,7 +13,7 @@ import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers
 import * as GlobalActions from 'actions/global_actions';
 import EmojiMap from 'utils/emoji_map';
 
-import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import FileUpload from 'components/file_upload';
@@ -64,7 +64,7 @@ const actionsProp = {
     clearDraftUploads: jest.fn(),
     onSubmitPost: jest.fn(),
     selectPostFromRightHandSideSearchByPostId: jest.fn(),
-    setDraft: jest.fn(),
+    updatePostDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
     setShowPreview: jest.fn(),
@@ -276,8 +276,8 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe('test  :smile: ');
     });
 
-    it('onChange textbox should call setDraft and change message state', () => {
-        const setDraft = jest.fn();
+    it('onChange textbox should call updatePostDraft and change message state', () => {
+        const updatePostDraft = jest.fn();
         const draft = {
             ...draftProp,
             message: 'change',
@@ -287,16 +287,16 @@ describe('components/create_post', () => {
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft,
+                    updatePostDraft,
                 },
             }),
         );
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('change', {target: {value: 'change'}});
-        expect(setDraft).not.toHaveBeenCalled();
+        expect(updatePostDraft).not.toHaveBeenCalled();
         jest.runOnlyPendingTimers();
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
+        expect(updatePostDraft).toHaveBeenCalledWith(currentChannelProp.id, draft);
     });
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
@@ -739,13 +739,13 @@ describe('components/create_post', () => {
     });
 
     it('check for handleFileUploadStart callback', () => {
-        const setDraft = jest.fn();
+        const updatePostDraft = jest.fn();
 
         const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft,
+                    updatePostDraft,
                 },
             }),
         );
@@ -761,17 +761,17 @@ describe('components/create_post', () => {
         };
 
         instance.handleUploadStart(clientIds, currentChannelProp.id);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
+        expect(updatePostDraft).toHaveBeenCalledWith(currentChannelProp.id, draft);
     });
 
     it('check for handleFileUploadComplete callback', () => {
-        const setDraft = jest.fn();
+        const updatePostDraft = jest.fn();
 
         const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft,
+                    updatePostDraft,
                 },
             }),
         );
@@ -801,17 +801,17 @@ describe('components/create_post', () => {
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+        expect(updatePostDraft).toHaveBeenCalledWith(currentChannelProp.id, expectedDraft);
     });
 
     it('check for handleUploadError callback', () => {
-        const setDraft = jest.fn();
+        const updatePostDraft = jest.fn();
 
         const wrapper = shallowWithIntl(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft,
+                    updatePostDraft,
                 },
             }),
         );
@@ -830,7 +830,7 @@ describe('components/create_post', () => {
         instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
         instance.handleUploadError('error message', 'a', currentChannelProp.id);
 
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(updatePostDraft).toHaveBeenCalledWith(currentChannelProp.id, draftProp);
     });
 
     it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
@@ -841,7 +841,7 @@ describe('components/create_post', () => {
     });
 
     it('Remove preview from fileInfos', () => {
-        const setDraft = jest.fn();
+        const updatePostDraft = jest.fn();
         const fileInfos = {
             id: 'a',
             extension: 'jpg',
@@ -859,7 +859,7 @@ describe('components/create_post', () => {
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft,
+                    updatePostDraft,
                 },
                 draft: {
                     ...draftProp,
@@ -871,8 +871,8 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         instance.handleFileUploadChange = jest.fn();
         instance.removePreview('a');
-        expect(setDraft).toHaveBeenCalledTimes(1);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(updatePostDraft).toHaveBeenCalledTimes(1);
+        expect(updatePostDraft).toHaveBeenCalledWith(currentChannelProp.id, draftProp);
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
