@@ -1,26 +1,46 @@
-import { useState } from 'react';
-import { AccordionData } from '../types';
-import AccordionItem from './AccordionItem';
-import './Accordion.css';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import React from 'react';
 
-function Accordion({ items }: { items: Array<AccordionData> }) {
-  const [currentIdx, setCurrentIdx] = useState(-1);
-  const btnOnClick = (idx: number) => {
-    setCurrentIdx((currentValue) => (currentValue !== idx ? idx : -1));
-  };
+import AccordionItem from './accordion_item';
+import './accordion.scss';
 
-  return (
-    <ul className="accordion">
-      {items.map((item, idx) => (
-        <AccordionItem
-          key={idx}
-          data={item}
-          isOpen={idx === currentIdx}
-          btnOnClick={() => btnOnClick(idx)}
-        />
-      ))}
-    </ul>
-  );
-}
+export type AccordionData = {
+    title: string;
+    description: string;
+    items: React.ReactNode;
+};
+
+type Props = {
+    items: AccordionData[];
+    openMultiple?: boolean;
+    headerClick: <T>(...args: T[]) => T | void;
+};
+
+const Accordion = ({
+    items,
+    openMultiple,
+    headerClick,
+}: Props): JSX.Element | null => {
+    const [currentIdx, setCurrentIdx] = React.useState(-1);
+    const btnOnClick = (idx: number) => {
+        setCurrentIdx((currentValue: number) => (currentValue === idx ? -1 : idx));
+    };
+
+    return (
+        <ul className='Accordion'>
+            {items.map((item, idx) => (
+                <AccordionItem
+                    key={idx.toString()}
+                    data={item}
+                    isOpen={idx === currentIdx}
+                    btnOnClick={() => btnOnClick(idx)}
+                    openMultiple={Boolean(openMultiple)}
+                    headerClick={headerClick}
+                />
+            ))}
+        </ul>
+    );
+};
 
 export default Accordion;

@@ -2,12 +2,15 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
+import Accordion from 'components/common/accordion/accordion';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 
 import {Props} from '../admin_console';
+
+import './dashboard.scss';
 
 type DataModel = {
     [key: string]: {
@@ -25,23 +28,6 @@ type ItemModel = {
     infoUrl: string;
     status: 'none' | 'info' | 'warning' | 'error';
 }
-
-const Accordion = styled.div`
-    margin: 12px;
-    border: 1px solid #BBB;
-    box-shadow: 0 0 2px rgba(0,0,0,0.2);
-    border-radius: 4px;
-    background: white;
-`;
-
-const AccordionHeader = styled.div`
-    padding: 12px;
-    border-bottom: 1px solid #BBB;
-
-    h4 {
-        margin: 0 0 6px 0;
-    }
-`;
 
 const AccordionItem = styled.div<{iconColor: string}>`
     padding: 12px;
@@ -83,26 +69,26 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
     const data: DataModel = {
         updates: {
-            title: 'Updates',
-            description: '"Updates" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            title: 'Updates and Errors',
+            description: 'You have an update to consider',
             items: [],
         },
         configuration: {
             title: 'Configuration',
-            description: '"Configuration" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            description: 'You have configuration problems to resolve',
             items: [
                 {
                     id: 'ssl',
-                    title: 'SSL',
-                    description: '"SSL" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+                    title: 'Configure SSL to make your server more secure',
+                    description: 'You should configure SSL to secure how your server is accessed in a production environment.',
                     configUrl: '/ssl-settings',
                     infoUrl: 'https://www.google.de',
                     status: location.protocol === 'https:' ? 'none' : 'error',
                 },
                 {
                     id: 'session-length',
-                    title: 'Session length',
-                    description: '"Session Length" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+                    title: 'Session length is still set to defaults',
+                    description: 'Your session length is still set to the default of 30 days. Most servers adjust this according to thier organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
                     configUrl: '/session-length',
                     infoUrl: 'https://www.google.de',
                     status: 'none',
@@ -111,12 +97,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         },
         access: {
             title: 'Workspace Access',
-            description: '"Workspace Access" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            description: 'Web server settings could be affecting access.',
             items: [
                 {
                     id: 'site-url',
-                    title: 'Site URL',
-                    description: '"Site URL" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+                    title: 'Misconfigured Web Server',
+                    description: 'Your webserver settings are not passing a live URL test, this would prevent users from accessing this workspace, we recommend updating your settings.',
                     configUrl: '/site-url',
                     infoUrl: 'https://www.google.de',
                     status: 'none',
@@ -137,29 +123,38 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         setTimeout(() => testSiteURL(onSuccess, onError, location.origin), 1000);
     }, []);
 
-    const dataKey = Object.keys(data);
+    const prepareDataForAccordion = () => {
+        const accData: any = [];
+        const dataKeys = Object.keys(data);
+
+        dataKeys.forEach((key: string) => {
+            const items = data[key].items.map((item) => (
+                <AccordionItem
+                    key={`${key}-item_${item.id}`}
+                    iconColor={getItemColor(item.status)}
+                >
+                    <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
+                    <p>{item.description}</p>
+                </AccordionItem>
+            ));
+            accData.push({
+                title: data[key].title,
+                description: data[key].description,
+                items,
+            });
+        });
+
+        return accData;
+    };
 
     return loading ? <p>{'Loading ...'}</p> : (
-        <div>
+        <div className='WorkspaceOptimizationDashboard'>
             <h1>{'Workspace Optimization Dashboard'}</h1>
             <hr/>
-            {dataKey.map((key) => (
-                <Accordion key={key}>
-                    <AccordionHeader>
-                        <h4>{data[key].title}</h4>
-                        <p>{data[key].description}</p>
-                    </AccordionHeader>
-                    {data[key].items.map((item) => (
-                        <AccordionItem
-                            key={`${key}-item_${item.id}`}
-                            iconColor={getItemColor(item.status)}
-                        >
-                            <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
-                            <p>{item.description}</p>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            ))}
+            <Accordion
+                items={prepareDataForAccordion()}
+                openMultiple={true}
+            />
         </div>
     );
 };

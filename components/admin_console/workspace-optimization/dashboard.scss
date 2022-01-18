@@ -1,0 +1,36 @@
+.WorkspaceOptimizationDashboard {
+    margin-left: 25px;
+    ul.Accordion {
+        width: 872px;
+        li.accordion-item {
+            margin-top: 10px;
+            border: 1px solid rgba(63, 67, 80, 0.08) !important;
+
+            .accordion-item-header {
+                &__title {
+                    cursor: pointer;
+                    margin-bottom: 5px;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 14px;    
+                    color: #1C58D9;
+                  }
+
+                  &__description {
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: #3D3C40;
+                  }
+            }
+
+            .accordion-item-container {
+                &__content {
+                    border-top: none !important;
+                    background-color: rgb(255, 255, 255);
+                }
+            }
+        }
+    }
+}
