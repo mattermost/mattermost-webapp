@@ -103,7 +103,6 @@ class ShowFormat extends PureComponent {
 
     render() {
         const { formatMessage } = this.props.intl;
-        console.log(formatMessage, 'formatMessage')
         if (isMobileApp()) {
             //do nothing
         }

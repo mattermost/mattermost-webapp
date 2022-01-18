@@ -31,6 +31,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import { ApplyHotkeyMarkdownOptions } from 'utils/utils.jsx';
+import { applyMarkdown } from 'utils/apply_markdown.utils';
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
@@ -429,7 +430,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     };
 
     applyMarkdown = (options: ApplyHotkeyMarkdownOptions) => {
-        const res = Utils.applyMarkdown(options);
+        const res = applyMarkdown(options);
 
         this.setState(
             {

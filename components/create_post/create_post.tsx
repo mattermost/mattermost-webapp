@@ -69,7 +69,7 @@ import { Props, State } from "./create_post.types";
 import { MarkdownFormattedMessage, MarkdownMessageType } from "components/markdown_formatted_message/markdown_formatted_message";
 import { ToggleFormattingBar } from "components/toggle_formatting_bar/toggle_formatting_bar";
 import { FormattingBar } from "components/formatting_bar/formatting_bar";
-import { ApplyHotkeyMarkdownOptions } from "utils/utils.jsx";
+import { ApplyHotkeyMarkdownOptions, applyMarkdown } from "utils/apply_markdown.utils";
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -1135,7 +1135,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     };
 
     applyMarkdown = (params: ApplyHotkeyMarkdownOptions) => {
-        const res = Utils.applyMarkdown(params);
+        const res = applyMarkdown(params);
 
         this.setState(
             {
@@ -1561,14 +1561,21 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 }
                             />
                             <FormattingBar applyMarkdown={this.applyMarkdown} value={message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
-
+                            <span className={classNames('post-body__actions', {
+                                    formattingBarOpen: this.state.isFormattingBarVisible,
+                                    ['--top']: true
+                                })}>
+                                {showFormat}
+                            </span>
                             <span
                                 ref={this.createPostControlsRef}
-                                className={classNames('post-body__actions', {formattingBarOpen: this.state.isFormattingBarVisible})}
+                                className={classNames('post-body__actions', {
+                                    ['--bottom']: true
+                                })}
                             >
                                 {toggleFormattingBar}
                                 {callButton}
-                                {showFormat}
+                                
                                 {fileUpload}
                                 {emojiPicker}
                                 <a

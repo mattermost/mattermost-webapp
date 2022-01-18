@@ -2,10 +2,10 @@ import { Instance } from "@popperjs/core";
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { ApplyHotkeyMarkdownOptions } from "utils/utils";
+import { ApplyHotkeyMarkdownOptions } from "utils/apply_markdown.utils";
 import ShowFormat from "components/show_format";
 import { usePopper } from "react-popper";
-import FormattingIcon, { Icon } from "./formatting_icon";
+import {FormattingIcon, Icon } from "./formatting_icon";
 import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 
@@ -204,6 +204,12 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({
         Boolean(isRenderedInCommentSection)
     );
 
+    useEffect(() => {
+        if (!isOpen) {
+            setIsHiddenControlsVisible(false)
+        }
+    }, [isOpen])
+
     const {
         styles: { popper },
         attributes,
@@ -237,6 +243,10 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({
                         onClick={() => {
                             const selectionStart = textBox.selectionStart;
                             const selectionEnd = textBox.selectionEnd;
+                            if (selectionStart===null || selectionEnd===null) {
+                                return
+                            }
+                            
                             applyMarkdown({
                                 markdownMode,
                                 selectionStart,
@@ -283,6 +293,9 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({
                                             textBox.selectionStart;
                                         const selectionEnd =
                                             textBox.selectionEnd;
+                                            if (selectionStart===null || selectionEnd===null) {
+                                                return
+                                            }
                                         applyMarkdown({
                                             markdownMode,
                                             selectionStart,

@@ -539,16 +539,26 @@
 }
 
 .post-body__actions {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    display: flex;
-    margin: 0 1px 0 0;
+    &.--bottom {
+        position: absolute;
+        bottom: 0;
+        right: 4px;
+        display: flex;
+    }
 
-    &.formattingBarOpen{
-        // todo: fix animation https://www.figma.com/proto/4fiyoFl9xZSeGXHZFqf5dw/%E2%9C%85MM-21168-Advanced-Text-Editor?node-id=52%3A59001&viewport=-716%2C-2719%2C0.4407515227794647&scaling=min-zoom
-        // top: 100%;
-        // transform:translateY(-100%);
+    &.--top {
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        display: flex;
+        opacity: 0;
+        visibility: hidden;
+        transition:visibility 0.3s linear,opacity 0.3s linear;
+
+        &.formattingBarOpen  {
+            opacity: 1;
+            visibility:visible;
+        }
     }
 
     > div {

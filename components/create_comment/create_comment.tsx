@@ -54,6 +54,7 @@ import { MarkdownFormattedMessage, MarkdownMessageType } from 'components/markdo
 import { ApplyHotkeyMarkdownOptions } from 'utils/utils.jsx';
 import { FormattingBar } from 'components/formatting_bar/formatting_bar';
 import { ToggleFormattingBar } from 'components/toggle_formatting_bar/toggle_formatting_bar';
+import { applyMarkdown } from 'utils/apply_markdown.utils';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -910,7 +911,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     applyMarkdown = (options: ApplyHotkeyMarkdownOptions) => {
 
-        const res = Utils.applyMarkdown(options);
+        const res = applyMarkdown(options);
 
         const draft = this.state.draft!;
         const modifiedDraft = {
@@ -1202,8 +1203,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                     onClick={() => {
                         this.setState({ isFormattingBarVisible: !this.state.isFormattingBarVisible });
                     }}
-                    // postType="post"
-                    // channelId={currentChannel.id}
                 />
             );
         }
@@ -1299,12 +1298,22 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 useChannelMentions={this.props.useChannelMentions}
                             />
                             <FormattingBar isRenderedInCommentSection={true} applyMarkdown={this.applyMarkdown} value={message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
+
+                            <span
+                                className={classNames('post-body__actions', {
+                                    formattingBarOpen: this.state.isFormattingBarVisible,
+                                    ['--top']: true
+                                })}
+                            >
+                                {showFormat}
+                            </span>
                             <span
                                 ref={this.createCommentControlsRef}
-                                className='post-body__actions'
+                                className={classNames('post-body__actions', {
+                                    ['--bottom']: true
+                                })}
                             >
                                 {toggleFormattingBar}
-                                {showFormat}
                                 {fileUpload}
                                 {emojiPicker}
                             </span>

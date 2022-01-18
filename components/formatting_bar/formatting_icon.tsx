@@ -18,16 +18,9 @@ import KeyboardShortcutSequence, {
 import OverlayTrigger from "components/overlay_trigger";
 import Tooltip from "components/tooltip";
 import styled from "styled-components";
-import { ApplyHotkeyMarkdownOptions } from "utils/utils";
+import { ApplyHotkeyMarkdownOptions } from "utils/apply_markdown.utils";
 
 const OVERLAY_TIMEOUT = 500;
-
-const customStyles = {
-    left: "inherit",
-    right: 0,
-    bottom: "100%",
-    top: "auto",
-};
 
 export const Icon = styled.button`
     display: flex;
@@ -89,7 +82,7 @@ const MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS: {
     ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
 };
 
-const FormattingIcon: React.ComponentType<FormattingIconProps> = ({
+export const FormattingIcon: React.ComponentType<FormattingIconProps> = ({
     type,
     onClick,
 }) => {
@@ -110,7 +103,6 @@ const FormattingIcon: React.ComponentType<FormattingIconProps> = ({
     );
     return (
         // const { formatMessage } = this.props.intl;
-        // console.log(formatMessage, 'formatMessage')
 
         // const ariaLabel = formatMessage({
         //     id: "accessibility.button.attachment",
