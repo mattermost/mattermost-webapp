@@ -202,9 +202,9 @@
         white-space: nowrap;
 
         .suggestion-list__main {
-            color: rgba(var(--center-channel-color-rgb), 1);
-            max-width: 50%;
             overflow: hidden;
+            max-width: 50%;
+            color: rgba(var(--center-channel-color-rgb), 1);
             text-overflow: ellipsis;
             white-space: nowrap;
         }
@@ -323,8 +323,8 @@
     .suggestion-list__team-name {
         position: absolute;
         right: 20px;
-        max-width: 25%;
         overflow: hidden;
+        max-width: 25%;
         text-overflow: ellipsis;
         white-space: nowrap;
     }

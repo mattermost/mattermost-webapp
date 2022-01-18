@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging - Opening a private channel using keyboard shortcuts', () => {
     let testTeam;
 
@@ -24,7 +26,7 @@ describe('Messaging - Opening a private channel using keyboard shortcuts', () =>
     it('MM-T1225 CTRL/CMD+K - Open private channel using arrow keys and Enter', () => {
         cy.apiCreateChannel(testTeam.id, 'private-channel', 'Private channel', 'P').then(() => {
             // # Press CTRL+K (Windows) or CMD+K(Mac)
-            cy.pause();
+            cy.wait(TIMEOUTS.HALF_SEC);
             cy.typeCmdOrCtrl().type('K', {release: true});
 
             // # Type the first letter of a private channel in the "Switch Channels" modal message box
