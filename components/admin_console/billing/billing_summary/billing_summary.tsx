@@ -36,7 +36,7 @@ export const noBillingHistory = (
             />
         </div>
         <a
-            target='_new'
+            target='_blank'
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
@@ -329,7 +329,7 @@ export const lastInvoiceInfo = (invoice: any, product: any, fullCharges: any, pa
             </div>
             <div className='BillingSummary__lastInvoice-download'>
                 <a
-                    target='_new'
+                    target='_self'
                     rel='noopener noreferrer'
                     href={Client4.getInvoicePdfUrl(invoice.id)}
                     className='BillingSummary__lastInvoice-downloadButton'
