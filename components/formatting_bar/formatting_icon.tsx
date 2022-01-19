@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import styled from 'styled-components';
+
 import Constants from 'utils/constants';
 
 import KeyboardShortcutSequence, {
@@ -11,7 +13,6 @@ import KeyboardShortcutSequence, {
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import styled from 'styled-components';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 
 export const Icon = styled.button`
@@ -79,8 +80,12 @@ export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
 
     const bodyAction = (
         <div>
-            <Icon type='button' id='fileUploadButton' aria-label={MAP_MARKDOWN_TYPE_TO_ICON[type]}>
-                <i className={MAP_MARKDOWN_TYPE_TO_ICON[type]}></i>
+            <Icon
+                type='button'
+                id='fileUploadButton'
+                aria-label={MAP_MARKDOWN_TYPE_TO_ICON[type]}
+            >
+                <i className={MAP_MARKDOWN_TYPE_TO_ICON[type]}/>
             </Icon>
         </div>
     );
@@ -98,7 +103,8 @@ export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
                         isInsideTooltip={true}
                     />
                 </Tooltip>
-            }>
+            }
+        >
             <div className={'style--none'}>{bodyAction}</div>
         </OverlayTrigger>
     );

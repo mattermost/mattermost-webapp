@@ -1,8 +1,13 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React, {useEffect, useState} from 'react';
 import {Instance} from '@popperjs/core';
-import {FormattingIcon} from './formatting_icon';
+
 import {debounce} from 'lodash';
+
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+
+import {FormattingIcon} from './formatting_icon';
 
 type WideMode = 'wide' | 'normal' | 'narrow';
 
@@ -48,7 +53,7 @@ const MAP_WIDE_MODE_TO_CONTROLS_QUANTITY: {[key in WideMode]: number} = {
 };
 
 export const useFormattingBarControls = (
-    formattingBarRef: React.RefObject<HTMLDivElement>
+    formattingBarRef: React.RefObject<HTMLDivElement>,
 ): {
     controls: Control[];
     hiddenControls: Control[];
@@ -59,39 +64,39 @@ export const useFormattingBarControls = (
     const allControls: Control[] = [
         {
             markdownMode: 'bold',
-            icon: <FormattingIcon type='bold' />,
+            icon: <FormattingIcon type='bold'/>,
         },
         {
             markdownMode: 'italic',
-            icon: <FormattingIcon type='italic' />,
+            icon: <FormattingIcon type='italic'/>,
         },
         {
             markdownMode: 'strike',
-            icon: <FormattingIcon type='strike' />,
+            icon: <FormattingIcon type='strike'/>,
         },
         {
             markdownMode: 'heading',
-            icon: <FormattingIcon type='heading' />,
+            icon: <FormattingIcon type='heading'/>,
         },
         {
             markdownMode: 'link',
-            icon: <FormattingIcon type='link' />,
+            icon: <FormattingIcon type='link'/>,
         },
         {
             markdownMode: 'code',
-            icon: <FormattingIcon type='code' />,
+            icon: <FormattingIcon type='code'/>,
         },
         {
             markdownMode: 'quote',
-            icon: <FormattingIcon type='quote' />,
+            icon: <FormattingIcon type='quote'/>,
         },
         {
             markdownMode: 'ul',
-            icon: <FormattingIcon type='ul' />,
+            icon: <FormattingIcon type='ul'/>,
         },
         {
             markdownMode: 'ol',
-            icon: <FormattingIcon type='ol' />,
+            icon: <FormattingIcon type='ol'/>,
         },
     ];
 

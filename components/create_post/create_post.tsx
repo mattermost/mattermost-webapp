@@ -59,8 +59,6 @@ import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
-import CreatePostTip from './create_post_tip';
-
 import {
     MarkdownFormattedMessage,
     MarkdownMessageType,
@@ -68,6 +66,8 @@ import {
 import {ToggleFormattingBar} from 'components/toggle_formatting_bar/toggle_formatting_bar';
 import {FormattingBar} from 'components/formatting_bar/formatting_bar';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
+
+import CreatePostTip from './create_post_tip';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -83,6 +83,7 @@ function trimRight(str: string) {
 }
 
 type Props = {
+
     /**
      *  ref passed from channelView for EmojiPickerOverlay
      */
@@ -216,6 +217,7 @@ type Props = {
     shouldShowPreview: boolean;
 
     actions: {
+
         /**
          * Set show preview for textbox
          */
@@ -836,7 +838,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             Boolean(codeBlockOnCtrlEnter),
             Date.now(),
             this.lastChannelSwitchAt,
-            this.state.caretPosition
+            this.state.caretPosition,
         ) as {
             allowSending: boolean;
             withClosedCodeBlock?: boolean;
@@ -923,7 +925,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
                 this.state.caretPosition,
                 message,
-                clipboardData
+                clipboardData,
             );
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
@@ -1221,7 +1223,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             () => {
                 const textbox = this.textboxRef.current?.getInputBox();
                 Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
-            }
+            },
         );
     };
 
@@ -1262,7 +1264,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             },
             () => {
                 Utils.setCaretPosition(textbox, newCaretPosition);
-            }
+            },
         );
     };
 
@@ -1318,9 +1320,9 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (this.state.message === '') {
             this.setState({message: gif});
         } else {
-            const newMessage = /\s+$/.test(this.state.message)
-                ? this.state.message + gif
-                : this.state.message + ' ' + gif;
+            const newMessage = (/\s+$/).test(this.state.message) ?
+                this.state.message + gif :
+                this.state.message + ' ' + gif;
             this.setState({message: newMessage});
         }
         this.handleEmojiClose();
@@ -1363,7 +1365,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         const {renderScrollbar} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage(
             'accessibility.sections.centerFooter',
-            'message input complimentary region'
+            'message input complimentary region',
         );
 
         let serverError = null;
@@ -1429,10 +1431,12 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         let callButton;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
-            callButton = <CallButton />;
+            callButton = <CallButton/>;
         }
 
-        let fileUpload, showFormat, toggleFormattingBar;
+        let fileUpload;
+        let showFormat;
+        let toggleFormattingBar;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
@@ -1462,8 +1466,6 @@ class CreatePost extends React.PureComponent<Props, State> {
                             isFormattingBarVisible: !this.state.isFormattingBarVisible,
                         });
                     }}
-                    // postType="post"
-                    // channelId={currentChannel.id}
                 />
             );
         }
@@ -1493,8 +1495,12 @@ class CreatePost extends React.PureComponent<Props, State> {
                         onClick={this.toggleEmojiPicker}
                         className={classNames('emoji-picker__container', 'post-action', {
                             'post-action--active': this.state.showEmojiPicker,
-                        })}>
-                        <EmojiIcon id='emojiPickerButton' className={'icon icon--emoji '} />
+                        })}
+                    >
+                        <EmojiIcon
+                            id='emojiPickerButton'
+                            className={'icon icon--emoji '}
+                        />
                     </button>
                 </div>
             );
@@ -1504,7 +1510,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (readOnlyChannel) {
             createMessage = Utils.localizeMessage(
                 'create_post.read_only',
-                'This channel is read-only. Only members with permission can post here.'
+                'This channel is read-only. Only members with permission can post here.',
             );
         } else {
             createMessage = formatMessage(
@@ -1512,7 +1518,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                     id: 'create_post.write',
                     defaultMessage: 'Write to {channelDisplayName}',
                 },
-                {channelDisplayName: currentChannel.display_name}
+                {channelDisplayName: currentChannel.display_name},
             );
         }
 
@@ -1524,16 +1530,22 @@ class CreatePost extends React.PureComponent<Props, State> {
         const message = readOnlyChannel ? '' : this.state.message;
 
         return (
-            <form id='create_post' ref={this.topDiv} className={centerClass} onSubmit={this.handleSubmit}>
+            <form
+                id='create_post'
+                ref={this.topDiv}
+                className={centerClass}
+                onSubmit={this.handleSubmit}
+            >
                 <div
                     className={'post-create' + attachmentsDisabled + scrollbarClass}
                     style={
-                        this.state.renderScrollbar && this.state.scrollbarWidth
-                            ? ({
-                                  '--detected-scrollbar-width': `${this.state.scrollbarWidth}px`,
-                              } as any)
-                            : undefined
-                    }>
+                        this.state.renderScrollbar && this.state.scrollbarWidth ?
+                            ({
+                                '--detected-scrollbar-width': `${this.state.scrollbarWidth}px`,
+                            } as any) :
+                            undefined
+                    }
+                >
                     <div className='post-create-body'>
                         <div
                             role='application'
@@ -1541,7 +1553,8 @@ class CreatePost extends React.PureComponent<Props, State> {
                             aria-label={ariaLabelMessageInput}
                             tabIndex={-1}
                             className='post-body__cell a11y__region'
-                            data-a11y-sort-order='2'>
+                            data-a11y-sort-order='2'
+                        >
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
@@ -1558,15 +1571,15 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
                                 inputComponent={
-                                    this.state.showFormat
-                                        ? () => (
-                                              <MarkdownFormattedMessage
-                                                  messageType={MarkdownMessageType.Post}
-                                                  message={message}
-                                                  emojiMap={this.props.emojiMap}
-                                              />
-                                          )
-                                        : undefined
+                                    this.state.showFormat ?
+                                        () => (
+                                            <MarkdownFormattedMessage
+                                                messageType={MarkdownMessageType.Post}
+                                                message={message}
+                                                emojiMap={this.props.emojiMap}
+                                            />
+                                        ) :
+                                        undefined
                                 }
                                 id='post_textbox'
                                 ref={this.textboxRef}
@@ -1586,15 +1599,17 @@ class CreatePost extends React.PureComponent<Props, State> {
                             <span
                                 className={classNames('post-body__actions', {
                                     formattingBarOpen: this.state.isFormattingBarVisible,
-                                    ['--top']: true,
-                                })}>
+                                    '--top': true,
+                                })}
+                            >
                                 {showFormat}
                             </span>
                             <span
                                 ref={this.createPostControlsRef}
                                 className={classNames('post-body__actions', {
-                                    ['--bottom']: true,
-                                })}>
+                                    '--bottom': true,
+                                })}
+                            >
                                 {toggleFormattingBar}
                                 {callButton}
 
@@ -1608,7 +1623,8 @@ class CreatePost extends React.PureComponent<Props, State> {
                                         defaultMessage: 'Send a message',
                                     })}
                                     className={sendButtonClass}
-                                    onClick={this.handleSubmit}>
+                                    onClick={this.handleSubmit}
+                                >
                                     <LocalizedIcon
                                         className='fa fa-paper-plane'
                                         title={{
@@ -1621,9 +1637,16 @@ class CreatePost extends React.PureComponent<Props, State> {
                         </div>
                         {tutorialTip}
                     </div>
-                    <div id='postCreateFooter' role='form' className={postFooterClassName}>
+                    <div
+                        id='postCreateFooter'
+                        role='form'
+                        className={postFooterClassName}
+                    >
                         <div className='d-flex justify-content-between'>
-                            <MsgTyping channelId={currentChannel.id} postId='' />
+                            <MsgTyping
+                                channelId={currentChannel.id}
+                                postId=''
+                            />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}

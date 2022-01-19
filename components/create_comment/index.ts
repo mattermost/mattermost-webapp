@@ -15,7 +15,10 @@ import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/act
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getAllChannelStats,
+    getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup,
+} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
@@ -40,14 +43,15 @@ import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal} from 'actions/views/modals';
 
+import {getEmojiMap} from 'selectors/emojis';
+
 import CreateComment from './create_comment';
-import { getEmojiMap } from 'selectors/emojis';
 
 type OwnProps = {
     rootId: string;
     channelId: string;
     latestPostId: string;
-}
+};
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
@@ -57,7 +61,9 @@ function makeMapStateToProps() {
 
         const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, ownProps.rootId);
 
-        const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
+        const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ?
+            getAllChannelStats(state)[ownProps.channelId].member_count :
+            1;
         const messageInHistory = getMessageInHistoryItem(state);
 
         const channel = state.entities.channels.channels[ownProps.channelId] || {};
@@ -70,11 +76,19 @@ function makeMapStateToProps() {
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
         const canPost = haveIChannelPermission(state, channel.team_id, channel.id, Permissions.CREATE_POST);
-        const useChannelMentions = haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_CHANNEL_MENTIONS);
+        const useChannelMentions = haveIChannelPermission(
+            state,
+            channel.team_id,
+            channel.id,
+            Permissions.USE_CHANNEL_MENTIONS,
+        );
         const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
-        const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_GROUP_MENTIONS);
+        const useGroupMentions =
+            isLDAPEnabled && haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_GROUP_MENTIONS);
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
-        const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
+        const groupsWithAllowReference = useGroupMentions ?
+            getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) :
+            null;
 
         return {
             draft,
@@ -122,13 +136,22 @@ type Actions = {
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
-}
+};
 
 function makeMapDispatchToProps() {
     let onUpdateCommentDraft: (draft?: PostDraft) => void;
-    let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
-    let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
-    let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onSubmit: (
+        draft: PostDraft,
+        options: {ignoreSlash: boolean},
+    ) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexBack: () => (
+        dispatch: DispatchFunc,
+        getState: () => GlobalState,
+    ) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexForward: () => (
+        dispatch: DispatchFunc,
+        getState: () => GlobalState,
+    ) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onEditLatestPost: () => ActionFunc;
 
     function onResetHistoryIndex() {
@@ -158,22 +181,25 @@ function makeMapDispatchToProps() {
         channelId = ownProps.channelId;
         latestPostId = ownProps.latestPostId;
 
-        return bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            clearCommentDraftUploads,
-            onUpdateCommentDraft,
-            updateCommentDraftWithRootId: updateCommentDraft,
-            onSubmit,
-            onResetHistoryIndex,
-            onMoveHistoryIndexBack,
-            onMoveHistoryIndexForward,
-            onEditLatestPost,
-            resetCreatePostRequest,
-            getChannelTimezones,
-            emitShortcutReactToLastPostFrom,
-            setShowPreview: setShowPreviewOnCreateComment,
-            getChannelMemberCountsByGroup,
-            openModal,
-        }, dispatch);
+        return bindActionCreators<ActionCreatorsMapObject<any>, Actions>(
+            {
+                clearCommentDraftUploads,
+                onUpdateCommentDraft,
+                updateCommentDraftWithRootId: updateCommentDraft,
+                onSubmit,
+                onResetHistoryIndex,
+                onMoveHistoryIndexBack,
+                onMoveHistoryIndexForward,
+                onEditLatestPost,
+                resetCreatePostRequest,
+                getChannelTimezones,
+                emitShortcutReactToLastPostFrom,
+                setShowPreview: setShowPreviewOnCreateComment,
+                getChannelMemberCountsByGroup,
+                openModal,
+            },
+            dispatch,
+        );
     };
 }
 

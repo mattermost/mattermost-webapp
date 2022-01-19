@@ -43,7 +43,12 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<OriginalO
                     <OriginalOverlayTrigger
                         {...otherProps}
                         ref={ref}
-                        overlay={<OverlayWrapper {...overlayProps} intl={intl} />}
+                        overlay={
+                            <OverlayWrapper
+                                {...overlayProps}
+                                intl={intl}
+                            />
+                        }
                     />
                 );
             }}

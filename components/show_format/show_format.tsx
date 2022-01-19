@@ -14,14 +14,15 @@ interface ShowFormatProps {
     onClick?: (event: React.MouseEvent) => void;
 }
 
-export const ShowFormat: React.ComponentType<ShowFormatProps> = (props) => {
+export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
+    const {onClick} = props;
     if (isMobileApp()) {
-        return null;
+        return <></>;
     }
 
     return (
         <OverlayTrigger
-            onClick={props.onClick}
+            onClick={onClick}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='top'
             trigger='hover'
@@ -33,16 +34,22 @@ export const ShowFormat: React.ComponentType<ShowFormatProps> = (props) => {
                         isInsideTooltip={true}
                     />
                 </Tooltip>
-            }>
+            }
+        >
             <div className={'style--none'}>
                 <div>
                     <button
                         type='button'
                         id='fileUploadButton'
-                        className='style--none post-action icon icon--attachment'>
-                        <i className='fa fa-eye'></i>
+                        className='style--none post-action icon icon--attachment'
+                    >
+                        <i className='fa fa-eye'/>
                     </button>
-                    <input id='fileUploadInput' tabIndex={-1} type='file' />
+                    <input
+                        id='fileUploadInput'
+                        tabIndex={-1}
+                        type='file'
+                    />
                 </div>
             </div>
         </OverlayTrigger>

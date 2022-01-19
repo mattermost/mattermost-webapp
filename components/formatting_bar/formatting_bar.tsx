@@ -1,10 +1,17 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import classNames from 'classnames';
 import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+
 import {usePopper} from 'react-popper';
-import {Icon} from './formatting_icon';
+
 import {CSSTransition} from 'react-transition-group';
+
+import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+
+import {Icon} from './formatting_icon';
+
 import {useFormattingBarControls, useUpdateOnVisibilityChange} from './hooks';
 
 const FormattingBarContainer = styled.div`
@@ -103,15 +110,22 @@ interface FormattingBarProps {
     value: string;
 }
 
-export const FormattingBar: React.ComponentType<FormattingBarProps> = ({isOpen, applyMarkdown, textBox, value}) => {
-    const [isHiddenControlsVisible, setIsHiddenControlsVisible] = useState(false);
+export const FormattingBar = (props: FormattingBarProps): JSX.Element => {
+    const {
+        isOpen,
+        applyMarkdown,
+        textBox,
+        value,
+    } = props;
+    const [isHiddenControlsVisible, setIsHiddenControlsVisible] =
+        useState(false);
     const popperRef = React.useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const formattingBarRef = useRef<HTMLDivElement>(null);
-    const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
+    const {controls, hiddenControls, wideMode} =
+        useFormattingBarControls(formattingBarRef);
 
     const hasHiddenControls = wideMode !== 'wide';
-    console.log(hasHiddenControls, 'hascontrols3333333');
 
     useEffect(() => {
         if (!isOpen) {
@@ -139,10 +153,12 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({isOpen, 
             className={classNames({
                 isOpen,
             })}
-            ref={formattingBarRef}>
+            ref={formattingBarRef}
+        >
             {controls.map(({markdownMode, icon}) => {
                 return (
                     <div
+                        key={markdownMode}
                         className={classNames('control', {
                             [markdownMode]: markdownMode,
                             [wideMode]: wideMode,
@@ -150,7 +166,10 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({isOpen, 
                         onClick={() => {
                             const selectionStart = textBox.selectionStart;
                             const selectionEnd = textBox.selectionEnd;
-                            if (selectionStart === null || selectionEnd === null) {
+                            if (
+                                selectionStart === null ||
+                                selectionEnd === null
+                            ) {
                                 return;
                             }
 
@@ -160,7 +179,8 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({isOpen, 
                                 selectionEnd,
                                 value,
                             });
-                        }}>
+                        }}
+                    >
                         {icon}
                     </div>
                 );
@@ -172,22 +192,38 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({isOpen, 
                     onClick={(event) => {
                         event.preventDefault();
                         setIsHiddenControlsVisible((isVisible) => !isVisible);
-                    }}>
-                    <i className='fa fa-ellipsis-h' />
+                    }}
+                >
+                    <i className='fa fa-ellipsis-h'/>
                 </Icon>
             )}
 
-            <HiddenControlsContainer ref={popperRef} style={popper} {...attributes.popper}>
-                <CSSTransition timeout={250} classNames='scale' unmountOnExit in={isHiddenControlsVisible}>
+            <HiddenControlsContainer
+                ref={popperRef}
+                style={popper}
+                {...attributes.popper}
+            >
+                <CSSTransition
+                    timeout={250}
+                    classNames='scale'
+                    unmountOnExit={true}
+                    in={isHiddenControlsVisible}
+                >
                     <div>
                         {hiddenControls.map(({markdownMode, icon}) => {
                             return (
                                 <div
+                                    key={markdownMode}
                                     className='control'
                                     onClick={() => {
-                                        const selectionStart = textBox.selectionStart;
-                                        const selectionEnd = textBox.selectionEnd;
-                                        if (selectionStart === null || selectionEnd === null) {
+                                        const selectionStart =
+                                            textBox.selectionStart;
+                                        const selectionEnd =
+                                            textBox.selectionEnd;
+                                        if (
+                                            selectionStart === null ||
+                                            selectionEnd === null
+                                        ) {
                                             return;
                                         }
                                         applyMarkdown({
@@ -196,17 +232,18 @@ export const FormattingBar: React.ComponentType<FormattingBarProps> = ({isOpen, 
                                             selectionEnd,
                                             value,
                                         });
-                                    }}>
+                                    }}
+                                >
                                     {icon}
                                 </div>
                             );
                         })}
-                        {hasHiddenControls && <Question />}
+                        {hasHiddenControls && <Question/>}
                     </div>
                 </CSSTransition>
             </HiddenControlsContainer>
 
-            {!hasHiddenControls && <Question />}
+            {!hasHiddenControls && <Question/>}
         </FormattingBarContainer>
     );
 };
@@ -217,9 +254,10 @@ const Question = () => {
             className='control'
             onClick={(event) => {
                 event.preventDefault();
-            }}>
+            }}
+        >
             <Icon>
-                <i className='fa fa-question' />
+                <i className='fa fa-question'/>
             </Icon>
         </div>
     );

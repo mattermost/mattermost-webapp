@@ -54,7 +54,8 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
                 {keys?.split(KEY_SEPARATOR).map((key) => (
                     <ShortcutKey
                         key={key}
-                        variant={isInsideTooltip ? ShortcutKeyVariant.Tooltip : ShortcutKeyVariant.ShortcutModal}>
+                        variant={isInsideTooltip ? ShortcutKeyVariant.Tooltip : ShortcutKeyVariant.ShortcutModal}
+                    >
                         {key}
                     </ShortcutKey>
                 ))}

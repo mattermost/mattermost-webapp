@@ -1,9 +1,14 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
-import {messageHtmlToComponent} from 'utils/message_html_to_component';
+
 import styled from 'styled-components';
+
+import classNames from 'classnames';
+
+import {messageHtmlToComponent} from 'utils/message_html_to_component';
 import EmojiMap from 'utils/emoji_map';
 import {formatText} from 'utils/text_formatting';
-import classNames from 'classnames';
 
 const MessageComponentContainer = styled.div`
     padding: 13px 125px 12px 16px;
@@ -43,7 +48,8 @@ export const MarkdownFormattedMessage = (props: MarkdownFormattedMessageProps): 
             className={classNames({
                 post: messageType === MarkdownMessageType.Post,
                 comment: messageType === MarkdownMessageType.Comment,
-            })}>
+            })}
+        >
             {messageHtmlToComponent(htmlFormattedText, false)}
         </MessageComponentContainer>
     );

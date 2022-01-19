@@ -1,14 +1,8 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 export interface ApplyMarkdownOptions {
-    markdownMode:
-        | "bold"
-        | "italic"
-        | "link"
-        | "strike"
-        | "code"
-        | "heading"
-        | "quote"
-        | "ul"
-        | "ol";
+    markdownMode: 'bold' | 'italic' | 'link' | 'strike' | 'code' | 'heading' | 'quote' | 'ul' | 'ol';
     selectionStart: number;
     selectionEnd: number;
     value: string;
@@ -19,9 +13,9 @@ export function applyMarkdown(params: ApplyMarkdownOptions): {
     selectionStart: number;
     selectionEnd: number;
 } {
-    const { selectionEnd, selectionStart, value, markdownMode } = params;
+    const {selectionEnd, selectionStart, value, markdownMode} = params;
 
-    if (markdownMode === "bold" || markdownMode === "italic") {
+    if (markdownMode === 'bold' || markdownMode === 'italic') {
         return applyBoldItalicMarkdown({
             selectionEnd,
             selectionStart,
@@ -30,85 +24,79 @@ export function applyMarkdown(params: ApplyMarkdownOptions): {
         });
     }
 
-    if (markdownMode === "link") {
-        return applyLinkMarkdown({ selectionEnd, selectionStart, value });
+    if (markdownMode === 'link') {
+        return applyLinkMarkdown({selectionEnd, selectionStart, value});
     }
 
-    if (markdownMode === "strike") {
+    if (markdownMode === 'strike') {
         return applyMarkdownToSelection({
             selectionEnd,
             selectionStart,
             value,
-            delimiter: "~~",
+            delimiter: '~~',
         });
     }
 
-    if (markdownMode === "code") {
+    if (markdownMode === 'code') {
         return applyMarkdownToSelection({
             selectionEnd,
             selectionStart,
             value,
-            delimiter: "`",
+            delimiter: '`',
         });
     }
 
-    if (markdownMode === "heading") {
+    if (markdownMode === 'heading') {
         return applyMarkdownToSelectedLines({
             selectionEnd,
             selectionStart,
             value,
-            delimiter: "### ",
+            delimiter: '### ',
         });
     }
 
-    if (markdownMode === "quote") {
+    if (markdownMode === 'quote') {
         return applyMarkdownToSelectedLines({
             selectionEnd,
             selectionStart,
             value,
-            delimiter: "> ",
+            delimiter: '> ',
         });
     }
 
-    if (markdownMode === "ul") {
+    if (markdownMode === 'ul') {
         return applyMarkdownToSelectedLines({
             selectionEnd,
             selectionStart,
             value,
-            delimiter: "- ",
+            delimiter: '- ',
         });
     }
 
-    if (markdownMode === "ol") {
-        return applyOlMarkdown({ selectionEnd, selectionStart, value });
+    if (markdownMode === 'ol') {
+        return applyOlMarkdown({selectionEnd, selectionStart, value});
     }
 
-    throw Error("Unsupported markdown mode: " + markdownMode);
+    throw Error('Unsupported markdown mode: ' + markdownMode);
 }
 
-const applyOlMarkdown = ({
-    selectionEnd,
-    selectionStart,
-    value,
-}: Omit<ApplyMarkdownOptions, "markdownMode">) => {
-    let prefix = value.substring(0, selectionStart);
-    let selection = value.substring(selectionStart, selectionEnd);
+const applyOlMarkdown = ({selectionEnd, selectionStart, value}: Omit<ApplyMarkdownOptions, 'markdownMode'>) => {
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
     const suffix = value.substring(selectionEnd);
 
-    const newPrefix = prefix.includes("\n")
-        ? prefix.substring(0, prefix.lastIndexOf("\n"))
-        : "";
+    const newPrefix = prefix.includes('\n') ? prefix.substring(0, prefix.lastIndexOf('\n')) : '';
 
-    const multilineSuffix = suffix.startsWith("\n")
-        ? ""
-        : suffix.indexOf("\n") === -1
-        ? suffix
-        : suffix.substring(0, suffix.indexOf("\n"));
-    const newSuffix = suffix.startsWith("\n")
-        ? suffix
-        : suffix.indexOf("\n") === -1
-        ? ""
-        : suffix.substring(suffix.indexOf("\n"));
+    const multilineSuffix = suffix.startsWith('\n') ?
+        '' :
+        suffix.indexOf('\n') === -1 ?
+            suffix :
+            suffix.substring(0, suffix.indexOf('\n'));
+    const newSuffix = suffix.startsWith('\n') ?
+        suffix :
+        suffix.indexOf('\n') === -1 ?
+            '' :
+            suffix.substring(suffix.indexOf('\n'));
 
     const delimiterLength = 3;
     const getDelimiter = (num?: number) => {
@@ -117,42 +105,29 @@ const applyOlMarkdown = ({
     };
     getDelimiter.counter = 0;
 
-    const multilinePrefix = prefix.includes("\n")
-        ? prefix.substring(prefix.lastIndexOf("\n"))
-        : prefix;
+    const multilinePrefix = prefix.includes('\n') ? prefix.substring(prefix.lastIndexOf('\n')) : prefix;
     let multilineSelection = multilinePrefix + selection + multilineSuffix;
-    const isFirstLineSelected = !multilineSelection.startsWith("\n");
+    const isFirstLineSelected = !multilineSelection.startsWith('\n');
 
-    if (selection.startsWith("\n")) {
-        multilineSelection =
-            prefix.substring(prefix.lastIndexOf("\n")) +
-            selection +
-            multilineSuffix;
+    if (selection.startsWith('\n')) {
+        multilineSelection = prefix.substring(prefix.lastIndexOf('\n')) + selection + multilineSuffix;
     }
 
     const getHasCurrentMarkdown = (): boolean => {
         const linesQuantity = (multilineSelection.match(/\n/g) || []).length;
-        const newLinesWithDelimitersQuantity = (
-            multilineSelection.match(/\n\d\. /g) || []
-        ).length;
+        const newLinesWithDelimitersQuantity = (multilineSelection.match(/\n\d\. /g) || []).length;
 
-        if (
-            newLinesWithDelimitersQuantity === linesQuantity &&
-            !isFirstLineSelected
-        ) {
+        if (newLinesWithDelimitersQuantity === linesQuantity && !isFirstLineSelected) {
             return true;
         }
 
-        if (
-            linesQuantity === newLinesWithDelimitersQuantity &&
-            /^\d\. /.test(multilineSelection)
-        ) {
+        if (linesQuantity === newLinesWithDelimitersQuantity && (/^\d\. /).test(multilineSelection)) {
             return true;
         }
 
         return false;
     };
-    let newValue = "";
+    let newValue = '';
     let newStart = 0;
     let newEnd = 0;
 
@@ -162,10 +137,7 @@ const applyOlMarkdown = ({
             multilineSelection = multilineSelection.substring(delimiterLength);
         }
 
-        newValue =
-            newPrefix +
-            multilineSelection.replace(/\n\d\. /g, "\n") +
-            newSuffix;
+        newValue = newPrefix + multilineSelection.replace(/\n\d\. /g, '\n') + newSuffix;
         let count = 0;
 
         if (isFirstLineSelected) {
@@ -174,7 +146,7 @@ const applyOlMarkdown = ({
         count += (multilineSelection.match(/\n/g) || []).length;
 
         newStart = Math.max(selectionStart - delimiterLength, 0);
-        newEnd = Math.max(selectionEnd - delimiterLength * count, 0);
+        newEnd = Math.max(selectionEnd - (delimiterLength * count), 0);
     } else {
         let count = 0;
         if (isFirstLineSelected) {
@@ -183,19 +155,17 @@ const applyOlMarkdown = ({
         }
         const selectionArr = Array.from(multilineSelection);
         for (let i = 0; i < selectionArr.length; i++) {
-            if (selectionArr[i] === "\n") {
+            if (selectionArr[i] === '\n') {
                 selectionArr[i] = `\n${getDelimiter()}`;
             }
         }
-        multilineSelection = selectionArr.join("");
+        multilineSelection = selectionArr.join('');
         newValue = newPrefix + multilineSelection + newSuffix;
 
-        count =
-            count +
-            (multilineSelection.match(new RegExp(`\n`, "g")) || []).length;
+        count += (multilineSelection.match(new RegExp('\n', 'g')) || []).length;
 
         newStart = selectionStart + delimiterLength;
-        newEnd = selectionEnd + delimiterLength * count;
+        newEnd = selectionEnd + (delimiterLength * count);
     }
 
     return {
@@ -210,66 +180,51 @@ export const applyMarkdownToSelectedLines = ({
     selectionStart,
     value,
     delimiter,
-}: Omit<ApplyMarkdownOptions, "markdownMode"> & {
+}: Omit<ApplyMarkdownOptions, 'markdownMode'> & {
     delimiter: string;
 }) => {
-    let prefix = value.substring(0, selectionStart);
-    let selection = value.substring(selectionStart, selectionEnd);
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
     const suffix = value.substring(selectionEnd);
 
-    const newPrefix = prefix.includes("\n")
-        ? prefix.substring(0, prefix.lastIndexOf("\n"))
-        : "";
-    const multilinePrefix = prefix.includes("\n")
-        ? prefix.substring(prefix.lastIndexOf("\n"))
-        : prefix;
+    const newPrefix = prefix.includes('\n') ? prefix.substring(0, prefix.lastIndexOf('\n')) : '';
+    const multilinePrefix = prefix.includes('\n') ? prefix.substring(prefix.lastIndexOf('\n')) : prefix;
 
-    const multilineSuffix = suffix.startsWith("\n")
-        ? ""
-        : suffix.indexOf("\n") === -1
-        ? suffix
-        : suffix.substring(0, suffix.indexOf("\n"));
-    const newSuffix = suffix.startsWith("\n")
-        ? suffix
-        : suffix.indexOf("\n") === -1
-        ? ""
-        : suffix.substring(suffix.indexOf("\n"));
-    let multilineSelection: string =
-        multilinePrefix + selection + multilineSuffix;
+    const multilineSuffix = suffix.startsWith('\n') ?
+        '' :
+        suffix.indexOf('\n') === -1 ?
+            suffix :
+            suffix.substring(0, suffix.indexOf('\n'));
+    const newSuffix = suffix.startsWith('\n') ?
+        suffix :
+        suffix.indexOf('\n') === -1 ?
+            '' :
+            suffix.substring(suffix.indexOf('\n'));
+    let multilineSelection: string = multilinePrefix + selection + multilineSuffix;
 
-    const isFirstLineSelected = !multilineSelection.startsWith("\n");
+    const isFirstLineSelected = !multilineSelection.startsWith('\n');
 
-    if (selection.startsWith("\n")) {
-        multilineSelection =
-            prefix.substring(prefix.lastIndexOf("\n")) +
-            selection +
-            multilineSuffix;
+    if (selection.startsWith('\n')) {
+        multilineSelection = prefix.substring(prefix.lastIndexOf('\n')) + selection + multilineSuffix;
     }
 
     const getHasCurrentMarkdown = (): boolean => {
         const linesQuantity = (multilineSelection.match(/\n/g) || []).length;
-        const newLinesWithDelimitersQuantity = (
-            multilineSelection.match(new RegExp(`\n${delimiter}`, "g")) || []
-        ).length;
+        const newLinesWithDelimitersQuantity = (multilineSelection.match(new RegExp(`\n${delimiter}`, 'g')) || []).
+            length;
 
-        if (
-            newLinesWithDelimitersQuantity === linesQuantity &&
-            !isFirstLineSelected
-        ) {
+        if (newLinesWithDelimitersQuantity === linesQuantity && !isFirstLineSelected) {
             return true;
         }
 
-        if (
-            linesQuantity === newLinesWithDelimitersQuantity &&
-            multilineSelection.startsWith(delimiter)
-        ) {
+        if (linesQuantity === newLinesWithDelimitersQuantity && multilineSelection.startsWith(delimiter)) {
             return true;
         }
 
         return false;
     };
 
-    let newValue = "";
+    let newValue = '';
     let newStart = 0;
     let newEnd = 0;
 
@@ -279,13 +234,7 @@ export const applyMarkdownToSelectedLines = ({
             multilineSelection = multilineSelection.substring(delimiter.length);
         }
 
-        newValue =
-            newPrefix +
-            multilineSelection.replace(
-                new RegExp(`\n${delimiter}`, "g"),
-                "\n"
-            ) +
-            newSuffix;
+        newValue = newPrefix + multilineSelection.replace(new RegExp(`\n${delimiter}`, 'g'), '\n') + newSuffix;
         let count = 0;
         if (isFirstLineSelected) {
             count++;
@@ -293,24 +242,19 @@ export const applyMarkdownToSelectedLines = ({
         count += (multilineSelection.match(/\n/g) || []).length;
 
         newStart = Math.max(selectionStart - delimiter.length, 0);
-        newEnd = Math.max(selectionEnd - delimiter.length * count, 0);
+        newEnd = Math.max(selectionEnd - (delimiter.length * count), 0);
     } else {
-        newValue =
-            newPrefix +
-            multilineSelection.replace(/\n/g, `\n${delimiter}`) +
-            newSuffix;
+        newValue = newPrefix + multilineSelection.replace(/\n/g, `\n${delimiter}`) + newSuffix;
         let count = 0;
         if (isFirstLineSelected) {
             newValue = delimiter + newValue;
             count++;
         }
 
-        count =
-            count +
-            (multilineSelection.match(new RegExp(`\n`, "g")) || []).length;
+        count += (multilineSelection.match(new RegExp('\n', 'g')) || []).length;
 
         newStart = selectionStart + delimiter.length;
-        newEnd = selectionEnd + delimiter.length * count;
+        newEnd = selectionEnd + (delimiter.length * count);
     }
 
     return {
@@ -325,7 +269,7 @@ const applyMarkdownToSelection = ({
     selectionStart,
     value,
     delimiter,
-}: Omit<ApplyMarkdownOptions, "markdownMode"> & {
+}: Omit<ApplyMarkdownOptions, 'markdownMode'> & {
     delimiter: string;
 }) => {
     const prefix = value.substring(0, selectionStart);
@@ -333,18 +277,15 @@ const applyMarkdownToSelection = ({
     const suffix = value.substring(selectionEnd);
 
     // Does the selection have current hotkey's markdown?
-    const hasCurrentMarkdown =
-        prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
 
-    let newValue = "";
+    let newValue = '';
     let newStart = 0;
     let newEnd = 0;
     if (hasCurrentMarkdown) {
         // selection already has the markdown; remove it
         newValue =
-            prefix.substring(0, prefix.length - delimiter.length) +
-            selection +
-            suffix.substring(delimiter.length);
+            prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
         newStart = selectionStart - delimiter.length;
         newEnd = selectionEnd - delimiter.length;
     } else {
@@ -361,17 +302,12 @@ const applyMarkdownToSelection = ({
     };
 };
 
-function applyBoldItalicMarkdown({
-    selectionEnd,
-    selectionStart,
-    value,
-    markdownMode,
-}: ApplyMarkdownOptions) {
-    const BOLD_MD = "**";
-    const ITALIC_MD = "*";
+function applyBoldItalicMarkdown({selectionEnd, selectionStart, value, markdownMode}: ApplyMarkdownOptions) {
+    const BOLD_MD = '**';
+    const ITALIC_MD = '*';
 
-    const isForceItalic = markdownMode === "italic";
-    const isForceBold = markdownMode === "bold";
+    const isForceItalic = markdownMode === 'italic';
+    const isForceBold = markdownMode === 'bold';
 
     // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);
@@ -380,35 +316,29 @@ function applyBoldItalicMarkdown({
 
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
     let isItalicFollowedByBold = false;
-    let delimiter = "";
+    let delimiter = '';
 
     if (isForceBold) {
         delimiter = BOLD_MD;
     } else if (isForceItalic) {
         delimiter = ITALIC_MD;
-        isItalicFollowedByBold =
-            prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
+        isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
     }
 
     // Does the selection have current hotkey's markdown?
-    const hasCurrentMarkdown =
-        prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
 
     // Does current selection have both of the markdown around it? i.e. ***haha***
-    const hasItalicAndBold =
-        prefix.endsWith(BOLD_MD + ITALIC_MD) &&
-        suffix.startsWith(BOLD_MD + ITALIC_MD);
+    const hasItalicAndBold = prefix.endsWith(BOLD_MD + ITALIC_MD) && suffix.startsWith(BOLD_MD + ITALIC_MD);
 
-    let newValue = "";
+    let newValue = '';
     let newStart = 0;
     let newEnd = 0;
 
     if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
         // message already has the markdown; remove it
         newValue =
-            prefix.substring(0, prefix.length - delimiter.length) +
-            selection +
-            suffix.substring(delimiter.length);
+            prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
         newStart = selectionStart - delimiter.length;
         newEnd = selectionEnd - delimiter.length;
     } else {
@@ -425,24 +355,19 @@ function applyBoldItalicMarkdown({
     };
 }
 
-function applyLinkMarkdown({
-    selectionEnd,
-    selectionStart,
-    value,
-}: Omit<ApplyMarkdownOptions, "markdownMode">) {
+function applyLinkMarkdown({selectionEnd, selectionStart, value}: Omit<ApplyMarkdownOptions, 'markdownMode'>) {
     // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);
     const selection = value.substring(selectionStart, selectionEnd);
     const suffix = value.substring(selectionEnd);
 
-    const delimiterStart = "[";
-    const delimiterEnd = "](url)";
+    const delimiterStart = '[';
+    const delimiterEnd = '](url)';
 
     // Does the selection have link markdown?
-    const hasMarkdown =
-        prefix.endsWith(delimiterStart) && suffix.startsWith(delimiterEnd);
+    const hasMarkdown = prefix.endsWith(delimiterStart) && suffix.startsWith(delimiterEnd);
 
-    let newValue = "";
+    let newValue = '';
     let newStart = 0;
     let newEnd = 0;
 
@@ -468,53 +393,35 @@ function applyLinkMarkdown({
         newEnd = newStart + urlShift;
     } else {
         // nothing is selected
-        const spaceBefore = prefix.charAt(prefix.length - 1) === " ";
-        const spaceAfter = suffix.charAt(0) === " ";
+        const spaceBefore = prefix.charAt(prefix.length - 1) === ' ';
+        const spaceAfter = suffix.charAt(0) === ' ';
         const cursorBeforeWord =
-            (selectionStart !== 0 && spaceBefore && !spaceAfter) ||
-            (selectionStart === 0 && !spaceAfter);
+            (selectionStart !== 0 && spaceBefore && !spaceAfter) || (selectionStart === 0 && !spaceAfter);
         const cursorAfterWord =
             (selectionEnd !== value.length && spaceAfter && !spaceBefore) ||
             (selectionEnd === value.length && !spaceBefore);
 
         if (cursorBeforeWord) {
             // cursor before a word
-            const word = value.substring(
-                selectionStart,
-                findWordEnd(value, selectionStart)
-            );
+            const word = value.substring(selectionStart, findWordEnd(value, selectionStart));
 
-            newValue =
-                prefix +
-                delimiterStart +
-                word +
-                delimiterEnd +
-                suffix.substring(word.length);
+            newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
             newStart = selectionStart + word.length + urlShift;
             newEnd = newStart + urlShift;
         } else if (cursorAfterWord) {
             // cursor after a word
-            const cursorAtEndOfLine =
-                selectionStart === selectionEnd &&
-                selectionEnd === value.length;
+            const cursorAtEndOfLine = selectionStart === selectionEnd && selectionEnd === value.length;
             if (cursorAtEndOfLine) {
                 // cursor at end of line
-                newValue = value + " " + delimiterStart + delimiterEnd;
+                newValue = value + ' ' + delimiterStart + delimiterEnd;
                 newStart = selectionEnd + 1 + delimiterStart.length;
                 newEnd = newStart;
             } else {
                 // cursor not at end of line
-                const word = value.substring(
-                    findWordStart(value, selectionStart),
-                    selectionStart
-                );
+                const word = value.substring(findWordStart(value, selectionStart), selectionStart);
 
                 newValue =
-                    prefix.substring(0, prefix.length - word.length) +
-                    delimiterStart +
-                    word +
-                    delimiterEnd +
-                    suffix;
+                    prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
                 newStart = selectionStart + urlShift;
                 newEnd = newStart + urlShift;
             }
@@ -524,12 +431,7 @@ function applyLinkMarkdown({
             const wordEnd = findWordEnd(value, selectionStart);
             const word = value.substring(wordStart, wordEnd);
 
-            newValue =
-                prefix.substring(0, wordStart) +
-                delimiterStart +
-                word +
-                delimiterEnd +
-                value.substring(wordEnd);
+            newValue = prefix.substring(0, wordStart) + delimiterStart + word + delimiterEnd + value.substring(wordEnd);
             newStart = wordEnd + urlShift;
             newEnd = newStart + urlShift;
         }
@@ -543,11 +445,11 @@ function applyLinkMarkdown({
 }
 
 function findWordEnd(text: string, start: number) {
-    const wordEnd = text.indexOf(" ", start);
+    const wordEnd = text.indexOf(' ', start);
     return wordEnd === -1 ? text.length : wordEnd;
 }
 
 function findWordStart(text: string, start: number) {
-    const wordStart = text.lastIndexOf(" ", start - 1) + 1;
+    const wordStart = text.lastIndexOf(' ', start - 1) + 1;
     return wordStart === -1 ? 0 : wordStart;
 }
