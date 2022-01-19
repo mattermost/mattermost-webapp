@@ -1,16 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {RouteComponentProps} from 'react-router';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage, useIntl} from 'react-intl';
+
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {createChannel} from 'mattermost-redux/actions/channels';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {Client4} from 'mattermost-redux/client';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 import QuickInput from 'components/quick_input';
 
+import {isFirstAdmin} from 'components/next_steps_view/steps';
+
 import './fullscreen_wizard.scss';
+
+import Constants, {OnboardingPreferences} from 'utils/constants';
+
+import {makeNewEmptyChannel} from 'utils/channel_utils';
 
 import BoardsSVG from './boards.svg';
 import PlaybooksSVG from './playbooks.svg';
@@ -39,6 +56,16 @@ const WizardSteps = {
 
 type WizardStep = typeof WizardSteps[keyof typeof WizardSteps];
 
+const SubmissionStates = {
+    Presubmit: 'Presubmit',
+    UserRequested: 'UserRequested',
+    Submitting: 'Submitting',
+    SubmitSuccess: 'SubmitSuccess',
+    SubmitFail: 'SubmitFail',
+} as const;
+
+type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
+
 const Animations = {
     PAGE_SLIDE: 300,
     Reasons: {
@@ -63,6 +90,8 @@ const UseCases = {
 // exit to after
 //
 type UseCase = typeof UseCases [keyof typeof UseCases];
+
+const DISPLAY_SUCCESS_TIME = 3000;
 
 type Form = {
     useCase: {
@@ -531,6 +560,8 @@ const ChannelsPreview = (props: ChannelsPreviewProps) => {
 };
 
 type InviteMembersProps = TransitionProps & {
+    disableEdits: boolean;
+    showInviteSuccess: boolean;
 }
 const InviteMembers = (props: InviteMembersProps) => {
     const className = (() => {
@@ -570,6 +601,7 @@ const InviteMembers = (props: InviteMembersProps) => {
                 />
                 <button
                     className='btn btn-primary'
+                    disabled={props.disableEdits}
                     onClick={props.next}
                 >
                     <FormattedMessage
@@ -631,14 +663,6 @@ const TeamMembers = (props: TeamMembersProps) => {
     );
 };
 
-const stepOrder = [
-    WizardSteps.UseCase,
-    WizardSteps.Plugins,
-    WizardSteps.Channel,
-    WizardSteps.InviteMembers,
-    WizardSteps.TransitioningOut,
-];
-
 type StepDotsProps = {
     step: WizardStep;
 }
@@ -668,13 +692,39 @@ const Progress = (props: StepDotsProps) => {
         <div className='tutorial__circles'>{dots}</div>
     </div>);
 };
-export default function FullscreenWizard(props: Props & RouteComponentProps) {
-    // TODO: figure out why CSSTransition isn't working for this top level route.
-    const shouldShowSetup = props.location.pathname.includes('/setup');
-    const [currentStep, setCurrentStep] = useState<WizardStep>(WizardSteps.UseCase);
 
-    const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(WizardSteps.UseCase);
+const logged: Record<string, true> = {};
+function logOnce(msg: string) {
+    if (logged[msg]) {
+        return;
+    }
+    console.log(msg);
+    logged[msg] = true;
+}
+
+export default function FullscreenWizard(props: Props & RouteComponentProps) {
+    const user = useSelector(getCurrentUser);
+    const currentTeam = useSelector(getCurrentTeam);
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
+
+    // TODO: Read from some config
+    const isSelfHosted = false;
+
+    const stepOrder = [
+        WizardSteps.UseCase,
+        WizardSteps.Plugins,
+        WizardSteps.Channel,
+        WizardSteps.InviteMembers,
+        WizardSteps.TransitioningOut,
+    ];
+
+    const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
+    const shouldShowSetup = props.location.pathname.includes('/setup');
+    const [currentStep, setCurrentStep] = useState<WizardStep>(stepOrder[0]);
+    const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(stepOrder[0]);
+    const [submissionState, setSubmissionState] = useState<SubmissionState>(SubmissionStates.Presubmit);
     const [form, setForm] = useState(emptyForm);
+    const dispatch = useDispatch();
     const makeNext = useCallback((currentStep: WizardStep) => {
         return function innerMakeNext() {
             const stepIndex = stepOrder.indexOf(currentStep);
@@ -686,6 +736,77 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
             setMostRecentStep(currentStep);
         };
     }, []);
+
+    const sendForm = async () => {
+        setSubmissionState(SubmissionStates.Presubmit);
+        dispatch(savePreferences(user.id, [
+            {
+                category: Constants.Preferences.ONBOARDING,
+                name: OnboardingPreferences.USE_CASE,
+                user_id: user.id,
+                value: JSON.stringify(form.useCase),
+            },
+        ]));
+
+        // send plugins
+        const {skipped: skippedPlugins, ...pluginChoices} = form.plugins;
+        if (!skippedPlugins) {
+            const pluginsToSetup = Object.entries(pluginChoices).reduce(
+                (acc: string[], [k, v]): string[] => (v ? [...acc, k] : acc), [],
+            );
+            const completeSetupRequest = {
+                plugins: pluginsToSetup,
+            };
+            try {
+                await Client4.completeSetup(completeSetupRequest);
+            } catch (e) {
+                // TODO:
+                // uh oh. show error to user?
+                // maybe a toast on the main screen?
+                console.error(`error setting up plugins ${e}`);
+            }
+        }
+
+        if (!form.channel.skipped) {
+            const {data: _data, error} = dispatch(createChannel(makeNewEmptyChannel(form.channel.name, currentTeam.id), user.id)) as ActionResult;
+            if (error) {
+                // TODO: Ruh Roah. Show some error?
+            }
+
+            // send them to the channel they just created instead of town square?
+        }
+
+        if (!form.teamMembers.skipped) {
+            // invite to team/channels gracefully
+            // TODO: Does on prem have a team at this point? May need to insert the team from creation on a prior screen.
+            dispatch(sendEmailInvitesToTeamGracefully(currentTeam.id, form.teamMembers.invites));
+        }
+
+        setSubmissionState(SubmissionStates.SubmitSuccess);
+
+        setTimeout(() => {
+            makeNext(WizardSteps.InviteMembers)();
+        }, DISPLAY_SUCCESS_TIME);
+
+        // i.e. TransitioningOut
+    };
+
+    useEffect(() => {
+        if (submissionState !== SubmissionStates.UserRequested) {
+            return;
+        }
+        sendForm();
+    }, [submissionState]);
+
+    if (!isUserFirstAdmin) {
+        // TODO: Redirect user here.
+        logOnce('user is not first admin');
+    }
+
+    // means the first admin has come back to this route after already having filled it out
+    if (Boolean(existingUseCasePreference) && submissionState === SubmissionStates.Presubmit) {
+        // TODO Redirect user here.
+    }
 
     const getTransitionDirection = (step: WizardStep): AnimationReason => {
         const stepIndex = stepOrder.indexOf(step);
@@ -718,6 +839,9 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
         return stepIndexesMax > mostRecentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
     };
     const goPrevious = useCallback(() => {
+        if (submissionState !== SubmissionStates.Presubmit) {
+            return;
+        }
         const stepIndex = stepOrder.indexOf(currentStep);
         if (stepIndex <= 0) {
             return;
@@ -768,6 +892,8 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
             defaultMessage='Previous'
         />
     </div>);
+
+    // TODO: figure out why CSSTransition isn't working for this top level route.
     return (
         <CSSTransition
             classNames='FullscreenWizard'
@@ -789,96 +915,87 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                 </div>
                 <Progress step={currentStep}/>
                 <div className='fullscreen-page-container'>
-                    {
-                        <UseCase
-                            options={form.useCase}
-                            setOption={(option: keyof Form['useCase']) => {
-                                setForm({
-                                    ...form,
-                                    useCase: {
-                                        ...form.useCase,
-                                        [option]: !form.useCase[option],
-                                    },
-                                });
-                            }}
-                            show={currentStep === WizardSteps.UseCase}
-                            next={makeNext(WizardSteps.UseCase)}
-                            direction={getTransitionDirection(WizardSteps.UseCase)}
-                        />
-                    }
-                    {
-                        <Plugins
-                            next={() => {
-                                makeNext(WizardSteps.Plugins)();
-                                skipPlugins(false);
-                            }}
-                            skip={() => {
-                                makeNext(WizardSteps.Plugins)();
-                                skipPlugins(true);
-                            }}
-                            options={form.plugins}
-                            setOption={(option: keyof Form['plugins']) => {
-                                setForm({
-                                    ...form,
-                                    plugins: {
-                                        ...form.plugins,
-                                        [option]: !form.plugins[option],
-                                    },
-                                });
-                            }}
-                            previous={previous}
-                            show={currentStep === WizardSteps.Plugins}
-                            direction={getTransitionDirection(WizardSteps.Plugins)}
-                        />
-                    }
-                    {
-                        <Channel
-                            next={() => {
-                                makeNext(WizardSteps.Channel)();
-                                skipChannel(false);
-                            }}
-                            skip={() => {
-                                makeNext(WizardSteps.Channel)();
-                                skipChannel(true);
-                            }}
-                            previous={previous}
-                            show={currentStep === WizardSteps.Channel}
-                            direction={getTransitionDirection(WizardSteps.Channel)}
-                            name={form.channel.name}
-                            onChange={(newValue: string) => setForm({
+                    <UseCase
+                        options={form.useCase}
+                        setOption={(option: keyof Form['useCase']) => {
+                            setForm({
                                 ...form,
-                                channel: {
-                                    ...form.channel,
-                                    name: newValue,
+                                useCase: {
+                                    ...form.useCase,
+                                    [option]: !form.useCase[option],
                                 },
-                            })}
-                        />
-                    }
-                    {
-                        <InviteMembers
-                            next={() => {
-                                // sendEmails and await response, then show the success button, then do the next transition
-                                makeNext(WizardSteps.InviteMembers)();
-                                skipTeamMembers(false);
-                            }}
-                            skip={() => {
-                                makeNext(WizardSteps.InviteMembers)();
-                                skipTeamMembers(true);
-                            }}
-                            previous={previous}
-                            show={currentStep === WizardSteps.InviteMembers}
-                            direction={getTransitionDirection(WizardSteps.InviteMembers)}
-                        />
-                    }
-                    {
-                        <ChannelsPreview
-                            show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
-                            step={currentStep}
-                            direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
-                            channelName={form.channel.name}
-                            teamName={'form.teamName'}
-                        />
-                    }
+                            });
+                        }}
+                        show={currentStep === WizardSteps.UseCase}
+                        next={makeNext(WizardSteps.UseCase)}
+                        direction={getTransitionDirection(WizardSteps.UseCase)}
+                    />
+                    <Plugins
+                        next={() => {
+                            makeNext(WizardSteps.Plugins)();
+                            skipPlugins(false);
+                        }}
+                        skip={() => {
+                            makeNext(WizardSteps.Plugins)();
+                            skipPlugins(true);
+                        }}
+                        options={form.plugins}
+                        setOption={(option: keyof Form['plugins']) => {
+                            setForm({
+                                ...form,
+                                plugins: {
+                                    ...form.plugins,
+                                    [option]: !form.plugins[option],
+                                },
+                            });
+                        }}
+                        previous={previous}
+                        show={currentStep === WizardSteps.Plugins}
+                        direction={getTransitionDirection(WizardSteps.Plugins)}
+                    />
+                    <Channel
+                        next={() => {
+                            makeNext(WizardSteps.Channel)();
+                            skipChannel(false);
+                        }}
+                        skip={() => {
+                            makeNext(WizardSteps.Channel)();
+                            skipChannel(true);
+                        }}
+                        previous={previous}
+                        show={currentStep === WizardSteps.Channel}
+                        direction={getTransitionDirection(WizardSteps.Channel)}
+                        name={form.channel.name}
+                        onChange={(newValue: string) => setForm({
+                            ...form,
+                            channel: {
+                                ...form.channel,
+                                name: newValue,
+                            },
+                        })}
+                    />
+                    <InviteMembers
+                        next={() => {
+                            skipTeamMembers(false);
+                            setSubmissionState(SubmissionStates.UserRequested);
+                        }}
+                        skip={() => {
+                            skipTeamMembers(true);
+                            setSubmissionState(SubmissionStates.UserRequested);
+                        }}
+                        previous={previous}
+                        show={currentStep === WizardSteps.InviteMembers}
+                        direction={getTransitionDirection(WizardSteps.InviteMembers)}
+                        disableEdits={submissionState !== SubmissionStates.Presubmit}
+                        showInviteSuccess={submissionState === SubmissionStates.SubmitSuccess}
+                    />
+                    <ChannelsPreview
+                        show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
+                        step={currentStep}
+                        direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
+                        channelName={form.channel.name}
+                        teamName={'form.teamName'}
+                    />
                 </div>
             </div>
         </CSSTransition>

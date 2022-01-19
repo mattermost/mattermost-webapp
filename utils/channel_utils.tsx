@@ -3,6 +3,7 @@
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
@@ -96,5 +97,25 @@ export function joinPrivateChannelPrompt(team, channel, handleOnCancel = true) {
             dispatch(openModal(modalData));
         });
         return result;
+    };
+}
+
+export function makeNewEmptyChannel(displayName: string, teamId: string): Channel {
+    return {
+        team_id: teamId,
+        name: displayName.split(' ').join('-').toLowerCase(),
+        display_name: displayName,
+        purpose: '',
+        header: '',
+        type: Constants.OPEN_CHANNEL as ChannelType,
+        create_at: 0,
+        creator_id: '',
+        delete_at: 0,
+        group_constrained: false,
+        id: '',
+        last_post_at: 0,
+        last_root_post_at: 0,
+        scheme_id: '',
+        update_at: 0,
     };
 }

@@ -123,6 +123,12 @@ export const Preferences = {
 
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
+
+    ONBOARDING: 'onboarding',
+};
+
+export const OnboardingPreferences = {
+    USE_CASE: 'use_case',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
