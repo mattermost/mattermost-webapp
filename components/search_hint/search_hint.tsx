@@ -2,8 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useSelector} from 'react-redux';
+
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
+
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
 interface SearchTerm {
     searchTerm: string;
@@ -28,6 +33,8 @@ const SearchHint = (props: Props): JSX.Element => {
             props.onOptionHover(optionIndex);
         }
     };
+    const config = useSelector(getConfig);
+    const isFileAttachmentEnabled = isFileAttachmentsEnabled(config);
 
     if (props.onSearchTypeSelected) {
         if (!props.searchType) {
@@ -53,16 +60,17 @@ const SearchHint = (props: Props): JSX.Element => {
                                 defaultMessage='Messages'
                             />
                         </button>
-                        <button
-                            className={classNames({highlighted: props.highlightedIndex === 1})}
-                            onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
-                        >
-                            <i className='icon icon-file-text-outline'/>
-                            <FormattedMessage
-                                id='search_bar.usage.search_type_files'
-                                defaultMessage='Files'
-                            />
-                        </button>
+                        { isFileAttachmentEnabled &&
+                            <button
+                                className={classNames({highlighted: props.highlightedIndex === 1})}
+                                onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
+                            >
+                                <i className='icon icon-file-text-outline'/>
+                                <FormattedMessage
+                                    id='search_bar.usage.search_type_files'
+                                    defaultMessage='Files'
+                                />
+                            </button>}
                     </div>
                 </div>
             );

@@ -104,6 +104,8 @@ function createPost({
     isTimezoneEnabled = false,
     useLDAPGroupMentions = true,
     useCustomGroupMentions = true,
+    canPost = true,
+    isMarkdownPreviewEnabled = false,
 } = {}) {
     return (
         <CreatePost
@@ -132,11 +134,12 @@ function createPost({
             badConnection={false}
             shouldShowPreview={false}
             isTimezoneEnabled={isTimezoneEnabled}
-            canPost={true}
+            canPost={canPost}
             useChannelMentions={true}
             useLDAPGroupMentions={useLDAPGroupMentions}
             useCustomGroupMentions={useCustomGroupMentions}
             tutorialStep={tutorialStep}
+            isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
         />
     );
 }
@@ -1300,5 +1303,29 @@ describe('components/create_post', () => {
         const e = makeSelectionEvent(value, 7, 14);
         textbox.props().onSelect(e);
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
+
+    it('should match snapshot, can post; preview enabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: true, isMarkdownPreviewEnabled: true}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, can post; preview disabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: true, isMarkdownPreviewEnabled: false}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, cannot post; preview enabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false, isMarkdownPreviewEnabled: true}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, cannot post; preview disabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false, isMarkdownPreviewEnabled: false}));
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

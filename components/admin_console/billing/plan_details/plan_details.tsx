@@ -20,7 +20,7 @@ import {Product} from 'mattermost-redux/types/cloud';
 
 const howBillingWorksLink = (
     <a
-        target='_new'
+        target='_blank'
         rel='noopener noreferrer'
         href={CloudLinks.BILLING_DOCS}
         onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'payment'})}
@@ -283,7 +283,7 @@ export const getPlanDetailElements = (
                     />
                 </div>
                 <a
-                    target='_new'
+                    target='_blank'
                     rel='noopener noreferrer'
                     href={CloudLinks.PRICING}
                 >
