@@ -4244,7 +4244,6 @@
   "status_dropdown.set_online": "Ansluten",
   "status_dropdown.set_ooo": "Ej tillgänglig",
   "status_dropdown.set_ooo.extra": "Automatiskt svar är aktiverat",
-  "status_dropdown.set_your_status": "Status",
   "string.id": "standardmeddelande",
   "suggestion.archive": "Arkiverade kanaler",
   "suggestion.mention.all": "Notifierar alla i kanalen",
