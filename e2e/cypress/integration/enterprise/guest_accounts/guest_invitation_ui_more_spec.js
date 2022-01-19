@@ -59,22 +59,19 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-T1337 Invite Guests - Existing Team Guest', () => {
-        cy.apiCreateUser().then(({user: newUser}) => {
-            cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
-                // # Demote the user from member to guest
-                cy.apiDemoteUserToGuest(newUser.id).then(() => {
-                    // # Search and add an existing guest by first name, who is part of the team but not channel
-                    invitePeople(newUser.first_name, 1, newUser.username, 'Off-Topic');
+        cy.apiCreateGuestUser().then(({guest}) => {
+            cy.apiAddUserToTeam(testTeam.id, guest.id).then(() => {
+                // # Search and add an existing guet by first name, who is part of the team but not channel
+                invitePeople(guest.first_name, 1, guest.username, 'Off-Topic');
 
-                    // * Verify the content and message in next screen
-                    verifyInvitationSuccess(newUser.username, testTeam, 'This guest has been added to the team and channel.');
+                // * Verify the content and message in next screen
+                verifyInvitationSuccess(guest.username, testTeam, 'This guest has been added to the team and channel.');
 
-                    // # Search and add an existing guest by last name, who is part of the team and channel
-                    invitePeople(newUser.last_name, 1, newUser.username);
+                // # Search and add an existing guest by last name, who is part of the team and channel
+                invitePeople(guest.last_name, 1, guest.username, 'Off-Topic');
 
-                    // * Verify the content and message in next screen
-                    verifyInvitationError(newUser.username, testTeam, 'This person is already a member of all the channels.', true);
-                });
+                // * Verify the content and message in next screen
+                verifyInvitationError(guest.username, testTeam, 'This person is already a member of all the channels.', true);
             });
         });
     });
