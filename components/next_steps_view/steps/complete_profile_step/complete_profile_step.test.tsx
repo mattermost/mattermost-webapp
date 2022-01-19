@@ -22,6 +22,12 @@ describe('components/next_steps_view/steps/complete_profile_step', () => {
             setDefaultProfileImage: jest.fn(),
             uploadProfileImage: jest.fn(),
         },
+        isLastStep: false,
+        isMobileView: false,
+        completeStepButtonText: {
+            id: 'tID',
+            defaultMessage: 'defaultMessage',
+        },
     };
 
     test('should match snapshot', () => {

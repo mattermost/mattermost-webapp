@@ -33,7 +33,7 @@ describe('Managing bots in Teams and Channels', () => {
     it('MM-T1815 Add a BOT to a team that has email restricted', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
-            const channel = await client.getChannelByName(team.id, 'off-topic');
+            const channel = await client.getChannelByName(team.id, 'town-square');
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Invite bot to team

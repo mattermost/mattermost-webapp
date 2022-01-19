@@ -5,6 +5,7 @@ import keyMirror from 'mattermost-redux/utils/key_mirror';
 export default keyMirror({
     RECEIVED_THREAD: null,
     RECEIVED_THREADS: null,
+    RECEIVED_UNREAD_THREADS: null,
     FOLLOW_CHANGED_THREAD: null,
     READ_CHANGED_THREAD: null,
     ALL_TEAM_THREADS_READ: null,

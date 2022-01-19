@@ -22,19 +22,21 @@ describe('Notifications', () => {
     let sender;
     let testTeam;
     let testChannel;
+    let testChannelUrl;
     let receiver;
 
     before(() => {
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Get config
         cy.apiGetConfig().then((data) => {
             ({config} = data);
         });
 
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, channel, user, channelUrl}) => {
             testTeam = team;
             testChannel = channel;
+            testChannelUrl = channelUrl;
             sender = user;
 
             cy.apiCreateUser().then(({user: user1}) => {
@@ -44,10 +46,10 @@ describe('Notifications', () => {
 
                     // # Login as receiver and visit test channel
                     cy.apiLogin(receiver);
-                    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                    cy.visit(testChannelUrl);
 
-                    // # Open 'Notifications' of 'Account Settings' modal
-                    cy.uiOpenAccountSettingsModal().within(() => {
+                    // # Open 'Notifications' of 'Settings' modal
+                    cy.uiOpenSettingsModal().within(() => {
                         // # Open 'Email Notifications' setting and set to 'Immediately'
                         cy.findByRole('heading', {name: 'Email Notifications'}).should('be.visible').click();
                         cy.findByRole('radio', {name: 'Immediately'}).click().should('be.checked');
@@ -63,7 +65,7 @@ describe('Notifications', () => {
 
                     // # Login as sender and visit test channel
                     cy.apiLogin(sender);
-                    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                    cy.visit(testChannelUrl);
                 });
             });
         });
@@ -86,7 +88,7 @@ describe('Notifications', () => {
         cy.getLastPostId().then((postId) => {
             // # Login as the receiver and visit test channel
             cy.apiLogin(receiver);
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visit(testChannelUrl);
             cy.get('#confirmModalButton').
                 should('be.visible').
                 and('have.text', 'Yes, set my status to "Online"').

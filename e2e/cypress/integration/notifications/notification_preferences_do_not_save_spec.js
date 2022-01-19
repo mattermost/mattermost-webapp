@@ -31,21 +31,16 @@ describe('Notifications', () => {
     });
 
     it('MM-T555 Notification Preferences do not save when modal is closed without saving', () => {
-        // # Call function that clicks on Account Settings -> Notifications -> Email Notifications -> Send Email Notifications -> Never without saving
-        openAccountSettingsAndClickEmailEdit(true);
+        // # Call function that clicks on Settings -> Notifications -> Email Notifications -> Send Email Notifications -> Never without saving
+        openSettingsAndClickEmailEdit(true);
 
-        // # Call function that checks Account Settings -> Notifications -> Email Notifications -> Send Email Notifications -> Never is not saved
-        openAccountSettingsAndClickEmailEdit(false);
+        // # Call function that checks Settings -> Notifications -> Email Notifications -> Send Email Notifications -> Never is not saved
+        openSettingsAndClickEmailEdit(false);
     });
 
-    function openAccountSettingsAndClickEmailEdit(shouldBeClicked = false) {
-        cy.findByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').should('be.visible').click();
-
-        // * Check that the 'Account Settings' modal was opened
-        cy.get('#accountSettingsModal').should('exist').within(() => {
-            cy.get('#notificationsButton').should('be.visible').click();
-
+    function openSettingsAndClickEmailEdit(shouldBeClicked = false) {
+        // # Open 'Settings' modal
+        cy.uiOpenSettingsModal().within(() => {
             // # Click on the 'Edit' button next to Email Notifications
             cy.get('#emailEdit').click();
 

@@ -118,3 +118,39 @@ Cypress.Commands.add('apiSearchCustomRetentionPolicyChannels', (id, term) => {
         return cy.wrap(response);
     });
 });
+
+/**
+ * Delete all custom retention policies
+ */
+Cypress.Commands.add('apiDeleteAllCustomRetentionPolicies', () => {
+    cy.apiGetCustomRetentionPolicies().then((result) => {
+        result.body.policies.forEach((policy) => {
+            cy.apiDeleteCustomRetentionPolicy(policy.id);
+        });
+    });
+});
+
+/**
+ * Create a post with create_at prop via API
+ * @param {string} channelId - Channel ID
+ * @param {string} message - Post a message
+ * @param {string} token - token
+ * @param {number} createAt -  epoch date
+ */
+Cypress.Commands.add('apiPostWithCreateDate', (channelId, message, token, createAt) => {
+    const headers = {'X-Requested-With': 'XMLHttpRequest'};
+    if (token !== '') {
+        headers.Authorization = `Bearer ${token}`;
+    }
+    return cy.request({
+        headers,
+        url: '/api/v4/posts',
+        method: 'POST',
+        body: {
+            channel_id: channelId,
+            create_at: createAt,
+            message,
+        },
+    });
+});
+

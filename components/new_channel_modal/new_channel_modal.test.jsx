@@ -19,7 +19,6 @@ describe('components/NewChannelModal', () => {
     const baseProps = {
         show: true,
         channelType: Constants.OPEN_CHANNEL,
-        currentTeamId: 'test_team_id',
         channelData,
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,

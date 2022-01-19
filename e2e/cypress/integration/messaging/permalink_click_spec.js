@@ -64,9 +64,6 @@ describe('Permalink message edit', () => {
                         // # Go to channel 1 from url
                         cy.visit(`/${testTeam.name}/channels/${channel1.name}`);
 
-                        // * Verify that we've switched to the team related to channel
-                        cy.uiGetLHSHeader().findByText(testTeam.display_name);
-
                         // * Prompt should be shown upon going to the screen
                         verifyPrivateChannelJoinPromptIsVisible(channel1);
 

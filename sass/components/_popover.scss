@@ -1,7 +1,5 @@
 @charset "utf-8";
 
-@import 'compass/css3/transition';
-
 .app__body .popover.channel-header__popover {
     box-shadow: none;
 }
@@ -15,10 +13,9 @@
 }
 
 .popover {
-    @include border-radius($border-rad * 2);
-
     padding: 0;
     background: var(--center-channel-bg);
+    border-radius: $border-rad * 2;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     color: lighten($black, 25%);
     font-family: inherit;
@@ -58,8 +55,7 @@
                 border-top: none;
                 background: v(center-channel-bg);
                 border-radius: 0 0 3px 3px;
-
-                @include box-shadow(rgba(var(--center-channel-color-rgb), 0.08) 0 17px 50px 0, rgba(var(--center-channel-color-rgb), 0.08) 0 12px 15px 0);
+                box-shadow: rgba(var(--center-channel-color-rgb), 0.08) 0 17px 50px 0, rgba(var(--center-channel-color-rgb), 0.08) 0 12px 15px 0;
 
                 .shared-user-icon {
                     width: 16px;
@@ -179,13 +175,12 @@
     }
 
     .popover-title {
-        @include border-radius(0);
-
         overflow: hidden;
         max-width: 100%;
         padding: 8px 10px;
         border-color: rgba(var(--center-channel-color-rgb), 0.08);
         background: alpha-color($black, 0.05);
+        border-radius: 0;
         text-overflow: ellipsis;
 
         > span {
@@ -366,9 +361,8 @@
     left: auto;
     width: 296px;
     max-width: 350px;
+    opacity: 0;
     visibility: hidden;
-
-    @include opacity(0);
 
     &.autocomplete {
         display: block;
@@ -411,12 +405,12 @@
 
     ul {
         span {
-            @include opacity(0.8);
+            opacity: 0.8;
         }
 
         strong,
         b {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 
@@ -425,29 +419,28 @@
     }
 
     body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration(0.1s);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in, step-end);
+        transition-delay: 0s;
+        transition-duration: 0.1s;
+        transition-property: opacity, visibility;
+        transition-timing-function: ease-in, step-end;
     }
 
     &.visible {
-        @include opacity(1);
-
+        opacity: 1;
         visibility: visible;
 
         body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration(0.3s);
-            @include transition-delay(0.2s);
-            @include transition-timing-function(ease-out, step-start);
+            transition-delay: 0.2s;
+            transition-duration: 0.3s;
+            transition-property: opacity, visibility;
+            transition-timing-function: ease-out, step-start;
         }
 
         body.enable-animations .sidebar--right & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration(0.3s);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
+            transition-delay: 0s;
+            transition-duration: 0.3s;
+            transition-property: opacity, visibility;
+            transition-timing-function: ease-out, step-start;
         }
     }
 }
@@ -469,18 +462,27 @@
     }
 
     .more-modal__header {
+        display: flex;
         padding: 14px 20px;
 
         .icon {
-            @include opacity(0.8);
-
             position: relative;
-            top: 2px;
             margin: 0 38px 0 24px;
+            opacity: 0.8;
         }
 
         span {
+            align-self: center;
             font-weight: 600;
+        }
+
+        button {
+            width: 70px;
+            margin-left: auto;
+
+            i {
+                margin: 0 5px !important;
+            }
         }
 
         .subhead {
@@ -494,8 +496,13 @@
     }
 
     .more-modal__button {
+        display: flex;
+
         .btn {
+            width: 100px;
             height: 42px;
+            padding: 0;
+            margin: 0 auto;
         }
     }
 
@@ -514,10 +521,9 @@
                 opacity: 1;
 
                 button {
-                    @include border-radius(4px);
-
                     width: 2em;
                     height: 2em;
+                    border-radius: 4px;
                     line-height: 0;
                     opacity: 0;
 
@@ -541,7 +547,7 @@
 
                 .more-modal__actions {
                     button {
-                        @include opacity(1);
+                        opacity: 1;
                     }
                 }
 
@@ -604,10 +610,9 @@
         }
 
         .more-modal__actions {
-            @include opacity(0);
-
             margin: 0;
             line-height: 42px;
+            opacity: 0;
 
             .icon {
                 position: relative;

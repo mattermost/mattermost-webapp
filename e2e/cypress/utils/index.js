@@ -10,6 +10,7 @@ import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with
 
 export * from './constants';
 export * from './email';
+export * from './file';
 export * from './plugins';
 
 /**

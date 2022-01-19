@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
+
+import Pluggable from 'plugins/pluggable';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
@@ -12,6 +13,7 @@ import {mark, trackEvent} from 'actions/telemetry_actions';
 
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
 import {wrapEmojis} from 'utils/emoji_utils';
@@ -61,6 +63,8 @@ type Props = {
     townSquareDisplayName: string;
 
     offTopicDisplayName: string;
+
+    firstChannelName?: string;
 
     actions: {
         clearChannelSelection: () => void;
@@ -169,14 +173,16 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             link,
             showTutorialTip,
             unreadMentions,
+            firstChannelName,
         } = this.props;
 
         let tutorialTip: JSX.Element | null = null;
-        if (showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
+        if ((showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) || firstChannelName === channel.name) {
             tutorialTip = (
                 <ChannelTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
+                    firstChannelName={this.props.firstChannelName}
                     openLhs={actions.openLhs}
                 />
             );
@@ -242,6 +248,10 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 >
                     {labelElement}
                     {customStatus}
+                    <Pluggable
+                        pluggableName='SidebarChannelLinkLabel'
+                        channel={this.props.channel}
+                    />
                 </div>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}

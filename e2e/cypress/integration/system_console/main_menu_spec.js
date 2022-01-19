@@ -10,15 +10,9 @@
 // Stage: @prod
 // Group: @system_console
 
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
-
 describe('Main menu', () => {
     before(() => {
-        goToAdminConsole();
+        cy.visit('/admin_console');
 
         // # Open the hamburger menu
         cy.get('button > span[class="menu-icon"]').click();

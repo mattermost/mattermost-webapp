@@ -120,6 +120,7 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
             group_constrained: false,
             id: '',
             last_post_at: 0,
+            last_root_post_at: 0,
             scheme_id: '',
             update_at: 0,
         };

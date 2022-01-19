@@ -21,6 +21,6 @@ Cypress.Commands.add('uiClickCopyLink', (permalink) => {
 
 Cypress.Commands.add('uiClickPostDropdownMenu', (postId, menuItem, location = 'CENTER') => {
     cy.clickPostDotMenu(postId, location);
-    cy.findByTestId(`post-menu-${postId}`).should('be.visible');
+    cy.findAllByTestId(`post-menu-${postId}`).eq(0).should('be.visible');
     cy.findByText(menuItem).scrollIntoView().should('be.visible').click({force: true});
 });

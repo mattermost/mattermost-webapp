@@ -2,22 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import FollowButton from 'components/threading/common/follow_button';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {isMobile} from 'utils/utils';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
+    isMobileView: boolean;
     rootPostId: string;
     previousRhsState?: string;
     relativeTeamUrl: string;
@@ -59,7 +59,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
     }
 
     handleJumpClick = () => {
-        if (isMobile()) {
+        if (this.props.isMobileView) {
             this.props.closeRightHandSide();
         }
 
@@ -75,6 +75,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
     render() {
         let back;
+        const {isFollowingThread} = this.props;
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
@@ -182,7 +183,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                     {this.props.isCollapsedThreadsEnabled ? (
                         <FollowButton
                             className='sidebar--right__follow__thread'
-                            isFollowing={this.props.isFollowingThread ?? false}
+                            isFollowing={isFollowingThread}
                             onClick={this.handleFollowChange}
                         />
                     ) : null}

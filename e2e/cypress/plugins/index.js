@@ -3,24 +3,30 @@
 
 /* eslint-disable no-console */
 
+const clientRequest = require('./client_request');
 const {
     dbGetActiveUserSessions,
     dbGetUser,
     dbGetUserSession,
     dbUpdateUserSession,
 } = require('./db_request');
-const clientRequest = require('./client_request');
 const externalRequest = require('./external_request');
-const fileExist = require('./file_exist');
+const {fileExist, writeToFile} = require('./file_util');
+const getPdfContent = require('./get_pdf_content');
 const getRecentEmail = require('./get_recent_email');
 const keycloakRequest = require('./keycloak_request');
 const oktaRequest = require('./okta_request');
 const postBotMessage = require('./post_bot_message');
 const postIncomingWebhook = require('./post_incoming_webhook');
 const postMessageAs = require('./post_message_as');
-const urlHealthCheck = require('./url_health_check');
+const postListOfMessages = require('./post_list_of_messages');
 const reactToMessageAs = require('./react_to_message_as');
-const getPdfContent = require('./get_pdf_content');
+const {
+    shellFind,
+    shellRm,
+    shellUnzip,
+} = require('./shell');
+const urlHealthCheck = require('./url_health_check');
 
 const log = (message) => {
     console.log(message);
@@ -36,6 +42,7 @@ module.exports = (on, config) => {
         dbUpdateUserSession,
         externalRequest,
         fileExist,
+        writeToFile,
         getPdfContent,
         getRecentEmail,
         keycloakRequest,
@@ -44,8 +51,12 @@ module.exports = (on, config) => {
         postBotMessage,
         postIncomingWebhook,
         postMessageAs,
+        postListOfMessages,
         urlHealthCheck,
         reactToMessageAs,
+        shellFind,
+        shellRm,
+        shellUnzip,
     });
 
     on('before:browser:launch', (browser = {}, launchOptions) => {

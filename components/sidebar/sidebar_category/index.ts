@@ -6,7 +6,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {setCategoryCollapsed, setCategorySorting} from 'mattermost-redux/actions/channel_categories';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {Preferences, Touched} from 'utils/constants';
 
 import {getDraggingState, makeGetFilteredChannelIdsForCategory} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
@@ -24,6 +28,8 @@ function makeMapStateToProps() {
         return {
             channelIds: getChannelIdsForCategory(state, ownProps.category),
             draggingState: getDraggingState(state),
+            touchedInviteMembersButton: getBool(state, Preferences.TOUCHED, Touched.INVITE_MEMBERS),
+            currentUserId: getCurrentUserId(state),
         };
     };
 }
@@ -33,6 +39,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             setCategoryCollapsed,
             setCategorySorting,
+            savePreferences,
         }, dispatch),
     };
 }

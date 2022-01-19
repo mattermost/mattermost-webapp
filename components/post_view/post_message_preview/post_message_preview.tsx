@@ -57,7 +57,7 @@ const PostMessagePreview = (props: Props) => {
     const isSystemMessage = PostUtils.isSystemMessage(previewPost);
     const fromWebhook = PostUtils.isFromWebhook(previewPost);
     const fromAutoResponder = PostUtils.fromAutoResponder(previewPost);
-    const profileSrc = Utils.imageURLForUser(user?.id);
+    const profileSrc = Utils.imageURLForUser(user?.id ?? '');
     const src = getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
 
     let avatar = (
@@ -126,7 +126,7 @@ const PostMessagePreview = (props: Props) => {
                     <p>
                         <FormattedMessage
                             id='post_message_preview.channel'
-                            defaultMessage='Originally posted in ~{channel}'
+                            defaultMessage='Only visible to users in ~{channel}'
                             values={{
                                 channel: metadata.channel_display_name,
                             }}

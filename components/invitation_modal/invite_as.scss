@@ -1,0 +1,36 @@
+@import 'components/toggle';
+
+.InviteAs {
+    &__label {
+        color: var(--center-channel-color);
+
+        &--parenthetical {
+            color: rgba(var(--center-channel-color-rgb), 0.8);
+        }
+    }
+
+    &__toggle {
+        display: flex;
+        align-items: top;
+        justify-content: space-between;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+
+    &__toggleDescription {
+        max-width: 66%;
+    }
+
+    .btn-toggle {
+        @include toggle-color($btn-default-color, rgba(var(--center-channel-color-rgb), 0.24), var(--button-bg));
+    }
+
+    .radio {
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

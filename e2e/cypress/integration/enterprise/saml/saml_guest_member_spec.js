@@ -97,13 +97,13 @@ describe('SAML Guest', () => {
         // # Save SAML Settings
         cy.findByText('Save').click().wait(TIMEOUTS.ONE_SEC);
 
-        // # Visit guest access settings
+        // # Visit Guest Access settings
         cy.visit('/admin_console/authentication/guest_access');
 
         // # Turn off Guest Access
         cy.findByTestId('GuestAccountsSettings.Enablefalse').check();
 
-        // # Save Guest Account Settings
+        // # Save Guest Access Settings
         cy.findByText('Save').click().wait(TIMEOUTS.ONE_SEC);
 
         // # Handle confirmation model

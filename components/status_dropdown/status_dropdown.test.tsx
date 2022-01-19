@@ -6,9 +6,21 @@ import {shallow} from 'enzyme';
 
 import {CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
 
+import {fakeDate} from 'tests/helpers/date';
+
 import StatusDropdown from './status_dropdown';
 
 describe('components/StatusDropdown', () => {
+    let resetFakeDate: () => void;
+
+    beforeEach(() => {
+        resetFakeDate = fakeDate(new Date('2021-11-02T22:48:57Z'));
+    });
+
+    afterEach(() => {
+        resetFakeDate();
+    });
+
     const actions = {
         openModal: jest.fn(),
         setStatus: jest.fn(),
@@ -30,11 +42,11 @@ describe('components/StatusDropdown', () => {
             manualTimezone: '',
         },
         isTimezoneEnabled: true,
+        isMilitaryTime: false,
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
         isStatusDropdownOpen: false,
         showCustomStatusPulsatingDot: false,
-        isTimedDNDEnabled: false,
     };
 
     test('should match snapshot in default state', () => {

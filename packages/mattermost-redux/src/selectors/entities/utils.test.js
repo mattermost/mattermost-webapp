@@ -5,21 +5,30 @@ import assert from 'assert';
 import TestHelper from 'mattermost-redux/test/test_helper.js';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
+import {UserStatuses} from 'utils/constants';
+
 import {makeAddLastViewAtToProfiles} from './utils';
 
 describe('utils.makeAddLastViewAtToProfiles', () => {
     it('Should return profiles with last_viewed_at from membership if channel and membership exists', () => {
-        const currentUser = TestHelper.fakeUserWithId();
-        const user1 = TestHelper.fakeUserWithId();
-        const user2 = TestHelper.fakeUserWithId();
-        const user3 = TestHelper.fakeUserWithId();
-        const user4 = TestHelper.fakeUserWithId();
+        const currentUser = TestHelper.fakeUserWithStatus(UserStatuses.ONLINE);
+        const user1 = TestHelper.fakeUserWithStatus(UserStatuses.OUT_OF_OFFICE);
+        const user2 = TestHelper.fakeUserWithStatus(UserStatuses.OFFLINE);
+        const user3 = TestHelper.fakeUserWithStatus(UserStatuses.DND);
+        const user4 = TestHelper.fakeUserWithStatus(UserStatuses.AWAY);
 
         const profiles = {
             [user1.id]: user1,
             [user2.id]: user2,
             [user3.id]: user3,
             [user4.id]: user4,
+        };
+
+        const statuses = {
+            [user1.id]: user1.status,
+            [user2.id]: user2.status,
+            [user3.id]: user3.status,
+            [user4.id]: user4.status,
         };
 
         const channel1 = TestHelper.fakeDmChannel(currentUser.id, user1.id);
@@ -51,7 +60,7 @@ describe('utils.makeAddLastViewAtToProfiles', () => {
                 users: {
                     currentUserId: currentUser.id,
                     profiles,
-                    statuses: {},
+                    statuses,
                 },
                 teams: {
                     currentTeamId: 'currentTeam',

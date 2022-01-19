@@ -70,11 +70,14 @@ describe('User Management', () => {
 
         // * Check View Members modal dialog
         cy.get('#teamMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS});
+            cy.get('#searchUsersInput').
+                should('be.visible').
+                click().
+                type(otherUser.email, {force: true});
 
             // * Deactivated user does not show up in View Members for teams
-            cy.findByTestId('noUsersFound').should('be.visible');
-            cy.findByLabelText('Close').click();
+            cy.findByTestId('noUsersFound');
+            cy.uiClose();
         });
 
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -89,9 +92,12 @@ describe('User Management', () => {
 
         // * Deactivated user does not show up in View Members for channels
         cy.get('#channelMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS});
-            cy.findByTestId('noUsersFound').should('be.visible');
-            cy.findByLabelText('Close').click();
+            cy.get('#searchUsersInput').
+                should('be.visible').
+                click().
+                type(otherUser.email, {force: true});
+            cy.findByTestId('noUsersFound');
+            cy.uiClose();
         });
 
         // * User does show up in DM More menu so that DM channels can be viewed.

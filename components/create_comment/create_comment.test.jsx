@@ -3,13 +3,13 @@
 
 import React from 'react';
 
-import CreateComment from 'components/create_comment/create_comment';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
-import Constants from 'utils/constants';
 
+import Constants, {ModalIdentifiers} from 'utils/constants';
+
+import CreateComment from 'components/create_comment/create_comment';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import Textbox from 'components/textbox';
@@ -53,7 +53,6 @@ describe('components/CreateComment', () => {
         resetCreatePostRequest: jest.fn(),
         setShowPreview: jest.fn(),
         shouldShowPreview: false,
-        readOnlyChannel: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
         enableConfirmNotificationsToChannel: true,
@@ -68,6 +67,7 @@ describe('components/CreateComment', () => {
         useChannelMentions: true,
         getChannelMemberCountsByGroup: jest.fn(),
         useGroupMentions: true,
+        openModal: jest.fn(),
     };
 
     test('should match snapshot, empty comment', () => {
@@ -287,25 +287,14 @@ describe('components/CreateComment', () => {
         expect(wrapper.instance().getFileCount()).toBe(0);
     });
 
-    test('should correctly change state when showPostDeletedModal is called', () => {
+    test('should call openModal when showPostDeletedModal is called', () => {
         const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>,
         );
 
         wrapper.instance().showPostDeletedModal();
-        expect(wrapper.state().showPostDeletedModal).toBe(true);
-    });
 
-    test('should correctly change state when hidePostDeletedModal is called', () => {
-        const resetCreatePostRequest = jest.fn();
-        const props = {...baseProps, resetCreatePostRequest};
-        const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
-        );
-
-        wrapper.instance().hidePostDeletedModal();
-        expect(wrapper.state().showPostDeletedModal).toBe(false);
-        expect(resetCreatePostRequest).toHaveBeenCalledTimes(1);
+        expect(baseProps.openModal).toHaveBeenCalledTimes(1);
     });
 
     test('handleUploadStart should update comment draft correctly', () => {
@@ -377,7 +366,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
     });
 
-    test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
+    test('should open PostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
@@ -391,7 +380,33 @@ describe('components/CreateComment', () => {
         );
 
         wrapper.setProps({createPostErrorId: 'api.post.create_post.root_id.app_error'});
-        expect(wrapper.state('showPostDeletedModal')).toBe(true);
+
+        expect(props.openModal).toHaveBeenCalledTimes(1);
+        expect(props.openModal.mock.calls[0][0]).toMatchObject({
+            modalId: ModalIdentifiers.POST_DELETED_MODAL,
+        });
+    });
+
+    test('should open PostDeletedModal when message is submitted to deleted root', () => {
+        const onUpdateCommentDraft = jest.fn();
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
+        };
+        const props = {...baseProps, onUpdateCommentDraft, draft};
+
+        const wrapper = shallowWithIntl(
+            <CreateComment {...props}/>,
+        );
+
+        wrapper.setProps({rootDeleted: true});
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(props.openModal).toHaveBeenCalledTimes(1);
+        expect(props.openModal.mock.calls[0][0]).toMatchObject({
+            modalId: ModalIdentifiers.POST_DELETED_MODAL,
+        });
     });
 
     describe('focusTextbox', () => {
@@ -575,7 +590,7 @@ describe('components/CreateComment', () => {
             preventDefault = jest.fn();
         });
 
-        ['channel', 'all'].forEach((mention) => {
+        ['channel', 'all', 'here'].forEach((mention) => {
             describe(`should not show Confirm Modal for @${mention} mentions`, () => {
                 it('when channel member count too low', () => {
                     const props = {
@@ -597,7 +612,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when feature disabled', () => {
@@ -620,7 +635,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when no mention', () => {
@@ -643,7 +658,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
 
                 it('when user has insufficient permissions', () => {
@@ -667,7 +682,7 @@ describe('components/CreateComment', () => {
                     wrapper.instance().handleSubmit({preventDefault});
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
-                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                    expect(props.openModal).not.toHaveBeenCalled();
                 });
             });
 
@@ -691,7 +706,7 @@ describe('components/CreateComment', () => {
                 wrapper.instance().handleSubmit({preventDefault});
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
 
             it(`should show Confirm Modal for @${mention} mentions when needed and timezone notification`, async () => {
@@ -719,7 +734,7 @@ describe('components/CreateComment', () => {
                 expect(preventDefault).toHaveBeenCalled();
                 expect(wrapper.state('channelTimezoneCount')).toBe(4);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
 
             it(`should show Confirm Modal for @${mention} mentions when needed and no timezone notification`, async () => {
@@ -747,7 +762,7 @@ describe('components/CreateComment', () => {
                 expect(preventDefault).toHaveBeenCalled();
                 expect(wrapper.state('channelTimezoneCount')).toBe(0);
                 expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('showConfirmModal')).toBe(true);
+                expect(props.openModal).toHaveBeenCalled();
             });
         });
 
@@ -780,16 +795,16 @@ describe('components/CreateComment', () => {
             const wrapper = shallowWithIntl(
                 <CreateComment {...props}/>,
             );
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(10);
-            expect(wrapper.state('channelTimezoneCount')).toBe(0);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should show Confirm Modal for @group mentions when needed and no timezone notification', async () => {
@@ -854,15 +869,16 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(40);
-            expect(wrapper.state('channelTimezoneCount')).toBe(0);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you', '@software-developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should show Confirm Modal for @group mention with timezone enabled', async () => {
@@ -895,15 +911,16 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
+            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
+            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.state('memberNotifyCount')).toBe(10);
-            expect(wrapper.state('channelTimezoneCount')).toBe(5);
-            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.state('showConfirmModal')).toBe(true);
+            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 5, 10);
+            expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should allow to force send invalid slash command as a message', async () => {
@@ -1099,15 +1116,6 @@ describe('components/CreateComment', () => {
 
         wrapper.setProps({rootId: 'new_root_id'});
         expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
-    });
-
-    test('should match snapshot read only channel', () => {
-        const props = {...baseProps, readOnlyChannel: true};
-        const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
-        );
-
-        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when cannot post', () => {
@@ -1530,5 +1538,34 @@ describe('components/CreateComment', () => {
         const e = makeSelectionEvent(value, 7, 14);
         textbox.props().onSelect(e);
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
+
+    it('should blur when ESCAPE is pressed', () => {
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+            />,
+        );
+        const instance = wrapper.instance();
+        const blur = jest.fn();
+
+        const mockImpl = () => {
+            return {
+                blur: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+
+        instance.textboxRef.current = {blur, getInputBox: jest.fn(mockImpl)};
+
+        const commentEscapeKey = {
+            preventDefault: jest.fn(),
+            ctrlKey: true,
+            key: Constants.KeyCodes.ESCAPE[0],
+            keyCode: Constants.KeyCodes.ESCAPE[1],
+        };
+
+        instance.handleKeyDown(commentEscapeKey);
+        expect(blur).toHaveBeenCalledTimes(1);
     });
 });

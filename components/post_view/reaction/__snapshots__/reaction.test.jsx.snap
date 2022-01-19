@@ -7,13 +7,11 @@ exports[`components/post_view/Reaction should apply read-only class if user does
   onEnter={[Function]}
   overlay={
     <Tooltip
-      bsClass="tooltip"
       id="post_id_1-smile-reaction"
-      placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={false}
-        canRemoveReaction={true}
+        canAddReactions={false}
+        canRemoveReactions={true}
         currentUserReacted={false}
         emojiName="smile"
         reactions={
@@ -91,13 +89,11 @@ exports[`components/post_view/Reaction should apply read-only class if user does
   onEnter={[Function]}
   overlay={
     <Tooltip
-      bsClass="tooltip"
       id="post_id_1-smile-reaction"
-      placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={true}
-        canRemoveReaction={false}
+        canAddReactions={true}
+        canRemoveReactions={false}
         currentUserReacted={true}
         emojiName="smile"
         reactions={
@@ -175,13 +171,11 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
   onEnter={[Function]}
   overlay={
     <Tooltip
-      bsClass="tooltip"
       id="post_id_1-smile-reaction"
-      placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={true}
-        canRemoveReaction={true}
+        canAddReactions={true}
+        canRemoveReactions={true}
         currentUserReacted={false}
         emojiName="smile"
         reactions={
@@ -259,13 +253,11 @@ exports[`components/post_view/Reaction should match snapshot when a current user
   onEnter={[Function]}
   overlay={
     <Tooltip
-      bsClass="tooltip"
       id="post_id_1-smile-reaction"
-      placement="right"
     >
       <Memo(Connect(ReactionTooltip))
-        canAddReaction={true}
-        canRemoveReaction={true}
+        canAddReactions={true}
+        canRemoveReactions={true}
         currentUserReacted={true}
         emojiName="smile"
         reactions={

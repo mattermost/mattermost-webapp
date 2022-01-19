@@ -122,10 +122,10 @@ describe('Image attachment', () => {
         });
 
         // * Verify that the preview modal open up
-        cy.uiGetFilePreview();
+        cy.uiGetFilePreviewModal();
 
         // # Close the modal
-        cy.uiCloseFilePreview();
+        cy.uiCloseFilePreviewModal();
     });
 
     it('opens image preview window when small image is clicked', () => {
@@ -150,7 +150,7 @@ describe('Image attachment', () => {
         });
 
         // * Verify that the preview modal open up
-        cy.uiGetFilePreview();
+        cy.uiGetFilePreviewModal();
     });
 });
 

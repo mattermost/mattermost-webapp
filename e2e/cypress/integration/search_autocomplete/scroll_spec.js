@@ -23,7 +23,7 @@ describe('Autocomplete in the search box - scrolling', () => {
                     cy.apiAddUserToTeam(team.id, user.id);
                 });
             }
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # Post a new message to ensure page fully rendered before acting into the searchBox
             cy.postMessage('hello');

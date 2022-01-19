@@ -3,14 +3,15 @@
 
 import {ServerError} from './errors';
 import {UserProfile} from './users';
-import {Dictionary, RelationOneToOne} from './utilities';
+import {RelationOneToOne} from './utilities';
 
 export type TeamMembership = TeamUnread & {
     user_id: string;
     roles: string;
     delete_at: number;
-    scheme_user: boolean;
     scheme_admin: boolean;
+    scheme_guest: boolean;
+    scheme_user: boolean;
 };
 
 export type TeamMemberWithError = {
@@ -42,8 +43,8 @@ export type Team = {
 
 export type TeamsState = {
     currentTeamId: string;
-    teams: Dictionary<Team>;
-    myMembers: Dictionary<TeamMembership>;
+    teams: Record<string, Team>;
+    myMembers: Record<string, TeamMembership>;
     membersInTeam: RelationOneToOne<Team, RelationOneToOne<UserProfile, TeamMembership>>;
     stats: RelationOneToOne<Team, TeamStats>;
     groupsAssociatedToTeam: any;

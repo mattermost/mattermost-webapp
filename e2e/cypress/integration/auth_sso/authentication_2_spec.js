@@ -25,7 +25,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('88');
 
-        cy.findByText('Save').click();
+        cy.uiSave();
 
         // * Ensure error appears when saving a password outside of the limits
         cy.findByText('Minimum password length must be a whole number greater than or equal to 5 and less than or equal to 64.', {timeout: TIMEOUTS.ONE_MIN}).
@@ -34,7 +34,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"').clear().type('3');
 
-        cy.findByText('Save').click();
+        cy.uiSave();
 
         // * Ensure error appears when saving a password outside of the limits
         cy.findByText('Minimum password length must be a whole number greater than or equal to 5 and less than or equal to 64.', {timeout: TIMEOUTS.ONE_MIN}).
@@ -47,7 +47,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('7');
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSave();
 
         cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible');
 
@@ -80,7 +80,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('10');
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSave();
 
         cy.reload();
 
@@ -88,7 +88,7 @@ describe('Authentication', () => {
         cy.findByPlaceholderText('E.g.: "5"').invoke('val').should('equal', '10');
         cy.findByPlaceholderText('E.g.: "5"').clear();
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSave();
 
         // * Ensure the limit 10 appears
         cy.findByPlaceholderText('E.g.: "5"').invoke('val').should('equal', '5');
@@ -122,7 +122,7 @@ describe('Authentication', () => {
         });
     });
 
-    it('MM-T1777 - Multi-factor Authentication option hidden in Account Settings when disabled', () => {
+    it('MM-T1777 - Multi-factor Authentication option hidden in Profile when disabled', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: false,
@@ -131,14 +131,14 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal('Security');
+        // # Go to Profile
+        cy.uiOpenProfileModal('Security');
 
         // * Assert that Multi-factor Authentication text does not exist
         cy.findByText('Multi-factor Authentication').should('not.exist');
     });
 
-    it('MM-T1779 - Multi-factor Authentication option appears in Account Settings when enabled', () => {
+    it('MM-T1779 - Multi-factor Authentication option appears in Profile when enabled', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
@@ -147,8 +147,8 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal('Security');
+        // # Go to Profile
+        cy.uiOpenProfileModal('Security');
 
         // * Assert that Multi-factor Authentication text does exist
         cy.findByText('Multi-factor Authentication').should('be.visible');

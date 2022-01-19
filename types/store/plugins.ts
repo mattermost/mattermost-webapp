@@ -6,8 +6,8 @@ import React from 'react';
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
-import {FileInfo} from 'mattermost-redux//types/files';
-import {PostEmbed} from 'mattermost-redux/types/posts';
+import {FileInfo} from 'mattermost-redux/types/files';
+import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 export type PluginsState = {
@@ -15,6 +15,15 @@ export type PluginsState = {
 
     components: {
         Product: ProductComponent[];
+        CallButton: PluginComponent[];
+        PostDropdownMenu: PluginComponent[];
+        FilePreview: PluginComponent[];
+        MainMenu: PluginComponent[];
+        LinkTooltip: PluginComponent[];
+        RightHandSidebarComponent: PluginComponent[];
+        ChannelHeaderButton: PluginComponent[];
+        MobileChannelHeaderButton: PluginComponent[];
+        AppBar: PluginComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -33,18 +42,40 @@ export type PluginsState = {
     };
 };
 
+export type Menu = {
+    id: string;
+    parentMenuId?: string;
+    text?: React.ReactElement|string;
+    selectedValueText?: string;
+    subMenu?: Menu[];
+    filter?: (id?: string) => boolean;
+    action?: (...args: any) => void;
+    icon?: React.ReactElement;
+    direction?: 'left' | 'right';
+    isHeader?: boolean;
+}
+
 export type PluginComponent = {
     id: string;
     pluginId: string;
-    component?: React.Component;
-    subMenu?: any[]; // TODO Add more concrete type
+    component?: React.ComponentType;
+    subMenu?: Menu[];
     text?: string;
     dropdownText?: string;
     tooltipText?: string;
     icon?: React.ReactElement;
+    iconUrl?: string;
+    mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
 };
+
+export type FilePreviewComponent = {
+    id: string;
+    pluginId: string;
+    override: (fileInfo: FileInfo, post?: Post) => boolean;
+    component: React.ComponentType<{fileInfo: FileInfo; post?: Post}>;
+}
 
 export type FileDropdownPluginComponent = {
     id: string;
@@ -85,7 +116,8 @@ export type ProductComponent = {
     switcherText: string;
     baseURL: string;
     switcherLinkURL: string;
-    mainComponent: React.ReactNode;
-    headerCentreComponent?: React.ReactNode;
-    headerRightComponent?: React.ReactNode;
+    mainComponent: React.ComponentType;
+    headerCentreComponent?: React.ComponentType;
+    headerRightComponent?: React.ComponentType;
+    showTeamSidebar: boolean;
 };

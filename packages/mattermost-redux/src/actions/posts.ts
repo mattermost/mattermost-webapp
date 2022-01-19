@@ -18,7 +18,6 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -33,10 +32,11 @@ import {selectChannel} from './channels';
 
 // receivedPost should be dispatched after a single post from the server. This typically happens when an existing post
 // is updated.
-export function receivedPost(post: Post) {
+export function receivedPost(post: Post, crtEnabled?: boolean) {
     return {
         type: PostTypes.RECEIVED_POST,
         data: post,
+        features: {crtEnabled},
     };
 }
 
@@ -134,6 +134,7 @@ export function postRemoved(post: Post) {
 export function getPost(postId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let post;
+        const crtEnabled = isCollapsedThreadsEnabled(getState());
 
         try {
             post = await Client4.getPost(postId);
@@ -148,7 +149,7 @@ export function getPost(postId: string) {
         }
 
         dispatch(batchActions([
-            receivedPost(post),
+            receivedPost(post, crtEnabled),
             {
                 type: PostTypes.GET_POSTS_SUCCESS,
             },
@@ -220,7 +221,7 @@ export function createPost(post: Post, files: any[] = []) {
                 const created = await Client4.createPost({...newPost, create_at: 0});
 
                 actions = [
-                    receivedPost(created),
+                    receivedPost(created, crtEnabled),
                     {
                         type: PostTypes.CREATE_POST_SUCCESS,
                     },
@@ -268,7 +269,7 @@ export function createPost(post: Post, files: any[] = []) {
                 ) {
                     actions.push(removePost(data) as any);
                 } else {
-                    actions.push(receivedPost(data));
+                    actions.push(receivedPost(data, crtEnabled));
                 }
 
                 dispatch(batchActions(actions, 'BATCH_CREATE_POST_FAILED'));
@@ -313,10 +314,11 @@ export function createPostImmediately(post: Post, files: any[] = []) {
             });
         }
 
+        const crtEnabled = isCollapsedThreadsEnabled(state);
         dispatch(receivedNewPost({
             ...newPost,
             id: pendingPostId,
-        }, isCollapsedThreadsEnabled(state)));
+        }, crtEnabled));
 
         try {
             const created = await Client4.createPost({...newPost, create_at: 0});
@@ -336,7 +338,7 @@ export function createPostImmediately(post: Post, files: any[] = []) {
         }
 
         const actions: Action[] = [
-            receivedPost(newPost),
+            receivedPost(newPost, crtEnabled),
             {
                 type: PostTypes.CREATE_POST_SUCCESS,
             },
@@ -504,14 +506,15 @@ export function pinPost(postId: string) {
             },
         ];
 
-        const post = Selectors.getPost(getState(), postId);
+        const state = getState();
+        const post = Selectors.getPost(state, postId);
         if (post) {
             actions.push(
                 receivedPost({
                     ...post,
                     is_pinned: true,
                     update_at: Date.now(),
-                }),
+                }, isCollapsedThreadsEnabled(state)),
                 {
                     type: ChannelTypes.INCREMENT_PINNED_POST_COUNT,
                     id: post.channel_id,
@@ -547,14 +550,15 @@ export function unpinPost(postId: string) {
             },
         ];
 
-        const post = Selectors.getPost(getState(), postId);
+        const state = getState();
+        const post = Selectors.getPost(state, postId);
         if (post) {
             actions.push(
                 receivedPost({
                     ...post,
                     is_pinned: false,
                     update_at: Date.now(),
-                }),
+                }, isCollapsedThreadsEnabled(state)),
                 {
                     type: ChannelTypes.DECREMENT_PINNED_POST_COUNT,
                     id: post.channel_id,
@@ -933,7 +937,7 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         return Promise.resolve();
     }
 
-    const postsDictionary: Dictionary<Post> = {};
+    const postsDictionary: Record<string, Post> = {};
     for (let i = 0; i < postsArray.length; i++) {
         postsDictionary[postsArray[i].id] = postsArray[i];
     }
@@ -993,8 +997,29 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     return Promise.all(promises);
 }
 
+export function getPostsByIds(ids: string[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let posts;
+
+        try {
+            posts = await Client4.getPostsByIds(ids);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: PostTypes.RECEIVED_POSTS,
+            data: {posts},
+        });
+
+        return {data: {posts}};
+    };
+}
+
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
-    let usersByUsername: Dictionary<UserProfile>; // Populate this lazily since it's relatively expensive
+    let usersByUsername: Record<string, UserProfile>; // Populate this lazily since it's relatively expensive
 
     const usernamesToLoad = new Set<string>();
 

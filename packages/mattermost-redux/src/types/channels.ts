@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
+import {IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 import {Team} from './teams';
 
 // e.g.
@@ -38,6 +38,7 @@ export type Channel = {
     header: string;
     purpose: string;
     last_post_at: number;
+    last_root_post_at: number;
     creator_id: string;
     scheme_id: string;
     teammate_id?: string;
@@ -137,7 +138,7 @@ export type ChannelsState = {
     channelsInTeam: RelationOneToMany<Team, Channel>;
     myMembers: RelationOneToOne<Channel, ChannelMembership>;
     roles: RelationOneToOne<Channel, Set<string>>;
-    membersInChannel: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>;
+    membersInChannel: RelationOneToOne<Channel, Record<string, ChannelMembership>>;
     stats: RelationOneToOne<Channel, ChannelStats>;
     groupsAssociatedToChannel: any;
     totalCount: number;

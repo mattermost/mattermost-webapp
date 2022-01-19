@@ -27,3 +27,28 @@ Cypress.Commands.add('apiLDAPTest', () => {
         return cy.wrap(response);
     });
 });
+
+Cypress.Commands.add('apiSyncLDAPUser', ({
+    ldapUser = {},
+    bypassTutorial = true,
+    hideOnboarding = true,
+}) => {
+    // # Test LDAP connection and synchronize user
+    cy.apiLDAPTest();
+    cy.apiLDAPSync();
+
+    // # Login to sync LDAP user
+    return cy.apiLogin(ldapUser).then(({user}) => {
+        if (bypassTutorial || hideOnboarding) {
+            cy.apiAdminLogin();
+        }
+        if (bypassTutorial) {
+            cy.apiSaveTutorialStep(user.id, '999');
+        }
+        if (hideOnboarding) {
+            cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
+        }
+
+        return cy.wrap(user);
+    });
+});

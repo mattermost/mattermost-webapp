@@ -48,14 +48,14 @@ describe('Environment', () => {
             // verify the settings picture button is visible to click
             cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-            // before uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('be.disabled');
+            // * Before uploading the picture the save button must be disabled
+            cy.uiSaveButton().should('be.disabled');
 
             // # Upload a file on center view
             cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
             // after uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
@@ -100,14 +100,14 @@ describe('Environment', () => {
             // verify the settings picture button is visible to click
             cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-            // before uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('be.disabled');
+            // * Before uploading the picture the save button must be disabled
+            cy.uiSaveButton().should('be.disabled');
 
             // # Upload a file on center view
             cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
-            // after uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+            // * After uploading the picture the save button must be disabled
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
@@ -152,14 +152,14 @@ describe('Environment', () => {
             // verify the settings picture button is visible to click
             cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-            // before uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('be.disabled');
+            // * Before uploading the picture the save button must be disabled
+            cy.uiSaveButton().should('be.disabled');
 
             // # Upload a file on center view
             cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
-            // after uploading the picture the save button must be disabled
-            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+            // * After uploading the picture the save button must be disabled
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
@@ -281,6 +281,23 @@ describe('Environment', () => {
         cy.get('#TestS3Connection').scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Test Connection').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
             waitForAlert('Connection unsuccessful: S3 Bucket is required');
+        });
+    });
+
+    it('MM-T963 - Configuration - Purge caches', () => {
+        cy.visit('/admin_console/environment/web_server');
+
+        // # Find the purge all caches button on the page and click it
+        cy.get('#PurgeButton').scrollIntoView().should('be.visible').within(() => {
+            cy.findByText('Purge All Caches').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
+        });
+
+        // # Reload the page
+        cy.reload();
+
+        // * Verify app continues to run successfully by querying for the header
+        cy.get('.admin-console', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+            cy.get('.admin-console__header').should('be.visible').and('have.text', 'Web Server');
         });
     });
 

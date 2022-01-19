@@ -161,7 +161,7 @@ describe('Interactive Menu', () => {
                 });
 
                 // # Close RHS
-                cy.closeRHS();
+                cy.uiCloseRHS();
             });
         });
     });
@@ -470,7 +470,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -533,7 +533,7 @@ describe('Interactive Menu', () => {
             // # Checking if we got updated ephemeral message with the new selection we made
             verifyEphemeralMessage('Ephemeral | select option: avocado');
 
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -572,7 +572,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 });
@@ -623,7 +623,7 @@ function verifyLastPost() {
         });
 
         // # Close the RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 }
 

@@ -189,7 +189,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open product menu and click 'Integrations'
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
 
         cy.get('.integration-option__title').contains('Incoming Webhooks').click();
 
@@ -204,8 +204,8 @@ describe('Integrations page', () => {
         // # Visit home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Click 'Integrations' at main menu
-        cy.uiOpenProductSwitchMenu('Integrations');
+        // # Click 'Integrations' at product menu
+        cy.uiOpenProductMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -276,8 +276,8 @@ describe('Integrations page', () => {
         // # Visit home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Click 'Integrations' at main menu
-        cy.uiOpenProductSwitchMenu('Integrations');
+        // # Click 'Integrations' at product menu
+        cy.uiOpenProductMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -364,8 +364,8 @@ describe('Integrations page', () => {
     it('MM-T580 Custom slash command auto-complete displays trigger word and not command name', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Click 'Integrations' at main menu
-        cy.uiOpenProductSwitchMenu('Integrations');
+        // # Click 'Integrations' at product menu
+        cy.uiOpenProductMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');

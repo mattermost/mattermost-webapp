@@ -128,7 +128,7 @@
                 color: var(--sidebar-header-text-color);
 
                 .offline--icon {
-                    fill: var(--sidebar-text);
+                    fill: var(--offline-indicator);
                 }
 
                 svg {
@@ -145,9 +145,10 @@
     }
 
     .SidebarChannelNavigator {
+        margin: 16px 14px 8px 14px;
+
         &.desktop {
             display: block;
-            margin: 16px 14px 8px 14px;
 
             .AddChannelDropdown_dropdownButton,
             .SidebarFilters_filterButton,
@@ -165,7 +166,6 @@
 
         &.webapp {
             display: flex;
-            margin: 16px 14px 8px 14px;
 
             .AddChannelDropdown_dropdownButton,
             .SidebarChannelNavigator_inviteUsers,
@@ -461,6 +461,7 @@
 
             .styleSelectableItemDiv {
                 display: flex;
+                height: 34px;
                 align-items: center;
                 justify-content: space-between;
                 padding: 0 15px;
@@ -725,13 +726,23 @@
             margin-left: 5px;
         }
 
-        &:hover {
-            color: var(--sidebar-text);
+        &--untouched {
+            color: var(--sidebar-unread-text);
+            font-weight: $font-weight--semibold;
+
+            i::before {
+                font-weight: $font-weight--semibold;
+            }
         }
     }
 
     #introTextInvite {
-        margin-top: -2px;
+        display: flex;
+        width: 100%;
+
+        &:hover {
+            background-color: var(--sidebar-text-hover-bg);
+        }
     }
 
     .SidebarChannelNavigator_inviteUsersSticky {
@@ -1017,8 +1028,7 @@
 
         &:hover {
             .btn-close {
-                @include opacity(0.8);
-
+                opacity: 0.8;
                 visibility: visible;
             }
         }
@@ -1051,8 +1061,6 @@
         }
 
         .btn-close {
-            @include opacity(0);
-
             position: relative;
             width: 24px;
             height: 20px;
@@ -1061,11 +1069,12 @@
             font-size: 21px;
             font-weight: 600;
             line-height: 16px;
+            opacity: 0;
             text-align: center;
             visibility: hidden;
 
             &:hover {
-                @include opacity(1);
+                opacity: 1;
             }
         }
 
@@ -1372,5 +1381,18 @@
     > div,
     > a {
         padding: 0 32px 0 24px;
+    }
+}
+
+// global header style adjustments
+@media screen and (min-width: 769px) {
+    // adjust height of sidebar to account for global header
+    #SidebarContainer {
+        height: calc(100% - 40px);
+
+        .SidebarChannelNavigator {
+            margin-top: 0;
+            margin-bottom: 11px;
+        }
     }
 }

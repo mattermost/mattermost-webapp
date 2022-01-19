@@ -9,8 +9,10 @@ import EllipsisHorizontalIcon from 'components/widgets/icons/ellipsis_h_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
+import {TeamWithMembership} from './types';
+
 type Props = {
-    team: {[x: string]: string};
+    team: TeamWithMembership;
     doRemoveUserFromTeam: (teamId: string) => void;
     doMakeUserTeamAdmin: (teamId: string) => void;
     doMakeUserTeamMember: (teamId: string) => void;

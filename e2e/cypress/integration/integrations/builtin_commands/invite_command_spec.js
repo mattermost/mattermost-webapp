@@ -94,7 +94,7 @@ describe('Integrations', () => {
         cy.get('#selectItems').type(`${userToInviteDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userToInviteDM.username}`);
 
         // # In a DM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
         cy.postMessage(`/invite        @${userToInviteDM.username} ~${testChannel.name} `);
@@ -143,7 +143,7 @@ describe('Integrations', () => {
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
 
         // # In a GM Use the /invite command to invite a channel to another channel (e.g., /invite @[channel name])
         cy.postMessage(`/invite @${testChannel.name} `);
@@ -169,7 +169,7 @@ describe('Integrations', () => {
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
 
         // # In a DM use the /invite command to invite someone to a channel they're already a member of
         cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name} `);
@@ -195,7 +195,7 @@ describe('Integrations', () => {
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
 
         // # As UserB use the /invite command in a DM to invite UserC to the public channel that UserB is not a member of
         cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel `);

@@ -63,7 +63,7 @@ describe('Scroll', () => {
         getInlineImgPost().invoke('height').as('initialInlineImgHeight');
         getLastTextPost().invoke('height').as('initialLastPostHeight');
 
-        // # Switch the account settings for the test user to enable Fixed width center
+        // # Switch the settings for the test user to enable Fixed width center
         cy.uiOpenSettingsModal('Display').within(() => {
             cy.findByText('Display', {timeout: timeouts.ONE_MIN}).click();
             cy.findByText('Channel Display').click();

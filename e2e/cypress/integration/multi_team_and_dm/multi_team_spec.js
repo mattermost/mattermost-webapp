@@ -19,12 +19,15 @@ describe('Send a DM', () => {
     let testChannel;
     let teamA;
     let teamB;
+    let offTopicUrlA;
+    let offTopicUrlB;
 
     before(() => {
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, channel, user, offTopicUrl: url}) => {
             userA = user;
             teamA = team;
             testChannel = channel;
+            offTopicUrlA = url;
 
             cy.apiCreateUser().then(({user: otherUser}) => {
                 userB = otherUser;
@@ -38,6 +41,7 @@ describe('Send a DM', () => {
                 return cy.apiCreateTeam('team', 'Team');
             }).then(({team: otherTeam}) => {
                 teamB = otherTeam;
+                offTopicUrlB = `/${teamB.name}/channels/off-topic`;
                 return cy.apiAddUserToTeam(teamB.id, userA.id);
             }).then(() => {
                 return cy.apiAddUserToTeam(teamB.id, userB.id);
@@ -50,7 +54,7 @@ describe('Send a DM', () => {
         cy.apiLogin(userA);
 
         // # On an account on two teams, view Team A
-        cy.visit(`/${teamA.name}/channels/town-square`);
+        cy.visit(offTopicUrlA);
     });
 
     it('MM-T433 Switch teams', () => {
@@ -77,7 +81,8 @@ describe('Send a DM', () => {
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userB.username).should('be.visible');
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userC.username).should('be.visible');
 
-        // # Post a message in Town Square in Team B
+        // # Post a message in Off-Topic in Team B
+        cy.uiClickSidebarItem('off-topic');
         cy.postMessage('Hello World');
 
         // * Verify posting a message works properly.
@@ -89,13 +94,13 @@ describe('Send a DM', () => {
         cy.get(`#${teamA.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
         // * Verify there is no cross contamination between teams.
-        cy.get('#sidebarItem_town-square').should('not.have.class', 'unread-title');
+        cy.get('#sidebarItem_off-topic').should('not.have.class', 'unread-title');
 
         // * DM Channel list should be the same on both teams with no missing names.
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userB.username).should('be.visible');
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userC.username).should('be.visible');
 
-        // * Channel viewed on a team before switching should be the one that displays after switching back (Town Square does not briefly show).
+        // * Channel viewed on a team before switching should be the one that displays after switching back (Off-Topic does not briefly show).
         cy.url().should('include', `/${teamA.name}/messages/@${userC.username}`);
     });
 
@@ -103,13 +108,13 @@ describe('Send a DM', () => {
         // # Have another user also on those two teams post two at-mentions for you on Team B
         cy.apiLogin(userB);
 
-        cy.visit(`/${teamB.name}/channels/town-square`);
+        cy.visit(offTopicUrlB);
         cy.postMessage(`@${userA.username} `);
         cy.postMessage(`@${userA.username} `);
         cy.apiLogout();
 
         cy.apiLogin(userA);
-        cy.visit(`/${teamA.name}/channels/town-square`);
+        cy.visit(offTopicUrlA);
 
         // * Observe a mention badge with "2" on Team B on your team sidebar
         cy.get(`#${teamB.name}TeamButton`).should('be.visible').within(() => {
@@ -119,7 +124,7 @@ describe('Send a DM', () => {
 
     it('MM-T438 Multi-team unreads', () => {
         // # Go to team B, and make sure all mentions are read
-        cy.visit(`/${teamB.name}/channels/town-square`);
+        cy.visit(offTopicUrlB);
         cy.visit(`/${teamA.name}/channels/${testChannel.name}`);
 
         // * No dot appears for you on Team B since there are no more mentions
@@ -130,13 +135,13 @@ describe('Send a DM', () => {
         // # Have the other user switch to Team A and post (a message, not a mention) in a channel you're a member of
         cy.apiLogin(userB);
 
-        cy.visit(`/${teamA.name}/channels/town-square`);
+        cy.visit(offTopicUrlA);
         cy.postMessage('Hey all');
         cy.apiLogout();
 
         // * Dot appears, with no number (just unread, not a mention)
         cy.apiLogin(userA);
-        cy.visit(`/${teamB.name}/channels/town-square`);
+        cy.visit(offTopicUrlB);
         cy.get(`#${teamA.name}TeamButton`).parent('.unread').should('be.visible');
         cy.get(`#${teamA.name}TeamButton`).should('be.visible').within(() => {
             cy.get('.badge').should('not.exist');

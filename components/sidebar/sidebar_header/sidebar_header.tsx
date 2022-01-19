@@ -4,7 +4,6 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {Tooltip} from 'react-bootstrap';
 
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 import Heading from '@mattermost/compass-components/components/heading';
@@ -21,6 +20,7 @@ import Constants, {Preferences, TutorialSteps} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
@@ -28,6 +28,7 @@ import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
     menuInHeading: boolean;
+    id?: string;
 }
 
 type SidebarHeaderProps = {
@@ -176,27 +177,33 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     <SidebarHeading menuInHeading={true}>
                         <span className='title'>{currentTeam.display_name}</span>
                         <i className='icon icon-chevron-down'/>
+                        {showMenuTip && (
+                            <MenuTutorialTip
+                                stopPropagation={true}
+                                onBottom={false}
+                                inHeading={true}
+                            />
+                        )}
                     </SidebarHeading>
                     <MainMenu id='sidebarDropdownMenu'/>
                 </MenuWrapper>
-                {showMenuTip && (
-                    <MenuTutorialTip
-                        onBottom={false}
-                        inHeading={true}
-                    />
-                )}
             </>
         );
     }
 
-    const sidebarHeader = (
+    return (
         <>
             {(showMenuTip && !hasAddChannelTreatment) ? <MenuTutorialTip onBottom={false}/> : null}
-            <SidebarHeaderContainer menuInHeading={hasAddChannelTreatment}>
+            <SidebarHeaderContainer
+                id={'sidebar-header-container'}
+                menuInHeading={hasAddChannelTreatment}
+            >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
-                    overlay={currentTeam.description?.length ? <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip> : <></>}
+                    overlay={currentTeam.description?.length ? (
+                        <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>
+                    ) : <></>}
                 >
                     {sidebarHeadingContent}
                 </OverlayTrigger>
@@ -204,8 +211,6 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
             </SidebarHeaderContainer>
         </>
     );
-
-    return sidebarHeader;
 };
 
 export default SidebarHeader;

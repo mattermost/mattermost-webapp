@@ -4,20 +4,18 @@
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {Team} from 'mattermost-redux/types/teams';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
@@ -26,6 +24,7 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
 
@@ -35,7 +34,7 @@ export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     intl: IntlShape;
     post: Post;
-    teamId?: string;
+    teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
@@ -48,9 +47,10 @@ type Props = {
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings?: AppBinding[];
+    teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    appBindings: AppBinding[] | null;
     appsEnabled: boolean;
+    isMobileView: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -89,7 +89,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (postId: any) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
 
         /**
          * Function to set the unread mark at given post
@@ -111,15 +111,22 @@ type Props = {
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+
+        /**
+         * Function to get the post menu bindings for this post.
+         */
+        fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    currentTeamId: $ID<Team>;
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
+    isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
 }
 
@@ -127,6 +134,7 @@ type State = {
     openUp: boolean;
     canEdit: boolean;
     canDelete: boolean;
+    appBindings?: AppBinding[];
 }
 
 export class DotMenuClass extends React.PureComponent<Props, State> {
@@ -175,11 +183,21 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.disableCanEditPostByTime();
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (!this.state.appBindings && this.props.isMenuOpen && !prevProps.isMenuOpen) {
+            this.fetchBindings();
+        }
+    }
+
     static getDerivedStateFromProps(props: Props) {
-        return {
+        const state: Partial<State> = {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };
+        if (props.appBindings) {
+            state.appBindings = props.appBindings;
+        }
+        return state;
     }
 
     componentWillUnmount() {
@@ -209,7 +227,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     copyLink = () => {
-        Utils.copyToClipboard(`${this.props.currentTeamUrl}/pl/${this.props.post.id}`);
+        Utils.copyToClipboard(`${this.props.teamUrl}/pl/${this.props.post.id}`);
     }
 
     handlePinMenuItemActivated = () => {
@@ -229,7 +247,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         e.preventDefault();
 
         const deletePostModalData = {
-            ModalId: ModalIdentifiers.DELETE_POST,
+            modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
                 post: this.props.post,
@@ -250,12 +268,18 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleSetThreadFollow = () => {
-        const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
+        const {actions, teamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
+        let followingThread: boolean;
+        if (isFollowingThread === null) {
+            followingThread = !isMentionedInRootPost;
+        } else {
+            followingThread = !isFollowingThread;
+        }
         actions.setThreadFollow(
             userId,
-            currentTeamId,
+            teamId,
             threadId,
-            !isFollowingThread,
+            followingThread,
         );
     }
 
@@ -271,27 +295,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: Menu) => {
-        if (menuRef) {
-            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-            let y;
-            if (typeof buttonRect?.y === 'undefined') {
-                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
-            } else {
-                y = buttonRect?.y;
-            }
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-            });
-        }
-    }
-
     renderDivider = (suffix: string) => {
         return (
             <li
@@ -305,7 +308,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     onClickAppBinding = async (binding: AppBinding) => {
         const {post, intl} = this.props;
 
-        if (!binding.call) {
+        const call = binding.form?.call || binding.call;
+
+        if (!call) {
             return;
         }
         const context = createCallContext(
@@ -316,15 +321,20 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.post.id,
             this.props.post.root_id,
         );
-        const call = createCallRequest(
-            binding.call,
+        const callRequest = createCallRequest(
+            call,
             context,
             {
                 post: AppExpandLevels.ALL,
             },
         );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
 
         if (res.error) {
             const errorResponse = res.error;
@@ -344,7 +354,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, callRequest);
+            }
             break;
         default: {
             const errorMessage = intl.formatMessage({
@@ -358,9 +372,40 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
+    fetchBindings = () => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId).then(({data}) => {
+            this.setState({appBindings: data});
+        });
+    }
+
+    handleDropdownOpened = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
+
+        if (!open) {
+            return;
+        }
+
+        const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+        let y;
+        if (typeof buttonRect?.y === 'undefined') {
+            y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+        } else {
+            y = buttonRect?.y;
+        }
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+        this.setState({
+            openUp: (spaceOnTop > spaceOnBottom),
+        });
+    }
+
     render() {
+        const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const isMobile = Utils.isMobile();
 
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
@@ -394,8 +439,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             }) || [];
 
         let appBindings = [] as JSX.Element[];
-        if (this.props.appsEnabled && this.props.appBindings) {
-            appBindings = this.props.appBindings.map((item) => {
+        if (this.props.appsEnabled && this.state.appBindings) {
+            appBindings = this.state.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {
                     icon = (<img src={item.icon}/>);
@@ -405,6 +450,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         text={item.label}
                         key={item.app_id + item.location}
+                        id={`${item.app_id}_${item.location}`}
                         onClick={() => this.onClickAppBinding(item)}
                         icon={icon}
                     />
@@ -415,9 +461,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
+        const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
 
         return (
-            <MenuWrapper onToggle={this.props.handleDropdownOpened}>
+            <MenuWrapper onToggle={this.handleDropdownOpened}>
                 <OverlayTrigger
                     className='hidden-xs'
                     delayShow={500}
@@ -442,7 +489,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
-                    ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <Menu.ItemAction
@@ -473,7 +519,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...this.props.isFollowingThread ? {
+                        {...isFollowingThread ? {
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                             extraText: Utils.localizeMessage('threading.threadMenu.unfollowExtra', 'You won’t be notified about replies'),
                         } : {

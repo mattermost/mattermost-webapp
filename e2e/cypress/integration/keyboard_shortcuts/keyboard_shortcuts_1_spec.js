@@ -422,13 +422,13 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1252 - CTRL/CMD+SHIFT+A', () => {
-        // # Type CTRL/CMD+SHIFT+A to open 'Account Settings' modal
+        // # Type CTRL/CMD+SHIFT+A to open 'Profile' modal
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
-        cy.get('#accountSettingsHeader').should('be.visible');
+        cy.uiGetSettingsModal().should('be.visible');
 
-        // # Type CTRL/CMD+SHIFT+A to close 'Account Settings' modal
+        // # Type CTRL/CMD+SHIFT+A to close 'Profile' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}A');
-        cy.get('#accountSettingsHeader').should('not.exist');
+        cy.uiGetSettingsModal().should('not.exist');
     });
 
     it('MM-T1278 - CTRL/CMD+SHIFT+K', () => {

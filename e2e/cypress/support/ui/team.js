@@ -3,8 +3,7 @@
 
 Cypress.Commands.add('uiInviteMemberToCurrentTeam', (username) => {
     // # Open member invite screen
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#invitePeople > button').should('contain.text', 'Invite People').click();
+    cy.uiOpenTeamMenu('Invite People');
 
     // # Open members section if licensed for guest accounts
     cy.findByTestId('invitationModal').
@@ -12,16 +11,16 @@ Cypress.Commands.add('uiInviteMemberToCurrentTeam', (username) => {
         then((link) => link && link.click());
 
     // # Enter bot username and submit
-    cy.findByTestId('inputPlaceholder').find('input').type(username, {force: true}).as('input');
+    cy.get('.users-emails-input__control input').type(username, {force: true}).as('input');
     cy.get('.users-emails-input__option ').contains(`@${username}`);
     cy.get('@input').type('{enter}', {force: true});
-    cy.get('.invite-members button').click();
+    cy.get('#inviteMembersButton').click();
 
     // * Verify user invited to team
-    cy.get('.invitation-modal-confirm-sent .InvitationModalConfirmStepRow').
+    cy.get('.invitation-modal-confirm--sent .InviteResultRow').
         should('contain.text', `@${username}`).
         and('contain.text', 'This member has been added to the team.');
 
     // # Close, return
-    cy.get('.confirm-done').click();
+    cy.findByTestId('confirm-done').click();
 });

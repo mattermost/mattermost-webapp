@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import throttle from 'lodash/throttle';
+
+import classNames from 'classnames';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -19,7 +22,7 @@ import {trackLoadTime} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
-import GlobalHeader from 'components/global/global_header';
+import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
@@ -29,7 +32,7 @@ import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -60,24 +63,30 @@ import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
 
-const CreateTeam = makeAsyncComponent(LazyCreateTeam);
-const ErrorPage = makeAsyncComponent(LazyErrorPage);
-const TermsOfService = makeAsyncComponent(LazyTermsOfService);
-const LoginController = makeAsyncComponent(LazyLoginController);
-const AdminConsole = makeAsyncComponent(LazyAdminConsole);
-const LoggedIn = makeAsyncComponent(LazyLoggedIn);
-const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
-const SignupController = makeAsyncComponent(LazySignupController);
-const SignupEmail = makeAsyncComponent(LazySignupEmail);
-const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
-const DoVerifyEmail = makeAsyncComponent(LazyDoVerifyEmail);
-const ClaimController = makeAsyncComponent(LazyClaimController);
-const HelpController = makeAsyncComponent(LazyHelpController);
-const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
-const SelectTeam = makeAsyncComponent(LazySelectTeam);
-const Authorize = makeAsyncComponent(LazyAuthorize);
-const Mfa = makeAsyncComponent(LazyMfa);
+import TeamSidebar from 'components/team_sidebar';
+
+import {applyLuxonDefaults} from './effects';
+
+import RootRedirect from './root_redirect';
+
+const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
+const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
+const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
+const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
+const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
+const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
+const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
+const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
+const SignupController = makeAsyncComponent('SignupController', LazySignupController);
+const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
+const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
+const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
+const HelpController = makeAsyncComponent('HelpController', LazyHelpController);
+const LinkingLandingPage = makeAsyncComponent('LinkingLandingPage', LazyLinkingLandingPage);
+const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
+const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
+const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -100,6 +109,7 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            emitBrowserWindowResized: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -113,6 +123,9 @@ export default class Root extends React.PureComponent {
 
         // Redux
         setUrl(getSiteURL());
+
+        // Disable auth header to enable CSRF check
+        Client4.setAuthHeader = false;
 
         setSystemEmojis(EmojiIndicesByAlias);
 
@@ -128,12 +141,11 @@ export default class Root extends React.PureComponent {
         });
 
         document.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            if (!document.body.classList.contains('focalboard-body')) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         });
-
-        // Fastclick
-        FastClick.attach(document.body);
 
         this.state = {
             configLoaded: false,
@@ -143,6 +155,16 @@ export default class Root extends React.PureComponent {
         if (!UserAgent.isInternetExplorer()) {
             this.a11yController = new A11yController();
         }
+
+        // set initial window size state
+        this.desktopMediaQuery = window.matchMedia(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
+        this.smallDesktopMediaQuery = window.matchMedia(`(min-width: ${Constants.TABLET_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.DESKTOP_SCREEN_WIDTH}px)`);
+        this.tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
+        this.mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
+
+        this.updateWindowSize();
+
+        store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
 
     onConfigLoaded = () => {
@@ -230,6 +252,9 @@ export default class Root extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
+        if (!deepEqual(prevProps.theme, this.props.theme)) {
+            Utils.applyTheme(this.props.theme);
+        }
         if (this.props.location.pathname === '/') {
             if (this.props.noAccounts) {
                 prevProps.history.push('/signup_user_complete');
@@ -248,11 +273,39 @@ export default class Root extends React.PureComponent {
             this.onConfigLoaded();
         });
         trackLoadTime();
+
+        if (this.desktopMediaQuery.addEventListener) {
+            this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.addListener) {
+            this.desktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.addEventListener('resize', this.handleWindowResizeEvent);
+        }
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
+
+        if (this.desktopMediaQuery.removeEventListener) {
+            this.desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.removeListener) {
+            this.desktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.removeEventListener('resize', this.handleWindowResizeEvent);
+        }
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -277,6 +330,33 @@ export default class Root extends React.PureComponent {
                 location.reload();
             }
             document.addEventListener('visibilitychange', onVisibilityChange, false);
+        }
+    }
+
+    handleWindowResizeEvent = throttle(() => {
+        this.props.actions.emitBrowserWindowResized();
+    }, 100);
+
+    handleMediaQueryChangeEvent = (e) => {
+        if (e.matches) {
+            this.updateWindowSize();
+        }
+    }
+
+    updateWindowSize = () => {
+        switch (true) {
+        case this.desktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.DESKTOP_VIEW);
+            break;
+        case this.smallDesktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.SMALL_DESKTOP_VIEW);
+            break;
+        case this.tabletMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.TABLET_VIEW);
+            break;
+        case this.mobileMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.MOBILE_VIEW);
+            break;
         }
     }
 
@@ -367,6 +447,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
+                        <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route
@@ -374,12 +455,14 @@ export default class Root extends React.PureComponent {
                                     path={product.baseURL}
                                     render={(props) => (
                                         <LoggedIn {...props}>
-                                            <Pluggable
-                                                pluggableName={'Product'}
-                                                subComponentName={'mainComponent'}
-                                                pluggableId={product.id}
-                                                webSocketClient={webSocketClient}
-                                            />
+                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                <Pluggable
+                                                    pluggableName={'Product'}
+                                                    subComponentName={'mainComponent'}
+                                                    pluggableId={product.id}
+                                                    webSocketClient={webSocketClient}
+                                                />
+                                            </div>
                                         </LoggedIn>
                                     )}
                                 />
@@ -400,13 +483,9 @@ export default class Root extends React.PureComponent {
                                 path={'/:team'}
                                 component={NeedsTeam}
                             />
-                            <Redirect
-                                to={{
-                                    ...this.props.location,
-                                    pathname: '/login',
-                                }}
-                            />
+                            <RootRedirect/>
                         </Switch>
+                        <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
             </IntlProvider>

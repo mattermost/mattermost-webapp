@@ -61,9 +61,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -175,7 +173,6 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -241,9 +238,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -355,7 +350,6 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -421,9 +415,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -535,7 +527,6 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -601,9 +592,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -715,7 +704,6 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -838,7 +826,6 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -904,9 +891,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -939,9 +924,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             delayShow={400}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 id="channelMutedTooltip"
-                placement="right"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Unmute"
@@ -1052,7 +1035,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -1118,9 +1100,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1232,7 +1212,6 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -1443,7 +1422,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -1672,7 +1650,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -1744,9 +1721,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1858,7 +1833,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -2080,7 +2054,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -2152,9 +2125,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -2270,7 +2241,6 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -2336,9 +2306,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -2458,7 +2426,6 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
         }
       }
     />
-    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;

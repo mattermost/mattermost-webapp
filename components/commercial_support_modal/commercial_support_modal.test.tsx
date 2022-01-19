@@ -12,8 +12,7 @@ describe('components/CommercialSupportModal', () => {
         const mockUser = TestHelper.getUserMock();
         const wrapper = shallow(
             <CommercialSupportModal
-                show={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 showBannerWarning={true}
                 isCloud={false}
                 currentUser={mockUser}

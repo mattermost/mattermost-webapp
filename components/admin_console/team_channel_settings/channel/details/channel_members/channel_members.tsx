@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
@@ -13,14 +11,14 @@ import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
 import {BaseMembership} from 'components/admin_console/user_grid/user_grid_role_dropdown';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ToggleModalButton from 'components/toggle_modal_button';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
 type Props = {
@@ -29,9 +27,9 @@ type Props = {
     filters: GetFilteredUsersStatsOpts;
 
     users: UserProfile[];
-    usersToRemove: Dictionary<UserProfile>;
-    usersToAdd: Dictionary<UserProfile>;
-    channelMembers: Dictionary<ChannelMembership>;
+    usersToRemove: Record<string, UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
+    channelMembers: Record<string, ChannelMembership>;
 
     totalCount: number;
     searchTerm: string;
@@ -255,11 +253,12 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 subtitleId={t('admin.channel_settings.channel_detail.membersDescription')}
                 subtitleDefault='A list of users who are currently in the channel right now'
                 button={
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='addChannelMembers'
                         className='btn btn-primary'
+                        modalId={ModalIdentifiers.CHANNEL_INVITE}
                         dialogType={ChannelInviteModal}
-                        isDisabled={isDisabled}
+                        disabled={isDisabled}
                         dialogProps={{
                             channel,
                             channelId,
@@ -274,7 +273,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             id='admin.team_settings.team_details.add_members'
                             defaultMessage='Add Members'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 }
             >
                 <UserGrid

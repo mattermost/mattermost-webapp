@@ -390,11 +390,6 @@ Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
-// Close RHS by clicking close button
-Cypress.Commands.add('closeRHS', () => {
-    cy.get('#rhsCloseButton').should('be.visible').click();
-});
-
 // ***********************************************************
 // Teams
 // ***********************************************************

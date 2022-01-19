@@ -1,11 +1,10 @@
 @charset 'UTF-8';
 
 @mixin file-icon($path) {
-    @include background-size(32px 40px);
-
     background-image: url($path);
     background-position: center;
     background-repeat: no-repeat;
+    background-size: 32px 40px;
 }
 
 @mixin alpha-property($property, $color, $opacity) {
@@ -65,5 +64,61 @@
     &:hover,
     &:active {
         text-decoration: none;
+    }
+}
+
+@mixin fit-content {
+    width: fit-content;
+    width: -moz-fit-content;
+}
+
+@mixin clearfix {
+    overflow: hidden;
+    *zoom: 1;
+}
+
+@mixin pie-clearfix {
+    &::after {
+        display: table;
+        clear: both;
+        content: "";
+    }
+
+    *zoom: 1;
+}
+
+@mixin tertiary-button {
+    display: inline-flex;
+    height: 40px;
+    align-items: center;
+    padding: 0 20px;
+    border: 0;
+    background: rgba(var(--button-bg-rgb), 0.08);
+    border-radius: 4px;
+    color: var(--button-bg);
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s ease-out;
+
+    &:disabled {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.32);
+    }
+
+    &:hover:enabled {
+        background: rgba(var(--button-bg-rgb), 0.12);
+    }
+
+    &:active:enabled {
+        background: rgba(var(--button-bg-rgb), 0.16);
+    }
+
+    i {
+        display: flex;
+        font-size: 18px;
+
+        &::before {
+            margin: 0 7px 0 0;
+        }
     }
 }

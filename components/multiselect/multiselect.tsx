@@ -14,7 +14,7 @@ import SaveButton from 'components/save_button';
 import Avatar from 'components/widgets/users/avatar';
 
 import {Constants, A11yCustomEventTypes} from 'utils/constants';
-import {imageURLForUser, getDisplayName, localizeMessage} from 'utils/utils';
+import {imageURLForUser, getDisplayName} from 'utils/utils';
 
 import MultiSelectList from './multiselect_list';
 
@@ -319,7 +319,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     <div className='note__icon'>
                         <LocalizedIcon
                             className='fa fa-info'
-                            title={localizeMessage('generic_icons.info', 'Info Icon')}
+                            title={{id: 'generic_icons.info', defaultMessage: 'Info Icon'}}
                         />
                     </div>
                     <div>{this.props.noteText}</div>
@@ -409,6 +409,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
                     loading={this.props.loading}
+                    query={this.state.input}
                     selectedItemRef={this.props.selectedItemRef}
                 />
             );

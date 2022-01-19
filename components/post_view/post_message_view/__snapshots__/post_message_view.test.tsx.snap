@@ -171,33 +171,12 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
       }
     />
   </div>
-  <span
-    className="post-edited__indicator"
-    id="postEdited_post_id"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="(edited)"
-      id="post_message_view.edited"
-    />
-  </span>
   <Connect(Pluggable)
     onHeightChange={[Function]}
     pluggableName="PostMessageAttachment"
     postId="post_id"
   />
 </Connect(ShowMore)>
-`;
-
-exports[`components/post_view/PostAttachment should match snapshot, on edited post 2`] = `
-<span
-  className="post-edited__indicator"
-  id="postEdited_post_id"
->
-  <Memo(MemoizedFormattedMessage)
-    defaultMessage="(edited)"
-    id="post_message_view.edited"
-  />
-</span>
 `;
 
 exports[`components/post_view/PostAttachment should match snapshot, on ephemeral post 1`] = `

@@ -38,7 +38,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -57,7 +60,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -82,7 +88,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -101,7 +110,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={false}
                 appsEnabled={true}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -120,7 +132,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={false}
                 appsEnabled={true}
                 appBindings={[testBinding]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -145,7 +160,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[testBinding, {...testBinding, app_id: 'app2'}]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -164,7 +182,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={false}
                 appsEnabled={true}
                 appBindings={[testBinding]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -183,7 +204,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -202,7 +226,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -222,7 +249,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -249,7 +279,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -268,7 +301,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -288,7 +324,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding, {...testBinding, app_id: 'app2'}]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -315,7 +354,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -345,7 +387,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
-                actions={{doAppCall: jest.fn()}}
+                actions={{
+                    doAppCall: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
 
@@ -369,7 +414,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding]}
-                actions={{doAppCall}}
+                actions={{
+                    doAppCall,
+                    openAppsModal: jest.fn(),
+                }}
             />,
         );
 

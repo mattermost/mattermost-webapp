@@ -36,7 +36,7 @@ export function getTimezoneRegion(timezone: string): string {
     return timezone;
 }
 
-export function getTimezoneLabel(timezones: Timezone[], timezone: string) {
+export function getTimezoneLabel(timezones: Timezone[], timezone: string): string {
     for (let i = 0; i < timezones.length; i++) {
         const zone = timezones[i];
         for (let j = 0; j < zone.utc.length; j++) {
@@ -47,4 +47,8 @@ export function getTimezoneLabel(timezones: Timezone[], timezone: string) {
         }
     }
     return timezone;
+}
+
+export function getDateForTimezone(date: Date|string, tzString: string): Date {
+    return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {timeZone: tzString}));
 }

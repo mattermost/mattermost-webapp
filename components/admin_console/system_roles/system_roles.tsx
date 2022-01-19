@@ -5,8 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {Role} from 'mattermost-redux/types/roles';
 
 import {t} from 'utils/i18n';
@@ -17,7 +15,7 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
 type Props = {
-    roles: Dictionary<Role>;
+    roles: Record<string, Role>;
 }
 
 const columns: Column[] = [

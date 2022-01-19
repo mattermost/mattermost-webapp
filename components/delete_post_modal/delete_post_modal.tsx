@@ -15,12 +15,12 @@ const urlFormatForDMGMPermalink = '/:teamName/messages/:username/:postid';
 const urlFormatForChannelPermalink = '/:teamName/channels/:channelname/:postid';
 
 type Props = {
-    channelName: string;
-    teamName: string;
+    channelName?: string;
+    teamName?: string;
     post: Post;
     commentCount: number;
     isRHS: boolean;
-    onHide: () => void;
+    onExited: () => void;
     actions: {
         deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>;
     };
@@ -132,7 +132,7 @@ export default class DeletePostModal extends React.PureComponent<Props, State> {
                 show={this.state.show}
                 onEntered={this.handleEntered}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 enforceFocus={false}
                 id='deletePostModal'
                 role='dialog'

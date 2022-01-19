@@ -19,8 +19,8 @@ interface PasswordConfig {
 }
 
 type State = {
-    serverErrorNewPass: JSX.Element|null;
-    serverErrorCurrentPass: JSX.Element|string|null;
+    serverErrorNewPass: React.ReactNode;
+    serverErrorCurrentPass: React.ReactNode;
 }
 
 type Props = {

@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppForm, AppCallType, AppCallRequest, AppContext} from 'mattermost-redux/types/apps';
+import {Action, ActionFunc} from 'mattermost-redux/types/actions';
+import {AppCallResponse, AppForm, AppCallType, AppCallRequest, AppContext, AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
 import {CommandArgs} from 'mattermost-redux/types/integrations';
@@ -22,7 +22,7 @@ import {cleanForm} from 'mattermost-redux/utils/apps';
 import {sendEphemeralPost} from './global_actions';
 
 export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, intl: any): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
+    return async () => {
         try {
             const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
@@ -42,10 +42,6 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
                 }
 
                 cleanForm(res.form);
-
-                if (type === AppCallTypes.SUBMIT) {
-                    dispatch(openAppsModal(res.form, call));
-                }
 
                 return {data: res};
             case AppCallResponseTypes.NAVIGATE:
@@ -87,6 +83,21 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
             });
             return {error: makeCallErrorResponse(errMsg)};
         }
+    };
+}
+
+export function makeFetchBindings(location: string): (userId: string, channelId: string, teamId: string) => ActionFunc {
+    return (userId: string, channelId: string, teamId: string): ActionFunc => {
+        return async () => {
+            try {
+                const allBindings = await Client4.getAppsBindings(userId, channelId, teamId);
+                const headerBindings = allBindings.filter((b) => b.location === location);
+                const bindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
+                return {data: bindings};
+            } catch {
+                return {data: []};
+            }
+        };
     };
 }
 
