@@ -24,7 +24,6 @@ describe('Banner - Subscription scenarios', () => {
             cy.apiInitSetup().then(({team}) => {
                 // # Go to town square
                 cy.visit(`/${team.name}/channels/town-square`);
-                cy.waitForResources();
             });
 
             // * Check for Town Square header
@@ -96,7 +95,6 @@ describe('Banner - Subscription scenarios', () => {
 
                     // # Go to town square
                     cy.visit(`/${testTeam.name}/channels/town-square`);
-                    cy.waitForResources();
 
                     // * Check for non existence of trail banner
                     cy.get('.announcement-bar__text').should('not.exist');
