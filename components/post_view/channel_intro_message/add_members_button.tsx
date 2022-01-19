@@ -30,9 +30,10 @@ export interface AddMembersButtonProps {
     usersLimit: number;
     channel: Channel;
     setHeader: React.ReactNode;
+    createBoard: React.ReactNode;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, createBoard}: AddMembersButtonProps) => {
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
@@ -46,16 +47,17 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)}
+            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, createBoard) : moreThanMaxFreeUsers(channel, setHeader, createBoard)}
         </TeamPermissionGate>
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
+const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.ReactNode) => {
     const {formatMessage} = useIntl();
 
     return (
         <>
+            {createBoard}
             {setHeader}
             <div className='LessThanMaxFreeUsers'>
                 <EmptyStateThemeableSvg
@@ -89,7 +91,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
     );
 };
 
-const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
+const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, createBoard: React.ReactNode) => {
     const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
     const channelIsArchived = channel.delete_at !== 0;
@@ -136,6 +138,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                     </ToggleModalButtonRedux>
                 </ChannelPermissionGate>
             </div>
+            {createBoard}
             {setHeader}
         </div>
     );
