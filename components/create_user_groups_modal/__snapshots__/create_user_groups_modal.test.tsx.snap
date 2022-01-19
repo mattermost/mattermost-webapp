@@ -112,6 +112,9 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
         >
           <Connect(AddUserToGroupMultiSelect)
             addUserCallback={[Function]}
+            backButtonClass="multiselect-back"
+            backButtonClick={[Function]}
+            backButtonText="Cancel"
             deleteUserCallback={[Function]}
             focusOnLoad={false}
             multilSelectKey="addUsersToGroupKey"
@@ -221,6 +224,9 @@ exports[`component/create_user_groups_modal should match snapshot without back b
         >
           <Connect(AddUserToGroupMultiSelect)
             addUserCallback={[Function]}
+            backButtonClass="multiselect-back"
+            backButtonClick={[Function]}
+            backButtonText="Cancel"
             deleteUserCallback={[Function]}
             focusOnLoad={false}
             multilSelectKey="addUsersToGroupKey"

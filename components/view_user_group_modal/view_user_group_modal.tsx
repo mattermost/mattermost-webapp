@@ -29,6 +29,8 @@ import {t} from 'utils/i18n';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import Input from 'components/input';
+import NoResultsIndicator from 'components/no_results_indicator';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const USERS_PER_PAGE = 60;
 
@@ -36,7 +38,7 @@ export type Props = {
     onExited: () => void;
     searchTerm: string;
     groupId: string;
-    group: Group;
+    group?: Group;
     users: UserProfile[];
     backButtonCallback: () => void;
     backButtonAction: () => void;
@@ -45,6 +47,7 @@ export type Props = {
     permissionToJoinGroup: boolean;
     permissionToLeaveGroup: boolean;
     permissionToArchiveGroup: boolean;
+    isGroupMember: boolean;
     actions: {
         getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
@@ -80,7 +83,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             loading: true,
             show: true,
             selectedFilter: 'all',
-            memberCount: props.group.member_count,
+            memberCount: props.group?.member_count || 0,
         };
     }
 
@@ -204,10 +207,8 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         const scrollTop = this.divScrollRef.current?.scrollTop || 0;
         const clientHeight = this.divScrollRef.current?.clientHeight || 0;
 
-        if ((scrollTop + clientHeight + 30) >= scrollHeight) {
-            if (this.props.users.length !== this.props.group.member_count && this.state.loading === false) {
-                this.getGroupMembers();
-            }
+        if (((scrollTop + clientHeight + 30) >= scrollHeight && this.props.group) && (this.props.users.length !== this.props.group.member_count && this.state.loading === false)) {
+            this.getGroupMembers();
         }
     }
 
@@ -222,8 +223,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     leaveGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
 
-        // Should do some redux thing where I decrement the member_count of the group
-
         await actions.removeUsersFromGroup(groupId, [currentUserId]).then(() => {
             this.decrementMemberCount();
         });
@@ -231,8 +230,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
 
     joinGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
-
-        // Should do some redux thing where I increment the member_count of the group
 
         await actions.addUsersToGroup(groupId, [currentUserId]).then(() => {
             this.incrementMemberCount();
@@ -242,7 +239,143 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
     archiveGroup = async (groupId: string) => {
         const {actions} = this.props;
 
-        await actions.archiveGroup(groupId);
+        await actions.archiveGroup(groupId).then(() => {
+            this.props.backButtonCallback();
+            this.props.onExited();
+        });
+    }
+
+    showSubMenu = (source: string) => {
+        const {permissionToEditGroup, permissionToJoinGroup, permissionToLeaveGroup, permissionToArchiveGroup} = this.props;
+
+        return source.toLowerCase() !== 'ldap' &&
+            (
+                permissionToEditGroup ||
+                permissionToJoinGroup ||
+                permissionToLeaveGroup ||
+                permissionToArchiveGroup
+            );
+    }
+
+    modalTitle = () => {
+        const {group} = this.props;
+
+        if (group) {
+            return (
+                <Modal.Title
+                    componentClass='h1'
+                    id='userGroupsModalLabel'
+                >
+                    {group.display_name}
+                </Modal.Title>
+            );
+        }
+        return (<></>);
+    }
+
+    addPeopleButton = () => {
+        const {group, permissionToJoinGroup} = this.props;
+
+        if (group?.source.toLowerCase() !== 'ldap' && permissionToJoinGroup) {
+            return (
+                <button
+                    className='user-groups-create btn btn-md btn-primary'
+                    onClick={this.goToAddPeopleModal}
+                >
+                    <FormattedMessage
+                        id='user_groups_modal.addPeople'
+                        defaultMessage='AddPeople'
+                    />
+                </button>
+            );
+        }
+        return (<></>);
+    }
+
+    subMenuButton = () => {
+        const {group, isGroupMember} = this.props;
+
+        if (group && this.showSubMenu(group?.source)) {
+            return (
+                <div className='details-action'>
+                    <MenuWrapper
+                        isDisabled={false}
+                        stopPropagationOnToggle={false}
+                        id={`detailsCustomWrapper-${group.id}`}
+                    >
+                        <button className='action-wrapper btn-icon'>
+                            <LocalizedIcon
+                                className='icon icon-dots-vertical'
+                                ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                            />
+                        </button>
+                        <Menu
+                            openLeft={false}
+                            openUp={false}
+                            ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                        >
+                            <Menu.ItemAction
+                                show={this.props.permissionToEditGroup}
+                                onClick={() => {
+                                    this.goToEditGroupModal();
+                                }}
+                                text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
+                                disabled={false}
+                            />
+                            <Menu.ItemAction
+                                show={this.props.permissionToJoinGroup && !isGroupMember}
+                                onClick={() => {
+                                    this.joinGroup(group.id);
+                                }}
+                                text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
+                                disabled={false}
+                            />
+                            <Menu.ItemAction
+                                show={this.props.permissionToLeaveGroup && isGroupMember}
+                                onClick={() => {
+                                    this.leaveGroup(group.id);
+                                }}
+                                text={Utils.localizeMessage('user_groups_modal.leaveGroup', 'Leave Group')}
+                                disabled={false}
+                                isDangerous={true}
+                            />
+                            <Menu.ItemAction
+                                show={this.props.permissionToArchiveGroup}
+                                onClick={() => {
+                                    this.archiveGroup(group.id);
+                                }}
+                                text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
+                                disabled={false}
+                                isDangerous={true}
+                            />
+                        </Menu>
+                    </MenuWrapper>
+                </div>
+            );
+        }
+        return (<></>);
+    }
+
+    mentionName = () => {
+        const {group} = this.props;
+
+        if (group) {
+            return (
+                <div className='group-mention-name'>
+                    <span className='group-name'>{`@${group.name}`}</span>
+                    {
+                        group.source.toLowerCase() === 'ldap' &&
+                        <span className='group-source'>
+                            <FormattedMessage
+                                id='view_user_group_modal.ldapSynced'
+                                defaultMessage='AD/LDAP SYNCED'
+                            />
+                        </span>
+                    }
+                </div>
+            );
+        }
+        return (<></>);
     }
 
     render() {
@@ -272,164 +405,96 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                             ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
                         />
                     </button>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='userGroupsModalLabel'
-                    >
-                        {group.display_name}
-                    </Modal.Title>
-                    {
-                        group.source.toLowerCase() !== 'ldap' &&
-                        <button
-                            className='user-groups-create btn btn-md btn-primary'
-                            onClick={this.goToAddPeopleModal}
-                        >
-                            <FormattedMessage
-                                id='user_groups_modal.addPeople'
-                                defaultMessage='AddPeople'
-                            />
-                        </button>
-                    }
-                    {
-                        group.source.toLowerCase() !== 'ldap' &&
-                        <div className='details-action'>
-                            <MenuWrapper
-                                isDisabled={false}
-                                stopPropagationOnToggle={false}
-                                id={`detailsCustomWrapper-${group.id}`}
-                            >
-                                <button className='action-wrapper btn-icon'>
-                                    <LocalizedIcon
-                                        className='icon icon-dots-vertical'
-                                        ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                                    />
-                                </button>
-                                <Menu
-                                    openLeft={false}
-                                    openUp={false}
-                                    ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
-                                >
-                                    <Menu.ItemAction
-                                        show={this.props.permissionToEditGroup}
-                                        onClick={() => {
-                                            this.goToEditGroupModal();
-                                        }}
-                                        text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
-                                        disabled={false}
-                                    />
-                                    <Menu.ItemAction
-                                        show={this.props.permissionToJoinGroup}
-                                        onClick={() => {
-                                            this.joinGroup(group.id);
-                                        }}
-                                        text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
-                                        disabled={false}
-                                    />
-                                    <Menu.ItemAction
-                                        show={this.props.permissionToLeaveGroup}
-                                        onClick={() => {
-                                            this.leaveGroup(group.id);
-                                        }}
-                                        text={Utils.localizeMessage('user_groups_modal.leaveGroup', 'Leave Group')}
-                                        disabled={false}
-                                        isDangerous={true}
-                                    />
-                                    <Menu.ItemAction
-                                        show={this.props.permissionToArchiveGroup}
-                                        onClick={() => {
-                                            this.archiveGroup(group.id);
-                                        }}
-                                        text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
-                                        disabled={false}
-                                        isDangerous={true}
-                                    />
-                                </Menu>
-                            </MenuWrapper>
-                        </div>
-                    }
+                    {this.modalTitle()}
+                    {this.addPeopleButton()}
+                    {this.subMenuButton()}
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='group-mention-name'>
-                        <span className='group-name'>{`@${group.name}`}</span>
-                        {
-                            group.source.toLowerCase() === 'ldap' &&
-                            <span className='group-source'>
-                                <FormattedMessage
-                                    id='view_user_group_modal.ldapSynced'
-                                    defaultMessage='AD/LDAP SYNCED'
+                    {this.mentionName()}
+                    {((users.length === 0 && !this.props.searchTerm) || !group) ?
+                        <NoResultsIndicator
+                            variant={NoResultsVariant.UserGroupMembers}
+                        /> :
+                        <>
+                            <div className='user-groups-search'>
+                                <FaSearchIcon/>
+                                <Input
+                                    type='text'
+                                    placeholder={Utils.localizeMessage('search_bar.searchGroupMembers', 'Search group members')}
+                                    onChange={this.handleSearch}
+                                    value={this.props.searchTerm}
+                                    data-testid='searchInput'
+                                    className={'user-group-search-input'}
                                 />
-                            </span>
-                        }
-                    </div>
-                    <div className='user-groups-search'>
-                        <FaSearchIcon/>
-                        <Input
-                            type='text'
-                            placeholder={Utils.localizeMessage('search_bar.searchGroupMembers', 'Search group members')}
-                            onChange={this.handleSearch}
-                            value={this.props.searchTerm}
-                            data-testid='searchInput'
-                            className={'user-group-search-input'}
-                        />
-                    </div>
-                    <div
-                        className='user-groups-modal__content group-member-list'
-                        onScroll={this.onScroll}
-                        ref={this.divScrollRef}
-                    >
-                        <h2 className='group-member-count'>
-                            <FormattedMessage
-                                id='view_user_group_modal.memberCount'
-                                defaultMessage='{member_count} {member_count, plural, one {Member} other {Members}}'
-                                values={{
-                                    member_count: this.state.memberCount,
-                                }}
-                            />
-                        </h2>
-                        {users.map((user) => {
-                            return (
-                                <div
-                                    key={user.id}
-                                    className='group-member-row'
-                                >
-                                    <>
-                                        <Avatar
-                                            username={user.username}
-                                            size={'sm'}
-                                            url={Utils.imageURLForUser(user?.id ?? '')}
-                                            className={'avatar-post-preview'}
-                                        />
-                                    </>
-                                    <div className='group-member-name'>
-                                        {Utils.getFullName(user)}
-                                    </div>
-                                    <div className='group-member-username'>
-                                        {`@${user.username}`}
-                                    </div>
-                                    {
-                                        group.source.toLowerCase() !== 'ldap' &&
-                                        <button
-                                            type='button'
-                                            className='remove-group-member btn-icon'
-                                            aria-label='Close'
-                                            onClick={() => {
-                                                this.removeUserFromGroup(user.id);
+                            </div>
+                            <div
+                                className='user-groups-modal__content group-member-list'
+                                onScroll={this.onScroll}
+                                ref={this.divScrollRef}
+                            >
+                                {(users.length !== 0) &&
+                                    <h2 className='group-member-count'>
+                                        <FormattedMessage
+                                            id='view_user_group_modal.memberCount'
+                                            defaultMessage='{member_count} {member_count, plural, one {Member} other {Members}}'
+                                            values={{
+                                                member_count: this.state.memberCount,
                                             }}
+                                        />
+                                    </h2>
+                                }
+                                {(users.length === 0 && this.props.searchTerm) &&
+                                    <NoResultsIndicator
+                                        variant={NoResultsVariant.ChannelSearch}
+                                        titleValues={{channelName: `"${this.props.searchTerm}"`}}
+                                    />
+                                }
+                                {users.map((user) => {
+                                    return (
+                                        <div
+                                            key={user.id}
+                                            className='group-member-row'
                                         >
-                                            <LocalizedIcon
-                                                className='icon icon-trash-can-outline'
-                                                ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                                            />
-                                        </button>
-                                    }
-                                </div>
-                            );
-                        })}
-                        {
-                            this.state.loading &&
-                            <LoadingScreen/>
-                        }
-                    </div>
+                                            <>
+                                                <Avatar
+                                                    username={user.username}
+                                                    size={'sm'}
+                                                    url={Utils.imageURLForUser(user?.id ?? '')}
+                                                    className={'avatar-post-preview'}
+                                                />
+                                            </>
+                                            <div className='group-member-name'>
+                                                {Utils.getFullName(user)}
+                                            </div>
+                                            <div className='group-member-username'>
+                                                {`@${user.username}`}
+                                            </div>
+                                            {
+                                                (group.source.toLowerCase() !== 'ldap' && this.props.permissionToLeaveGroup) &&
+                                                <button
+                                                    type='button'
+                                                    className='remove-group-member btn-icon'
+                                                    aria-label='Close'
+                                                    onClick={() => {
+                                                        this.removeUserFromGroup(user.id);
+                                                    }}
+                                                >
+                                                    <LocalizedIcon
+                                                        className='icon icon-trash-can-outline'
+                                                        ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                                                    />
+                                                </button>
+                                            }
+                                        </div>
+                                    );
+                                })}
+                                {
+                                    this.state.loading &&
+                                    <LoadingScreen/>
+                                }
+                            </div>
+                        </>
+                    }
                 </Modal.Body>
             </Modal>
         );

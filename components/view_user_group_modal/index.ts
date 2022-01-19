@@ -9,7 +9,7 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 import {GlobalState} from 'types/store';
 
 import {getCurrentUserId, getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
-import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
+import {getGroup as getGroupById, isMyGroup} from 'mattermost-redux/selectors/entities/groups';
 import {addUsersToGroup, archiveGroup, getGroup, removeUsersFromGroup} from 'mattermost-redux/actions/groups';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
@@ -50,6 +50,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users = getProfilesInGroup(state, ownProps.groupId);
     }
 
+    const isGroupMember = isMyGroup(state, ownProps.groupId);
+
     const permissionToEditGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.EDIT_CUSTOM_GROUP);
     const permissionToJoinGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS);
     const permissionToLeaveGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS);
@@ -64,6 +66,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         permissionToJoinGroup,
         permissionToLeaveGroup,
         permissionToArchiveGroup,
+        isGroupMember,
     };
 }
 

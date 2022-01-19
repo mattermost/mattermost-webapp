@@ -9,7 +9,7 @@ import {Group, GroupMembership} from 'mattermost-redux/types/groups';
 import {filterGroupsMatchingTerm, sortGroups} from 'mattermost-redux/utils/group_utils';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getCurrentUserLocale} from './i18n';
@@ -297,13 +297,28 @@ export const searchMyAllowReferencedGroups: (state: GlobalState, term: string) =
 // All group memberships implicitly have the CUSTOM_GROUP_USER_ROLE because that's the only role currently supported for the feature.
 export const getGroupMemberships: (state: GlobalState) => Record<string, GroupMembership> = createSelector(
     'getGroupMemberships',
-    (state: GlobalState) => state.entities.groups.myGroups,
-    (state: GlobalState) => state.entities.users.currentUserId,
+    getMyGroupIds,
+    getCurrentUserId,
     (myGroupIDs: string[], currentUserID: string) => {
         const groupMemberships: Record<string, GroupMembership> = {};
         myGroupIDs.forEach((groupID) => {
             groupMemberships[groupID] = {user_id: currentUserID, roles: General.CUSTOM_GROUP_USER_ROLE};
         });
         return groupMemberships;
+    },
+);
+
+export const isMyGroup: (state: GlobalState, groupId: string) => boolean = createSelector(
+    'isMyGroup',
+    getMyGroupIds,
+    (state: GlobalState, groupId: string) => groupId,
+    (myGroupIDs: string[], groupId: string) => {
+        let isMyGroup = false;
+        myGroupIDs.forEach((myGroupId) => {
+            if (myGroupId === groupId) {
+                isMyGroup = true;
+            }
+        });
+        return isMyGroup;
     },
 );

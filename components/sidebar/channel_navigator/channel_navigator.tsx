@@ -37,6 +37,7 @@ export type Props = {
     showTutorialTip: boolean;
     isQuickSwitcherOpen: boolean;
     userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
@@ -133,6 +134,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                     showTutorialTip={this.props.showTutorialTip}
                     addChannelButton={this.props.addChannelButton}
                     userGroupsEnabled={this.props.userGroupsEnabled}
+                    canCreateCustomGroups={this.props.canCreateCustomGroups}
                 />
             );
         }

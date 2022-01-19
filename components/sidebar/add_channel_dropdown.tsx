@@ -129,7 +129,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     id={'createUserGroup'}
                     onClick={this.props.showCreateUserGroupModal}
                     icon={<i className='icon-account-multiple-plus-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create new user group'})}
+                    text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create New User Group'})}
                 />
             );
         }

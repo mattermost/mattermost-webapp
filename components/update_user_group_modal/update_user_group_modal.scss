@@ -1,15 +1,10 @@
 .modal {
     .user-groups-modal-update {
-        .modal-header {
-            h1#updateGroupsModalTitle {
-                margin-left: 44px;
-            }
-        }
         .modal-body {
             .update-buttons-wrapper {
                 display: flex;
                 align-items: center;
-                padding: 12px 24px 24px;
+                padding: 0 24px 24px;
                 float: right;
 
                 .Input___error {

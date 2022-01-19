@@ -111,7 +111,7 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
             disabled={false}
             isDangerous={true}
             onClick={[Function]}
-            show={true}
+            show={false}
             text="Leave Group"
           />
           <MenuItemAction

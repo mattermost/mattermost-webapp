@@ -4,7 +4,7 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group, GroupPermissions} from 'mattermost-redux/types/groups';
 
 import UserGroupsModal from './user_groups_modal';
 
@@ -16,10 +16,8 @@ describe('component/user_groups_modal', () => {
         searchTerm: '',
         currentUserId: '',
         backButtonAction: jest.fn(),
-        permissionToViewGroup: true,
-        permissionToJoinGroup: true,
-        permissionToLeaveGroup: true,
-        permissionToArchiveGroup: true,
+        groupPermissionsMap: {},
+        canCreateCustomGroups: true,
         actions: {
             openModal: jest.fn(),
             getGroups: jest.fn(),
@@ -55,6 +53,18 @@ describe('component/user_groups_modal', () => {
         return groups;
     }
 
+    function getPermissions(groups: Group[], myGroups: Group[]) {
+        const groupPermissionsMap: Record<string, GroupPermissions> = {};
+        [...groups, ...myGroups].forEach((g) => {
+            groupPermissionsMap[g.id] = {
+                can_delete: true,
+                can_manage_members: true,
+            };
+        });
+
+        return groupPermissionsMap;
+    }
+
     test('should match snapshot without groups', () => {
         const wrapper = shallow(
             <UserGroupsModal
@@ -65,22 +75,32 @@ describe('component/user_groups_modal', () => {
     });
 
     test('should match snapshot with groups', () => {
+        const groups = getGroups(3);
+        const myGroups = getGroups(1);
+        const permissions = getPermissions(groups, myGroups);
+
         const wrapper = shallow(
             <UserGroupsModal
                 {...baseProps}
-                groups={getGroups(3)}
-                myGroups={getGroups(1)}
+                groups={groups}
+                myGroups={myGroups}
+                groupPermissionsMap={permissions}
             />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with groups, myGroups selected', () => {
+        const groups = getGroups(3);
+        const myGroups = getGroups(1);
+        const permissions = getPermissions(groups, myGroups);
+
         const wrapper = shallow(
             <UserGroupsModal
                 {...baseProps}
                 groups={getGroups(3)}
                 myGroups={getGroups(1)}
+                groupPermissionsMap={permissions}
             />,
         );
 
@@ -90,11 +110,16 @@ describe('component/user_groups_modal', () => {
     });
 
     test('should match snapshot with groups, search group1', () => {
+        const groups = getGroups(3);
+        const myGroups = getGroups(1);
+        const permissions = getPermissions(groups, myGroups);
+
         const wrapper = shallow(
             <UserGroupsModal
                 {...baseProps}
                 groups={getGroups(3)}
                 myGroups={getGroups(1)}
+                groupPermissionsMap={permissions}
                 searchTerm='group1'
             />,
         );

@@ -47,6 +47,7 @@ describe('Components/SidebarHeader', () => {
             unreadFilterEnabled: true,
             showCreateUserGroupModal: jest.fn(),
             userGroupsEnabled: false,
+            canCreateCustomGroups: true,
         };
     });
 
