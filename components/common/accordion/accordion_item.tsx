@@ -1,42 +1,42 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {RefObject, useEffect, useRef, useState} from 'react';
+import React, {RefObject, useEffect, useRef} from 'react';
 
-import {AccordionData} from './accordion';
+import {AccordionDataType} from './accordion';
 
 import './accordion.scss';
 
 type Props = {
-    data: AccordionData;
+    data: AccordionDataType;
     isOpen: boolean;
-    btnOnClick: () => void;
+    onButtonClick: () => void;
     openMultiple: boolean;
-    headerClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
+    onHeaderClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
 }
 
 const AccordionItem = ({
     data,
     isOpen,
-    btnOnClick,
+    onButtonClick,
     openMultiple,
-    headerClick,
+    onHeaderClick,
 }: Props): JSX.Element | null => {
     const contentRef = useRef<HTMLDivElement>(null);
     const itemRef = useRef<HTMLLIElement>(null);
 
-    const [height, setHeight] = useState(0);
+    const [height, setHeight] = React.useState(0);
 
     const [open, setOpen] = React.useState(false);
 
     const toggle = () => {
         if (openMultiple) {
             setOpen((currentValue: boolean) => !currentValue);
-        } else if (btnOnClick) {
-            btnOnClick();
+        } else if (onButtonClick) {
+            onButtonClick();
         }
 
-        if (headerClick) {
-            headerClick(itemRef);
+        if (onHeaderClick) {
+            onHeaderClick(itemRef);
         }
     };
 

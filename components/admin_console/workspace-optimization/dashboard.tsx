@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-import Accordion from 'components/common/accordion/accordion';
+import Accordion, {AccordionDataType} from 'components/common/accordion/accordion';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 
@@ -125,36 +125,32 @@ const WorkspaceOptimizationDashboard = () => {
         setTimeout(() => testSiteURL(onSuccess, onError, location.origin), 1000);
     }, []);
 
-    const prepareDataForAccordion = () => {
-        const accData: any = [];
-        const dataKeys = Object.keys(data);
+    const accData: AccordionDataType[] = [];
+    const dataKeys = Object.keys(data);
 
-        dataKeys.forEach((key: string) => {
-            const items = data[key].items.map((item) => (
-                <AccordionItem
-                    key={`${key}-item_${item.id}`}
-                    iconColor={getItemColor(item.status)}
-                >
-                    <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
-                    <p>{item.description}</p>
-                </AccordionItem>
-            ));
-            accData.push({
-                title: data[key].title,
-                description: data[key].description,
-                items,
-            });
+    dataKeys.forEach((key: string) => {
+        const items = data[key].items.map((item) => (
+            <AccordionItem
+                key={`${key}-item_${item.id}`}
+                iconColor={getItemColor(item.status)}
+            >
+                <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
+                <p>{item.description}</p>
+            </AccordionItem>
+        ));
+        accData.push({
+            title: data[key].title,
+            description: data[key].description,
+            items,
         });
-
-        return accData;
-    };
+    });
 
     return loading ? <p>{'Loading ...'}</p> : (
         <div className='WorkspaceOptimizationDashboard'>
             <h1>{'Workspace Optimization Dashboard'}</h1>
             <hr/>
             <Accordion
-                items={prepareDataForAccordion()}
+                items={accData}
                 openMultiple={true}
             />
         </div>

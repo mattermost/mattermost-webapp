@@ -29,7 +29,7 @@
 
             .accordion-item-container {
                 &__content {
-                    border-top: none !important;
+                    border-top: 1px solid rgba(63, 67, 80, 0.06);
                     background-color: rgb(255, 255, 255);
                 }
             }

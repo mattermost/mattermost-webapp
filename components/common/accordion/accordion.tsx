@@ -5,38 +5,38 @@ import React, {RefObject} from 'react';
 import AccordionItem from './accordion_item';
 import './accordion.scss';
 
-export type AccordionData = {
+export type AccordionDataType = {
     title: string;
     description: string;
-    items: React.ReactNode;
+    items: React.ReactNode[];
 };
 
 type Props = {
-    items: AccordionData[];
+    items: AccordionDataType[];
     openMultiple?: boolean;
-    headerClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
+    onHeaderClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
 };
 
 const Accordion = ({
     items,
     openMultiple,
-    headerClick,
+    onHeaderClick,
 }: Props): JSX.Element | null => {
-    const [currentIdx, setCurrentIdx] = React.useState(-1);
-    const btnOnClick = (idx: number) => {
-        setCurrentIdx((currentValue: number) => (currentValue === idx ? -1 : idx));
+    const [currentIndex, setCurrentIndex] = React.useState(-1);
+    const onButtonClick = (index: number) => {
+        setCurrentIndex((currentValue: number) => (currentValue === index ? -1 : index));
     };
 
     return (
         <ul className='Accordion'>
-            {items.map((item, idx) => (
+            {items.map((item, index) => (
                 <AccordionItem
-                    key={idx.toString()}
+                    key={index.toString()}
                     data={item}
-                    isOpen={idx === currentIdx}
-                    btnOnClick={() => btnOnClick(idx)}
+                    isOpen={index === currentIndex}
+                    onButtonClick={() => onButtonClick(index)}
                     openMultiple={Boolean(openMultiple)}
-                    headerClick={headerClick}
+                    onHeaderClick={onHeaderClick}
                 />
             ))}
         </ul>
