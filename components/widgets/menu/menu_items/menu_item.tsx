@@ -29,10 +29,10 @@ export default function menuItem(Component: React.ComponentType<any>) {
             let textProp: React.ReactNode = text;
             if (icon) {
                 textProp = (
-                    <React.Fragment>
+                    <>
                         <span className='icon'>{icon}</span>
                         {text}
-                    </React.Fragment>
+                    </>
                 );
             }
 
@@ -46,6 +46,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
                 >
                     <Component
                         text={textProp}
+                        ariaLabel={text}
                         {...props}
                     />
                 </li>

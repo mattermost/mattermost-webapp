@@ -3,11 +3,11 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {Tooltip} from 'react-bootstrap';
 
 import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PluginIcon from 'components/widgets/icons/plugin_icon';
 
 import {Constants} from 'utils/constants';

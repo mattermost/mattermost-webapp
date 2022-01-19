@@ -13,21 +13,23 @@
 describe('Channel Switcher', () => {
     let testTeam;
     let testChannelName;
+    let offTopicUrl;
     const channelNamePrefix = 'aswitchchannel';
     const channelDisplayNamePrefix = 'ASwitchChannel';
 
     before(() => {
-        cy.apiInitSetup({channelPrefix: {name: `${channelNamePrefix}-a`, displayName: `${channelDisplayNamePrefix} A`}}).then(({team, channel, user}) => {
+        cy.apiInitSetup({channelPrefix: {name: `${channelNamePrefix}-a`, displayName: `${channelDisplayNamePrefix} A`}}).then(({team, channel, user, offTopicUrl: url}) => {
             testTeam = team;
             testChannelName = channel.display_name;
+            offTopicUrl = url;
 
             // # Add some channels
             cy.apiCreateChannel(testTeam.id, `${channelNamePrefix}-b`, `${channelDisplayNamePrefix} B`, 'O');
             cy.apiCreateChannel(testTeam.id, `${channelNamePrefix}-c`, `${channelDisplayNamePrefix} C`, 'O');
 
-            // # Login as test user and go to town square
+            // # Login as test user and go to off-topic
             cy.apiLogin(user);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -81,7 +83,7 @@ describe('Channel Switcher', () => {
     });
 
     it('MM-T2031_4 - should close on esc and outside click', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         // # Press CTRL+K (Windows) or CMD+K(Mac)
         cy.typeCmdOrCtrl().type('K', {release: true});
@@ -93,7 +95,7 @@ describe('Channel Switcher', () => {
         cy.findByRole('textbox', {name: 'quick switch input'}).should('not.exist');
 
         // * Expect staying in the same channel
-        cy.url().should('contain', 'town-square');
+        cy.url().should('contain', 'off-topic');
 
         // # Press CTRL+K (Windows) or CMD+K(Mac)
         cy.typeCmdOrCtrl().type('K', {release: true});
@@ -105,6 +107,6 @@ describe('Channel Switcher', () => {
         cy.findByRole('textbox', {name: 'quick switch input'}).should('not.exist');
 
         // * Expect staying in the same channel
-        cy.url().should('contain', 'town-square');
+        cy.url().should('contain', 'off-topic');
     });
 });

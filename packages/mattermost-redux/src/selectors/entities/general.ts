@@ -7,6 +7,7 @@ import {General} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
+import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
@@ -33,7 +34,7 @@ export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;
 }
 
-export function getSubscriptionStats(state: GlobalState): any {
+export function getSubscriptionStats(state: GlobalState): SubscriptionStats | undefined | null {
     return state.entities.cloud.subscriptionStats;
 }
 
@@ -42,15 +43,6 @@ export function isCompatibleWithJoinViewTeamPermissions(state: GlobalState): boo
     return isMinimumServerVersion(version, 5, 10, 0) ||
        (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 5, 8, 0)) ||
        (version.match(/^5.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 5, 8, 0));
-}
-
-export function hasNewPermissions(state: GlobalState): boolean {
-    const version = state.entities.general.serverVersion;
-
-    // FIXME This must be changed to 4, 9, 0 before we generate the 4.9.0 release
-    return isMinimumServerVersion(version, 4, 9, 0) ||
-           (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 4, 8, 0)) ||
-           (version.match(/^4.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 4, 8, 0));
 }
 
 export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelector(

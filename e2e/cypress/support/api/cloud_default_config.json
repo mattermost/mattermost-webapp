@@ -50,7 +50,6 @@
         "TeammateNameDisplay": "username",
         "ExperimentalViewArchivedChannels": false,
         "ExperimentalEnableAutomaticReplies": false,
-        "ExperimentalTownSquareIsReadOnly": false,
         "LockTeammateNameDisplay": false,
         "ExperimentalPrimaryTeam": "",
         "ExperimentalDefaultChannels": []
@@ -220,7 +219,8 @@
     },
     "ExperimentalSettings": {
         "RestrictSystemAdmin": true,
-        "CloudBilling": true
+        "CloudBilling": true,
+        "CloudUserLimit": 10
     },
     "DataRetentionSettings": {
         "EnableMessageDeletion": false,

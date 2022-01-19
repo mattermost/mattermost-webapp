@@ -39,7 +39,7 @@ describe('Profile popover User A & B', () => {
     it('MM-T5 User A & User B (removed from team)', () => {
         // # Login as the other user
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # @ mention the kicked out user
         cy.postMessage(`Hi there @${testUser.username} `);
@@ -64,8 +64,8 @@ describe('Profile popover User A & B', () => {
             // # Login as testuser
             cy.apiLogin(testUser);
 
-            // # Visit town square
-            cy.visit(`/${team.name}/channels/town-square`);
+            // # Visit off-topic
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # @ mention the kicked out user
             cy.postMessage(`Hi there @${otherUser.username} `);

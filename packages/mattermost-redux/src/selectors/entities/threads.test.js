@@ -11,6 +11,8 @@ import * as Selectors from './threads';
 describe('Selectors.Threads.getThreadOrderInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();
+    const post1 = TestHelper.fakePostWithId();
+    const post2 = TestHelper.fakePostWithId();
 
     it('should return threads order in current team based on last reply time', () => {
         const user = TestHelper.fakeUserWithId();
@@ -21,6 +23,14 @@ describe('Selectors.Threads.getThreadOrderInCurrentTeam', () => {
 
         const testState = deepFreezeAndThrowOnMutation({
             entities: {
+                general: {
+                    config: {
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                    },
+                },
                 users: {
                     currentUserId: user.id,
                     profiles,
@@ -30,18 +40,107 @@ describe('Selectors.Threads.getThreadOrderInCurrentTeam', () => {
                 },
                 threads: {
                     threads: {
-                        a: {last_reply_at: 1, is_following: true},
-                        b: {last_reply_at: 2, is_following: true},
+                        a: {last_reply_at: 1, is_following: true, post: post1},
+                        b: {last_reply_at: 2, is_following: true, post: post2},
                     },
                     threadsInTeam: {
                         [team1.id]: ['a', 'b'],
                         [team2.id]: ['c', 'd'],
                     },
                 },
+                channels: {
+                    channelsInTeam: {
+                        [team1.id]: [post1.channel_id, post2.channel_id],
+                    },
+                    channels: {
+                        [post1.channel_id]: {
+                            id: post1.channel_id,
+                            name: 'channel-1',
+                            display_name: 'channel 1',
+                        },
+                        [post2.channel_id]: {
+                            id: post2.channel_id,
+                            name: 'channel-2',
+                            display_name: 'channel 2',
+                        },
+                    },
+                    myMembers: {
+                        [post1.channel_id]: [user.id],
+                        [post2.channel_id]: [user.id],
+                    },
+                },
             },
         });
 
         assert.deepEqual(Selectors.getThreadOrderInCurrentTeam(testState), ['b', 'a']);
+    });
+});
+
+describe('Selectors.Threads.getUnreadThreadOrderInCurrentTeam', () => {
+    const team1 = TestHelper.fakeTeamWithId();
+    const team2 = TestHelper.fakeTeamWithId();
+    const post1 = TestHelper.fakePostWithId();
+    const post2 = TestHelper.fakePostWithId();
+
+    it('should return unread threads order in current team based on last reply time', () => {
+        const user = TestHelper.fakeUserWithId();
+
+        const profiles = {
+            [user.id]: user,
+        };
+
+        const testState = deepFreezeAndThrowOnMutation({
+            entities: {
+                general: {
+                    config: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                users: {
+                    currentUserId: user.id,
+                    profiles,
+                },
+                teams: {
+                    currentTeamId: team1.id,
+                },
+                threads: {
+                    threads: {
+                        a: {last_reply_at: 1, is_following: true, unread_replies: 1, post: post1},
+                        b: {last_reply_at: 2, is_following: true, unread_replies: 1, post: post2},
+                    },
+                    threadsInTeam: {},
+                    unreadThreadsInTeam: {
+                        [team1.id]: ['a', 'b'],
+                        [team2.id]: ['c', 'd'],
+                    },
+                },
+                channels: {
+                    channelsInTeam: {
+                        [team1.id]: [post1.channel_id, post2.channel_id],
+                    },
+                    channels: {
+                        [post1.channel_id]: {
+                            id: post1.channel_id,
+                            name: 'channel-1',
+                            display_name: 'channel 1',
+                        },
+                        [post2.channel_id]: {
+                            id: post2.channel_id,
+                            name: 'channel-2',
+                            display_name: 'channel 2',
+                        },
+                    },
+                    myMembers: {
+                        [post1.channel_id]: [user.id],
+                        [post2.channel_id]: [user.id],
+                    },
+                },
+            },
+        });
+
+        assert.deepEqual(Selectors.getThreadOrderInCurrentTeam(testState), []);
+        assert.deepEqual(Selectors.getUnreadThreadOrderInCurrentTeam(testState), ['b', 'a']);
     });
 });
 

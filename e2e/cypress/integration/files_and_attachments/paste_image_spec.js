@@ -11,9 +11,6 @@
 // Group: @files_and_attachments
 
 describe('Paste Image', () => {
-    let testTeam;
-    const aspectRatio = 1;
-
     before(() => {
         // # Enable Link Previews
         cy.apiUpdateConfig({
@@ -22,20 +19,21 @@ describe('Paste Image', () => {
             },
         });
 
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Create new team and new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T2263 - Paste image in message box and post', () => {
+        const filename = 'mattermost-icon.png';
+
         // # Paste image
-        cy.fixture('mattermost-icon.png').then((img) => {
+        cy.fixture(filename).then((img) => {
             const blob = Cypress.Blob.base64StringToBlob(img, 'image/png');
             cy.get('#create_post').trigger('paste', {clipboardData: {
                 items: [{
-                    name: 'mattermost-icon.png',
+                    name: filename,
                     kind: 'file',
                     type: 'image/png',
                     getAsFile: () => {
@@ -50,7 +48,7 @@ describe('Paste Image', () => {
             }));
         });
 
-        cy.get('#create_post').find('.file-preview').within(() => {
+        cy.uiGetFileUploadPreview().within(() => {
             // * Type is correct
             cy.get('.post-image__type').should('contain.text', 'PNG');
 
@@ -64,29 +62,27 @@ describe('Paste Image', () => {
         // # Post message
         cy.postMessage('hello');
 
-        cy.getLastPost().within(() => {
-            cy.get('.file-view--single').within(() => {
-                // * Image is posted
-                cy.get('img').should('exist').and((img) => {
-                // * Image aspect ratio is maintained
-                    expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
-                });
-            });
-        });
+        cy.uiGetPostBody().
+            find('.file-view--single').
+            find('img').
+            should(maintainAspectRatio);
 
         // # Open RHS
         cy.clickPostCommentIcon();
 
         cy.getLastPostId().then((id) => {
             cy.get(`#rhsPost_${id}`).within(() => {
-                cy.get('.file-view--single').within(() => {
-                    // * Image is posted
-                    cy.get('img').should('exist').and((img) => {
-                        // * Image aspect ratio is maintained
-                        expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
-                    });
-                });
+                cy.get('.file-view--single').
+                    find('img').
+                    should(maintainAspectRatio);
             });
         });
     });
 });
+
+function maintainAspectRatio(img) {
+    const aspectRatio = 1;
+
+    // * Image aspect ratio is maintained
+    expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
+}

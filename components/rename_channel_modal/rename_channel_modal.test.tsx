@@ -27,7 +27,7 @@ describe('components/RenameChannelModal', () => {
 
     const baseProps = {
         show: true,
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         channel: {...channel},
         requestStatus: RequestStatus.NOT_STARTED,
         team: {...team},

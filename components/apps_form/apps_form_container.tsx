@@ -17,7 +17,7 @@ type Props = {
     intl: IntlShape;
     form?: AppForm;
     call?: AppCallRequest;
-    onHide: () => void;
+    onExited: () => void;
     actions: {
         doAppCall: DoAppCall<any>;
         postEphemeralCallResponseForContext: PostEphemeralCallResponseForContext;
@@ -205,10 +205,6 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         };
     }
 
-    onHide = () => {
-        this.props.onHide();
-    };
-
     render() {
         const call = this.getCall();
         if (!call) {
@@ -223,7 +219,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         return (
             <AppsForm
                 form={form}
-                onHide={this.onHide}
+                onExited={this.props.onExited}
                 actions={{
                     submit: this.submitForm,
                     performLookupCall: this.performLookupCall,

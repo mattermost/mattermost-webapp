@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 import {getAdminAccount} from '../../support/env';
@@ -43,38 +42,34 @@ const promoteToChannelAdmin = (user, channelId, admin) => {
 describe('Change Roles', () => {
     const admin = getAdminAccount();
     let testUser;
-    let townsquareChannelId;
+    let testChannelId;
 
     beforeEach(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup().then(({team, user}) => {
+        // # Login as test user and visit test channel
+        cy.apiInitSetup().then(({team, user, channel}) => {
             testUser = user;
+            testChannelId = channel.id;
 
             cy.apiCreateUser().then(({user: otherUser}) => {
                 cy.apiAddUserToTeam(team.id, otherUser.id);
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
-            // # Get channel membership
-            cy.getCurrentChannelId().then((id) => {
-                townsquareChannelId = id;
+            // # Make user a regular member for channel and system
+            demoteToMember(testUser, admin);
+            demoteToChannelMember(testUser, testChannelId, admin);
 
-                // # Make user a regular member for channel and system
-                demoteToMember(testUser, admin);
-                demoteToChannelMember(testUser, townsquareChannelId, admin);
-
-                // # Reload page to ensure no cache or saved information
-                cy.reload(true);
-            });
+            // # Reload page to ensure no cache or saved information
+            cy.reload(true);
         });
     });
 
     it('MM-T4174 User role to channel admin/member updates channel member modal immediately without refresh', () => {
         // # Go to member modal
-        cy.get('#member_popover').click();
-        cy.findByTestId('membersModal').click();
+        cy.uiGetChannelMemberButton().click();
+        cy.findByText('Manage Members').click();
 
         // * Check to see if no drop down menu exists
         cy.findAllByTestId('userListItemActions').then((el) => {
@@ -82,9 +77,9 @@ describe('Change Roles', () => {
         });
 
         // Promote user to a channel admin
-        promoteToChannelAdmin(testUser, townsquareChannelId, admin);
+        promoteToChannelAdmin(testUser, testChannelId, admin);
 
-        // * Check to see if a drop now exists now
+        // * Check to see if a dropdown exists now
         cy.get('.filtered-user-list').should('be.visible').within(() => {
             cy.findByText('Channel Admin').should('exist');
             cy.findByText('Channel Member').should('exist');

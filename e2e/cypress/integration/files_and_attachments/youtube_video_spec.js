@@ -11,8 +11,6 @@
 // Group: @files_and_attachments
 
 describe('YouTube Video', () => {
-    let testTeam;
-
     before(() => {
         // # Enable Link Previews
         cy.apiUpdateConfig({
@@ -21,10 +19,9 @@ describe('YouTube Video', () => {
             },
         });
 
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Create new team and new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 

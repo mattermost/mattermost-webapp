@@ -10,17 +10,17 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings -> Security -> View Access History', () => {
+describe('Profile > Security > View Access History', () => {
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
     beforeEach(() => {
-        // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal('Security');
 
         // * Check that the Security tab is loaded
         cy.get('#securityButton').should('be.visible');

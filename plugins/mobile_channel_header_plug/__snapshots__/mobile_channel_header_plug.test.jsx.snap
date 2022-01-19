@@ -5,6 +5,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no binding, 
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -57,6 +58,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no bindings 
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -109,6 +111,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -161,6 +164,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -213,6 +217,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding 
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={
@@ -276,6 +281,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding 
   >
     <button
       className="navbar-toggle navbar-right__icon"
+      id="appid_test"
       onClick={[Function]}
     >
       <span
@@ -297,6 +303,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding,
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={
@@ -376,6 +383,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -457,6 +465,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={
@@ -561,6 +570,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -639,6 +649,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={
@@ -716,6 +727,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={
@@ -791,6 +803,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={
@@ -893,6 +906,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -966,6 +980,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
     }
   }
   appBindings={Array []}

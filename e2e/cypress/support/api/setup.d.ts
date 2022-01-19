@@ -30,6 +30,9 @@ declare namespace Cypress {
          * @returns {UserProfile} `out.user` as `UserProfile` object
          * @returns {Team} `out.team` as `Team` object
          * @returns {Channel} `out.channel` as `Channel` object
+         * @returns {string} `out.channelUrl` as channel URL
+         * @returns {string} `out.offTopicUrl` as off-topic URL
+         * @returns {string} `out.townSquareUrl` as town-square URL
          *
          * @example
          *   let testUser;
@@ -52,6 +55,9 @@ declare namespace Cypress {
             user: UserProfile;
             team: Team;
             channel: Channel;
+            channelUrl: string;
+            offTopicUrl: string;
+            townSquareUrl: string;
         }>;
     }
 }

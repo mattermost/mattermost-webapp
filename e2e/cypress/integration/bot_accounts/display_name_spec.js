@@ -11,7 +11,7 @@
 // Group: @bot_accounts
 
 describe('Bot display name', () => {
-    let townsquareChannel;
+    let offTopicChannel;
     let otherSysadmin;
 
     before(() => {
@@ -29,10 +29,10 @@ describe('Bot display name', () => {
             cy.apiLogin(otherSysadmin);
 
             cy.apiInitSetup().then(({team}) => {
-                cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
-                    townsquareChannel = channel;
+                cy.apiGetChannelByName(team.name, 'off-topic').then(({channel}) => {
+                    offTopicChannel = channel;
                 });
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visit(`/${team.name}/channels/off-topic`);
             });
         });
     });
@@ -48,18 +48,18 @@ describe('Bot display name', () => {
                 // # Get token from bot's id
                 cy.apiAccessToken(botUserId, 'Create token').then(({token}) => {
                     //# Add bot to team
-                    cy.apiAddUserToTeam(townsquareChannel.team_id, botUserId);
+                    cy.apiAddUserToTeam(offTopicChannel.team_id, botUserId);
 
                     // # Post message as bot through api with auth token
                     const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
-                    cy.postBotMessage({token, message: firstMessage, props, channelId: townsquareChannel.id}).
+                    cy.postBotMessage({token, message: firstMessage, props, channelId: offTopicChannel.id}).
                         its('id').
                         should('exist').
                         as('botPost');
                     cy.uiWaitUntilMessagePostedIncludes(firstMessage);
 
                     // # Go to the channel
-                    cy.get('#sidebarItem_town-square').click({force: true});
+                    cy.get('#sidebarItem_off-topic').click({force: true});
 
                     // * Verify bot display name
                     cy.get('@botPost').then((postIdA) => {
@@ -73,7 +73,7 @@ describe('Bot display name', () => {
                     }).then(() => {
                         // # Change display name after prior verification
                         cy.wrap(client.patchBot(bot.user_id, {display_name: `NEW ${bot.display_name}`})).then((newBot) => {
-                            cy.postBotMessage({token, message: secondMessage, props, channelId: townsquareChannel.id}).
+                            cy.postBotMessage({token, message: secondMessage, props, channelId: offTopicChannel.id}).
                                 its('id').
                                 should('exist').
                                 as('newBotPost');

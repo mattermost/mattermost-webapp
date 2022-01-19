@@ -105,12 +105,6 @@ describe('Actions.Roles', () => {
         assert(!mock2.isDone());
 
         fakeState.entities.roles.pending = new Set();
-        fakeState.entities.general.serverVersion = '4.3';
-        await Actions.loadRolesIfNeeded(['test', 'test2'])(store.dispatch, () => fakeState);
-        assert(!mock1.isDone());
-        assert(!mock2.isDone());
-
-        fakeState.entities.roles.pending = new Set();
         fakeState.entities.general.serverVersion = null;
         await Actions.loadRolesIfNeeded(['test', 'test2'])(store.dispatch, () => fakeState);
         assert(!mock1.isDone());

@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -17,6 +16,7 @@ import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -41,9 +41,9 @@ type Props = {
     reactions: { [x: string]: ReactionType } | undefined | null;
 
     /**
-     * Whether to show the emoji picker.
+     * Whether or not the user can add reactions to this post.
      */
-    enableEmojiPicker: boolean;
+    canAddReactions: boolean;
 
     actions: {
 
@@ -130,7 +130,7 @@ export default class ReactionList extends React.PureComponent<Props, State> {
         }
 
         let emojiPicker = null;
-        if (this.props.enableEmojiPicker) {
+        if (this.props.canAddReactions) {
             const addReactionTooltip = (
                 <Tooltip id='addReactionTooltip'>
                     <FormattedMessage

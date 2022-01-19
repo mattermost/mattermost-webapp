@@ -12,9 +12,9 @@
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -26,7 +26,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
 
         // # Select the grinning emoji from the emoji picker.
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
         cy.findAllByTestId('emojiItem').
             findByRole('button', {name: 'grinning emoji'}).
             should('exist').

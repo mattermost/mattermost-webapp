@@ -61,8 +61,8 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       onClick={[Function]}
     >
       <MemoizedFormattedMessage
-        defaultMessage="Save team"
-        id="next_steps_view.team_profile_step.saveTeam"
+        defaultMessage="defaultMessage"
+        id="tID"
       />
     </button>
   </div>

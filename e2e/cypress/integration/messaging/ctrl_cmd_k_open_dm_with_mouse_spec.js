@@ -13,26 +13,26 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    let testTeam;
     let firstUser;
     let secondUser;
+    let offTopicUrl;
 
     before(() => {
         // # Login as test user
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, offTopicUrl: url}) => {
             firstUser = user;
-            testTeam = team;
+            offTopicUrl = url;
 
             // # Create a second user that will be searched
             cy.apiCreateUser().then(({user: user1}) => {
                 secondUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+                cy.apiAddUserToTeam(team.id, secondUser.id);
             });
 
             cy.apiLogin(firstUser);
 
             // # Visit created test team
-            cy.visit(`/${testTeam.name}`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -70,7 +70,7 @@ describe('Messaging', () => {
         cy.apiLogout();
         cy.reload();
         cy.apiLogin(secondUser);
-        cy.visit(`/${testTeam.name}`);
+        cy.visit(offTopicUrl);
 
         // * Check that the DM exists and receives the message with mention
         cy.uiGetLhsSection('DIRECT MESSAGES').findByLabelText(`${firstUser.username} 1 mention`).should('exist');

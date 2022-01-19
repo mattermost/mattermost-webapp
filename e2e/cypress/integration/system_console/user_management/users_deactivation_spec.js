@@ -77,8 +77,8 @@ describe('System Console > User Management > Deactivation', () => {
             // # Deactivate the user
             cy.apiDeactivateUser(other.id);
 
-            // # Open Channel Switcher
-            cy.uiGetChannelSwitcher().click();
+            // # Open Find Channels
+            cy.uiOpenFindChannels();
 
             // # Type the user name on Channel switcher input
             cy.get('#quickSwitchInput').type(other.username).wait(TIMEOUTS.HALF_SEC);

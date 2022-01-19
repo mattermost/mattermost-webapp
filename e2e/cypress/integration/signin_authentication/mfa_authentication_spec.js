@@ -54,17 +54,14 @@ describe('Authentication', () => {
 
         cy.apiLogin(testUser);
 
-        // # Go to Account Settings > Security > Multi-factor Authentication > Edit
+        // # Go to Profile > Security > Multi-factor Authentication > Edit
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(timeouts.ONE_SEC);
-
-        cy.toAccountSettingsModal();
-
-        // * Check that the Security tab is loaded
-        cy.get('#securityButton').should('be.visible').click();
+        cy.uiOpenProfileModal('Security');
         cy.get('#mfaEdit').should('be.visible').click();
         cy.findByText('Add MFA to Account').should('be.visible').click();
 
-        getUserSecret(testUser).then(({secret}) => {
+        // # Get MFA secret
+        cy.uiGetMFASecret(testUser.id).then((secret) => {
             // # Logout
             cy.apiLogout();
 
@@ -107,11 +104,8 @@ describe('Authentication', () => {
             token = authenticator.generateToken(res.code.secret);
             fillMFACode(token);
 
-            // # Go to Account Settings
-            cy.toAccountSettingsModal();
-
-            // # Go to Security > Multi-factor Authentication > Edit and Remove MFA
-            cy.get('#securityButton').should('be.visible').click();
+            // # Go to Profile > Security > Multi-factor Authentication > Edit and Remove MFA
+            cy.uiOpenProfileModal('Security');
             cy.get('#mfaEdit').should('be.visible').click();
             cy.findByText('Remove MFA from Account').should('be.visible').click();
 
@@ -128,33 +122,8 @@ describe('Authentication', () => {
     });
 });
 
-function getUserSecret(user) {
-    return cy.url().then((url) => {
-        if (url.includes('mfa/setup')) {
-            return cy.get('#mfa').wait(timeouts.HALF_SEC).find('.col-sm-12').then((p) => {
-                const secretp = p.text();
-                const secret = secretp.split(' ')[1];
-
-                const token = authenticator.generateToken(secret);
-                cy.get('#mfa').find('.form-control').type(token);
-                cy.get('#mfa').find('.btn.btn-primary').click();
-
-                cy.wait(timeouts.HALF_SEC);
-                cy.get('#mfa').find('.btn.btn-primary').click();
-                return cy.wrap({secret});
-            });
-        }
-
-        // # If the user already has MFA enabled, reset the secret.
-        return cy.apiGenerateMfaSecret(user.id).then((res) => {
-            const secret = res.code.secret;
-            return cy.wrap({secret});
-        });
-    });
-}
-
 function fillMFACode(code) {
     cy.wait(timeouts.TWO_SEC);
     cy.findByPlaceholderText('MFA Token').clear().type(code).wait(timeouts.ONE_SEC);
-    cy.get('#saveSetting').should('be.visible').click().wait(timeouts.ONE_SEC);
+    cy.findByRole('button', {name: 'Submit'}).click();
 }

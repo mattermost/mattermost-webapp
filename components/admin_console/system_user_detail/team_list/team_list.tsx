@@ -3,15 +3,16 @@
 
 import React from 'react';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {t} from 'utils/i18n';
 
 import AbstractList from './abstract_list';
 import TeamRow from './team_row';
+import {TeamWithMembership} from './types';
 
 const headerLabels = [
     {
@@ -50,10 +51,10 @@ type Props = {
     emptyListTextId: string;
     emptyListTextDefaultMessage: string;
     actions: {
-        getTeamsData: (userId: string) => ActionFunc;
-        getTeamMembersForUser: (userId: string) => ActionFunc;
-        removeUserFromTeam: (teamId: string, userId: string) => ActionFunc & Partial<{error: Error}>;
-        updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => ActionFunc & Partial<{error: Error}>;
+        getTeamsData: (userId: string) => Promise<{data: Team[]}>;
+        getTeamMembersForUser: (userId: string) => Promise<{data: TeamMembership[]}>;
+        removeUserFromTeam: (teamId: string, userId: string) => Promise<ActionResult>;
+        updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<ActionResult>;
     };
     userDetailCallback: (teamsId: TeamMembership[]) => void;
     refreshTeams: boolean;
@@ -61,7 +62,7 @@ type Props = {
 }
 
 type State = {
-    teamsWithMemberships: Array<Record<string, any>>;
+    teamsWithMemberships: TeamWithMembership[];
     serverError: string | null;
 }
 
@@ -102,11 +103,11 @@ export default class TeamList extends React.PureComponent<Props, State> {
     }
 
     // check this out
-    private mergeTeamsWithMemberships = (data: Array<Record<string, any>>): TeamMembership[] => {
+    private mergeTeamsWithMemberships = (data: [{data: Team[]}, {data: TeamMembership[]}]): TeamWithMembership[] => {
         const teams = data[0].data;
         const memberships = data[1].data;
-        let teamsWithMemberships = teams.map((object: {[x: string]: string}) => {
-            const results = memberships.filter((team: {[x: string]: string}) => team.team_id === object.id);
+        let teamsWithMemberships = teams.map((object: Team) => {
+            const results = memberships.filter((team: TeamMembership) => team.team_id === object.id);
             const team = {...object, ...results[0]};
             return team;
         });
@@ -167,7 +168,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
         );
     }
 
-    private renderRow = (item: {[x: string]: string}): JSX.Element => {
+    private renderRow = (item: TeamWithMembership): JSX.Element => {
         return (
             <TeamRow
                 key={item.id}

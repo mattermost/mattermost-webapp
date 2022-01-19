@@ -7,19 +7,20 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @status
+// Group: @status @timed_dnd
 
 describe('DND Status - Setting Your Own DND Status', () => {
     const dndTimes = [
-        'dndTime-30mins_menuitem',
-        'dndTime-1hour_menuitem',
-        'dndTime-2hours_menuitem',
-        'dndTime-Tomorrow_menuitem',
-        'dndTime-Custom_menuitem',
+        'dndTime-thirty_minutes_menuitem',
+        'dndTime-one_hour_menuitem',
+        'dndTime-two_hours_menuitem',
+        'dndTime-tomorrow_menuitem',
+        'dndTime-custom_menuitem',
     ];
-    const dndIconText = 'Do Not Disturb Icon';
 
     before(() => {
+        cy.shouldHaveFeatureFlag('TimedDND', true);
+
         // # Login as test user and visit channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
@@ -36,7 +37,10 @@ describe('DND Status - Setting Your Own DND Status', () => {
             cy.get(`.SubMenuItemContainer li#${dndTimes[i]}`).click();
 
             // * Verify user status icon is set to DND
-            cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${dndIconText}`);
+            cy.uiGetProfileHeader().
+                find('i').
+                should('be.visible').
+                and('have.class', 'icon-minus-circle');
 
             // # Reset user status to online to prevent status modal
             cy.apiUpdateUserStatus('online');
@@ -56,7 +60,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
         cy.get('.DndModal__footer span').should('have.text', 'Disable Notifications').click();
 
         // * Verify user status icon is set to DND
-        cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${dndIconText}`);
+        verifyDNDUserStatus();
 
         // # Reset user status to online to prevent status modal
         cy.apiUpdateUserStatus('online');
@@ -84,7 +88,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
         cy.get('.DndModal__footer span').should('have.text', 'Disable Notifications').click();
 
         // * Verify user status icon is set to DND
-        cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${dndIconText}`);
+        verifyDNDUserStatus();
 
         // # Reset user status to online to prevent status modal
         cy.apiUpdateUserStatus('online');
@@ -112,7 +116,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
         cy.get('.DndModal__footer span').should('have.text', 'Disable Notifications').click();
 
         // * Verify user status icon is set to DND
-        cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${dndIconText}`);
+        verifyDNDUserStatus();
 
         // # Reset user status to online to prevent status modal
         cy.apiUpdateUserStatus('online');
@@ -149,17 +153,21 @@ describe('DND Status - Setting Your Own DND Status', () => {
         cy.get('.DndModal__footer span').should('have.text', 'Disable Notifications').click();
 
         // * Verify user status icon is set to DND
-        cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${dndIconText}`);
+        verifyDNDUserStatus();
     });
 });
 
 function openDndStatusSubMenu() {
     // # Open status menu
-    cy.uiOpenSetStatusMenu();
-
-    // # Wait for status menu to transition in
-    cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
+    cy.uiGetSetStatusButton().click();
 
     // # Hover over Do Not Disturb option
-    cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#status-menu-dnd_menuitem').trigger('mouseover');
+    cy.findByText('Do Not Disturb').trigger('mouseover');
+}
+
+function verifyDNDUserStatus() {
+    cy.uiGetProfileHeader().
+        find('i').
+        should('be.visible').
+        and('have.class', 'icon-minus-circle');
 }

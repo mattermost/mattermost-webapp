@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @emoji
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -53,11 +54,8 @@ describe('Custom emojis', () => {
         const emojiNameForSearch1 = 'alabala';
         const emojiNameForSearch2 = customEmojiWithColons;
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -66,16 +64,16 @@ describe('Custom emojis', () => {
         cy.get('#name').type(customEmojiWithColons);
 
         // # Select emoji image
-        cy.get('input#select-emoji').attachFile(largeEmojiFile);
+        cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
 
         // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
 
-        // # Click emoji picker button
-        cy.get('#emojiPickerButton').should('be.visible').click();
+        // # Open emoji picker
+        cy.uiOpenEmojiPicker();
 
         // # Search for a missing emoji in emoji picker
         cy.findByTestId('emojiInputSearch').should('be.visible').type(emojiNameForSearch1);
@@ -94,11 +92,8 @@ describe('Custom emojis', () => {
     it('MM-T2185 Custom emoji - renders immediately for other user Custom emoji - renders after logging out and back in', () => {
         const {customEmojiWithColons} = getCustomEmoji();
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -107,10 +102,10 @@ describe('Custom emojis', () => {
         cy.get('#name').type(customEmojiWithColons);
 
         // # Select emoji image
-        cy.get('input#select-emoji').attachFile(largeEmojiFile);
+        cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
 
         // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);

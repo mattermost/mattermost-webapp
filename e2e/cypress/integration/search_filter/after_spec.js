@@ -29,16 +29,23 @@ describe('Search Date Filter', () => {
     } = testData;
     const admin = getAdminAccount();
     let anotherAdmin;
+    let channelName;
 
     before(() => {
-        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
+        cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, channel, user, channelUrl}) => {
             anotherAdmin = user;
+            channelName = channel.name;
 
-            // # Visit town-square
-            cy.visit(`/${team.name}/channels/town-square`);
+            // # Visit test channel
+            cy.visit(channelUrl);
 
-            setupTestData(testData, {team, admin, anotherAdmin});
+            setupTestData(testData, {team, channel, admin, anotherAdmin});
         });
+    });
+
+    beforeEach(() => {
+        cy.reload();
+        cy.postMessage(Date.now());
     });
 
     it('MM-T587 after: omits results before and on target date', () => {
@@ -46,7 +53,7 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T592_1 after: can be used in conjunction with in:', () => {
-        searchAndValidate(`after:${firstDateEarly.query} in:town-square ${commonText}`, [todayMessage, secondMessage]);
+        searchAndValidate(`after:${firstDateEarly.query} in:${channelName} ${commonText}`, [todayMessage, secondMessage]);
     });
 
     it('MM-T592_2 after: can be used in conjunction with from:', () => {
@@ -54,6 +61,6 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T592_3 after: re-add "in:" in conjunction with "from:"', () => {
-        searchAndValidate(`after:${firstDateEarly.query} in:town-square ${commonText} from:${anotherAdmin.username} ${commonText}`);
+        searchAndValidate(`after:${firstDateEarly.query} in:${channelName} ${commonText} from:${anotherAdmin.username} ${commonText}`);
     });
 });

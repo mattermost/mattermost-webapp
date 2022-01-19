@@ -12,9 +12,9 @@
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic channel
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -29,11 +29,11 @@ describe('Messaging', () => {
         cy.get('#edit_textbox').type(' and test post 2').should('have.text', 'test post 1 and test post 2');
 
         // # Click on the save button to edit the post
-        cy.get('#editButton').click();
+        cy.uiSave();
 
         // # Get the last post and check that none of the text was cut off after being edited
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('have.text', 'test post 1 and test post 2');
+            cy.get(`#postMessageText_${postId}`).should('have.text', 'test post 1 and test post 2 Edited');
         });
     });
 });

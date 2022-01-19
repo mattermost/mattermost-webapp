@@ -2,9 +2,8 @@
 // See LICENSE.txt for license information.
 
 import moment from 'moment-timezone';
-import {Unit} from '@formatjs/intl-relativetimeformat';
 
-const shouldTruncate = new Map<Unit, boolean>([
+const shouldTruncate = new Map<Intl.RelativeTimeFormatUnit, boolean>([
     ['year', true],
     ['quarter', true],
     ['month', true],
@@ -19,21 +18,19 @@ export function isWithin(
     a: Date,
     b: Date,
     timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
-    unit: Unit,
+    unit: Intl.RelativeTimeFormatUnit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): boolean {
     const diff = getDiff(a, b, timeZone, unit, truncateEndpoints);
-    return threshold >= 0 ?
-        diff <= threshold && diff >= 0 :
-        diff >= threshold && diff <= 0;
+    return threshold >= 0 ? diff <= threshold && diff >= 0 : diff >= threshold && diff <= 0;
 }
 
 export function isEqual(
     a: Date,
     b: Date,
     timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
-    unit: Unit,
+    unit: Intl.RelativeTimeFormatUnit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): boolean {
@@ -44,7 +41,7 @@ export function getDiff(
     a: Date,
     b: Date,
     timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
-    unit: Unit,
+    unit: Intl.RelativeTimeFormatUnit,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): number {
     const momentA = moment.utc(a.getTime());
@@ -55,28 +52,32 @@ export function getDiff(
         momentB.tz(timeZone);
     }
 
-    return truncateEndpoints ?
-        momentA.startOf(unit).diff(momentB.startOf(unit), unit) :
-        momentA.diff(b, unit, true);
+    return truncateEndpoints ? momentA.startOf(unit).diff(momentB.startOf(unit), unit) : momentA.diff(b, unit, true);
 }
 
-export function isSameDay(a: Date, b: Date = new Date()) {
+export function isSameDay(a: Date, b: Date = new Date()): boolean {
     return a.getDate() === b.getDate() && isSameMonth(a, b);
 }
 
-export function isSameMonth(a: Date, b: Date = new Date()) {
+export function isWithinLastWeek(a: Date): boolean {
+    return moment(a).isAfter(
+        moment().subtract(6, 'days').startOf('day'),
+    );
+}
+
+export function isSameMonth(a: Date, b: Date = new Date()): boolean {
     return a.getMonth() === b.getMonth() && isSameYear(a, b);
 }
 
-export function isSameYear(a: Date, b: Date = new Date()) {
+export function isSameYear(a: Date, b: Date = new Date()): boolean {
     return a.getFullYear() === b.getFullYear();
 }
 
-export function isToday(date: Date) {
+export function isToday(date: Date): boolean {
     return isSameDay(date);
 }
 
-export function isYesterday(date: Date) {
+export function isYesterday(date: Date): boolean {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
 
@@ -86,3 +87,4 @@ export function isYesterday(date: Date) {
 export function toUTCUnix(date: Date): number {
     return Math.round(new Date(date.toISOString()).getTime() / 1000);
 }
+

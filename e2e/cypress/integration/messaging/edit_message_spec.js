@@ -13,18 +13,18 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Edit Message', () => {
-    let townsquareLink;
+    let offTopicUrl;
 
     before(() => {
         // # Login as test user
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            townsquareLink = `/${team.name}/channels/town-square`;
+        cy.apiInitSetup({loginAfter: true}).then((out) => {
+            offTopicUrl = out.offTopicUrl;
         });
     });
 
     beforeEach(() => {
         // # Visit town-square
-        cy.visit(townsquareLink);
+        cy.visit(offTopicUrl);
     });
 
     it('MM-T121 Escape should not close modal when an autocomplete drop down is in use', () => {
@@ -148,7 +148,7 @@ describe('Edit Message', () => {
             cy.get('#editPostModal').should('not.exist');
 
             // * Check the second post and verify that it contains new edited message.
-            cy.get(postText).should('have.text', `${secondMessage} Another new message`);
+            cy.get(postText).should('have.text', `${secondMessage} Another new message Edited`);
         });
     });
 });

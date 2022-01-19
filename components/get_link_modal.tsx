@@ -10,6 +10,7 @@ import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 type Props = {
     show: boolean;
     onHide: () => void;
+    onExited: () => void;
     title: string;
     helpText?: string;
     link: string;
@@ -113,6 +114,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                 dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.onHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='getLinkModalLabel'
             >

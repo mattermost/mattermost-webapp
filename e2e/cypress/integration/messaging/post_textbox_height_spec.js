@@ -12,9 +12,9 @@
 
 describe('Messaging', () => {
     before(() => {
-        // # Login as test user and visit town-square channel
+        // # Login as test user and visit Off-Topic channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # Add two posts
             cy.postMessage('test post 1');

@@ -8,18 +8,17 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {TeamMembership, Team} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
 import {BaseMembership} from 'components/admin_console/user_grid/user_grid_role_dropdown';
 import AddUsersToTeamModal from 'components/add_users_to_team_modal';
-import ToggleModalButton from 'components/toggle_modal_button';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
 type Props = {
@@ -28,9 +27,9 @@ type Props = {
     filters: GetFilteredUsersStatsOpts;
 
     users: UserProfile[];
-    usersToRemove: Dictionary<UserProfile>;
-    usersToAdd: Dictionary<UserProfile>;
-    teamMembers: Dictionary<TeamMembership>;
+    usersToRemove: Record<string, UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
+    teamMembers: Record<string, TeamMembership>;
 
     totalCount: number;
     searchTerm: string;
@@ -255,11 +254,12 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 subtitleId={t('admin.team_settings.team_detail.membersDescription')}
                 subtitleDefault='A list of users who are currently in the team right now'
                 button={
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='addTeamMembers'
                         className='btn btn-primary'
+                        modalId={ModalIdentifiers.ADD_USER_TO_TEAM}
                         dialogType={AddUsersToTeamModal}
-                        isDisabled={isDisabled}
+                        disabled={isDisabled}
                         dialogProps={{
                             team,
                             onAddCallback: this.onAddCallback,
@@ -273,7 +273,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                             id='admin.team_settings.team_details.add_members'
                             defaultMessage='Add Members'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 }
             >
                 <UserGrid

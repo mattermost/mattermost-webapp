@@ -17,7 +17,6 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelFavorite,
     isCurrentChannelMuted,
-    isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -38,7 +37,6 @@ import {
     showMentions,
     closeRightHandSide,
 } from 'actions/views/rhs';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
@@ -79,7 +77,7 @@ function makeMapStateToProps() {
             rhsState: getRhsState(state),
             rhsOpen: getIsRhsOpen(state),
             isFavorite: isCurrentChannelFavorite(state),
-            isReadOnly: isCurrentChannelReadOnly(state),
+            isReadOnly: false,
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
@@ -91,7 +89,6 @@ function makeMapStateToProps() {
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
-            globalHeaderEnabled: getGlobalHeaderEnabled(state),
         };
     };
 }

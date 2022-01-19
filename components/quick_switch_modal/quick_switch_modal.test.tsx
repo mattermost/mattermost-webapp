@@ -10,8 +10,9 @@ import QuickSwitchModal from 'components/quick_switch_modal/quick_switch_modal';
 
 describe('components/QuickSwitchModal', () => {
     const baseProps = {
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         showTeamSwitcher: false,
+        isMobileView: false,
         actions: {
             joinChannelById: jest.fn().mockResolvedValue({data: true}),
             switchToChannel: jest.fn().mockImplementation(() => {
@@ -40,7 +41,7 @@ describe('components/QuickSwitchModal', () => {
             );
 
             wrapper.instance().handleSubmit();
-            expect(baseProps.onHide).not.toBeCalled();
+            expect(baseProps.onExited).not.toBeCalled();
             expect(props.actions.switchToChannel).not.toBeCalled();
         });
 
@@ -53,7 +54,7 @@ describe('components/QuickSwitchModal', () => {
             wrapper.instance().handleSubmit({channel});
             expect(baseProps.actions.switchToChannel).toBeCalledWith(channel);
             process.nextTick(() => {
-                expect(baseProps.onHide).not.toBeCalled();
+                expect(baseProps.onExited).not.toBeCalled();
                 done();
             });
         });
@@ -78,7 +79,7 @@ describe('components/QuickSwitchModal', () => {
             wrapper.instance().handleSubmit({channel});
             expect(props.actions.switchToChannel).toBeCalledWith(channel);
             process.nextTick(() => {
-                expect(baseProps.onHide).toBeCalled();
+                expect(baseProps.onExited).toBeCalled();
                 done();
             });
         });
@@ -137,7 +138,7 @@ describe('components/QuickSwitchModal', () => {
             expect(props.actions.joinChannelById).not.toHaveBeenCalled();
             expect(props.actions.switchToChannel).toBeCalledWith(channel);
             process.nextTick(() => {
-                expect(baseProps.onHide).toBeCalled();
+                expect(baseProps.onExited).toBeCalled();
                 done();
             });
         });

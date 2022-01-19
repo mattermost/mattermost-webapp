@@ -37,7 +37,7 @@ describe('Send a DM', () => {
         cy.apiLogin(userA);
         cy.visit(testChannelUrl);
         cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
-        cy.get('#headerTeamName').click();
+        cy.uiGetLHSHeader().click();
         cy.findByText('Leave Team').click();
         cy.findByText('Yes').click();
         cy.url().should('include', '/select_team');

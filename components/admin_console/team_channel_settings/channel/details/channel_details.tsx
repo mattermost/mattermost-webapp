@@ -7,7 +7,6 @@ import {cloneDeep} from 'lodash';
 
 import {Groups, Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Scheme} from 'mattermost-redux/types/schemes';
 import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
@@ -42,10 +41,12 @@ export interface ChannelDetailsProps {
     team: Partial<Team>;
     groups: Group[];
     totalGroups: number;
-    allGroups: Dictionary<Group>;
+    allGroups: Record<string, Group>;
     channelPermissions: ChannelPermissions[];
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
+    channelModerationEnabled: boolean;
+    channelGroupsEnabled: boolean;
     isDisabled?: boolean;
     actions: ChannelDetailsActions;
 }
@@ -57,8 +58,8 @@ interface ChannelDetailsState {
     totalGroups: number;
     groups: Group[];
     usersToRemoveCount: number;
-    usersToRemove: Dictionary<UserProfile>;
-    usersToAdd: Dictionary<UserProfile>;
+    usersToRemove: Record<string, UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
     rolesToUpdate: {
         [userId: string]: {
             schemeUser: boolean;
@@ -701,15 +702,17 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     toPublic={isPublic}
                 />
 
-                <ChannelModeration
-                    channelPermissions={channelPermissions}
-                    onChannelPermissionsChanged={this.channelPermissionsChanged}
-                    teamSchemeID={teamScheme?.id}
-                    teamSchemeDisplayName={teamScheme?.display_name}
-                    guestAccountsEnabled={this.props.guestAccountsEnabled}
-                    isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
-                    readOnly={this.props.isDisabled}
-                />
+                {this.props.channelModerationEnabled &&
+                    <ChannelModeration
+                        channelPermissions={channelPermissions}
+                        onChannelPermissionsChanged={this.channelPermissionsChanged}
+                        teamSchemeID={teamScheme?.id}
+                        teamSchemeDisplayName={teamScheme?.display_name}
+                        guestAccountsEnabled={this.props.guestAccountsEnabled}
+                        isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
+                        readOnly={this.props.isDisabled}
+                    />
+                }
 
                 <RemoveConfirmModal
                     show={showRemoveConfirmModal}
@@ -734,19 +737,22 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     isDefault={isDefault}
                     onToggle={this.setToggles}
                     isDisabled={this.props.isDisabled}
+                    groupsSupported={this.props.channelGroupsEnabled}
                 />
 
-                <ChannelGroups
-                    synced={isSynced}
-                    channel={channel}
-                    totalGroups={totalGroups}
-                    groups={groups}
-                    removedGroups={removedGroups}
-                    onAddCallback={this.handleGroupChange}
-                    onGroupRemoved={this.handleGroupRemoved}
-                    setNewGroupRole={this.setNewGroupRole}
-                    isDisabled={this.props.isDisabled}
-                />
+                {this.props.channelGroupsEnabled &&
+                    <ChannelGroups
+                        synced={isSynced}
+                        channel={channel}
+                        totalGroups={totalGroups}
+                        groups={groups}
+                        removedGroups={removedGroups}
+                        onAddCallback={this.handleGroupChange}
+                        onGroupRemoved={this.handleGroupRemoved}
+                        setNewGroupRole={this.setNewGroupRole}
+                        isDisabled={this.props.isDisabled}
+                    />
+                }
 
                 {!isSynced &&
                     <ChannelMembers

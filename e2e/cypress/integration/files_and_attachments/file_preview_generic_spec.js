@@ -15,20 +15,21 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import {
     attachFile,
     downloadAttachmentAndVerifyItsProperties,
+    interceptFileUpload,
     waitUntilUploadComplete,
 } from './helpers';
 
 describe('Upload Files - Generic', () => {
-    let testTeam;
-
     before(() => {
         // # Create new team and new user and visit test channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            testTeam = team;
-
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
             cy.postMessage('hello');
         });
+    });
+
+    beforeEach(() => {
+        interceptFileUpload();
     });
 
     it('MM-T3824_1 - PDF', () => {
@@ -92,34 +93,27 @@ function testGenericFile(properties) {
     attachFile(properties);
 
     // # Wait until file upload is complete then submit
-    waitUntilUploadComplete(`div.${type}`);
+    waitUntilUploadComplete();
     cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
 
-    cy.getLastPost().within(() => {
-        cy.get('.post-image__thumbnail').within(() => {
-            // * File is posted
-            cy.get(`.file-icon.${type}`).should('exist').click();
-        });
-    });
+    // # Open file preview
+    cy.uiGetFileThumbnail(fileName).click();
 
-    cy.get('.modal-body').within(() => {
+    // * Verify that the preview modal open up
+    cy.uiGetFilePreviewModal().within(() => {
         switch (type) {
         case 'text':
-            cy.get('.post-code').get('code').should('exist');
+            cy.get('code').should('exist');
             break;
         case 'pdf':
-            cy.get('.pdf').get('.post-code').get('canvas').should('have.length', 10);
+            cy.get('canvas').should('have.length', 10);
             break;
         default:
         }
 
-        // * No apparent way to check the thumbnail is the correct one.
-        // # Hover over the image
-        cy.get('.modal-image__content').trigger('mouseover');
-
         // * Download button should exist
-        cy.findByText('Download').should('exist').parent().then((downloadLink) => {
+        cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
             expect(downloadLink.attr('download')).to.equal(fileName);
 
             const fileAttachmentURL = downloadLink.attr('href');
@@ -129,6 +123,6 @@ function testGenericFile(properties) {
         });
 
         // # Close modal
-        cy.get('.modal-close').click();
+        cy.uiCloseFilePreviewModal();
     });
 }

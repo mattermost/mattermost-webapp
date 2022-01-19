@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
@@ -9,7 +10,6 @@ import {Link} from 'react-router-dom';
 
 import DelayedAction from 'utils/delayed_action';
 import Constants, {RHSStates} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import UserProfile from 'components/user_profile';
@@ -46,6 +46,7 @@ export default class RhsCard extends React.Component {
         pluginPostCardTypes: PropTypes.object,
         previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
         enablePostUsernameOverride: PropTypes.bool,
+        isMobileView: PropTypes.bool.isRequired,
         teamUrl: PropTypes.string,
     }
 
@@ -65,7 +66,7 @@ export default class RhsCard extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (!Utils.areObjectsEqual(nextState.selected, this.props.selected)) {
+        if (!deepEqual(nextState.selected, this.props.selected)) {
             return true;
         }
         if (nextState.isScrolling !== this.state.isScrolling) {
@@ -91,7 +92,7 @@ export default class RhsCard extends React.Component {
     }
 
     handleClick = () => {
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             GlobalActions.emitCloseRightHandSide();
         }
     };

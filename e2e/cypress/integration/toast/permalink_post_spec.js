@@ -7,16 +7,17 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @toast
 
 describe('Toast', () => {
     let testTeam;
 
     before(() => {
-        cy.apiInitSetup({loginAfer: true}).then(({team}) => {
+        cy.apiInitSetup({loginAfer: true}).then(({team, offTopicUrl}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -43,17 +44,14 @@ describe('Toast', () => {
             cy.getLastPost().get('.post-message__text a').last().scrollIntoView().click();
 
             // * check the URL should be changed to permalink post
-            cy.url().should('include', `/${testTeam.name}/channels/town-square/${id}`);
+            cy.url().should('include', `/${testTeam.name}/channels/off-topic/${id}`);
 
-            // * Post is highlighted and fades within 6 sec.
-            cy.get(`#post_${id}`).
-                should('have.css', 'animation-duration', '1s').
-                and('have.css', 'animation-delay', '5s').
-                and('have.class', 'post--highlight');
+            // * Post is highlighted then fades out
+            cy.get(`#post_${id}`).should('have.class', 'post--highlight');
             cy.get(`#post_${id}`).should('not.have.class', 'post--highlight');
 
             // * URL changes to channel url
-            cy.url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', id);
+            cy.url().should('include', `/${testTeam.name}/channels/off-topic`).and('not.include', id);
         });
     });
 });

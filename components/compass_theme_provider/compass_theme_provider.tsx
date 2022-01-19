@@ -17,6 +17,7 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
         ...lightTheme,
         noStyleReset: true,
         noDefaultStyle: true,
+        noFontFaces: true,
     });
 
     useEffect(() => {

@@ -18,6 +18,7 @@ describe('Verify Accessibility Support in Post', () => {
     let otherUser;
     let testTeam;
     let testChannel;
+    let emojiPickerEnabled;
 
     before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
@@ -32,11 +33,15 @@ describe('Verify Accessibility Support in Post', () => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
                 });
             });
+
+            cy.apiGetConfig().then(({config}) => {
+                emojiPickerEnabled = config.ServiceSettings.EnableEmojiPicker;
+            });
         });
     });
 
     beforeEach(() => {
-        // # Login as test user and visit the Town Square channel
+        // # Login as test user and visit the test channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -99,7 +104,7 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify if focus changes to different posts when we use up arrows
         for (let index = 1; index < 5; index++) {
             cy.getNthPostId(-index - 1).then((postId) => {
-                cy.get(`#post_${postId}`).should('have.class', 'a11y--active a11y--focused');
+                cy.get(`#post_${postId}`).should('be.focused');
                 cy.get('body').type('{uparrow}');
             });
         }
@@ -107,7 +112,7 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify if focus changes to different posts when we use down arrows
         for (let index = 5; index > 0; index--) {
             cy.getNthPostId(-index - 1).then((postId) => {
-                cy.get(`#post_${postId}`).should('have.class', 'a11y--active a11y--focused');
+                cy.get(`#post_${postId}`).should('be.focused');
                 cy.get('body').type('{downarrow}');
             });
         }
@@ -139,7 +144,7 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify if focus changes to different posts when we use up arrows
         for (let index = 1; index < 5; index++) {
             cy.getNthPostId(-index - 1).then((postId) => {
-                cy.get(`#rhsPost_${postId}`).should('have.class', 'a11y--active a11y--focused');
+                cy.get(`#rhsPost_${postId}`).should('be.focused');
                 cy.get('body').type('{uparrow}');
             });
         }
@@ -147,7 +152,7 @@ describe('Verify Accessibility Support in Post', () => {
         // * Verify if focus changes to different posts when we use down arrows
         for (let index = 5; index > 1; index--) {
             cy.getNthPostId(-index - 1).then((postId) => {
-                cy.get(`#rhsPost_${postId}`).should('have.class', 'a11y--active a11y--focused');
+                cy.get(`#rhsPost_${postId}`).should('be.focused');
                 cy.get('body').type('{downarrow}');
             });
         }
@@ -163,32 +168,51 @@ describe('Verify Accessibility Support in Post', () => {
 
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
+                // * Verify focus is on profile image
+                cy.findByAltText(`${otherUser.username} profile image`).should('be.focused');
+                cy.focused().tab();
+
                 // * Verify focus is on the username
-                cy.get('button.user-popover').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', otherUser.username);
+                cy.get('button.user-popover').should('be.focused').and('have.attr', 'aria-label', otherUser.username);
                 cy.focused().tab();
 
                 // * Verify focus is on the time
-                cy.get(`#CENTER_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
+                cy.get(`#CENTER_time_${postId}`).should('be.focused');
                 cy.focused().tab();
 
-                // * Verify focus is on the actions button
-                cy.get(`#CENTER_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab();
+                // eslint-disable-next-line no-negated-condition
+                if (!emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#CENTER_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab();
+                } else {
+                    for (let i = 0; i < 3; i++) {
+                        // * Verify focus is on the reactions button
+                        cy.get(`#recent_reaction_${i}`).should('have.class', 'emoticon--post-menu');
+                        cy.focused().tab();
+                    }
+                }
 
                 // * Verify focus is on the reactions button
-                cy.get(`#CENTER_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
+                cy.get(`#CENTER_reaction_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'add reaction');
                 cy.focused().tab();
 
                 // * Verify focus is on the save post button
-                cy.get(`#CENTER_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
+                cy.get(`#CENTER_flagIcon_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab();
 
                 // * Verify focus is on the comment button
-                cy.get(`#CENTER_commentIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'reply');
+                cy.get(`#CENTER_commentIcon_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'reply');
                 cy.focused().tab();
 
+                if (emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#CENTER_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab();
+                }
+
                 // * Verify focus is on the post text
-                cy.get(`#postMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
+                cy.get(`#postMessageText_${postId}`).should('be.focused').and('have.attr', 'aria-readonly', 'true');
             });
         });
     });
@@ -218,27 +242,39 @@ describe('Verify Accessibility Support in Post', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#rhsPost_${postId}`).within(() => {
                 // * Verify focus is on the post text
-                cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
+                cy.get(`#rhsPostMessageText_${postId}`).should('be.focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
+                if (emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#RHS_COMMENT_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab({shift: true});
+                }
+
                 // * Verify focus is on the save icon
-                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
+                cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the reactions button
-                cy.get(`#RHS_COMMENT_reaction_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'add reaction');
+                cy.get(`#RHS_COMMENT_reaction_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'add reaction');
                 cy.focused().tab({shift: true});
 
-                // * Verify focus is on the actions button
-                cy.get(`#RHS_COMMENT_button_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more actions');
-                cy.focused().tab({shift: true});
+                // eslint-disable-next-line no-negated-condition
+                if (!emojiPickerEnabled) {
+                    // * Verify focus is on the actions button
+                    cy.get(`#RHS_COMMENT_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.focused().tab({shift: true});
+                } else {
+                    cy.get('#recent_reaction_0').should('have.class', 'emoticon--post-menu');
+                    cy.focused().tab({shift: true});
+                }
 
                 // * Verify focus is on the time
-                cy.get(`#RHS_COMMENT_time_${postId}`).should('have.class', 'a11y--active a11y--focused');
+                cy.get(`#RHS_COMMENT_time_${postId}`).should('be.focused');
                 cy.focused().tab({shift: true});
 
                 // * Verify focus is on the username
-                cy.get('button.user-popover').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', otherUser.username);
+                cy.get('button.user-popover').should('be.focused').and('have.attr', 'aria-label', otherUser.username);
                 cy.focused().tab({shift: true});
             });
         });
@@ -315,7 +351,7 @@ function performActionsToLastPost() {
 
 function verifyPostLabel(elementId, username, labelSuffix) {
     // # Shift focus to the last post
-    cy.get(elementId).as('lastPost').should('have.class', 'a11y--active a11y--focused');
+    cy.get(elementId).as('lastPost').should('be.focused');
 
     // * Verify reader reads out the post correctly
     cy.get('@lastPost').then((el) => {

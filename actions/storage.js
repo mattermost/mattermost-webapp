@@ -1,10 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {StoragePrefixes, StorageTypes} from 'utils/constants';
-import {getPrefix} from 'utils/storage_utils';
+import deepEqual from 'fast-deep-equal';
 
 import {batchActions} from 'mattermost-redux/types/actions';
+
+import {getGlobalItem} from 'selectors/storage';
+
+import {StoragePrefixes, StorageTypes} from 'utils/constants';
+import {getPrefix} from 'utils/storage_utils';
 
 export function setItem(name, value) {
     return (dispatch, getState) => {
@@ -31,12 +35,9 @@ export function removeItem(name) {
 }
 
 export function setGlobalItem(name, value) {
-    return (dispatch) => {
-        dispatch({
-            type: StorageTypes.SET_GLOBAL_ITEM,
-            data: {name, value, timestamp: new Date()},
-        });
-        return {data: true};
+    return {
+        type: StorageTypes.SET_GLOBAL_ITEM,
+        data: {name, value, timestamp: new Date()},
     };
 }
 
@@ -61,45 +62,39 @@ export function clear(options = {exclude: []}) {
 }
 
 export function actionOnGlobalItemsWithPrefix(prefix, action) {
-    return (dispatch) => {
-        dispatch({
-            type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
-            data: {prefix, action},
-        });
-        return {data: true};
-    };
-}
-
-export function actionOnItemsWithPrefix(prefix, action) {
-    return (dispatch, getState) => {
-        const state = getState();
-        const globalPrefix = getPrefix(state);
-        dispatch({
-            type: StorageTypes.ACTION_ON_ITEMS_WITH_PREFIX,
-            data: {globalPrefix, prefix, action},
-        });
-        return {data: true};
+    return {
+        type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
+        data: {prefix, action},
     };
 }
 
 // Temporary action to manually rehydrate drafts from localStorage.
-function rehydrateDrafts() {
-    return (dispatch) => {
+export function rehydrateDrafts() {
+    return (dispatch, getState) => {
         const actions = [];
 
-        Object.entries(localStorage).forEach((entry) => {
-            const key = entry[0];
-            const value = entry[1];
-            if (key.indexOf(StoragePrefixes.DRAFT) === 0 || key.indexOf(StoragePrefixes.COMMENT_DRAFT) === 0) {
-                actions.push({
-                    type: StorageTypes.SET_GLOBAL_ITEM,
-                    data: {name: key, value: JSON.parse(value), timestamp: new Date()},
-                });
-            }
-        });
+        const state = getState();
 
-        dispatch(batchActions(actions));
-        return {data: true};
+        for (const [key, value] of Object.entries(localStorage)) {
+            if (!key.startsWith(StoragePrefixes.DRAFT) && !key.startsWith(StoragePrefixes.COMMENT_DRAFT)) {
+                continue;
+            }
+
+            const parsed = JSON.parse(value);
+
+            const existing = getGlobalItem(state, key);
+            if (existing && deepEqual(existing, parsed)) {
+                continue;
+            }
+
+            actions.push(setGlobalItem(key, parsed));
+        }
+
+        if (actions.length === 0) {
+            return {data: false};
+        }
+
+        return dispatch(batchActions(actions));
     };
 }
 
@@ -138,7 +133,7 @@ export function storageRehydrate(incoming, persistor) {
                 data: storage,
             });
         });
-        dispatch(rehydrateDrafts());
+
         persistor.resume();
         return {data: true};
     };

@@ -4,16 +4,14 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import matchMedia from 'tests/helpers/match_media.mock.ts';
+
 import {Client4} from 'mattermost-redux/client';
 
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils';
-import Constants, {StoragePrefixes} from 'utils/constants';
-
-jest.mock('fastclick', () => ({
-    attach: () => {}, // eslint-disable-line no-empty-function
-}));
+import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 
 jest.mock('rudder-sdk-js', () => ({
     identify: jest.fn(),
@@ -48,8 +46,10 @@ describe('components/Root', () => {
         telemetryId: '1234ab',
         noAccounts: false,
         showTermsOfService: false,
+        theme: {},
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            emitBrowserWindowResized: () => {},
         },
         location: {
             pathname: '/',
@@ -245,5 +245,87 @@ describe('components/Root', () => {
         document.dispatchEvent(new Event('visibilitychange'));
         expect(window.location.reload).toBeCalledTimes(1);
         wrapper.unmount();
+    });
+
+    describe('window.matchMedia', () => {
+        afterEach(() => {
+            matchMedia.clear();
+        });
+
+        test('should update redux when the desktop media query matches', () => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    ...baseProps.actions,
+                    emitBrowserWindowResized: jest.fn(),
+                },
+            };
+            const wrapper = shallow(<Root {...props}/>);
+
+            matchMedia.useMediaQuery(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
+
+            expect(props.actions.emitBrowserWindowResized).toBeCalledTimes(1);
+
+            expect(props.actions.emitBrowserWindowResized.mock.calls[0][0]).toBe(WindowSizes.DESKTOP_VIEW);
+
+            wrapper.unmount();
+        });
+
+        test('should update redux when the small desktop media query matches', () => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    ...baseProps.actions,
+                    emitBrowserWindowResized: jest.fn(),
+                },
+            };
+            const wrapper = shallow(<Root {...props}/>);
+
+            matchMedia.useMediaQuery(`(min-width: ${Constants.TABLET_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.DESKTOP_SCREEN_WIDTH}px)`);
+
+            expect(props.actions.emitBrowserWindowResized).toBeCalledTimes(1);
+
+            expect(props.actions.emitBrowserWindowResized.mock.calls[0][0]).toBe(WindowSizes.SMALL_DESKTOP_VIEW);
+
+            wrapper.unmount();
+        });
+
+        test('should update redux when the tablet media query matches', () => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    ...baseProps.actions,
+                    emitBrowserWindowResized: jest.fn(),
+                },
+            };
+            const wrapper = shallow(<Root {...props}/>);
+
+            matchMedia.useMediaQuery(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
+
+            expect(props.actions.emitBrowserWindowResized).toBeCalledTimes(1);
+
+            expect(props.actions.emitBrowserWindowResized.mock.calls[0][0]).toBe(WindowSizes.TABLET_VIEW);
+
+            wrapper.unmount();
+        });
+
+        test('should update redux when the mobile media query matches', () => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    ...baseProps.actions,
+                    emitBrowserWindowResized: jest.fn(),
+                },
+            };
+            const wrapper = shallow(<Root {...props}/>);
+
+            matchMedia.useMediaQuery(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
+
+            expect(props.actions.emitBrowserWindowResized).toBeCalledTimes(1);
+
+            expect(props.actions.emitBrowserWindowResized.mock.calls[0][0]).toBe(WindowSizes.MOBILE_VIEW);
+
+            wrapper.unmount();
+        });
     });
 });

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @custom_status
 
 describe('MM-T4063 Custom status expiry', () => {
@@ -14,8 +15,8 @@ describe('MM-T4063 Custom status expiry', () => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
         // # Login as test user and visit channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
         });
     });
 
@@ -77,7 +78,9 @@ describe('MM-T4063 Custom status expiry', () => {
         expiresAt = Cypress.dayjs().add(waitingTime, 'minute');
 
         // * Status should be set and the emoji should be visible in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T4063_5 should show the set custom status with expiry when status dropdown is opened', () => {

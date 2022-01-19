@@ -70,7 +70,7 @@ describe('Message Reply', () => {
         });
 
         // # Close RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
 
         // # Verify RHS is open
         cy.get('#rhsContainer').should('not.exist');

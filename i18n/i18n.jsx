@@ -60,7 +60,7 @@ const languages = {
     },
     it: {
         value: 'it',
-        name: 'Italiano (Beta)',
+        name: 'Italiano (Alpha)',
         order: 5,
         url: it,
     },
@@ -78,7 +78,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski (Beta)',
+        name: 'Polski',
         order: 8,
         url: pl,
     },
@@ -173,16 +173,4 @@ export function getLanguageInfo(locale) {
 
 export function isLanguageAvailable(locale) {
     return Boolean(getLanguages()[locale]);
-}
-
-export function doAddLocaleData() {
-    if (!Intl.PluralRules) {
-        // eslint-disable-next-line global-require
-        require('@formatjs/intl-pluralrules/polyfill-locales');
-    }
-
-    if (!Intl.RelativeTimeFormat) {
-        // eslint-disable-next-line global-require
-        require('@formatjs/intl-relativetimeformat/polyfill-locales');
-    }
 }

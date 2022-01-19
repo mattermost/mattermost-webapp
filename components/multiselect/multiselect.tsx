@@ -8,11 +8,13 @@ import ReactSelect, {components} from 'react-select';
 import {InputActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
 
-import {imageURLForUser, getDisplayName} from 'utils/utils.jsx';
+import LocalizedIcon from 'components/localized_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
-import {Constants, A11yCustomEventTypes} from 'utils/constants';
 import SaveButton from 'components/save_button';
 import Avatar from 'components/widgets/users/avatar';
+
+import {Constants, A11yCustomEventTypes} from 'utils/constants';
+import {imageURLForUser, getDisplayName} from 'utils/utils';
 
 import MultiSelectList from './multiselect_list';
 
@@ -315,17 +317,10 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             noteTextContainer = (
                 <div className='multi-select__note'>
                     <div className='note__icon'>
-                        <FormattedMessage
-                            id='generic_icons.info'
-                            defaultMessage='Info Icon'
-                        >
-                            {(title) => (
-                                <span
-                                    className='fa fa-info'
-                                    title={title as string}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-info'
+                            title={{id: 'generic_icons.info', defaultMessage: 'Info Icon'}}
+                        />
                     </div>
                     <div>{this.props.noteText}</div>
                 </div>
@@ -414,6 +409,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
                     loading={this.props.loading}
+                    query={this.state.input}
                     selectedItemRef={this.props.selectedItemRef}
                 />
             );

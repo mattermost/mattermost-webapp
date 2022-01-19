@@ -28,8 +28,6 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -124,6 +122,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -192,8 +191,6 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -288,6 +285,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message="new message"
           showPreview={false}
           updatePreview={[Function]}
@@ -356,8 +354,6 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -452,6 +448,7 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -520,8 +517,6 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -616,6 +611,7 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -684,8 +680,6 @@ exports[`components/EditPostModal should match with default config 1`] = `
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -780,6 +774,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -848,8 +843,6 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -918,6 +911,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -986,8 +980,6 @@ exports[`components/EditPostModal should not disable the button on not canDelete
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1082,6 +1074,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message="new message"
           showPreview={false}
           updatePreview={[Function]}
@@ -1150,8 +1143,6 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1246,6 +1237,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -1314,8 +1306,6 @@ exports[`components/EditPostModal should not disable the save button on not canD
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1410,6 +1400,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -1478,8 +1469,6 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1574,6 +1563,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}
@@ -1642,8 +1632,6 @@ exports[`components/EditPostModal should show errors when it is set in the state
   onExit={[Function]}
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
-  onSelect={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -1738,6 +1726,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
       >
         <Connect(TextboxLinks)
           characterLimit={4000}
+          isMarkdownPreviewEnabled={false}
           message=""
           showPreview={false}
           updatePreview={[Function]}

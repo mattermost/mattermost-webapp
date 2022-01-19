@@ -5,6 +5,7 @@ exports[`components/widgets/users/Avatar should match the snapshot 1`] = `
   alt="test-username profile image"
   className="Avatar Avatar-xl"
   src="test-url"
+  tabIndex={0}
 />
 `;
 
@@ -20,5 +21,6 @@ exports[`components/widgets/users/Avatar should match the snapshot only with url
   alt="user profile image"
   className="Avatar Avatar-md"
   src="test-url"
+  tabIndex={0}
 />
 `;

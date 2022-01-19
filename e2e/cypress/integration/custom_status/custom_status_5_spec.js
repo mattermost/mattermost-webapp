@@ -9,8 +9,6 @@
 
 // Group: @custom_status
 
-import {openCustomStatusModal} from './helper';
-
 describe('Custom Status - Verifying Where Custom Status Appears', () => {
     const customStatus = {
         emoji: 'grinning',
@@ -29,10 +27,10 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
     });
 
     it('MM-T3850_1 set a status', () => {
-        openCustomStatusModal();
+        cy.uiOpenUserMenu('Set a Custom Status');
 
         // # Type the custom status text in the custom status modal input
-        cy.get('#custom_status_modal .StatusModal__input input').type(customStatus.text);
+        cy.findByPlaceholderText('Set a status').type(customStatus.text, {force: true});
 
         // # Select an emoji from the emoji picker and set the status
         cy.get('#custom_status_modal .StatusModal__emoji-button').click();
@@ -46,7 +44,9 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
 
     it('MM-T3850_2 should display the custom status emoji in LHS header', () => {
         // * Custom status emoji should be visible in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T3850_3 should show custom status emoji in the post header', () => {
@@ -104,12 +104,8 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
     });
 
     it('MM-T3850_8 should show custom status emoji next to username in the team members modal', () => {
-        // # Click on the hamburger menu in the LHS header and open the dropdown menu
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('ul.dropdown-menu').should('exist');
-
-        // # Click on the "View Members" option in the dropdown menu and open the team members modal
-        cy.get('ul.dropdown-menu').findByText('View Members').click();
+        // # Open team menu and click on "View Members"
+        cy.uiOpenTeamMenu('View Members');
         cy.get('#teamMembersModal').should('exist');
 
         // # Search the current user's username in the search input
@@ -160,8 +156,8 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
     });
 
     it('MM-T3850_12 should show custom status emoji at channel switcher', () => {
-        // # Click channel switcher button
-        cy.uiGetChannelSwitcher().click();
+        // # Open Find Channels
+        cy.uiOpenFindChannels();
 
         // # Type username on the input
         cy.findByRole('textbox', {name: 'quick switch input'}).type(currentUser.username);

@@ -15,16 +15,17 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Negative search filters will omit results', () => {
     const message = 'negative' + Date.now();
     let testUser;
+    let channelName;
 
     before(() => {
-        // # Login as test user and go to town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        // # Login as test user and go to test channel
+        cy.apiInitSetup({loginAfter: true}).then(({channel, channelUrl, user}) => {
             testUser = user;
+            channelName = channel.name;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(channelUrl);
 
             // # Create a post from today
-            cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
             cy.postMessage(message);
         });
     });
@@ -52,7 +53,7 @@ describe('Negative search filters will omit results', () => {
     });
 
     it('MM-T3996 Negative in: filter', () => {
-        const query = `in:town-square ${message}`;
+        const query = `in:${channelName} ${message}`;
         searchAndVerify(query, message);
     });
 
@@ -64,26 +65,29 @@ describe('Negative search filters will omit results', () => {
 
 function search(query) {
     cy.reload();
-    cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}');
+    cy.uiGetSearchBox().clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
     cy.get('#loadingSpinner').should('not.exist');
-    cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+    cy.uiGetRHSSearchContainer();
 }
 
 function searchAndVerify(query, expectedMessage) {
     search(query);
 
     // * Verify the amount of results matches the amount of our expected results
-    cy.findAllByTestId('search-item-container').should('have.length', 1).then((results) => {
-        // * Verify text of each result
-        cy.wrap(results).first().find('.post-message').should('have.text', expectedMessage);
-    });
+    cy.uiGetRHSSearchContainer().
+        findAllByTestId('search-item-container').
+        should('have.length', 1).
+        then((results) => {
+            // * Verify text of each result
+            cy.wrap(results).first().find('.post-message').should('have.text', expectedMessage);
+        });
 
     search(`-${query}`);
 
     // * If we expect no results, verify results message
     cy.get('.no-results__title').should('be.visible').and('have.text', `No results for "-${query}"`);
 
-    cy.get('#searchResultsCloseButton').click();
-    cy.get('.search-item__container').should('not.exist');
+    cy.uiCloseRHS();
+    cy.uiGetRHSSearchContainer({visible: false});
 }

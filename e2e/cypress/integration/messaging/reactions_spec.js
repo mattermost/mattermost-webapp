@@ -38,7 +38,7 @@ describe('Messaging', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -72,7 +72,7 @@ describe('Messaging', () => {
             });
 
             // * Reaction appears in recently used section of emoji picker
-            cy.get('#emojiPickerButton').click().then(() => {
+            cy.uiOpenEmojiPicker().then(() => {
                 cy.findAllByTestId('emojiItem').first().within(($el) => {
                     cy.wrap($el).findByTestId('upside_down_face').should('exist');
                 });
@@ -88,7 +88,7 @@ describe('Messaging', () => {
             // # Click a reply arrow to open reply RHS
             cy.clickPostCommentIcon(postId).then(() => {
                 // # Click the expand arrows in top right to expand RHS
-                cy.findByLabelText('Expand').click();
+                cy.uiExpandRHS();
 
                 // # Hover over the message, observe emoji picker icon
                 cy.get(`#RHS_ROOT_reaction_${postId}`).should('exist').click({force: true});
@@ -116,7 +116,7 @@ describe('Messaging', () => {
                 });
 
                 // # Close RHS
-                cy.closeRHS();
+                cy.uiCloseRHS();
             });
         });
     });

@@ -4,10 +4,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+
+import {TeamWithMembership} from './types';
 
 import './abstract_list.scss';
 
@@ -16,14 +18,14 @@ const PAGE_SIZE = 10;
 type Props = {
     userId: string;
     headerLabels: Array<Record<string, any>>;
-    data: Array<Record<string, any>>;
+    data: TeamWithMembership[];
     onPageChangedCallback?: (paging: Paging) => void;
     total: number;
-    renderRow: (item: {[x: string]: string}) => JSX.Element;
+    renderRow: (item: TeamWithMembership) => JSX.Element;
     emptyListTextId: string;
     emptyListTextDefaultMessage: string;
     actions: {
-        getTeamsData: (userId: string) => ActionFunc & Partial<{then: (func: () => void) => void}> | Promise<Record<string, any>>;
+        getTeamsData: (userId: string) => Promise<{data: Team[]}>;
         removeGroup?: () => void;
     };
 }

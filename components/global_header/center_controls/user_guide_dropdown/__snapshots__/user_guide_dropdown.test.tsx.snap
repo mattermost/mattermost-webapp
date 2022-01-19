@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_header/components/UserGuideDropdown should match snapshot 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className="userGuideHelp"
+  id="helpMenuPortal"
+  onToggle={[Function]}
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        className="hidden-xs"
+        id="userGuideHelpTooltip"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Help"
+          id="channel_header.userHelpGuide"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <ForwardRef
+      active={false}
+      aria-label="Select to toggle the help menu."
+      compact={true}
+      icon="help-circle-outline"
+      inverted={true}
+      onClick={[Function]}
+      size="sm"
+    />
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Add Channel Dropdown"
+    id="AddChannelDropdown"
+    openLeft={true}
+    openUp={false}
+  >
+    <MenuGroup>
+      <MenuItemExternalLink
+        id="askTheCommunityLink"
+        onClick={[Function]}
+        show={true}
+        text="Ask the community"
+        url="https://mattermost.com/pl/default-ask-mattermost-community/"
+      />
+      <MenuItemExternalLink
+        id="helpResourcesLink"
+        show={true}
+        text="Help resources"
+        url="helpLink"
+      />
+      <MenuItemAction
+        icon={false}
+        id="gettingStarted"
+        onClick={[Function]}
+        show={false}
+        text="Getting Started"
+      />
+      <MenuItemExternalLink
+        id="reportAProblemLink"
+        show={true}
+        text="Report a problem"
+        url="reportAProblemLink"
+      />
+      <MenuItemAction
+        id="keyboardShortcuts"
+        onClick={[Function]}
+        show={true}
+        text="Keyboard shortcuts"
+      />
+    </MenuGroup>
+  </Menu>
+</MenuWrapper>
+`;
+
+exports[`components/channel_header/components/UserGuideDropdown should match snapshot for false of enableAskCommunityLink 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className="userGuideHelp"
+  id="helpMenuPortal"
+  onToggle={[Function]}
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        className="hidden-xs"
+        id="userGuideHelpTooltip"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Help"
+          id="channel_header.userHelpGuide"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <ForwardRef
+      active={false}
+      aria-label="Select to toggle the help menu."
+      compact={true}
+      icon="help-circle-outline"
+      inverted={true}
+      onClick={[Function]}
+      size="sm"
+    />
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Add Channel Dropdown"
+    id="AddChannelDropdown"
+    openLeft={true}
+    openUp={false}
+  >
+    <MenuGroup>
+      <MenuItemExternalLink
+        id="helpResourcesLink"
+        show={true}
+        text="Help resources"
+        url="helpLink"
+      />
+      <MenuItemAction
+        icon={false}
+        id="gettingStarted"
+        onClick={[Function]}
+        show={false}
+        text="Getting Started"
+      />
+      <MenuItemExternalLink
+        id="reportAProblemLink"
+        show={true}
+        text="Report a problem"
+        url="reportAProblemLink"
+      />
+      <MenuItemAction
+        id="keyboardShortcuts"
+        onClick={[Function]}
+        show={true}
+        text="Keyboard shortcuts"
+      />
+    </MenuGroup>
+  </Menu>
+</MenuWrapper>
+`;

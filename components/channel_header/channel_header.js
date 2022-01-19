@@ -3,19 +3,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip, Overlay} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
-
-import 'bootstrap';
+import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PopoverListMembers from 'components/popover_list_members';
 import StatusIcon from 'components/status_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
@@ -26,7 +25,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
-import RHSSearchNav from 'components/rhs_search_nav';
 
 import {
     Constants,
@@ -67,7 +65,6 @@ class ChannelHeader extends React.PureComponent {
         intl: intlShape.isRequired,
         pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
-        globalHeaderEnabled: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -209,8 +206,8 @@ class ChannelHeader extends React.PureComponent {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
 
-        const globalHeaderOffset = this.props.globalHeaderEnabled ? 40 : 0;
-        const topOffset = (announcementBarSize * this.props.announcementBarCount) + globalHeaderOffset;
+        // add 40px to take the global header into account
+        const topOffset = (announcementBarSize * this.props.announcementBarCount) + 40;
 
         this.setState({topOffset});
     }
@@ -262,7 +259,6 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
             teammateNameDisplaySetting,
-            globalHeaderEnabled,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -330,7 +326,7 @@ class ChannelHeader extends React.PureComponent {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge show={Utils.isGuest(dmUser)}/>
+                    <GuestBadge show={isGuest(dmUser.roles)}/>
                 </React.Fragment>
             );
         }
@@ -364,7 +360,7 @@ class ChannelHeader extends React.PureComponent {
                     <React.Fragment key={user.id}>
                         {index > 0 && ', '}
                         {displayName}
-                        <GuestBadge show={Utils.isGuest(user)}/>
+                        <GuestBadge show={isGuest(user.roles)}/>
                     </React.Fragment>
                 );
             });
@@ -772,7 +768,6 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
-                    {!globalHeaderEnabled && <RHSSearchNav/>}
                 </div>
             </div>
         );

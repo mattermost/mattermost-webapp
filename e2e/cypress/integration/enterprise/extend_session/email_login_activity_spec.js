@@ -13,7 +13,7 @@ import {getAdminAccount} from '../../../support/env';
 // Group: @enterprise @not_cloud @extend_session
 
 describe('MM-T2575 Extend Session - Email Login', () => {
-    let townSquarePage;
+    let offTopicUrl;
     const oneDay = 24 * 60 * 60 * 1000;
     const admin = getAdminAccount();
     let testUser;
@@ -25,9 +25,9 @@ describe('MM-T2575 Extend Session - Email Login', () => {
         cy.apiRequireLicense();
         cy.apiRequireServerDBToMatch();
 
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             testUser = user;
-            townSquarePage = `/${team.name}/channels/town-square`;
+            offTopicUrl = url;
         });
     });
 
@@ -49,7 +49,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
         // # Login as test user and go to town-square channel
         cy.apiLogin(testUser);
-        cy.visit(townSquarePage);
+        cy.visit(offTopicUrl);
 
         // # Get active user sessions as baseline reference
         cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
@@ -72,10 +72,10 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 cy.reload();
 
                 // # Try to visit town-square channel
-                cy.visit(townSquarePage);
+                cy.visit(offTopicUrl);
 
                 // * Verify that it redirects to login page due to expired session
-                cy.url().should('include', `/login?redirect_to=${townSquarePage.replace(/\//g, '%2F')}`);
+                cy.url().should('include', `/login?redirect_to=${offTopicUrl.replace(/\//g, '%2F')}`);
 
                 // * Get user's active session of test user and verify that it remained as expired and is not extended
                 cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: activeSessions}) => {
@@ -90,9 +90,9 @@ describe('MM-T2575 Extend Session - Email Login', () => {
     });
 
     const visitAChannel = () => {
-        cy.visit(townSquarePage);
+        cy.visit(offTopicUrl);
         cy.url().should('not.include', '/login?redirect_to');
-        cy.url().should('include', townSquarePage);
+        cy.url().should('include', offTopicUrl);
     };
 
     const postAMessage = (now) => {
@@ -131,7 +131,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
             // # Login as test user and go to town-square channel
             cy.apiLogin(testUser);
-            cy.visit(townSquarePage);
+            cy.visit(offTopicUrl);
 
             // # Get active user sessions as baseline reference
             cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
@@ -187,7 +187,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
             // # Login as test user and go to town-square channel
             cy.apiLogin(testUser);
-            cy.visit(townSquarePage);
+            cy.visit(offTopicUrl);
 
             // # Get active user sessions as baseline reference
             cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {

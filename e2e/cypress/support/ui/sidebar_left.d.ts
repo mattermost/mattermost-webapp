@@ -34,6 +34,16 @@ declare namespace Cypress {
         uiGetLHSHeader(): Chainable;
 
         /**
+         * Open team menu
+         *
+         * @param {string} item - ex. 'Invite People', 'Team Settings', etc.
+         *
+         * @example
+         *   cy.uiOpenTeamMenu();
+         */
+        uiOpenTeamMenu(item: string): Chainable;
+
+        /**
          * Get LHS add channel button
          *
          * @example
@@ -75,11 +85,18 @@ declare namespace Cypress {
         uiAddDirectMessage(): Chainable;
 
         /**
-         * Get a button for channel switcher
+         * Get find channels button
          * @example
-         *   cy.uiGetChannelSwitcher();
+         *   cy.uiGetFindChannels();
          */
-        uiGetChannelSwitcher(): Chainable;
+        uiGetFindChannels(): Chainable;
+
+        /**
+         * Open find channels
+         * @example
+         *   cy.uiOpenFindChannels();
+         */
+        uiOpenFindChannels(): Chainable;
 
         /**
          * Open menu of a channel in the sidebar
@@ -91,12 +108,21 @@ declare namespace Cypress {
         uiGetChannelSidebarMenu(channelName: string): Chainable;
 
         /**
-         * Navigate to sidebar item link
+         * Click sidebar item by channel or thread name
          * @param {string} name - channel name for channels, and threads for Global Threads
          *
          * @example
-         *   cy.uiVisitSidebarItem('town-square');
+         *   cy.uiClickSidebarItem('town-square');
          */
-        uiVisitSidebarItem(name: string): Chainable;
+        uiClickSidebarItem(name: string): Chainable;
+
+        /**
+         * Get sidebar item by channel or thread name
+         * @param {string} name - channel name for channels, and threads for Global Threads
+         *
+         * @example
+         *   cy.uiGetSidebarItem('town-square').find('.badge').should('be.visible');
+         */
+        uiGetSidebarItem(name: string): Chainable;
     }
 }

@@ -12,10 +12,12 @@ import * as Teams from 'mattermost-redux/selectors/entities/teams';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {ActionTypes, Constants} from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
 import * as GlobalActions from 'actions/global_actions';
+
+import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+
 import UserSettingsModal from 'components/user_settings/modal';
 
 import {executeCommand} from './command';
@@ -163,12 +165,18 @@ describe('executeCommand', () => {
             });
         });
 
-        test('should call toggleShortcutsModal in case of no mobile', async () => {
+        test('should open shortcut modal in case of no mobile', async () => {
             UserAgent.isMobile.mockReturnValueOnce(false);
 
             const result = await store.dispatch(executeCommand('/shortcuts', []));
 
-            expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+            const actionDispatch = store.getActions()[0];
+
+            expect(actionDispatch).toMatchObject({
+                type: ActionTypes.MODAL_OPEN,
+                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+            });
+
             expect(result).toEqual({data: true});
         });
     });
@@ -210,12 +218,17 @@ describe('executeCommand', () => {
         });
 
         test('should show private modal if channel is private', async () => {
-            GlobalActions.showLeavePrivateChannelModal = jest.fn();
             Channels.getCurrentChannel = jest.fn(() => ({type: Constants.PRIVATE_CHANNEL}));
 
             const result = await store.dispatch(executeCommand('/leave', {}));
 
-            expect(GlobalActions.showLeavePrivateChannelModal).toHaveBeenCalledWith({type: Constants.PRIVATE_CHANNEL});
+            const actionDispatch = store.getActions()[0];
+
+            expect(actionDispatch).toMatchObject({
+                type: ActionTypes.MODAL_OPEN,
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogProps: {channel: {type: Constants.PRIVATE_CHANNEL}},
+            });
 
             expect(result).toEqual({data: true});
         });

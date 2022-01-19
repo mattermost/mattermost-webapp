@@ -21,7 +21,8 @@ describe('Extended Session Length', () => {
             SessionLengthWebInDays: sessionLengthInDays,
         },
     };
-    let ldapUser;
+    let testLdapUser;
+    let offTopicUrl;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -30,26 +31,20 @@ describe('Extended Session Length', () => {
         // * Server database should match with the DB client and config at "cypress.json"
         cy.apiRequireServerDBToMatch();
 
-        // # Test LDAP connection and synchronize user
-        cy.apiLDAPTest();
-        cy.apiLDAPSync();
+        const ldapUser = ldapUsers['test-1'];
+        cy.apiSyncLDAPUser({ldapUser}).then((user) => {
+            testLdapUser = user;
+        });
 
-        const ldapUserTest1 = ldapUsers['test-1'];
-        cy.apiLogin(ldapUserTest1).then(({user}) => {
-            cy.apiSaveTutorialStep(user.id, '999');
-            ldapUser = {...user, password: ldapUserTest1.password};
-
-            cy.apiAdminLogin();
-            cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
-            cy.apiInitSetup().then(({team}) => {
-                cy.apiAddUserToTeam(team.id, user.id);
-            });
+        cy.apiInitSetup().then(({team, offTopicUrl: url}) => {
+            offTopicUrl = url;
+            cy.apiAddUserToTeam(team.id, testLdapUser.id);
         });
     });
 
     beforeEach(() => {
         cy.apiAdminLogin();
-        cy.apiRevokeUserSessions(ldapUser.id);
+        cy.apiRevokeUserSessions(testLdapUser.id);
     });
 
     it('MM-T4046_1 LDAP user session should have extended due to user activity when enabled', () => {
@@ -57,7 +52,8 @@ describe('Extended Session Length', () => {
         setting.ServiceSettings.ExtendSessionLengthWithActivity = true;
         cy.apiUpdateConfig(setting);
 
-        verifyExtendedSession(ldapUser, sessionLengthInDays, () => cy.apiLogin(ldapUser));
+        cy.apiLogin(testLdapUser);
+        verifyExtendedSession(testLdapUser, sessionLengthInDays, offTopicUrl);
     });
 
     it('MM-T4046_2 LDAP user session should not extend even with user activity when disabled', () => {
@@ -65,6 +61,7 @@ describe('Extended Session Length', () => {
         setting.ServiceSettings.ExtendSessionLengthWithActivity = false;
         cy.apiUpdateConfig(setting);
 
-        verifyNotExtendedSession(ldapUser, () => cy.apiLogin(ldapUser));
+        cy.apiLogin(testLdapUser);
+        verifyNotExtendedSession(testLdapUser, offTopicUrl);
     });
 });

@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Dictionary} from './utilities';
-
 export type CloudState = {
     subscription?: Subscription;
-    products?: Dictionary<Product>;
+    products?: Record<string, Product>;
     customer?: CloudCustomer;
-    invoices?: Dictionary<Invoice>;
+    invoices?: Record<string, Invoice>;
     subscriptionStats?: SubscriptionStats;
 }
 
@@ -82,7 +80,7 @@ export type Address = {
 // PaymentMethod represents methods of payment for a customer.
 export type PaymentMethod = {
     type: string;
-    last_four: number;
+    last_four: string;
     exp_month: number;
     exp_year: number;
     card_brand: string;
@@ -112,7 +110,7 @@ export type InvoiceLineItem = {
     price_per_unit: number;
     description: string;
     type: string;
-    metadata: Dictionary<string>;
+    metadata: Record<string, string>;
 }
 
 export type SubscriptionStats = {

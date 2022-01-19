@@ -7,6 +7,17 @@
 * otherwise the file will be placed in the root of the project.
 * if you don't want to set it but for this run you can run it like:
 * $ $SERVER_ENV=<path_to_server> npm run make-emojis
+*
+* The script includes support for excluding emojis from the final set used to build the mattermost-webapp package.  To exclude specific emoji follow these steps:
+* 1. Clone https://github.com/mattermost/mattermost-webapp
+* 2. Identify the name of the emojis to be excluded.  You can find this in the Mattermost UI using the emoji picker in the channel view.
+* 3. Create a file with the name of each excluded emoji on a separate line.
+* 4. Use NPM to invoke this tool with the excluded emoji file:
+* `<path to mattermost-webapp git repo>$ npm run make-emojis -- --excluded-emoji-file ./excluded-emoji.txt`
+* 5. Build and package the modified mattermost-webapp repo
+* `<path to mattermost-webapp git repo>$ make package`
+# 6. Use the generated `mattermost-webapp.tar.gz` to overwrite the existing `<Mattermost Installation Directory>/client` folder.  Ensure the files are owned by the Mattermost service account.
+# 7. Restart Mattermost.
  */
 
 /* eslint-disable no-console */
@@ -14,6 +25,11 @@
 
 // eslint-disable-next-line import/no-unresolved
 import * as Fs from 'fs/promises';
+import {readFileSync} from 'fs';
+import * as readline from 'readline';
+
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import path from 'path';
 
@@ -26,6 +42,11 @@ const EMOJI_SIZE = 64;
 const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
 const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
+
+const argv = yargs(hideBin(process.argv)).scriptName('emoji_gen').option('excluded-emoji-file', {
+    description: 'Path to a file containing emoji short names to exclude',
+    type: 'string',
+}).help().alias('help', 'h').argv;
 
 // copy image files
 const source = `node_modules/emoji-datasource-apple/img/apple/${EMOJI_SIZE}/`;
@@ -126,10 +147,22 @@ function genSkinVariations(emoji, index, nextOrder) {
     });
 }
 
+// Extract excluded emoji shortnames as an array
+const excludedEmoji = [];
+readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach(function(line){
+    excludedEmoji.push(line);
+});
+console.warn(`The following emoji will be excluded from the webapp: ${excludedEmoji}`);
+
+// Remove unwanted emoji
+const filteredEmojiJson = jsonData.filter((element) => {
+    return !excludedEmoji.some((e) => element.short_names.includes(e));
+});
+
 // populate skin tones as full emojis
-let nextOrder = jsonData.length;
-const fullEmoji = [...jsonData];
-jsonData.forEach((emoji, index) => {
+let nextOrder = filteredEmojiJson.length;
+const fullEmoji = [...filteredEmojiJson];
+filteredEmojiJson.forEach((emoji, index) => {
     const variations = genSkinVariations(emoji, index, nextOrder);
     nextOrder += variations.length;
     fullEmoji.push(...variations);
@@ -304,38 +337,40 @@ for (const key of emojiFilePositions.keys()) {
 
 const cssRules = `
 @charset "UTF-8";
+
 .emojisprite-preview {
-    // Using zoom for now as it results in less blurry emojis on Chrome - MM-34178
-    zoom: 0.55;
-    -moz-transform: scale(0.55);
+    width: ${EMOJI_SIZE_PADDED}px;
+    max-width: none;
+    height: ${EMOJI_SIZE_PADDED}px;
     background-repeat: no-repeat;
     cursor: pointer;
-    height: ${EMOJI_SIZE_PADDED}px;
-    max-width: none;
-    width: ${EMOJI_SIZE_PADDED}px;
-    padding: 0 10px 0 0;
+    -moz-transform: scale(0.5);
     transform-origin: 0 0;
+    // Using zoom for now as it results in less blurry emojis on Chrome - MM-34178
+    zoom: 0.5;
 }
+
 .emojisprite {
-    zoom: 0.35;
-    -moz-transform: scale(0.35);
+    width: ${EMOJI_SIZE_PADDED}px;
+    max-width: none;
+    height: ${EMOJI_SIZE_PADDED}px;
     background-repeat: no-repeat;
     border-radius: 18px;
     cursor: pointer;
-    height: ${EMOJI_SIZE_PADDED}px;
-    max-width: none;
-    width: ${EMOJI_SIZE_PADDED}px;
+    -moz-transform: scale(0.35);
+    zoom: 0.35;
 }
+
 .emojisprite-loading {
+    width: ${EMOJI_SIZE_PADDED}px;
+    max-width: none;
+    height: ${EMOJI_SIZE_PADDED}px;
     background-image: none !important;
-    zoom: 0.35;
-    -moz-transform: scale(0.35);
     background-repeat: no-repeat;
     border-radius: 18px;
     cursor: pointer;
-    height: ${EMOJI_SIZE_PADDED}px;
-    max-width: none;
-    width: ${EMOJI_SIZE_PADDED}px;
+    -moz-transform: scale(0.35);
+    zoom: 0.35;
 }
 
 ${cssCats.join('\n')};

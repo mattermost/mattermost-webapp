@@ -25,9 +25,10 @@
 
     .LoadingSpinner {
         position: relative;
-        top: 4px;
-        display: block;
+        display: flex;
         height: 40px;
+        align-items: center;
+        justify-content: center;
         margin: 0 24px;
     }
 
@@ -118,11 +119,10 @@
 }
 
 .slash-command__desc {
-    @include opacity(0.56);
-
     margin: 2px 0 0;
     font-size: 12px;
     line-height: 1.6;
+    opacity: 0.56;
 }
 
 .suggestion-list__content--top {
@@ -208,6 +208,7 @@
     .suggestion-list__icon {
         display: inline-flex;
         flex: 0 0 1.6rem;
+        align-items: center;
         justify-content: center;
         fill: v(center-channel-color);
         opacity: 0.56;
@@ -256,5 +257,26 @@
         display: block;
         margin-right: 12px;
         text-align: center;
+    }
+
+    .status-wrapper {
+        overflow: visible;
+        height: 24px;
+        margin-top: 4px;
+        margin-right: 12px;
+
+        .Avatar.Avatar-sm {
+            margin: 0;
+        }
+
+        .status {
+            right: -4px;
+            bottom: -4px;
+
+            svg {
+                left: 2px;
+                max-width: 11px;
+            }
+        }
     }
 }

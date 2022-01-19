@@ -10,6 +10,66 @@
 // Stage: @prod
 // Group: @messaging
 
+describe('Messaging', () => {
+    before(() => {
+        // # Create new team and new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
+        });
+    });
+
+    it('MM-T105 Long post with multiple attachments', () => {
+        // * Attachment previews/thumbnails display as expected, when viewing full or partial post':
+        // # Post attachments
+        postAttachments();
+
+        // * Verify show more button
+        cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show more');
+
+        // * Verify gradient
+        cy.get('#collapseGradient').should('be.visible');
+
+        // * Verify the total 4 attached items are present
+        cy.getLastPostId().then((postID) => {
+            cy.get(`#${postID}_message`).findByTestId('fileAttachmentList').children().should('have.length', '4');
+
+            // * Verify the preview attachment are present
+            [...Array(4)].forEach((value, index) => {
+                cy.get(`#${postID}_message`).findByTestId('fileAttachmentList').children().eq(index).
+                    find('.post-image__name').contains('small-image.png').should('exist');
+            });
+        });
+
+        // * Can click one of the attachments and cycle through the multiple attachment previews as usual:
+        // # Post attachments
+        postAttachments();
+
+        // * Verify the attached items can be cycled through
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#${postId}_message`).within(() => {
+                cy.uiOpenFilePreviewModal();
+            });
+
+            // * Verify image preview is visible
+            cy.uiGetFilePreviewModal();
+
+            // * Verify the header with the count of the file exists
+            cy.uiGetHeaderFilePreviewModal().contains('1 of 4');
+
+            for (var index = 2; index <= 4; index++) {
+                // # click on right arrow to preview next attached image
+                cy.get('#previewArrowRight').should('be.visible').click();
+
+                // * Verify the header counter
+                cy.uiGetHeaderFilePreviewModal().contains(`${index} of 4`);
+            }
+
+            // # Close the modal
+            cy.uiCloseFilePreviewModal();
+        });
+    });
+});
+
 function verifyImageInPostFooter(verifyExistence = true) {
     if (verifyExistence) {
         // * Verify that the image exists in the post message footer
@@ -38,70 +98,3 @@ function postAttachments() {
         }).type(' {backspace}{enter}');
     });
 }
-
-describe('Messaging', () => {
-    let testTeam;
-
-    beforeEach(() => {
-        // # Login as sysadmin
-        cy.apiAdminLogin();
-
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
-        });
-    });
-
-    it('MM-T105 Long post with mutiple attachments', () => {
-        // * Attachment previews/thumbnails display as expected, when viewing full or partial post':
-        // # Post attachments
-        postAttachments();
-
-        // * Verify show more button
-        cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show more');
-
-        // * Verify gradient
-        cy.get('#collapseGradient').should('be.visible');
-
-        // * Verify the total 4 attached items are present
-        cy.getLastPostId().then((postID) => {
-            cy.get(`#${postID}_message`).findByTestId('fileAttachmentList').children().should('have.length', '4');
-
-            // * Verify the preview attachment are present
-            [...Array(4)].forEach((value, index) => {
-                cy.get(`#${postID}_message`).findByTestId('fileAttachmentList').children().eq(index).
-                    find('.post-image__name').contains('small-image.png').should('exist');
-            });
-        });
-
-        // * Can click one of the attachments and cycle through the multiple attachment previews as usual:
-        // # Post attachments
-        postAttachments();
-
-        // * Verify the attached items can be cycled through
-        cy.getLastPostId().then((postID) => {
-            cy.get(`#${postID}_message`).findByTestId('fileAttachmentList').children().first().click();
-
-            // * Verify image preview must be visible
-            cy.findByTestId('imagePreview').should('be.visible');
-
-            // * Verify the footer with the count of the fileexists
-            cy.findByTestId('fileCountFooter').should('be.visible').contains('File 1 of 4').should('exist');
-
-            for (var index = 2; index <= 4; index++) {
-                // # click on right arrow to preview next attached image
-                cy.get('#previewArrowRight').should('be.visible').click();
-
-                // * Verify the footer counter
-                cy.findByTestId('fileCountFooter').contains(`File ${index} of 4`).should('exist');
-            }
-
-            // * Verify that the preview modal opens
-            cy.get('div.modal-image__content').should('be.visible').trigger('mouseover');
-
-            // # Close the modal
-            cy.get('div.modal-close').should('exist').click({force: true});
-        });
-    });
-});

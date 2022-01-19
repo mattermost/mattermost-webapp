@@ -13,35 +13,27 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Integrations', () => {
+    const away = {name: 'away', ariaLabel: 'Away Icon', message: 'You are now away', className: 'icon-clock'};
+    const offline = {name: 'offline', ariaLabel: 'Offline Icon', message: 'You are now offline', className: 'icon-circle-outline'};
+    const online = {name: 'online', ariaLabel: 'Online Icon', message: 'You are now online', className: 'icon-check', profileClassName: 'icon-check-circle'};
+
     before(() => {
-        // # Login as test user and go to town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and go to off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
-    const testCases = [
-        {name: 'away', ariaLabel: 'Away Icon', message: 'You are now away'},
-        {name: 'offline', ariaLabel: 'Offline Icon', message: 'You are now offline'},
-        {name: 'online', ariaLabel: 'Online Icon', message: 'You are now online'},
-    ];
-
     it('MM-T670 /away', () => {
         // # Set online status and verify it's changed as the initial status
-        cy.apiUpdateUserStatus('online');
-        cy.findByLabelText('team menu region').findByLabelText('Online Icon').should('be.visible');
-
-        const away = testCases[0];
+        setStatus(online.name, online.profileClassName);
 
         verifyUserStatus(away);
     });
 
     it('MM-T672 /offline', () => {
         // # Set online status and verify it's changed as the initial status
-        cy.apiUpdateUserStatus('online');
-        cy.findByLabelText('team menu region').findByLabelText('Online Icon').should('be.visible');
-
-        const offline = testCases[1];
+        setStatus(online.name, online.profileClassName);
 
         verifyUserStatus(offline);
 
@@ -49,9 +41,9 @@ describe('Integrations', () => {
         cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.findByLabelText('channel header region').findByText('Off-Topic').should('be.visible');
 
-        // # Then switch back to town-square channel again
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
-        cy.findByLabelText('channel header region').findByText('Town Square').should('be.visible');
+        // # Then switch back to off-topic channel again
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
+        cy.findByLabelText('channel header region').findByText('Off-Topic').should('be.visible');
 
         // * Should not appear "New Messages" line
         cy.findByText('New Messages').should('not.exist');
@@ -68,14 +60,18 @@ describe('Integrations', () => {
 
     it('MM-T674 /online', () => {
         // # Set offline status and verify it's changed as the initial status
-        cy.apiUpdateUserStatus('offline');
-        cy.findByLabelText('team menu region').findByLabelText('Offline Icon').should('be.visible');
-
-        const online = testCases[2];
+        setStatus(offline.name, offline.className);
 
         verifyUserStatus(online);
     });
 });
+
+function setStatus(status, icon) {
+    cy.apiUpdateUserStatus(status);
+    cy.uiGetProfileHeader().
+        find('i').
+        and('have.class', icon);
+}
 
 function verifyUserStatus(testCase) {
     // # Clear then type '/'
@@ -94,7 +90,9 @@ function verifyUserStatus(testCase) {
     });
 
     // * Verify status shown at user profile in LHS
-    cy.findByLabelText('team menu region').findByLabelText(testCase.ariaLabel).should('be.visible');
+    cy.uiGetProfileHeader().
+        find('i').
+        and('have.class', testCase.profileClassName || testCase.className);
 
     // # Post a message
     cy.postMessage(testCase.name);

@@ -53,108 +53,109 @@ export type Team = {
     name: string;
     displayName: string;
 };
+
 interface TextFormattingOptionsBase {
 
     /**
-   * If specified, this word is highlighted in the resulting html.
-   *
-   * Defaults to nothing.
-   */
+     * If specified, this word is highlighted in the resulting html.
+     *
+     * Defaults to nothing.
+     */
     searchTerm: string;
 
     /**
-   * If specified, an array of words that will be highlighted.
-   *
-   * If both this and `searchTerm` are specified, this takes precedence.
-   *
-   * Defaults to nothing.
-   */
+     * If specified, an array of words that will be highlighted.
+     *
+     * If both this and `searchTerm` are specified, this takes precedence.
+     *
+     * Defaults to nothing.
+     */
     searchMatches: string[];
 
     searchPatterns: SearchPattern[];
 
     /**
-   * Specifies whether or not to highlight mentions of the current user.
-   *
-   * Defaults to `true`.
-   */
+     * Specifies whether or not to highlight mentions of the current user.
+     *
+     * Defaults to `true`.
+     */
     mentionHighlight: boolean;
 
     /**
-   * Specifies whether or not to display group mentions as blue links.
-   *
-   * Defaults to `false`.
-   */
+     * Specifies whether or not to display group mentions as blue links.
+     *
+     * Defaults to `false`.
+     */
     disableGroupHighlight: boolean;
 
     /**
-   * A list of mention keys for the current user to highlight.
-   */
+     * A list of mention keys for the current user to highlight.
+     */
     mentionKeys: MentionKey[];
 
     /**
-   * Specifies whether or not to remove newlines.
-   *
-   * Defaults to `false`.
-   */
+     * Specifies whether or not to remove newlines.
+     *
+     * Defaults to `false`.
+     */
     singleline: boolean;
 
     /**
-   * Enables emoticon parsing with a data-emoticon attribute.
-   *
-   * Defaults to `true`.
-   */
+     * Enables emoticon parsing with a data-emoticon attribute.
+     *
+     * Defaults to `true`.
+     */
     emoticons: boolean;
 
     /**
-   * Enables markdown parsing.
-   *
-   * Defaults to `true`.
-   */
+     * Enables markdown parsing.
+     *
+     * Defaults to `true`.
+     */
     markdown: boolean;
 
     /**
-   * The origin of this Mattermost instance.
-   *
-   * If provided, links to channels and posts will be replaced with internal
-   * links that can be handled by a special click handler.
-   */
+     * The origin of this Mattermost instance.
+     *
+     * If provided, links to channels and posts will be replaced with internal
+     * links that can be handled by a special click handler.
+     */
     siteURL: string;
 
     /**
-   * Whether or not to render at mentions into spans with a data-mention attribute.
-   *
-   * Defaults to `false`.
-   */
+     * Whether or not to render at mentions into spans with a data-mention attribute.
+     *
+     * Defaults to `false`.
+     */
     atMentions: boolean;
 
     /**
-   * An object mapping channel display names to channels.
-   *
-   * If provided, ~channel mentions will be replaced with links to the relevant channel.
-   */
+     * An object mapping channel display names to channels.
+     *
+     * If provided, ~channel mentions will be replaced with links to the relevant channel.
+     */
     channelNamesMap: ChannelNamesMap;
 
     /**
-   * The current team.
-   */
+     * The current team.
+     */
     team: Team;
 
     /**
-   * If specified, images are proxied.
-   *
-   * Defaults to `false`.
-   */
+     * If specified, images are proxied.
+     *
+     * Defaults to `false`.
+     */
     proxyImages: boolean;
 
     /**
-   * An array of url schemes that will be allowed for autolinking.
-   *
-   * Defaults to autolinking with any url scheme.
-   */
+     * An array of url schemes that will be allowed for autolinking.
+     *
+     * Defaults to autolinking with any url scheme.
+     */
     autolinkedUrlSchemes: string[];
 
-    /*
+    /**
      * An array of paths on the server that are managed by another server. Any path provided will be treated as an
      * external link that will not by handled by react-router.
      *
@@ -163,18 +164,24 @@ interface TextFormattingOptionsBase {
     managedResourcePaths: string[];
 
     /**
-   * A custom renderer object to use in the formatWithRenderer function.
-   *
-   * Defaults to empty.
-   */
+     * A custom renderer object to use in the formatWithRenderer function.
+     *
+     * Defaults to empty.
+     */
     renderer: Renderer;
 
     /**
-   * Minimum number of characters in a hashtag.
-   *
-   * Defaults to `3`.
-   */
+     * Minimum number of characters in a hashtag.
+     *
+     * Defaults to `3`.
+     */
     minimumHashtagLength: number;
+
+    /**
+     * the timestamp on which the post was last edited
+     */
+    editedAt: number;
+    postId: string;
 }
 
 export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
@@ -188,6 +195,8 @@ const DEFAULT_OPTIONS: TextFormattingOptions = {
     atMentions: false,
     minimumHashtagLength: 3,
     proxyImages: false,
+    editedAt: 0,
+    postId: '',
 };
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
@@ -223,29 +232,29 @@ export function formatText(
         output = Markdown.format(output, options, emojiMap);
         if (output.includes('class="markdown-inline-img"')) {
             const replacer = (match: string) => {
-            /*
-            * remove p tag to allow other divs to be nested,
-            * which allows markdown images to open preview window
-            */
+                /*
+                 * remove p tag to allow other divs to be nested,
+                 * which allows markdown images to open preview window
+                 */
                 return match === '<p>' ? '<div class="markdown-inline-img__container">' : '</div>';
             };
 
             /*
-            * Fix for MM-22267 - replace any carriage-return (\r), line-feed (\n) or cr-lf (\r\n) occurences
-            * in enclosing `<p>` tags with `<br/>` breaks to show correct line-breaks in the UI
-            *
-            * the Markdown.format function removes all duplicate line-breaks beforehand, so it is safe to just
-            * replace occurrences which are not followed by opening <p> tags to prevent duplicate line-breaks
-            *
-            * @link to regex101.com: https://regex101.com/r/iPZ02c/1
-            */
+             * Fix for MM-22267 - replace any carriage-return (\r), line-feed (\n) or cr-lf (\r\n) occurences
+             * in enclosing `<p>` tags with `<br/>` breaks to show correct line-breaks in the UI
+             *
+             * the Markdown.format function removes all duplicate line-breaks beforehand, so it is safe to just
+             * replace occurrences which are not followed by opening <p> tags to prevent duplicate line-breaks
+             *
+             * @link to regex101.com: https://regex101.com/r/iPZ02c/1
+             */
             output = output.replace(/[\r\n]+(?!(<p>))/g, '<br/>');
 
             /*
-            * the replacer is not ideal, since it replaces every occurence with a new div
-            * It would be better to more accurately match only the element in question
-            * and replace it with an inlione-version
-            */
+             * the replacer is not ideal, since it replaces every occurence with a new div
+             * It would be better to more accurately match only the element in question
+             * and replace it with an inlione-version
+             */
             output = output.replace(/<p>|<\/p>/g, replacer);
         }
     } else {
@@ -260,6 +269,16 @@ export function formatText(
 
     if (htmlEmojiPattern.test(output.trim())) {
         output = `<span class="all-emoji">${output.trim()}</span>`;
+    }
+
+    if (options.postId) {
+        // unwrap the output from the closing p tag and add a span that will serve as a
+        // palceholder for `messageToHtmlComponent` function later on
+        if (output.endsWith('</p>')) {
+            output = `${output.slice(0, -4)}<span data-edited-post-id='${options.postId}'></span></p>`;
+        } else {
+            output += `<span data-edited-post-id='${options.postId}'></span>`;
+        }
     }
 
     return output;

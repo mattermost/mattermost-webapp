@@ -63,14 +63,12 @@ describe('Scroll', () => {
         getInlineImgPost().invoke('height').as('initialInlineImgHeight');
         getLastTextPost().invoke('height').as('initialLastPostHeight');
 
-        // # Switch the account settings for the test user to enable Fixed width center
-        cy.toAccountSettingsModal();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
+        // # Switch the settings for the test user to enable Fixed width center
+        cy.uiOpenSettingsModal('Display').within(() => {
             cy.findByText('Display', {timeout: timeouts.ONE_MIN}).click();
             cy.findByText('Channel Display').click();
             cy.findByLabelText('Fixed width, centered').click();
-            cy.findByText('Save').click();
-            cy.get('#accountSettingsHeader > .close').click();
+            cy.uiSaveAndClose();
         });
 
         // # Browse to Channel

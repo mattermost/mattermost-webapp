@@ -24,7 +24,6 @@ import {
     RelationOneToMany,
     RelationOneToOne,
     IDMappedObjects,
-    UserIDMappedObjects,
 } from 'mattermost-redux/types/utilities';
 
 import {Team} from 'mattermost-redux/types/teams';
@@ -32,7 +31,7 @@ import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils
 
 import messageCounts from './channels/message_counts';
 
-function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
+function removeMemberFromChannels(state: RelationOneToOne<Channel, Record<string, ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
     Object.keys(state).forEach((channel) => {
         nextState[channel] = {...nextState[channel]};
@@ -191,18 +190,23 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
     }
 
     case PostTypes.RECEIVED_NEW_POST: {
-        const {channel_id, create_at} = action.data; //eslint-disable-line @typescript-eslint/naming-convention
+        const {channel_id, create_at, root_id} = action.data; //eslint-disable-line @typescript-eslint/naming-convention
+        const isCrtReply = action.features?.crtEnabled && root_id !== '';
+
         const channel = state[channel_id];
 
         if (!channel) {
             return state;
         }
 
+        const lastRootPostAt = isCrtReply ? channel.last_root_post_at : Math.max(create_at, channel.last_root_post_at);
+
         return {
             ...state,
             [channel_id]: {
                 ...channel,
                 last_post_at: Math.max(create_at, channel.last_post_at),
+                last_root_post_at: lastRootPostAt,
             },
         };
     }
@@ -468,7 +472,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
     }
 }
 
-function membersInChannel(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>> = {}, action: GenericAction) {
+function membersInChannel(state: RelationOneToOne<Channel, Record<string, ChannelMembership>> = {}, action: GenericAction) {
     switch (action.type) {
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER:
     case ChannelTypes.RECEIVED_CHANNEL_MEMBER: {

@@ -58,9 +58,8 @@ describe('Leave an archived channel', () => {
                 // # Close an archived channel by clicking "Close Channel" button in the footer
                 cy.get('#channelArchivedMessage button').click();
             } else {
-                // # Click the header menu and select Close Channel
-                cy.get('#channelHeaderDropdownButton button').click();
-                cy.contains('li.MenuItem', 'Close Channel').click();
+                // # Click the header menu and select Archive Channel
+                cy.uiOpenChannelMenu('Archive Channel');
             }
 
             // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
