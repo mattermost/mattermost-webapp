@@ -6,6 +6,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 import {testSiteURL} from '../../../actions/admin_actions';
+import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 
 import {Props} from '../admin_console';
 
@@ -79,7 +80,10 @@ const getItemColor = (status: string): string => {
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
 
+    const {ServiceSettings} = props.config;
     const {location} = document;
+
+    const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
 
     const data: DataModel = {
         updates: {
@@ -105,7 +109,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     description: '"Session Length" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
                     configUrl: '/session-length',
                     infoUrl: 'https://www.google.de',
-                    status: 'none',
+                    status: sessionLengthWebInDays >= 30 ? 'warning' : 'none',
                 },
             ],
         },
@@ -141,7 +145,10 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
     return loading ? <p>{'Loading ...'}</p> : (
         <div>
-            <h1>{'Workspace Optimization Dashboard'}</h1>
+            <FormattedAdminHeader
+                id='workspaceOptimization.title'
+                defaultMessage='Workspace Optimization'
+            />
             <hr/>
             {dataKey.map((key) => (
                 <Accordion key={key}>
