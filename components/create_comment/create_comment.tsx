@@ -48,13 +48,12 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
-import ShowFormat from 'components/show_format/show_format';
+import {ShowFormat} from 'components/show_format/show_format';
 import EmojiMap from 'utils/emoji_map';
 import { MarkdownFormattedMessage, MarkdownMessageType } from 'components/markdown_formatted_message/markdown_formatted_message';
-import { ApplyHotkeyMarkdownOptions } from 'utils/utils.jsx';
+import { applyMarkdown ,ApplyMarkdownOptions } from 'utils/markdown/apply_markdown';
 import { FormattingBar } from 'components/formatting_bar/formatting_bar';
 import { ToggleFormattingBar } from 'components/toggle_formatting_bar/toggle_formatting_bar';
-import { applyMarkdown } from 'utils/apply_markdown.utils';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -909,7 +908,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
     }
 
-    applyMarkdown = (options: ApplyHotkeyMarkdownOptions) => {
+    applyMarkdown = (options: ApplyMarkdownOptions) => {
 
         const res = applyMarkdown(options);
 
@@ -1297,7 +1296,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
                             />
-                            <FormattingBar isRenderedInCommentSection={true} applyMarkdown={this.applyMarkdown} value={message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
+                            <FormattingBar applyMarkdown={this.applyMarkdown} value={message} textBox={this.textboxRef.current?.getInputBox()} isOpen={this.state.isFormattingBarVisible}/>
 
                             <span
                                 className={classNames('post-body__actions', {
