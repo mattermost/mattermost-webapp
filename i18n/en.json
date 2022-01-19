@@ -2372,6 +2372,7 @@
   "admin.webserverModeTitle": "Webserver Mode:",
   "admin.webserverModeUncompressed": "Uncompressed",
   "admin.webserverModeUncompressedDescription": "The Mattermost server will serve static files uncompressed.",
+  "admin.workspaceOptimization.title": "Workspace Optimization",
   "analytics.chart.loading": "Loading...",
   "analytics.chart.meaningful": "Not enough data for a meaningful representation.",
   "analytics.system.activeUsers": "Active Users With Posts",

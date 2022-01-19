@@ -9,8 +9,9 @@ import styled from 'styled-components';
 import Accordion, {AccordionDataType} from 'components/common/accordion/accordion';
 
 import {testSiteURL} from '../../../actions/admin_actions';
+import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 
-// import {Props} from '../admin_console';
+import {Props} from '../admin_console';
 
 import './dashboard.scss';
 
@@ -64,10 +65,13 @@ const getItemColor = (status: string): string => {
     }
 };
 
-const WorkspaceOptimizationDashboard = () => {
+const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
 
+    const {ServiceSettings} = props.config;
     const {location} = document;
+
+    const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
 
     const data: DataModel = {
         updates: {
@@ -93,7 +97,7 @@ const WorkspaceOptimizationDashboard = () => {
                     description: 'Your session length is still set to the default of 30 days. Most servers adjust this according to thier organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
                     configUrl: '/session-length',
                     infoUrl: 'https://www.google.de',
-                    status: 'none',
+                    status: sessionLengthWebInDays >= 30 ? 'warning' : 'none',
                 },
             ],
         },
@@ -146,8 +150,11 @@ const WorkspaceOptimizationDashboard = () => {
     });
 
     return loading ? <p>{'Loading ...'}</p> : (
-        <div className='WorkspaceOptimizationDashboard'>
-            <h1>{'Workspace Optimization Dashboard'}</h1>
+        <div>
+            <FormattedAdminHeader
+                id='workspaceOptimization.title'
+                defaultMessage='Workspace Optimization'
+            />
             <hr/>
             <Accordion
                 items={accData}
