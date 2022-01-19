@@ -256,14 +256,14 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     focusOnMount?: boolean;
     isThreadView?: boolean;
-
     /**
      * Function to open a modal
      */
     openModal: <P>(modalData: ModalData<P>) => void;
 
     emojiMap: EmojiMap;
-};
+    markdownPreviewFeatureIsEnabled: boolean;
+}
 
 type State = {
     showEmojiPicker: boolean;
@@ -1514,6 +1514,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                             </div>
                             <div className='col col-auto'>
                                 <TextboxLinks
+                                    isMarkdownPreviewEnabled={this.props.canPost && this.props.markdownPreviewFeatureIsEnabled}
                                     characterLimit={this.props.maxPostSize}
                                     showPreview={this.props.shouldShowPreview}
                                     updatePreview={this.setShowPreview}

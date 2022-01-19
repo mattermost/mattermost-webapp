@@ -312,7 +312,8 @@ type Props = {
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useGroupMentions: boolean;
-};
+    markdownPreviewFeatureIsEnabled: boolean;
+}
 
 type State = {
     message: string;
@@ -1648,6 +1649,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 postId=''
                             />
                             <TextboxLinks
+                                isMarkdownPreviewEnabled={this.props.canPost && this.props.markdownPreviewFeatureIsEnabled}
                                 characterLimit={this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}

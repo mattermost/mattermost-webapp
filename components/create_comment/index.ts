@@ -42,6 +42,7 @@ import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selecto
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal} from 'actions/views/modals';
+import {isFeatureEnabled} from 'utils/utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 
@@ -113,6 +114,7 @@ function makeMapStateToProps() {
             useGroupMentions,
             channelMemberCountsByGroup,
             emojiMap: getEmojiMap(state),
+            markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
 }
