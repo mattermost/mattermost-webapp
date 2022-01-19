@@ -36,6 +36,7 @@ function CollapsedReplyThreadsModal(props: Props) {
                     defaultMessage='Got it'
                 />
             )}
+            handleConfirm={props.onExited}
         >
             <div>
                 <AlertBanner
