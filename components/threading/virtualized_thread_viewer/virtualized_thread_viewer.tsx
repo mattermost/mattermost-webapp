@@ -297,7 +297,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     scrollToBottom = () => {
-        this.scrollToItem(0, 'end');
+        this.scrollToItem(0, 'auto', this.postCreateContainerRef.current?.offsetHeight);
     }
 
     handleToastDismiss = () => {
