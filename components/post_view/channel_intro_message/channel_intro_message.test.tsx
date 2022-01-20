@@ -40,7 +40,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
         {id: 'other-guest', roles: 'system_guest'},
     ] as UserProfile[];
 
-    const user1 = {id: 'user1', roles: 'system_user'}
+    const user1 = {id: 'user1', roles: 'system_user'};
     const baseProps = {
         currentUserId: 'test-user-id',
         channel,
