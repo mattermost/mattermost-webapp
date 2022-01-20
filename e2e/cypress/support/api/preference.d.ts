@@ -94,5 +94,17 @@ declare namespace Cypress {
          *   cy.apiSaveCRTPreference('user-id', 'on');
          */
         apiSaveCRTPreference(userId: string, value: string): Chainable<Response>;
+
+        /**
+         * Save cloud trial banner preference.
+         * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+         * @param {string} userId - User ID
+         * @param {string} value - options are '14_days_banner' (default) or '3_days_banner'
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiSaveCloudTrialBannerPreference('user-id');
+         */
+        apiSaveCloudTrialBannerPreference(userId: string, value: string): Chainable<Response>;
     }
 }

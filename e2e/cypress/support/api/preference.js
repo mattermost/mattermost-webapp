@@ -251,3 +251,14 @@ Cypress.Commands.add('apiSaveCRTPreference', (userId, value = 'on') => {
 
     return cy.apiSaveUserPreference([preference]);
 });
+
+Cypress.Commands.add('apiSaveCloudTrialBannerPreference', (userId, value = '14_days_banner') => {
+    const preference = {
+        user_id: userId,
+        category: 'cloud_trial_banner',
+        name: 'trial',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference]);
+});
