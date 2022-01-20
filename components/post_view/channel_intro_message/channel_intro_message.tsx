@@ -74,8 +74,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             boardComponent,
         } = this.props;
 
-        const userLimitTemp = 100;
-
         let centeredIntro = '';
         if (!fullWidth) {
             centeredIntro = 'channel-intro--centered';
@@ -90,7 +88,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, boardComponent);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, stats, userLimitTemp, locale, creatorName, isReadOnly, boardComponent);
+            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, isReadOnly, boardComponent);
         }
         return null;
     }
