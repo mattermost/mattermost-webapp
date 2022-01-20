@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Accordion from 'components/common/accordion/accordion';
+
 // import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('/components/common/Accordion', () => {

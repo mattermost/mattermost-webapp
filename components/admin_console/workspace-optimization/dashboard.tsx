@@ -7,6 +7,9 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 import Accordion, {AccordionDataType} from 'components/common/accordion/accordion';
+import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
+import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
+import WorkspaceAccessSvg from 'components/common/svg_images_components/workspace_access_svg';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
@@ -20,6 +23,7 @@ type DataModel = {
         title: string;
         description: string;
         items: ItemModel[];
+        icon: React.ReactNode;
     };
 }
 
@@ -77,11 +81,23 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         updates: {
             title: 'Updates and Errors',
             description: 'You have an update to consider',
+            icon: (
+                <UpdatesAndErrorsSvg
+                    width={22}
+                    height={22}
+                />
+            ),
             items: [],
         },
         configuration: {
             title: 'Configuration',
             description: 'You have configuration problems to resolve',
+            icon: (
+                <ConfigurationSvg
+                    width={20}
+                    height={20}
+                />
+            ),
             items: [
                 {
                     id: 'ssl',
@@ -104,6 +120,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         access: {
             title: 'Workspace Access',
             description: 'Web server settings could be affecting access.',
+            icon: (
+                <WorkspaceAccessSvg
+                    width={20}
+                    height={20}
+                />
+            ),
             items: [
                 {
                     id: 'site-url',
@@ -145,6 +167,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         accData.push({
             title: data[key].title,
             description: data[key].description,
+            icon: data[key].icon,
             items,
         });
     });

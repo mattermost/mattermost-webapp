@@ -1,5 +1,4 @@
 .WorkspaceOptimizationDashboard {
-
     ul.Accordion {
         width: 872px;
         margin-left: 25px;
@@ -9,7 +8,23 @@
             margin-top: 10px;
 
             .accordion-item-header {
+                &__icon {
+                    width: 44px;
+                    height: 44px;
+                    background-color: rgba(63, 67, 80, 0.16);
+                    border-radius: 50%;
+                    z-index: 1;
+                    display: flex;
+                    justify-content: center;
+
+                    >svg {
+                        z-index: 2;
+                        align-self: center;
+                    }
+                }
+
                 &__body {
+                    margin-left: 10px;
                     &__title {
                         margin-bottom: 5px;
                         color: #1c58d9;
@@ -18,7 +33,7 @@
                         font-weight: 600;
                         line-height: 14px;
                     }
-    
+
                     &__description {
                         color: #3d3c40;
                         font-size: 14px;
