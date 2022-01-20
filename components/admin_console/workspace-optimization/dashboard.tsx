@@ -150,7 +150,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     });
 
     return loading ? <p>{'Loading ...'}</p> : (
-        <div>
+        <div className='WorkspaceOptimizationDashboard'>
             <FormattedAdminHeader
                 id='workspaceOptimization.title'
                 defaultMessage='Workspace Optimization'
