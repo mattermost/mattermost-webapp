@@ -64,12 +64,20 @@ const AccordionItem = ({
                 onClick={toggle}
                 role='button'
             >
-                <div className='accordion-item-header__title'>
-                    {data.title}
-                </div>
-                {data.description && <div className='accordion-item-header__description'>
-                    {data.description}
+                {data.icon && <div className='accordion-item-header__icon'>
+                    {data.icon}
                 </div>}
+                <div className='accordion-item-header__body'>
+                    <div className='accordion-item-header__body__title'>
+                        {data.title}
+                    </div>
+                    {data.description && <div className='accordion-item-header__body__description'>
+                        {data.description}
+                    </div>}
+                </div>
+                <div className='accordion-item-header__chevron'>
+                    <i className='icon-chevron-down'/>
+                </div>
             </div>
             <div
                 className='accordion-item-container'

@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/components/common/Accordion should match snapshot 1`] = `
+<ul
+  className="Accordion"
+>
+  <AccordionItem
+    data={
+      Object {
+        "description": "First accordion Item Description",
+        "items": Array [
+          <p
+            className="accordion-item-content"
+          >
+            First List Item
+          </p>,
+          <p
+            className="accordion-item-content"
+          >
+            Second List Item
+          </p>,
+        ],
+        "title": "First Accordion Item",
+      }
+    }
+    isOpen={false}
+    key="0"
+    onButtonClick={[Function]}
+    onHeaderClick={[MockFunction]}
+    openMultiple={false}
+  />
+  <AccordionItem
+    data={
+      Object {
+        "description": "Second accordion Item Description",
+        "items": Array [
+          <p
+            className="accordion-item-content"
+          >
+            Third List Item
+          </p>,
+        ],
+        "title": "Second Accordion Item",
+      }
+    }
+    isOpen={false}
+    key="1"
+    onButtonClick={[Function]}
+    onHeaderClick={[MockFunction]}
+    openMultiple={false}
+  />
+</ul>
+`;
