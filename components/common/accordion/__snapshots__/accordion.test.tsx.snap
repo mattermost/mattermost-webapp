@@ -10,12 +10,12 @@ exports[`/components/common/Accordion should match snapshot 1`] = `
         "description": "First accordion Item Description",
         "items": Array [
           <p
-            className="accordion-item-content"
+            className="accordion-item-content-el"
           >
             First List Item
           </p>,
           <p
-            className="accordion-item-content"
+            className="accordion-item-content-el"
           >
             Second List Item
           </p>,
@@ -35,7 +35,7 @@ exports[`/components/common/Accordion should match snapshot 1`] = `
         "description": "Second accordion Item Description",
         "items": Array [
           <p
-            className="accordion-item-content"
+            className="accordion-item-content-el"
           >
             Third List Item
           </p>,
