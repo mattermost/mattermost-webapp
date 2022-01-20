@@ -40,7 +40,7 @@ describe('AddToChannels', () => {
     });
 
     describe('placeholder selection', () => {
-        it('should use townSqureDisplayName when not in a channel', () => {
+        it('should use townSquareDisplayName when not in a channel', () => {
             props = {...props, currentChannel: undefined};
             renderWithIntl(<AddToChannels {...props}/>);
             expect(screen.getByText(props.townSquareDisplayName, {exact: false})).toBeInTheDocument();
