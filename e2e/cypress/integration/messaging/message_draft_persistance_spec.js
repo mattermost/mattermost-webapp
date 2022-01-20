@@ -9,7 +9,7 @@
 
 // Group: @messaging
 
-import localforage from 'localforage';
+import localForage from 'localforage';
 
 import {verifyDraftIcon} from './helpers';
 
@@ -27,6 +27,10 @@ describe('Message Draft Persistance', () => {
         });
     });
 
+    beforeEach(() => {
+        localForage.clear();
+    });
+
     it('Persisting a draft in the current channel', () => {
         const testText = 'this is a test';
 
@@ -42,9 +46,6 @@ describe('Message Draft Persistance', () => {
 
         // * Ensure the draft is back in the post textbox
         cy.get('#post_textbox').should('have.text', testText);
-
-        // # Send the message to clear the textbox
-        cy.get('#post_textbox').type('{enter}');
     });
 
     it('Persisting a draft in another channel', () => {
@@ -83,26 +84,29 @@ describe('Message Draft Persistance', () => {
 
         // * Ensure the draft is back in the post textbox
         cy.get('#post_textbox').should('have.text', testText);
-
-        // # Send the message to clear the textbox
-        cy.get('#post_textbox').type('{enter}');
     });
 
-    it('Writing a draft from another tab', () => {
-        const testText = 'this is a third test';
+    it('Migration of drafts from redux-persist@4.0.0', () => {
+        const testText = 'this is a migration test';
 
         // # Go to Off-Topic
         cy.visit(offTopicUrl);
 
-        // # Simulate a draft being written from another tab
-        localforage.setItem(`reduxPersist:storage:draft_${testChannel.id}`, JSON.stringify({
-            timestamp: new Date(),
-            value: {
-                message: testText,
-                fileInfos: [],
-                uploadsInProgress: [],
-            },
-        }));
+        // # Add a fake old draft to storage
+        cy.then(() => {
+            localForage.setItem(`reduxPersist:storage:draft_${testChannel.id}`, JSON.stringify({
+                timestamp: new Date(),
+                value: {
+                    message: testText,
+                    fileInfos: [],
+                    uploadsInProgress: [],
+                },
+            }));
+        });
+
+        // # Refresh the app to trigger migration
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500).reload();
 
         // * Ensure the other channel has the draft icon
         verifyDraftIcon(testChannel.name, true);
@@ -112,8 +116,5 @@ describe('Message Draft Persistance', () => {
 
         // * Ensure the draft is in the post textbox
         cy.get('#post_textbox').should('have.text', testText);
-
-        // # Send the message to clear the textbox
-        cy.get('#post_textbox').type('{enter}');
     });
 });

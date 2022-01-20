@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import localForage from 'localforage';
 import {combineReducers} from 'redux';
-import {REHYDRATE} from 'redux-persist/constants';
+import {persistReducer, REHYDRATE} from 'redux-persist';
 
 import {General} from 'mattermost-redux/constants';
 
@@ -19,7 +20,7 @@ type StorageEntry = {
 function storage(state: Record<string, any> = {}, action: GenericAction) {
     switch (action.type) {
     case REHYDRATE: {
-        if (!action.payload) {
+        if (!action.payload || action.key !== 'storage') {
             return state;
         }
 
@@ -27,13 +28,11 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
         const nextState = {...state};
 
         for (const [key, value] of Object.entries(action.payload)) {
-            if (key.startsWith('storage:')) {
-                const nextValue = {...value as StorageEntry};
-                if (nextValue.timestamp && typeof nextValue.timestamp === 'string') {
-                    nextValue.timestamp = new Date(nextValue.timestamp);
-                }
-                nextState[key.substring('storage:'.length)] = nextValue;
+            const nextValue = {...value as StorageEntry};
+            if (nextValue.timestamp && typeof nextValue.timestamp === 'string') {
+                nextValue.timestamp = new Date(nextValue.timestamp);
             }
+            nextState[key] = nextValue;
         }
 
         return nextState;
@@ -122,6 +121,6 @@ function initialized(state = false, action: GenericAction) {
 }
 
 export default combineReducers({
-    storage,
+    storage: persistReducer({key: 'storage', storage: localForage}, storage),
     initialized,
 });

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import Observable from 'zen-observable';
-import localForage from 'localforage';
+import baseLocalForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
 
 import {persistStore, REHYDRATE} from 'redux-persist';
@@ -20,6 +20,8 @@ function getAppReducers() {
 
 window.Observable = Observable;
 
+const localForage = extendPrototype(baseLocalForage);
+
 export default function configureStore(preloadedState) {
     const store = configureServiceStore({
         appReducers,
@@ -27,26 +29,26 @@ export default function configureStore(preloadedState) {
         preloadedState,
     });
 
-    const localforage = extendPrototype(localForage);
-
-    localforage.ready().then(() => {
-        const persistor = persistStore(store, {}, () => {
+    localForage.ready().then(() => {
+        const persistor = persistStore(store, null, () => {
             store.dispatch({
                 type: General.STORE_REHYDRATION_COMPLETE,
                 complete: true,
             });
+
+            migratePersistedState(store, persistor);
         });
 
-        localforage.configObservables({
+        localForage.configObservables({
             crossTabNotification: true,
         });
 
-        const observable = localforage.newObservable({
+        const observable = localForage.newObservable({
             crossTabNotification: true,
             changeDetection: true,
         });
 
-        // Rehydrating when another tab changes
+        // Rehydrate redux-persist when another tab changes localForage
         observable.subscribe({
             next: (args) => {
                 if (!args.crossTabNotification) {
@@ -108,8 +110,57 @@ export default function configureStore(preloadedState) {
         });
     }).catch((e) => {
         // eslint-disable-next-line no-console
-        console.error('Failed to initialize localforage', e);
+        console.error('Failed to initialize localForage', e);
     });
 
     return store;
+}
+
+/**
+ * Migrates state.storage from redux-persist@4 to redux-persist@6
+ */
+function migratePersistedState(store, persistor) {
+    const oldKeyPrefix = 'reduxPersist:storage:';
+
+    const restoredState = {};
+    localForage.iterate((value, key) => {
+        if (key && key.startsWith(oldKeyPrefix)) {
+            restoredState[key.substring(oldKeyPrefix.length)] = value;
+        }
+    }).then(async () => {
+        if (Object.keys(restoredState).length === 0) {
+            // Nothing to migrate
+            return;
+        }
+
+        // eslint-disable-next-line no-console
+        console.log('Migrating storage for redux-persist@6 upgrade');
+
+        persistor.pause();
+
+        const persistedState = {};
+
+        for (const [key, value] of Object.entries(restoredState)) {
+            // eslint-disable-next-line no-console
+            console.log('Migrating `' + key + '`', JSON.parse(value));
+            persistedState[key] = JSON.parse(value);
+        }
+
+        store.dispatch({
+            type: REHYDRATE,
+            key: 'storage',
+            payload: persistedState,
+        });
+
+        // Persist the migrated values and resume
+        persistor.persist();
+
+        // Remove the leftover values from localForage
+        for (const key of Object.keys(restoredState)) {
+            localForage.removeItem(oldKeyPrefix + key);
+        }
+
+        // eslint-disable-next-line no-console
+        console.log('Done migration for redux-persist@6 upgrade');
+    });
 }
