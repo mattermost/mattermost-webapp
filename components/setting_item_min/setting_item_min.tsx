@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {isMobile} from 'utils/utils.jsx';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 
 interface Props {
@@ -34,6 +33,7 @@ interface Props {
      */
     describe?: JSX.Element | JSX.Element[] | string;
 
+    isMobileView: boolean;
 }
 
 export default class SettingItemMin extends React.PureComponent<Props> {
@@ -58,7 +58,7 @@ export default class SettingItemMin extends React.PureComponent<Props> {
         let editButton = null;
         let describeSection = null;
 
-        if (!this.props.disableOpen && isMobile()) {
+        if (!this.props.disableOpen && this.props.isMobileView) {
             editButton = (
                 <div className='section-min__edit'>
                     <button

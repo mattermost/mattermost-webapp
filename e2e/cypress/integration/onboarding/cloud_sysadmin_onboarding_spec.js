@@ -52,8 +52,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3326 Sysadmin - Happy Path', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // # Use to grant permission to Notification
         spyNotificationAs('withNotification', 'granted');
@@ -113,8 +113,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3327 Sysadmin - Switch to Next Step', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
@@ -131,8 +131,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3328 Sysadmin - Skip Getting Started', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // * Check to make sure first card is expanded
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
@@ -145,8 +145,8 @@ describe('Onboarding - Sysadmin', () => {
     });
 
     it('MM-T3329 Sysadmin - Remove Recommended Next Steps', () => {
-        // * Make sure channel view has loaded
-        cy.url().should('include', townSquarePage);
+        // * Make sure tips view has loaded
+        cy.url().should('include', 'tips');
 
         // * Check to make sure first card is expanded
         cy.findByText('Complete your profile').should('be.visible');
@@ -174,7 +174,7 @@ describe('Onboarding - Sysadmin', () => {
 
     it('MM-T3333 Sysadmin - Copy Invite Link', () => {
         cy.apiCreateTeam('team').then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/tips`);
 
             // # Stub out clipboard
             stubClipboard().as('clipboard');
@@ -187,8 +187,8 @@ describe('Onboarding - Sysadmin', () => {
             cy.get('@clipboard').its('wasCalled').should('eq', false);
             cy.get('@clipboard').its('contents').should('eq', '');
 
-            // * Make sure channel view has loaded
-            cy.url().should('include', `/${team.name}/channels/town-square`);
+            // * Make sure tips view has loaded
+            cy.url().should('include', `/${team.name}/tips`);
 
             // # Click Invite members to the team header
             cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').scrollIntoView().should('be.visible').click();
