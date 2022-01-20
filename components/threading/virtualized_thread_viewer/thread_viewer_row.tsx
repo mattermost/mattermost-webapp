@@ -66,16 +66,15 @@ function ThreadViewerRow({
                 timestampProps={timestampProps}
             />
         );
+    case PostListUtils.isCombinedUserActivityPost(listId):
+        return (
+            <CombinedUserActivityPost
+                combinedId={listId}
+                previousPostId={getPreviousPostId}
+                isLastPost={isLastPost}
+            />
+        );
     default:
-        if (PostListUtils.isCombinedUserActivityPost(listId)) {
-            return (
-                <CombinedUserActivityPost
-                    combinedId={listId}
-                    previousPostId={getPreviousPostId}
-                    isLastPost={isLastPost}
-                />
-            );
-        }
         return (
             <Reply
                 a11yIndex={a11yIndex}
