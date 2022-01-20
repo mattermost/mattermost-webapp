@@ -1,8 +1,8 @@
 .Accordion {
+    width: 100%;
     padding: 0;
     margin: 0;
     list-style: none;
-    width: 100%;
 
     .accordion-item {
         box-sizing: border-box;
@@ -27,17 +27,18 @@
             font-weight: 400;
 
             &__icon {
-                max-width: 15%;
                 width: fit-content;
+                max-width: 15%;
                 padding: 5px;
             }
 
             &__body {
                 display: flex;
-                flex-direction: column;
-                max-width: 80%;
                 width: fit-content;
+                max-width: 80%;
+                flex-direction: column;
                 padding: 5px;
+
                 &__title {
                     width: 100%;
                     margin: 0;
@@ -50,11 +51,11 @@
             }
 
             &__chevron {
-                max-width: 5%;
                 width: fit-content;
+                max-width: 5%;
+                padding: 5px;
                 margin-left: auto;
                 opacity: 0.5;
-                padding: 5px;
             }
         }
 
