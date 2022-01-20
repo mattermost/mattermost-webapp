@@ -61,7 +61,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     it('MM-T1337 Invite Guests - Existing Team Guest', () => {
         cy.apiCreateGuestUser().then(({guest}) => {
             cy.apiAddUserToTeam(testTeam.id, guest.id).then(() => {
-                // # Search and add an existing guet by first name, who is part of the team but not channel
+                // # Search and add an existing guest by first name, who is part of the team but not channel
                 invitePeople(guest.first_name, 1, guest.username, 'Off-Topic');
 
                 // * Verify the content and message in next screen
