@@ -1,0 +1,12 @@
+.PageLine {
+    position: relative;
+    left: 60px;
+    width: 1px;
+    background-color: black;
+
+    &--no-left {
+        left: initial;
+    }
+
+    /* background-color: rgba(var(--center-channel-rgb), 0.24); */
+}

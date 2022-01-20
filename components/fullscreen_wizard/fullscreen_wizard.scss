@@ -100,44 +100,6 @@ $transition_time: 300ms;
         transition: opacity 200ms;
     }
 
-    &__progress {
-        z-index: 1;
-        display: flex;
-        width: 120px;
-        height: 100vh;
-        align-items: center;
-        justify-content: center;
-
-        .tutorial__circles {
-            display: flex;
-            flex-direction: column;
-            margin: 2em 0;
-
-            .circle {
-                display: inline-block;
-                width: 6px;
-                height: 6px;
-                margin: 5px 0;
-                background: $primary-color;
-                border-radius: 6px;
-                opacity: 0.2;
-
-                &.active {
-                    opacity: 1;
-
-                    &::after {
-                        position: relative;
-                        width: 12px;
-                        height: 12px;
-                        background: $primary-color;
-                        border-radius: 12px;
-                        content: '';
-                        opacity: 0.2;
-                    }
-                }
-            }
-        }
-    }
 
     &__logo {
         position: fixed;
@@ -147,91 +109,6 @@ $transition_time: 300ms;
     }
 }
 
-.Plugins-body {
-    @include absolutely-fullscreen;
-}
-
-.UseCase-body {
-    @include absolutely-fullscreen;
-
-    display: flex;
-}
-
-.UseCase-form-wrapper {
-    padding-top: 116px;
-}
-
-.UseCase-left-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-@include simple-in-and-out-after("UseCase");
-@include simple-in-and-out("Plugins");
-@include simple-in-and-out("Channel");
-@include simple-in-and-out-before("InviteMembers");
-
-.ChannelsPreview-body {
-    position: absolute;
-    top: calc(50vh - 250px);
-    right: 0;
-}
-
-.TeamMembers-body {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    .wave {
-        position: absolute;
-        top: 250px;
-        right: 150px;
-    }
-
-    .smile {
-        position: absolute;
-        top: 125px;
-        right: 225px;
-    }
-
-    .elbow {
-        position: absolute;
-        top: 200px;
-        right: 425px;
-    }
-}
-
-.TeamMembers--enter-from-before {
-    &-enter {
-        transform: translateY(100vh);
-    }
-
-    &-enter-active {
-        transform: translateY(0);
-        transition: transform $transition_time linear;
-    }
-
-    &-enter-done {
-        transform: translateY(0);
-    }
-}
-
-.TeamMembers--exit-to-after {
-    &-exit {
-        transform: translateY(0);
-    }
-
-    &-exit-active {
-        transform: translateY(100vh);
-        transition: transform $transition_time linear;
-    }
-
-    &-exit-done {
-        transform: translateY(100vh);
-    }
-}
 
 .fullscreen-wizard-container {
     display: flex;
@@ -245,17 +122,4 @@ $transition_time: 300ms;
 .fullscreen-page-container {
     position: relative;
     width: calc(100vw - 120px);
-}
-
-.PageLine {
-    position: relative;
-    left: 60px;
-    width: 1px;
-    background-color: black;
-
-    &--no-left {
-        left: initial;
-    }
-
-    /* background-color: rgba(var(--center-channel-rgb), 0.24); */
 }

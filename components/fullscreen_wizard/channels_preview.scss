@@ -1,0 +1,9 @@
+@import './fullscreen_wizard';
+
+.ChannelsPreview-body {
+    position: absolute;
+    top: calc(50vh - 250px);
+    right: 0;
+}
+
+@include simple-in-and-out-before("ChannelsPreview");

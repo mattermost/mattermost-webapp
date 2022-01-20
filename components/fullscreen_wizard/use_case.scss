@@ -1,0 +1,23 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+@import './fullscreen_wizard';
+
+.UseCase-body {
+    @include absolutely-fullscreen;
+
+    display: flex;
+}
+
+.UseCase-form-wrapper {
+    padding-top: 116px;
+}
+
+.UseCase-left-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+// Cloud does not need the before animations, but self-hosted does.
+@include simple-in-and-out("UseCase");
