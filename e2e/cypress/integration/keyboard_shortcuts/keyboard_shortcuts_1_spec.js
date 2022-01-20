@@ -442,11 +442,33 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS', () => {
+        // # Post a message and open RHS
+        const message = `hello${Date.now()}`;
+        cy.postMessage(message);
+        cy.getLastPostId().then((postId) => {
+            // # Mouseover the post and click post comment icon.
+            cy.clickPostCommentIcon(postId);
+        });
+
+        // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetRHS().isExpanded();
+
+        // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetRHS();
+    });
+
+    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS', () => {
         // # Type CTRL/CMD+SHIFT+. to open 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
         cy.uiGetRHS();
+
+        // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
         cy.uiGetRHS().isExpanded();
+
+        // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
         cy.uiGetRHS();
     });
