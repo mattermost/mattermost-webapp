@@ -226,5 +226,5 @@ function resetUserPreference(userId) {
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(userId, '999');
     cy.apiSaveOnboardingPreference(userId, 'hide', 'true');
-    cy.apiSaveCloudTrialBannerPreference(userId, '14_days_banner');
+    cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
 }
