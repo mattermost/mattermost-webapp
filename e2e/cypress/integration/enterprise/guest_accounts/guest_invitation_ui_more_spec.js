@@ -64,7 +64,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
                 // # Demote the user from member to guest
                 cy.apiDemoteUserToGuest(newUser.id).then(() => {
                     // # Search and add an existing guest by first name, who is part of the team but not channel
-                    invitePeople(newUser.first_name, 1, newUser.username, 'Off-Topic');
+                    invitePeople(newUser.first_name, 1, newUser.username, 'Town Square');
 
                     // * Verify the content and message in next screen
                     verifyInvitationSuccess(newUser.username, testTeam, 'This guest has been added to the team and channel.');
