@@ -584,7 +584,7 @@ function createBoardsButton(channel: Channel, boardComponent?: PluginComponent) 
         >
             {boardComponent.icon}
             <FormattedMessage
-                id='intro_messages.create_board'
+                id='intro_messages.createBoard'
                 defaultMessage='Create a board'
             />
         </button>

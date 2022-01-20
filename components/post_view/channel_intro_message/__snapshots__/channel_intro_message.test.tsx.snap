@@ -156,7 +156,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   >
     <MemoizedFormattedMessage
       defaultMessage="Create a board"
-      id="intro_messages.create_board"
+      id="intro_messages.createBoard"
     />
   </button>
   <Connect(ChannelPermissionGate)
@@ -312,7 +312,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   >
     <MemoizedFormattedMessage
       defaultMessage="Create a board"
-      id="intro_messages.create_board"
+      id="intro_messages.createBoard"
     />
   </button>
   <Connect(ChannelPermissionGate)
@@ -439,7 +439,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           >
             <Memo(MemoizedFormattedMessage)
               defaultMessage="Create a board"
-              id="intro_messages.create_board"
+              id="intro_messages.createBoard"
             />
           </button>
         }
@@ -548,7 +548,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
   >
     <MemoizedFormattedMessage
       defaultMessage="Create a board"
-      id="intro_messages.create_board"
+      id="intro_messages.createBoard"
     />
   </button>
   <Connect(injectIntl(ModalToggleButtonRedux))
@@ -774,7 +774,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   >
     <MemoizedFormattedMessage
       defaultMessage="Create a board"
-      id="intro_messages.create_board"
+      id="intro_messages.createBoard"
     />
   </button>
   <Connect(injectIntl(ModalToggleButtonRedux))
@@ -977,7 +977,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Create a board"
-          id="intro_messages.create_board"
+          id="intro_messages.createBoard"
         />
       </button>
     }
@@ -1221,7 +1221,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Create a board"
-          id="intro_messages.create_board"
+          id="intro_messages.createBoard"
         />
       </button>
     }
