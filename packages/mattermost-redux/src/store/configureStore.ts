@@ -40,7 +40,12 @@ export default function configureStore<S extends GlobalState>({
     };
 
     let middleware = applyMiddleware(thunk);
-    middleware = composeWithDevTools(middleware);
+    middleware = composeWithDevTools({
+
+        // Set this to false to stop actions from being dispatched again when reducers are replaced.
+        // See https://github.com/reduxjs/redux-devtools/issues/304#issuecomment-251715413 for more information.
+        shouldHotReload: false,
+    })(middleware);
 
     const baseReducer = createReducer(serviceReducers, appReducers);
 
