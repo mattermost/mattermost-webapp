@@ -6,6 +6,8 @@ import {useSelector} from 'react-redux';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
+import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
@@ -15,7 +17,6 @@ import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable.svg';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -29,8 +30,8 @@ export interface AddMembersButtonProps {
     totalUsers?: number;
     usersLimit: number;
     channel: Channel;
-    setHeader: React.ReactNode;
-    createBoard: React.ReactNode;
+    setHeader?: React.ReactNode;
+    createBoard?: React.ReactNode;
 }
 
 const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, createBoard}: AddMembersButtonProps) => {

@@ -27,7 +27,6 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import {getMonthLong, t} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {PluginComponent} from 'types/store/plugins';
-import Button from 'components/threading/common/button';
 
 import AddMembersButton from './add_members_button';
 
@@ -75,6 +74,8 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             boardComponent,
         } = this.props;
 
+        const userLimitTemp = 100;
+
         let centeredIntro = '';
         if (!fullWidth) {
             centeredIntro = 'channel-intro--centered';
@@ -89,7 +90,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, boardComponent);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, isReadOnly, boardComponent);
+            return createStandardIntroMessage(channel, centeredIntro, stats, userLimitTemp, locale, creatorName, isReadOnly, boardComponent);
         }
         return null;
     }
@@ -157,8 +158,8 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
         let setHeaderButton = null;
         let boardCreateButton = null;
         if (!teammate?.is_bot) {
-            setHeaderButton = createBoardsButton(channel, boardComponent);
-            boardCreateButton = createSetHeaderButton(channel);
+            boardCreateButton = createBoardsButton(channel, boardComponent);
+            setHeaderButton = createSetHeaderButton(channel);
         }
 
         return (
@@ -556,7 +557,7 @@ function createSetHeaderButton(channel: Channel) {
         <ToggleModalButtonRedux
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
             ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
-            className={'intro-links color--link setHeaderButton'}
+            className={'intro-links color--link channelIntroButton'}
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
         >
@@ -577,7 +578,7 @@ function createBoardsButton(channel: Channel, boardComponent?: PluginComponent) 
 
     return (
         <button
-            className={'intro-links color--link setHeaderButton style--none'}
+            className={'intro-links color--link channelIntroButton style--none'}
             onClick={() => {
                 if (boardComponent.action) {
                     trackEvent('ui', 'ui_channel_intro_create_board');
