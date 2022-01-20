@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @keyboard_shortcuts
 
+import * as messages from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Keyboard Shortcuts', () => {
@@ -441,36 +442,44 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#moreDmModal').should('not.exist');
     });
 
-    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS', () => {
-        // # Post a message and open RHS
-        const message = `hello${Date.now()}`;
-        cy.postMessage(message);
-        cy.getLastPostId().then((postId) => {
-            // # Mouseover the post and click post comment icon.
-            cy.clickPostCommentIcon(postId);
-        });
+    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS when RHS is already open', () => {
+        // # Post a message in center
+        cy.postMessage(messages.TINY);
+
+        // # Mouseover the post and click post comment icon.
+        cy.clickPostCommentIcon();
 
         // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+
+        // * Verify RHS is now expanded
         cy.uiGetRHS().isExpanded();
 
         // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
-        cy.uiGetRHS();
+
+        // * Verify RHS is now in collapsed state
+        cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
     });
 
-    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS', () => {
+    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS when RHS is in closed state', () => {
         // # Type CTRL/CMD+SHIFT+. to open 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
-        cy.uiGetRHS();
+
+        // * Verify RHS is now open and is in collapsed state
+        cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
 
         // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+
+        // * Verify RHS is now fully expanded
         cy.uiGetRHS().isExpanded();
 
         // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
-        cy.uiGetRHS();
+
+        // * Verify RHS is now in collapsed state
+        cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
     });
 
     function markAsFavorite(channelName) {
