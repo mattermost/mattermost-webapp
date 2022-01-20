@@ -88,7 +88,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, boardComponent);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, isReadOnly, boardComponent);
+            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, boardComponent);
         }
         return null;
     }
@@ -383,7 +383,7 @@ export function createDefaultIntroMessage(
     );
 }
 
-function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, locale: string, creatorName: string, isReadOnly?: boolean, boardComponent?: PluginComponent) {
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, locale: string, creatorName: string, boardComponent?: PluginComponent) {
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
@@ -505,10 +505,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
         );
     }
 
-    let boardCreateButton = null;
-    if (!isReadOnly) {
-        boardCreateButton = createBoardsButton(channel, boardComponent);
-    }
+    const boardCreateButton = createBoardsButton(channel, boardComponent);
 
     const channelInviteButton = (
         <AddMembersButton
