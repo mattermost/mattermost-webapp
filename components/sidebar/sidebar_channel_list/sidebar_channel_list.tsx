@@ -10,7 +10,7 @@ import classNames from 'classnames';
 
 import debounce from 'lodash/debounce';
 
-import * as ChannelUtils from 'utils/channel_utils.jsx';
+import * as ChannelUtils from 'utils/channel_utils';
 
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
