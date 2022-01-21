@@ -1275,7 +1275,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         </Memo(Connect(injectIntl(ModalToggleButtonRedux)))>
       </Memo(Connect(ChannelPermissionGate))>
     }
-    usersLimit={100}
+    usersLimit={10}
   />
 </div>
 `;
@@ -1404,7 +1404,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         </Memo(Connect(injectIntl(ModalToggleButtonRedux)))>
       </Memo(Connect(ChannelPermissionGate))>
     }
-    usersLimit={100}
+    usersLimit={10}
   />
 </div>
 `;
