@@ -12,7 +12,7 @@ import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
@@ -576,7 +576,7 @@ function createBoardsButton(channel: Channel, boardComponent?: PluginComponent) 
             className={'intro-links color--link channelIntroButton style--none'}
             onClick={() => {
                 if (boardComponent.action) {
-                    trackEvent('ui', 'ui_channel_intro_create_board');
+                    trackEvent(TELEMETRY_CATEGORIES.BOARDS, 'channelIntro_boardLink');
                     boardComponent.action();
                 }
             }}
