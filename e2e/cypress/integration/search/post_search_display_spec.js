@@ -52,7 +52,7 @@ describe('Search', () => {
 
         // # Click on searchbox
         cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.get('#searchBox').click();
+            cy.get('#searchBox').click({force: true});
         });
 
         assertSearchHintFilesOrMessages();
