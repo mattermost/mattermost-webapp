@@ -143,7 +143,7 @@ const renderLicenseContent = (
 
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
-    const nbUsers = <FormattedNumber value={parseInt(license.Users, 10)}/>;
+    const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
 
     const licenseValues: Array<{
         legend: string;
@@ -154,7 +154,7 @@ const renderLicenseContent = (
     }> = [
         {legend: 'START DATE:', value: startsAt},
         {legend: 'EXPIRES:', value: expiresAt},
-        {legend: 'USERS:', value: nbUsers},
+        {legend: 'USERS:', value: users},
         {legend: 'EDITION:', value: sku},
         {legend: 'LICENSE ISSUED:', value: issued},
         {legend: 'NAME:', value: license.Name},
