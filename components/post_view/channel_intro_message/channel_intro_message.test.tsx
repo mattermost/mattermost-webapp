@@ -14,16 +14,16 @@ import ChannelIntroMessage from './channel_intro_message';
 describe('components/post_view/ChannelIntroMessages', () => {
     const channel = {
         create_at: 1508265709607,
-        creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
+        creator_id: 'creator_id',
         delete_at: 0,
-        display_name: 'testing',
+        display_name: 'test channel',
         header: 'test',
-        id: 'owsyt8n43jfxjpzh9np93mx1wa',
+        id: 'channel_id',
         last_post_at: 1508265709635,
         name: 'testing',
         purpose: 'test',
         team_id: 'team-id',
-        type: Constants.OPEN_CHANNEL,
+        type: 'O',
         update_at: 1508265709607,
     } as Channel;
 
@@ -33,14 +33,12 @@ describe('components/post_view/ChannelIntroMessages', () => {
         pluginId: 'board',
     };
 
+    const user1 = {id: 'user1', roles: 'system_user'};
     const users = [
         {id: 'user1', roles: 'system_user'},
         {id: 'guest1', roles: 'system_guest'},
-        {id: 'other-user', roles: 'system_user'},
-        {id: 'other-guest', roles: 'system_guest'},
     ] as UserProfile[];
 
-    const user1 = {id: 'user1', roles: 'system_user'};
     const baseProps = {
         currentUserId: 'test-user-id',
         channel,
@@ -49,7 +47,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
         channelProfiles: [],
         enableUserCreation: false,
         teamIsGroupConstrained: false,
-        creatorName: 'creator',
+        creatorName: 'creatorName',
         stats: {},
         usersLimit: 10,
         actions: {

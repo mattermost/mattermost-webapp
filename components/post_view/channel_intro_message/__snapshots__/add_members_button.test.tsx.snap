@@ -17,11 +17,11 @@ exports[`components/post_view/AddMembersButton should match snapshot, less than 
     channel={
       Object {
         "create_at": 1508265709607,
-        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "creator_id": "creator_id",
         "delete_at": 0,
-        "display_name": "testing",
+        "display_name": "test channel",
         "header": "test",
-        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "id": "channel_id",
         "last_post_at": 1508265709635,
         "name": "testing",
         "purpose": "test",
@@ -40,7 +40,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, less than 
           "invite_guest",
         ]
       }
-      teamId="eatxocwc3bg9ffo9xyybnj4omr"
+      teamId="team-id"
     >
       <TeamPermissionGate
         dispatch={[Function]}
@@ -52,7 +52,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, less than 
             "invite_guest",
           ]
         }
-        teamId="eatxocwc3bg9ffo9xyybnj4omr"
+        teamId="team-id"
       />
     </Connect(TeamPermissionGate)>
   </Memo(AddMembersButton)>
@@ -76,11 +76,11 @@ exports[`components/post_view/AddMembersButton should match snapshot, more than 
     channel={
       Object {
         "create_at": 1508265709607,
-        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "creator_id": "creator_id",
         "delete_at": 0,
-        "display_name": "testing",
+        "display_name": "test channel",
         "header": "test",
-        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "id": "channel_id",
         "last_post_at": 1508265709635,
         "name": "testing",
         "purpose": "test",
@@ -99,7 +99,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, more than 
           "invite_guest",
         ]
       }
-      teamId="eatxocwc3bg9ffo9xyybnj4omr"
+      teamId="team-id"
     >
       <TeamPermissionGate
         dispatch={[Function]}
@@ -111,7 +111,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, more than 
             "invite_guest",
           ]
         }
-        teamId="eatxocwc3bg9ffo9xyybnj4omr"
+        teamId="team-id"
       />
     </Connect(TeamPermissionGate)>
   </Memo(AddMembersButton)>
@@ -135,11 +135,11 @@ exports[`components/post_view/AddMembersButton should match snapshot, setHeader 
     channel={
       Object {
         "create_at": 1508265709607,
-        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "creator_id": "creator_id",
         "delete_at": 0,
-        "display_name": "testing",
+        "display_name": "test channel",
         "header": "test",
-        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "id": "channel_id",
         "last_post_at": 1508265709635,
         "name": "testing",
         "purpose": "test",
@@ -168,7 +168,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, setHeader 
           "invite_guest",
         ]
       }
-      teamId="eatxocwc3bg9ffo9xyybnj4omr"
+      teamId="team-id"
     >
       <TeamPermissionGate
         dispatch={[Function]}
@@ -180,7 +180,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, setHeader 
             "invite_guest",
           ]
         }
-        teamId="eatxocwc3bg9ffo9xyybnj4omr"
+        teamId="team-id"
       />
     </Connect(TeamPermissionGate)>
   </Memo(AddMembersButton)>

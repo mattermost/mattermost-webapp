@@ -13,7 +13,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -26,13 +26,13 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.default"
       values={
         Object {
-          "display_name": "testing",
+          "display_name": "test channel",
         }
       }
     />
   </p>
   <Connect(ChannelPermissionGate)
-    channelId="owsyt8n43jfxjpzh9np93mx1wa"
+    channelId="channel_id"
     permissions={
       Array [
         "manage_public_channel_properties",
@@ -47,11 +47,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         Object {
           "channel": Object {
             "create_at": 1508265709607,
-            "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+            "creator_id": "creator_id",
             "delete_at": 0,
-            "display_name": "testing",
+            "display_name": "test channel",
             "header": "test",
-            "id": "owsyt8n43jfxjpzh9np93mx1wa",
+            "id": "channel_id",
             "last_post_at": 1508265709635,
             "name": "town-square",
             "purpose": "test",
@@ -96,7 +96,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -109,7 +109,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.readonly.default"
       values={
         Object {
-          "display_name": "testing",
+          "display_name": "test channel",
         }
       }
     />
@@ -131,7 +131,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -144,7 +144,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.default"
       values={
         Object {
-          "display_name": "testing",
+          "display_name": "test channel",
         }
       }
     />
@@ -160,7 +160,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     />
   </button>
   <Connect(ChannelPermissionGate)
-    channelId="owsyt8n43jfxjpzh9np93mx1wa"
+    channelId="channel_id"
     permissions={
       Array [
         "manage_public_channel_properties",
@@ -175,11 +175,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         Object {
           "channel": Object {
             "create_at": 1508265709607,
-            "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+            "creator_id": "creator_id",
             "delete_at": 0,
-            "display_name": "testing",
+            "display_name": "test channel",
             "header": "test",
-            "id": "owsyt8n43jfxjpzh9np93mx1wa",
+            "id": "channel_id",
             "last_post_at": 1508265709635,
             "name": "town-square",
             "purpose": "test",
@@ -224,7 +224,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -237,7 +237,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.default"
       values={
         Object {
-          "display_name": "testing",
+          "display_name": "test channel",
         }
       }
     />
@@ -264,11 +264,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           Object {
             "channel": Object {
               "create_at": 1508265709607,
-              "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+              "creator_id": "creator_id",
               "delete_at": 0,
-              "display_name": "testing",
+              "display_name": "test channel",
               "header": "test",
-              "id": "owsyt8n43jfxjpzh9np93mx1wa",
+              "id": "channel_id",
               "last_post_at": 1508265709635,
               "name": "town-square",
               "purpose": "test",
@@ -316,7 +316,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     />
   </button>
   <Connect(ChannelPermissionGate)
-    channelId="owsyt8n43jfxjpzh9np93mx1wa"
+    channelId="channel_id"
     permissions={
       Array [
         "manage_public_channel_properties",
@@ -331,11 +331,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         Object {
           "channel": Object {
             "create_at": 1508265709607,
-            "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+            "creator_id": "creator_id",
             "delete_at": 0,
-            "display_name": "testing",
+            "display_name": "test channel",
             "header": "test",
-            "id": "owsyt8n43jfxjpzh9np93mx1wa",
+            "id": "channel_id",
             "last_post_at": 1508265709635,
             "name": "town-square",
             "purpose": "test",
@@ -380,7 +380,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -393,7 +393,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       id="intro_messages.default"
       values={
         Object {
-          "display_name": "testing",
+          "display_name": "test channel",
         }
       }
     />
@@ -418,11 +418,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         channel={
           Object {
             "create_at": 1508265709607,
-            "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+            "creator_id": "creator_id",
             "delete_at": 0,
-            "display_name": "testing",
+            "display_name": "test channel",
             "header": "test",
-            "id": "owsyt8n43jfxjpzh9np93mx1wa",
+            "id": "channel_id",
             "last_post_at": 1508265709635,
             "name": "town-square",
             "purpose": "test",
@@ -445,7 +445,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         }
         setHeader={
           <Memo(Connect(ChannelPermissionGate))
-            channelId="owsyt8n43jfxjpzh9np93mx1wa"
+            channelId="channel_id"
             permissions={
               Array [
                 "manage_public_channel_properties",
@@ -460,11 +460,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                 Object {
                   "channel": Object {
                     "create_at": 1508265709607,
-                    "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+                    "creator_id": "creator_id",
                     "delete_at": 0,
-                    "display_name": "testing",
+                    "display_name": "test channel",
                     "header": "test",
-                    "id": "owsyt8n43jfxjpzh9np93mx1wa",
+                    "id": "channel_id",
                     "last_post_at": 1508265709635,
                     "name": "town-square",
                     "purpose": "test",
@@ -558,11 +558,11 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       Object {
         "channel": Object {
           "create_at": 1508265709607,
-          "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+          "creator_id": "creator_id",
           "delete_at": 0,
-          "display_name": "testing",
+          "display_name": "test channel",
           "header": "test",
-          "id": "owsyt8n43jfxjpzh9np93mx1wa",
+          "id": "channel_id",
           "last_post_at": 1508265709635,
           "name": "testing",
           "purpose": "test",
@@ -639,11 +639,11 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       Object {
         "channel": Object {
           "create_at": 1508265709607,
-          "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+          "creator_id": "creator_id",
           "delete_at": 0,
-          "display_name": "testing",
+          "display_name": "test channel",
           "header": "test",
-          "id": "owsyt8n43jfxjpzh9np93mx1wa",
+          "id": "channel_id",
           "last_post_at": 1508265709635,
           "name": "testing",
           "purpose": "test",
@@ -733,26 +733,6 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       userId="guest1"
       wrapperClass=""
     />
-    <ProfilePicture
-      hasMention={false}
-      isEmoji={false}
-      isRHS={false}
-      key="introprofilepictureother-user"
-      size="xl"
-      src="/api/v4/users/other-user/image?_=0"
-      userId="other-user"
-      wrapperClass=""
-    />
-    <ProfilePicture
-      hasMention={false}
-      isEmoji={false}
-      isRHS={false}
-      key="introprofilepictureother-guest"
-      size="xl"
-      src="/api/v4/users/other-guest/image?_=0"
-      userId="other-guest"
-      wrapperClass=""
-    />
   </div>
   <p
     className="channel-intro-text"
@@ -762,7 +742,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       id="intro_messages.GM"
       values={
         Object {
-          "names": "testing",
+          "names": "test channel",
         }
       }
     />
@@ -784,11 +764,11 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       Object {
         "channel": Object {
           "create_at": 1508265709607,
-          "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+          "creator_id": "creator_id",
           "delete_at": 0,
-          "display_name": "testing",
+          "display_name": "test channel",
           "header": "test",
-          "id": "owsyt8n43jfxjpzh9np93mx1wa",
+          "id": "channel_id",
           "last_post_at": 1508265709635,
           "name": "testing",
           "purpose": "test",
@@ -846,26 +826,6 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       userId="guest1"
       wrapperClass=""
     />
-    <ProfilePicture
-      hasMention={false}
-      isEmoji={false}
-      isRHS={false}
-      key="introprofilepictureother-user"
-      size="xl"
-      src="/api/v4/users/other-user/image?_=0"
-      userId="other-user"
-      wrapperClass=""
-    />
-    <ProfilePicture
-      hasMention={false}
-      isEmoji={false}
-      isRHS={false}
-      key="introprofilepictureother-guest"
-      size="xl"
-      src="/api/v4/users/other-guest/image?_=0"
-      userId="other-guest"
-      wrapperClass=""
-    />
   </div>
   <p
     className="channel-intro-text"
@@ -875,7 +835,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       id="intro_messages.GM"
       values={
         Object {
-          "names": "testing",
+          "names": "test channel",
         }
       }
     />
@@ -887,11 +847,11 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       Object {
         "channel": Object {
           "create_at": 1508265709607,
-          "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+          "creator_id": "creator_id",
           "delete_at": 0,
-          "display_name": "testing",
+          "display_name": "test channel",
           "header": "test",
-          "id": "owsyt8n43jfxjpzh9np93mx1wa",
+          "id": "channel_id",
           "last_post_at": 1508265709635,
           "name": "testing",
           "purpose": "test",
@@ -934,7 +894,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -947,7 +907,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
       id="intro_messages.offTopic"
       values={
         Object {
-          "display_name": "testing",
+          "display_name": "test channel",
         }
       }
     />
@@ -956,11 +916,11 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
     channel={
       Object {
         "create_at": 1508265709607,
-        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "creator_id": "creator_id",
         "delete_at": 0,
-        "display_name": "testing",
+        "display_name": "test channel",
         "header": "test",
-        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "id": "channel_id",
         "last_post_at": 1508265709635,
         "name": "off-topic",
         "purpose": "test",
@@ -983,7 +943,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
     }
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
+        channelId="channel_id"
         permissions={
           Array [
             "manage_public_channel_properties",
@@ -998,11 +958,11 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
             Object {
               "channel": Object {
                 "create_at": 1508265709607,
-                "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+                "creator_id": "creator_id",
                 "delete_at": 0,
-                "display_name": "testing",
+                "display_name": "test channel",
                 "header": "test",
-                "id": "owsyt8n43jfxjpzh9np93mx1wa",
+                "id": "channel_id",
                 "last_post_at": 1508265709635,
                 "name": "off-topic",
                 "purpose": "test",
@@ -1049,7 +1009,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -1062,7 +1022,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
       id="intro_messages.offTopic"
       values={
         Object {
-          "display_name": "testing",
+          "display_name": "test channel",
         }
       }
     />
@@ -1071,11 +1031,11 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
     channel={
       Object {
         "create_at": 1508265709607,
-        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "creator_id": "creator_id",
         "delete_at": 0,
-        "display_name": "testing",
+        "display_name": "test channel",
         "header": "test",
-        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "id": "channel_id",
         "last_post_at": 1508265709635,
         "name": "off-topic",
         "purpose": "test",
@@ -1087,7 +1047,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
     createBoard={null}
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
+        channelId="channel_id"
         permissions={
           Array [
             "manage_public_channel_properties",
@@ -1102,11 +1062,11 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
             Object {
               "channel": Object {
                 "create_at": 1508265709607,
-                "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+                "creator_id": "creator_id",
                 "delete_at": 0,
-                "display_name": "testing",
+                "display_name": "test channel",
                 "header": "test",
-                "id": "owsyt8n43jfxjpzh9np93mx1wa",
+                "id": "channel_id",
                 "last_post_at": 1508265709635,
                 "name": "off-topic",
                 "purpose": "test",
@@ -1153,7 +1113,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -1167,14 +1127,14 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         id="intro_messages.creator"
         values={
           Object {
-            "creator": "creator",
+            "creator": "creatorName",
             "date": <FormattedDate
               day="2-digit"
               month="long"
               value={1508265709607}
               year="numeric"
             />,
-            "name": "testing",
+            "name": "test channel",
           }
         }
       />
@@ -1200,11 +1160,11 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
     channel={
       Object {
         "create_at": 1508265709607,
-        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "creator_id": "creator_id",
         "delete_at": 0,
-        "display_name": "testing",
+        "display_name": "test channel",
         "header": "test",
-        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "id": "channel_id",
         "last_post_at": 1508265709635,
         "name": "testing",
         "purpose": "test",
@@ -1227,7 +1187,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
     }
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
+        channelId="channel_id"
         permissions={
           Array [
             "manage_public_channel_properties",
@@ -1242,11 +1202,11 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             Object {
               "channel": Object {
                 "create_at": 1508265709607,
-                "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+                "creator_id": "creator_id",
                 "delete_at": 0,
-                "display_name": "testing",
+                "display_name": "test channel",
                 "header": "test",
-                "id": "owsyt8n43jfxjpzh9np93mx1wa",
+                "id": "channel_id",
                 "last_post_at": 1508265709635,
                 "name": "testing",
                 "purpose": "test",
@@ -1293,7 +1253,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
       id="intro_messages.beginning"
       values={
         Object {
-          "name": "testing",
+          "name": "test channel",
         }
       }
     />
@@ -1307,14 +1267,14 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         id="intro_messages.creator"
         values={
           Object {
-            "creator": "creator",
+            "creator": "creatorName",
             "date": <FormattedDate
               day="2-digit"
               month="long"
               value={1508265709607}
               year="numeric"
             />,
-            "name": "testing",
+            "name": "test channel",
           }
         }
       />
@@ -1340,11 +1300,11 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
     channel={
       Object {
         "create_at": 1508265709607,
-        "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+        "creator_id": "creator_id",
         "delete_at": 0,
-        "display_name": "testing",
+        "display_name": "test channel",
         "header": "test",
-        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "id": "channel_id",
         "last_post_at": 1508265709635,
         "name": "testing",
         "purpose": "test",
@@ -1356,7 +1316,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
     createBoard={null}
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
-        channelId="owsyt8n43jfxjpzh9np93mx1wa"
+        channelId="channel_id"
         permissions={
           Array [
             "manage_public_channel_properties",
@@ -1371,11 +1331,11 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             Object {
               "channel": Object {
                 "create_at": 1508265709607,
-                "creator_id": "zaktnt8bpbgu8mb6ez9k64r7sa",
+                "creator_id": "creator_id",
                 "delete_at": 0,
-                "display_name": "testing",
+                "display_name": "test channel",
                 "header": "test",
-                "id": "owsyt8n43jfxjpzh9np93mx1wa",
+                "id": "channel_id",
                 "last_post_at": 1508265709635,
                 "name": "testing",
                 "purpose": "test",
