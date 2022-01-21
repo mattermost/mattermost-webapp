@@ -203,10 +203,14 @@
 
         .suggestion-list__main {
             overflow: hidden;
-            max-width: 50%;
+            max-width: 89%;
             color: rgba(var(--center-channel-color-rgb), 1);
             text-overflow: ellipsis;
             white-space: nowrap;
+
+            .suggestion-list__desc {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+            }
         }
     }
 
@@ -215,6 +219,10 @@
         width: 100%;
         max-width: 100%;
         align-items: center;
+
+        .suggestion-list__main {
+            max-width: 70%;
+        }
 
         .badge {
             position: unset;
@@ -324,7 +332,7 @@
         position: absolute;
         right: 20px;
         overflow: hidden;
-        max-width: 25%;
+        max-width: 20%;
         text-overflow: ellipsis;
         white-space: nowrap;
     }

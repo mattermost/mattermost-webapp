@@ -222,8 +222,13 @@ class SwitchChannelSuggestion extends Suggestion {
             >
                 {icon}
                 <div className={classNames('suggestion-list__ellipsis', 'suggestion-list__flex')}>
-                    <span className='suggestion-list__main'>{name}</span>
-                    {isPartOfOnlyOneTeam && <span className='ml-2'>{description}</span>}
+                    <span className='suggestion-list__main'>
+                        {name}
+                        {
+                            (isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) &&
+                            <span className='ml-2 suggestion-list__desc'>{description}</span>
+                        }
+                    </span>
                     {<>
                         {customStatus}
                         {sharedIcon}
