@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Mattermost 云",
   "admin.billing.subscription.planDetails.prolongedOverages": "长时间超量可能会导致额外的费用。",
   "admin.billing.subscription.planDetails.seatCountOverages": "座位数超限",
-  "admin.billing.subscription.planDetails.seeOurPlans": "查看我们的套餐",
   "admin.billing.subscription.planDetails.startDate": "开始日期： ",
   "admin.billing.subscription.planDetails.tiers.free": "免费",
   "admin.billing.subscription.planDetails.userCount": "{userCount} 位用户",

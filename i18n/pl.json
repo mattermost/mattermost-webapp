@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Chmura Mattermost",
   "admin.billing.subscription.planDetails.prolongedOverages": "Przedłużające się przekroczenia mogą spowodować naliczenie dodatkowych opłat.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Przekroczenia liczby miejsc",
-  "admin.billing.subscription.planDetails.seeOurPlans": "Zobacz nasze plany",
   "admin.billing.subscription.planDetails.startDate": "Data rozpoczęcia: ",
   "admin.billing.subscription.planDetails.tiers.free": "Darmowy",
   "admin.billing.subscription.planDetails.upToXUsers": "do {userLimit} użytkowników",

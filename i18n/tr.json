@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Mattermost Cloud",
   "admin.billing.subscription.planDetails.prolongedOverages": "Uzun süreli aşımlar ek ücretlere neden olabilir.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Koltuk sayısı aşımları",
-  "admin.billing.subscription.planDetails.seeOurPlans": "Planlarımıza bakın",
   "admin.billing.subscription.planDetails.startDate": "Başlangıç tarihi: ",
   "admin.billing.subscription.planDetails.tiers.free": "Ücretsiz",
   "admin.billing.subscription.planDetails.userCount": "{userCount} kullanıcı",

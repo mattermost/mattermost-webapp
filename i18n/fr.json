@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Mattermost Cloud",
   "admin.billing.subscription.planDetails.prolongedOverages": "Les dépassements prolongés peuvent entraîner des frais supplémentaires.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Dépassement du nombre d'utilisateurs",
-  "admin.billing.subscription.planDetails.seeOurPlans": "Voir nos forfaits",
   "admin.billing.subscription.planDetails.startDate": "Date de début : ",
   "admin.billing.subscription.planDetails.tiers.free": "Gratuit",
   "admin.billing.subscription.planDetails.upToXUsers": "jusqu'à {userLimit} utilisateurs.",

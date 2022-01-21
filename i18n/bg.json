@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Mattermost Cloud",
   "admin.billing.subscription.planDetails.prolongedOverages": "Продължително превишаване може да доведе до допълнителни такси.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Превишаване броя на членствата",
-  "admin.billing.subscription.planDetails.seeOurPlans": "Вижте нашите планове",
   "admin.billing.subscription.planDetails.startDate": "Начална дата: ",
   "admin.billing.subscription.planDetails.tiers.free": "Безплатен",
   "admin.billing.subscription.planDetails.upToXUsers": "максимум {userLimit} потребители.",

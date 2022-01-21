@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Mattermost Cloud",
   "admin.billing.subscription.planDetails.prolongedOverages": "Продолжительное превышение может привести к дополнительным расходам.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Количество мест превышено",
-  "admin.billing.subscription.planDetails.seeOurPlans": "Посмотрите наши тарифные планы",
   "admin.billing.subscription.planDetails.startDate": "Дата начала: ",
   "admin.billing.subscription.planDetails.tiers.free": "Бесплатно",
   "admin.billing.subscription.planDetails.upToXUsers": "до {userLimit} пользователей.",

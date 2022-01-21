@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Mattermost Cloud",
   "admin.billing.subscription.planDetails.prolongedOverages": "長期的な超過は追加料金が発生する可能性があります。",
   "admin.billing.subscription.planDetails.seatCountOverages": "シート数超過",
-  "admin.billing.subscription.planDetails.seeOurPlans": "プランを見る",
   "admin.billing.subscription.planDetails.startDate": "開始日付: ",
   "admin.billing.subscription.planDetails.tiers.free": "無料",
   "admin.billing.subscription.planDetails.userCount": "{userCount} ユーザー",

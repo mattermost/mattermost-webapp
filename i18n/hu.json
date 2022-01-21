@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.productName.mmCloud": "Mattermost Cloud",
   "admin.billing.subscription.planDetails.prolongedOverages": "A hosszan tartó túlhasználat további díjakat vonhatnak maguk után.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Férőhely túlhasználat",
-  "admin.billing.subscription.planDetails.seeOurPlans": "Tekintse meg ajánlatainkat",
   "admin.billing.subscription.planDetails.startDate": "Kezdés dátuma: ",
   "admin.billing.subscription.planDetails.tiers.free": "Ingyenes",
   "admin.billing.subscription.planDetails.upToXUsers": "legfeljebb {userLimit} felhasználóig.",
