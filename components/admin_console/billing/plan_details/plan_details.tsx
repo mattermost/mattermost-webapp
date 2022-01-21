@@ -228,13 +228,12 @@ export const currentPlanText = (isFreeTrial: boolean) => {
     );
 };
 
-export const getPlanDetailElements = (
+export const getPlanPricing = (
     userLimit: number,
     isPaidTier: boolean,
     product: Product,
 ) => {
     let planPricing;
-    let planDetailsDescription;
 
     if (isPaidTier) {
         planPricing = (
@@ -255,7 +254,6 @@ export const getPlanDetailElements = (
                 </div>
             </div>
         );
-        planDetailsDescription = null;
     } else {
         planPricing = (
             <div className='PlanDetails__plan'>
@@ -268,38 +266,15 @@ export const getPlanDetailElements = (
                 <div className='PlanDetails__planCaveat'>
                     <FormattedMarkdownMessage
                         id='admin.billing.subscription.planDetails.upToXUsers'
-                        defaultMessage='up to {userLimit} users, until January 31st, 2022'
+                        defaultMessage='up to {userLimit} users'
                         values={{userLimit}}
                     />
                 </div>
             </div>
         );
-        planDetailsDescription = (
-            <div className='PlanDetails__description'>
-                <div className='PlanDetails__planDetailsName'>
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers'
-                        defaultMessage='Add your payment information to continue after January 31st.'
-                    />
-                </div>
-                <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={CloudLinks.PRICING}
-                >
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.seeOurPlans'
-                        defaultMessage='See our plans'
-                    />
-                </a>
-            </div>
-        );
     }
 
-    return {
-        planPricing,
-        planDetailsDescription,
-    };
+    return planPricing;
 };
 
 export const featureList = (subscriptionPlan: string | undefined, isPaidTier: boolean) => {

@@ -311,7 +311,6 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "인원 초과",
   "admin.billing.subscription.planDetails.startDate": "시작일: ",
   "admin.billing.subscription.planDetails.tiers.free": "무료",
-  "admin.billing.subscription.planDetails.upToXUsers": "2022년 1월 31일까지, 최대 {userLimit}명 사용 가능.",
   "admin.billing.subscription.planDetails.userCount": "{userCount} 사용자",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} 사용자",
   "admin.billing.subscription.privateCloudCard.contactSales": "영업팀에 문의",

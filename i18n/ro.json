@@ -306,7 +306,6 @@
   "admin.billing.subscription.planDetails.numberOfSeats": "{numberOfSeats} locuri",
   "admin.billing.subscription.planDetails.numberOfSeatsRegistered": "({userCount} înregistrat în prezent)",
   "admin.billing.subscription.planDetails.perUserPerMonth": "/utilizator/lună.",
-  "admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers": "/utilizator/lună pentru {aboveUserLimit} sau mai mulți utilizatori.",
   "admin.billing.subscription.planDetails.productName.cloudProfessional": "Cloud Professional",
   "admin.billing.subscription.planDetails.prolongedOverages": "Depășirile prelungite pot duce la taxe suplimentare.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Numărul de locuri depășit",
