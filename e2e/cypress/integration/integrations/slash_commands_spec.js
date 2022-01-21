@@ -190,7 +190,7 @@ describe('Integrations', () => {
 
         // # Post command
         cy.uiPostMessageQuickly('/expand ');
-        
+
         // * System post received confirming the new setting
         cy.getLastPost().should('contain', 'Image links now expand by default').and('contain', 'System');
 
@@ -208,7 +208,6 @@ describe('Integrations', () => {
                 cy.findByLabelText('file thumbnail').should('be.visible');
             });
         });
-
     });
 
     it('MM-T689 capital letter autocomplete, /collapse', () => {
