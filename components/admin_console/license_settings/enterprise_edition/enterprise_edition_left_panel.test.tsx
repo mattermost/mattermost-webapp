@@ -7,7 +7,6 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import EnterpriseEditionLeftPanel, {EnterpriseEditionProps} from './enterprise_edition_left_panel';
 
-
 describe('components/admin_console/license_settings/enterprise_edition/enterprise_edition_left_panel', () => {
     const license = {
         IsLicensed: 'true',
