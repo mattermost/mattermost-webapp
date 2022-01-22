@@ -367,6 +367,7 @@
   "admin.billing.subscription.upgrade": "Upgrade",
   "admin.billing.subscription.upgradeCloudSubscription": "Upgrade your Mattermost Cloud Subscription",
   "admin.billing.subscription.upgradedSuccess": "Great! You're now upgraded",
+  "admin.billing.subscription.upgradeMattermostCloud.description": "The free tier is limited to 10 users. Get access to more users, teams and other great features.",
   "admin.billing.subscription.upgradeMattermostCloud.title": "Subscribe to Mattermost",
   "admin.billing.subscription.upgradeMattermostCloud.upgradeButton": "Subscribe Now",
   "admin.billing.subscription.verifyPaymentInformation": "Verifying your payment information",

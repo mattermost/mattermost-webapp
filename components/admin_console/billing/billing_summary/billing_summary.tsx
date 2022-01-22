@@ -64,6 +64,12 @@ export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => v
                 defaultMessage='Subscribe to Mattermost'
             />
         </div>
+        <div className='UpgradeMattermostCloud__description'>
+            <FormattedMessage
+                id='admin.billing.subscription.upgradeMattermostCloud.description'
+                defaultMessage='The free tier is limited to 10 users. Get access to more users, teams and other great features'
+            />
+        </div>
         <button
             type='button'
             onClick={onUpgradeMattermostCloud}
