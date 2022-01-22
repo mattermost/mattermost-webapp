@@ -3,12 +3,14 @@
 
 import isEmpty from 'lodash/isEmpty';
 
-import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
+import {Emoji, EmojiCategory, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import {
     Categories,
     Category,
     CategoryOrEmojiRow,
+    CategoryHeaderRow,
+    EmojiRow,
 } from 'components/emoji_picker/types';
 
 import * as EmojiUtils from 'utils/emoji.jsx';
@@ -25,6 +27,14 @@ import {
     RECENT,
 } from 'components/emoji_picker/constants';
 
+export function isCategoryHeaderRow(row: CategoryOrEmojiRow): row is CategoryHeaderRow {
+    return row.type === CATEGORY_HEADER_ROW;
+}
+
+export function isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
+    return emoji.category !== CUSTOM;
+}
+
 function sortEmojis(
     emojis: Emoji[],
     recentEmojiStrings: string[],
@@ -36,7 +46,7 @@ function sortEmojis(
     Object.values(emojis).forEach((emoji) => {
         let emojiArray = emojisMinusRecent;
 
-        const alias = emoji.short_names ? emoji.short_names : [emoji.name];
+        const alias = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
         for (let i = 0; i < alias.length; i++) {
             if (recentEmojiStrings.includes(alias[i].toLowerCase())) {
                 emojiArray = recentEmojis;
@@ -62,7 +72,7 @@ function getFilteredEmojis(
     recentEmojisString: string[],
 ): Emoji[] {
     const emojis = Object.values(allEmojis).filter((emoji) => {
-        const alias = emoji.short_names ? emoji.short_names : [emoji.name];
+        const alias = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
 
         for (let i = 0; i < alias.length; i++) {
             if (alias[i].toLowerCase().includes(filter)) {
@@ -76,30 +86,24 @@ function getFilteredEmojis(
     return sortEmojis(emojis, recentEmojisString, filter);
 }
 
-function convertEmojiToUserSkinTone(
-    emoji: Emoji,
-    emojiSkin: string,
-    userSkinTone: string,
-): Emoji {
-    if (emojiSkin === userSkinTone) {
-        return emoji;
-    }
-
+// Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
+function convertEmojiToUserSkinTone(emoji: Emoji, emojiSkin: string, userSkinTone: string) {
     let newEmojiId = '';
 
     // If its a default (yellow) emoji, get the skin variation from its property
     if (emojiSkin === 'default') {
-        newEmojiId = emoji?.skin_variations?.[userSkinTone]?.unified ?? '';
+        const variation = Object.keys(emoji.skin_variations).find((skinVariation) => skinVariation.includes(userSkinTone));
+        newEmojiId = variation ? emoji.skin_variations[variation].unified : emoji.unified;
     } else if (userSkinTone === 'default') {
-        newEmojiId = emoji?.unified?.replaceAll(`-${emojiSkin}`, '') ?? '';
+        // If default (yellow) skin is selected, remove the skin code from emoji id
+        newEmojiId = emoji.unified.replaceAll(/-(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, '');
     } else {
-        newEmojiId = emoji?.unified?.replaceAll(emojiSkin, userSkinTone) ?? '';
+        // If non default skin is selected, add the new skin selected code to emoji id
+        newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, userSkinTone);
     }
 
-    const emojiIndex = EmojiUtils.EmojiIndicesByUnicode.get(
-        newEmojiId.toLowerCase(),
-    ) as number;
-    return EmojiUtils.Emojis[emojiIndex];
+    const emojiIndex = Emoji.EmojiIndicesByUnicode.get(newEmojiId.toLowerCase());
+    return Emoji.Emojis[emojiIndex];
 }
 
 export function getEmojisByCategory(
@@ -122,17 +126,22 @@ export function getEmojisByCategory(
 
         emojiIds.forEach((emojiId) => {
             const emoji = allEmojis[emojiId];
-            const emojiSkin = getSkin(emoji);
 
-            if (emojiSkin) {
-                const emojiWithUserSkin = convertEmojiToUserSkinTone(
-                    emoji,
-                    emojiSkin,
-                    userSkinTone,
-                );
-                recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
-            } else {
+            // Its a custom emoji
+            if (emoji.category === 'custom') {
                 recentEmojis.set(emojiId, emoji);
+            } else {
+                // Its a system emoji
+                const emojiSkin = getSkin(emoji);
+                if (emojiSkin && emojiSkin !== userSkinTone) {
+                    const emojiWithUserSkin = convertEmojiToUserSkinTone(emoji, emojiSkin, userSkinTone);
+                    if (emojiWithUserSkin && emojiWithUserSkin.unified) {
+                        recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
+                    }
+                } else {
+                    // Emojis skin is same as userskin tone
+                    recentEmojis.set(emojiId, emoji);
+                }
             }
         });
 
@@ -168,10 +177,7 @@ export function getAllEmojis(
                     return emojiMap.get(name);
                 });
         } else {
-            const indices =
-                EmojiUtils.EmojiIndicesByCategory.get(userSkinTone).get(
-                    category,
-                ) || [];
+            const indices = EmojiUtils.EmojiIndicesByCategory.get(userSkinTone).get(category) || [];
             categoryEmojis = indices.map((index) => EmojiUtils.Emojis[index]);
             if (category === 'custom') {
                 categoryEmojis = categoryEmojis.concat([
@@ -194,7 +200,6 @@ export function getAllEmojis(
                 // if custom emoji, set proper attributes
                 allEmojis[fileName] = {
                     ...allEmojis[fileName],
-                    aliases: currentEmoji.short_names ? currentEmoji.short_names : [currentEmoji.name],
                     category: 'custom',
                     image: fileName,
                 };
@@ -221,13 +226,13 @@ export function calculateCategoryRowIndex(categories: Categories, categoryName: 
     return rowIndex;
 }
 
-function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName: EmojiCategory, rowIndexCounter: number): [Array<CategoryOrEmojiRow<typeof EMOJIS_ROW>>, number] {
+function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName: EmojiCategory, rowIndexCounter: number): [EmojiRow[], number] {
     if (emojis.length === 0) {
         return [[], rowIndexCounter - 1];
     }
 
-    const emojiRows: Array<CategoryOrEmojiRow<typeof EMOJIS_ROW>> = [];
-    let emojisIndividualRow: CategoryOrEmojiRow<typeof EMOJIS_ROW>['items'] = [];
+    const emojiRows: EmojiRow[] = [];
+    let emojisIndividualRow: EmojiRow['items'] = [];
     let emojiRowIndexCounter = rowIndexCounter;
 
     // create `EMOJI_PER_ROW` row lenght array of emojis
@@ -236,7 +241,7 @@ function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName:
             categoryIndex,
             categoryName,
             emojiIndex,
-            emojiId: emoji.category === CUSTOM ? emoji.id as string : emoji.unified as string,
+            emojiId: isSystemEmoji(emoji) ? emoji.unified : emoji.id,
             item: emoji,
         });
 
@@ -289,7 +294,7 @@ export function createCategoryAndEmojiRows(
     if (filter.length) {
         const filteredEmojis = getFilteredEmojis(allEmojis, filter, categories[RECENT]?.emojiIds ?? []);
 
-        const searchCategoryRow: CategoryOrEmojiRow<typeof CATEGORY_HEADER_ROW> = {
+        const searchCategoryRow: CategoryHeaderRow = {
             index: 0,
             type: CATEGORY_HEADER_ROW,
             items: [{
@@ -316,7 +321,7 @@ export function createCategoryAndEmojiRows(
         );
 
         // Add for the category header
-        const categoryRow: CategoryOrEmojiRow<typeof CATEGORY_HEADER_ROW> = {
+        const categoryRow: CategoryHeaderRow = {
             index: rowIndexCounter,
             type: CATEGORY_HEADER_ROW,
             items: [{

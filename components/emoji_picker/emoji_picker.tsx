@@ -59,6 +59,7 @@ const EmojiPicker = ({
         emoji: undefined,
     });
 
+    // On the first load, categories doesnt contain emojiIds until later when getAllEmojis is called
     const getInitialCategories = () => (recentEmojis.length ? {...RECENT_EMOJI_CATEGORY, ...CATEGORIES} : CATEGORIES);
     const [categories, setCategories] = useState<Categories>(getInitialCategories);
 

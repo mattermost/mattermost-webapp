@@ -24,6 +24,7 @@ export type CustomEmoji = {
     delete_at: number;
     creator_id: string;
 };
+
 export type SystemEmoji = {
     name: string;
     category: EmojiCategory;
@@ -33,10 +34,10 @@ export type SystemEmoji = {
     batch: number;
     skins?: string[];
     skin_variations?: Record<string, Emoji>; // we currently don't have a use for it other than knowing the field exists.
-    unified?: string;
+    unified: string;
 };
 
-export type Emoji = Partial<Omit<CustomEmoji, 'name' | 'category'>> & Partial<Omit<SystemEmoji, 'name' | 'category'>> & Pick<SystemEmoji, 'name' | 'category'> & { filename?: string };
+export type Emoji = SystemEmoji | CustomEmoji;
 
 export type EmojisState = {
     customEmoji: {

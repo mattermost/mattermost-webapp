@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {EmojiCategory, Emoji} from 'mattermost-redux/types/emojis';
+import {EmojiCategory, Emoji, SystemEmoji, CustomEmoji} from 'mattermost-redux/types/emojis';
 
 import {
     CATEGORY_HEADER_ROW,
@@ -18,23 +18,31 @@ export type Category = {
 
 export type Categories = Record<EmojiCategory, Category>;
 
-export type CategoryOrEmojiRow<
-    Type = typeof CATEGORY_HEADER_ROW | typeof EMOJIS_ROW
-> = {
+export type CategoryOrEmojiRow = CategoryHeaderRow | EmojiRow;
+
+export type CategoryHeaderRow = {
     index: number;
-    type: Type extends typeof CATEGORY_HEADER_ROW
-        ? typeof CATEGORY_HEADER_ROW
-        : typeof EMOJIS_ROW;
+    type: typeof CATEGORY_HEADER_ROW;
     items: Array<{
         categoryIndex: number;
         categoryName: EmojiCategory;
-        emojiIndex: Type extends typeof CATEGORY_HEADER_ROW ? -1 : number;
-        emojiId: Type extends typeof CATEGORY_HEADER_ROW
-            ? ''
-            : NonNullable<Emoji['id']>;
-        item: Type extends typeof CATEGORY_HEADER_ROW ? Category : Emoji;
+        emojiIndex: -1;
+        emojiId: '';
+        item: Category;
     }>;
-};
+}
+
+export type EmojiRow = {
+    index: number;
+    type: typeof EMOJIS_ROW;
+    items: Array<{
+        categoryIndex: number;
+        categoryName: EmojiCategory;
+        emojiIndex: number;
+        emojiId: CustomEmoji['id'] | SystemEmoji['unified'];
+        item: Emoji;
+    }>;
+}
 
 export type EmojiCursor = {
     rowIndex: number;

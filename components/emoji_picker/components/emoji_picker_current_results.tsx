@@ -10,8 +10,9 @@ import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
 
-import {ITEM_HEIGHT, CATEGORY_HEADER_ROW, EMOJIS_ROW, EMOJI_ROWS_OVERSCAN_COUNT, EMOJI_CONTAINER_HEIGHT} from 'components/emoji_picker/constants';
+import {ITEM_HEIGHT, EMOJI_ROWS_OVERSCAN_COUNT, EMOJI_CONTAINER_HEIGHT} from 'components/emoji_picker/constants';
 
+import {isCategoryHeaderRow} from 'components/emoji_picker/utils';
 import EmojiPickerCategoryOrEmojiRow from 'components/emoji_picker/components/emoji_picker_category_or_emoji_row';
 
 interface Props {
@@ -30,12 +31,12 @@ const EmojiPickerCurrentResults = forwardRef<FixedSizeList<CategoryOrEmojiRow[]>
     const getItemKey = (index: Parameters<ListItemKeySelector>[0], rowsData: Parameters<ListItemKeySelector<CategoryOrEmojiRow[]>>[1]) => {
         const data = rowsData[index];
 
-        if (data.type === CATEGORY_HEADER_ROW) {
-            const categoryRow = data.items[0] as CategoryOrEmojiRow<typeof CATEGORY_HEADER_ROW>['items'][0];
+        if (isCategoryHeaderRow(data)) {
+            const categoryRow = data.items[0];
             return `${categoryRow.categoryIndex}-${categoryRow.categoryName}`;
         }
 
-        const emojisRow = data.items as CategoryOrEmojiRow<typeof EMOJIS_ROW>['items'];
+        const emojisRow = data.items;
         const emojiNamesArray = emojisRow.map((emoji) => `${emoji.categoryIndex}-${emoji.emojiId}`);
         return emojiNamesArray.join('--');
     };
