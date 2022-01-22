@@ -55,7 +55,6 @@ describe('components/search_bar/SearchBar', () => {
         isFocused: false,
         isSideBarRight: false,
         isSearchingTerm: false,
-        isFocus: false,
         searchType: '',
         clearSearchType: jest.fn(),
         children: null,
@@ -103,18 +102,6 @@ describe('components/search_bar/SearchBar', () => {
                     {...baseProps}
                     searchTerms={'test'}
                     searchType='files'
-                />
-            ))),
-        );
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match snapshot without search on focus', () => {
-        const {container} = render(
-            wrapStore(wrapIntl((
-                <SearchBar
-                    {...baseProps}
-                    isFocused={true}
                 />
             ))),
         );

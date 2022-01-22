@@ -343,7 +343,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             >
                 {(provided, snapshot) => {
                     let inviteMembersButton = null;
-                    if (category.type === 'direct_messages') {
+                    if (category.type === 'direct_messages' && !category.collapsed) {
                         inviteMembersButton = (
                             <InviteMembersButton
                                 className='followingSibling'

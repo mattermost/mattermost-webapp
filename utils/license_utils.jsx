@@ -20,7 +20,7 @@ export function isLicenseExpiring(license) {
 }
 
 export function daysToLicenseExpire(license) {
-    if (license.IsLicensed !== 'true') {
+    if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return undefined;
     }
 
@@ -29,7 +29,7 @@ export function daysToLicenseExpire(license) {
 }
 
 export function isLicenseExpired(license) {
-    if (license.IsLicensed !== 'true') {
+    if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
     }
 
@@ -39,7 +39,7 @@ export function isLicenseExpired(license) {
 }
 
 export function isLicensePastGracePeriod(license) {
-    if (license.IsLicensed !== 'true') {
+    if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
     }
 

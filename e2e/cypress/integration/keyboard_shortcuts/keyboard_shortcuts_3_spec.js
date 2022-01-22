@@ -96,7 +96,7 @@ describe('Keyboard Shortcuts', () => {
             cy.findByText('Navigation').should('be.visible');
             cy.findByText('Previous team:').should('be.visible');
             cy.findAllByText('Next team:').should('be.visible');
-            cy.findAllByText('Switch to a specific team:').should('be.visible');
+            cy.findAllByText('Navigate to a specific team:').should('be.visible');
         });
     });
 });
