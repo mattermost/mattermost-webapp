@@ -3,8 +3,8 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import moment from "moment";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import {formatDate, parseDate,} from 'react-day-picker/moment';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from 'mattermost-redux/types/users';
@@ -47,12 +47,12 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         }
 
         this.state = {
+            dayPickerStartDate: moment().toDate(),
             selectedDate,
-            dayPickerStartDate: selectedDate,
             ...this.makeTimeMenuList(selectedDate),
         };
     }
-    
+
     formatDate = (date: Date): string => {
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const day = date.getDate().toString().padStart(2, '0');
@@ -99,7 +99,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
     handleDaySelection = (day: Date) => {
         this.setState({
-            selectedDate: day,
+            selectedDate: moment(day).format('DD-MM-YYYY'),
             ...this.makeTimeMenuList(day),
         });
     };
@@ -181,12 +181,11 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             </div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
-                                formatDate={formatDate}
-                                parseDate={parseDate}
-                                placeholder={`${formatDate(new Date())}`}
+                                dateFormat="DD-MM-YYYY"
+                                placeholder= {this.state.dayPickerStartDate}
                                 onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
-                                    selectedDays: selectedDate,
+                                    selectedDays: moment(selectedDate).format('DD-MM-YYYY'),
                                     disabledDays: {
                                         before: dayPickerStartDate,
                                     },
