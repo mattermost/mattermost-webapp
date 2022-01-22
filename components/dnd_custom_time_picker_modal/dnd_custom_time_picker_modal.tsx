@@ -17,6 +17,13 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
 
+import MomentLocaleUtils, {
+    formatDate,
+    parseDate,
+  } from 'react-day-picker/moment';
+  
+
+
 type Props = {
     onExited: () => void;
     userId: string;
@@ -50,13 +57,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             dayPickerStartDate: selectedDate,
             ...this.makeTimeMenuList(selectedDate),
         };
-    }
-
-    formatDate = (date: Date): string => {
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        const year = date.getFullYear().toString();
-        return [year, month, day].join('-');
     }
 
     getText = () => {
@@ -180,7 +180,9 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             </div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
-                                value={this.formatDate(selectedDate)}
+                                formatDate={formatDate}
+                                parseDate={parseDate}
+                                placeholder={`${formatDate(new Date())}`}
                                 onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
                                     selectedDays: selectedDate,
