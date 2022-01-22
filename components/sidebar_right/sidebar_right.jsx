@@ -67,12 +67,25 @@ export default class SidebarRight extends React.PureComponent {
     }
 
     handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
-            e.preventDefault();
-            if (this.props.isOpen) {
-                this.props.actions.closeRightHandSide();
-            } else {
-                this.props.actions.openAtPrevious(this.previous);
+        if (Utils.cmdOrCtrlPressed(e)) {
+            if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+                e.preventDefault();
+                if (this.props.isOpen) {
+                    if (this.props.isExpanded) {
+                        this.props.actions.setRhsExpanded(false);
+                    } else {
+                        this.props.actions.setRhsExpanded(true);
+                    }
+                } else {
+                    this.props.actions.openAtPrevious(this.previous);
+                }
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+                e.preventDefault();
+                if (this.props.isOpen) {
+                    this.props.actions.closeRightHandSide();
+                } else {
+                    this.props.actions.openAtPrevious(this.previous);
+                }
             }
         }
     }
