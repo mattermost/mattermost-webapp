@@ -1270,7 +1270,7 @@
   "admin.license.upload-modal.file": "Datei",
   "admin.license.upload-modal.subtitle": "Lade eine Lizenzschlüssel für die Mattermost Enterprise Edition hoch, um den Server zu aktualisieren. ",
   "admin.license.upload-modal.successfulUpgrade": "Erfolgreiche Aktualisierung!",
-  "admin.license.upload-modal.successfulUpgradeText": "Sie haben den {skuName} Plan für {licensedUsersNum} Benutzer aktualisiert. Diese Änderung ist aktiv vom {startsAt} bis zum {expiresAt}. ",
+  "admin.license.upload-modal.successfulUpgradeText": "Sie haben den {skuName} Plan für {licensedUsersNum, number} Benutzer aktualisiert. Diese Änderung ist aktiv vom {startsAt} bis zum {expiresAt}. ",
   "admin.license.upload-modal.title": "Lizenzschlüssel hochladen",
   "admin.license.uploadFile": "Datei hochladen",
   "admin.license.warn.renew": "Erneuern",
