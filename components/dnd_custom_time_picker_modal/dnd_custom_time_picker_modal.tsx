@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import {formatDate, parseDate,} from 'react-day-picker/moment';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from 'mattermost-redux/types/users';
@@ -16,13 +17,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
-
-import MomentLocaleUtils, {
-    formatDate,
-    parseDate,
-  } from 'react-day-picker/moment';
-  
-
 
 type Props = {
     onExited: () => void;
