@@ -17,6 +17,10 @@ import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_he
 import {Props} from '../admin_console';
 
 import './dashboard.scss';
+import PerformanceSvg from 'components/common/svg_images_components/performance_svg';
+import SecuritySvg from 'components/common/svg_images_components/security_svg';
+import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
+import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
 
 type DataModel = {
     [key: string]: {
@@ -134,6 +138,94 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     configUrl: '/site-url',
                     infoUrl: 'https://www.google.de',
                     status: 'none',
+                },
+            ],
+        },
+        performance: {
+            title: 'Performance',
+            description: 'Your server could use some performance tweaks.',
+            icon: (
+                <PerformanceSvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'performance',
+                    title: 'Search performance',
+                    description: 'Your server has reached over 500 users and 2 million posts which could result in slow search performance. We recommend starting an enterprise trial with the elastic search feature for better performance.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
+                },
+            ],
+        },
+        security: {
+            title: 'Security Concerns',
+            description: 'There are security concerns you should look at.',
+            icon: (
+                <SecuritySvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'security',
+                    title: 'Failed login attempts detected',
+                    description: '37 Failed login attempts have been detected. We recommend looking at the security logs to understand the risk.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'warning',
+                },
+            ],
+        },
+        dataPrivacy: {
+            title: 'Data Privacy',
+            description: 'Get better insight and control over your data.',
+            icon: (
+                <DataPrivacySvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'privacy',
+                    title: 'Become more data aware',
+                    description: 'Alot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
+                },
+            ],
+        },
+        easyManagement: {
+            title: 'Ease of management',
+            description: 'We have suggestions that could make your managemenet easier.',
+            icon: (
+                <EasyManagementSvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'ldap',
+                    title: 'AD/LDAP integration recommended',
+                    description: 'You’ve reached over 100 users, we can reduce your manual management pains through AD/LDAP with features like easier onboarding, automatic deactivations and automatic role assignments.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
+                },
+                {
+                    id: 'guests_accounts',
+                    title: 'Guest Accounts recommended',
+                    description: 'We noticed several accounts using different domains from your Site URL. Gain more control over what other organizations can access with the guest account feature.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
                 },
             ],
         },
