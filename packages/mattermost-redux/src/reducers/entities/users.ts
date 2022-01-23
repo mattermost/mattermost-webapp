@@ -421,23 +421,23 @@ function profilesInGroup(state: RelationOneToMany<Group, UserProfile> = {}, acti
 
 function dndEndTimes(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
     switch (action.type) {
-        case UserTypes.RECEIVED_STATUS: {
-            const nextState = Object.assign({}, state);
-            nextState[action.data.user_id] = action.data.dnd_end_time;
-    
-            return nextState;
+    case UserTypes.RECEIVED_STATUS: {
+        const nextState = Object.assign({}, state);
+        nextState[action.data.user_id] = action.data.dnd_end_time;
+
+        return nextState;
+    }
+    case UserTypes.RECEIVED_STATUSES: {
+        const nextState = Object.assign({}, state);
+
+        for (const s of action.data) {
+            nextState[s.user_id] = s.dnd_end_time;
         }
-        case UserTypes.RECEIVED_STATUSES: {
-            const nextState = Object.assign({}, state);
-    
-            for (const s of action.data) {
-                nextState[s.user_id] = s.dnd_end_time;
-            }
-    
-            return nextState;
-        }
-            default:
-            return state;        
+
+        return nextState;
+    }
+        default:
+        return state;        
     }
 }
 

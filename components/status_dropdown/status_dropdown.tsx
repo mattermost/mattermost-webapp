@@ -359,7 +359,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
 
         let dndExtraText = localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications');
         if (dndEndTime && dndEndTime > 0) {
-            dndExtraText = "Until " + new Date(dndEndTime*1000).toLocaleString('en-US', {timeZone: this.props.timezone});
+            dndExtraText = 'Until ' + new Date(dndEndTime * 1000).toLocaleString('en-US', {timeZone: this.props.timezone});
         }
         return (
             <MenuWrapper
