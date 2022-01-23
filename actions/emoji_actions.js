@@ -13,7 +13,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 import {ActionTypes, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
-import { updateRecentEmojis } from 'mattermost-redux/actions/users';
+import {updateRecentEmojis} from 'mattermost-redux/actions/users';
 
 export function loadRecentlyUsedCustomEmojis() {
     return async (dispatch, getState) => {
@@ -80,7 +80,7 @@ export function addRecentEmoji(alias) {
         }
 
         let updatedRecentEmojis;
-        const currentEmojiInRecentList = recentEmojis.find((emoji) => emoji.name === name);
+        const currentEmojiInRecentList = recentEmojis.find((recentEmoji) => recentEmoji.name === name);
         if (currentEmojiInRecentList) {
             // If the emoji is already in the recent list, remove it and add it to the front with updated usage count
             const recentEmojisFiltered = recentEmojis.filter((recentEmoji) => recentEmoji.name !== name);

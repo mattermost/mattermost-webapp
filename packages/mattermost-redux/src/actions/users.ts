@@ -18,7 +18,7 @@ import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/us
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
-import { RecentEmojiData } from 'mattermost-redux/types/emojis';
+import {RecentEmojiData} from 'mattermost-redux/types/emojis';
 
 import {getAllCustomEmojis} from './emojis';
 import {getClientConfig, setServerVersion} from './general';
@@ -1562,4 +1562,4 @@ export function updateRecentEmojis(recentEmojis: RecentEmojiData[]): ActionFunc 
             recentEmojis,
         ],
     });
-};
+}

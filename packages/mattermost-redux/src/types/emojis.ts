@@ -2,16 +2,16 @@
 // See LICENSE.txt for license information.
 
 export type EmojiCategory =
-    | "recent"
-    | "people"
-    | "nature"
-    | "foods"
-    | "activity"
-    | "places"
-    | "objects"
-    | "symbols"
-    | "flags"
-    | "custom";
+    | 'recent'
+    | 'people'
+    | 'nature'
+    | 'foods'
+    | 'activity'
+    | 'places'
+    | 'objects'
+    | 'symbols'
+    | 'flags'
+    | 'custom';
 export type CustomEmoji = {
     id: string;
     create_at: number;
@@ -19,7 +19,7 @@ export type CustomEmoji = {
     delete_at: number;
     creator_id: string;
     name: string;
-    category: "custom";
+    category: 'custom';
 };
 export type SystemEmoji = {
     name: string;
