@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getStatusForUserId, getDndEndTimeForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
@@ -44,6 +44,7 @@ function makeMapStateToProps() {
             isStatusDropdownOpen: isStatusDropdownOpen(state),
             showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
             timezone: getCurrentUserTimezone(state),
+            dndEndTime: getDndEndTimeForUserId(state, userId),
         };
     };
 }

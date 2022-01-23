@@ -57,6 +57,7 @@ type Props = {
     showCustomStatusPulsatingDot: boolean;
     timezone?: string;
     globalHeader?: boolean;
+    dndEndTime?: number;
 }
 
 type State = {
@@ -297,7 +298,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
     render = (): JSX.Element => {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const dropdownIcon = this.renderDropdownIcon();
-        const {status, customStatus, isCustomStatusExpired, globalHeader, currentUser} = this.props;
+        const {status, customStatus, isCustomStatusExpired, globalHeader, currentUser, dndEndTime} = this.props;
         const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
 
         const setOnline = needsConfirm ? () => this.showStatusChangeConfirmation('online') : this.setOnline;
@@ -356,6 +357,10 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
 
         const customStatusComponent = this.renderCustomStatus(isStatusSet);
 
+        let dndExtraText = localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications');
+        if (dndEndTime && dndEndTime > 0) {
+            dndExtraText = "Until " + new Date(dndEndTime*1000).toLocaleString('en-US', {timeZone: this.props.timezone});
+        }
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
@@ -451,7 +456,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                             subMenu={dndSubMenuItems}
                             ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                            extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
+                            extraText={dndExtraText}
                             icon={(
                                 <StatusIcon
                                     status={'dnd'}

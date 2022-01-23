@@ -419,6 +419,28 @@ function profilesInGroup(state: RelationOneToMany<Group, UserProfile> = {}, acti
     }
 }
 
+function dndEndTimes(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
+    switch (action.type) {
+        case UserTypes.RECEIVED_STATUS: {
+            const nextState = Object.assign({}, state);
+            nextState[action.data.user_id] = action.data.dnd_end_time;
+    
+            return nextState;
+        }
+        case UserTypes.RECEIVED_STATUSES: {
+            const nextState = Object.assign({}, state);
+    
+            for (const s of action.data) {
+                nextState[s.user_id] = s.dnd_end_time;
+            }
+    
+            return nextState;
+        }
+            default:
+            return state;        
+    }
+}
+
 function statuses(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_STATUS: {
@@ -626,6 +648,9 @@ export default combineReducers({
 
     // object where every key is the user id and has a value with the current status of each user
     statuses,
+
+    // object where every key is the user id and has a value with the current DND end time of each user
+    dndEndTimes,
 
     // object where every key is the user id and has a value with a flag determining if their status was set manually
     isManualStatus,

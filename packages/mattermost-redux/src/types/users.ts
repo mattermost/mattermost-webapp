@@ -75,6 +75,7 @@ export type UsersState = {
     profilesNotInChannel: RelationOneToManyUnique<Channel, UserProfile>;
     profilesInGroup: RelationOneToMany<Group, UserProfile>;
     statuses: RelationOneToOne<UserProfile, string>;
+    dndEndTimes: RelationOneToOne<UserProfile, number>;
     stats: RelationOneToOne<UserProfile, UsersStats>;
     filteredStats?: UsersStats;
     myUserAccessTokens: Record<string, UserAccessToken>;
