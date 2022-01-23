@@ -436,8 +436,8 @@ function dndEndTimes(state: RelationOneToOne<UserProfile, string> = {}, action: 
 
         return nextState;
     }
-        default:
-        return state;        
+    default:
+    return state;
     }
 }
 
