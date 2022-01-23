@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export type EmojiCategory = (
-    | 'recent'
-    | 'people'
-    | 'nature'
-    | 'foods'
-    | 'activity'
-    | 'places'
-    | 'objects'
-    | 'symbols'
-    | 'flags'
-    | 'custom'
-);
+export type EmojiCategory =
+    | "recent"
+    | "people"
+    | "nature"
+    | "foods"
+    | "activity"
+    | "places"
+    | "objects"
+    | "symbols"
+    | "flags"
+    | "custom";
 export type CustomEmoji = {
     id: string;
     create_at: number;
@@ -20,7 +19,7 @@ export type CustomEmoji = {
     delete_at: number;
     creator_id: string;
     name: string;
-    category: 'custom';
+    category: "custom";
 };
 export type SystemEmoji = {
     name: string;
@@ -38,4 +37,9 @@ export type EmojisState = {
         [x: string]: CustomEmoji;
     };
     nonExistentEmoji: Set<string>;
+};
+
+export type RecentEmojiData = {
+    name: string;
+    usageCount: number;
 };

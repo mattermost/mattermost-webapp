@@ -38,7 +38,7 @@ import {
     AdminConfig,
     EnvironmentConfig,
 } from 'mattermost-redux/types/config';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {CustomEmoji, RecentEmojiData} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
@@ -3827,6 +3827,13 @@ export default class Client4 {
             this.telemetryHandler.pageVisited(this.userId, userRoles, category, name);
         }
     }
+
+    updateRecentEmojis = (recentEmojis: RecentEmojiData[]) => {
+        return this.doFetch(
+            `${this.getUserRoute('me')}/recentEmojis`,
+            {method: 'put', body: JSON.stringify(recentEmojis)},
+        );
+    };
 }
 
 function parseAndMergeNestedHeaders(originalHeaders: any) {

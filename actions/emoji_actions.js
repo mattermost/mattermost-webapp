@@ -13,6 +13,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 import {ActionTypes, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
+import { updateRecentEmojis } from 'mattermost-redux/actions/users';
 
 export function loadRecentlyUsedCustomEmojis() {
     return async (dispatch, getState) => {
@@ -79,15 +80,26 @@ export function addRecentEmoji(alias) {
         }
 
         let updatedRecentEmojis;
-        if (recentEmojis.includes(name)) {
-            // If the emoji is already in the recent list, remove it and add it to the front
-            const recentEmojisFiltered = recentEmojis.filter((recentEmoji) => recentEmoji !== name);
-            updatedRecentEmojis = [...recentEmojisFiltered, name].slice(-MAXIMUM_RECENT_EMOJI);
+        const currentEmojiInRecentList = recentEmojis.find((emoji) => emoji.name === name);
+        if (currentEmojiInRecentList) {
+            // If the emoji is already in the recent list, remove it and add it to the front with updated usage count
+            const recentEmojisFiltered = recentEmojis.filter((recentEmoji) => recentEmoji.name !== name);
+            const updatedCurrentEmojiData = {
+                name,
+                usageCount: currentEmojiInRecentList.usageCount + 1,
+            };
+            updatedRecentEmojis = [...recentEmojisFiltered, updatedCurrentEmojiData].slice(-MAXIMUM_RECENT_EMOJI);
         } else {
-            updatedRecentEmojis = [...recentEmojis, name].slice(-MAXIMUM_RECENT_EMOJI);
+            const currentEmojiData = {
+                name,
+                usageCount: 1,
+            };
+            updatedRecentEmojis = [...recentEmojis, currentEmojiData].slice(-MAXIMUM_RECENT_EMOJI);
         }
 
         LocalStorageStore.setRecentEmojis(currentUserId, updatedRecentEmojis);
+
+        _dispatch(updateRecentEmojis(updatedRecentEmojis));
 
         return {data: true};
     };
