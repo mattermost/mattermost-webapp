@@ -1,37 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {RefObject, useEffect, useRef} from 'react';
+import React, {RefObject, useEffect, useRef, useState} from 'react';
 
-import {AccordionDataType} from './accordion';
+import {AccordionItemType} from './accordion';
 
 import './accordion.scss';
 
 type Props = {
-    data: AccordionDataType;
-    isOpen: boolean;
+    data: AccordionItemType;
+    isExpanded: boolean;
     onButtonClick: () => void;
-    openMultiple: boolean;
     onHeaderClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
 }
 
 const AccordionItem = ({
     data,
-    isOpen,
+    isExpanded,
     onButtonClick,
-    openMultiple,
     onHeaderClick,
 }: Props): JSX.Element | null => {
     const contentRef = useRef<HTMLDivElement>(null);
     const itemRef = useRef<HTMLLIElement>(null);
 
-    const [height, setHeight] = React.useState(0);
+    const [height, setHeight] = useState(0);
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(isExpanded);
 
     const toggle = () => {
-        if (openMultiple) {
-            setOpen((currentValue: boolean) => !currentValue);
-        } else if (onButtonClick) {
+        if (onButtonClick) {
             onButtonClick();
         }
 
@@ -44,19 +40,18 @@ const AccordionItem = ({
         if (!contentRef?.current) {
             return;
         }
-        if (isOpen || open) {
+        if (isExpanded) {
             const contentEl = contentRef.current;
             setHeight(contentEl.scrollHeight);
         } else {
             setHeight(0);
         }
-    }, [isOpen, open]);
-
-    const itemOpened = openMultiple ? open : isOpen;
+        setOpen(isExpanded);
+    }, [isExpanded]);
 
     return (
         <li
-            className={`accordion-item ${itemOpened ? 'active' : ''}`}
+            className={`accordion-item ${open ? 'active' : ''}`}
             ref={itemRef}
         >
             <div

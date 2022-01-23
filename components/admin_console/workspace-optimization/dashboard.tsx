@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-import Accordion, {AccordionDataType} from 'components/common/accordion/accordion';
+import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
 import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
 import WorkspaceAccessSvg from 'components/common/svg_images_components/workspace_access_svg';
@@ -151,25 +151,23 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         setTimeout(() => testSiteURL(onSuccess, onError, location.origin), 1000);
     }, []);
 
-    const accData: AccordionDataType[] = [];
-    const dataKeys = Object.keys(data);
-
-    dataKeys.forEach((key: string) => {
-        const items = data[key].items.map((item) => (
+    const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
+        const items = accordionData.items.map((item) => (
             <AccordionItem
-                key={`${key}-item_${item.id}`}
+                key={`${accordionKey}-item_${item.id}`}
                 iconColor={getItemColor(item.status)}
             >
                 <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
                 <p>{item.description}</p>
             </AccordionItem>
         ));
-        accData.push({
-            title: data[key].title,
-            description: data[key].description,
-            icon: data[key].icon,
+        const {title, description, icon} = accordionData;
+        return {
+            title,
+            description,
+            icon,
             items,
-        });
+        };
     });
 
     return loading ? <p>{'Loading ...'}</p> : (
@@ -180,8 +178,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             />
             <hr/>
             <Accordion
-                items={accData}
-                openMultiple={true}
+                accordionItemsData={accData}
+                expandMultiple={true}
             />
         </div>
     );

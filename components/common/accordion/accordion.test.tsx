@@ -13,7 +13,7 @@ describe('/components/common/Accordion', () => {
     const baseProps = {
         onHeaderClick: jest.fn(),
         openMultiple: false,
-        items: [
+        accordionItemsData: [
             {
                 title: 'First Accordion Item',
                 description: 'First accordion Item Description',
@@ -109,7 +109,7 @@ describe('/components/common/Accordion', () => {
         const wrapper = mountWithIntl(
             <Accordion
                 {...baseProps}
-                openMultiple={true}
+                expandMultiple={true}
             />);
         const firstAccordionItem = wrapper.find('ul AccordionItem:first-child');
         const secondAccordionItem = wrapper.find('ul AccordionItem:last-child');

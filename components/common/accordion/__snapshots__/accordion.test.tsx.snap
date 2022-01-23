@@ -23,11 +23,10 @@ exports[`/components/common/Accordion should match snapshot 1`] = `
         "title": "First Accordion Item",
       }
     }
-    isOpen={false}
+    isExpanded={false}
     key="0"
     onButtonClick={[Function]}
     onHeaderClick={[MockFunction]}
-    openMultiple={false}
   />
   <AccordionItem
     data={
@@ -43,11 +42,10 @@ exports[`/components/common/Accordion should match snapshot 1`] = `
         "title": "Second Accordion Item",
       }
     }
-    isOpen={false}
+    isExpanded={false}
     key="1"
     onButtonClick={[Function]}
     onHeaderClick={[MockFunction]}
-    openMultiple={false}
   />
 </ul>
 `;
