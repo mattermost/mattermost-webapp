@@ -79,7 +79,7 @@ const CssVariables = createGlobalStyle<CSSVariableProps>`
         --sidebar-text: ${({oldTheme}) => oldTheme.sidebarText};
         --sidebar-unread-text: ${({oldTheme}) => oldTheme.sidebarUnreadText};
         --sidebar-text-hover-bg: ${({oldTheme}) => oldTheme.sidebarTextHoverBg};
-        --sidebar-text-active-border-test: ${({oldTheme}) => `rgb(${oldTheme.sidebarTextActiveBorder})`};
+        --sidebar-text-active-border: ${({oldTheme}) => oldTheme.sidebarTextActiveBorder};
         --sidebar-text-active-color: ${({oldTheme}) => oldTheme.sidebarTextActiveColor};
         --sidebar-header-bg: ${({oldTheme}) => oldTheme.sidebarHeaderBg};
         --sidebar-teambar-bg: ${({oldTheme}) => oldTheme.sidebarTeamBarBg};
@@ -238,9 +238,6 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
         };
 
         setCompassTheme(newCompassTheme);
-
-        window.theme = theme || {};
-        window.compassTheme = newCompassTheme || {};
     }, [theme]);
 
     return (
