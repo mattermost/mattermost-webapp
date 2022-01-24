@@ -70,6 +70,11 @@ const AccordionItem = ({
                         {data.description}
                     </div>}
                 </div>
+                {data.extraContent &&
+                    <div className='accordion-item-header__extraContent'>
+                        {data.extraContent}
+                    </div>
+                }
                 <div className='accordion-item-header__chevron'>
                     <i className='icon-chevron-down'/>
                 </div>

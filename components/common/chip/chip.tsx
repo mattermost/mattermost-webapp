@@ -10,10 +10,11 @@ import RenderEmoji from 'components/emoji/render_emoji';
 // This component is a temporary placeholder for use until the authoritative `compass-components` Chip is implemented.
 
 type Props = {
-    onClick: () => void;
-    id: string;
-    defaultMessage: string;
-    values: Record<string, any>;
+    onClick?: () => void;
+    id?: string;
+    defaultMessage?: string;
+    values?: Record<string, any>;
+    className?: string;
 
     // for the "other" option unlike the others, e.g. free-form response
     otherOption?: boolean;
@@ -48,13 +49,15 @@ const StyledChip = styled.button<{ otherOption?: boolean }>`
     &:active {
         background-color: rgba(var(--mention-highlight-link-rgb), 0.08);
     }
-
 `;
 
 export default class Chip extends React.PureComponent<Props> {
     onClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        this.props.onClick();
+        e.stopPropagation();
+        if (this.props.onClick) {
+            this.props.onClick();
+        }
     }
 
     render() {
@@ -62,6 +65,7 @@ export default class Chip extends React.PureComponent<Props> {
             <StyledChip
                 onClick={this.onClick}
                 otherOption={this.props.otherOption}
+                className={this.props.className ? this.props.className : ''}
             >
                 {this.props.leadingIcon && (
                     <RenderEmoji

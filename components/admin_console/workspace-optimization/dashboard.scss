@@ -43,6 +43,45 @@
                         line-height: 20px;
                     }
                 }
+
+                &__extraContent {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-end;
+                    margin-left: auto;
+
+                    button {
+                        width: 120px;
+                        height: 24px;
+                        justify-content: space-around;
+                        border: none !important;
+                        box-shadow: none !important;
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: bold;
+                        line-height: 16px;
+                        text-align: center;
+
+                        &.error {
+                            background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
+                            color: var(--sys-error-text);
+                        }
+
+                        &.info {
+                            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
+                            color: var(--sys-sidebar-text-active-border);
+                        }
+
+                        &.warning {
+                            background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
+                            color: var(--sys-away-indicator);
+                        }
+                    }
+                }
+
+                &__chevron {
+                    margin-left: 0 !important;
+                }
             }
 
             .accordion-item-container {
