@@ -84,11 +84,13 @@ class SwitchChannelSuggestion extends Suggestion {
         if (member && member.notify_props) {
             const unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
             if (unreadMentions > 0) {
-                badge = (<div className={classNames('suggestion-list_unread-mentions', (isPartOfOnlyOneTeam ? 'position-end' : ''))}>
-                    <span className='badge'>
-                        {unreadMentions}
-                    </span>
-                </div>);
+                badge = (
+                    <div className={classNames('suggestion-list_unread-mentions', (isPartOfOnlyOneTeam ? 'position-end' : ''))}>
+                        <span className='badge'>
+                            {unreadMentions}
+                        </span>
+                    </div>
+                );
             }
         }
 
@@ -222,8 +224,8 @@ class SwitchChannelSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {name}
                         {(isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) &&
-                            (<span className='ml-2 suggestion-list__desc'>{description}</span>
-                            )}
+                            (<span className='ml-2 suggestion-list__desc'>{description}</span>)
+                        }
                     </span>
                     {customStatus}
                     {sharedIcon}
