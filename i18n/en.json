@@ -2372,7 +2372,6 @@
   "admin.webserverModeTitle": "Webserver Mode:",
   "admin.webserverModeUncompressed": "Uncompressed",
   "admin.webserverModeUncompressedDescription": "The Mattermost server will serve static files uncompressed.",
-  "admin.workspaceOptimization.title": "Workspace Optimization",
   "analytics.chart.loading": "Loading...",
   "analytics.chart.meaningful": "Not enough data for a meaningful representation.",
   "analytics.system.activeUsers": "Active Users With Posts",
@@ -4800,5 +4799,6 @@
   "widgets.users_emails_input.loading": "Loading",
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
+  "workspaceOptimization.title": "Workspace Optimization",
   "yourcomputer": "Your computer"
 }

@@ -1,0 +1,56 @@
+.WorkspaceOptimizationDashboard {
+    ul.Accordion {
+        width: 872px;
+        margin-left: 25px;
+
+        li.accordion-item {
+            border: 1px solid rgba(63, 67, 80, 0.08) !important;
+            margin-top: 10px;
+
+            .accordion-item-header {
+                &__icon {
+                    z-index: 1;
+                    display: flex;
+                    width: 44px;
+                    height: 44px;
+                    justify-content: center;
+                    background-color: rgba(63, 67, 80, 0.16);
+                    border-radius: 50%;
+
+                    >svg {
+                        z-index: 2;
+                        align-self: center;
+                    }
+                }
+
+                &__body {
+                    margin-left: 10px;
+
+                    &__title {
+                        margin-bottom: 5px;
+                        color: #1c58d9;
+                        cursor: pointer;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 14px;
+                    }
+
+                    &__description {
+                        color: #3d3c40;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: normal;
+                        line-height: 20px;
+                    }
+                }
+            }
+
+            .accordion-item-container {
+                &__content {
+                    border-top: 1px solid rgba(63, 67, 80, 0.06);
+                    background-color: rgb(255, 255, 255);
+                }
+            }
+        }
+    }
+}

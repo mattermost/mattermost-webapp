@@ -2,19 +2,32 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
+
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
+
+import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
+import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
+import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
+import WorkspaceAccessSvg from 'components/common/svg_images_components/workspace_access_svg';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 
 import {Props} from '../admin_console';
 
+import './dashboard.scss';
+import PerformanceSvg from 'components/common/svg_images_components/performance_svg';
+import SecuritySvg from 'components/common/svg_images_components/security_svg';
+import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
+import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
+
 type DataModel = {
     [key: string]: {
         title: string;
         description: string;
         items: ItemModel[];
+        icon: React.ReactNode;
     };
 }
 
@@ -26,23 +39,6 @@ type ItemModel = {
     infoUrl: string;
     status: 'none' | 'info' | 'warning' | 'error';
 }
-
-const Accordion = styled.div`
-    margin: 12px;
-    border: 1px solid #BBB;
-    box-shadow: 0 0 2px rgba(0,0,0,0.2);
-    border-radius: 4px;
-    background: white;
-`;
-
-const AccordionHeader = styled.div`
-    padding: 12px;
-    border-bottom: 1px solid #BBB;
-
-    h4 {
-        margin: 0 0 6px 0;
-    }
-`;
 
 const AccordionItem = styled.div<{iconColor: string}>`
     padding: 12px;
@@ -87,26 +83,38 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
     const data: DataModel = {
         updates: {
-            title: 'Updates',
-            description: '"Updates" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            title: 'Updates and Errors',
+            description: 'You have an update to consider',
+            icon: (
+                <UpdatesAndErrorsSvg
+                    width={22}
+                    height={22}
+                />
+            ),
             items: [],
         },
         configuration: {
             title: 'Configuration',
-            description: '"Configuration" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            description: 'You have configuration problems to resolve',
+            icon: (
+                <ConfigurationSvg
+                    width={20}
+                    height={20}
+                />
+            ),
             items: [
                 {
                     id: 'ssl',
-                    title: 'SSL',
-                    description: '"SSL" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+                    title: 'Configure SSL to make your server more secure',
+                    description: 'You should configure SSL to secure how your server is accessed in a production environment.',
                     configUrl: '/ssl-settings',
                     infoUrl: 'https://www.google.de',
                     status: location.protocol === 'https:' ? 'none' : 'error',
                 },
                 {
                     id: 'session-length',
-                    title: 'Session length',
-                    description: '"Session Length" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+                    title: 'Session length is still set to defaults',
+                    description: 'Your session length is still set to the default of 30 days. Most servers adjust this according to thier organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
                     configUrl: '/session-length',
                     infoUrl: 'https://www.google.de',
                     status: sessionLengthWebInDays >= 30 ? 'warning' : 'none',
@@ -115,15 +123,109 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         },
         access: {
             title: 'Workspace Access',
-            description: '"Workspace Access" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            description: 'Web server settings could be affecting access.',
+            icon: (
+                <WorkspaceAccessSvg
+                    width={20}
+                    height={20}
+                />
+            ),
             items: [
                 {
                     id: 'site-url',
-                    title: 'Site URL',
-                    description: '"Site URL" description. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+                    title: 'Misconfigured Web Server',
+                    description: 'Your webserver settings are not passing a live URL test, this would prevent users from accessing this workspace, we recommend updating your settings.',
                     configUrl: '/site-url',
                     infoUrl: 'https://www.google.de',
                     status: 'none',
+                },
+            ],
+        },
+        performance: {
+            title: 'Performance',
+            description: 'Your server could use some performance tweaks.',
+            icon: (
+                <PerformanceSvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'performance',
+                    title: 'Search performance',
+                    description: 'Your server has reached over 500 users and 2 million posts which could result in slow search performance. We recommend starting an enterprise trial with the elastic search feature for better performance.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
+                },
+            ],
+        },
+        security: {
+            title: 'Security Concerns',
+            description: 'There are security concerns you should look at.',
+            icon: (
+                <SecuritySvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'security',
+                    title: 'Failed login attempts detected',
+                    description: '37 Failed login attempts have been detected. We recommend looking at the security logs to understand the risk.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'warning',
+                },
+            ],
+        },
+        dataPrivacy: {
+            title: 'Data Privacy',
+            description: 'Get better insight and control over your data.',
+            icon: (
+                <DataPrivacySvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'privacy',
+                    title: 'Become more data aware',
+                    description: 'Alot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
+                },
+            ],
+        },
+        easyManagement: {
+            title: 'Ease of management',
+            description: 'We have suggestions that could make your managemenet easier.',
+            icon: (
+                <EasyManagementSvg
+                    width={20}
+                    height={20}
+                />
+            ),
+            items: [
+                {
+                    id: 'ldap',
+                    title: 'AD/LDAP integration recommended',
+                    description: 'You’ve reached over 100 users, we can reduce your manual management pains through AD/LDAP with features like easier onboarding, automatic deactivations and automatic role assignments.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
+                },
+                {
+                    id: 'guests_accounts',
+                    title: 'Guest Accounts recommended',
+                    description: 'We noticed several accounts using different domains from your Site URL. Gain more control over what other organizations can access with the guest account feature.',
+                    configUrl: '/site-url',
+                    infoUrl: 'https://www.google.de',
+                    status: 'info',
                 },
             ],
         },
@@ -141,32 +243,36 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         setTimeout(() => testSiteURL(onSuccess, onError, location.origin), 1000);
     }, []);
 
-    const dataKey = Object.keys(data);
+    const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
+        const items = accordionData.items.map((item) => (
+            <AccordionItem
+                key={`${accordionKey}-item_${item.id}`}
+                iconColor={getItemColor(item.status)}
+            >
+                <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
+                <p>{item.description}</p>
+            </AccordionItem>
+        ));
+        const {title, description, icon} = accordionData;
+        return {
+            title,
+            description,
+            icon,
+            items,
+        };
+    });
 
     return loading ? <p>{'Loading ...'}</p> : (
-        <div>
+        <div className='WorkspaceOptimizationDashboard'>
             <FormattedAdminHeader
                 id='workspaceOptimization.title'
                 defaultMessage='Workspace Optimization'
             />
             <hr/>
-            {dataKey.map((key) => (
-                <Accordion key={key}>
-                    <AccordionHeader>
-                        <h4>{data[key].title}</h4>
-                        <p>{data[key].description}</p>
-                    </AccordionHeader>
-                    {data[key].items.map((item) => (
-                        <AccordionItem
-                            key={`${key}-item_${item.id}`}
-                            iconColor={getItemColor(item.status)}
-                        >
-                            <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
-                            <p>{item.description}</p>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            ))}
+            <Accordion
+                accordionItemsData={accData}
+                expandMultiple={true}
+            />
         </div>
     );
 };
