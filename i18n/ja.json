@@ -4244,7 +4244,6 @@
   "status_dropdown.set_online": "オンライン",
   "status_dropdown.set_ooo": "外出中",
   "status_dropdown.set_ooo.extra": "自動返信が有効化されています",
-  "status_dropdown.set_your_status": "ステータス",
   "string.id": "デフォルトメッセージ",
   "suggestion.archive": "アーカイブチャンネル",
   "suggestion.mention.all": "このチャンネルの全員に通知",

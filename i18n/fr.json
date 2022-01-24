@@ -4167,7 +4167,6 @@
   "status_dropdown.set_online": "En ligne",
   "status_dropdown.set_ooo": "Absent du bureau",
   "status_dropdown.set_ooo.extra": "Les Réponses automatiques sont activées",
-  "status_dropdown.set_your_status": "Choisissez votre statut",
   "string.id": "message par défaut",
   "suggestion.archive": "Canaux archivés",
   "suggestion.mention.all": "Envoie une notification à tous les membres de ce canal",
