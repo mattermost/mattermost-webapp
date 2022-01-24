@@ -9,8 +9,9 @@ import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
+
 import TutorialTip from './tutorial_tip';
-import {useMeasurePunchouts} from './tutorial_tip/hooks';
 
 const TutorialSteps = Constants.TutorialSteps;
 

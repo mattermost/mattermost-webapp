@@ -9,7 +9,7 @@ import {ProductComponent} from 'types/store/plugins';
 import {Preferences, TutorialSteps, TopLevelProducts} from 'utils/constants';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Props} from './index';

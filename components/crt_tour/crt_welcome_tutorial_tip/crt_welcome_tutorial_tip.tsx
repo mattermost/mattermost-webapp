@@ -9,7 +9,7 @@ import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
 import {close as closeLhs} from 'actions/views/lhs';
 import {browserHistory} from 'utils/browser_history';
 

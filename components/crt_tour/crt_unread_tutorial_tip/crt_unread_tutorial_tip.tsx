@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import {Constants, Preferences} from 'utils/constants';
-import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
 
 type Props = {
     autoTour: boolean;

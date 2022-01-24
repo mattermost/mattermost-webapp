@@ -12,7 +12,7 @@ import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
-import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
 
 type Props = {
     autoTour: boolean;
