@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import isEmpty from 'lodash/isEmpty';
-import cloneDeep from 'lodash/cloneDeep';
 
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 import {Emoji, EmojiCategory, SystemEmoji} from 'mattermost-redux/types/emojis';
@@ -163,7 +162,6 @@ export function getUpdatedCategoriesAndAllEmojis(
 ): [Categories, Record<string, Emoji>] {
     const customEmojiMap = emojiMap.customEmojis;
     const categories: Categories = recentEmojis.length ? {...RECENT_EMOJI_CATEGORY, ...CATEGORIES} : CATEGORIES;
-    const updatedAllEmojis = cloneDeep(allEmojis);
 
     Object.keys(categories).forEach((categoryName) => {
         let categoryEmojis: Emoji[] = [];
@@ -193,13 +191,15 @@ export function getUpdatedCategoriesAndAllEmojis(
         // populate allEmojis with emoji objects
         categoryEmojis.forEach((currentEmoji: Emoji) => {
             const currentEmojiId = isSystemEmoji(currentEmoji) ? currentEmoji.unified.toLowerCase() : currentEmoji.id;
-            updatedAllEmojis[currentEmojiId] = {...currentEmoji};
+            allEmojis[currentEmojiId] = {...allEmojis[currentEmojiId], ...currentEmoji};
 
             if (!isSystemEmoji(currentEmoji)) {
-                updatedAllEmojis[currentEmojiId] = {...updatedAllEmojis[currentEmojiId], category: 'custom'};
+                allEmojis[currentEmojiId] = {...allEmojis[currentEmojiId], category: 'custom'};
             }
         });
     });
+
+    const updatedAllEmojis = Object.assign({}, allEmojis);
 
     return [categories, updatedAllEmojis];
 }
