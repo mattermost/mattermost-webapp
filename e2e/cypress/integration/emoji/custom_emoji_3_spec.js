@@ -11,6 +11,8 @@
 // Group: @emoji
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as MESSAGES from '../../fixtures/messages';
+import {doReactToLastMessageShortcut, checkReactionFromPost} from '../keyboard_shortcuts/ctrl_cmd_shift_slash/helpers';
 
 import {getCustomEmoji} from './helpers';
 
@@ -163,7 +165,7 @@ describe('Custom emojis', () => {
         });
     });
 
-    it('MM-T2188 Custom emoji - delete emoji after using in post and reaction', () => {
+    it('MM-T2188 Custom emoji - delete emoji after using in post', () => {
         const {customEmoji, customEmojiWithColons} = getCustomEmoji();
 
         // # Open custom emoji
@@ -190,9 +192,16 @@ describe('Custom emojis', () => {
         // # Open custom emoji
         cy.uiOpenCustomEmoji();
 
-        // # Select delete new emoji
-        cy.findByRoleExtended('cell', {name: customEmojiWithColons}).scrollIntoView().should('be.visible').
-            parent().findByText('Delete').click();
+        // # Search for the custom emoji
+        cy.findByPlaceholderText('Search Custom Emoji').should('be.visible').type(customEmoji).wait(TIMEOUTS.HALF_SEC);
+
+        cy.get('.emoji-list__table').should('be.visible').within(() => {
+            // * Since we are searching exactly for that custom emoji, we should get only one result
+            cy.findAllByText(customEmojiWithColons).should('have.length', 1);
+
+            // # Delete the custom emoji
+            cy.findAllByText('Delete').should('have.length', 1).click();
+        });
 
         // # Confirm deletion and back to main channel view
         cy.get('#confirmModalButton').should('be.visible').click();
@@ -212,7 +221,92 @@ describe('Custom emojis', () => {
         // # Navigate to a channel
         cy.visit(townsquareLink);
 
-        // * Verify that only the message renders in the post and the emoji has been deleted
-        cy.getLastPost().find('p').should('have.html', '<span data-emoticon="' + customEmoji + '">' + customEmojiWithColons + '</span>');
+        cy.getLastPost().within(() => {
+            // * Verify that only the plain message renders in the post and the emoji has been deleted
+            cy.get('p').should('have.html', '<span data-emoticon="' + customEmoji + '">' + customEmojiWithColons + '</span>');
+        });
+    });
+
+    it('MM-T4437 Custom emoji - delete emoji after reacting with it to a post', () => {
+        const {customEmoji, customEmojiWithColons} = getCustomEmoji();
+
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
+
+        // # Click on add new emoji
+        cy.findByText('Add Custom Emoji').should('be.visible').click();
+
+        // # Type emoji name
+        cy.get('#name').type(customEmojiWithColons);
+
+        // # Select emoji image
+        cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
+
+        // # Click on Save
+        cy.uiSave().wait(TIMEOUTS.THREE_SEC);
+
+        // # Go back to home channel
+        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Post a message to which we will react with the custom emoji
+        cy.postMessage(MESSAGES.TINY);
+
+        // # Execute shortcut to open emoji picker for reacting to last message
+        doReactToLastMessageShortcut('CENTER');
+
+        cy.get('#emojiPicker').should('be.visible').within(() => {
+            // # Search for the same custom emoji
+            cy.findByPlaceholderText('Search emojis').type(customEmojiWithColons).wait(TIMEOUTS.HALF_SEC);
+
+            // * Since we are searching exactly for that custom emoji, we should get only one result
+            cy.findAllByTestId('emojiItem').children().should('have.length', 1);
+            cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
+
+            // # Select the custom emoji to add as the reaction to the last post
+            cy.findAllByTestId('emojiItem').children().click();
+        });
+
+        // * Verify that the custom emoji is added as a reaction to the last post
+        cy.getLastPostId().then((lastPostId) => {
+            checkReactionFromPost(lastPostId, customEmoji);
+        });
+
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
+
+        // # Search for the custom emoji
+        cy.findByPlaceholderText('Search Custom Emoji').should('be.visible').type(customEmoji).wait(TIMEOUTS.HALF_SEC);
+
+        cy.get('.emoji-list__table').should('be.visible').within(() => {
+            // * Since we are searching exactly for that custom emoji, we should get only one result
+            cy.findAllByText(customEmojiWithColons).should('have.length', 1);
+
+            // # Delete the custom emoji
+            cy.findAllByText('Delete').should('have.length', 1).click();
+        });
+
+        // # Confirm deletion and back to main channel view
+        cy.get('#confirmModalButton').should('be.visible').click();
+        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+
+        cy.reload();
+
+        // * Show emoji list
+        cy.uiOpenEmojiPicker();
+
+        // # Search emoji name text in emoji searching input
+        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
+
+        // * Get list of emojis based on search text
+        cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmoji + '"');
+
+        // # Navigate to a channel
+        cy.visit(townsquareLink);
+
+        cy.getLastPost().within(() => {
+            // * Verify that the custom emoji as reaction is not present to last post
+            cy.findByLabelText('reactions').should('not.exist');
+            cy.findByLabelText(`remove reaction ${customEmoji}}`).should('not.exist');
+        });
     });
 });

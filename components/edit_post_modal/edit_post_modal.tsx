@@ -36,7 +36,8 @@ const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
 export type Props = {
-    canEditPost?: boolean;
+    markdownPreviewFeatureIsEnabled: boolean;
+    canEditPost: boolean;
     canDeletePost?: boolean;
     channelId: string;
     codeBlockOnCtrlEnter: boolean;
@@ -631,6 +632,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
+                                isMarkdownPreviewEnabled={this.props.canEditPost && this.props.markdownPreviewFeatureIsEnabled}
                                 characterLimit={this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
