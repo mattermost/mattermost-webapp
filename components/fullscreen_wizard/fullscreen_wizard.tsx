@@ -9,12 +9,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
 import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Client4} from 'mattermost-redux/client';
 
 import {isFirstAdmin} from 'components/next_steps_view/steps';
@@ -22,8 +22,9 @@ import {isFirstAdmin} from 'components/next_steps_view/steps';
 import './fullscreen_wizard.scss';
 
 import Constants, {OnboardingPreferences} from 'utils/constants';
-
 import {makeNewEmptyChannel} from 'utils/channel_utils';
+import {teamNameToUrl} from 'utils/url';
+import {makeNewTeam} from 'utils/team_utils';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
@@ -50,9 +51,15 @@ type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 
 const DISPLAY_SUCCESS_TIME = 3000;
 
+export type Actions = {
+    createTeam: (team: Team) => ActionResult,
+    checkIfTeamExists: (teamName: string) => ActionResult,
+}
+
 type Props = {
     handleForm(form: Form): void;
     background?: JSX.Element | string;
+    actions: Actions,
 }
 
 const logged: Record<string, true> = {};
@@ -66,7 +73,7 @@ function logOnce(msg: string) {
 
 export default function FullscreenWizard(props: Props & RouteComponentProps) {
     const user = useSelector(getCurrentUser);
-    const currentTeam = useSelector(getCurrentTeam);
+    // const getState = useSelector(x => () => x);
     const isUserFirstAdmin = useSelector(isFirstAdmin);
 
     const isSelfHosted = useSelector(getLicense).Cloud !== 'true';
@@ -130,8 +137,11 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
             }
         }
 
+        // TODO: fix types here, destructuring as necessary et cetera
+        const {data: team} = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
+
         if (!form.channel.skipped) {
-            const {data: _data, error} = dispatch(createChannel(makeNewEmptyChannel(form.channel.name, currentTeam.id), user.id)) as ActionResult;
+            const {data: _data, error} = dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
             if (error) {
                 // TODO: Ruh Roah. Show some error?
             }
@@ -142,7 +152,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
         if (!form.teamMembers.skipped) {
             // invite to team/channels gracefully
             // TODO: Does on prem have a team at this point? May need to insert the team from creation on a prior screen.
-            dispatch(sendEmailInvitesToTeamGracefully(currentTeam.id, form.teamMembers.invites));
+            dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
         }
 
         setSubmissionState(SubmissionStates.SubmitSuccess);
@@ -291,6 +301,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                         }}
                     />}
                     {isSelfHosted && <Url 
+                        previous={previous}
                         show={currentStep === WizardSteps.Url}
                         next={makeNext(WizardSteps.Url)}
                         direction={getTransitionDirection(WizardSteps.Url)}

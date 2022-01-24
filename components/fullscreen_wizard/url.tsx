@@ -12,6 +12,9 @@ import PageLine from './page_line';
 
 import LaptopEarthSVG from './laptop-earth.svg';
 
+import Title from './title';
+import Description from './description';
+
 import './url.scss';
 
 type Props = TransitionProps & {
@@ -43,14 +46,18 @@ const Url = (props: Props) => {
                 </div>
                 <div className='Url-form-wrapper'>
                     {props.previous}
-                    <FormattedMessage
-                        id={'onboarding_wizard.url.title'}
-                        defaultMessage="Confirm your server's URL"
-                    />
-                    <FormattedMarkdownMessage
-                        id={'onboarding_wizard.url.description'}
-                        defaultMessage="This is the URL that users will use to access Mattermost. [See Documentation](https://TODO) for more."
-                    />
+                    <Title>
+                        <FormattedMessage
+                            id={'onboarding_wizard.url.title'}
+                            defaultMessage="Confirm your server's URL"
+                        />
+                    </Title>
+                    <Description>
+                        <FormattedMarkdownMessage
+                            id={'onboarding_wizard.url.description'}
+                            defaultMessage="This is the URL that users will use to access Mattermost. [See Documentation](https://TODO) for more."
+                        />
+                    </Description>
                     <QuickInput
                         placeholder={
                             formatMessage({
@@ -60,6 +67,7 @@ const Url = (props: Props) => {
                         }
                         value={props.url || ''}
                         onChange={(e) => props.setUrl(e.target.value)}
+                        className="Url__input"
                     />
                     <FormattedMessage
                         id={'onboarding_wizard.url.input_help'}

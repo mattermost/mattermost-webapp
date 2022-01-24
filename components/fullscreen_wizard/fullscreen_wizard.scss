@@ -113,6 +113,7 @@ $transition_time: 300ms;
 .fullscreen-wizard-container {
     display: flex;
     flex-direction: row;
+    background: url('images/admin-onboarding-background.png');
 
     .tertiary-button {
         @include tertiary-button;
