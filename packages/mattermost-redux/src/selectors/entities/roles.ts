@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getGroupMemberships} from 'mattermost-redux/selectors/entities/groups';
-
 import {createSelector} from 'reselect';
 
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
@@ -13,25 +11,26 @@ import {
     PermissionsOptions,
 } from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getTeamMemberships, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {General} from 'mattermost-redux/constants';
 
 import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
+import {GroupMembership} from 'mattermost-redux/types/groups';
 
 export {getMySystemPermissions, getMySystemRoles, getRoles};
 
-export const getMyTeamRoles: (state: GlobalState) => Record<string, Set<string>> = createSelector(
-    'getMyTeamRoles',
-    getTeamMemberships,
-    (teamsMemberships) => {
-        const roles: Record<string, Set<string>> = {};
-        if (teamsMemberships) {
-            for (const key in teamsMemberships) {
-                if (teamsMemberships.hasOwnProperty(key) && teamsMemberships[key].roles) {
-                    roles[key] = new Set<string>(teamsMemberships[key].roles.split(' '));
-                }
-            }
-        }
-        return roles;
+export const getGroupMemberships: (state: GlobalState) => Record<string, GroupMembership> = createSelector(
+    'getGroupMemberships',
+    (state) => state.entities.groups.myGroups,
+    getCurrentUserId,
+    (myGroupIDs: string[], currentUserID: string) => {
+        const groupMemberships: Record<string, GroupMembership> = {};
+        myGroupIDs.forEach((groupID) => {
+            groupMemberships[groupID] = {user_id: currentUserID, roles: General.CUSTOM_GROUP_USER_ROLE};
+        });
+        return groupMemberships;
     },
 );
 
@@ -44,6 +43,22 @@ export const getMyGroupRoles: (state: GlobalState) => Record<string, Set<string>
             for (const key in groupMemberships) {
                 if (groupMemberships.hasOwnProperty(key) && groupMemberships[key].roles) {
                     roles[key] = new Set<string>(groupMemberships[key].roles.split(' '));
+                }
+            }
+        }
+        return roles;
+    },
+);
+
+export const getMyTeamRoles: (state: GlobalState) => Record<string, Set<string>> = createSelector(
+    'getMyTeamRoles',
+    getTeamMemberships,
+    (teamsMemberships) => {
+        const roles: Record<string, Set<string>> = {};
+        if (teamsMemberships) {
+            for (const key in teamsMemberships) {
+                if (teamsMemberships.hasOwnProperty(key) && teamsMemberships[key].roles) {
+                    roles[key] = new Set<string>(teamsMemberships[key].roles.split(' '));
                 }
             }
         }
