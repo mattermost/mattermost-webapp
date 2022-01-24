@@ -295,7 +295,7 @@ fullEmoji.forEach((emoji, index) => {
 const trimmedDownEmojis = fullEmoji.map((emoji) => trimPropertiesFromEmoji(emoji));
 
 // write emoji.json
-endResults.push(writeFile('emoji.json', 'utils/emoji.json', JSON.stringify(trimmedDownEmojis)));
+endResults.push(writeFile('emoji.json', 'utils/emoji.json', JSON.stringify(trimmedDownEmojis, null, 4)));
 
 const categoryList = Object.keys(jsonCategories).filter((item) => item !== 'Component').map(convertCategory);
 const categoryNames = ['recent', ...categoryList, 'custom'];
