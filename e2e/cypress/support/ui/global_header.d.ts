@@ -153,6 +153,14 @@ declare namespace Cypress {
         uiGetSettingsButton(): Chainable;
 
         /**
+         * Get settings modal
+         *
+         * @example
+         *   cy.uiGetSettingsModal();
+         */
+        uiGetSettingsModal(): Chainable;
+
+        /**
          * Open settings modal
          *
          * @param {string} section - ex. Display, Sidebar, etc.

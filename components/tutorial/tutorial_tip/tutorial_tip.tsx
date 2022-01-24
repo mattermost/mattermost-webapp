@@ -144,6 +144,12 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
+    public handleKeyDown = (event: KeyboardEvent): void => {
+        if (event.key === Constants.KeyCodes.ENTER[0] && this.state.show) {
+            this.handleNext();
+        }
+    }
+
     public handleNext = (): void => {
         if (this.state.currentScreen < this.props.screens.length - 1) {
             this.setState({currentScreen: this.state.currentScreen + 1});
@@ -258,6 +264,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         this.autoShow(true);
+        document.addEventListener('keydown', this.handleKeyDown);
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -270,6 +277,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         if (this.showPendingTimeout) {
             clearTimeout(this.showPendingTimeout);
         }
+
+        document.removeEventListener('keydown', this.handleKeyDown);
     }
 
     public render(): JSX.Element {

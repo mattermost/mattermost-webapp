@@ -37,12 +37,6 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     ariaLabel="Set a status"
     id="statusDropdownMenu"
   >
-    <MenuHeader>
-      <MemoizedFormattedMessage
-        defaultMessage="Status"
-        id="status_dropdown.set_your_status"
-      />
-    </MenuHeader>
     <MenuGroup>
       <MenuItemAction
         ariaLabel="out of office"
@@ -1271,12 +1265,6 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     ariaLabel="Set a status"
     id="statusDropdownMenu"
   >
-    <MenuHeader>
-      <MemoizedFormattedMessage
-        defaultMessage="Status"
-        id="status_dropdown.set_your_status"
-      />
-    </MenuHeader>
     <MenuGroup>
       <MenuItemAction
         ariaLabel="out of office"
@@ -1492,12 +1480,6 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     ariaLabel="Set a status"
     id="statusDropdownMenu"
   >
-    <MenuHeader>
-      <MemoizedFormattedMessage
-        defaultMessage="Status"
-        id="status_dropdown.set_your_status"
-      />
-    </MenuHeader>
     <MenuGroup>
       <MenuItemAction
         ariaLabel="out of office"

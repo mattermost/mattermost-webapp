@@ -209,7 +209,7 @@ export const cancelSubscription = (cancelAccountLink: any, isFreeTrial: boolean,
                 <a
                     href={cancelAccountLink}
                     rel='noopener noreferrer'
-                    target='_new'
+                    target='_blank'
                     className='cancelSubscriptionSection__contactUs'
                     onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
                 >
