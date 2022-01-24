@@ -141,7 +141,6 @@ function genSkinVariations(emoji) {
         variation.short_names = emoji.short_names.map((alias) => `${alias}_${skinShortName}`);
         variation.name = `${emoji.name}: ${skinName}`;
         variation.category = emoji.category;
-        variation.subcategory = emoji.subcategory;
         variation.skins = skins;
         return variation;
     });
