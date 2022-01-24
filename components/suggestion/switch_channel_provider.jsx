@@ -223,9 +223,9 @@ class SwitchChannelSuggestion extends Suggestion {
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
                         {name}
-                        {(isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) &&
-                            (<span className='ml-2 suggestion-list__desc'>{description}</span>)
-                        }
+                        {(isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) && (
+                            <span className='ml-2 suggestion-list__desc'>{description}</span>
+                        )}
                     </span>
                     {customStatus}
                     {sharedIcon}
