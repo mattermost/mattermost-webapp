@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import isEmpty from 'lodash/isEmpty';
+import cloneDeep from 'lodash/cloneDeep';
 
+import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 import {Emoji, EmojiCategory, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import {
@@ -13,7 +15,7 @@ import {
     EmojiRow,
 } from 'components/emoji_picker/types';
 
-import * as EmojiUtils from 'utils/emoji.jsx';
+import {EmojiIndicesByCategory, Emojis as EmojisJson, EmojiIndicesByUnicode} from 'utils/emoji.jsx';
 import {getSkin} from 'utils/emoticons';
 import {compareEmojis} from 'utils/emoji_utils';
 import EmojiMap from 'utils/emoji_map';
@@ -23,16 +25,13 @@ import {
     CATEGORY_HEADER_ROW,
     EMOJIS_ROW,
     SEARCH_RESULTS,
-    CUSTOM,
     RECENT,
+    RECENT_EMOJI_CATEGORY,
+    CATEGORIES,
 } from 'components/emoji_picker/constants';
 
 export function isCategoryHeaderRow(row: CategoryOrEmojiRow): row is CategoryHeaderRow {
     return row.type === CATEGORY_HEADER_ROW;
-}
-
-export function isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
-    return emoji.category !== CUSTOM;
 }
 
 function sortEmojis(
@@ -87,12 +86,16 @@ function getFilteredEmojis(
 }
 
 // Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
-function convertEmojiToUserSkinTone(emoji: Emoji, emojiSkin: string, userSkinTone: string) {
+function convertEmojiToUserSkinTone(emoji: SystemEmoji, emojiSkin: string, userSkinTone: string) {
     let newEmojiId = '';
 
     // If its a default (yellow) emoji, get the skin variation from its property
     if (emojiSkin === 'default') {
-        const variation = Object.keys(emoji.skin_variations).find((skinVariation) => skinVariation.includes(userSkinTone));
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const variation = Object.keys(emoji?.skin_variations).find((skinVariation) => skinVariation.includes(userSkinTone));
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         newEmojiId = variation ? emoji.skin_variations[variation].unified : emoji.unified;
     } else if (userSkinTone === 'default') {
         // If default (yellow) skin is selected, remove the skin code from emoji id
@@ -102,8 +105,8 @@ function convertEmojiToUserSkinTone(emoji: Emoji, emojiSkin: string, userSkinTon
         newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, userSkinTone);
     }
 
-    const emojiIndex = Emoji.EmojiIndicesByUnicode.get(newEmojiId.toLowerCase());
-    return Emoji.Emojis[emojiIndex];
+    const emojiIndex = EmojiIndicesByUnicode.get(newEmojiId.toLowerCase()) as number;
+    return EmojisJson[emojiIndex];
 }
 
 export function getEmojisByCategory(
@@ -152,24 +155,22 @@ export function getEmojisByCategory(
     return emojiIds.map((emojiId) => allEmojis[emojiId]);
 }
 
-function getEmojiFilename(emoji: Emoji) {
-    return emoji.image || emoji.filename || emoji.id;
-}
-
-export function getAllEmojis(
+export function getUpdatedCategoriesAndAllEmojis(
     emojiMap: EmojiMap,
     recentEmojis: string[],
     userSkinTone: string,
-    categories: Categories,
     allEmojis: Record<string, Emoji>,
 ): [Categories, Record<string, Emoji>] {
     const customEmojiMap = emojiMap.customEmojis;
+    const categories: Categories = recentEmojis.length ? {...RECENT_EMOJI_CATEGORY, ...CATEGORIES} : CATEGORIES;
+    const updatedAllEmojis = cloneDeep(allEmojis);
 
-    for (const category of Object.keys(categories)) {
-        let categoryEmojis = [];
-        if (category === 'recent' && recentEmojis.length) {
-            const recentEmojisReversed = [...recentEmojis].reverse();
-            categoryEmojis = recentEmojisReversed.
+    Object.keys(categories).forEach((categoryName) => {
+        let categoryEmojis: Emoji[] = [];
+
+        if (categoryName === 'recent' && recentEmojis.length) {
+            categoryEmojis = [...recentEmojis].
+                reverse().
                 filter((name) => {
                     return emojiMap.has(name);
                 }).
@@ -177,37 +178,30 @@ export function getAllEmojis(
                     return emojiMap.get(name);
                 });
         } else {
-            const indices = EmojiUtils.EmojiIndicesByCategory.get(userSkinTone).get(category) || [];
-            categoryEmojis = indices.map((index) => EmojiUtils.Emojis[index]);
-            if (category === 'custom') {
-                categoryEmojis = categoryEmojis.concat([
-                    ...customEmojiMap.values(),
-                ]);
-            }
-        }
-        categories[category].emojiIds = categoryEmojis.map((emoji) =>
-            getEmojiFilename(emoji),
-        );
-        for (let i = 0; i < categoryEmojis.length; i++) {
-            const currentEmoji = categoryEmojis[i];
-            const fileName = getEmojiFilename(currentEmoji);
-            allEmojis[fileName] = {
-                ...currentEmoji,
-                visible: false,
-                offset: null,
-            };
-            if (!currentEmoji.image) {
-                // if custom emoji, set proper attributes
-                allEmojis[fileName] = {
-                    ...allEmojis[fileName],
-                    category: 'custom',
-                    image: fileName,
-                };
-            }
-        }
-    }
+            const indices = (EmojiIndicesByCategory.get(userSkinTone) as Map<string, number[]>).get(categoryName) || [];
+            categoryEmojis = indices.map((index) => EmojisJson[index]);
 
-    return [categories, allEmojis];
+            if (categoryName === 'custom') {
+                categoryEmojis = categoryEmojis.concat([...customEmojiMap.values()]);
+            }
+        }
+
+        // populate each category with emojiIds
+        categories[categoryName as EmojiCategory].emojiIds = categoryEmojis.
+            map((emoji: Emoji) => (isSystemEmoji(emoji) ? emoji.unified.toLowerCase() : emoji.id));
+
+        // populate allEmojis with emoji objects
+        categoryEmojis.forEach((currentEmoji: Emoji) => {
+            const currentEmojiId = isSystemEmoji(currentEmoji) ? currentEmoji.unified.toLowerCase() : currentEmoji.id;
+            updatedAllEmojis[currentEmojiId] = {...currentEmoji};
+
+            if (!isSystemEmoji(currentEmoji)) {
+                updatedAllEmojis[currentEmojiId] = {...updatedAllEmojis[currentEmojiId], category: 'custom'};
+            }
+        });
+    });
+
+    return [categories, updatedAllEmojis];
 }
 
 export function calculateCategoryRowIndex(categories: Categories, categoryName: EmojiCategory) {

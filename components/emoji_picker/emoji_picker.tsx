@@ -11,7 +11,7 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 import {CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection} from 'components/emoji_picker/types';
 
 import {CATEGORIES, RECENT_EMOJI_CATEGORY, RECENT, SMILEY_EMOTION, SEARCH_RESULTS, EMOJI_PER_ROW, EMOJIS_ROW} from 'components/emoji_picker/constants';
-import {createCategoryAndEmojiRows, getAllEmojis} from 'components/emoji_picker/utils';
+import {createCategoryAndEmojiRows, getUpdatedCategoriesAndAllEmojis} from 'components/emoji_picker/utils';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import EmojiPickerPreview from 'components/emoji_picker/components/emoji_picker_preview';
@@ -59,7 +59,7 @@ const EmojiPicker = ({
         emoji: undefined,
     });
 
-    // On the first load, categories doesnt contain emojiIds until later when getAllEmojis is called
+    // On the first load, categories doesnt contain emojiIds until later when getUpdatedCategoriesAndAllEmojis is called
     const getInitialCategories = () => (recentEmojis.length ? {...RECENT_EMOJI_CATEGORY, ...CATEGORIES} : CATEGORIES);
     const [categories, setCategories] = useState<Categories>(getInitialCategories);
 
@@ -93,7 +93,7 @@ const EmojiPicker = ({
     useEffect(() => {
         shouldRunCreateCategoryAndEmojiRows.current = true;
 
-        const [updatedCategories, updatedAllEmojis] = getAllEmojis(emojiMap, recentEmojis, userSkinTone, categories, allEmojis);
+        const [updatedCategories, updatedAllEmojis] = getUpdatedCategoriesAndAllEmojis(emojiMap, recentEmojis, userSkinTone, allEmojis);
         setAllEmojis(updatedAllEmojis);
         setCategories(updatedCategories);
     }, [emojiMap, userSkinTone, recentEmojis]);

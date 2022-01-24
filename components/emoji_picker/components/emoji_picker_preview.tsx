@@ -5,10 +5,9 @@ import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Emoji} from 'mattermost-redux/types/emojis';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import imgTrans from 'images/img_trans.gif';
-import {isSystemEmoji} from 'components/emoji_picker/utils';
 
 interface Props {
     emoji?: Emoji;
@@ -37,7 +36,7 @@ function EmojiPickerPreview({emoji}: Props) {
                     id='emojiPickerSpritePreview'
                     alt={'emoji category image'}
                     src={imgTrans}
-                    className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + emoji.image}
+                    className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + emoji.unified.toLowerCase()}
                 />
             </span>
         );

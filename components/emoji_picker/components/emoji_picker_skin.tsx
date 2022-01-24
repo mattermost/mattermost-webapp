@@ -67,7 +67,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
         const choices = skinsList.map((skinPair) => {
             const skin = skinPair[1];
             const emoji = skinToneEmojis.get(skin);
-            const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.image}`);
+            const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
 
             return (
                 <div
@@ -108,7 +108,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
     }
     collapsed() {
         const emoji = skinToneEmojis.get(this.props.userSkinTone);
-        const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.image}`);
+        const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
         const tooltip = (
             <Tooltip
                 id='skinTooltip'
