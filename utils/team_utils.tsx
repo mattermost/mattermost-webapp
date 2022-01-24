@@ -4,7 +4,7 @@
 import {Team} from 'mattermost-redux/types/teams';
 
 // Use when sorting multiple teams by their `display_name` field
-function compareTeamsByDisplayName(locale, a, b) {
+function compareTeamsByDisplayName(locale: string, a: Team, b: Team) {
     if (a.display_name !== null) {
         if (a.display_name !== b.display_name) {
             return a.display_name.localeCompare(b.display_name, locale, {numeric: true});
@@ -15,7 +15,7 @@ function compareTeamsByDisplayName(locale, a, b) {
 }
 
 // Use to filter out teams that are deleted and without display_name, then sort by their `display_name` field
-export function filterAndSortTeamsByDisplayName(teams, locale, teamsOrder = '') {
+export function filterAndSortTeamsByDisplayName<T extends Team>(teams: T[], locale: string, teamsOrder = '') {
     if (!teams) {
         return [];
     }
@@ -41,16 +41,17 @@ export function filterAndSortTeamsByDisplayName(teams, locale, teamsOrder = '') 
     });
 
     return [...customSortedTeams, ...otherTeams].filter((team) => {
-        return team && !team.delete_at > 0 && team.display_name != null;
+        // TODO: Fix. Asserting type right now because do not want to affect in productino behavior.
+        return team && (!team.delete_at as unknown as number) > 0 && team.display_name != null;
     });
 }
 
 export function makeNewTeam(display_name: string, name: string): Team {
     return {
         id: '',
-        create_at: '',
-        update_at: '',
-        delete_at: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
         display_name,
         name,
         description: '',
@@ -59,7 +60,7 @@ export function makeNewTeam(display_name: string, name: string): Team {
         company_name: '',
         allowed_domains: '',
         invite_id: '',
-        allow_open_invite: '',
+        allow_open_invite: false,
         scheme_id: '',
         group_constrained: false
     }

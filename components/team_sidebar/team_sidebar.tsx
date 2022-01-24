@@ -204,7 +204,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const pushElement = (list: Team[], idx: number, itemId: string): Team[] => {
             return [
                 ...list.slice(0, idx),
-                teams.find((team) => team.id === itemId),
+                teams.find((team) => team.id === itemId)!,
                 ...list.slice(idx, list.length),
             ];
         };
