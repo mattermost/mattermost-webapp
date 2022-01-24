@@ -2007,6 +2007,18 @@ export function makeIsEligibleForClick(selector = '') {
     };
 }
 
+/*
+ * Returns the minimal number of zeroes needed to render a number,
+ * up to the given number of places.
+ * e.g.
+ * numberToFixedDynamic(3.12345, 4) -> 3.1235
+ * numberToFixedDynamic(3.01000, 4) -> 3.01
+ * numberToFixedDynamic(3.01000, 1) -> 3
+ *
+ * @param {number} num - number to render as string
+ * @param {number} places - maximum number of decimal places to render
+ * @returns {number}
+ */
 export function numberToFixedDynamic(num, places) {
     const str = num.toFixed(Math.max(places, 0));
     if (!str.includes('.')) {
