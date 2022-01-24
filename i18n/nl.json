@@ -335,7 +335,6 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Aantal plaatsoverschrijdingen",
   "admin.billing.subscription.planDetails.startDate": "Startdatum: ",
   "admin.billing.subscription.planDetails.tiers.free": "Gratis",
-  "admin.billing.subscription.planDetails.upToXUsers": "tot {userLimit} gebruikers.",
   "admin.billing.subscription.planDetails.userCount": "{userCount} gebruikers",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} gebruikers",
   "admin.billing.subscription.price.contactSales": "Contacteer de verkoopsafdeling",

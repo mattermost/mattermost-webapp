@@ -335,7 +335,6 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Férőhely túlhasználat",
   "admin.billing.subscription.planDetails.startDate": "Kezdés dátuma: ",
   "admin.billing.subscription.planDetails.tiers.free": "Ingyenes",
-  "admin.billing.subscription.planDetails.upToXUsers": "legfeljebb {userLimit} felhasználóig.",
   "admin.billing.subscription.planDetails.userCount": "{userCount} felhasználó",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} felhasználó",
   "admin.billing.subscription.price.contactSales": "lépjen kapcsolatba értékesítőinkkel",

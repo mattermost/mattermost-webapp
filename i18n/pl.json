@@ -335,7 +335,6 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Przekroczenia liczby miejsc",
   "admin.billing.subscription.planDetails.startDate": "Data rozpoczęcia: ",
   "admin.billing.subscription.planDetails.tiers.free": "Darmowy",
-  "admin.billing.subscription.planDetails.upToXUsers": "do {userLimit} użytkowników",
   "admin.billing.subscription.planDetails.userCount": "{userCount} użytkowników",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} użytkowników",
   "admin.billing.subscription.price.contactSales": "kontakt ze sprzedażą",
