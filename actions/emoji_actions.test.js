@@ -40,7 +40,7 @@ describe('Actions.Emojis', () => {
         });
 
         store.dispatch(EmojiActions.addRecentEmoji('grinning'));
-        expect(setRecentEmojisSpy).toHaveBeenCalledWith(currentUserId, ['grinning']);
+        expect(setRecentEmojisSpy).toHaveBeenCalledWith(currentUserId, [{name: 'grinning', usageCount: 1}]);
     });
 
     test('First alias is stored in recent emojis even if second alias used', async () => {
@@ -53,7 +53,7 @@ describe('Actions.Emojis', () => {
         });
 
         await store.dispatch(EmojiActions.addRecentEmoji('thumbsup'));
-        expect(setRecentEmojisSpy).toHaveBeenCalledWith(currentUserId, ['+1']);
+        expect(setRecentEmojisSpy).toHaveBeenCalledWith(currentUserId, [{name: '+1', usageCount: 1}]);
     });
 
     test('Invalid emoji are not stored in recents', async () => {
@@ -71,7 +71,12 @@ describe('Actions.Emojis', () => {
 
     test('Emoji already present in recent should be bumped on the top', async () => {
         getRecentEmojis.mockImplementation(() => {
-            return ['smile', 'grinning', 'shell', 'ladder'];
+            return [
+                {name: 'smile', usageCount: 1},
+                {name: 'grinning', usageCount: 1},
+                {name: 'shell', usageCount: 1},
+                {name: 'ladder', usageCount: 1},
+            ];
         });
 
         getEmojiMap.mockImplementation(() => {
@@ -79,12 +84,44 @@ describe('Actions.Emojis', () => {
         });
 
         store.dispatch(EmojiActions.addRecentEmoji('grinning'));
-        expect(setRecentEmojisSpy).toHaveBeenCalledWith(currentUserId, ['smile', 'shell', 'ladder', 'grinning']);
+        expect(setRecentEmojisSpy).toHaveBeenCalledWith(currentUserId, [
+            {name: 'smile', usageCount: 1},
+            {name: 'grinning', usageCount: 2},
+            {name: 'shell', usageCount: 1},
+            {name: 'ladder', usageCount: 1},
+        ]);
     });
 
     test('Recent list lenght should always be of size less than or equal to max_recent_size', async () => {
-        const recentEmojisList = ['smile', 'grinning', 'shell', 'ladder', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-            '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
+        const recentEmojisList = [
+            {name: 'smile', usageCount: 1},
+            {name: 'grinning', usageCount: 1},
+            {name: 'shell', usageCount: 1},
+            {name: 'ladder', usageCount: 1},
+            {name: '1', usageCount: 1},
+            {name: '2', usageCount: 1},
+            {name: '3', usageCount: 1},
+            {name: '4', usageCount: 1},
+            {name: '5', usageCount: 1},
+            {name: '6', usageCount: 1},
+            {name: '7', usageCount: 1},
+            {name: '8', usageCount: 1},
+            {name: '9', usageCount: 1},
+            {name: '10', usageCount: 1},
+            {name: '11', usageCount: 1},
+            {name: '12', usageCount: 1},
+            {name: '13', usageCount: 1},
+            {name: '14', usageCount: 1},
+            {name: '15', usageCount: 1},
+            {name: '16', usageCount: 1},
+            {name: '17', usageCount: 1},
+            {name: '18', usageCount: 1},
+            {name: '19', usageCount: 1},
+            {name: '20', usageCount: 1},
+            {name: '21', usageCount: 1},
+            {name: '22', usageCount: 1},
+            {name: '23', usageCount: 1},
+        ];
         getRecentEmojis.mockImplementation(() => {
             return recentEmojisList;
         });
@@ -95,7 +132,7 @@ describe('Actions.Emojis', () => {
 
         store.dispatch(EmojiActions.addRecentEmoji('accept'));
 
-        const updatedRecentEmojis = [...recentEmojisList.slice(1, EmojiActions.MAX_RECENT_EMOJIS), 'accept'];
+        const updatedRecentEmojis = [...recentEmojisList.slice(1, EmojiActions.MAX_RECENT_EMOJIS), {name: 'accept', usageCount: 1}];
         expect(setRecentEmojisSpy).toHaveBeenCalledWith(currentUserId, updatedRecentEmojis);
     });
 });
