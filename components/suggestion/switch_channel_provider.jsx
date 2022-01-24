@@ -5,7 +5,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
 import classNames from 'classnames';
 
 import {UserTypes} from 'mattermost-redux/action_types';
@@ -86,9 +85,7 @@ class SwitchChannelSuggestion extends Suggestion {
             const unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
             if (unreadMentions > 0) {
                 badge = (<div className={classNames('suggestion-list_unread-mentions', (isPartOfOnlyOneTeam ? 'position-end' : ''))}>
-                    <span
-                        className='badge'
-                    >
+                    <span className='badge'>
                         {unreadMentions}
                     </span>
                 </div>);
@@ -221,21 +218,18 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <div className={classNames('suggestion-list__ellipsis', 'suggestion-list__flex')}>
+                <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
                         {name}
-                        {
-                            (isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) &&
-                            <span className='ml-2 suggestion-list__desc'>{description}</span>
-                        }
+                        {(isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) &&
+                            (<span className='ml-2 suggestion-list__desc'>{description}</span>
+                            )}
                     </span>
-                    {<>
-                        {customStatus}
-                        {sharedIcon}
-                        {tag}
-                        {badge}
-                        {!isPartOfOnlyOneTeam && teamName}
-                    </>}
+                    {customStatus}
+                    {sharedIcon}
+                    {tag}
+                    {badge}
+                    {!isPartOfOnlyOneTeam && teamName}
                 </div>
             </div>
         );
