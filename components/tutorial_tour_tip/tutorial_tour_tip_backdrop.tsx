@@ -1,22 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
-import styled, {css} from 'styled-components';
+import React from 'react';
 
 export type Coords = {
     x?: string;
     y?: string;
 }
-export type TutorialTipPunchout = Coords & {
+export type TutorialTourTipPunchout = Coords & {
     width?: string;
     height?: string;
 }
 
-const TutorialTipBackdrop = styled.div.attrs(() => ({
-    className: 'tip-backdrop',
-}))((props: TutorialTipPunchout) => {
+const TutorialTourTipBackdrop = (props: TutorialTourTipPunchout) => {
     const {x, y, width, height} = props;
-
     if (!x || !y || !width || !height) {
         return null;
     }
@@ -41,9 +37,14 @@ const TutorialTipBackdrop = styled.div.attrs(() => ({
     vertices.push(`${x} 0%`);
     vertices.push('0% 0%');
 
-    return css`
-        clip-path: polygon(${vertices.join(', ')});
-    `;
-});
+    return (
+        <div
+            className={'tip-backdrop'}
+            style={{
+                clipPath: `polygon(${vertices.join(', ')})`,
+            }}
+        />
+    );
+};
 
-export default TutorialTipBackdrop;
+export default TutorialTourTipBackdrop;

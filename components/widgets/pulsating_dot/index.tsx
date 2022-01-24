@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {Coords} from 'components/tutorial/tutorial_tip/tutorial_tip_backdrop';
+import {Coords} from 'components/tutorial_tour_tip/tutorial_tour_tip_backdrop';
 
 import './pulsating_dot.scss';
 

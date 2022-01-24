@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {useMemo} from 'react';
+import {useLayoutEffect, useMemo, useState} from 'react';
+import throttle from 'lodash/throttle';
 
 import useElementAvailable from 'components/common/hooks/useElementAvailable';
 
-import {TutorialTipPunchout} from './tutorial_tip_backdrop';
+import {TutorialTourTipPunchout} from './tutorial_tour_tip_backdrop';
 
 type PunchoutOffset = {
     x: number;
@@ -13,8 +14,19 @@ type PunchoutOffset = {
     height: number;
 }
 
-export function useMeasurePunchouts(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
+export function useMeasurePunchouts(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTourTipPunchout | null | undefined {
     const elementsAvailable = useElementAvailable(elementIds);
+    const [size, setSize] = useState<DOMRect>();
+    const updateSize = throttle(() => {
+        setSize(document.getElementById('root')?.getBoundingClientRect());
+    }, 100);
+
+    useLayoutEffect(() => {
+        window.addEventListener('resize', updateSize);
+        return () =>
+            window.removeEventListener('resize', updateSize);
+    }, []);
+
     const channelPunchout = useMemo(() => {
         let minX = Number.MAX_SAFE_INTEGER;
         let minY = Number.MAX_SAFE_INTEGER;
@@ -45,6 +57,6 @@ export function useMeasurePunchouts(elementIds: string[], additionalDeps: any[],
             width: `${(maxX - minX) + (offset ? offset.width : 0)}px`,
             height: `${(maxY - minY) + (offset ? offset.height : 0)}px`,
         };
-    }, [...elementIds, ...additionalDeps, elementsAvailable]);
+    }, [...elementIds, ...additionalDeps, size, elementsAvailable]);
     return channelPunchout;
 }

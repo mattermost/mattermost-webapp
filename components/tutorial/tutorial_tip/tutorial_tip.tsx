@@ -14,7 +14,7 @@ import PulsatingDot from 'components/widgets/pulsating_dot';
 
 import * as Utils from 'utils/utils';
 
-import TutorialTipBackdrop, {Coords, TutorialTipPunchout} from './tutorial_tip_backdrop';
+import TutorialTourTipBackdrop, {Coords, TutorialTourTipPunchout} from 'components/tutorial_tour_tip/tutorial_tour_tip_backdrop';
 
 const Preferences = Constants.Preferences;
 const OnBoardingTutorialStep = Constants.TutorialSteps;
@@ -77,7 +77,7 @@ type Props = {
     };
     autoTour: boolean;
     firstChannelName: string | undefined;
-    punchOut?: TutorialTipPunchout | null;
+    punchOut?: TutorialTourTipPunchout | null;
     pulsatingDotPosition?: Coords | undefined;
 }
 
@@ -436,7 +436,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 <Overlay
                     show={this.state.show}
                 >
-                    <TutorialTipBackdrop
+                    <TutorialTourTipBackdrop
                         x={this.props.punchOut?.x}
                         y={this.props.punchOut?.y}
                         width={this.props.punchOut?.width}
