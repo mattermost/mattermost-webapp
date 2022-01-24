@@ -32,8 +32,8 @@ const OrganizationError = (props: {error: TeamNameToURL['error']}): JSX.Element 
     case BadUrlReasons.Length:
         return (
             <FormattedMarkdownMessage
-                id='onboarding_wizard.organization.empty'
-                defaultMessage='onboarding_wizard.organization.length'
+                id='onboarding_wizard.organization.length'
+                defaultMessage='Organization name must be between {min} and {max} characters'
                 values={{
                     min: Constants.MIN_TEAMNAME_LENGTH,
                     max: Constants.MAX_TEAMNAME_LENGTH,

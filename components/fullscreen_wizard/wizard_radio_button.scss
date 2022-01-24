@@ -1,3 +1,8 @@
 .WizardRadioButton {
     list-style-type: none;
+    display: inline-flex;
+    max-width: 200px;
+    min-width: 50px;
+    flex-direction: column;
+    align-items: center;
 }

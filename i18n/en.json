@@ -3845,6 +3845,7 @@
   "onboarding_wizard.next": "Continue",
   "onboarding_wizard.organization.description": "We'll use this to help personalize your workspace.",
   "onboarding_wizard.organization.empty": "You must enter an organization name",
+  "onboarding_wizard.organization.length": "Organization name must be between {min} and {max} characters",
   "onboarding_wizard.organization.other": "Invalid organization name: {reason}",
   "onboarding_wizard.organization.placeholder": "TODO: Organization",
   "onboarding_wizard.organization.reserved": "Organization name may not [start with a reserved word](!https://docs.mattermost.com/messaging/creating-teams.html#team-url).",

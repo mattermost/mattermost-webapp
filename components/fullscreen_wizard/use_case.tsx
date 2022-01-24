@@ -16,6 +16,8 @@ import ChannelsSVG from './channels.svg';
 import LaptopSVG from './laptop.svg';
 
 import PageLine from './page_line';
+import Title from './title';
+import Description from './description';
 
 import './use_case.scss';
 
@@ -54,14 +56,18 @@ const UseCase = (props: Props) => {
                 </div>
                 <div className='UseCase-form-wrapper'>
                     {props.previous}
+                    <Title>
                     <FormattedMessage
                         id={'onboarding_wizard.use_case.title'}
                         defaultMessage='How do you plan to use Mattermost?'
                     />
+                    </Title>
+                    <Description>
                     <FormattedMessage
                         id={'onboarding_wizard.use_case.description'}
                         defaultMessage="This will help us set up your workspace in a way that's most relevant to you. Select all that apply."
                     />
+                    </Description>
                     <ul>
                         <WizardRadioButton
                             onClick={() => props.setOption('channels')}
