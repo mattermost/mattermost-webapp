@@ -4,7 +4,8 @@
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage} from 'react-intl';
-import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps'
+
+import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 
 import WizardRadioButton from './wizard_radio_button';
 
@@ -111,4 +112,4 @@ const UseCase = (props: Props) => {
     );
 };
 
-export default UseCase
+export default UseCase;

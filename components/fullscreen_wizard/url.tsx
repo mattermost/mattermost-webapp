@@ -4,9 +4,11 @@
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage, useIntl} from 'react-intl';
-import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps'
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import QuickInput from 'components/quick_input';
+
+import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 
 import PageLine from './page_line';
 
@@ -32,7 +34,7 @@ const Url = (props: Props) => {
             mountOnEnter={true}
             unmountOnExit={true}
         >
-            <div className="Url-body">
+            <div className='Url-body'>
                 <div className='Url-left-col'>
                     <PageLine
                         height={'100px'}
@@ -55,7 +57,7 @@ const Url = (props: Props) => {
                     <Description>
                         <FormattedMarkdownMessage
                             id={'onboarding_wizard.url.description'}
-                            defaultMessage="This is the URL that users will use to access Mattermost. [See Documentation](https://TODO) for more."
+                            defaultMessage='This is the URL that users will use to access Mattermost. [See Documentation](https://TODO) for more.'
                         />
                     </Description>
                     <QuickInput
@@ -67,28 +69,28 @@ const Url = (props: Props) => {
                         }
                         value={props.url || ''}
                         onChange={(e) => props.setUrl(e.target.value)}
-                        className="Url__input"
+                        className='Url__input'
                     />
                     <FormattedMessage
                         id={'onboarding_wizard.url.input_help'}
-                        defaultMessage="Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required"
+                        defaultMessage='Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required'
                     />
                     {'spinner here'}
                     <FormattedMessage
                         id={'onboarding_wizard.url.input_testing'}
-                        defaultMessage="Testing URL"
+                        defaultMessage='Testing URL'
                     />
                     <FormattedMessage
                         id={'onboarding_wizard.url.input_valid'}
-                        defaultMessage="Test successful. This is a valid URL."
+                        defaultMessage='Test successful. This is a valid URL.'
                     />
                     <FormattedMessage
                         id={'onboarding_wizard.url.input_invalid'}
-                        defaultMessage="TODO: Invalid URL"
+                        defaultMessage='TODO: Invalid URL'
                     />
                     <FormattedMessage
                         id={'onboarding_wizard.url.input_cant_connect'}
-                        defaultMessage="TODO: Unable to connect to URL. Press continue to use anyways."
+                        defaultMessage='TODO: Unable to connect to URL. Press continue to use anyways.'
                     />
                     <button
                         className='btn btn-primary'
@@ -104,5 +106,5 @@ const Url = (props: Props) => {
             </div>
         </CSSTransition>
     );
-}
+};
 export default Url;

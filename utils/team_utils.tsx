@@ -62,6 +62,6 @@ export function makeNewTeam(display_name: string, name: string): Team {
         invite_id: '',
         allow_open_invite: false,
         scheme_id: '',
-        group_constrained: false
-    }
-};
+        group_constrained: false,
+    };
+}

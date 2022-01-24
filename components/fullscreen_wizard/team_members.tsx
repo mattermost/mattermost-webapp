@@ -3,7 +3,8 @@
 
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
-import {Animations, AnimationReason, mapAnimationReasonToClass} from './steps'
+
+import {Animations, AnimationReason, mapAnimationReasonToClass} from './steps';
 
 import PersonWaveSVG from './person-wave.svg';
 import PersonSmileSVG from './person-smile.svg';

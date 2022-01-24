@@ -3,12 +3,13 @@
 
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
-import {Animations, AnimationReason, mapAnimationReasonToClass, WizardStep, WizardSteps} from './steps'
+
+import {Animations, AnimationReason, mapAnimationReasonToClass, WizardStep, WizardSteps} from './steps';
 
 import ChannelsPreviewSVG from './channels-preview.svg';
 import TeamMembers from './team_members';
 
-import './channels_preview.scss'
+import './channels_preview.scss';
 
 type Props = {
     channelName: string;
@@ -49,4 +50,4 @@ const ChannelsPreview = (props: Props) => {
     );
 };
 
-export default ChannelsPreview
+export default ChannelsPreview;

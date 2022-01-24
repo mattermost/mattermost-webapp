@@ -4,7 +4,8 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {CSSTransition} from 'react-transition-group';
-import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps'
+
+import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 
 import WizardRadioButton from './wizard_radio_button';
 
@@ -138,4 +139,4 @@ const Plugins = (props: Props) => {
     );
 };
 
-export default Plugins
+export default Plugins;

@@ -66,7 +66,7 @@ export function isArchivedChannel(channel: Channel) {
 type JoinPrivateChannelPromptResult = {
     data: {
         join: boolean;
-    }
+    };
 };
 
 export function joinPrivateChannelPrompt(team: Team, channel: Channel, handleOnCancel = true): ActionFunc {

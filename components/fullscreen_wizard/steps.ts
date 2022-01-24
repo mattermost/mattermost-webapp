@@ -29,16 +29,16 @@ export type WizardStep = typeof WizardSteps[keyof typeof WizardSteps];
 
 export function mapAnimationReasonToClass(classPrefix: string, animationReason: AnimationReason): string {
     switch (animationReason) {
-        case Animations.Reasons.ExitToBefore:
-            return `${classPrefix}--exit-to-before`;
-        case Animations.Reasons.ExitToAfter:
-            return `${classPrefix}--exit-to-after`;
-        case Animations.Reasons.EnterFromAfter:
-            return `${classPrefix}--enter-from-after`;
-        case Animations.Reasons.EnterFromBefore:
-            return `${classPrefix}--enter-from-before`;
-        default:
-            return `${classPrefix}--enter-from-before`;
+    case Animations.Reasons.ExitToBefore:
+        return `${classPrefix}--exit-to-before`;
+    case Animations.Reasons.ExitToAfter:
+        return `${classPrefix}--exit-to-after`;
+    case Animations.Reasons.EnterFromAfter:
+        return `${classPrefix}--enter-from-after`;
+    case Animations.Reasons.EnterFromBefore:
+        return `${classPrefix}--enter-from-before`;
+    default:
+        return `${classPrefix}--enter-from-before`;
     }
 }
 

@@ -9,7 +9,7 @@ type Props = {
     children: React.ReactNode | React.ReactNodeArray;
 }
 export default function Title(props: Props) {
-    return <h1 className="AdminOnboardingTitle">
-        {props.children} 
-    </h1>
+    return (<h1 className='AdminOnboardingTitle'>
+        {props.children}
+    </h1>);
 }

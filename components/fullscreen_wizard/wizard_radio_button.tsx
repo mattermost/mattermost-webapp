@@ -35,4 +35,4 @@ const WizardRadioButton = (props: Props) => {
     );
 };
 
-export default WizardRadioButton
+export default WizardRadioButton;

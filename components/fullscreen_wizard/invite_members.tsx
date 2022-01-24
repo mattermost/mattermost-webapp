@@ -4,7 +4,8 @@
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage} from 'react-intl';
-import {Animations, mapAnimationReasonToClass, TransitionProps} from './steps'
+
+import {Animations, mapAnimationReasonToClass, TransitionProps} from './steps';
 
 import PageLine from './page_line';
 

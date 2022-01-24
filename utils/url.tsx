@@ -205,16 +205,16 @@ export function teamNameToUrl(teamName: string): TeamNameToURL {
     const url = cleanUpUrlable(teamName.trim());
 
     if (!url) {
-        return {url, error: BadUrlReasons.Empty}
+        return {url, error: BadUrlReasons.Empty};
     }
 
     if (url.length < Constants.MIN_TEAMNAME_LENGTH || url.length > Constants.MAX_TEAMNAME_LENGTH) {
-        return {url, error: BadUrlReasons.Length}
+        return {url, error: BadUrlReasons.Length};
     }
 
-    if (Constants.RESERVED_TEAM_NAMES.some(reservedName => url.startsWith(reservedName))) {
-        return {url, error: BadUrlReasons.Reserved}
+    if (Constants.RESERVED_TEAM_NAMES.some((reservedName) => url.startsWith(reservedName))) {
+        return {url, error: BadUrlReasons.Reserved};
     }
 
-    return {url, error: false}
+    return {url, error: false};
 }

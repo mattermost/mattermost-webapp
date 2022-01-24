@@ -10,7 +10,7 @@ type Props = {
 }
 
 export default function Title(props: Props) {
-    return <p className="AdminOnboardingDescription">
-        {props.children} 
-    </p>
+    return (<p className='AdminOnboardingDescription'>
+        {props.children}
+    </p>);
 }

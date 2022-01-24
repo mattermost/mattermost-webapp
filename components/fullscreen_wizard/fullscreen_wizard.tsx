@@ -9,8 +9,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
-import {ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
 import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
@@ -28,9 +29,9 @@ import {makeNewTeam} from 'utils/team_utils';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {WizardSteps, WizardStep, Animations, AnimationReason, Form, emptyForm } from './steps'
+import {WizardSteps, WizardStep, Animations, AnimationReason, Form, emptyForm} from './steps';
 
-import Channel from './channel';
+import ChannelComponent from './channel';
 import ChannelsPreview from './channels_preview';
 import InviteMembers from './invite_members';
 import Organization from './organization';
@@ -52,27 +53,19 @@ type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 const DISPLAY_SUCCESS_TIME = 3000;
 
 export type Actions = {
-    createTeam: (team: Team) => ActionResult,
-    checkIfTeamExists: (teamName: string) => ActionResult,
+    createTeam: (team: Team) => ActionResult;
+    checkIfTeamExists: (teamName: string) => ActionResult;
 }
 
 type Props = {
     handleForm(form: Form): void;
     background?: JSX.Element | string;
-    actions: Actions,
-}
-
-const logged: Record<string, true> = {};
-function logOnce(msg: string) {
-    if (logged[msg]) {
-        return;
-    }
-    console.log(msg);
-    logged[msg] = true;
+    actions: Actions;
 }
 
 export default function FullscreenWizard(props: Props & RouteComponentProps) {
     const user = useSelector(getCurrentUser);
+
     // const getState = useSelector(x => () => x);
     const isUserFirstAdmin = useSelector(isFirstAdmin);
 
@@ -86,7 +79,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
         WizardSteps.Channel,
         WizardSteps.InviteMembers,
         WizardSteps.TransitioningOut,
-    ].filter(x => Boolean(x)) as WizardStep[];
+    ].filter((x) => Boolean(x)) as WizardStep[];
 
     const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
     const shouldShowSetup = props.location.pathname.includes('/setup');
@@ -138,10 +131,13 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
         }
 
         // TODO: fix types here, destructuring as necessary et cetera
+        // eslint-disable-next-line
         const {data: team} = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
 
+        let redirectChannel: Channel | null = null;
         if (!form.channel.skipped) {
-            const {data: _data, error} = dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
+            const {data: channel, error} = dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
+            redirectChannel = channel;
             if (error) {
                 // TODO: Ruh Roah. Show some error?
             }
@@ -159,6 +155,10 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
 
         setTimeout(() => {
             makeNext(WizardSteps.InviteMembers)();
+
+            setTimeout(() => {
+                props.history.push(`${team.name}/channels/${redirectChannel?.name || ''}`);
+            }, 12345);
         }, DISPLAY_SUCCESS_TIME);
 
         // i.e. TransitioningOut
@@ -173,7 +173,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
 
     if (!isUserFirstAdmin) {
         // TODO: Redirect user here.
-        logOnce('user is not first admin');
+        throw new Error('user is not first admin');
     }
 
     // means the first admin has come back to this route after already having filled it out
@@ -286,9 +286,13 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                 <div className='FullscreenWizard__logo'>
                     {'mattermost logo'}
                 </div>
-                <Progress step={currentStep} stepOrder={stepOrder} transitionSpeed={Animations.PAGE_SLIDE}/>
+                <Progress
+                    step={currentStep}
+                    stepOrder={stepOrder}
+                    transitionSpeed={Animations.PAGE_SLIDE}
+                />
                 <div className='fullscreen-page-container'>
-                    {isSelfHosted && <Organization 
+                    {isSelfHosted && <Organization
                         show={currentStep === WizardSteps.Organization}
                         next={makeNext(WizardSteps.Organization)}
                         direction={getTransitionDirection(WizardSteps.Organization)}
@@ -300,7 +304,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                             });
                         }}
                     />}
-                    {isSelfHosted && <Url 
+                    {isSelfHosted && <Url
                         previous={previous}
                         show={currentStep === WizardSteps.Url}
                         next={makeNext(WizardSteps.Url)}
@@ -352,7 +356,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                         show={currentStep === WizardSteps.Plugins}
                         direction={getTransitionDirection(WizardSteps.Plugins)}
                     />
-                    <Channel
+                    <ChannelComponent
                         next={() => {
                             makeNext(WizardSteps.Channel)();
                             skipChannel(false);

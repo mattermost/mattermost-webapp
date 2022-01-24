@@ -9,7 +9,7 @@ import QuickInput from 'components/quick_input';
 
 import PageLine from './page_line';
 
-import {Animations, mapAnimationReasonToClass, TransitionProps} from './steps'
+import {Animations, mapAnimationReasonToClass, TransitionProps} from './steps';
 
 import './channel.scss';
 
@@ -18,7 +18,6 @@ type Props = TransitionProps & {
     onChange: (newValue: string) => void;
 }
 const Channel = (props: Props) => {
-
     return (
         <CSSTransition
             in={props.show}

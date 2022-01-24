@@ -3,16 +3,16 @@
 
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
-import {WizardSteps, WizardStep} from './steps'
 
-import './progress.scss'
+import {WizardSteps, WizardStep} from './steps';
+
+import './progress.scss';
 
 type Props = {
     step: WizardStep;
-    stepOrder: WizardStep[]
-    transitionSpeed: number
+    stepOrder: WizardStep[];
+    transitionSpeed: number;
 }
-
 
 export const Progress = (props: Props) => {
     // exclude transitioning out as a progress step
