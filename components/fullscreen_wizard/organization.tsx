@@ -82,7 +82,7 @@ const Organization = (props: Props) => {
     };
 
     let validationHint = null;
-    if (triedNext && validation.error != false) {
+    if (triedNext && validation.error !== false) {
         validationHint = <OrganizationError error={validation.error}/>;
     }
     return (

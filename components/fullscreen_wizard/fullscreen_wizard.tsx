@@ -28,6 +28,7 @@ import {teamNameToUrl} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {switchToChannel} from 'actions/views/channel';
 
 import {WizardSteps, WizardStep, Animations, AnimationReason, Form, emptyForm} from './steps';
 
@@ -126,7 +127,7 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                 // TODO:
                 // uh oh. show error to user?
                 // maybe a toast on the main screen?
-                console.error(`error setting up plugins ${e}`);
+                console.error(`error setting up plugins ${e}`); //eslint-disable-line no-console
             }
         }
 
@@ -157,7 +158,9 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
             makeNext(WizardSteps.InviteMembers)();
 
             setTimeout(() => {
-                props.history.push(`${team.name}/channels/${redirectChannel?.name || ''}`);
+                if (redirectChannel) {
+                    dispatch(switchToChannel(redirectChannel.name));
+                }
             }, 12345);
         }, DISPLAY_SUCCESS_TIME);
 
@@ -292,31 +295,35 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
                     transitionSpeed={Animations.PAGE_SLIDE}
                 />
                 <div className='fullscreen-page-container'>
-                    {isSelfHosted && <Organization
-                        show={currentStep === WizardSteps.Organization}
-                        next={makeNext(WizardSteps.Organization)}
-                        direction={getTransitionDirection(WizardSteps.Organization)}
-                        organization={form.organization || ''}
-                        setOrganization={(organization: Form['organization']) => {
-                            setForm({
-                                ...form,
-                                organization,
-                            });
-                        }}
-                    />}
-                    {isSelfHosted && <Url
-                        previous={previous}
-                        show={currentStep === WizardSteps.Url}
-                        next={makeNext(WizardSteps.Url)}
-                        direction={getTransitionDirection(WizardSteps.Url)}
-                        url={form.url || ''}
-                        setUrl={(url: Form['url']) => {
-                            setForm({
-                                ...form,
-                                url,
-                            });
-                        }}
-                    />}
+                    {isSelfHosted && (
+                        <Organization
+                            show={currentStep === WizardSteps.Organization}
+                            next={makeNext(WizardSteps.Organization)}
+                            direction={getTransitionDirection(WizardSteps.Organization)}
+                            organization={form.organization || ''}
+                            setOrganization={(organization: Form['organization']) => {
+                                setForm({
+                                    ...form,
+                                    organization,
+                                });
+                            }}
+                        />
+                    )}
+                    {isSelfHosted && (
+                        <Url
+                            previous={previous}
+                            show={currentStep === WizardSteps.Url}
+                            next={makeNext(WizardSteps.Url)}
+                            direction={getTransitionDirection(WizardSteps.Url)}
+                            url={form.url || ''}
+                            setUrl={(url: Form['url']) => {
+                                setForm({
+                                    ...form,
+                                    url,
+                                });
+                            }}
+                        />
+                    )}
                     <UseCase
                         previous={isSelfHosted ? previous : undefined}
                         options={form.useCase}

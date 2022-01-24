@@ -8,7 +8,6 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {savePreferences} from 'mattermost-redux/actions/preferences';

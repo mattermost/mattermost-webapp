@@ -46,13 +46,13 @@ export function filterAndSortTeamsByDisplayName<T extends Team>(teams: T[], loca
     });
 }
 
-export function makeNewTeam(display_name: string, name: string): Team {
+export function makeNewTeam(displayName: string, name: string): Team {
     return {
         id: '',
         create_at: 0,
         update_at: 0,
         delete_at: 0,
-        display_name,
+        display_name: displayName,
         name,
         description: '',
         email: '',
