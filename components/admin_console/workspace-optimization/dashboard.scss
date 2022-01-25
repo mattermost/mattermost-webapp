@@ -15,6 +15,134 @@
 }
 
 .WorkspaceOptimizationDashboard {
+    button[class*=' StyledChip'],
+    button[class^='StyledChip'] {
+        width: 120px;
+        height: 24px;
+        justify-content: space-around;
+        border: none;
+        box-shadow: none;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: bold;
+        line-height: 16px;
+        text-align: center;
+
+        &.error {
+            background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
+
+            @extend .error;
+        }
+
+        &.info {
+            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
+
+            @extend .info;
+        }
+
+        &.warning {
+            background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
+
+            @extend .warning;
+        }
+
+        &.ok {
+            background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
+
+            @extend .ok;
+        }
+    }
+
+    div.OverallScore {
+        display: flex;
+        width: 872px;
+        box-sizing: border-box;
+        padding: 20px;
+        border: 1px solid rgba(var(--center-channel-text-rgb) 0.08);
+        margin-left: 25px;
+        background: var(--center-channel-bg);
+        border-radius: 4px;
+        box-shadow: var(--elevation-1);
+
+        &__scoreEllipseSvg {
+            .CircularChart {
+                .circular-chart {
+                    display: block;
+                    margin: 5px auto;
+
+                    &.warning .circle {
+                        stroke: var(--sys-away-indicator);
+                    }
+
+                    &.success .circle {
+                        stroke: var(--sys-online-indicator);
+                    }
+
+                    &.info .circle {
+                        stroke: var(--sys-sidebar-text-active-border);
+                    }
+
+                    &.error .circle {
+                        stroke: var(--sys-error-text);
+                    }
+
+                    .circle-bg {
+                        fill: none;
+                        stroke: var(--center-channel-bg);
+                        stroke-width: 4.2;
+                    }
+
+                    .circle {
+                        animation: progress 1s ease-out forwards;
+                        fill: none;
+                        stroke-width: 3.2;
+                    }
+                }
+
+                @keyframes progress {
+                    0% {
+                        stroke-dasharray: 0 100;
+                    }
+                }
+
+                .percentage {
+                    fill: var(--center-channel-color);
+                    font-family: sans-serif;
+                    font-size: 0.5em;
+                    text-anchor: middle;
+                }
+            }
+        }
+
+        &__content {
+            display: flex;
+            flex-direction: column;
+            margin-left: 24px;
+
+            &__title {
+                margin-bottom: 8px;
+                color: var(--sys-denim-center-channel-text);
+                font-size: 22px;
+                font-weight: 700;
+                line-height: 28px;
+            }
+
+            &__description {
+                margin-bottom: 24px;
+                color: var(--sys-denim-center-channel-text);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: normal;
+                line-height: 20px;
+            }
+
+            &__chips {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+    }
+
     ul.Accordion {
         width: 872px;
         margin-left: 25px;
@@ -68,44 +196,6 @@
                     flex-direction: row;
                     align-items: flex-end;
                     margin-left: auto;
-
-                    button[class*=' StyledChip'],
-                    button[class^='StyledChip'] {
-                        width: 120px;
-                        height: 24px;
-                        justify-content: space-around;
-                        border: none;
-                        box-shadow: none;
-                        font-size: 12px;
-                        font-style: normal;
-                        font-weight: bold;
-                        line-height: 16px;
-                        text-align: center;
-
-                        &.error {
-                            background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
-
-                            @extend .error;
-                        }
-
-                        &.info {
-                            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
-
-                            @extend .info;
-                        }
-
-                        &.warning {
-                            background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
-
-                            @extend .warning;
-                        }
-
-                        &.ok {
-                            background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
-
-                            @extend .ok;
-                        }
-                    }
                 }
 
                 &__chevron {

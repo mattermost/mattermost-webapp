@@ -18,14 +18,17 @@ import PerformanceSvg from 'components/common/svg_images_components/performance_
 import SecuritySvg from 'components/common/svg_images_components/security_svg';
 import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
 import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
-import Chip from 'components/common/chip/chip';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 
 import {Props} from '../admin_console';
 
+import OverallScore from './overall-score';
+import ChipsList, {ChipsInfoType} from './chips_list';
+
 import './dashboard.scss';
+
 type DataModel = {
     [key: string]: {
         title: string;
@@ -291,9 +294,14 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         },
     };
 
-    type ChipsInfoType = Omit<ItemStatus, 'none' | 'ok'>;
+    const overallScoreChipsData: ChipsInfoType = {
+        info: 0,
+        warning: 0,
+        error: 0,
+    };
+
     const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
-        const chipsInfo: { [key in ChipsInfoType as string]: number } = {
+        const accordionDataChips: ChipsInfoType = {
             info: 0,
             warning: 0,
             error: 0,
@@ -325,41 +333,11 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
             // chips will only be displayed for info aka Success, warning and error aka Problems
             if (item.status && item.status !== 'none' && item.status !== 'ok') {
-                chipsInfo[item.status] += 1;
+                accordionDataChips[item.status] += 1;
+                overallScoreChipsData[item.status] += 1;
             }
         });
-        const chipsList = Object.entries(chipsInfo).map(([chipKey, count]) => {
-            if (count === 0) {
-                return false;
-            }
-            let id;
-            let defaultMessage;
-
-            switch (chipKey) {
-            case 'info':
-                id = 'admin.reporting.workspace_optimization.suggestions';
-                defaultMessage = 'Suggestions';
-                break;
-            case 'warning':
-                id = 'admin.reporting.workspace_optimization.warnings';
-                defaultMessage = 'Warnings';
-                break;
-            case 'error':
-            default:
-                id = 'admin.reporting.workspace_optimization.problems';
-                defaultMessage = 'Problems';
-                break;
-            }
-
-            return (
-                <Chip
-                    key={chipKey}
-                    id={id}
-                    defaultMessage={`${defaultMessage}: ${count}`}
-                    className={chipKey}
-                />
-            );
-        });
+        const chipsList = (<ChipsList chipsData={accordionDataChips}/>);
         const {title, description, icon} = accordionData;
         return {
             title,
@@ -370,17 +348,23 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         };
     });
 
+    const overallScoreChips = (<ChipsList chipsData={overallScoreChipsData}/>);
+
     return loading ? <p>{'Loading ...'}</p> : (
         <div className='WorkspaceOptimizationDashboard wrapper--fixed'>
             <FormattedAdminHeader
                 id='workspaceOptimization.title'
                 defaultMessage='Workspace Optimization'
             />
-            <hr/>
-            <Accordion
-                accordionItemsData={accData}
-                expandMultiple={true}
-            />
+            <div className='admin-console__wrapper'>
+                <div className='admin-console__content'>
+                    <OverallScore chips={overallScoreChips}/>
+                    <Accordion
+                        accordionItemsData={accData}
+                        expandMultiple={true}
+                    />
+                </div>
+            </div>
         </div>
     );
 };

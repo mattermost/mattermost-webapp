@@ -71,11 +71,13 @@ export default class Chip extends React.PureComponent<Props> {
                         emojiStyle={{marginRight: '11px'}}
                     />
                 )}
-                <FormattedMessage
-                    id={this.props.id}
-                    defaultMessage={this.props.defaultMessage}
-                    values={this.props.values}
-                />
+                {(this.props.id && this.props.defaultMessage && this.props.values) && (
+                    <FormattedMessage
+                        id={this.props.id}
+                        defaultMessage={this.props.defaultMessage}
+                        values={this.props.values}
+                    />
+                )}
                 {this.props.additionalMarkup}
             </StyledChip>
         );

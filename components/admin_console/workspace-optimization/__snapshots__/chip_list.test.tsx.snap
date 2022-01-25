@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/components/common/ChipsList should match snapshot 1`] = `
+<Fragment>
+  <Chip
+    className="info"
+    defaultMessage="Suggestions: 3"
+    id="admin.reporting.workspace_optimization.suggestions"
+    key="info"
+  />
+  <Chip
+    className="warning"
+    defaultMessage="Warnings: 2"
+    id="admin.reporting.workspace_optimization.warnings"
+    key="warning"
+  />
+  <Chip
+    className="error"
+    defaultMessage="Problems: 1"
+    id="admin.reporting.workspace_optimization.problems"
+    key="error"
+  />
+</Fragment>
+`;
+
+exports[`components/admin_console/workspace-optimization/chips_list should match snapshot 1`] = `
+<Fragment>
+  <Chip
+    className="info"
+    defaultMessage="Suggestions: 3"
+    id="admin.reporting.workspace_optimization.suggestions"
+    key="info"
+  />
+  <Chip
+    className="warning"
+    defaultMessage="Warnings: 2"
+    id="admin.reporting.workspace_optimization.warnings"
+    key="warning"
+  />
+  <Chip
+    className="error"
+    defaultMessage="Problems: 1"
+    id="admin.reporting.workspace_optimization.problems"
+    key="error"
+  />
+</Fragment>
+`;
