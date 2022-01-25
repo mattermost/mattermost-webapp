@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import type {FixedSizeList} from 'react-window';
 
 import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
+import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 import {CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection} from 'components/emoji_picker/types';
@@ -170,27 +171,23 @@ const EmojiPicker = ({
     }, []);
 
     const handleWithSearchKeyboardEmojiNavigation = (emojiIndex: EmojiCursor['emojiIndex']) => {
-        const numOfSearchRows = categoryOrEmojisRows.length - 1;
-        if (emojiIndex < 0 || emojiIndex > numOfSearchRows) {
+        if (emojiIndex < 0 || categoryOrEmojisRows.length <= 1) {
             return;
         }
 
-        const rowIndex = Math.ceil(emojiIndex / EMOJI_PER_ROW); // +1 because first row is search header
+        let rowIndex = Math.ceil(emojiIndex / EMOJI_PER_ROW);
+        rowIndex = rowIndex === 0 ? 1 : rowIndex;
+        const emojiIndexInsideRow = (emojiIndex % EMOJI_PER_ROW);
 
-        const emojiRow = categoryOrEmojisRows.find((row) => row.index === rowIndex + 1); // +1 because first row is search header
-        if (!emojiRow || emojiRow.type !== EMOJIS_ROW) {
-            return;
-        }
-
-        const emojiIndexInsideRow = (emojiIndex % EMOJI_PER_ROW) + 1;
-
-        const emoji = emojiRow.items?.[emojiIndexInsideRow] ?? null;
+        const emoji = categoryOrEmojisRows?.[rowIndex]?.items?.[emojiIndexInsideRow] ?? null;
+        const a = categoryOrEmojisRows?.[rowIndex]?.items;
+        console.log({emojiIndex, categoryOrEmojisRows, rowIndex, emojiIndexInsideRow, a});
         if (!emoji) {
             return;
         }
 
         setCursor({
-            rowIndex: rowIndex - 1,
+            rowIndex,
             categoryIndex: 0,
             categoryName: emoji.categoryName,
             emojiIndex,
@@ -198,36 +195,77 @@ const EmojiPicker = ({
         });
     };
 
+    const handleNavigateToNextEmoji = ({emojiIndex, categoryIndex, categoryName}: EmojiCursor) => {
+        const navigateToEmojiIndex = emojiIndex + 1;
+
+        let cursorCategory = categories[categoryName as EmojiCategory];
+        if (categoryIndex === -1 || categoryName === '') {
+            cursorCategory = categories[Object.keys(categories)[0] as EmojiCategory];
+        }
+
+        if (cursorCategory.emojiIds && cursorCategory.emojiIds.length === 0) {
+            return;
+        }
+
+        const doesNewEmojiExistInCategory = navigateToEmojiIndex < (cursorCategory.emojiIds as string[]).length;
+        console.log(cursorCategory, doesNewEmojiExistInCategory);
+        if (doesNewEmojiExistInCategory) {
+            const newEmojiId = cursorCategory?.emojiIds?.[navigateToEmojiIndex] as string;
+            const newEmoji = getEmojiById(newEmojiId);
+            if (newEmoji) {
+                setCursor({
+                    rowIndex: 1,
+                    categoryIndex,
+                    categoryName,
+                    emojiIndex: navigateToEmojiIndex,
+                    emoji: newEmoji,
+                });
+            }
+        }
+    };
+
     const getEmojiByCursor = (categoryIndex: EmojiCursor['categoryIndex'], emojiIndex: EmojiCursor['emojiIndex']) => {
         const categoryName = categoryNames[categoryIndex];
         console.log('categoryName', categoryName);
     };
 
-    const handleKeyboardEmojiNavigation = useCallback((moveTo: NavigationDirection) => {
-        console.log('handleKeyboardEmojiNavigation', moveTo);
+    const handleKeyboardEmojiNavigation = (moveTo: NavigationDirection) => {
         const {rowIndex, categoryIndex, categoryName, emojiIndex} = cursor;
+        console.log('handleKeyboardEmojiNavigation', moveTo, emojiIndex, filter);
 
-        if (moveTo === NavigationDirection.NextEmoji) {
+        switch (moveTo) {
+        case NavigationDirection.NextEmoji: {
             if (filter.length !== 0) {
                 handleWithSearchKeyboardEmojiNavigation(emojiIndex + 1);
+            } else {
+                handleNavigateToNextEmoji(cursor);
             }
-        } else if (moveTo === NavigationDirection.PreviousEmoji) {
+            break;
+        }
+        case NavigationDirection.PreviousEmoji: {
             if (filter.length !== 0) {
                 handleWithSearchKeyboardEmojiNavigation(emojiIndex - 1);
             }
-        } else if (moveTo === NavigationDirection.NextEmojiRow) {
+            break;
+        }
+        case NavigationDirection.NextEmojiRow: {
             if (filter.length !== 0) {
-                handleWithSearchKeyboardEmojiNavigation(emojiIndex + EMOJI_PER_ROW);
+                handleWithSearchKeyboardEmojiNavigation(emojiIndex + (EMOJI_PER_ROW - 1));
             }
-        } else if (moveTo === NavigationDirection.PreviousEmojiRow) {
+            break;
+        }
+        case NavigationDirection.PreviousEmojiRow:
+        {
             if (filter.length !== 0) {
-                handleWithSearchKeyboardEmojiNavigation(emojiIndex - EMOJI_PER_ROW);
+                handleWithSearchKeyboardEmojiNavigation(emojiIndex - (EMOJI_PER_ROW - 1));
             }
+            break;
+        }
+        default:
+            break;
         }
 
-        // const [categoryIndex, emojiIndex] = cursor;
-
-        // const offsetDirectionInSameCategory = direction === CURSOR_DIRECTION.NEXT ? offset : -(offset);
+        // const offsetDirectionInSameCategory = moveTo === CURSOR_DIRECTION.NEXT ? offset : -(offset);
 
         // // moving to next or previous emoji in same category
         // const newCursorInSameCategory: EmojiCursor = [categoryIndex, emojiIndex + offsetDirectionInSameCategory];
@@ -254,8 +292,8 @@ const EmojiPicker = ({
         //     }
         // }
 
-        return null;
-    }, [cursor.categoryIndex, cursor.categoryName, cursor.emojiIndex, cursor.rowIndex, filter]);
+        // return null;
+    };
 
     const handleEnterOnEmoji = useCallback(() => {
         const clickedEmoji = cursor.emoji;
@@ -276,7 +314,7 @@ const EmojiPicker = ({
             return '';
         }
 
-        const name = emoji.short_name ? emoji.short_name : emoji.name;
+        const name = isSystemEmoji(emoji) ? emoji.short_name : emoji.name;
         return name.replace(/_/g, ' ');
     }, [cursor.categoryIndex, cursor.emojiIndex]);
 
