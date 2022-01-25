@@ -93,7 +93,7 @@ describe('Onboarding', () => {
         cy.get('#tipButton').should('be.visible').click();
         cy.get('.tip-overlay--settings').should('be.visible');
         cy.findByText('Customize your experience');
-        cy.findByText('Finish').click();
+        cy.findByText('Finish tour').click();
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active', {timeout: TIMEOUTS.HALF_MIN}).within(() => {

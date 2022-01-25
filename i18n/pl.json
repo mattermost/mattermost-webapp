@@ -1267,7 +1267,7 @@
   "admin.license.upload-modal.file": "Plik",
   "admin.license.upload-modal.subtitle": "Prześlij klucz licencyjny dla Mattermost Enterprise Edition, aby uaktualnić ten serwer. ",
   "admin.license.upload-modal.successfulUpgrade": "Udana aktualizacja!",
-  "admin.license.upload-modal.successfulUpgradeText": "Dokonałeś aktualizacji do planu {skuName} dla użytkowników {licensedUsersNum}. Obowiązuje to od {startsAt} do {expiresAt}. ",
+  "admin.license.upload-modal.successfulUpgradeText": "Dokonałeś aktualizacji do planu {skuName} dla użytkowników {licensedUsersNum, number}. Obowiązuje to od {startsAt} do {expiresAt}. ",
   "admin.license.upload-modal.title": "Prześlij klucz licencyjny",
   "admin.license.uploadFile": "Prześlij plik",
   "admin.license.warn.renew": "Ponów",

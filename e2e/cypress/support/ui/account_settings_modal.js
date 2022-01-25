@@ -57,8 +57,4 @@ Cypress.Commands.add('uiChangeCRTDisplaySetting', (setting = 'OFF') => {
     };
 
     cy.uiChangeGenericDisplaySetting('#collapsed_reply_threadsTitle', SETTINGS[setting]);
-
-    if (setting === 'ON') {
-        cy.uiCloseModal('You\'re accessing an early beta of Collapsed Reply Threads');
-    }
 });
