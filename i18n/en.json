@@ -4800,5 +4800,8 @@
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
   "workspaceOptimization.title": "Workspace Optimization",
+  "workspaceOptimization.version_type.major": "Major",
+  "workspaceOptimization.version_type.minor": "Minor",
+  "workspaceOptimization.version_type.patch": "Patch",
   "yourcomputer": "Your computer"
 }

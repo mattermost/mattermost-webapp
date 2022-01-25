@@ -1,15 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
+import styled from 'styled-components';
 import classNames from 'classnames';
 
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
 import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
 import WorkspaceAccessSvg from 'components/common/svg_images_components/workspace_access_svg';
+import PerformanceSvg from 'components/common/svg_images_components/performance_svg';
+import SecuritySvg from 'components/common/svg_images_components/security_svg';
+import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
+import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
@@ -17,10 +25,6 @@ import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_he
 import {Props} from '../admin_console';
 
 import './dashboard.scss';
-import PerformanceSvg from 'components/common/svg_images_components/performance_svg';
-import SecuritySvg from 'components/common/svg_images_components/security_svg';
-import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
-import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
 
 type DataModel = {
     [key: string]: {
@@ -31,13 +35,15 @@ type DataModel = {
     };
 }
 
+type ItemStatus = 'none' | 'ok' | 'info' | 'warning' | 'error';
+
 type ItemModel = {
     id: string;
     title: string;
     description: string;
     configUrl: string;
     infoUrl: string;
-    status: 'none' | 'info' | 'warning' | 'error';
+    status: ItemStatus;
 }
 
 const AccordionItem = styled.div<{iconColor: string}>`
@@ -75,11 +81,74 @@ const getItemColor = (status: string): string => {
 
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
+    const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: 'none'});
+    const {formatMessage} = useIntl();
 
+    // get the currently installed server version
+    const installedVersion = useSelector((state: GlobalState) => getServerVersion(state));
+
+    // gather locally available data
     const {ServiceSettings} = props.config;
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
+
+    const testURL = () => {
+        const onSuccess = ({status}: any) => {
+            data.access.items[0].status = status === 'OK' ? 'none' : 'error';
+        };
+        const onError = () => {
+            data.access.items[0].status = 'error';
+        };
+        return testSiteURL(onSuccess, onError, location.origin);
+    };
+
+    const fetchVersion = async () => {
+        // TODO@Michel: replace this with the server API endpoint once the PR got merged
+        // @see https://github.com/mattermost/mattermost-server/pull/19366
+        const result = await fetch('https://api.github.com/repos/mattermost/mattermost-server/releases/latest').then((result) => result.json());
+
+        if (result.tag_name) {
+            const sanitizedVersion = result.tag_name.startsWith('v') ? result.tag_name.slice(1) : result.tag_name;
+            const newVersionParts = sanitizedVersion.split('.');
+            const installedVersionParts = installedVersion.split('.').slice(0, 3);
+
+            // quick general check if a newer version is available
+            let type = '';
+            let status: ItemStatus = 'ok';
+
+            if (newVersionParts.join('') > installedVersionParts.join('')) {
+                // get correct values to be inserted into the accordion item
+                switch (true) {
+                case newVersionParts[0] > installedVersionParts[0]:
+                    type = formatMessage({id: 'workspaceOptimization.version_type.major', defaultMessage: 'Major'});
+                    status = 'error';
+                    break;
+                case newVersionParts[1] > installedVersionParts[1]:
+                    type = formatMessage({id: 'workspaceOptimization.version_type.minor', defaultMessage: 'Minor'});
+                    status = 'warning';
+                    break;
+                case newVersionParts[2] > installedVersionParts[2]:
+                    type = formatMessage({id: 'workspaceOptimization.version_type.patch', defaultMessage: 'Patch'});
+                    status = 'info';
+                    break;
+                }
+            }
+
+            setVersionData({type, version: result.tag_name, status});
+            return;
+        }
+
+        const versionIndex = data.updates.items.findIndex((item) => item.id === 'server-version');
+        data.updates.items.splice(versionIndex, 1);
+    };
+
+    useEffect(() => {
+        const promises = [];
+        promises.push(testURL());
+        promises.push(fetchVersion());
+        Promise.all(promises).then(() => setLoading(false));
+    }, []);
 
     const data: DataModel = {
         updates: {
@@ -91,7 +160,16 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     height={22}
                 />
             ),
-            items: [],
+            items: [
+                {
+                    id: 'server-version',
+                    title: versionData.status === 'ok' ? 'Your Mattermost server is running the latest version' : `${versionData.type} version update available`,
+                    description: versionData.status === 'ok' ? 'Nothing to do here. All good!' : `Mattermost ${versionData.version} contains a medium level security fix. Upgrading to this release is recommended.`,
+                    configUrl: '#',
+                    infoUrl: '#',
+                    status: versionData.status,
+                },
+            ],
         },
         configuration: {
             title: 'Configuration',
@@ -230,18 +308,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             ],
         },
     };
-
-    useEffect(() => {
-        const onSuccess = ({status}: any) => {
-            data.access.items[0].status = status === 'OK' ? 'none' : 'error';
-            setLoading(false);
-        };
-        const onError = () => {
-            data.access.items[0].status = 'error';
-            setLoading(false);
-        };
-        setTimeout(() => testSiteURL(onSuccess, onError, location.origin), 1000);
-    }, []);
 
     const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
         const items = accordionData.items.map((item) => (
