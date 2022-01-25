@@ -9,6 +9,7 @@ import ChannelTutorialTip from './channel_tutorial_tip';
 describe('component/legacy_sidebar/ChannelTutorialTip', () => {
     const defaultProps = {
         openLhs: jest.fn(),
+        isMobileView: false,
     };
     test('should match snapshot, without townSquare and without offTopic', () => {
         const props = {...defaultProps};
