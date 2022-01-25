@@ -31,13 +31,15 @@ type DataModel = {
     };
 }
 
+type ChipsInfoKey = 'none' | 'info' | 'warning' | 'error'
+
 type ItemModel = {
     id: string;
     title: string;
     description: string;
     configUrl: string;
     infoUrl: string;
-    status: 'none' | 'info' | 'warning' | 'error';
+    status: ChipsInfoKey;
 }
 
 const AccordionItem = styled.div<{iconColor: string}>`
@@ -244,12 +246,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     }, []);
 
     const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
-        const chipsInfo: { [key: string]: number } = {
+        const chipsInfo: { [key in ChipsInfoKey]: number } = {
             info: 0,
             warning: 0,
             error: 0,
+            none: 0,
         };
-        type ChipsInfoKey = keyof typeof chipsInfo;
         const items: React.ReactNode[] = [];
         accordionData.items.forEach((item) => {
             items.push((
@@ -261,8 +263,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     <p>{item.description}</p>
                 </AccordionItem>
             ));
-            if (chipsInfo[item.status as ChipsInfoKey] !== undefined) {
-                chipsInfo[item.status as ChipsInfoKey] += 1;
+            if (chipsInfo[item.status] !== undefined) {
+                chipsInfo[item.status] += 1;
             }
         });
         const chipsList = Object.entries(chipsInfo).map(([chipKey, count]) => {

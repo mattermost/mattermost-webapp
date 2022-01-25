@@ -55,9 +55,7 @@ export default class Chip extends React.PureComponent<Props> {
     onClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        if (this.props.onClick) {
-            this.props.onClick();
-        }
+        this.props.onClick?.();
     }
 
     render() {
@@ -65,7 +63,7 @@ export default class Chip extends React.PureComponent<Props> {
             <StyledChip
                 onClick={this.onClick}
                 otherOption={this.props.otherOption}
-                className={this.props.className ? this.props.className : ''}
+                className={this.props.className || ''}
             >
                 {this.props.leadingIcon && (
                     <RenderEmoji

@@ -50,12 +50,13 @@
                     align-items: flex-end;
                     margin-left: auto;
 
-                    button {
+                    button[class*=' StyledChip'],
+                    button[class^='StyledChip'] {
                         width: 120px;
                         height: 24px;
                         justify-content: space-around;
-                        border: none !important;
-                        box-shadow: none !important;
+                        border: none;
+                        box-shadow: none;
                         font-size: 12px;
                         font-style: normal;
                         font-weight: bold;
