@@ -20,7 +20,7 @@ import TutorialTourTipBackdrop, {Coords, TutorialTourTipPunchout} from './tutori
 import './tutorial_tour_tip.scss';
 import useTutorialTourTipManager from './tutorial_tour_tip_manager';
 
-const TourTipOverlay = ({children, show, onClick}: {children: React.ReactNode ; show: boolean; onClick: () => void}) =>
+const TourTipOverlay = ({children, show, onClick}: {children: React.ReactNode ; show: boolean; onClick: (e: React.MouseEvent) => void}) =>
     (show ? ReactDOM.createPortal(
         <div
             className='tutorial-tour-tip__overlay'
@@ -48,9 +48,10 @@ type Props = {
     onPrevNavigateTo?: () => void;
     autoTour?: boolean;
     pulsatingDotPosition?: Coords | undefined;
+    width?: string | number;
 }
 
-const TourTip: React.FC<Props> = ({
+const TutorialTourTip: React.FC<Props> = ({
     title,
     screen,
     imageURL,
@@ -65,15 +66,31 @@ const TourTip: React.FC<Props> = ({
     placement,
     showOptOut,
     pulsatingDotPosition,
+    stopPropagation = true,
+    preventDefault = true,
+    width = 320,
 }: Props) => {
     const triggerRef = useRef(null);
-    const {show, hide, dismiss, handleNext, handlePrevious, skipTutorial, getLastStep, tourSteps, setShow} = useTutorialTourTipManager({
+    const {
+        show,
+        tourSteps,
+        handleOpen,
+        handleHide,
+        handleDismiss,
+        handleNext,
+        handlePrevious,
+        handleSkipTutorial,
+        handleSavePreferences,
+        getLastStep,
+    } = useTutorialTourTipManager({
         step,
         autoTour,
         telemetryTag,
         tutorialCategory,
         onNextNavigateTo,
         onPrevNavigateTo,
+        stopPropagation,
+        preventDefault,
     });
 
     const getButtonText = (): JSX.Element => {
@@ -116,7 +133,7 @@ const TourTip: React.FC<Props> = ({
             let className = 'tutorial-tour-tip__circle';
             let circularRing = 'tutorial-tour-tip__circular-ring';
 
-            if (i === 0) {
+            if (i === step) {
                 className += ' active';
                 circularRing += ' tutorial-tour-tip__circular-ring-active';
             }
@@ -128,6 +145,7 @@ const TourTip: React.FC<Props> = ({
                         key={'dotactive' + i}
                         className={className}
                         data-screen={i}
+                        onClick={() => handleSavePreferences(i)}
                     />
                 </div>,
             );
@@ -142,7 +160,7 @@ const TourTip: React.FC<Props> = ({
                 </h4>
                 <button
                     className='tutorial-tour-tip__header__close'
-                    onClick={dismiss}
+                    onClick={handleDismiss}
                 >
                     <i className='icon icon-close'/>
                 </button>
@@ -150,30 +168,35 @@ const TourTip: React.FC<Props> = ({
             <div className='tutorial-tour-tip__body'>
                 {screen}
             </div>
-            <div className='tutorial-tour-tip__image'>
-                <img
-                    src={imageURL}
-                />
-            </div>
+            {imageURL && (
+                <div className='tutorial-tour-tip__image'>
+                    <img
+                        src={imageURL}
+                        alt={'tutorial tour tip product image'}
+                    />
+                </div>
+            )}
             <div className='tutorial-tour-tip__footer'>
                 <div className='tutorial-tour-tip__footer-buttons'>
                     <div className='tutorial-tour-tip__circles-ctr'>{dots}</div>
                     <div className={'tutorial-tour-tip__btn-ctr'}>
-                        <button
-                            id='tipPreviousButton'
-                            className='tutorial-tour-tip__btn tutorial-tour-tip__cancel-btn'
-                            onClick={handlePrevious}
-                        >
-                            <i className='icon icon-chevron-left'/>
-                            <FormattedMessage
-                                id='generic.previous'
-                                defaultMessage='Previous'
-                            />
-                        </button>
+                        {step !== 0 && (
+                            <button
+                                id='tipPreviousButton'
+                                className='tutorial-tour-tip__btn tutorial-tour-tip__cancel-btn'
+                                onClick={handlePrevious}
+                            >
+                                <i className='icon icon-chevron-left'/>
+                                <FormattedMessage
+                                    id='generic.previous'
+                                    defaultMessage='Previous'
+                                />
+                            </button>
+                        )}
                         <button
                             id='tipNextButton'
                             className='tutorial-tour-tip__btn tutorial-tour-tip__confirm-btn'
-                            onClick={(e) => handleNext(true, e)}
+                            onClick={handleNext}
                         >
                             {getButtonText()}
                         </button>
@@ -186,7 +209,7 @@ const TourTip: React.FC<Props> = ({
                     />
                     <a
                         href='#'
-                        onClick={skipTutorial}
+                        onClick={handleSkipTutorial}
                     >
                         <FormattedMessage
                             id='tutorial_tip.out'
@@ -202,14 +225,14 @@ const TourTip: React.FC<Props> = ({
         <>
             <div
                 ref={triggerRef}
-                onClick={() => setShow(!show)}
+                onClick={handleOpen}
                 className='tutorial-tour-tip__pulsating-dot-ctr'
             >
                 <PulsatingDot coords={pulsatingDotPosition}/>
             </div>
             <TourTipOverlay
                 show={show}
-                onClick={hide}
+                onClick={handleHide}
             >
                 <TutorialTourTipBackdrop
                     x={punchOut?.x}
@@ -218,14 +241,14 @@ const TourTip: React.FC<Props> = ({
                     height={punchOut?.height}
                 />
             </TourTipOverlay>
-            {show &&
+            {show && (
                 <Tippy
                     showOnCreate={show}
                     content={content}
                     animation='scale-subtle'
                     trigger='click'
                     duration={[250, 150]}
-                    maxWidth={425}
+                    maxWidth={width}
                     aria={{content: 'labelledby'}}
                     allowHTML={true}
                     zIndex={9999}
@@ -235,9 +258,9 @@ const TourTip: React.FC<Props> = ({
                     className={'tutorial-tour-tip__box'}
                     placement={placement}
                 />
-            }
+            )}
         </>
     );
 };
 
-export default TourTip;
+export default TutorialTourTip;
