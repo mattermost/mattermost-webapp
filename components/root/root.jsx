@@ -445,9 +445,9 @@ export default class Root extends React.PureComponent {
                             from={'/_redirect/pl/:postid'}
                             to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                         />
-                        <>
-                            <ModalController/>
-                            <GlobalHeader/>
+                        <ModalController/>
+                        <GlobalHeader/>
+                        <div className='mainContentRow d-flex flex-row'>
                             <TeamSidebar/>
                             <Switch>
                                 {this.props.products?.map((product) => (
@@ -486,7 +486,7 @@ export default class Root extends React.PureComponent {
                                 />
                                 <RootRedirect/>
                             </Switch>
-                        </>
+                        </div>
                         <Pluggable pluggableName='Global'/>
                     </Switch>
                 </CompassThemeProvider>

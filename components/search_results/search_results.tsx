@@ -11,6 +11,7 @@ import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {FileSearchResultItem as FileSearchResultItemType} from 'mattermost-redux/types/files';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
@@ -27,6 +28,7 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 import FileSearchResultItem from 'components/file_search_results';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
@@ -77,6 +79,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars|null>(null);
     const [searchType, setSearchType] = useState<string>(props.searchType);
     const filesDropdownPluginMenuItems = useSelector(getFilesDropdownPluginMenuItems);
+    const config = useSelector(getConfig);
     const intl = useIntl();
 
     useEffect(() => {
@@ -320,6 +323,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <MessageOrFileSelector
                     selected={searchType}
                     selectedFilter={searchFilterType}
+                    isFileAttachmentsEnabled={isFileAttachmentsEnabled(config)}
                     messagesCounter={isSearchAtEnd || props.searchPage === 0 ? `${results.length}` : `${results.length}+`}
                     filesCounter={isSearchFilesAtEnd || props.searchPage === 0 ? `${fileResults.length}` : `${fileResults.length}+`}
                     onChange={setSearchType}
