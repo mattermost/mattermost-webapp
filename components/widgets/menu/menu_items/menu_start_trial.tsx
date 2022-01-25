@@ -76,31 +76,34 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
         return null;
     }
 
-    const screens = [
-        <div key='screen'>
-            <h4>
-                <FormattedMessage
-                    id='start_trial.tutorialTip.title'
-                    defaultMessage='Try our premium features for free'
-                />
-            </h4>
+    const title = (
+        <FormattedMessage
+            id='start_trial.tutorialTip.title'
+            defaultMessage='Try our premium features for free'
+        />
+    );
+
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='start_trial.tutorialTip.desc'
                     defaultMessage='Explore our most requested premium features. Determine user access with Guest Accounts, automate compliance reports, and send secure ID-only mobile push notifications.'
                 />
             </p>
-        </div>,
-    ];
+        </>
+    );
 
     let tutorialTip = null;
     if (showTutorialTip) {
         tutorialTip = (
             <TutorialTip
+                title={title}
+                showOptOut={true}
                 stopPropagation={true}
                 step={TutorialSteps.START_TRIAL}
                 placement='right'
-                screens={screens}
+                screen={screen}
                 overlayClass='tip-overlay--start-trial'
                 telemetryTag='enterprise_trial_upgrade_tour_point_views'
                 extraFunc={openStartTrialModal}

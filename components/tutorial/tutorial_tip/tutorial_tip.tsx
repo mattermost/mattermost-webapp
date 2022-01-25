@@ -217,12 +217,14 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
 
         // on completing step 5, open the product switcher to show tip 6
-        if (this.props.currentStep === TutorialSteps.SETTINGS) {
+        if (this.props.currentStep === Constants.TutorialSteps.SETTINGS) {
             this.props.actions.setProductMenuSwitcherOpen(true);
         }
 
         if (this.props.extraFunc) {
             this.props.extraFunc();
+        }
+
         if (onNextNavigateTo && nextStep === true && autoTour) {
             onNextNavigateTo();
         } else if (onPrevNavigateTo && nextStep === false && autoTour) {
@@ -301,14 +303,6 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             return buttonText;
         }
 
-        if (category === Preferences.TUTORIAL_STEP) {
-            const lastStep = Object.values(TutorialSteps).reduce((maxStep, candidateMaxStep) => {
-                // ignore the "opt out" FINISHED step as the max step.
-                if (candidateMaxStep > maxStep && candidateMaxStep !== TutorialSteps.FINISHED) {
-                    return candidateMaxStep;
-                }
-                return maxStep;
-            }, Number.MIN_SAFE_INTEGER);
         const lastStep = this.getLastStep(TutorialSteps[category]);
         if (this.props.step === lastStep) {
             if (this.props.customLastStepButtonText) {
