@@ -146,6 +146,7 @@ export const TrialPeriodDays = {
 };
 
 export const ActionTypes = keyMirror({
+    SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
     HIGHLIGHT_REPLY: null,
