@@ -1,3 +1,19 @@
+.error {
+    color: var(--sys-error-text);
+}
+
+.info {
+    color: var(--sys-sidebar-text-active-border);
+}
+
+.warning {
+    color: var(--sys-away-indicator);
+}
+
+.ok {
+    color: var(--sys-online-indicator);
+}
+
 .WorkspaceOptimizationDashboard {
     ul.Accordion {
         width: 872px;
@@ -6,8 +22,11 @@
         li.accordion-item {
             border: 1px solid rgba(63, 67, 80, 0.08) !important;
             margin-top: 10px;
+            background-color: var(--sys-center-channel-bg);
 
             .accordion-item-header {
+                background-color: var(--sys-center-channel-bg);
+
                 &__icon {
                     z-index: 1;
                     display: flex;
@@ -42,6 +61,55 @@
                         font-weight: normal;
                         line-height: 20px;
                     }
+                }
+
+                &__extraContent {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-end;
+                    margin-left: auto;
+
+                    button[class*=' StyledChip'],
+                    button[class^='StyledChip'] {
+                        width: 120px;
+                        height: 24px;
+                        justify-content: space-around;
+                        border: none;
+                        box-shadow: none;
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: bold;
+                        line-height: 16px;
+                        text-align: center;
+
+                        &.error {
+                            background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
+
+                            @extend .error;
+                        }
+
+                        &.info {
+                            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
+
+                            @extend .info;
+                        }
+
+                        &.warning {
+                            background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
+
+                            @extend .warning;
+                        }
+
+                        &.ok {
+                            background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
+
+                            @extend .ok;
+                        }
+                    }
+                }
+
+                &__chevron {
+                    margin-left: 0 !important;
                 }
             }
 

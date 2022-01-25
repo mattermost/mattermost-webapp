@@ -18,6 +18,7 @@ import PerformanceSvg from 'components/common/svg_images_components/performance_
 import SecuritySvg from 'components/common/svg_images_components/security_svg';
 import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
 import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
+import Chip from 'components/common/chip/chip';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
@@ -25,7 +26,6 @@ import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_he
 import {Props} from '../admin_console';
 
 import './dashboard.scss';
-
 type DataModel = {
     [key: string]: {
         title: string;
@@ -58,26 +58,8 @@ const AccordionItem = styled.div<{iconColor: string}>`
         display: inline-flex;
         align-items: center;
         font-weight: bold;
-
-        i {
-            color: ${({iconColor}) => `var(${iconColor})`};
-        }
     }
 `;
-
-const getItemColor = (status: string): string => {
-    switch (status) {
-    case 'error':
-        return '--error-text';
-    case 'warning':
-        return '--away-indicator';
-    case 'suggestion':
-        return '--mention-bg';
-    case 'none':
-    default:
-        return '--online-indicator';
-    }
-};
 
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
@@ -187,7 +169,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     description: 'You should configure SSL to secure how your server is accessed in a production environment.',
                     configUrl: '/ssl-settings',
                     infoUrl: 'https://www.google.de',
-                    status: location.protocol === 'https:' ? 'none' : 'error',
+                    status: location.protocol === 'https:' ? 'info' : 'error',
                 },
                 {
                     id: 'session-length',
@@ -195,7 +177,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     description: 'Your session length is still set to the default of 30 days. Most servers adjust this according to thier organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
                     configUrl: '/session-length',
                     infoUrl: 'https://www.google.de',
-                    status: sessionLengthWebInDays >= 30 ? 'warning' : 'none',
+                    status: sessionLengthWebInDays >= 30 ? 'warning' : 'info',
                 },
             ],
         },
@@ -215,7 +197,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     description: 'Your webserver settings are not passing a live URL test, this would prevent users from accessing this workspace, we recommend updating your settings.',
                     configUrl: '/site-url',
                     infoUrl: 'https://www.google.de',
-                    status: 'none',
+                    status: 'info',
                 },
             ],
         },
@@ -309,27 +291,87 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         },
     };
 
+    type ChipsInfoType = Omit<ItemStatus, 'none' | 'ok'>;
     const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
-        const items = accordionData.items.map((item) => (
-            <AccordionItem
-                key={`${accordionKey}-item_${item.id}`}
-                iconColor={getItemColor(item.status)}
-            >
-                <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
-                <p>{item.description}</p>
-            </AccordionItem>
-        ));
+        const chipsInfo: { [key in ChipsInfoType as string]: number } = {
+            info: 0,
+            warning: 0,
+            error: 0,
+        };
+        const items: React.ReactNode[] = [];
+        accordionData.items.forEach((item) => {
+            if (item.status === undefined) {
+                return;
+            }
+            items.push((
+                <AccordionItem
+                    key={`${accordionKey}-item_${item.id}`}
+                    iconColor={item.status}
+                >
+                    <h5>
+                        <i
+                            className={classNames(`icon ${item.status}`, {
+                                'icon-check-circle-outline': item.status === 'ok',
+                                'icon-alert-outline': item.status === 'warning',
+                                'icon-alert-circle-outline': item.status === 'error',
+                                'icon-information-outline': item.status === 'info',
+                            })}
+                        />
+                        {item.title}
+                    </h5>
+                    <p>{item.description}</p>
+                </AccordionItem>
+            ));
+
+            // chips will only be displayed for info aka Success, warning and error aka Problems
+            if (item.status && item.status !== 'none' && item.status !== 'ok') {
+                chipsInfo[item.status] += 1;
+            }
+        });
+        const chipsList = Object.entries(chipsInfo).map(([chipKey, count]) => {
+            if (count === 0) {
+                return false;
+            }
+            let id;
+            let defaultMessage;
+
+            switch (chipKey) {
+            case 'info':
+                id = 'admin.reporting.workspace_optimization.suggestions';
+                defaultMessage = 'Suggestions';
+                break;
+            case 'warning':
+                id = 'admin.reporting.workspace_optimization.warnings';
+                defaultMessage = 'Warnings';
+                break;
+            case 'error':
+            default:
+                id = 'admin.reporting.workspace_optimization.problems';
+                defaultMessage = 'Problems';
+                break;
+            }
+
+            return (
+                <Chip
+                    key={chipKey}
+                    id={id}
+                    defaultMessage={`${defaultMessage}: ${count}`}
+                    className={chipKey}
+                />
+            );
+        });
         const {title, description, icon} = accordionData;
         return {
             title,
             description,
             icon,
             items,
+            extraContent: chipsList,
         };
     });
 
     return loading ? <p>{'Loading ...'}</p> : (
-        <div className='WorkspaceOptimizationDashboard'>
+        <div className='WorkspaceOptimizationDashboard wrapper--fixed'>
             <FormattedAdminHeader
                 id='workspaceOptimization.title'
                 defaultMessage='Workspace Optimization'

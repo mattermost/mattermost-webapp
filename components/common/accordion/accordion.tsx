@@ -8,6 +8,7 @@ import './accordion.scss';
 export type AccordionItemType = {
     title: string;
     description?: string;
+    extraContent?: React.ReactNode;
     icon?: React.ReactNode;
     items: React.ReactNode[];
 };
