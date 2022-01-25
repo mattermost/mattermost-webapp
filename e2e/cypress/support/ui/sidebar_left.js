@@ -115,6 +115,11 @@ Cypress.Commands.add('uiClickSidebarItem', (name) => {
     cy.uiGetSidebarItem(name).click();
 
     if (name === 'threads') {
+        cy.get('body').then((body) => {
+            if (body.find('#genericModalLabel').length > 0) {
+                cy.uiCloseModal('A new way to view and follow threads');
+            }
+        });
         cy.findByRole('heading', {name: 'Followed threads'});
     } else {
         cy.findAllByTestId('postView').should('be.visible');
