@@ -1,3 +1,19 @@
+.error {
+    color: var(--sys-error-text);
+}
+
+.info {
+    color: var(--sys-sidebar-text-active-border);
+}
+
+.warning {
+    color: var(--sys-away-indicator);
+}
+
+.ok {
+    color: var(--sys-online-indicator);
+}
+
 .WorkspaceOptimizationDashboard {
     ul.Accordion {
         width: 872px;
@@ -6,8 +22,11 @@
         li.accordion-item {
             border: 1px solid rgba(63, 67, 80, 0.08) !important;
             margin-top: 10px;
+            background-color: var(--sys-center-channel-bg);
 
             .accordion-item-header {
+                background-color: var(--sys-center-channel-bg);
+
                 &__icon {
                     z-index: 1;
                     display: flex;
@@ -65,17 +84,26 @@
 
                         &.error {
                             background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
-                            color: var(--sys-error-text);
+
+                            @extend .error;
                         }
 
                         &.info {
                             background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
-                            color: var(--sys-sidebar-text-active-border);
+
+                            @extend .info;
                         }
 
                         &.warning {
                             background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
-                            color: var(--sys-away-indicator);
+
+                            @extend .warning;
+                        }
+
+                        &.ok {
+                            background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
+
+                            @extend .ok;
                         }
                     }
                 }

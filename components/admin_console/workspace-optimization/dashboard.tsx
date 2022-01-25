@@ -31,7 +31,7 @@ type DataModel = {
     };
 }
 
-type ChipsInfoKey = 'none' | 'info' | 'warning' | 'error'
+type ChipsInfoKey = 'ok' | 'info' | 'warning' | 'error'
 
 type ItemModel = {
     id: string;
@@ -54,26 +54,8 @@ const AccordionItem = styled.div<{iconColor: string}>`
         display: inline-flex;
         align-items: center;
         font-weight: bold;
-
-        i {
-            color: ${({iconColor}) => `var(${iconColor})`};
-        }
     }
 `;
-
-const getItemColor = (status: string): string => {
-    switch (status) {
-    case 'error':
-        return '--error-text';
-    case 'warning':
-        return '--away-indicator';
-    case 'suggestion':
-        return '--mention-bg';
-    case 'none':
-    default:
-        return '--online-indicator';
-    }
-};
 
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
@@ -235,7 +217,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
     useEffect(() => {
         const onSuccess = ({status}: any) => {
-            data.access.items[0].status = status === 'OK' ? 'none' : 'error';
+            data.access.items[0].status = status === 'OK' ? 'ok' : 'error';
             setLoading(false);
         };
         const onError = () => {
@@ -250,20 +232,30 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             info: 0,
             warning: 0,
             error: 0,
-            none: 0,
+            ok: 0,
         };
         const items: React.ReactNode[] = [];
         accordionData.items.forEach((item) => {
             items.push((
                 <AccordionItem
                     key={`${accordionKey}-item_${item.id}`}
-                    iconColor={getItemColor(item.status)}
+                    iconColor={item.status}
                 >
-                    <h5><i className={classNames('icon', {'icon-check-circle-outline': item.status === 'none', 'icon-alert-outline': item.status === 'warning', 'icon-alert-circle-outline': item.status === 'error'})}/>{item.title}</h5>
+                    <h5>
+                        <i
+                            className={classNames(`icon ${item.status}`, {
+                                'icon-check-circle-outline': item.status === 'ok',
+                                'icon-alert-outline': item.status === 'warning',
+                                'icon-alert-circle-outline': item.status === 'error',
+                                'icon-information-outline': item.status === 'info',
+                            })}
+                        />
+                        {item.title}
+                    </h5>
                     <p>{item.description}</p>
                 </AccordionItem>
             ));
-            if (chipsInfo[item.status] !== undefined) {
+            if (item.status) {
                 chipsInfo[item.status] += 1;
             }
         });
