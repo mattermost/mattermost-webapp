@@ -291,13 +291,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         },
     };
 
+    type ChipsInfoType = Omit<ItemStatus, 'none' | 'ok'>;
     const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
-        const chipsInfo: { [key in ItemStatus]: number } = {
+        const chipsInfo: { [key in ChipsInfoType as string]: number } = {
             info: 0,
             warning: 0,
             error: 0,
-            ok: 0,
-            none: 0,
         };
         const items: React.ReactNode[] = [];
         accordionData.items.forEach((item) => {
@@ -323,7 +322,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     <p>{item.description}</p>
                 </AccordionItem>
             ));
-            if (item.status) {
+
+            // chips will only be displayed for info aka Success, warning and error aka Problems
+            if (item.status && item.status !== 'none' && item.status !== 'ok') {
                 chipsInfo[item.status] += 1;
             }
         });
