@@ -41,6 +41,13 @@ type Props = {
     telemetryTag?: string;
     stopPropagation?: boolean;
     preventDefault?: boolean;
+    extraFunc?: Function;
+
+    // the text to show on the button of last step of the tutorial
+    customLastStepButtonText: {
+        id: string;
+        defaultMessage: string;
+    };
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
@@ -199,6 +206,10 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             savePreferences(currentUserId, abPreferences);
             setFirstChannelName('');
         }
+
+        if (this.props.extraFunc) {
+            this.props.extraFunc();
+        }
     }
 
     public skipTutorial = (e: React.MouseEvent<HTMLAnchorElement>): void => {
@@ -250,12 +261,21 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 return maxStep;
             }, Number.MIN_SAFE_INTEGER);
             if (this.props.step === lastStep) {
-                buttonText = (
-                    <FormattedMessage
-                        id={t('tutorial_tip.finish')}
-                        defaultMessage='Finish'
-                    />
-                );
+                if (this.props.customLastStepButtonText) {
+                    buttonText = (
+                        <FormattedMessage
+                            id={this.props.customLastStepButtonText.id}
+                            defaultMessage={this.props.customLastStepButtonText.defaultMessage}
+                        />
+                    );
+                } else {
+                    buttonText = (
+                        <FormattedMessage
+                            id={t('tutorial_tip.finish')}
+                            defaultMessage='Finish'
+                        />
+                    );
+                }
             }
         }
 

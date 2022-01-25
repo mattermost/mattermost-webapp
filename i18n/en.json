@@ -2884,6 +2884,8 @@
   "create_post.send_message": "Send a message",
   "create_post.shortcutsNotSupported": "Keyboard shortcuts are not supported on your device.",
   "create_post.tutorialTip.title": "Send a message",
+  "start_trial.tutorialTip.title": "Try our premium features for free",
+  "start_trial.tutorialTip.desc": "Explore our most requested premium features. Determine user access with Guest Accounts, automate compliance reports, and send secure ID-only mobile push notifications.",
   "create_post.tutorialTip1": "Select or type your first message and select **Enter** to send it.",
   "create_post.tutorialTip2": "Use the **Attachments** and **Emoji** buttons to add to your messages.",
   "create_post.write": "Write to {channelDisplayName}",

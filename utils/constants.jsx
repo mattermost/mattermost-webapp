@@ -481,6 +481,7 @@ export const TutorialSteps = {
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
+    START_TRIAL: 6,
     FINISHED: 999,
 };
 
