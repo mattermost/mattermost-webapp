@@ -21,6 +21,10 @@ export function canUploadFiles(config) {
     return true;
 }
 
+export function isFileAttachmentsEnabled(config) {
+    return config.EnableFileAttachments === 'true';
+}
+
 export function canDownloadFiles(config) {
     if (UserAgent.isMobileApp()) {
         return config.EnableMobileFileDownload === 'true';

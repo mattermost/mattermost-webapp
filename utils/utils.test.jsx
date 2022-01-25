@@ -1174,3 +1174,62 @@ describe('Utils.getSuggestionBoxAlgn', () => {
         expect(fixedToTheRight).toEqual(suggestionBoxAlgn.pixelsToMoveX);
     });
 });
+
+describe('Utils.numberToFixedDynamic', () => {
+    const tests = [
+        {
+            label: 'Removes period when no decimals needed',
+            num: 123.001,
+            places: 2,
+            expected: '123',
+        },
+        {
+            label: 'Extra places are ignored',
+            num: 123.45,
+            places: 3,
+            expected: '123.45',
+        },
+        {
+            label: 'rounds positives',
+            num: 123.45,
+            places: 1,
+            expected: '123.5',
+        },
+        {
+            label: 'rounds negatives',
+            num: -123.45,
+            places: 1,
+            expected: '-123.5',
+        },
+        {
+            label: 'negative places interpreted as 0 places',
+            num: 123,
+            places: -1,
+            expected: '123',
+        },
+        {
+            label: 'handles integers',
+            num: 123,
+            places: 4,
+            expected: '123',
+        },
+        {
+            label: 'handles integers with 0 places',
+            num: 123,
+            places: 4,
+            expected: '123',
+        },
+        {
+            label: 'correctly excludes decimal when rounding exlcudes number',
+            num: 0.004,
+            places: 2,
+            expected: '0',
+        },
+    ];
+    tests.forEach((testCase) => {
+        test(testCase.label, () => {
+            const actual = Utils.numberToFixedDynamic(testCase.num, testCase.places);
+            expect(actual).toBe(testCase.expected);
+        });
+    });
+});
