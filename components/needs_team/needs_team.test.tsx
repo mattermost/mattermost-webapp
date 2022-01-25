@@ -109,6 +109,7 @@ describe('components/needs_team', () => {
         selectedThreadId: null,
         collapsedThreads: true,
         shouldShowAppBar: true,
+        adminSetupRequired: false,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

@@ -18,6 +18,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullscreenWizard);

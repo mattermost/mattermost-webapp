@@ -1,8 +1,40 @@
+@import 'utils/variables';
+
 .WizardRadioButton {
-    list-style-type: none;
+    position: relative;
     display: inline-flex;
-    max-width: 200px;
-    min-width: 50px;
+    min-width: 212px;
+    max-width: 257px;
     flex-direction: column;
     align-items: center;
+    padding: 12px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    margin-right: 16px;
+    background: var(--center-channel-bg);
+    border-radius: 8px;
+    list-style-type: none;
+    text-align: center;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &--checked {
+        border: 2px solid blue;
+    }
+
+    &__checkmark {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        background-image: url('images/icons/check-circle-outline.svg');
+        color: blue;
+    }
+
+    &__label {
+        padding-top: 4px;
+        font-size: 18px;
+    }
 }

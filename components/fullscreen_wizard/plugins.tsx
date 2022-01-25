@@ -8,6 +8,7 @@ import {CSSTransition} from 'react-transition-group';
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 
 import WizardRadioButton from './wizard_radio_button';
+import WizardRadioButtonContainer from './wizard_radio_button_container';
 
 import GithubSVG from './github.svg';
 import GitlabSVG from './gitlab.svg';
@@ -37,7 +38,7 @@ const Plugins = (props: Props) => {
                 <PageLine height={'100px'}/>
                 {props.previous}
                 {
-                    <ul>
+                    <WizardRadioButtonContainer>
                         <WizardRadioButton
                             onClick={() => props.setOption('github')}
                             icon={<GithubSVG/>}
@@ -113,7 +114,7 @@ const Plugins = (props: Props) => {
                                 defaultMessage: 'To do tooltip',
                             })}
                         />
-                    </ul>
+                    </WizardRadioButtonContainer>
                 }
                 <button
                     className='btn btn-primary'

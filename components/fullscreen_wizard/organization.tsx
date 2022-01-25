@@ -70,7 +70,12 @@ const Organization = (props: Props) => {
     const [triedNext, setTriedNext] = useState(false);
     const validation = teamNameToUrl(props.organization || '');
 
-    const onNext = () => {
+    const onNext = (e?: React.KeyboardEvent | React.MouseEvent) => {
+        if (e && (e as React.KeyboardEvent).key) {
+            if ((e as React.KeyboardEvent).key !== Constants.KeyCodes.ENTER[0]) {
+                return;
+            }
+        }
         if (!triedNext) {
             setTriedNext(true);
         }
@@ -125,6 +130,8 @@ const Organization = (props: Props) => {
                         className='Organization__input'
                         value={props.organization || ''}
                         onChange={(e) => props.setOrganization(e.target.value)}
+                        onKeyUp={onNext}
+                        autoFocus={true}
                     />
                     <button
                         className='btn btn-primary'

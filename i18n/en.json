@@ -3866,6 +3866,7 @@
   "onboarding_wizard.url.input_cant_connect": "TODO: Unable to connect to URL. Press continue to use anyways.",
   "onboarding_wizard.url.input_help": "Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required",
   "onboarding_wizard.url.input_invalid": "TODO: Invalid URL",
+  "onboarding_wizard.url.input_taken": "TODO: This URL is already taken.",
   "onboarding_wizard.url.input_testing": "Testing URL",
   "onboarding_wizard.url.input_valid": "Test successful. This is a valid URL.",
   "onboarding_wizard.url.placeholder": "TODO: URL",

@@ -8,12 +8,15 @@ import {withRouter} from 'react-router-dom';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, get} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
+import Constants, {OnboardingPreferences} from 'utils/constants';
+
+import {isFirstAdmin} from 'components/next_steps_view/steps';
 
 import {GlobalState} from 'types/store';
 
@@ -39,6 +42,14 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const plugins = state.plugins.components.NeedsTeamComponent;
+    const isUserFirstAdmin = isFirstAdmin(state);
+    let adminSetupRequired = false;
+    if (isUserFirstAdmin) {
+        const useCasePreference = get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false);
+        if (!useCasePreference) {
+            adminSetupRequired = true;
+        }
+    }
 
     return {
         license,
@@ -52,6 +63,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         plugins,
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
         shouldShowAppBar: shouldShowAppBar(state),
+        adminSetupRequired,
     };
 }
 

@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 
 import WizardRadioButton from './wizard_radio_button';
+import WizardRadioButtonContainer from './wizard_radio_button_container';
 
 import BoardsSVG from './boards.svg';
 import PlaybooksSVG from './playbooks.svg';
@@ -57,18 +58,18 @@ const UseCase = (props: Props) => {
                 <div className='UseCase-form-wrapper'>
                     {props.previous}
                     <Title>
-                    <FormattedMessage
-                        id={'onboarding_wizard.use_case.title'}
-                        defaultMessage='How do you plan to use Mattermost?'
-                    />
+                        <FormattedMessage
+                            id={'onboarding_wizard.use_case.title'}
+                            defaultMessage='How do you plan to use Mattermost?'
+                        />
                     </Title>
                     <Description>
-                    <FormattedMessage
-                        id={'onboarding_wizard.use_case.description'}
-                        defaultMessage="This will help us set up your workspace in a way that's most relevant to you. Select all that apply."
-                    />
+                        <FormattedMessage
+                            id={'onboarding_wizard.use_case.description'}
+                            defaultMessage="This will help us set up your workspace in a way that's most relevant to you. Select all that apply."
+                        />
                     </Description>
-                    <ul>
+                    <WizardRadioButtonContainer>
                         <WizardRadioButton
                             onClick={() => props.setOption('channels')}
                             icon={<ChannelsSVG/>}
@@ -102,7 +103,7 @@ const UseCase = (props: Props) => {
                             }
                             checked={props.options.playbooks}
                         />
-                    </ul>
+                    </WizardRadioButtonContainer>
                     <button
                         className='btn btn-primary'
                         onClick={props.next}

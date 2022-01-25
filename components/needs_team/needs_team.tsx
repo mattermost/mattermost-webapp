@@ -76,6 +76,7 @@ type Props = {
     plugins?: any;
     selectedThreadId: string | null;
     shouldShowAppBar: boolean;
+    adminSetupRequired: boolean;
 }
 
 type State = {
@@ -93,6 +94,11 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         if (this.props.mfaRequired) {
             this.props.history.push('/mfa/setup');
+            return;
+        }
+
+        if (this.props.adminSetupRequired) {
+            this.props.history.push('/setup');
             return;
         }
 

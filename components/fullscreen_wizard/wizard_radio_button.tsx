@@ -24,13 +24,16 @@ const WizardRadioButton = (props: Props) => {
     if (props.tooltip) {
         buttonProps.tooltip = props.tooltip;
     }
+    if (props.checked) {
+        buttonProps.className += ' WizardRadioButton--checked';
+    }
     return (
         <li
             {...buttonProps}
         >
+            {props.checked && <span className='WizardRadioButton__checkmark'/>}
             {props.icon}
-            {props.msg}
-            {props.checked && 'checked'}
+            <span className='WizardRadioButton__label'>{props.msg}</span>
         </li>
     );
 };
