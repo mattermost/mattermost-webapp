@@ -6,10 +6,10 @@ import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {TeamMemberWithError, TeamInviteWithError} from 'mattermost-redux/types/teams';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc, GetStateFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
-import {joinChannel} from 'mattermost-redux/actions/channels';
+import {joinChannel, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 
 import {addUsersToTeam} from 'actions/team_actions';
@@ -123,9 +123,18 @@ export async function sendGuestInviteForUser(dispatch: DispatchFunc, user: UserP
 
 export function sendGuestsInvites(teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const channelMembersActions: Array<Promise<ActionResult>> = [];
         if (users.length > 0) {
-            await dispatch(TeamActions.getTeamMembersByIds(teamId, users.map((u) => u.id)));
+            const userIds = users.map((u) => u.id);
+            await dispatch(TeamActions.getTeamMembersByIds(teamId, userIds));
+
+            for (const c of channels) {
+                channelMembersActions.push(dispatch(getChannelMembersByIds(c.id, userIds)));
+            }
         }
+
+        await Promise.all(channelMembersActions);
+
         const state = getState();
         const sent = [];
         const notSent = [];

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedNumber} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
@@ -143,6 +143,8 @@ const renderLicenseContent = (
 
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
+    const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
+
     const licenseValues: Array<{
         legend: string;
         value: string;
@@ -152,7 +154,7 @@ const renderLicenseContent = (
     }> = [
         {legend: 'START DATE:', value: startsAt},
         {legend: 'EXPIRES:', value: expiresAt},
-        {legend: 'USERS:', value: license.Users},
+        {legend: 'USERS:', value: users},
         {legend: 'EDITION:', value: sku},
         {legend: 'LICENSE ISSUED:', value: issued},
         {legend: 'NAME:', value: license.Name},

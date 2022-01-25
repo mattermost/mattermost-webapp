@@ -175,12 +175,7 @@ function sysadminSetup(user) {
     cy.apiUpdateConfig();
 
     // # Reset admin preference, online status and locale
-    cy.apiSaveTeammateNameDisplayPreference('username');
-    cy.apiSaveLinkPreviewsPreference('true');
-    cy.apiSaveCollapsePreviewsPreference('false');
-    cy.apiSaveClockDisplayModeTo24HourPreference(false);
-    cy.apiSaveTutorialStep(user.id, '999');
-    cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
+    resetUserPreference(user.id);
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',
@@ -222,4 +217,14 @@ function sysadminSetup(user) {
             });
         }
     });
+}
+
+function resetUserPreference(userId) {
+    cy.apiSaveTeammateNameDisplayPreference('username');
+    cy.apiSaveLinkPreviewsPreference('true');
+    cy.apiSaveCollapsePreviewsPreference('false');
+    cy.apiSaveClockDisplayModeTo24HourPreference(false);
+    cy.apiSaveTutorialStep(userId, '999');
+    cy.apiSaveOnboardingPreference(userId, 'hide', 'true');
+    cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
 }

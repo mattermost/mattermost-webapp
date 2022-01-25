@@ -14,6 +14,7 @@ describe('components/search_results/MessagesOrFilesSelector', () => {
                 selectedFilter='code'
                 messagesCounter='5'
                 filesCounter='10'
+                isFileAttachmentsEnabled={true}
                 onChange={jest.fn()}
                 onFilter={jest.fn()}
             />,
@@ -29,6 +30,22 @@ describe('components/search_results/MessagesOrFilesSelector', () => {
                 selectedFilter='code'
                 messagesCounter='5'
                 filesCounter='10'
+                isFileAttachmentsEnabled={true}
+                onChange={jest.fn()}
+                onFilter={jest.fn()}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+    test('should match snapshot, without files tab', () => {
+        const wrapper: ShallowWrapper<any, any, any> = shallow(
+            <MessagesOrFilesSelector
+                selected='files'
+                selectedFilter='code'
+                messagesCounter='5'
+                filesCounter='10'
+                isFileAttachmentsEnabled={false}
                 onChange={jest.fn()}
                 onFilter={jest.fn()}
             />,
