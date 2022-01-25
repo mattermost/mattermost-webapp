@@ -12,6 +12,9 @@ import React, {ReactNode} from 'react';
 
 import {FormattedDate, FormattedTime} from 'react-intl';
 
+import store from 'stores/redux_store.jsx';
+import {openModal} from 'actions/views/modals';
+
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
@@ -67,14 +70,8 @@ type State = {
     isStatusSet: boolean;
 };
 
-export default class StatusDropdown extends React.PureComponent<Props, State> {
-    dndTimes = [
-        {id: 'thirty_minutes', label: t('status_dropdown.dnd_sub_menu_item.thirty_minutes'), labelDefault: '30 mins'},
-        {id: 'one_hour', label: t('status_dropdown.dnd_sub_menu_item.one_hour'), labelDefault: '1 hour'},
-        {id: 'two_hours', label: t('status_dropdown.dnd_sub_menu_item.two_hours'), labelDefault: '2 hours'},
-        {id: 'tomorrow', label: t('status_dropdown.dnd_sub_menu_item.tomorrow'), labelDefault: 'Tomorrow'},
-        {id: 'custom', label: t('status_dropdown.dnd_sub_menu_item.custom'), labelDefault: 'Custom'},
-    ];
+export default class StatusDropdown extends React.PureComponent <Props, State> {
+    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom']
     static defaultProps = {
         userId: '',
         profilePicture: '',
@@ -137,12 +134,6 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         case 3:
             // add one day in current date
             endTime = currentDate.add(1, 'day');
-            break;
-        case 5:
-            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogProps: {
-                active_tab: 'notifications',
-                active_section: 'schedule'
-            }, dialogType: UserSettingsModal}));
             break;
         }
 
@@ -350,9 +341,8 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                 return {
                     id: `dndTime-${id}`,
                     direction: 'right',
-                    text,
-                    action:
-                        index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
+                    text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
+                    action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
                 } as any;
             }),
         );
