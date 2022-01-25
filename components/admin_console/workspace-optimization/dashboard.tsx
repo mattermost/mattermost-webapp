@@ -345,6 +345,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 defaultMessage = 'Warnings';
                 break;
             case 'error':
+            default:
                 id = 'admin.reporting.workspace_optimization.problems';
                 defaultMessage = 'Problems';
                 break;
