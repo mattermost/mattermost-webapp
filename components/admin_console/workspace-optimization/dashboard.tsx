@@ -236,6 +236,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         };
         const items: React.ReactNode[] = [];
         accordionData.items.forEach((item) => {
+            if (item.status === undefined) {
+                return;
+            }
             items.push((
                 <AccordionItem
                     key={`${accordionKey}-item_${item.id}`}
