@@ -229,8 +229,7 @@ export default class PostBody extends React.PureComponent {
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    <div className={isBeingEdited ? 'invisible' : ''}>{messageWithAdditionalContent}</div>
-                    {isPostBeingEdited && !isPostBeingEditedInRHS && <EditPost/>}
+                    {isBeingEdited ? <EditPost/> : messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>
