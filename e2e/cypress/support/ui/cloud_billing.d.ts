@@ -23,20 +23,5 @@ declare namespace Cypress {
          *   cy.getIframeBody();
          */
         uiGetPaymentCardInput(): Chainable;
-
-        /**
-         * Wait for resource to load
-         *
-         * @param {Array} resources - Resource to monitor for its loading
-         * @example
-         *   cy.waitForResources();
-         *   cy.waitForResources([
-                { name: "/api/v4/users/me/teams" },
-                { name: "/api/v4/users/me/teams/members", number: 2 }, // won't resolve until it has loaded 2 matching resources
-             ])
-         *
-         */
-
-        waitForResources(resources?: []);
     }
 }
