@@ -233,6 +233,8 @@
   "admin.billing.history.allPaymentsShowHere": "All of your monthly payments will show here",
   "admin.billing.history.date": "Date",
   "admin.billing.history.description": "Description",
+  "admin.billing.history.fractionalAndRatedUsers": "{fractionalUsers} metered users, {fullUsers} users at full rate, {partialUsers} users with partial charges",
+  "admin.billing.history.fractionalUsers": "{fractionalUsers} users",
   "admin.billing.history.noBillingHistory": "In the future, this is where your billing history will show.",
   "admin.billing.history.pageInfo": "{startRecord} - {endRecord} of {totalRecords}",
   "admin.billing.history.paid": "Paid",
