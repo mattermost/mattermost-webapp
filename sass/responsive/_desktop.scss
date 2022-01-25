@@ -102,17 +102,6 @@
 }
 
 @media screen and (max-width: 1140px) {
-    .tip-overlay {
-        &.tip-overlay--chat {
-            margin: -10px 0 0 -10px;
-
-            .arrow {
-                right: 15px;
-                left: auto;
-            }
-        }
-    }
-
     .inner-wrap {
         &.move--left {
             .file-overlay {

@@ -1267,7 +1267,7 @@
   "admin.license.upload-modal.file": "File",
   "admin.license.upload-modal.subtitle": "Upload a licence key for Mattermost Enterprise Edition to upgrade this server. ",
   "admin.license.upload-modal.successfulUpgrade": "Upgrade successful!",
-  "admin.license.upload-modal.successfulUpgradeText": "You have upgraded to the {skuName} plan for {licensedUsersNum} users. This is effective from {startsAt} until {expiresAt}. ",
+  "admin.license.upload-modal.successfulUpgradeText": "You have upgraded to the {skuName} plan for {licensedUsersNum, number} users. This is effective from {startsAt} until {expiresAt}. ",
   "admin.license.upload-modal.title": "Upload a Licence Key",
   "admin.license.uploadFile": "Upload File",
   "admin.license.warn.renew": "Renew",

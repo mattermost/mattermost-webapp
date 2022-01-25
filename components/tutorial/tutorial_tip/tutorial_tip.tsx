@@ -10,14 +10,22 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Constants, {RecommendedNextSteps} from 'utils/constants';
-import {t} from 'utils/i18n';
-
 import PulsatingDot from 'components/widgets/pulsating_dot';
+
+import * as Utils from 'utils/utils';
 
 import TutorialTipBackdrop, {Coords, TutorialTipPunchout} from './tutorial_tip_backdrop';
 
 const Preferences = Constants.Preferences;
-const TutorialSteps = Constants.TutorialSteps;
+const OnBoardingTutorialStep = Constants.TutorialSteps;
+const TutorialSteps = {
+    [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
+    [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
+    [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
+};
+const TutorialAutoTourStatus = {
+    [Preferences.CRT_TUTORIAL_STEP]: Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS,
+};
 
 type Preference = {
     user_id: string;
@@ -34,13 +42,19 @@ type Props = {
     currentStep: number;
 
     // the step that an instance of TutorialTip is tied to, e.g.
-    step: ValueOf<typeof TutorialSteps>;
-    screens: JSX.Element[];
+    step: ValueOf<typeof OnBoardingTutorialStep>;
+    singleTip?: boolean;
+    showOptOut?: boolean;
+    screen: JSX.Element;
+    title: JSX.Element;
     placement: string;
     overlayClass: string;
     telemetryTag?: string;
     stopPropagation?: boolean;
     preventDefault?: boolean;
+    tutorialCategory?: string;
+    onNextNavigateTo?: () => void;
+    onPrevNavigateTo?: () => void;
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
@@ -97,6 +111,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     private dismiss = (e: React.MouseEvent | React.KeyboardEvent): void => {
         this.hide();
+        this.handleNext(false);
         const wasEscapeDismissal = e.type === 'keyup';
         const tag = this.props.telemetryTag + '_dismiss';
         if (wasEscapeDismissal) {
@@ -134,7 +149,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             // and then tips and next steps determines it should display.
             // So this is tutorial_tip's way of being polite to the user and not flashing its tip
             // in the user's face right before showing tips and next steps.
-            if (step === TutorialSteps.POST_POPOVER) {
+            if (this.props.step === OnBoardingTutorialStep.POST_POPOVER) {
                 this.showPendingTimeout = setTimeout(() => {
                     this.show();
                 }, COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME);
@@ -144,51 +159,44 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
-    public handleKeyDown = (event: KeyboardEvent): void => {
-        if (event.key === Constants.KeyCodes.ENTER[0] && this.state.show) {
-            this.handleNext();
-        }
-    }
-
-    public handleNext = (): void => {
-        if (this.state.currentScreen < this.props.screens.length - 1) {
-            this.setState({currentScreen: this.state.currentScreen + 1});
-            return;
-        }
-
-        if (this.props.telemetryTag) {
-            let tag = this.props.telemetryTag;
-
-            if (this.props.screens.length > 1) {
-                tag += '_' + (this.state.currentScreen + 1).toString();
-            }
-
-            if (this.state.currentScreen === this.props.screens.length - 1) {
-                tag += '_okay';
-            } else {
-                tag += '_next';
-            }
-
-            trackEvent('tutorial', tag);
-        }
-
-        const {currentUserId, actions} = this.props;
+    private handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
+        const {currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
         const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
-        const preferences = [{
-            user_id: currentUserId,
-            category: Preferences.TUTORIAL_STEP,
-            name: currentUserId,
-            value: (this.props.currentStep + 1).toString(),
-        }];
+        let stepValue = this.props.currentStep;
+        if (nextStep === true) {
+            stepValue += 1;
+        } else if (nextStep === false) {
+            stepValue -= 1;
+        } else {
+            stepValue = nextStep;
+        }
+        const preferences = [
+            {
+                user_id: currentUserId,
+                category: tutorialCategory || Preferences.TUTORIAL_STEP,
+                name: currentUserId,
+                value: stepValue.toString(),
+            },
+        ];
+        if (tutorialCategory && !singleTip) {
+            preferences.push({
+                user_id: currentUserId,
+                category: TutorialAutoTourStatus[tutorialCategory],
+                name: currentUserId,
+                value: autoTour ? Constants.AutoTourStatus.ENABLED.toString() : Constants.AutoTourStatus.DISABLED.toString(),
+            });
+        }
 
-        closeRhsMenu();
+        if (!tutorialCategory) {
+            closeRhsMenu();
+        }
         this.hide();
 
         savePreferences(currentUserId, preferences);
 
         // remove the value for the a/b test first_channel_creation so the a/b auto tour can execute correctly
-        if (this.props.currentStep === TutorialSteps.ADD_FIRST_CHANNEL) {
+        if (!tutorialCategory && this.props.currentStep === OnBoardingTutorialStep.ADD_FIRST_CHANNEL) {
             const abPreferences = [{
                 user_id: currentUserId,
                 category: Preferences.AB_TEST_PREFERENCE_VALUE,
@@ -199,64 +207,93 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             savePreferences(currentUserId, abPreferences);
             setFirstChannelName('');
         }
+
+        if (onNextNavigateTo && nextStep === true && autoTour) {
+            onNextNavigateTo();
+        } else if (onPrevNavigateTo && nextStep === false && autoTour) {
+            onPrevNavigateTo();
+        }
+    }
+
+    public handlePrev = (e: React.MouseEvent): void => {
+        e.preventDefault();
+        this.handleSavePreferences(true, false);
+    }
+
+    public handleNext = (auto = true, e?: React.MouseEvent): void => {
+        e?.preventDefault();
+        if (this.props.telemetryTag) {
+            const tag = this.props.telemetryTag + '_next';
+            trackEvent('tutorial', tag);
+        }
+        if (this.getLastStep(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
+            this.handleSavePreferences(auto, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
+        } else {
+            this.handleSavePreferences(auto, true);
+        }
     }
 
     public skipTutorial = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
 
         if (this.props.telemetryTag) {
-            let tag = this.props.telemetryTag;
-            if (this.props.screens.length > 1) {
-                tag += '_' + this.state.currentScreen;
-            }
-            tag += '_skip';
+            const tag = this.props.telemetryTag + '_skip';
             trackEvent('tutorial', tag);
         }
 
-        const {currentUserId, actions} = this.props;
+        const {currentUserId, tutorialCategory, actions} = this.props;
         const preferences = [{
             user_id: currentUserId,
-            category: Preferences.TUTORIAL_STEP,
+            category: tutorialCategory || Preferences.TUTORIAL_STEP,
             name: currentUserId,
-            value: TutorialSteps.FINISHED.toString(),
+            value: OnBoardingTutorialStep.FINISHED.toString(),
         }];
 
         actions.savePreferences(currentUserId, preferences);
-    }
-
-    private handleCircleClick = (e: React.MouseEvent<HTMLAnchorElement>, screen: number): void => {
-        e.preventDefault();
-        this.setState({currentScreen: screen});
     }
 
     private getTarget = (): HTMLImageElement | null => {
         return this.targetRef.current;
     }
 
+    private getLastStep(tutorialSteps: Record<string, number>) {
+        return Object.values(tutorialSteps).reduce((maxStep, candidateMaxStep) => {
+            // ignore the "opt out" FINISHED step as the max step.
+            if (candidateMaxStep > maxStep && candidateMaxStep !== tutorialSteps.FINISHED) {
+                return candidateMaxStep;
+            }
+            return maxStep;
+        }, Number.MIN_SAFE_INTEGER);
+    }
+
     private getButtonText(category: string): JSX.Element {
         let buttonText = (
-            <FormattedMessage
-                id={t('tutorial_tip.ok')}
-                defaultMessage='Next'
-            />
+            <>
+                <FormattedMessage
+                    id={'tutorial_tip.ok'}
+                    defaultMessage={'Next'}
+                />
+                <i className='icon icon-chevron-right'/>
+            </>
         );
+        if (this.props.singleTip) {
+            buttonText = (
+                <FormattedMessage
+                    id={'tutorial_tip.got_it'}
+                    defaultMessage={'Got it'}
+                />
+            );
+            return buttonText;
+        }
 
-        if (category === Preferences.TUTORIAL_STEP) {
-            const lastStep = Object.values(TutorialSteps).reduce((maxStep, candidateMaxStep) => {
-                // ignore the "opt out" FINISHED step as the max step.
-                if (candidateMaxStep > maxStep && candidateMaxStep !== TutorialSteps.FINISHED) {
-                    return candidateMaxStep;
-                }
-                return maxStep;
-            }, Number.MIN_SAFE_INTEGER);
-            if (this.props.step === lastStep) {
-                buttonText = (
-                    <FormattedMessage
-                        id={t('tutorial_tip.finish')}
-                        defaultMessage='Finish'
-                    />
-                );
-            }
+        const lastStep = this.getLastStep(TutorialSteps[category]);
+        if (this.props.step === lastStep) {
+            buttonText = (
+                <FormattedMessage
+                    id={'tutorial_tip.finish_tour'}
+                    defaultMessage={'Finish tour'}
+                />
+            );
         }
 
         return buttonText;
@@ -277,27 +314,38 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         if (this.showPendingTimeout) {
             clearTimeout(this.showPendingTimeout);
         }
-
         document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (e: KeyboardEvent): void => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && this.state.show) {
+            this.handleNext();
+        }
     }
 
     public render(): JSX.Element {
         const dots = [];
-        if (this.props.screens.length > 1) {
-            for (let i = 0; i < this.props.screens.length; i++) {
-                let className = 'circle';
-                if (i === this.state.currentScreen) {
+        const tourSteps = this.props.tutorialCategory ? TutorialSteps[this.props.tutorialCategory] : null;
+        if (!this.props.singleTip && tourSteps) {
+            for (let i = 0; i < (Object.values(tourSteps).length - 1); i++) {
+                let className = 'tutorial-tip__circle';
+                let circularRing = 'tutorial-tip__circular-ring';
+
+                if (i === this.props.currentStep) {
                     className += ' active';
+                    circularRing += ' tutorial-tip__circular-ring-active';
                 }
 
                 dots.push(
-                    <a
-                        href='#'
-                        key={'dotactive' + i}
-                        className={className}
-                        data-screen={i}
-                        onClick={(e) => this.handleCircleClick(e, i)}
-                    />,
+                    <div className={circularRing}>
+                        <a
+                            href='#'
+                            key={'dotactive' + i}
+                            className={className}
+                            data-screen={i}
+                            onClick={() => this.handleSavePreferences(true, i)}
+                        />
+                    </div>,
                 );
             }
         }
@@ -334,33 +382,60 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 >
                     <div className={'tip-overlay ' + this.props.overlayClass}>
                         <div className='arrow'/>
-                        {this.props.screens[this.state.currentScreen]}
-                        <div className='tutorial__footer'>
-                            <div className='tutorial__circles'>{dots}</div>
-                            <div className='text-right'>
-                                <button
-                                    id='tipNextButton'
-                                    className='btn btn-primary'
-                                    onClick={this.handleNext}
-                                >
-                                    {this.getButtonText(Preferences.TUTORIAL_STEP)}
-                                </button>
-                                <div className='tip-opt'>
-                                    <FormattedMessage
-                                        id='tutorial_tip.seen'
-                                        defaultMessage='Seen this before? '
-                                    />
-                                    <a
-                                        href='#'
-                                        onClick={this.skipTutorial}
+                        <div className='tutorial-tip__header'>
+                            <h4 className='tutorial-tip__header__title'>
+                                {this.props.title}
+                            </h4>
+                            <button
+                                className='tutorial-tip__header__close'
+                                onClick={this.dismiss}
+                            >
+                                <i className='icon icon-close'/>
+                            </button>
+                        </div>
+                        <div className='tutorial-tip__body'>
+                            {this.props.screen}
+                        </div>
+                        <div className='tutorial-tip__footer'>
+                            <div className='tutorial-tip__footer-buttons'>
+                                <div className='tutorial-tip__circles-ctr'>{dots}</div>
+                                <div className={'tutorial-tip__btn-ctr'}>
+                                    {this.props.tutorialCategory && (this.props.currentStep !== 0) &&
+                                    <button
+                                        id='tipPreviousButton'
+                                        className='tutorial-tip__btn tutorial-tip__cancel-btn'
+                                        onClick={(e) => this.handlePrev(e)}
                                     >
+                                        <i className='icon icon-chevron-left'/>
                                         <FormattedMessage
-                                            id='tutorial_tip.out'
-                                            defaultMessage='Opt out of these tips.'
+                                            id='generic.previous'
+                                            defaultMessage='Previous'
                                         />
-                                    </a>
+                                    </button>}
+                                    <button
+                                        id='tipNextButton'
+                                        className='tutorial-tip__btn tutorial-tip__confirm-btn'
+                                        onClick={(e) => this.handleNext(true, e)}
+                                    >
+                                        {this.getButtonText(this.props.tutorialCategory || Preferences.TUTORIAL_STEP)}
+                                    </button>
                                 </div>
                             </div>
+                            {this.props.showOptOut && <div className='tutorial-tip__opt'>
+                                <FormattedMessage
+                                    id='tutorial_tip.seen'
+                                    defaultMessage='Seen this before? '
+                                />
+                                <a
+                                    href='#'
+                                    onClick={this.skipTutorial}
+                                >
+                                    <FormattedMessage
+                                        id='tutorial_tip.out'
+                                        defaultMessage='Opt out of these tips.'
+                                    />
+                                </a>
+                            </div>}
                         </div>
                     </div>
                 </Overlay>
