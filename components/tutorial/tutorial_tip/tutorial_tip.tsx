@@ -52,6 +52,7 @@ type Props = {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
         setFirstChannelName: (channelName: string) => (dispatch: DispatchFunc) => void;
+        setProductMenuSwitcherOpen: (open: boolean) => void;
     };
     autoTour: boolean;
     firstChannelName: string | undefined;
@@ -205,6 +206,11 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
             savePreferences(currentUserId, abPreferences);
             setFirstChannelName('');
+        }
+
+        // on completing step 5, open the product switcher to show tip 6
+        if (this.props.currentStep === TutorialSteps.SETTINGS) {
+            this.props.actions.setProductMenuSwitcherOpen(true);
         }
 
         if (this.props.extraFunc) {

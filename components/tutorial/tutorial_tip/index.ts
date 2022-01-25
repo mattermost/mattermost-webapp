@@ -10,6 +10,7 @@ import {
     makeGetCategory,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {AutoTourTreatments} from 'mattermost-redux/constants/config';
@@ -43,6 +44,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             closeRhsMenu,
             savePreferences,
             setFirstChannelName,
+            setProductMenuSwitcherOpen,
         }, dispatch),
     };
 }
