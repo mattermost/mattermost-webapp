@@ -10,9 +10,8 @@ import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {trackEvent} from 'actions/telemetry_actions';
 
-import {Constants, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
