@@ -7,7 +7,10 @@
 * 'mattermost-webapp/utils/emoji.jsx'
 * 'mattermost-webapp/sass/components/_emojisprite.scss'
 * 'mattermost-webapp/utils/emoji.json'
-* 'mattermost-server/model/emoji_data.go', (if SERVER_DIR is defined, otherwise it will be generated in 'mattermost-webapp/emoji_data.go')
+* 'mattermost-server/model/emoji_data.go', (if SERVER_DIR environment variable is declared, otherwise it will be generated in 'mattermost-webapp/emoji_data.go')
+*
+* For help on how to use this script, run:
+* npm run gen-emoji -- --help
 */
 
 import path from 'path';
@@ -26,13 +29,16 @@ const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
 
 const argv = yargs(process.argv.slice(2)).
-    scriptName('emoji_gen').
+    scriptName('make-emojis').
+    usage('Usage : npm run $0 -- [args]').
+    example('npm run $0 -- --excluded-emoji-file ./excludedEmojis.txt', 'removes mentioned emojis from the app').
     option('excluded-emoji-file', {
         description: 'Path to a file containing emoji short names to exclude',
         type: 'string',
     }).
     help().
-    alias('help', 'h').argv;
+    epilog('Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.').
+    argv;
 
 const argsExcludedEmojiFile = argv['excluded-emoji-file'];
 
@@ -203,16 +209,14 @@ function trimPropertiesFromEmoji(emoji) {
 // Extract excluded emoji shortnames as an array
 const excludedEmoji = [];
 if (argsExcludedEmojiFile) {
-    readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach((line) => {
+    readFileSync(path.normalize(argsExcludedEmojiFile), 'utf-8').split(/\r?\n/).forEach((line) => {
         excludedEmoji.push(line);
     });
-    log(warnLogColor, `[WARNING] The following emoji will be excluded from the webapp: ${excludedEmoji}`);
+    log(warnLogColor, `\n[WARNING] The following emoji(s) will be excluded from the webapp: \n${excludedEmoji}\n`);
 }
 
 // Remove unwanted emoji
-const filteredEmojiJson = jsonData.filter((element) => {
-    return !excludedEmoji.some((e) => element.short_names.includes(e));
-});
+const filteredEmojiJson = jsonData.filter((element) => !excludedEmoji.some((e) => element.short_names.includes(e)));
 
 // populate skin tones as full emojis
 const fullEmoji = [...filteredEmojiJson];
@@ -381,7 +385,7 @@ if (process.env.SERVER_DIR) {
         });
     });
 } else {
-    log(warnLogColor, '[WARNING] $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server');
+    log(warnLogColor, '\n[WARNING] $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server\n');
 }
 
 // sprite css file
@@ -437,7 +441,7 @@ ${cssEmojis.join('\n')};
 endResults.push(writeFile('_emojisprite.scss', 'sass/components/_emojisprite.scss', cssRules));
 
 Promise.all(endResults).then(() => {
-    log(warnLogColor, '\nRemember to run `make i18n-extract` as categories might have changed.');
+    log(warnLogColor, '\n[WARNING] Remember to run `make i18n-extract` as categories might have changed.');
 }).catch((err) => {
     control.abort(); // cancel any other file writing
     log(errorLogColor, `[ERROR] There was an error writing emojis: ${err}`);
