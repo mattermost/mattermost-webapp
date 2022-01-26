@@ -6,12 +6,6 @@ export enum CollapsedThreads {
     DEFAULT_OFF = 'default_off',
 }
 
-export enum AddChannelButtonTreatments {
-    NONE = 'none',
-    BY_TEAM_NAME = 'by_team_name',
-    INVERTED_SIDEBAR_BG_COLOR = 'inverted_sidebar_bg_color',
-}
-
 export enum AutoTourTreatments {
     NONE = 'none',
     AUTO = 'auto',
