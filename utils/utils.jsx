@@ -523,7 +523,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.buttonBg) {
-        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
+        changeCss('.app__body .modal .settings-modal .profile-img__remove:hover, .app__body .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover:before, .app__body .modal .settings-modal .team-img__remove:hover, .app__body .btn.btn-transparent:hover, .app__body .btn.btn-transparent:active, .app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active', 'background:' + theme.buttonBg);
         changeCss('.app__body .system-notice__logo svg', 'fill:' + theme.buttonBg);
         changeCss('.app__body .post-image__details .post-image__download svg:hover', 'border-color:' + theme.buttonBg);
         changeCss('.app__body .btn.btn-primary:hover, .app__body .btn.btn-primary:active, .app__body .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.15));
@@ -1308,14 +1308,6 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     return otherUserId;
 }
 
-export function windowWidth() { // TODO MM-40473 remove me
-    return window.innerWidth;
-}
-
-export function windowHeight() { // TODO MM-40473 remove me
-    return window.innerHeight;
-}
-
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
 export function isFeatureEnabled(feature, state) {
     return getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
@@ -2013,4 +2005,36 @@ export function makeIsEligibleForClick(selector = '') {
 
         return true;
     };
+}
+
+/*
+ * Returns the minimal number of zeroes needed to render a number,
+ * up to the given number of places.
+ * e.g.
+ * numberToFixedDynamic(3.12345, 4) -> 3.1235
+ * numberToFixedDynamic(3.01000, 4) -> 3.01
+ * numberToFixedDynamic(3.01000, 1) -> 3
+ *
+ * @param {number} num - number to render as string
+ * @param {number} places - maximum number of decimal places to render
+ * @returns {number}
+ */
+export function numberToFixedDynamic(num, places) {
+    const str = num.toFixed(Math.max(places, 0));
+    if (!str.includes('.')) {
+        return str;
+    }
+    let indexToExclude = -1;
+    let i = str.length - 1;
+    while (str[i] === '0') {
+        indexToExclude = i;
+        i -= 1;
+    }
+    if (str[i] === '.') {
+        indexToExclude -= 1;
+    }
+    if (indexToExclude === -1) {
+        return str;
+    }
+    return str.slice(0, indexToExclude);
 }

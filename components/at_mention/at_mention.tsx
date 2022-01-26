@@ -6,7 +6,6 @@ import {Overlay} from 'react-bootstrap';
 
 import {Client4} from 'mattermost-redux/client';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {NameMappedObjects, UsernameMappedObjects} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Group} from 'mattermost-redux/types/groups';
 
@@ -20,8 +19,8 @@ type Props = {
     currentUserId: string;
     mentionName: string;
     teammateNameDisplay: string;
-    usersByUsername: UsernameMappedObjects<UserProfile>;
-    groupsByName: NameMappedObjects<Group>;
+    usersByUsername: Record<string, UserProfile>;
+    groupsByName: Record<string, Group>;
     children?: React.ReactNode;
     channelId?: string;
     hasMention?: boolean;

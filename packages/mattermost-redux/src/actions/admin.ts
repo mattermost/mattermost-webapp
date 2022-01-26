@@ -589,6 +589,8 @@ export function removePlugin(pluginId: string): ActionFunc {
         dispatch(batchActions([
             {type: AdminTypes.REMOVE_PLUGIN_SUCCESS, data: null},
             {type: AdminTypes.REMOVED_PLUGIN, data: pluginId},
+            {type: AdminTypes.DISABLE_PLUGIN_SUCCESS, data: null},
+            {type: AdminTypes.DISABLED_PLUGIN, data: pluginId},
         ]));
 
         return {data: true};

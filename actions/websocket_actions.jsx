@@ -41,6 +41,7 @@ import {
     handleThreadArrived,
     handleAllThreadsInChannelMarkedRead,
     updateThreadRead,
+    decrementThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -684,11 +685,17 @@ export function handlePostEditEvent(msg) {
 
 async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
+    const state = getState();
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
+
+    if (!post.root_id && collapsedThreads) {
+        dispatch(decrementThreadCounts(post));
+    }
+
     dispatch(postDeleted(post));
 
     // update thread when a comment is deleted and CRT is on
-    const state = getState();
-    if (post.root_id && isCollapsedThreadsEnabled(state)) {
+    if (post.root_id && collapsedThreads) {
         const thread = getThread(state, post.root_id);
         if (thread) {
             const userId = getCurrentUserId(state);
@@ -952,9 +959,15 @@ export function handleUserRemovedEvent(msg) {
             }
         }
 
+        const channel = getChannel(state, msg.data.channel_id);
+
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+            data: {
+                id: msg.data.channel_id,
+                user_id: msg.broadcast.user_id,
+                team_id: channel?.team_id,
+            },
         });
 
         if (msg.data.channel_id === currentChannel.id) {

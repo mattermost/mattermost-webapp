@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {getPrefix} from 'utils/storage_utils';
 
 import type {GlobalState} from 'types/store';
@@ -29,7 +27,7 @@ export const makeGetGlobalItem = <T = any>(name: string, defaultValue: T) => {
     };
 };
 
-export const getItemFromStorage = <T = any>(storage: Dictionary<any>, name: string, defaultValue: T) => {
+export const getItemFromStorage = <T = any>(storage: Record<string, any>, name: string, defaultValue: T) => {
     if (storage &&
         typeof storage[name] !== 'undefined' &&
         storage[name] !== null &&

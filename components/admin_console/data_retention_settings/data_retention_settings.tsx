@@ -19,6 +19,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {browserHistory} from 'utils/browser_history';
 import {JobTypeBase, JobType} from 'mattermost-redux/types/jobs';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
 import './data_retention_settings.scss';
 
@@ -64,8 +65,10 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         await this.props.actions.deleteDataRetentionCustomPolicy(id);
         this.loadPage(0);
     }
+
+    includeBoards = this.props.config.PluginSettings?.PluginStates?.focalboard?.Enable && this.props.config.FeatureFlags?.BoardsDataRetention
     getGlobalPolicyColumns = (): Column[] => {
-        return [
+        const columns: Column[] = [
             {
                 name: (
                     <FormattedMessage
@@ -93,15 +96,31 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 ),
                 field: 'files',
             },
+        ];
+        if (this.includeBoards) {
+            columns.push(
+                {
+                    name: (
+                        <FormattedMessage
+                            id='admin.data_retention.globalPoliciesTable.boards'
+                            defaultMessage='Boards'
+                        />
+                    ),
+                    field: 'boards',
+                },
+            );
+        }
+        columns.push(
             {
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
             },
-        ];
+        );
+        return columns;
     }
     getCustomPolicyColumns = (): Column[] => {
-        return [
+        const columns: Column[] = [
             {
                 name: (
                     <FormattedMessage
@@ -135,6 +154,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 className: 'actionIcon',
             },
         ];
+        return columns;
     }
     getMessageRetentionSetting = (enabled: boolean | undefined, days: number | undefined): JSX.Element => {
         if (!enabled) {
@@ -180,6 +200,11 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 files: (
                     <div data-testid='global_file_retention_cell'>
                         {this.getMessageRetentionSetting(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays)}
+                    </div>
+                ),
+                boards: (
+                    <div data-testid='global_boards_retention_cell'>
+                        {this.getMessageRetentionSetting(DataRetentionSettings?.EnableBoardsDeletion, DataRetentionSettings?.BoardsRetentionDays)}
                     </div>
                 ),
                 actions: (

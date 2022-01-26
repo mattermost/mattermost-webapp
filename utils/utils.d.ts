@@ -97,9 +97,6 @@ export function getDirectChannelName(id: string, otherId: string): string;
 export function getUserIdFromChannelName(channel: Channel): string;
 export function getUserIdFromChannelId(channelId: string, currentUserId?: string): string;
 
-export function windowWidth(): number;
-export function windowHeight(): number;
-
 export function isFeatureEnabled(feature: {label: string}, state: GlobalState): boolean;
 
 export function fillArray<T>(value: T, length: number): T[];
@@ -156,3 +153,4 @@ export function renderPurchaseLicense(): React.ReactNode;
 export function deleteKeysFromObject(value: any, keys: string[]): any;
 
 export function makeIsEligibleForClick(selector = ''): (event: MouseEvent) => boolean;
+export function numberToFixedDynamic(num: number, places: number): number

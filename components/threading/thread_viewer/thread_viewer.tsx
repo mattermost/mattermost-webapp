@@ -11,7 +11,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import deferComponentRender from 'components/deferComponentRender';
 import FileUploadOverlay from 'components/file_upload_overlay';
@@ -45,7 +44,7 @@ type Props = Attrs & {
     };
     useRelativeTimestamp?: boolean;
     postIds: string[];
-    highlightedPostId?: $ID<Post>;
+    highlightedPostId?: Post['id'];
     selectedPostFocusedAt?: number;
     isThreadView?: boolean;
 };

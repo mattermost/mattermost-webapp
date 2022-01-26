@@ -38,7 +38,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T331 Image link preview - Collapse and expand', () => {
-        const link = 'http://www.traveller.com.au/content/dam/images/g/u/n/q/h/0/image.related.articleLeadwide.620x349.gunpvd.png/1488330286332.png';
+        const link = 'https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
 
         // # Post a link to an externally hosted image
         cy.postMessage(link);
@@ -136,7 +136,7 @@ describe('Image Link Preview', () => {
         cy.visit(offTopicUrl);
 
         const markdownImageText = 'exampleImage';
-        const markdownImageSrc = 'https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
+        const markdownImageSrc = 'https://docs.mattermost.com/_images/icon-76x76.png';
         const markdownImageSrcEncoded = encodeURIComponent(markdownImageSrc); // Since the url preview will be encoded string
         const messageWithMarkdownImage = `![${markdownImageText}](${markdownImageSrc}) an image plus some text that has [a link](https://example.com/)`;
 
