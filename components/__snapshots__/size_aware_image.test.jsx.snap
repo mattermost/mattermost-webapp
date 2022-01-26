@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/SizeAwareImage should load download and copy link buttons when a large image is mounted 1`] = `
+exports[`components/SizeAwareImage should load download and copy link buttons when an image is mounted 1`] = `
 <Fragment>
   <div
     className="image-loading__container class"
