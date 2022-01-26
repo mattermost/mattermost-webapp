@@ -11,11 +11,12 @@
     }
 
     &__previous {
-        color: var(--button-bg);
-        font-size: 12px;
         display: inline-flex;
         align-items: center;
         padding-right: 2px;
+        color: var(--button-bg);
+        font-size: 12px;
+
         &:first-child {
             margin-right: 5px;
         }

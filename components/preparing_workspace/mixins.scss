@@ -1,9 +1,9 @@
 @mixin input {
-    margin: 24px 0 36px;
     padding: 12px 16px;
+    border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
+    margin: 24px 0 36px;
     border-radius: 4px;
     font-size: 16px;
-    border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
 
     &:active,
     &:focus {
